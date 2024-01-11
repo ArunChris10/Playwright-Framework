@@ -78,7 +78,28 @@ test.describe('Verify the @Filter API @Regression @Smoke', () => {
       debug.log(`Filter Id : ${filter_id}`);
     })
   })
+  test('Verify if the user is able to see the saved filter by filterid @getFilterbyfilterid', async ({ request }) => {
+    //get request to fetch the filter by filter id
 
+    const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}${filter_id}`;
+    debug.log(endpointURL);
+    
+
+    await test.step('Fetch the filter by filter id for the screen', async () => {
+      apiResponse = await request.get(`${endpointURL}`)
+      apiResponseBody = await apiResponse.json();
+      debug.log("Filter Response : ");
+      debug.log(JSON.stringify(apiResponseBody));
+      expect(apiResponse).toBeOK();
+    })
+
+    await test.step('Check if the searched Filter is available in the results', async () => {
+     
+      //Assertion
+      expect(apiResponse.filter_name).toContain(testdata.filter_selection.filter_name);
+      expect(apiResponse.filter_id).toContain(`${filter_id}`);// check there is only 1 record in results
+    })
+  })
 
   test('Verify if the user is able to delete the saved filter @deleteFilter', async ({ request }) => {
 
