@@ -55,7 +55,7 @@ export default defineConfig({
     },
     {
       name: 'ufm-fe',
-      dependencies: ['setup'],
+     // dependencies: ['setup'],
       testMatch: /ufm-fe.*.spec.ts/,
       grep: [new RegExp(process.env.tag + "")],
       use: {

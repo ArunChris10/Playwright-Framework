@@ -1,7 +1,8 @@
 import { TestInfo } from "@playwright/test";
 import fs from "fs";
 import debug from 'debug';
-import users from "../testdata/users.json";
+import usersIBGFormat from "../testdata/users.json";
+import usersNexusFormat from "../testdata/users-nexus-format.json"
 
 export class Utility {
 
@@ -43,9 +44,20 @@ export class Utility {
     return futureDates[0];
   }
 
-  static async getTokenForUser(userId: string, request) {
-    const authURL = process.env.authTokenURL;
-    const body = users.filter((user) => (user.userId === userId));
+  static async getIBGFakeToken(userId: string, request){
+    const authURL = process.env.ibgAuthTokenURL;
+    const body = usersIBGFormat.filter((user) => (user.userId === userId));
+    debug.log("Logging in with the user : ", JSON.stringify(body[0]));
+    const responseBody = await request.post(`${authURL}`, {
+      data: body[0],
+    });
+    const token = (await responseBody.json()).token;
+    return token;
+  }
+
+  static async getNexusFakeToken(userId: string, request){
+    const authURL = process.env.nexusAuthTokenURL;
+    const body = usersNexusFormat.filter((user) => (user.userId === userId));
     debug.log("Logging in with the user : ", JSON.stringify(body[0]));
     const responseBody = await request.post(`${authURL}`, {
       data: body[0],
