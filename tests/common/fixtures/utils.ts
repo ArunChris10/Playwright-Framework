@@ -94,7 +94,6 @@ export class Utility {
     if (!process.env.CI) {
       raw_ufm_secrets = fs.readFileSync(this.secretFilePath, "utf8");
     } else {
-      console.log("Secret Path : "+process.env.ufm_secrets + "")
       raw_ufm_secrets = fs.readFileSync(process.env.ufm_secrets + "", "utf8");
     }
     const ufm_secrets = JSON.parse(raw_ufm_secrets);
