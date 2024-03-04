@@ -1,5 +1,9 @@
 {
     "endpoint": "/scenario/forecast-date",
+    "queryParams":{
+        "dim_id": 12,
+        "dim_val_id": 120004
+    },
     "expected_reponse": [
         "2023-12-14T00:00:00Z",
         "2024-01-24T00:00:00Z",

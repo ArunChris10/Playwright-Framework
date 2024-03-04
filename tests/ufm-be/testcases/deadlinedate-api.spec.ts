@@ -17,7 +17,9 @@ test.describe('Verify the @deadlinedate API @Regression @Smoke', () => {
 
       //API Request
       debug.log('Make a Get Request to get the deadline date');
-      apiResponse = await context.request.get(endpointURL, {});
+      apiResponse = await context.request.get(endpointURL, {
+        params: {...testdata.queryParams}
+      });
 
       //Extracting the response body
       apiResponseBody = await apiResponse.json();

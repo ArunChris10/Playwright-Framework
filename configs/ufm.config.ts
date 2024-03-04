@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import userTokens from '../secrets/users-token.json'
 
 /**
  * Read environment variables from file.
@@ -49,7 +50,7 @@ export default defineConfig({
       grep: [new RegExp(process.env.tag + "")],
       use: {
         extraHTTPHeaders: {
-          "Authorization": `Bearer ${process.env.token}`
+          "Authorization": `Bearer ${userTokens[process.env.ufmUser]}`
         }
       }
     },

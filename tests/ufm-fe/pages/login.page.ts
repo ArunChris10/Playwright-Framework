@@ -1,6 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 import debug from "debug";
 import fs from "fs";
+import { Utility } from "../../common/fixtures/utils";
 
 
 export class LoginPage {
@@ -27,21 +28,11 @@ export class LoginPage {
     await this.page.goto("about:blank");
     await this.page.goto(url, { timeout: 120000 });
     await this.txtUserName.fill(userName);
-    await this.txtPassword.fill(await this.getPassword(userName));
+    await this.txtPassword.fill(await Utility.getLoginPassword(userName));
     await this.btnSignIn.click();
   }
 
-  private async getPassword(userId){
-    let raw_ufm_secrets
-    if(!process.env.CI){
-      raw_ufm_secrets = fs.readFileSync('./secrets/ufm-secrets.json', 'utf8');
-    }else{
-      raw_ufm_secrets = fs.readFileSync(process.env.ufm_secrets+"", 'utf8');
-    }
-    const ufm_secrets = JSON.parse(raw_ufm_secrets);
-    return ufm_secrets[userId]
-    
-  }
+
 
 
 }

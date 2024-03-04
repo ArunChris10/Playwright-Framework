@@ -71,6 +71,7 @@ flows:
   setup:
       - npm install
       - npx playwright install
+      - touch secrets/user-token.json
   reporter:
     - publishReport:
         context: playwright
