@@ -21,9 +21,6 @@ triggers:
   - manual:
       name: Run UFM UI Regression
       call: runUFMFeTests
-  - manual:
-      name: Runs Custom tag 
-      call: runUFMBeCustomTag
 
 parameters:
   - app: { type: string }
@@ -56,12 +53,6 @@ flows:
     try:
       - call: setup
       - ENV=$envr TEST=regression npm run tests:ufm-tests-be
-    finally:
-      - call: reporter
-  runUFMBeCustomTag:
-    try:
-      - call: setup
-      - ENV=$envr TEST=custom_tag npm run tests:ufm-tests-be
     finally:
       - call: reporter
   runUFMFeTests:
