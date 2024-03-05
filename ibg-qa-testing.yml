@@ -1,0 +1,22 @@
+deploy:
+  stages:
+    - name: dev
+      postDeploy:
+        - task:
+            name: notifyMessage
+            text: Starting Post-Deploy hook to run testscripts in {{$.kittExec.currentStage.name}} environment
+        - concord:
+            name: ibg-playwright-automation
+            action: start
+            org: ms-tf-logsearch
+            project: ibg-engineering
+            repo: ibg-playwright-automation
+            entryPoint: buildLooperJob
+            repoBranchOrTag: main
+            sync: false
+            arguments:
+              app: "{{$.kitt.build.commitEvent.repo.name}}"
+              envr: "{{$.kittExec.currentStage.name}}" 
+        - task:
+            name: notifyMessage
+            text: Post-Deploy hook to run testscripts in {{$.kittExec.currentStage.name}} environment is completed

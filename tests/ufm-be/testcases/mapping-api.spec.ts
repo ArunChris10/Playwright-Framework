@@ -2,7 +2,7 @@ import debug from "debug";
 import { test, expect } from "../../common/fixtures/test-hook";
 import testdatafile from "../testdata/mapping-api.json";
 
-test.describe("Validating the dimension @mapping Details @Regresion @Smoke",() => 
+test.describe("Validating the dimension @mapping Details @Regresion",() => 
 {
     let responseData, responseBody;
     // API endpoint URL

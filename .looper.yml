@@ -5,13 +5,19 @@ tools:
 envs:
   global:
     variables:
-      APPLICATION_NAME: ALL #default value for all apps
-      CONFIGURED_APPS:  #add app names here, this needs to be the same as conf.js -> testSuite
-        - ALL
-        - UFM
-        - Monitor
-        - Centrifuge
-        - Portfolio
+      REPO_NAME: ALL #default value for all apps
+      APP_NAME: BLANK
+      UFM_REPOS:  #add app names here, this needs to be the same as conf.js -> testSuite
+        - ibg-ufm-metadata-service
+        - ibg-ufm-core-service
+        - ibg-ufm-domino-service
+        - ibg-ufm-allocation-engine
+        - ibg-ufm2-ui
+        - ibg-ufm-canned-reports
+      ALL:
+        - ibg-shared-ui
+        - ibg-visualizer-ui
+
         
 triggers:
   - push: disabled
@@ -35,34 +41,46 @@ flows:
     - if: $app
       then:
       - echo "App found from Concord"
-      - var(APPLICATION_NAME = '$app')
-    - echo "Running for App -> $APPLICATION_NAME"
-    - if: | #search app name here
-       %{app =~ CONFIGURED_APPS}
+      - var(REPO_NAME = '$app')
+    - echo "Running for App -> ${REPO_NAME}"
+    - if: | #search all app name here
+       %{app =~ ALL}
       then:
+      - var(APP_NAME = 'IBG')
       - call: runAllTests
-      else:
+    - if: | #search ufm app name here
+       %{app =~ UFM_REPOS}
+      then:
+      - var(APP_NAME = 'UFM')
+      - call: runUFMSMokeTest
+    - if: | 
+       %{APP_NAME == 'BLANK'}
+      then:
       - echo "No matching app name was found. Exiting!!"
   runAllTests:
     try:
+      - echo "Running all the tests in the repo"
       - call: setup
       - ENV=$envr TEST=regression npm run tests:ufm-tests 
     finally:
       - call: reporter
   runUFMBeTests:
     try:
+      - echo "Running UFM API testcases "
       - call: setup
       - ENV=$envr TEST=regression npm run tests:ufm-tests-be
     finally:
       - call: reporter
   runUFMFeTests:
     try:
+      - echo "Running UFM UI testcases "
       - call: setup
       - ENV=$envr TEST=regression npm run tests:ufm-tests-fe
     finally:
       - call: reporter
   runUFMSMokeTest:
     try:
+      - echo "Running UFM Smoke testcases "
       - call: setup
       - ENV=$envr TEST=smoke npm run tests:ufm-tests 
     finally:
