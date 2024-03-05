@@ -4,14 +4,14 @@ import { LoginPage } from '../pages/login.page';
 
 test('login @regression @login', async ({page }) => {
  
-  const { token,appBaseURL} = process.env;
+  const { token,ufmAppBaseURL} = process.env;
   test.setTimeout(120000);
-  await page.goto(appBaseURL+"/page-with-no-auth");
+  await page.goto(ufmAppBaseURL+"/page-with-no-auth");
   
   
   await page.evaluate(() => localStorage.setItem('isAutomationTestRunning',JSON.stringify(true)));
 
-  const url = appBaseURL + "/?token=" + token;
+  const url = ufmAppBaseURL + "/?token=" + token;
   await page.goto(url)
   await page.getByLabel("menu").click();
   await page.getByText('My Homepage').click();
@@ -21,6 +21,14 @@ test('login @regression @login', async ({page }) => {
 });
 
 test('login using @credentials @Regression',async( { page } ) => {
+  test.setTimeout(120000);
     const loginPage = new LoginPage(page)
+<<<<<<< HEAD
     await loginPage.login('LB-ibg-lob-opt');
 })
+=======
+    await loginPage.login('LB-ibg-lob-cmn');
+})
+
+
+>>>>>>> 238218fed3d81b7faf100419a638aaecc99ab9df

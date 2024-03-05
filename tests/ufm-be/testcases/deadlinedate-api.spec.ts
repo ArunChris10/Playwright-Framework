@@ -40,7 +40,7 @@ test.describe('Verify the @deadlinedate API @Regression @Smoke', () => {
     await test.step('Verify the deadline date received', async () => {
       //Getting historical data in a variable
       let responseData = await UfmUtility.GetHistorical("RX",request);
-      
+
       //checking whether the historical data is null or not
       if(responseData["row_data"]=== null){
   
