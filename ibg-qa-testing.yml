@@ -1,6 +1,6 @@
 deploy:
   stages:
-    - name: dev
+    - name: qa
       postDeploy:
         - task:
             name: notifyMessage
