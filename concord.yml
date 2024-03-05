@@ -20,6 +20,6 @@ flows:
         suspend: true
         sync: true
         parameters:
-          app: ${app}
-          envr: ${envr}
+          app: "UFM"
+          envr: "qa"
     - log: "Looper Job completed"
