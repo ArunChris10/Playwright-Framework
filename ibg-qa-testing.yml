@@ -1,0 +1,14 @@
+build:
+  postBuild:
+    - concord:
+        name: ibg-playwright-automation
+        action: start
+        org: ms-tf-logsearch
+        project: ibg-engineering
+        repo: ibg-playwright-automation
+        entryPoint: buildLooperJob
+        repoBranchOrTag: main
+        sync: false
+        arguments:
+          app: "{{$.kitt.build.commitEvent.repo.name}}"
+          envr: "{{$.kittExec.currentStage.name}}"
