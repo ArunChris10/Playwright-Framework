@@ -15,7 +15,4 @@ test('dropdowms API ', async ({ request }) => {
   })
   const responseBody = JSON.parse(await responseData.text());
   expect(responseBody).toMatchObject(testdata.expected_response);
-
 });
-
-
