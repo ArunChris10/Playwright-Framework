@@ -16,5 +16,5 @@ flows:
         repoBranchOrTag: main
         sync: false
         arguments:
-          app: "UFM"
-          envr: "develop"
+          app: "ibg-ufm-metadata-service"
+          envr: "qa"
