@@ -5,7 +5,7 @@ configuration:
 flows:
   buildLooperJob:
     - log: "Build started for IBG Playwright automation concord flow"
-    - log: "Running for App: ${app}"
+    - log: "Running for App: ${app} in ${envr}"
     - task: looper
       in:
         action: buildJob
