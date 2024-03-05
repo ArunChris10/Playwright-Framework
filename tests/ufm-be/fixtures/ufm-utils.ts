@@ -1,6 +1,10 @@
-import { expect } from "@playwright/test";
+// import { expect } from "@playwright/test";
 import debug from "debug";
 import forecastData from '../testdata/forecast-api.json'
+import hisTestdatafile from '../testdata/historical-forecast.json';
+import testdata from '../testdata/deadlinedate-api.json';
+import { test, expect } from '../../common/fixtures/test-hook';
+
 
 
 export class UfmUtility {
@@ -47,4 +51,21 @@ export class UfmUtility {
     //returning the scenario ID
     return scenario_ID;
   }
-}
+  
+  //This method will fetch historical forecast based on the particular forecast name
+  static async GetHistorical(forecastname: string,request){
+    let responseData, responseBody
+    
+    const historicalEndpointURL = `${process.env.apiBaseURLUFM}${hisTestdatafile.endpoint}`
+    const body = hisTestdatafile.sba_datas.filter((forecast) => (forecast.forecastname=== forecastname));
+
+      responseData = await request.get(historicalEndpointURL, {
+          params: {
+            ...body["queryParams"]
+          }
+      })
+      responseBody = await responseData.json();
+      return responseBody;
+      ;
+  };
+  }

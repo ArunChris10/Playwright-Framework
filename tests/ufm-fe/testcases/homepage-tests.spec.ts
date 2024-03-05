@@ -24,5 +24,3 @@ test('login using @credentials @Regression',async( { page } ) => {
     const loginPage = new LoginPage(page)
     await loginPage.login('LB-ibg-lob-opt');
 })
-
-
