@@ -16,10 +16,10 @@ flows:
         jobName: "IBG-Playwright-Automation"
         scmUrl: https://gecgithub01.walmart.com/IBG/ibg-testscripts-playwright.git
         looperYaml: ".looper.yml"
-        branch: "main"
+        branch: "pipeline-setup"
         suspend: true
         sync: true
         parameters:
-          app: "UFM"
-          envr: "qa"
+          app: "${app}"
+          envr: "${envr}"
     - log: "Looper Job completed"
