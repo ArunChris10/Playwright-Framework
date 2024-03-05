@@ -7,7 +7,7 @@ build:
         project: ibg-engineering
         repo: ibg-playwright-automation
         entryPoint: buildLooperJob
-        repoBranchOrTag: main
+        repoBranchOrTag: pipeline-setup
         sync: false
         arguments:
           app: "{{$.kitt.build.commitEvent.repo.name}}"
