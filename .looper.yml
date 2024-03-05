@@ -42,7 +42,7 @@ flows:
       then:
       - echo "App found from Concord"
       - var(REPO_NAME = '$app')
-    - echo "Running for App -> $REPO_NAME"
+    - echo "Running for App -> ${REPO_NAME}"
     - if: | #search all app name here
        %{app =~ ALL}
       then:

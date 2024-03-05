@@ -2,7 +2,7 @@ import { test, expect } from '../../common/fixtures/test-hook';
 import testdatafile from "../testdata/screen-details-api.json";
 import debug from "debug";
 
-test.describe("Validating the @screenDetails API @Regression @Smoke", () => {
+test.describe("Validating the @screenDetails API @Regression", () => {
   let responseBody;
   const testdata = testdatafile.configEndpoint;
   const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
