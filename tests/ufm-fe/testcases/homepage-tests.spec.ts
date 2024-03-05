@@ -23,12 +23,7 @@ test('login @regression @login', async ({page }) => {
 test('login using @credentials @Regression',async( { page } ) => {
   test.setTimeout(120000);
     const loginPage = new LoginPage(page)
-<<<<<<< HEAD
-    await loginPage.login('LB-ibg-lob-opt');
-})
-=======
     await loginPage.login('LB-ibg-lob-cmn');
 })
 
 
->>>>>>> 238218fed3d81b7faf100419a638aaecc99ab9df
