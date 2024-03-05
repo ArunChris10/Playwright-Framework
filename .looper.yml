@@ -70,7 +70,8 @@ flows:
 
   setup:
       - npm install
-      - npx playwright install
+      - npx playwright install chromium
+      - echo '{}' > secrets/users-token.json
   reporter:
     - publishReport:
         context: playwright
