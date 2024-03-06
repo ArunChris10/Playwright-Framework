@@ -31,6 +31,7 @@ triggers:
 parameters:
   - app: { type: string }
   - envr: { type: string }
+  - testrunid: { type: string }
 
 flows:
   default:
@@ -61,28 +62,28 @@ flows:
     try:
       - echo "Running all the tests in the repo"
       - call: setup
-      - ENV=$envr TEST=regression npm run tests:ufm-tests 
+      - RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests 
     finally:
       - call: reporter
   runUFMBeTests:
     try:
       - echo "Running UFM API testcases "
       - call: setup
-      - ENV=$envr TEST=regression npm run tests:ufm-tests-be
+      - RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-be
     finally:
       - call: reporter
   runUFMFeTests:
     try:
       - echo "Running UFM UI testcases "
       - call: setup
-      - ENV=$envr TEST=regression npm run tests:ufm-tests-fe
+      - RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-fe
     finally:
       - call: reporter
   runUFMSMokeTest:
     try:
       - echo "Running UFM Smoke testcases "
       - call: setup
-      - ENV=$envr TEST=smoke npm run tests:ufm-tests 
+      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests 
     finally:
       - call: reporter
 

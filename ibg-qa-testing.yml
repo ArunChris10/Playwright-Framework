@@ -20,3 +20,28 @@ deploy:
         - task:
             name: notifyMessage
             text: Post-Deploy hook to run testscripts in {{$.kittExec.currentStage.name}} environment is completed
+    - name: dev
+      postDeploy:
+        - task:
+            name: notifyMessage
+            text: Starting Post-Deploy hook to run testscripts in {{$.kittExec.currentStage.name}} environment
+        - concord:
+            name: Functional Test
+            enabled: true
+            arguments: 
+              config:
+              git:
+                orgName: IBG
+                repoName: ibg-testscripts-playwright
+                branchName: pipeline-setup
+                looperFile: .looper.yml #(as per repecitive project)
+              functionalTesting:
+                call: concord-triggered-flow #(as per respective project)
+                mode: Passive
+                threshHold: 70
+                env: "{{$.kittExec.currentStage.name}}" 
+                app: "{{$.kitt.build.commitEvent.repo.name}}"
+                envr: "{{$.kittExec.currentStage.name}}"                 
+        - task:
+            name: notifyMessage
+            text: Post-Deploy hook to run testscripts in {{$.kittExec.currentStage.name}} environment is complete
