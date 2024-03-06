@@ -17,11 +17,7 @@ deploy:
                   orgName: 'IBG'
                   repoName: 'ibg-testscripts-playwright'
                   branchName: 'pipeline-setup'
-                  looperFile: '.looper.yml' #(as per repecitive project)
-                  baseUrl: "https://ci.falcon.walmart.com"
-                  username: "s0g0fhn"
-                  apiToken: ${crypto.decryptString("NPqR068W1ldtNL/FdHUW1HznxFD8u2YRHzQ6HlLENwtse2WUumH9fOwPTRY5D9b9")}
-                  jobName: "IBG-Playwright-Automation"                
+                  looperFile: '.looper.yml' #(as per repecitive project)              
                 functionalTesting:
                   call: concord-triggered-flow #(as per respective project)
                   mode: Passive
