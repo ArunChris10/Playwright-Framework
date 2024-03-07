@@ -19,7 +19,7 @@ deploy:
                   branchName: 'pipeline-setup'
                   looperFile: '.looper.yml' #(as per repecitive project)              
                 functionalTesting:
-                  call: concord-triggered-flow #(as per respective project)
+                  call: 'concord-triggered-flow' #(as per respective project)
                   mode: Passive
                   threshHold: 70
                   env: '{{$.kittExec.currentStage.name}}' 
