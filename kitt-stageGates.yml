@@ -3,11 +3,11 @@ profiles:
 
 deploy:
   stages:
-    - name: dev
-      preDeploy:
+    - name: qa
+      postDeploy:
         - task:
             name: notifyMessage
-            text: Starting Post-Deploy hook to run testscripts in {{$.kittExec.currentStage.name}} environment
+            text: Starting Post-Deploy hook to run the Functional Tests in {{$.kittExec.currentStage.name}} environment
         - concord:
             name: Functional Test
             enabled: true
@@ -16,7 +16,7 @@ deploy:
                 git:
                   orgName: 'IBG'
                   repoName: 'ibg-testscripts-playwright'
-                  branchName: 'pipeline-setup'
+                  branchName: 'main'
                   looperFile: '.looper.yml' #(as per repecitive project)              
                 functionalTesting:
                   call: 'concord-triggered-flow' #(as per respective project)
@@ -27,4 +27,4 @@ deploy:
                   envr: '{{$.kittExec.currentStage.name}}'                 
         - task:
             name: notifyMessage
-            text: Post-Deploy hook to run testscripts in {{$.kittExec.currentStage.name}} environment is complete
+            text: Post-Deploy hook to run Functional Tests in {{$.kittExec.currentStage.name}} environment is completed
