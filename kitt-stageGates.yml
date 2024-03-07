@@ -1,0 +1,30 @@
+profiles:
+  - 'git://Intl-Architecture-Developer-Tools:stage-gates:master:stage-gates'
+
+deploy:
+  stages:
+    - name: qa
+      postDeploy:
+        - task:
+            name: notifyMessage
+            text: Starting Post-Deploy hook to run the Functional Tests in {{$.kittExec.currentStage.name}} environment
+        - concord:
+            name: Functional Test
+            enabled: true
+            arguments: 
+              config:
+                git:
+                  orgName: 'IBG'
+                  repoName: 'ibg-testscripts-playwright'
+                  branchName: 'main'
+                  looperFile: '.looper.yml' #(as per repecitive project)              
+                functionalTesting:
+                  call: 'concord-triggered-flow' #(as per respective project)
+                  mode: Passive
+                  threshHold: 70
+                  env: '{{$.kittExec.currentStage.name}}' 
+                  app: '{{$.kitt.build.commitEvent.repo.name}}'
+                  envr: '{{$.kittExec.currentStage.name}}'                 
+        - task:
+            name: notifyMessage
+            text: Post-Deploy hook to run Functional Tests in {{$.kittExec.currentStage.name}} environment is completed
