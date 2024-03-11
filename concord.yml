@@ -5,7 +5,7 @@ configuration:
 flows:
   buildLooperJob:
     - log: "Build started for IBG Playwright automation concord flow"
-    - log: "Running for App: ${app}"
+    - log: "Running for App: ${app} in ${envr}"
     - task: looper
       in:
         action: buildJob
@@ -20,6 +20,6 @@ flows:
         suspend: true
         sync: true
         parameters:
-          app: ${app}
-          envr: ${envr}
+          app: "${app}"
+          envr: "${envr}"
     - log: "Looper Job completed"

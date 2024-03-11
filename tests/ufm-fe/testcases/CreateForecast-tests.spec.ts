@@ -1,35 +1,23 @@
-import { test,expect } from '@playwright/test';
+import { test, expect} from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
-import { GenericloggingIn, GenericloginUsingCredentials } from '../testcases/Common-tests.spec';
+import { loggingIn } from '../testcases/homepage-tests.spec';
+import { loginUsingCredentials } from '../testcases/homepage-tests.spec';
 
 
 test('Login In @Filterss', async ({page }) => {
-    // const aa = new LoginPage(page)
-    // await aa.login(page);
-    // await loggingIn();
+    const aa = new LoginPage(page)
+    await aa.login(page);
+    await loggingIn();
 
-    // const { token,appBaseURL} = process.env;
-    // test.setTimeout(120000);
-    // await page.goto(appBaseURL+"/page-with-no-auth");
-    
    
-    // await page.evaluate(() => localStorage.setItem('isAutomationTestRunning',JSON.stringify(true)));
-  
-    // const url = appBaseURL + "/?token=" + token;
-    // await page.goto(url)
-    // await page.getByLabel("menu").click();
-    // await page.getByText('My Homepage').click();
-    // await page.getByLabel('menu').click();
-    // await expect(page.getByText('Unified Financial Model', { exact: true })).toBeVisible();
-
-    await GenericloggingIn();
-});
+})
 
 test('Loginn To UFM @Filterss', async ({page }) => {
-    // await loginUsingCredentials('LB-ibg-lob-opt');
+    await loginUsingCredentials('LB-ibg-lob-opt');
 
-    // const loginPage = new LoginPage(page)
-    // await loginPage.login('LB-ibg-lob-opt');
-
-    await GenericloginUsingCredentials('LB-ibg-lob-opt');
 })
+
+test('Click on Create Forecast @FIlterss', async ({page })) => {
+   
+}
+

@@ -25,11 +25,12 @@ For any help in playwright APIs please refer the playwright documentation below
 - Open the corresponding workstreams Config file
 - Choose a project from the projects available in that config file
 - Open [package.json](package.json) and check the scripts section
+- Open [.env-cmdrc.json] and update the custum tag with the tag u want to run
 - Copy the script that matches with the required project 
 - For Mac Run the below command after replacing the script name
 
           ENV=qa TEST=tag_name npm run <script-name-from-package-json>
-          Example- ENV=develop TEST=custom_tag npm run tests:ufm-tests
+          Example- ENV=qa TEST=custom_tag npm run tests:ufm-tests
 
 
 - For Windows we need to provide the absolute path for playwright and env-cmd Hence Run the below command after replacing the config file and project

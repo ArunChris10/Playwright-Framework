@@ -16,15 +16,17 @@ export async function loggingIn(){
     await page.getByText('My Homepage').click();
     await page.getByLabel('menu').click();
     await expect(page.getByText('Unified Financial Model', { exact: true })).toBeVisible();
+    
   
   });
+  
 }
 
 
 export async function loginUsingCredentials(userName){
   test('login using @credentials @Regression',async( { page } ) => {
     const loginPage = new LoginPage(page)
-    await loginPage.login('LB-ibg-lob-opt');
+    await loginPage.login('LB-ibg-lob-cmn');
 })
 }
 
