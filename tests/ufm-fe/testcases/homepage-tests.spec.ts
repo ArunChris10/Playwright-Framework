@@ -1,8 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
 
-export async function loggingIn(){
-  test('login @regression @login', async ({page }) => {
+export class A{
+
+
+static async loggingIn(){
+  test('login @regression @login', async ({ page }) => {
  
     const { token,appBaseURL} = process.env;
     test.setTimeout(120000);
@@ -23,11 +26,12 @@ export async function loggingIn(){
 }
 
 
-export async function loginUsingCredentials(userName){
+static async loginUsingCredentials(userName){
   test('login using @credentials @Regression',async( { page } ) => {
     const loginPage = new LoginPage(page)
     await loginPage.login('LB-ibg-lob-cmn');
 })
+}
 }
 
 
