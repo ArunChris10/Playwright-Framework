@@ -4,57 +4,26 @@ import debug from "debug";
 
 
 
-export class B{
+
     
 
-
-static async loggingsIn(){
-test('Login In @P', async ({page }) => {
-    // const aa = new LoginPage(page)
-    // await aa.login(page);
-    // await A.loggingIn();
-
-    // AA.loginnn(page);
-
-  
-    const { token,appBaseURL} = process.env;
-    test.setTimeout(120000);
-    page.waitForTimeout(1000);
-    const aa = page.goto(appBaseURL+"/page-with-no-auth");
-    debug.log("iuhygfd");
-    page.evaluate(() => {
-    localStorage.setItem('isAutomationTestRunning', JSON.stringify(true));
-
-    const url = appBaseURL + "/?token=" + token;
+test.describe('Login In @P',()=> {
     
-    page.goto(url)
-    debug.log(url);
-    page.getByLabel("menu").click();
-    page.getByText('My Homepage').click();
-    page.getByLabel('menu').click();
-    expect(page.getByText('Unified Financial Model', { exact: true })).toBeVisible();
    
-});
-});
-
-}
 
 
-static async rr(){
+
 test('Loginn To UFM @P', async ({page }) => {
-    // await A.loginUsingCredentials('LB-ibg-lob-opt');
     
-    // AA.loginUsing('LB-ibg-lob-cmn');
 
     const loginPage = new LoginPage(page)
-    loginPage.login('LB-ibg-lob-cmn');
+    await loginPage.login('LB-ibg-lob-cmn');
 
 });
-}
 
-static async createForecast(){
-    test('Create Forecast @P', async ({page }) => {
-        debug.log("jhghhhhh");
+
+test('Create Forecast @P', async ({page }) => {
+       
         await page.getByText("Create forecast']").click();
         const selectElement = await page.waitForSelector('.GridColumn-module_gridColumn__2lqsw GridColumn-module_small12__2mzOm lobs-container');
         selectElement.click();
@@ -70,7 +39,4 @@ static async createForecast(){
       
 });
 
-}
-
-
-}
+});

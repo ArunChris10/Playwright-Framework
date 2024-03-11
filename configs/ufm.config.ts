@@ -13,7 +13,7 @@ import userTokens from '../secrets/users-token.json'
 export default defineConfig({
   testDir: '../tests/',
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -59,9 +59,11 @@ export default defineConfig({
       testMatch: /ufm-fe.*.spec.ts/,
       grep: [new RegExp(process.env.tag + "")],
       use: {
-        ...devices['Desktop Chrome'],
+        ...devices['Desktop Chrome'], 
+        headless: false,
         launchOptions: {
-          args: ['--ignore-certificate-errors']
+          args: ['--ignore-certificate-errors',
+          "--start-fullscreen"]
         }
       },
     }

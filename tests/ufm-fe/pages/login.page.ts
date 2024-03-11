@@ -11,6 +11,7 @@ export class LoginPage {
   readonly drpCountry: Locator;
   readonly drpLocation: Locator;
   readonly btnSignIn: Locator;
+  readonly txtLogo: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -19,6 +20,7 @@ export class LoginPage {
     this.drpCountry = page.locator("#domainName");
     this.drpLocation = page.locator("#BU");
     this.btnSignIn = page.getByText("SIGN IN");
+    this.txtLogo = page.getByText("Unified Financial Model");
   }
 
   async login(userName) {
@@ -27,9 +29,13 @@ export class LoginPage {
     debug.log("Logging into " + url);
     await this.page.goto("about:blank");
     await this.page.goto(url, { timeout: 120000 });
+    
     await this.txtUserName.fill(userName);
     await this.txtPassword.fill(await Utility.getLoginPassword(userName));
     await this.btnSignIn.click();
+    await this.page.waitForSelector('.main-heading');
+  
+
   }
 
 
