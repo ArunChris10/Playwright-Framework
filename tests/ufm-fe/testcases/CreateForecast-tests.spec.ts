@@ -1,6 +1,7 @@
 import { test, expect} from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
-import { chromium } from 'playwright';
+import debug from "debug";
+
 
 
 export class B{
@@ -8,7 +9,7 @@ export class B{
 
 
 static async loggingsIn(){
-test('Login In @Filterss', async ({page }) => {
+test('Login In @P', async ({page }) => {
     // const aa = new LoginPage(page)
     // await aa.login(page);
     // await A.loggingIn();
@@ -20,13 +21,14 @@ test('Login In @Filterss', async ({page }) => {
     test.setTimeout(120000);
     page.waitForTimeout(1000);
     const aa = page.goto(appBaseURL+"/page-with-no-auth");
-   
+    debug.log("iuhygfd");
     page.evaluate(() => {
     localStorage.setItem('isAutomationTestRunning', JSON.stringify(true));
 
     const url = appBaseURL + "/?token=" + token;
     
     page.goto(url)
+    debug.log(url);
     page.getByLabel("menu").click();
     page.getByText('My Homepage').click();
     page.getByLabel('menu').click();
@@ -39,7 +41,7 @@ test('Login In @Filterss', async ({page }) => {
 
 
 static async rr(){
-test('Loginn To UFM @Filterss', async ({page }) => {
+test('Loginn To UFM @P', async ({page }) => {
     // await A.loginUsingCredentials('LB-ibg-lob-opt');
     
     // AA.loginUsing('LB-ibg-lob-cmn');
@@ -51,7 +53,8 @@ test('Loginn To UFM @Filterss', async ({page }) => {
 }
 
 static async createForecast(){
-    test('Create Forecast @demo', async ({page }) => {
+    test('Create Forecast @P', async ({page }) => {
+        debug.log("jhghhhhh");
         await page.getByText("Create forecast']").click();
         const selectElement = await page.waitForSelector('.GridColumn-module_gridColumn__2lqsw GridColumn-module_small12__2mzOm lobs-container');
         selectElement.click();
