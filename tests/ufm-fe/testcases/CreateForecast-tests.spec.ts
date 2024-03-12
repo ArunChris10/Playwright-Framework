@@ -1,42 +1,32 @@
-import { test, expect} from '@playwright/test';
+import { test, expect, chromium } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
-import debug from "debug";
+import forecast from '../testdata/forecast.json'
+import debug from 'debug';
 
+test.describe('Login In @P', () => {
 
+  test('Create Forecast @P', async ({page}) => {
 
-
-    
-
-test.describe('Login In @P',()=> {
-    
-   
-
-
-
-test('Loginn To UFM @P', async ({page }) => {
-    
-
-    const loginPage = new LoginPage(page)
+    test.setTimeout(120000);
+    const loginPage = new LoginPage(page);
     await loginPage.login('LB-ibg-lob-cmn');
+    await page.getByText("Health & wellness").click();
+    await page.getByText("Create forecast").click();
+    await page.getByText('Prepare the forecast for  OPTICAL  drivers.').click();
+    await page.getByText('Continue').click();
+    const inputField = await page.waitForSelector('.TextField-module_input__15sq2');
+    inputField.click();
+    inputField.fill("demos");
+    await page.getByText("Select base forecast']").click();
+    await page.getByText("PRIMARY']").click();
+    const createForecast = await page.waitForSelector('.Button-module_button__3Eu7g Button-module_primary__3_IxL Button-module_small__2k3yk create-btn');
+    createForecast.click();
+    const forecastNameElement = await page.waitForSelector('.ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-value ag-cell-focus');
+    const forecastName = await forecastNameElement.innerText();
+    debug.log(forecastName);
+    expect(forecastName).toBe(forecast.forecastName);
+    debug.log(forecast.forecastName);
 
+  });
 });
-
-
-test('Create Forecast @P', async ({page }) => {
-       
-        await page.getByText("Create forecast']").click();
-        const selectElement = await page.waitForSelector('.GridColumn-module_gridColumn__2lqsw GridColumn-module_small12__2mzOm lobs-container');
-        selectElement.click();
-        await page.getByText("Continue").click;
-        const inputField = await page.waitForSelector('.TextField-module_input__15sq2');
-        inputField.click();
-        inputField.fill("demos");
-        await page.getByText("Select base forecast']").click();
-        await page.getByText("PRIMARY']").click();  
-        const createForecast = await page.waitForSelector('.Button-module_button__3Eu7g Button-module_primary__3_IxL Button-module_small__2k3yk create-btn');
-        createForecast.click();
-      
-      
-});
-
-});
+ 

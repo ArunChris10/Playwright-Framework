@@ -2,13 +2,10 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
 
 
-
-
-
   test('login @regression @login', async ({ page }) => {
  
     const { token,appBaseURL} = process.env;
-    test.setTimeout(120000);
+    test.setTimeout(100000);
     await page.goto(appBaseURL+"/page-with-no-auth");
     
     await page.evaluate(() => localStorage.setItem('isAutomationTestRunning',JSON.stringify(true)));
@@ -22,16 +19,8 @@ import { LoginPage } from '../pages/login.page';
     
   
   });
-  
-
-
-
-
+ 
   test('login using @credentials @Regression',async( { page } ) => {
     const loginPage = new LoginPage(page)
     await loginPage.login('LB-ibg-lob-cmn');
 })
-
-
-
-

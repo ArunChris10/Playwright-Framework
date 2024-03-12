@@ -2,6 +2,7 @@ import { Locator, Page } from "@playwright/test";
 import debug from "debug";
 import fs from "fs";
 import { Utility } from "../../common/fixtures/utils";
+import { chromium } from "playwright";
 
 
 export class LoginPage {
@@ -19,8 +20,11 @@ export class LoginPage {
     this.txtUserName = page.getByPlaceholder("User ID (e.g. wm5p4rk)");
     this.drpCountry = page.locator("#domainName");
     this.drpLocation = page.locator("#BU");
+    debug.log("hi");
     this.btnSignIn = page.getByText("SIGN IN");
+    debug.log("hello");
     this.txtLogo = page.getByText("Unified Financial Model");
+
   }
 
   async login(userName) {
@@ -28,17 +32,32 @@ export class LoginPage {
     
     debug.log("Logging into " + url);
     await this.page.goto("about:blank");
-    await this.page.goto(url, { timeout: 120000 });
-    
+    await this.page.goto(url, { timeout: 100000 });
+   
     await this.txtUserName.fill(userName);
     await this.txtPassword.fill(await Utility.getLoginPassword(userName));
+    debug.log("hel");
     await this.btnSignIn.click();
-    await this.page.waitForSelector('.main-heading');
+    debug.log("heo");
+    // await Promise.all([
+    //   this.page.waitForEvent('load'), 
+      
+    // ]);
+    
+    await this.page.waitForSelector('.main-heading', { timeout: 120000, state: 'visible' });
+    debug.log("helloooooooo");
+    
+}
+}
+    
   
 
-  }
+  
+
+  
+  
 
 
 
 
-}
+
