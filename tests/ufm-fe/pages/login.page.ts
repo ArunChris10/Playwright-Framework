@@ -29,21 +29,15 @@ export class LoginPage {
 
   async login(userName) {
     const url = process.env.ufmAppBaseURL + "";
-    
     debug.log("Logging into " + url);
+    await this.page.setViewportSize({ width: 1920, height: 1080 });
     await this.page.goto("about:blank");
     await this.page.goto(url, { timeout: 100000 });
-   
     await this.txtUserName.fill(userName);
     await this.txtPassword.fill(await Utility.getLoginPassword(userName));
     debug.log("hel");
     await this.btnSignIn.click();
     debug.log("heo");
-    // await Promise.all([
-    //   this.page.waitForEvent('load'), 
-      
-    // ]);
-    
     await this.page.waitForSelector('.main-heading', { timeout: 120000, state: 'visible' });
     debug.log("helloooooooo");
     
