@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 import debug from "debug";
 import fs from "fs";
 import { Utility } from "../../common/fixtures/utils";
@@ -20,8 +20,13 @@ export class OrganisationSelection {
   }
 
   async isOrganisationSelectionNavigated(){
+    await this.page.waitForSelector('.loading', { state: 'hidden', timeout: 160000 });
+    debug.log("qq");
     return await this.page.getByText('Choose an organization to view UFM forecasts').isVisible();
+    
+    
   }
+
 
 
 

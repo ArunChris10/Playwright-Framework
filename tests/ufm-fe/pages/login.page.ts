@@ -2,6 +2,7 @@ import { Locator, Page } from "@playwright/test";
 import debug from "debug";
 import fs from "fs";
 import { Utility } from "../../common/fixtures/utils";
+import { chromium } from "playwright";
 
 
 export class LoginPage {
@@ -19,23 +20,41 @@ export class LoginPage {
     this.txtUserName = page.getByPlaceholder("User ID (e.g. wm5p4rk)");
     this.drpCountry = page.locator("#domainName");
     this.drpLocation = page.locator("#BU");
+    debug.log("hi");
     this.btnSignIn = page.getByText("SIGN IN");
+    debug.log("hello");
+    
+
   }
 
   async login(userName) {
     const url = process.env.ufmAppBaseURL + "";
-    
     debug.log("Logging into " + url);
+    await this.page.setViewportSize({ width: 1920, height: 1080 });
     await this.page.goto("about:blank");
-    await this.page.goto(url, { timeout: 120000 });
+    await this.page.goto(url, { timeout: 100000 });
     await this.txtUserName.fill(userName);
     await this.txtPassword.fill(await Utility.getLoginPassword(userName));
+    debug.log("hel");
     await this.btnSignIn.click();
     await this.page.waitForURL(url);
+
+    debug.log("heo");
+    await this.page.waitForSelector('.main-heading', { timeout: 120000, state: 'visible' });
+    debug.log("helloooooooo");
     await this.page.context().storageState({ path: this.authFile })
-  }
-
-
-
-
+    
 }
+}
+    
+  
+
+  
+
+  
+  
+
+
+
+
+
