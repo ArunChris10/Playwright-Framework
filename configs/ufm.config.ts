@@ -32,7 +32,7 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
-    screenshot: 'only-on-failure',
+    screenshot: 'on',
   },
 
 
@@ -40,12 +40,12 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'setup',
+      name: 'setup-be',
       testMatch: /auth-setup\.ts/,
     },
     {
       name: 'ufm-be',
-      dependencies: ['setup'],
+      dependencies: ['setup-be'],
       testMatch: /ufm-be.*.spec.ts/,
       grep: [new RegExp(process.env.tag + "")],
       use: {
@@ -55,11 +55,17 @@ export default defineConfig({
       }
     },
     {
+      name: 'setup-fe',
+      testMatch: /login\.ts/,
+    },
+    {
       name: 'ufm-fe',
+      dependencies: ['setup-fe'],
       testMatch: /ufm-fe.*.spec.ts/,
       grep: [new RegExp(process.env.tag + "")],
       use: {
         ...devices['Desktop Chrome'],
+        storageState: 'secrets/user-storagestate.json',
         launchOptions: {
           args: ['--ignore-certificate-errors']
         }

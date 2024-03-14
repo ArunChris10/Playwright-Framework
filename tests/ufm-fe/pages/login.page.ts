@@ -11,6 +11,7 @@ export class LoginPage {
   readonly drpCountry: Locator;
   readonly drpLocation: Locator;
   readonly btnSignIn: Locator;
+  readonly authFile = 'secrets/user-storagestate.json';
 
   constructor(page: Page) {
     this.page = page;
@@ -30,6 +31,8 @@ export class LoginPage {
     await this.txtUserName.fill(userName);
     await this.txtPassword.fill(await Utility.getLoginPassword(userName));
     await this.btnSignIn.click();
+    await this.page.waitForURL(url);
+    await this.page.context().storageState({ path: this.authFile })
   }
 
 

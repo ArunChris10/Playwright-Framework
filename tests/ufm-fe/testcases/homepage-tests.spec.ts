@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
+import { CurrentForecast } from '../pages/current-forecast.page';
 import { LoginPage } from '../pages/login.page';
+import { OrganisationSelection } from '../pages/organisation-selection.page';
 
 
 test('login @regression @login', async ({page }) => {
@@ -24,6 +26,17 @@ test('login using @credentials @Regression',async( { page } ) => {
   test.setTimeout(120000);
     const loginPage = new LoginPage(page)
     await loginPage.login('LB-ibg-lob-cmn');
+})
+
+test('Validate the @breadcrum navigation',async ({page}) => {
+  await page.goto(process.env.ufmAppBaseURL, { timeout: 120000 });
+  let organisationSelection : OrganisationSelection = new OrganisationSelection(page);
+  expect(await organisationSelection.isOrganisationSelectionNavigated()).toBeTruthy();
+  let currentForecast : CurrentForecast = await organisationSelection.selectOrganisation('Merchandising');
+  organisationSelection=await currentForecast.gotoOrganisationSelection();
+  expect(await organisationSelection.isOrganisationSelectionNavigated()).toBeTruthy();
+  
+
 })
 
 
