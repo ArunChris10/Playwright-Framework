@@ -8,7 +8,6 @@ import { CurrentForecast } from "./current-forecast.page";
 export class OrganisationSelection {
   readonly page: Page;
 
-
   constructor(page: Page) {
     this.page = page;
 
@@ -21,14 +20,8 @@ export class OrganisationSelection {
 
   async isOrganisationSelectionNavigated(){
     await this.page.waitForSelector('.loading', { state: 'hidden', timeout: 160000 });
-    debug.log("qq");
     return await this.page.getByText('Choose an organization to view UFM forecasts').isVisible();
-    
-    
+  
   }
-
-
-
-
 
 }

@@ -3,18 +3,31 @@ import debug from "debug";
 import fs from "fs";
 import { Utility } from "../../common/fixtures/utils";
 import { OrganisationSelection } from "./organisation-selection.page";
+import { CreateForecastPopup } from "./create-forecast.-popup.page";
 
 export class CurrentForecast {
   readonly page: Page;
   readonly lnkOrganisationSelection: Locator;
+  readonly createForecastButton: Locator;;
 
   constructor(page: Page) {
     this.page = page;
     this.lnkOrganisationSelection = page.getByText("Organization Selection");
+    this.createForecastButton = page.getByText('Create forecast');
   }
 
   async gotoOrganisationSelection() {
     await this.lnkOrganisationSelection.click();
     let organisationSelection = new OrganisationSelection(this.page);
   }
+
+  async clickOnCreateForecast(){
+    //await this.page.waitForSelector('text=Create forecast', { state: 'visible', timeout: 160000 });
+    await this.createForecastButton.click(); 
+    return new CreateForecastPopup(this.page)
+  }
+
+  // async clickOnPrepareTheForecastForOpticalDrivers(){
+  //   await this.page.getByText('Prepare the forecast for OPTICAL drivers.').click();
+  // }
 }
