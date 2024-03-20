@@ -19,9 +19,8 @@ export class LoginPage {
     this.txtUserName = page.getByPlaceholder("User ID (e.g. wm5p4rk)");
     this.drpCountry = page.locator("#domainName");
     this.drpLocation = page.locator("#BU");
-    debug.log("hi");
     this.btnSignIn = page.getByText("SIGN IN");
-    debug.log("hello");
+   
     
   }
 

@@ -1,3 +1,6 @@
 {
-    "forecastName": "demos"
+    "forecastName": "OpticalForecast",
+    "baseForecastName" : "PRIMARY",
+    "sbaName" : "Health & wellness",
+    "forecastPreparationName" : "OPTICAL"
 }

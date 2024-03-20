@@ -4,16 +4,20 @@ import fs from "fs";
 import { Utility } from "../../common/fixtures/utils";
 import { OrganisationSelection } from "./organisation-selection.page";
 import { CreateForecastPopup } from "./create-forecast.-popup.page";
+import forecast from '../testdata/forecast.json'
 
 export class CurrentForecast {
   readonly page: Page;
   readonly lnkOrganisationSelection: Locator;
-  readonly createForecastButton: Locator;;
+  readonly createForecastButton: Locator;
+  
 
   constructor(page: Page) {
+
     this.page = page;
     this.lnkOrganisationSelection = page.getByText("Organization Selection");
     this.createForecastButton = page.getByText('Create forecast');
+   
   }
 
   async gotoOrganisationSelection() {
@@ -27,7 +31,4 @@ export class CurrentForecast {
     return new CreateForecastPopup(this.page)
   }
 
-  // async clickOnPrepareTheForecastForOpticalDrivers(){
-  //   await this.page.getByText('Prepare the forecast for OPTICAL drivers.').click();
-  // }
 }

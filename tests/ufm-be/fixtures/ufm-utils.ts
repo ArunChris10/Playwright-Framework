@@ -35,7 +35,6 @@ export class UfmUtility {
     const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}${scenario_ID}`;
     debug.log(endpointURL);
     //call delete API
-    const body = 
     const response = await request.delete(endpointURL);
    
     //asserting the response

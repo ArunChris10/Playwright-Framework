@@ -1,7 +1,4 @@
 import { Locator, Page, expect } from "@playwright/test";
-import debug from "debug";
-import fs from "fs";
-import { Utility } from "../../common/fixtures/utils";
 import { CurrentForecast } from "./current-forecast.page";
 
 

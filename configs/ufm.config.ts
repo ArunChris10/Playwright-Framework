@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 import userTokens from '../secrets/users-token.json'
-let browsers;
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
