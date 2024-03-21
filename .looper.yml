@@ -90,7 +90,8 @@ flows:
   setup:
       - npm install
       - npx playwright install chromium
-      - echo '{}' > secrets/users-token.json
+      - echo '{}' > secrets/nexus-users-token.json
+      - echo '{}' > secrets/ibg-users-token.json
   reporter:
     - publishReport:
         context: playwright

@@ -6,7 +6,8 @@ import usersNexusFormat from "../testdata/users-nexus-format.json";
 
 export class Utility {
   private static readonly dir: string = "./test-results/logs/";
-  private static readonly tokenFilePath: string = "./secrets/users-token.json";
+  private static readonly nexusTokenFilePath: string = "./secrets/nexus-users-token.json";
+  private static readonly ibgTokenFilePath: string = "./secrets/ibg-users-token.json";
   private static readonly secretFilePath: string = "./secrets/ufm-secrets.json";
 
   private static createLogFileDir() {
@@ -45,7 +46,7 @@ export class Utility {
     return futureDates[0];
   }
 
-  static async getIBGFakeToken(userId: string, request) {
+  static async fetchIBGFakeToken(userId: string, request) {
     const authURL = process.env.ibgAuthTokenURL;
     const body = usersIBGFormat.filter((user) => user.userId === userId);
     debug.log("Logging in with the user : ", JSON.stringify(body[0]));
@@ -59,9 +60,9 @@ export class Utility {
   static async fetchNexusFakeTokens(userId: String, request) {
     const user = usersNexusFormat.filter((user) => user.userId === userId)[0];
 
-    console.log("fetching token for : ", JSON.stringify(user.userId));
+    debug.log("fetching token for : ", JSON.stringify(user.userId));
     const adminSecret = (await this.getSecret())["nexus"].adminSecret[
-      process.env.envName
+      process.env.envName+""
     ];
     const responseBody = await request.post(
       `${process.env.nexusAuthTokenURL}`,
@@ -76,14 +77,27 @@ export class Utility {
     return token;
   }
   static async getNexusFakeToken(userId: string, request) {
-    const rawdata = fs.existsSync(this.tokenFilePath)
-      ? fs.readFileSync(this.tokenFilePath, "utf-8")
+    const rawdata = fs.existsSync(this.nexusTokenFilePath)
+      ? fs.readFileSync(this.nexusTokenFilePath, "utf-8")
       : "{}";
     const parsedData: Object = JSON.parse(rawdata);
     if (!parsedData.hasOwnProperty(userId)) {
       parsedData[userId] = await this.fetchNexusFakeTokens(userId, request);
       const updatedDate = JSON.stringify(parsedData, null, 2);
-      fs.writeFileSync(this.tokenFilePath, updatedDate);
+      fs.writeFileSync(this.nexusTokenFilePath, updatedDate);
+    }
+    return JSON.stringify(parsedData[userId]);
+  }
+
+  static async getIBGFakeToken(userId: string, request) {
+    const rawdata = fs.existsSync(this.ibgTokenFilePath)
+      ? fs.readFileSync(this.ibgTokenFilePath, "utf-8")
+      : "{}";
+    const parsedData: Object = JSON.parse(rawdata);
+    if (!parsedData.hasOwnProperty(userId)) {
+      parsedData[userId] = await this.fetchIBGFakeToken(userId, request);
+      const updatedDate = JSON.stringify(parsedData, null, 2);
+      fs.writeFileSync(this.ibgTokenFilePath, updatedDate);
     }
     return JSON.stringify(parsedData[userId]);
   }

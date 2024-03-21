@@ -19,21 +19,29 @@ For any help in playwright APIs please refer the playwright documentation below
 
         npm install
         npx playwright install  
+### Secret Folder
+- Please create the following files in a secret folder by executing the commands in the terminal
+
+          echo '{}' > secrets/nexus-users-token.json
+          echo '{}' > secrets/ibg-users-token.json
+          echo '{}' > secrets/ufm-secrets.json
+
+- For the token files we dont have to add anything , this will be used during the runtime
+- For the ufm-secrets we need to add the lab accounts , please connect with any of the testers to get this data and add it into the file
 
 ### Local Test Execution
-- Check the configuration in the config files available in the [Config Folder](configs)
-- Open the corresponding workstreams Config file
+- Check the configuration in the config files available in the [Plawright Config File](./playwright.config.ts)
 - Choose a project from the projects available in that config file
-- Open [package.json](package.json) and check the scripts section
+- Open [package.json](package.json) and check the scripts section for the corresponding project name
 - Open [.env-cmdrc.json] and update the custum tag with the tag u want to run
 - Copy the script that matches with the required project 
 - For Mac Run the below command after replacing the script name
 
-          ENV=qa TEST=tag_name npm run <script-name-from-package-json>
-          Example- ENV=qa TEST=custom_tag npm run tests:ufm-tests
+          APP_NAME=UFM ENV=qa TEST=tag_name npm run <script-name-from-package-json>
+          Example- APP_NAME=UFM ENV=qa TEST=custom_tag npm run tests:ufm-tests
 
 
-- For Windows we need to provide the absolute path for playwright and env-cmd Hence Run the below command after replacing the config file and project
+- For Windows if that above steps didint work we need to provide the absolute path for playwright and env-cmd Hence Run the below command after replacing the config file and project
 
            ./node_modules/.bin/env-cmd --environments qa ./node_modules/.bin/env-cmd --environments tag ./node_modules/.bin/playwright test --config=configs/ufm.config.ts --project=ufm-be
 
@@ -43,7 +51,7 @@ For any help in playwright APIs please refer the playwright documentation below
 
     .
     ├── ...
-    ├── configs                 # config files 
+    ├── secrets
     ├── tests
     │   ├── ufm-be              # workstream folders
     │   │   ├── fixtures        # playwright fixture files
@@ -54,7 +62,7 @@ For any help in playwright APIs please refer the playwright documentation below
     │   └── ... 
     ├── .env-cmdrc.json         # Environmental Variables  
     ├── .looper.yml             # looper build steps
-    ├── .concord.yml            # CI configuration
+    ├── plawright.config.ts     # Config file
     ├── package.json            # dependencies and scripts to run                
     └── ...
 
