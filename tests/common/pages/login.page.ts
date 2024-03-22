@@ -19,13 +19,9 @@ export class LoginPage {
     this.btnSignIn = page.getByText("SIGN IN");
   }
 
-  async login(url, userName) {
-    debug.log("Logging into " + url);
-    await this.page.goto("about:blank");
-    await this.page.goto(url);
+  async login(userName) {
     await this.txtUserName.fill(userName);
     await this.txtPassword.fill(await Utility.getLoginPassword(userName));
     await this.btnSignIn.click();
-    await this.page.waitForURL(url);
   }
 }
