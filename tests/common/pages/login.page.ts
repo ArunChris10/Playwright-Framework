@@ -1,6 +1,5 @@
 import { Locator, Page } from "@playwright/test";
 import debug from "debug";
-import fs from "fs";
 import { Utility } from "../../common/fixtures/utils";
 
 export class LoginPage {
@@ -24,19 +23,14 @@ export class LoginPage {
     
   }
 
-  async login(userName) {
-
-    const url = process.env.ufmAppBaseURL + "";
+  async login(url, userName) {
     debug.log("Logging into " + url);
     await this.page.setViewportSize({ width: 1920, height: 1080 });
     await this.page.goto("about:blank");
-    await this.page.goto(url, { timeout: 100000 });
+    await this.page.goto(url);
     await this.txtUserName.fill(userName);
     await this.txtPassword.fill(await Utility.getLoginPassword(userName));    
     await this.btnSignIn.click();
     await this.page.waitForURL(url);
-    await this.page.waitForSelector('.main-heading', { timeout: 120000, state: 'visible' });   
-    await this.page.context().storageState({ path: this.authFile })
-    
-}
+  }
 }

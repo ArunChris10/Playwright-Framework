@@ -1,5 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
-import userTokens from '../secrets/users-token.json'
+import nexusTokens from './secrets/nexus-users-token.json'
+import ibgTokens from './secrets/ibg-users-token.json'
 
 /**
  * Read environment variables from file.
@@ -11,7 +12,7 @@ import userTokens from '../secrets/users-token.json'
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: '../tests/',
+  testDir: './tests/',
   /* Run tests in files in parallel */
   fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -40,17 +41,23 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'setup-be',
-      testMatch: /auth-setup\.ts/,
+      name: 'api-setup',
+      testMatch: /api-auth-setup\.ts/,
+      grep: [new RegExp(process.env.APP_NAME + "")]
+    },
+    {
+      name: 'ui-setup',
+      testMatch: /ui-auth-setup\.ts/,
+      grep: [new RegExp(process.env.APP_NAME + "")]
     },
     {
       name: 'ufm-be',
-      dependencies: ['setup-be'],
+      dependencies: ['api-setup'],
       testMatch: /ufm-be.*.spec.ts/,
       grep: [new RegExp(process.env.tag + "")],
       use: {
         extraHTTPHeaders: {
-          "Authorization": `Bearer ${userTokens[process.env.ufmUser]}`
+          "Authorization": `Bearer ${nexusTokens[process.env.ufmUser+""]}`
         }
       }
     },
@@ -60,60 +67,46 @@ export default defineConfig({
     },
     {
       name: 'ufm-fe',
-      dependencies: ['setup-fe'],
+      dependencies: ['ui-setup'],
       testMatch: /ufm-fe.*.spec.ts/,
       grep: [new RegExp(process.env.tag + "")],
       use: {
         ...devices['Desktop Chrome'],
         headless: false,
-        storageState: 'secrets/user-storagestate.json',
+        storageState: 'secrets/nexus-user-storagestate.json',
         launchOptions: {
           args: ['--ignore-certificate-errors',
           "--start-fullscreen"]
-        },
-        
-        
-      },
+        },        
+      }
+    },
+    {
+      name: 'cdf-be',
+      dependencies: ['api-setup'],
+      testMatch: /cdf-be.*.spec.ts/,
+      grep: [new RegExp(process.env.tag + "")],
+      use: {
+        extraHTTPHeaders: {
+          "Authorization": `Bearer ${ibgTokens[process.env.cdfUser+""]}`
+        }
+      }
+    },
+    {
+      name: 'cdf-fe',
+      dependencies: ['ui-setup'],
+      testMatch: /cdf-fe.*.spec.ts/,
+      grep: [new RegExp(process.env.tag + "")],
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'secrets/ibg-user-storagestate.json',
+        launchOptions: {
+          args: ['--ignore-certificate-errors',
+          "--start-fullscreen"]
+        },                
+      }
     }
-    
-  
-    //,
 
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
-
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+
 });

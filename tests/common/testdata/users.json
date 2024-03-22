@@ -165,7 +165,21 @@
     "givenName": "Santhoshkumar",
     "familyName": "Govindasamy",
     "mail": "Santhoshkumar.Govindasamy@walmart.com",
-    "userPrincipalName": "s0g0fhn"
+    "userPrincipalName": "s0g0fhn",
+    "userRoles": [
+      "rno-user",
+      "ml-scenario-modeler",
+      "merchandize-finance-leader",
+      "segment-finance",
+      "functional-finance",
+      "merch-finance",
+      "functional-teams",
+      "functional-teams-wplus",
+      "functional-teams-bb",
+      "anncmt-admin",
+      "centrifuge-super-user",
+      "forecast-executive-summary-user"
+    ]
   },
   {
     "userId": "l0p07dx",
