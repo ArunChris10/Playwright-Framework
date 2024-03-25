@@ -30,6 +30,9 @@ triggers:
   - manual:
       name: Run Adhoc Test
       call: runCustomTest
+      parameters:
+        - playwrightProject: { type: string }
+        - testTag: { type: string label : "Provide the unique tag to run the test"}
         
 parameters:
   - app: { type: string }
