@@ -33,7 +33,7 @@ triggers:
       parameters:
         - testTag: { type: string }
         - playwrightProject: { type: string }
-        - APP_NAME: { type: choice , label: "App Name for run" }
+        - APP_NAME: { type: string , label: "App Name for run" }
         
 parameters:
   - app: { type: string }
