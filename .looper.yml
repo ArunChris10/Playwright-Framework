@@ -33,7 +33,9 @@ triggers:
       parameters:
         - testTag: { type: string }
         - playwrightProject: { type: string }
-        - APP_NAME: { type: string , label: "App Name for run" , value : "UFM,CDF"}
+        - APP_NAME: { type: string , label: "App Name for run"}
+            - UFM
+            - CDF
         
 parameters:
   - app: { type: string }
