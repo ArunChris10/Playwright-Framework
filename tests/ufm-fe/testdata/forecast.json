@@ -2,5 +2,6 @@
     "forecastName": "OpticalForecast",
     "baseForecastName" : "PRIMARY",
     "sbaName" : "Health & wellness",
-    "forecastPreparationName" : "OPTICAL"
+    "forecastPreparationName" : "OPTICAL",
+    "nameOfTheForecastInCreateForecastWindow" : "New OPTICAL"
 }

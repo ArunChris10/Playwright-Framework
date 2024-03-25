@@ -8,6 +8,7 @@ import forecast from '../testdata/forecast.json'
 test.describe('Create Forecast Feature Test @createForecastTest', () => {
  
     test('Check if the user is able to @CreateForecast', async ({ page }) => {
+      test.setTimeout(300000);
       
       let currentForecast : CurrentForecast ;   
       let currentForecastPopup : CreateForecastPopup ;
@@ -38,7 +39,7 @@ test.describe('Create Forecast Feature Test @createForecastTest', () => {
         });
     
         await test.step('Fill input field with "OpticalForecast"', async () => {
-          await currentForecastPopup.fillTheInputField();
+          await currentForecastPopup.fillTheInputField(forecast.nameOfTheForecastInCreateForecastWindow);
          
         });
     
@@ -55,7 +56,7 @@ test.describe('Create Forecast Feature Test @createForecastTest', () => {
     
         await test.step('Verify forecast name', async () => {
           
-          await currentForecastPopup.verifyForecastHasBeenCreatedSuccessfully();
+          await currentForecastPopup.verifyForecastHasBeenCreatedSuccessfully(forecast.forecastName);
         });
       });
     }); 

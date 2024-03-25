@@ -4,6 +4,3 @@ import { Utility } from '../../common/fixtures/utils';
 setup('authenticate', async ({ request }) => {
      await Utility.getNexusFakeToken(process.env.ufmUser,request);
 });
-
-
-

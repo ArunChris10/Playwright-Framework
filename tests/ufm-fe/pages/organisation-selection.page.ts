@@ -20,5 +20,4 @@ export class OrganisationSelection {
     return await this.page.getByText('Choose an organization to view UFM forecasts').isVisible();
   
   }
-
 }

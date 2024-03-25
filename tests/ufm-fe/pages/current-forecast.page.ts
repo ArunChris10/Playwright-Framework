@@ -26,9 +26,7 @@ export class CurrentForecast {
   }
 
   async clickOnCreateForecast(){
-    //await this.page.waitForSelector('text=Create forecast', { state: 'visible', timeout: 160000 });
     await this.createForecastButton.click(); 
     return new CreateForecastPopup(this.page)
   }
-
 }
