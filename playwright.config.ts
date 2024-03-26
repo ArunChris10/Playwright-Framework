@@ -14,7 +14,7 @@ import ibgTokens from './secrets/ibg-users-token.json'
 export default defineConfig({
   testDir: './tests/',
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -42,10 +42,11 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
-    screenshot: 'only-on-failure',
+    screenshot: 'on',
 
     /* Timeouts */
     navigationTimeout: 2*60*1000
+
   },
 
 
@@ -74,13 +75,17 @@ export default defineConfig({
       }
     },
     {
+      name: 'setup-fe',
+      testMatch: /login\.ts/,
+    },
+    {
       name: 'ufm-fe',
       dependencies: ['ui-setup'],
       testMatch: /ufm-fe.*.spec.ts/,
       grep: [new RegExp(process.env.tag + "")],
       use: {
         ...devices['Desktop Chrome'],
-        headless: false,
+        headless: true,
         storageState: 'secrets/nexus-user-storagestate.json',
         launchOptions: {
           args: ['--ignore-certificate-errors',
