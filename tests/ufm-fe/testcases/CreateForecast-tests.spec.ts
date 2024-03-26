@@ -13,7 +13,7 @@ test.describe('Create Forecast Feature Test @createForecastTest', () => {
       let currentForecast : CurrentForecast ;   
       let currentForecastPopup : CreateForecastPopup ;
         
-        await test.step('Click on Health & wellness', async () => {
+        await test.step('Click on the particular SBA' + forecast.sbaName, async () => {
           
           await page.goto(process.env.ufmAppBaseURL, { timeout: 120000 });
           await page.setViewportSize({ width: 1920, height: 1080 });
@@ -38,7 +38,7 @@ test.describe('Create Forecast Feature Test @createForecastTest', () => {
           await currentForecastPopup.clickOnContinueButton();
         });
     
-        await test.step('Fill input field with "OpticalForecast"', async () => {
+        await test.step('Fill input field with forecast name' + forecast.forecastName, async () => {
           await currentForecastPopup.fillTheInputField(forecast.nameOfTheForecastInCreateForecastWindow);
          
         });

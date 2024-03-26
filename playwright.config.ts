@@ -72,7 +72,7 @@ export default defineConfig({
       grep: [new RegExp(process.env.tag + "")],
       use: {
         ...devices['Desktop Chrome'],
-        headless: false,
+        headless: true,
         storageState: 'secrets/nexus-user-storagestate.json',
         launchOptions: {
           args: ['--ignore-certificate-errors',
