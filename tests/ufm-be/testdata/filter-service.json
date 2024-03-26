@@ -1,75 +1,133 @@
 {
-    "endpoint": "/filter/",
-    "filter_selection": {
-        "dim_id": 11,
-        "dim_val_id": 110014,
-        "filter_name": "filter_automation_test",
-        "filter_type": 8,
-        "screen_id": 202,
-        "filters": [
-          {
-            "dim_id": 17,
-            "dim_val_ids": [
-              170001
-            ],
-            "children": [
-              {
-                "dim_id": 16,
-                "dim_val_ids": [
-                  17000101
-                ],
-                "children": []
-              }
-            ]
-          },
-          {
-            "dim_id": 14,
-            "dim_val_ids": [
-              140002
-            ],
-            "children": []
-          },
-          {
-            "dim_id": 7,
-            "dim_val_ids": [
-              70001
-            ],
-            "children": [
-              {
-                "dim_id": 6,
-                "dim_val_ids": [
-                  60005,
-                  60008
-                ],
-                "children": []
-              }
-            ]
-          },
-          {
-            "dim_id": 2,
-            "dim_val_ids": [
-              20002,
-              20003
-            ],
-            "children": [
-              {
-                "dim_id": 1,
-                "dim_val_ids": [
-                  8,
-                  13
-                ],
-                "children": []
-              }
-            ]
-          }
-        ]
-      },
-    "success_message": "filter created successfully",
-    "duplicate_filter_name_response": {
-        "status_code": 400,
-        "details": null,
-        "exception_code": "unexpected_error",
-        "message": "Filter name is already taken"
+  "endpoint": "/filter/",
+  "payloads": [
+    {
+      "dim_id": 11,
+      "dim_val_id": 110014,
+      "filter_name": "Filter Selection",
+      "filter_type": 8,
+      "screen_id": 202,
+      "filters": [
+        {
+          "dim_id": 17,
+          "dim_val_ids": [170001],
+          "children": [
+            {
+              "dim_id": 16,
+              "dim_val_ids": [17000101],
+              "children": []
+            }
+          ]
+        },
+        {
+          "dim_id": 14,
+          "dim_val_ids": [140002],
+          "children": []
+        },
+        {
+          "dim_id": 7,
+          "dim_val_ids": [70001],
+          "children": [
+            {
+              "dim_id": 6,
+              "dim_val_ids": [60005, 60008],
+              "children": []
+            }
+          ]
+        },
+        {
+          "dim_id": 2,
+          "dim_val_ids": [20002, 20003],
+          "children": [
+            {
+              "dim_id": 1,
+              "dim_val_ids": [8, 13],
+              "children": []
+            }
+          ]
+        }
+      ]
     },
-    "delete_message": "filter deleted successfully"
+   {
+      "filter_name": "Node Selection",
+      "filter_type": 9,
+      "screen_id": 201,
+      "filters": [
+        {
+          "driverset": [
+            {
+              "key": "freightandtransportationcosts",
+              "title": "Freight & Transportation Costs",
+              "type": "calculated",
+              "nodeValType": "$",
+              "nodeGrain": ["month", "location", "channel", "department"],
+              "isEditable": false
+            },
+            {
+              "key": "transportationcostscalculated1",
+              "title": "Transportation Costs Calculated",
+              "type": "calculated",
+              "nodeValType": "$",
+              "nodeGrain": ["month", "location", "channel", "department"],
+              "isEditable": false
+            },
+            {
+              "key": "freightandtransportationcostspctofsales_input",
+              "title": "Freight & Transportation Costs % of Sales",
+              "type": "input",
+              "nodeValType": "%",
+              "nodeGrain": ["month", "location", "channel", "department"],
+              "isEditable": true
+            }
+          ],
+          "filterset": [
+            {
+              "dim_id": 6,
+              "filterName": "Channel",
+              "selectedIds": [
+                {
+                  "id": 60009,
+                  "name": "INSTORE_INCLUB"
+                }
+              ]
+            },
+            {
+              "dim_id": 1,
+              "filterName": "Department",
+              "selectedIds": [
+                {
+                  "id": 2,
+                  "name": "2_PERSONAL CARE"
+                },
+                {
+                  "id": 1,
+                  "name": "1_CANDY"
+                }
+              ]
+            },
+            {
+              "dim_id": 17,
+              "filterName": "Entity",
+              "selectedIds": [
+                {
+                  "id": 170009,
+                  "name": "HOME_OFFICE_SUPPORT_OTHER"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dim_id": 11,
+      "dim_val_id": 110014
+    }
+  ],
+  "success_message": "filter created successfully",
+  "duplicate_filter_name_response": {
+    "status_code": 400,
+    "details": null,
+    "exception_code": "unexpected_error",
+    "message": "Filter name is already taken"
+  },
+  "delete_message": "filter deleted successfully"
 }

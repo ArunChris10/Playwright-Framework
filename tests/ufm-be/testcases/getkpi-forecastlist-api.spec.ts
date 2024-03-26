@@ -2,13 +2,13 @@ import testdata from "../testdata/getkpiforecast.json";
 import { test, expect } from "../../common/fixtures/test-hook";
 import debug from "debug";
 
-test.describe("Verify the @GetKPIForecast API @Smoke", () => {
+test.describe("Verify the @GetKPIForecast API @Smoke @Regression", () => {
   let apiResponse, apiResponseBody;
   // API endpoint URL
   const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
   debug.log(endpointURL);
 
-  test("Verify if the user is able to get data for the selected Node and Filter combination", async ({
+  test("Verify if the user is able to get data for the selected @Node and @Filter combination", async ({
     context,
   }) => {
     // Call the Get KPI Forecast API with the filter and Node combination

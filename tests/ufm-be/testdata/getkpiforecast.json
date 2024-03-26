@@ -6,32 +6,24 @@
     "template_id": 3,
     "filters": [
       {
-        "dim_id": 16,
+        "dim_id": 17,
         "dim_val_ids": [
-          17000909
+          170009
         ],
         "children": []
       },
       {
-        "dim_id": 7,
+        "dim_id": 6,
         "dim_val_ids": [
-          70002
+          60009
         ],
-        "children": [
-          {
-            "dim_id": 6,
-            "dim_val_ids": [
-              60009
-            ],
-            "children": []
-          }
-        ]
+        "children": []
       },
       {
         "dim_id": 1,
         "dim_val_ids": [
-          1,
-          2
+          2,
+          1
         ],
         "children": []
       }
@@ -59,9 +51,9 @@
       ],
       "period_view": "month",
       "nodes": [
-        "freightandtransportationcostspctofsales_input",
         "freightandtransportationcosts",
-        "transportationcostscalculated3"
+        "transportationcostscalculated1",
+        "freightandtransportationcostspctofsales_input"
       ],
       "template_include_headers": [
         {
@@ -125,7 +117,7 @@
         },
         {
           "name": "Baseline",
-          "editable": true
+          "editable": false
         }
       ]
     }
