@@ -17,7 +17,7 @@ const ibgAuthFile = "secrets/ibg-user-storagestate.json"
     await page.context().storageState({ path: ibgAuthFile });
   });
 
-  // This Login method is used for Login to UFM Individual URL in IBG APP
+  // This Login method is used for Login to UFM from workbench URL in IBG APP
   // This method logs in by typing in the test account credentials in Login Page
   setup("Login to @UFM using @LabCredentials", async ({ page,request }) => {
     
