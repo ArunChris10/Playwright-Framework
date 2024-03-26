@@ -2,8 +2,10 @@ import { test as setup, expect } from '../../common/fixtures/test-hook'
 import { Utility } from '../../common/fixtures/utils';
 import { LoginPage } from '../pages/login.page';
 import { Home } from "../pages/home.page";
+import { OrganisationSelection } from '../../ufm-fe/pages/organisation-selection.page'
 const nexusAuthFile = 'secrets/nexus-user-storagestate.json';
 const ibgAuthFile = "secrets/ibg-user-storagestate.json"
+
 
 // This Login method is used for Login to IBG app
 // This method logs in by adding the Fake Token into the browser Local storage
@@ -29,8 +31,9 @@ setup('Login to @CDF using @faketoken api', async ({page,request }) => {
     setup.setTimeout(240000);
     const {ufmAppBaseURL,ufmUser} = process.env; 
     const loginPage = new LoginPage(page)
+
     await loginPage.login(ufmAppBaseURL,ufmUser);
-    const homePage : Home = new Home(page);
-    await homePage.checkIfHomepageIsVisible();  
+    const organisationPage: OrganisationSelection = new OrganisationSelection(page);
+    await organisationPage.isOrganisationSelectionNavigated();
     await page.context().storageState({ path: nexusAuthFile })
 });
