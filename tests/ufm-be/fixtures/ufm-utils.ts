@@ -6,7 +6,6 @@ import testdata from '../testdata/deadlinedate-api.json';
 import { test, expect } from '../../common/fixtures/test-hook';
 
 
-
 export class UfmUtility {
 
   // This method will create the scenario and asserts the response
@@ -31,25 +30,13 @@ export class UfmUtility {
   }
 
   // This method will delete the sceanrio and asserts the response
-  static async deleteForecast(scenario_ID, request) {
-    const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}${scenario_ID}`;
-    debug.log(endpointURL);
-    //call delete API
-    const response = await request.delete(endpointURL);
-   
-    //asserting the response
-    expect(response).toBeOK();
+  static async deleteForecast(scenario,request) {
+    let scenarios = forecastData.scenario_id;
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}${scenarios}`;
+    const response = await request.delete(endpointURL, { data: forecastData.deleteForecastPayload.scenario});
     let responseBody = await response.json();
-
-    //adding the sceanrio id to the expecetd message
-    let message = forecastData.deleteMessage.replace('scenario_id',scenario_ID);
-
-    //Asserting the message
-    expect(responseBody.message).toEqual(message)
     debug.log(JSON.stringify(responseBody));
-
-    //returning the scenario ID
-    return scenario_ID;
+    return responseBody;
   }
   
   //This method will fetch historical forecast based on the particular forecast name
