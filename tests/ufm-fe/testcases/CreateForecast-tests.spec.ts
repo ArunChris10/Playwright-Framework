@@ -4,8 +4,6 @@ import { CurrentForecast } from "../pages/current-forecast.page";
 import { CreateForecastPopup} from '../pages/create-forecast.-popup.page';
 import forecast from '../testdata/forecast.json'
 import { UfmUtility } from "../../ufm-be/fixtures/ufm-utils";
-import forecastData from '../../ufm-be/testdata/forecast-api.json';
-  
 
 test.describe('Create Forecast Feature Test @createForecast', () => {
   test.beforeAll(async ({request}) => { await UfmUtility.deleteForecast(forecast.scenario_id,request)});

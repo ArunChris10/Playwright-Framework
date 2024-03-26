@@ -17,18 +17,14 @@
     }
   },
      
-        "deleteForecastPayload":{
-            "scenario":
-
-                  {
-                    "dim_id" : 11,
-                  
-                    "dim_val_id": 110016
-                  }
-                
-
-              },
-            "scenario_id": 13341709794921,
+    "deleteForecastPayload":{
+      "scenario":
+        {
+          "dim_id" : 11,
+          "dim_val_id": 110016
+        }
+    },
+   "scenario_id": 13341709794921,
     
   
   "createSuccessMessage": "Scenario created successfully",
