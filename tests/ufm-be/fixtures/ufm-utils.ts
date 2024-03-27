@@ -29,17 +29,24 @@ export class UfmUtility {
     return responseBody.scenario.scenario_id;
   }
 
-  // This method will delete the sceanrio and asserts the response
-  static async deleteForecast(scenario,request) {
-    let scenarios = forecastData.scenario_id;
-    const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}${scenarios}`;
-    const response = await request.delete(endpointURL, { data: forecastData.deleteForecastPayload.scenario});
-    let responseBody = await response.json();
+  // This method will delete the sceanrio 
+  static async deleteForecast(data, request) 
+  {
+    data = forecastData.scenario_id;
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}${data}`;
+    const payload = {
+        scenario: forecastData.deleteForecastPayload,
+        dim_id: forecastData.deleteForecastPayload.scenario.dim_id,
+        dim_val_id: forecastData.deleteForecastPayload.scenario.dim_val_id
+      };
+    const response = await request.delete(endpointURL, { data: payload });
+    const responseBody = await response.json();
     debug.log(JSON.stringify(responseBody));
     return responseBody;
-  }
-  
-  //This method will fetch historical forecast based on the particular forecast name
+}
+
+
+//This method will fetch historical forecast based on the particular forecast name
   static async GetHistorical(forecastname: string,request){
     let responseData, responseBody
     
