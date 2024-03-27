@@ -118,4 +118,23 @@ export class Utility {
   public static async getLoginPassword(userId) {
     return (await this.getSecret())[userId];
   }
+
+  public static async loginToIBGUsingToken(page,request){
+    const { appBaseURL } = process.env;
+    
+    await page.goto(appBaseURL + "/page-with-no-auth");
+    await page.evaluate(() =>
+      localStorage.setItem("isAutomationTestRunning", JSON.stringify(true))
+    );
+    const token = await Utility.getIBGFakeToken(
+      process.env.cdfUser + "",
+      request
+    );
+    await page.evaluate(
+      (token) => localStorage.setItem("token", JSON.parse(token)),
+      token
+    );
+    const url = appBaseURL + "";
+    await page.goto(url);
+  }
 }
