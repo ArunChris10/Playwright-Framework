@@ -2,9 +2,8 @@ import { test as setup, expect } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import { LoginPage } from "../pages/login.page";
 import { Home } from "../pages/home.page";
-const nexusAuthFile = "secrets/nexus-user-storagestate.json";
-const ibgAuthFile = "secrets/ibg-user-storagestate.json";
-
+const nexusAuthFile = 'secrets/nexus-user-storagestate.json';
+const ibgAuthFile = "secrets/ibg-user-storagestate.json"
 
 
 // This Login method is used for Login to IBG app
