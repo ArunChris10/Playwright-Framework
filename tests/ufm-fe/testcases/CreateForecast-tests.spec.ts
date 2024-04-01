@@ -6,7 +6,7 @@ import forecast from '../testdata/forecast.json'
 import { UfmUtility } from "../../ufm-be/fixtures/ufm-utils";
 
 test.describe('Create Forecast Feature Test @createForecast', () => {
-  test.beforeAll(async ({request}) => { await UfmUtility.deleteForecast(forecast.scenario_id,request)});
+  test.beforeAll(async ({request}) => { await UfmUtility.deleteForecast(forecast.scenario_id,forecast.dim_id,forecast.dim_val_id,request)});
 
     test('Check if the user is able to @createForecast', async ({ page }) => {
       test.setTimeout(300000);

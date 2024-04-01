@@ -1,10 +1,7 @@
-// import { expect } from "@playwright/test";
 import debug from "debug";
 import forecastData from '../testdata/forecast-api.json'
 import hisTestdatafile from '../testdata/historical-forecast.json';
-import testdata from '../testdata/deadlinedate-api.json';
 import { test, expect } from '../../common/fixtures/test-hook';
-
 
 export class UfmUtility {
 
@@ -29,22 +26,21 @@ export class UfmUtility {
     return responseBody.scenario.scenario_id;
   }
 
-  // This method will delete the sceanrio 
-  static async deleteForecast(data, request) 
-  {
-    data = forecastData.scenario_id;
-    const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}${data}`;
-    const payload = {
-        scenario: forecastData.deleteForecastPayload,
-        dim_id: forecastData.deleteForecastPayload.scenario.dim_id,
-        dim_val_id: forecastData.deleteForecastPayload.scenario.dim_val_id
-      };
-    const response = await request.delete(endpointURL, { data: payload });
-    const responseBody = await response.json();
-    debug.log(JSON.stringify(responseBody));
-    return responseBody;
-}
+  // This method will delete the sceanrio
+static async deleteForecast(data, dimId, dimValId, request) {
+  data = forecastData.scenario_id;
+  const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}${data}`;
+  const payload = {
 
+      dim_id: dimId,
+      dim_val_id: dimValId
+    
+  };
+  const response = await request.delete(endpointURL, { data: payload });
+  const responseBody = await response.json();
+  debug.log(JSON.stringify(responseBody));
+  return responseBody;
+}
 
 //This method will fetch historical forecast based on the particular forecast name
   static async GetHistorical(forecastname: string,request){

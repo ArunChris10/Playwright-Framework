@@ -8,6 +8,8 @@ test.describe("The @Forecast API @regression", () => {
 
   test.describe.configure({ timeout: 120_000,mode: 'serial' });
   let forecastCreated;
+  let dimId = forecastData.deleteForecastPayload.scenario.dim_id;
+  let dimValId = forecastData.deleteForecastPayload.scenario.dim_val_id;
 
   test("Verify if the user is able to @createforecast", async ({
     request,
@@ -19,7 +21,7 @@ test.describe("The @Forecast API @regression", () => {
   test("Verify if the user is able to @deleteForecast", async ({
     request
   }) => {
-    let forecastDeleted = await UfmUtility.deleteForecast(forecastCreated,request);
+    let forecastDeleted = await UfmUtility.deleteForecast(forecastCreated,dimId, dimValId, request);
     debug.log("Forecast is deleted  : ", forecastDeleted);
     expect(forecastDeleted).toBeOK();
     let message = forecastData.deleteMessage.replace('scenario_id',forecastCreated);
