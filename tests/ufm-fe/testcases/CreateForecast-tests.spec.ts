@@ -3,11 +3,12 @@ import { OrganisationSelection } from "../pages/organisation-selection.page";
 import { CurrentForecast } from "../pages/current-forecast.page";
 import { CreateForecastPopup} from '../pages/create-forecast.-popup.page';
 import forecast from '../testdata/forecast.json'
-  
+import { UfmUtility } from "../../ufm-be/fixtures/ufm-utils";
 
-test.describe('Create Forecast Feature Test @createForecastTest', () => {
- 
-    test('Check if the user is able to @CreateForecast', async ({ page }) => {
+test.describe('Create Forecast Feature Test @createForecast', () => {
+  test.beforeAll(async ({request}) => { await UfmUtility.deleteForecast(forecast.scenario_id,forecast.dim_id,forecast.dim_val_id,request)});
+
+    test('Check if the user is able to @createForecast', async ({ page }) => {
       test.setTimeout(300000);
       
       let currentForecast : CurrentForecast ;   

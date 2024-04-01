@@ -24,7 +24,7 @@ const ibgAuthFile = "secrets/ibg-user-storagestate.json"
     await Utility.loginToIBGUsingToken(page,request);
     const homePage: Home = new Home(page);
     await homePage.checkIfHomepageIsVisible();
-    await homePage.open("Unified Financial Model 2.0")
+    await homePage.open("Unified Financial Model")
     const { ufmAppBaseURL, ufmUser } = process.env;
     const loginPage = new LoginPage(page);
     await loginPage.login(ufmUser);

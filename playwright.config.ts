@@ -87,6 +87,9 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         headless: true,
         storageState: 'secrets/nexus-user-storagestate.json',
+        extraHTTPHeaders: {
+          "Authorization": `Bearer ${nexusTokens[process.env.ufmUser+""]}`
+        },
         launchOptions: {
           args: ['--ignore-certificate-errors',
           "--start-fullscreen"]
