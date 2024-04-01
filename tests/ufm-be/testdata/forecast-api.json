@@ -5,31 +5,28 @@
       "source": {
         "scenarios": [
           {
-            "scenario_id": 10331700048212
+            "scenario_id": 13341709794921
           }
         ]
       },
       "classification_id": 12,
-      "dimension_id": 10,
-      "dimension_value_id": 1018,
+      "dimension_id": 11,
+      "dimension_value_id": 110016,
       "type": 3,
-      "name": "Optical Feb FY25 Forecast"
-    },
-    "merch": {
-      "source": {
-        "scenarios": [
-          {
-            "scenario_id": 10331700048212
-          }
-        ]
-      },
-      "classification_id": 12,
-      "dimension_id": 10,
-      "dimension_value_id": 1016,
-      "type": 3,
-      "name": "Merch Feb FY25 Forecast"
+      "name": "Optical May FY25 Forecast"
     }
   },
+     
+    "deleteForecastPayload":{
+      "scenario":
+        {
+          "dim_id" : 11,
+          "dim_val_id": 110016
+        }
+    },
+   "scenario_id": 13341709794921,
+    
+  
   "createSuccessMessage": "Scenario created successfully",
   "createAlreadyMessage": "Forecast scenario is already created for current period!",
   "deleteMessage": "Scenario scenario_id deleted successfully",
