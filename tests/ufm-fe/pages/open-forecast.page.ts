@@ -1,5 +1,4 @@
-import { expect, Locator, Page } from "@playwright/test";
-import forecast from '../testdata/forecast.json';
+import { Locator, Page } from "@playwright/test";
 
 export class OpenCurrentForecast{
 
