@@ -35,6 +35,7 @@ export class CurrentForecast {
   async verifySBAName(breadCrumName:string) {
 
     const sbaNameText = await this.page.getByText(`${breadCrumName}`).innerText();
+    console.log(sbaNameText)
     expect(sbaNameText).toBe(forecast.Merch.sbaBreadCrumName);
     return new OpenCurrentForecast(this.page);
   }

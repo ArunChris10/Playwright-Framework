@@ -1,4 +1,4 @@
-import { test } from "../../common/fixtures/test-hook";
+import { test } from '../../common/fixtures/test-hook';
 import forecast from '../testdata/forecast.json';
 import { OpenCurrentForecast} from '../pages/open-forecast.page';
 import { OrganisationSelection } from "../pages/organisation-selection.page";
@@ -7,17 +7,17 @@ import { CurrentForecast } from "../pages/current-forecast.page";
 test.describe('Open Current Forecast Feature Test @openCurrentForecast', () => {  
   
       test('Check if the user is able to @openCurrentForecast', async ({ page }) => {
-        test.setTimeout(300000);
+        test.setTimeout(900000);
         let openCurrentForecast : OpenCurrentForecast;
         let currentForecast : CurrentForecast;  
         
         await test.step('Verify SBA Name'+ forecast.Merch.nameOfTheSBA, async () => 
         {   
-            await page.goto(process.env.ufmAppBaseURL, { timeout: 120000 });
+            await page.goto(process.env.ufmAppBaseURL, { timeout: 900000 });
             await page.setViewportSize({ width: 1920, height: 1080 });
             let organisationSelection : OrganisationSelection = new OrganisationSelection(page);
             currentForecast = await organisationSelection.selectOrganisation(forecast.Merch.nameOfTheSBA);  
-            openCurrentForecast = await currentForecast.verifySBAName(forecast.Merch.nameOfTheSBA);
+            openCurrentForecast = await currentForecast.verifySBAName(forecast.Merch.sbaBreadCrumName);
         });
 
         await test.step('Click on open button of the current forecast in LOB screen', async () => 

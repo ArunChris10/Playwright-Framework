@@ -85,7 +85,7 @@ export default defineConfig({
       grep: [new RegExp(process.env.tag + "")],
       use: {
         ...devices['Desktop Chrome'],
-        headless: false,
+        headless: true,
         storageState: 'secrets/nexus-user-storagestate.json',
         extraHTTPHeaders: {
           "Authorization": `Bearer ${nexusTokens[process.env.ufmUser+""]}`
