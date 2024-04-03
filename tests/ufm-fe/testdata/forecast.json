@@ -1,10 +1,18 @@
 {
-    "forecastName": "OpticalForecast",
-    "baseForecastName" : "PRIMARY",
-    "sbaName" : "Health & wellness",
-    "forecastPreparationName" : "OPTICAL",
-    "nameOfTheForecastInCreateForecastWindow" : "New OPTICAL",
-    "scenario_id": 13341709794921,
-    "dim_id" : 11,
-    "dim_val_id": 110016
-}
+    "Optical": {
+        
+        "forecastName": "OpticalForecast",
+        "baseForecastName" : "PRIMARY",
+        "sbaName" : "Health & wellness",
+        "forecastPreparationName" : "OPTICAL",
+        "nameOfTheForecastInCreateForecastWindow": "New OPTICAL",
+        "scenario_id": 13341709794921,
+        "dim_id": 11,
+        "dim_val_id": 110016
+    },
+    "Merch": {
+
+        "nameOfTheSBA": "Merchandising",
+        "sbaBreadCrumName": "UFM Merchandising"
+    }
+  }

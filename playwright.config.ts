@@ -78,24 +78,35 @@ export default defineConfig({
       name: 'setup-fe',
       testMatch: /login\.ts/,
     },
-    {
-      name: 'ufm-fe',
-      dependencies: ['ui-setup'],
-      testMatch: /ufm-fe.*.spec.ts/,
-      grep: [new RegExp(process.env.tag + "")],
-      use: {
-        ...devices['Desktop Chrome'],
-        headless: true,
-        storageState: 'secrets/nexus-user-storagestate.json',
-        extraHTTPHeaders: {
-          "Authorization": `Bearer ${nexusTokens[process.env.ufmUser+""]}`
-        },
-        launchOptions: {
-          args: ['--ignore-certificate-errors',
-          "--start-fullscreen"]
-        },        
-      }
-    },
+
+  {
+
+    name: 'ufm-fe',
+    dependencies: ['ui-setup'],
+    testMatch: /ufm-fe.*.spec.ts/,
+    grep: [new RegExp(process.env.tag + "")],
+    use: {
+      
+      ...devices['Desktop Chrome'],
+     
+      headless: true,
+      viewport: {
+        width:1920,height:1080
+      },
+
+      storageState: 'secrets/nexus-user-storagestate.json',
+      extraHTTPHeaders: {
+        "Authorization": `Bearer ${nexusTokens[process.env.ufmUser+""]}`
+      },
+      launchOptions: {
+              args: ['--ignore-certificate-errors',
+              "--start-fullscreen"]
+      }, 
+           
+    }
+  },
+
+
     {
       name: 'cdf-be',
       dependencies: ['api-setup'],
