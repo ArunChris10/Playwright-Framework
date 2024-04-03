@@ -27,9 +27,9 @@ export class UfmUtility {
   }
 
   // This method will delete the sceanrio
-static async deleteForecast(data, dimId, dimValId, request) {
-  data = forecastData.scenario_id;
-  const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}${data}`;
+static async deleteForecast(scenario_id, dimId, dimValId, request) {
+
+  const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}${scenario_id}`;
   const payload = {
 
       dim_id: dimId,

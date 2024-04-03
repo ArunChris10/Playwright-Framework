@@ -7,7 +7,7 @@ envs:
     variables:
       REPO_NAME: ALL #default value for all apps
       APP_NAME: BLANK
-      UFM_REPOS:  #add app names here, this needs to be the same as conf.js -> testSuite
+      UFM_REPOS:  #add app names here
         - ibg-ufm-metadata-service
         - ibg-ufm-core-service
         - ibg-ufm-domino-service
@@ -27,7 +27,13 @@ triggers:
   - manual:
       name: Run UFM UI Regression
       call: runUFMFeTests
-
+  - manual:
+      name: Run Adhoc Test
+      call: runCustomTest
+      parameters:
+        - playwrightProject: { type: string , label : "Provide the project name that matches with the one in the playwright config file"}
+        - testTag: { type: string , label : "Provide the unique tag to run the test"}
+        
 parameters:
   - app: { type: string }
   - envr: { type: string }
@@ -86,6 +92,13 @@ flows:
       - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests 
     finally:
       - call: reporter
+  runCustomTest:
+    try:
+      - echo "Running Custom TestCase Manual Trigger "
+      - call: setup
+      - APP_NAME=$app tag=$testTag PROJECT=$playwrightProject ENV=$envr npm run tests:looper-tests
+    finally:
+      - call: reporter      
 
   setup:
       - npm install
