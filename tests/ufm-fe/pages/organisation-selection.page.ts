@@ -3,8 +3,7 @@ import { CurrentForecast } from "./current-forecast.page";
 
 export class OrganisationSelection {
   readonly page: Page;
-  readonly UFM: Locator;
-
+  
   constructor(page: Page) {
     this.page = page;
 
