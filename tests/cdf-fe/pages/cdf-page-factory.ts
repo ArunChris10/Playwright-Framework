@@ -1,11 +1,10 @@
 import { Page } from "@playwright/test";
-import { PageFactory } from "../../common/pages/page-factory";
 import { CopyScenario } from "./copy-scenario.page";
 import { DemandWorkspace } from "./demand-workspace.page";
 
 export class CDFPageFactory {
 
-  private readonly page:Page;
+  private readonly page: Page;
   constructor(page: Page) {
     this.page = page;
   }

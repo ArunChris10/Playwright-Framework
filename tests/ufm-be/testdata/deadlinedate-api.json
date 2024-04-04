@@ -1,6 +1,6 @@
 {
     "endpoint": "/scenario/forecast-date",
-    "queryParams":{
+    "queryParams": {
         "dim_id": 12,
         "dim_val_id": 120004
     },

@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 import testdata from '../testdata/dropdown-api.json';
 
-
 test('dropdowms API ', async ({ request }) => {
   // const bearertoken = await authToken.getBearerToken();
   const { token, apiBaseURLUFM } = process.env;

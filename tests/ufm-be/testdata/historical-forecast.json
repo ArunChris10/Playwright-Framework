@@ -10,7 +10,8 @@
             },
             "forecastname": "RX"
         },
-         {   "queryParams": {
+        {
+            "queryParams": {
                 "dim_id": "10",
                 "classification_id": "12",
                 "dim_val_id": "1018"
@@ -25,8 +26,5 @@
             },
             "forecastname": "CMO"
         }
-
-        
-        
     ]
 }

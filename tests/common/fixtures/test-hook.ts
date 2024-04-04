@@ -3,7 +3,7 @@ import { test as base, expect } from '@playwright/test';
 import { Utility } from './utils';
 import { PageFactory } from '../pages/page-factory';
 
-export const test = base.extend<{ saveLogs: void , pageFactory : PageFactory }>({
+export const test = base.extend<{ saveLogs: void, pageFactory: PageFactory }>({
   saveLogs: [async ({ }, use, testInfo) => {
     // Collecting logs during the test.
     const logs: String[] = [];
@@ -15,9 +15,9 @@ export const test = base.extend<{ saveLogs: void , pageFactory : PageFactory }>(
     await Utility.addLogs(testInfo, logs)
   }, { auto: true }],
 
-  pageFactory: async ({ browser}, use) => {
+  pageFactory: async ({ browser }, use) => {
     await use(new PageFactory(await browser.newPage()))
-},
-  
+  },
+
 });
 export { expect } from '@playwright/test';

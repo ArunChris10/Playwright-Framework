@@ -62,7 +62,7 @@ export class Utility {
 
     debug.log("fetching token for : ", JSON.stringify(user.userId));
     const adminSecret = (await this.getSecret())["nexus"].adminSecret[
-      process.env.envName+""
+      process.env.envName + ""
     ];
     const responseBody = await request.post(
       `${process.env.nexusAuthTokenURL}`,
@@ -119,10 +119,10 @@ export class Utility {
     return (await this.getSecret())[userId];
   }
 
-  public static async loginToIBGUsingToken(page,request){
+  public static async loginToIBGUsingToken(page, request) {
     const { appBaseURL } = process.env;
-    
-    await page.goto(appBaseURL + "/page-with-no-auth",{timeout:300000});
+
+    await page.goto(appBaseURL + "/page-with-no-auth", { timeout: 300000 });
     await page.evaluate(() =>
       localStorage.setItem("isAutomationTestRunning", JSON.stringify(true))
     );
@@ -138,7 +138,7 @@ export class Utility {
     await page.goto(url);
   }
 
-  public static async waitForLoaderToBeInvisible (page) {
+  public static async waitForLoaderToBeInvisible(page) {
     await page
       .getByRole("img", { name: "loading" })
       .first()
