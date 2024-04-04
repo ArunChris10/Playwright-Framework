@@ -22,4 +22,8 @@ export class Home {
     await expect(this.pageHeading).toBeVisible();
   }
 
+  async checkAlertMessageFor(message: string) {
+    await expect(this.page.locator("#root")).toContainText(message);
+  }
+
 }

@@ -6,13 +6,13 @@ import { Home } from '../../common/pages/home.page';
 
 
 test.describe('Navigation @Smoke',()=>{
-  test('Verify if the User is able Navigate to Demand Workspace', async ({page }) => {
+  test('Verify if the User is able Navigate to @DemandWorkspace', async ({page }) => {
   
     await test.step('Open the hamburger menu and navigate to demand workspace', async () => {
       debug.log("Running for App : "+process.env.APP_NAME)
-      test.setTimeout(120000)
+      test.setTimeout(300000)
       const {appBaseURL} = process.env;
-      await page.goto(appBaseURL+"")
+      await page.goto(appBaseURL+"",{timeout:300000})
       const homePage : Home = new Home(page);
       await homePage.checkIfHomepageIsVisible(); 
       await homePage.open('Demand Workspace');

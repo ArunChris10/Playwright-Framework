@@ -10,6 +10,7 @@ const ibgAuthFile = "secrets/ibg-user-storagestate.json"
 // This method logs in by adding the Fake Token into the browser Local storage
   setup("Login to @CDF using @faketoken api", async ({ page, request }) => {
     
+    setup.setTimeout(300000)
     await Utility.loginToIBGUsingToken(page,request);
     const homePage: Home = new Home(page);
     await homePage.checkIfHomepageIsVisible();

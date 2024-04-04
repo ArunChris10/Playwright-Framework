@@ -1,0 +1,9 @@
+{
+    "dssName":"Test Automation DSS ReplaceTimestamp",
+    "description":"Test scenario description",
+    
+    "msgDeleteSuccess":"Demand stack scenario deleted successfully.",
+    "msgLockSuccess":"Demand stack scenario locked successfully.",
+    "msgUnlockSuccess":"Demand stack scenario unlocked successfully.",
+    "msgCopyStarted":"Copy from the Demand Stack is happening in the back end and it could take minutes."
+}

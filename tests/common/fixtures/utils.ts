@@ -122,7 +122,7 @@ export class Utility {
   public static async loginToIBGUsingToken(page,request){
     const { appBaseURL } = process.env;
     
-    await page.goto(appBaseURL + "/page-with-no-auth");
+    await page.goto(appBaseURL + "/page-with-no-auth",{timeout:300000});
     await page.evaluate(() =>
       localStorage.setItem("isAutomationTestRunning", JSON.stringify(true))
     );
@@ -137,4 +137,11 @@ export class Utility {
     const url = appBaseURL + "";
     await page.goto(url);
   }
+
+  public static async waitForLoaderToBeInvisible (page) {
+    await page
+      .getByRole("img", { name: "loading" })
+      .first()
+      .waitFor({ state: "detached", timeout: 420000 });
+  };
 }

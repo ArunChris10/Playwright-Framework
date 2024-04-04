@@ -61,7 +61,15 @@ export default defineConfig({
     {
       name: 'ui-setup',
       testMatch: /ui-auth-setup\.ts/,
-      grep: [new RegExp(process.env.APP_NAME + "")]
+      grep: [new RegExp(process.env.APP_NAME + "")],
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'secrets/ibg-user-storagestate.json',
+        launchOptions: {
+          args: ['--ignore-certificate-errors',
+          "--start-fullscreen"]
+        },                
+      }
     },
     {
       name: 'ufm-be',

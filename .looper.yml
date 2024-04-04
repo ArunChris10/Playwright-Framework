@@ -105,6 +105,8 @@ flows:
       - npx playwright install chromium
       - echo '{}' > secrets/nexus-users-token.json
       - echo '{}' > secrets/ibg-users-token.json
+      - echo '{}' > secrets/ibg-user-storagestate.json
+      - echo '{}' > secrets/nexus-user-storagestate.json
   reporter:
     - publishReport:
         context: playwright
