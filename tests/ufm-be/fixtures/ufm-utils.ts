@@ -1,7 +1,7 @@
 import debug from "debug";
 import forecastData from '../testdata/forecast-api.json'
 import hisTestdatafile from '../testdata/historical-forecast.json';
-import { test, expect } from '../../common/fixtures/test-hook';
+import { expect } from '../../common/fixtures/test-hook';
 
 export class UfmUtility {
 
@@ -27,35 +27,35 @@ export class UfmUtility {
   }
 
   // This method will delete the sceanrio
-static async deleteForecast(scenario_id, dimId, dimValId, request) {
+  static async deleteForecast(scenario_id, dimId, dimValId, request) {
 
-  const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}${scenario_id}`;
-  const payload = {
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}${scenario_id}`;
+    const payload = {
 
       dim_id: dimId,
       dim_val_id: dimValId
-    
-  };
-  const response = await request.delete(endpointURL, { data: payload });
-  const responseBody = await response.json();
-  debug.log(JSON.stringify(responseBody));
-  return responseBody;
-}
 
-//This method will fetch historical forecast based on the particular forecast name
-  static async GetHistorical(forecastname: string,request){
-    let responseData, responseBody
-    
-    const historicalEndpointURL = `${process.env.apiBaseURLUFM}${hisTestdatafile.endpoint}`
-    const body = hisTestdatafile.sba_datas.filter((forecast) => (forecast.forecastname=== forecastname));
-
-      responseData = await request.get(historicalEndpointURL, {
-          params: {
-            ...body["queryParams"]
-          }
-      })
-      responseBody = await responseData.json();
-      return responseBody;
-      ;
-  };
+    };
+    const response = await request.delete(endpointURL, { data: payload });
+    const responseBody = await response.json();
+    debug.log(JSON.stringify(responseBody));
+    return responseBody;
   }
+
+  //This method will fetch historical forecast based on the particular forecast name
+  static async GetHistorical(forecastname: string, request) {
+    let responseData, responseBody
+
+    const historicalEndpointURL = `${process.env.apiBaseURLUFM}${hisTestdatafile.endpoint}`
+    const body = hisTestdatafile.sba_datas.filter((forecast) => (forecast.forecastname === forecastname));
+
+    responseData = await request.get(historicalEndpointURL, {
+      params: {
+        ...body["queryParams"]
+      }
+    })
+    responseBody = await responseData.json();
+    return responseBody;
+    ;
+  };
+}

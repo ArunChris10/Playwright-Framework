@@ -1,124 +1,124 @@
 {
-    "endpoint": "/reports/get-mykpi",
-    "dim_id": 11,
-    "dim_val_id": 110014,
-    "classification_id": 12,
-    "template_id": 3,
-    "filters": [
-      {
-        "dim_id": 17,
-        "dim_val_ids": [
-          170009
-        ],
-        "children": []
-      },
-      {
-        "dim_id": 6,
-        "dim_val_ids": [
-          60009
-        ],
-        "children": []
-      },
-      {
-        "dim_id": 1,
-        "dim_val_ids": [
-          2,
-          1
-        ],
-        "children": []
-      }
-    ],
-    "additional_filters": {
-      "pivot_cols": [
-        "month"
+  "endpoint": "/reports/get-mykpi",
+  "dim_id": 11,
+  "dim_val_id": 110014,
+  "classification_id": 12,
+  "template_id": 3,
+  "filters": [
+    {
+      "dim_id": 17,
+      "dim_val_ids": [
+        170009
       ],
-      "pivot_index": [
-        "node_id"
+      "children": []
+    },
+    {
+      "dim_id": 6,
+      "dim_val_ids": [
+        60009
       ],
-      "periods": [
-        "202501",
-        "202502",
-        "202503",
-        "202504",
-        "202505",
-        "202506",
-        "202507",
-        "202508",
-        "202509",
-        "202510",
-        "202511",
-        "202512"
+      "children": []
+    },
+    {
+      "dim_id": 1,
+      "dim_val_ids": [
+        2,
+        1
       ],
-      "period_view": "month",
-      "nodes": [
-        "freightandtransportationcosts",
-        "transportationcostscalculated1",
-        "freightandtransportationcostspctofsales_input"
-      ],
-      "template_include_headers": [
-        {
-          "name": "Driver"
-        },
-        {
-          "name": "202501",
-          "columnsMenuParams": "middleColumns"
-        },
-        {
-          "name": "202502",
-          "columnsMenuParams": "middleColumns"
-        },
-        {
-          "name": "202503",
-          "columnsMenuParams": "middleColumns"
-        },
-        {
-          "name": "202504",
-          "columnsMenuParams": "middleColumns"
-        },
-        {
-          "name": "202505",
-          "columnsMenuParams": "middleColumns"
-        },
-        {
-          "name": "202506",
-          "columnsMenuParams": "middleColumns"
-        },
-        {
-          "name": "202507",
-          "columnsMenuParams": "middleColumns"
-        },
-        {
-          "name": "202508",
-          "columnsMenuParams": "middleColumns"
-        },
-        {
-          "name": "202509",
-          "columnsMenuParams": "middleColumns"
-        },
-        {
-          "name": "202510",
-          "columnsMenuParams": "middleColumns"
-        },
-        {
-          "name": "202511",
-          "columnsMenuParams": "middleColumns"
-        },
-        {
-          "name": "202512",
-          "columnsMenuParams": "middleColumns"
-        },
-        {
-          "name": "",
-          "columnsMenuParams": "fixedColumns"
-        },
-        {
-          "name": "Allocation Method",
-          "columnsMenuParams": "action"
-        },
-        {
-          "name": "Baseline",
-          "editable": false
-        }
-      ]
+      "children": []
     }
+  ],
+  "additional_filters": {
+    "pivot_cols": [
+      "month"
+    ],
+    "pivot_index": [
+      "node_id"
+    ],
+    "periods": [
+      "202501",
+      "202502",
+      "202503",
+      "202504",
+      "202505",
+      "202506",
+      "202507",
+      "202508",
+      "202509",
+      "202510",
+      "202511",
+      "202512"
+    ],
+    "period_view": "month",
+    "nodes": [
+      "freightandtransportationcosts",
+      "transportationcostscalculated1",
+      "freightandtransportationcostspctofsales_input"
+    ],
+    "template_include_headers": [
+      {
+        "name": "Driver"
+      },
+      {
+        "name": "202501",
+        "columnsMenuParams": "middleColumns"
+      },
+      {
+        "name": "202502",
+        "columnsMenuParams": "middleColumns"
+      },
+      {
+        "name": "202503",
+        "columnsMenuParams": "middleColumns"
+      },
+      {
+        "name": "202504",
+        "columnsMenuParams": "middleColumns"
+      },
+      {
+        "name": "202505",
+        "columnsMenuParams": "middleColumns"
+      },
+      {
+        "name": "202506",
+        "columnsMenuParams": "middleColumns"
+      },
+      {
+        "name": "202507",
+        "columnsMenuParams": "middleColumns"
+      },
+      {
+        "name": "202508",
+        "columnsMenuParams": "middleColumns"
+      },
+      {
+        "name": "202509",
+        "columnsMenuParams": "middleColumns"
+      },
+      {
+        "name": "202510",
+        "columnsMenuParams": "middleColumns"
+      },
+      {
+        "name": "202511",
+        "columnsMenuParams": "middleColumns"
+      },
+      {
+        "name": "202512",
+        "columnsMenuParams": "middleColumns"
+      },
+      {
+        "name": "",
+        "columnsMenuParams": "fixedColumns"
+      },
+      {
+        "name": "Allocation Method",
+        "columnsMenuParams": "action"
+      },
+      {
+        "name": "Baseline",
+        "editable": false
+      }
+    ]
   }
+}

@@ -3,11 +3,11 @@ import { test, expect } from "../../common/fixtures/test-hook";
 import debug from "debug";
 
 testdata.payloads.forEach(payload => {
-  test.describe("Verify the @Filter API for "+payload.filter_name+" @Regression", () => {
+  test.describe("Verify the Filter API for " + payload.filter_name, { tag: "@Smoke, @filter, @Regression" }, () => {
     test.describe.configure({ mode: "serial" });
-  
+
     // variable used to store the filter id and use it across the tests under this describe
-    let filter_id : string;
+    let filter_id: string;
     let apiResponse, apiResponseBody;
     // API endpoint URL
     const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
@@ -18,9 +18,9 @@ testdata.payloads.forEach(payload => {
       dim_id: payload.dim_id,
       dim_val_id: payload.dim_val_id,
     };
-  
-  
-    test('Verify if the user is able to @saveFilter with '+payload.filter_name, async ({ context }) => {
+
+
+    test('Verify if the user is able to @saveFilter with ' + payload.filter_name, async ({ context }) => {
       //post request for saving the filter
       await test.step('Make a Post Request for Saving the Filter', async () => {
         debug.log('Make a Post Request for Saving the Filter');
@@ -30,16 +30,16 @@ testdata.payloads.forEach(payload => {
         apiResponseBody = await apiResponse.json();
         debug.log(JSON.stringify(apiResponseBody));
       })
-  
+
       //Assertion
       await test.step('Check if the response message is success', async () => {
         expect(apiResponse).toBeOK();
         expect(apiResponseBody).toEqual(testdata.success_message)
       })
-  
+
     });
-  
-    test("Verify if the user is not able to save a @duplicateFilter with "+payload.filter_name, async ({
+
+    test("Verify if the user is not able to save a @duplicateFilter with " + payload.filter_name, async ({
       context,
     }) => {
       //post request for saving the filter
@@ -50,15 +50,15 @@ testdata.payloads.forEach(payload => {
         apiResponseBody = await apiResponse.json();
         debug.log(JSON.stringify(apiResponseBody));
       });
-  
+
       //Assertion
       await test.step("Check the response message for duplicate filter", async () => {
         expect(apiResponse).toBeOK();
         expect(apiResponseBody).toEqual(testdata.duplicate_filter_name_response);
       });
     });
-  
-    test("Verify if the user is able to see the saved filter from @getFilter with "+payload.filter_name, async ({
+
+    test("Verify if the user is able to see the saved filter from @getFilter with " + payload.filter_name, async ({
       request,
     }) => {
       //get request to fetch the available filters
@@ -71,7 +71,7 @@ testdata.payloads.forEach(payload => {
         debug.log(JSON.stringify(apiResponseBody));
         expect(apiResponse).toBeOK();
       });
-  
+
       await test.step("Check if the created Filter is available in the results", async () => {
         //extracting the filter names from the response into an Array
         const filterNames: String[] = apiResponseBody.map(
@@ -80,7 +80,7 @@ testdata.payloads.forEach(payload => {
         //Assertion
         expect(filterNames).toContain(payload.filter_name);
       });
-  
+
       //Extracting the Filter ID that has been created and storing it in the filter_id to use it in other testcases
       await test.step("Save the Filter ID of the created filter", async () => {
         apiResponseBody.forEach((filterJson) => {
@@ -91,16 +91,16 @@ testdata.payloads.forEach(payload => {
         debug.log(`Filter Id : ${filter_id}`);
       });
     });
-    test("Verify if the user is able to see the saved filter by filterid @getFilterbyfilterid with "+payload.filter_name, async ({
+    test("Verify if the user is able to see the saved filter by filterid @getFilterbyfilterid with " + payload.filter_name, async ({
       request,
     }) => {
       //get request to fetch the filter by filter id
-  
+
       const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}${filter_id}`;
       debug.log(endpointURL);
-  
+
       await test.step("Fetch the filter by filter id for the screen", async () => {
-        apiResponse = await request.get(`${endpointURL}`,{
+        apiResponse = await request.get(`${endpointURL}`, {
           params: queryParams,
         });
         apiResponseBody = await apiResponse.json();
@@ -108,7 +108,7 @@ testdata.payloads.forEach(payload => {
         debug.log(JSON.stringify(apiResponseBody));
         expect(apiResponse).toBeOK();
       });
-  
+
       await test.step("Check if the searched Filter is available in the results", async () => {
         //Assertion
         expect(apiResponseBody.filter_name).toContain(
@@ -117,15 +117,15 @@ testdata.payloads.forEach(payload => {
         expect(apiResponseBody.filter_id.toLowerCase()).toEqual(`${filter_id.toLowerCase()}`); // check there is only 1 record in results
       });
     });
-  
-    test("Verify if the user is able to @deleteFilter with "+payload.filter_name, async ({
+
+    test("Verify if the user is able to @deleteFilter with " + payload.filter_name, async ({
       request,
     }) => {
       // delete request to delete the filter
       await test.step("Delete the created filter", async () => {
         apiResponse = await request.delete(endpointURL, {
           params: { filter_id: filter_id },
-          data:{
+          data: {
             ...payload,
           }
         });
@@ -138,7 +138,7 @@ testdata.payloads.forEach(payload => {
         apiResponseBody = await apiResponse.json();
         expect(apiResponseBody).toEqual(testdata.delete_message);
       });
-  
+
       // Make sure the filter deleted successfully by checking the get filters call
       await test.step("Get the Filters available for the screen", async () => {
         apiResponse = await request.get(endpointURL, {
@@ -156,11 +156,11 @@ testdata.payloads.forEach(payload => {
         expect(filter_ids).not.toContain(filter_id.toLowerCase());
       });
     });
-  
-    test.afterAll('Remove the filters created',async ({request})=>{
+
+    test.afterAll('Remove the filters created', async ({ request }) => {
       apiResponse = await request.delete(endpointURL, {
         params: { filter_id: filter_id },
-        data:{
+        data: {
           ...payload,
         }
       });

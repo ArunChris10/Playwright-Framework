@@ -1,62 +1,59 @@
 import { expect, Locator, Page } from "@playwright/test";
-import forecast from '../testdata/forecast.json'
+export class CreateForecastPopup {
 
-export class CreateForecastPopup{
+  readonly page: Page;
+  readonly btncreateForecastButton: Locator;
+  readonly btnContinue: Locator;
+  readonly drpBaseForecastOption: Locator;
+  readonly btnForecastCreateFinalOption: Locator;
+  readonly spinner: Locator;
 
-    readonly page: Page;
-    readonly btncreateForecastButton: Locator;
-    readonly btnContinue: Locator;
-    readonly drpBaseForecastOption: Locator;
-    readonly btnForecastCreateFinalOption: Locator;
-    readonly spinner: Locator;
-    
-    constructor(page: Page) {
+  constructor(page: Page) {
 
-        this.page = page;
-        this.btncreateForecastButton = page.getByText('Create forecast');
-        this.btnContinue = page.getByText('Continue');
-        this.drpBaseForecastOption = page.locator('select');
-        this.spinner = page.locator("//span[contains(@class, 'Spinner')]");
-        this.btnForecastCreateFinalOption = page.getByTestId("create-forecast-id");
-      }
+    this.page = page;
+    this.btncreateForecastButton = page.getByText('Create forecast');
+    this.btnContinue = page.getByText('Continue');
+    this.drpBaseForecastOption = page.locator('select');
+    this.spinner = page.locator("//span[contains(@class, 'Spinner')]");
+    this.btnForecastCreateFinalOption = page.getByTestId("create-forecast-id");
+  }
 
-      async clickOnCreateForecast(){
-         
-        await this.clickOnCreateForecast();
-      }
-    
-      async clickOnPrepareTheForecastForParticularDrivers(forecastPreparationName: string) {
-        await this.page.getByText(`Prepare the forecast for ${forecastPreparationName} drivers.`).click();
-      }
+  async clickOnCreateForecast() {
 
-      async clickOnContinueButton(){
+    await this.clickOnCreateForecast();
+  }
 
-        await this.btnContinue.click();
-      }
+  async clickOnPrepareTheForecastForParticularDrivers(forecastPreparationName: string) {
+    await this.page.getByText(`Prepare the forecast for ${forecastPreparationName} drivers.`).click();
+  }
 
-      async fillTheInputField(forecastName: string){
+  async clickOnContinueButton() {
 
-        await this.page.getByPlaceholder(`${forecastName}`).fill("OpticalForecast");
-      }
+    await this.btnContinue.click();
+  }
 
-      async selectBaseForecastPrimaryOption(baseForecastsPrimary:string){
+  async fillTheInputField(forecastName: string) {
 
-        await this.drpBaseForecastOption.selectOption({ label: baseForecastsPrimary });
-        
-      }
+    await this.page.getByPlaceholder(`${forecastName}`).fill("OpticalForecast");
+  }
 
-      async clickOnCreateForecastFinalButton(){
-      
-        await this.btnForecastCreateFinalOption.click();
+  async selectBaseForecastPrimaryOption(baseForecastsPrimary: string) {
 
-      }
+    await this.drpBaseForecastOption.selectOption({ label: baseForecastsPrimary });
 
-      async verifyForecastHasBeenCreatedSuccessfully(finalForecastCreated: string){
-        
-        await this.spinner.waitFor({ state: 'visible' , timeout: 300000 });
-        await this.spinner.waitFor({ state: 'detached' , timeout: 420000 });
-        const forecastNameText = await this.page.getByText(`${finalForecastCreated}`).innerText();
-        expect(forecastNameText).toBe(forecast.forecastName);
-      
-      }
+  }
+
+  async clickOnCreateForecastFinalButton() {
+
+    await this.btnForecastCreateFinalOption.click();
+
+  }
+
+  async verifyForecastHasBeenCreatedSuccessfully(finalForecastCreated: string) {
+
+    await this.spinner.waitFor({ state: 'visible', timeout: 300000 });
+    await this.spinner.waitFor({ state: 'detached', timeout: 420000 });
+    await expect(this.page.getByText(`${finalForecastCreated}`)).toBeVisible();
+
+  }
 }

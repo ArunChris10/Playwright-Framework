@@ -22,7 +22,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: process.env.CI ?[['html'],['@walmartlabs/testburst-playwright-js-reporter'] ]:"html",
+  reporter: process.env.CI ? [['html'], ['@walmartlabs/testburst-playwright-js-reporter']] : "html",
   //reporter: "html",
   //reporter: 'allure-playwright',
   /* maximum time each test can run for */
@@ -45,7 +45,7 @@ export default defineConfig({
     screenshot: 'on',
 
     /* Timeouts */
-    navigationTimeout: 2*60*1000
+    navigationTimeout: 2 * 60 * 1000
 
   },
 
@@ -67,8 +67,8 @@ export default defineConfig({
         storageState: 'secrets/ibg-user-storagestate.json',
         launchOptions: {
           args: ['--ignore-certificate-errors',
-          "--start-fullscreen"]
-        },                
+            "--start-fullscreen"]
+        },
       }
     },
     {
@@ -78,7 +78,7 @@ export default defineConfig({
       grep: [new RegExp(process.env.tag + "")],
       use: {
         extraHTTPHeaders: {
-          "Authorization": `Bearer ${nexusTokens[process.env.ufmUser+""]}`
+          "Authorization": `Bearer ${nexusTokens[process.env.ufmUser + ""]}`
         }
       }
     },
@@ -87,32 +87,32 @@ export default defineConfig({
       testMatch: /login\.ts/,
     },
 
-  {
+    {
 
-    name: 'ufm-fe',
-    dependencies: ['ui-setup'],
-    testMatch: /ufm-fe.*.spec.ts/,
-    grep: [new RegExp(process.env.tag + "")],
-    use: {
-      
-      ...devices['Desktop Chrome'],
-     
-      headless: true,
-      viewport: {
-        width:1920,height:1080
-      },
+      name: 'ufm-fe',
+      dependencies: ['ui-setup'],
+      testMatch: /ufm-fe.*.spec.ts/,
+      grep: [new RegExp(process.env.tag + "")],
+      use: {
 
-      storageState: 'secrets/nexus-user-storagestate.json',
-      extraHTTPHeaders: {
-        "Authorization": `Bearer ${nexusTokens[process.env.ufmUser+""]}`
-      },
-      launchOptions: {
-              args: ['--ignore-certificate-errors',
-              "--start-fullscreen"]
-      }, 
-           
-    }
-  },
+        ...devices['Desktop Chrome'],
+
+        headless: true,
+        viewport: {
+          width: 1920, height: 1080
+        },
+
+        storageState: 'secrets/nexus-user-storagestate.json',
+        extraHTTPHeaders: {
+          "Authorization": `Bearer ${nexusTokens[process.env.ufmUser + ""]}`
+        },
+        launchOptions: {
+          args: ['--ignore-certificate-errors',
+            "--start-fullscreen"]
+        },
+
+      }
+    },
 
 
     {
@@ -122,7 +122,7 @@ export default defineConfig({
       grep: [new RegExp(process.env.tag + "")],
       use: {
         extraHTTPHeaders: {
-          "Authorization": `Bearer ${ibgTokens[process.env.cdfUser+""]}`
+          "Authorization": `Bearer ${ibgTokens[process.env.cdfUser + ""]}`
         }
       }
     },
@@ -136,8 +136,8 @@ export default defineConfig({
         storageState: 'secrets/ibg-user-storagestate.json',
         launchOptions: {
           args: ['--ignore-certificate-errors',
-          "--start-fullscreen"]
-        },                
+            "--start-fullscreen"]
+        },
       }
     }
 

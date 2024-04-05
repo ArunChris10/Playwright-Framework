@@ -10,45 +10,62 @@
       "filters": [
         {
           "dim_id": 17,
-          "dim_val_ids": [170001],
+          "dim_val_ids": [
+            170001
+          ],
           "children": [
             {
               "dim_id": 16,
-              "dim_val_ids": [17000101],
+              "dim_val_ids": [
+                17000101
+              ],
               "children": []
             }
           ]
         },
         {
           "dim_id": 14,
-          "dim_val_ids": [140002],
+          "dim_val_ids": [
+            140002
+          ],
           "children": []
         },
         {
           "dim_id": 7,
-          "dim_val_ids": [70001],
+          "dim_val_ids": [
+            70001
+          ],
           "children": [
             {
               "dim_id": 6,
-              "dim_val_ids": [60005, 60008],
+              "dim_val_ids": [
+                60005,
+                60008
+              ],
               "children": []
             }
           ]
         },
         {
           "dim_id": 2,
-          "dim_val_ids": [20002, 20003],
+          "dim_val_ids": [
+            20002,
+            20003
+          ],
           "children": [
             {
               "dim_id": 1,
-              "dim_val_ids": [8, 13],
+              "dim_val_ids": [
+                8,
+                13
+              ],
               "children": []
             }
           ]
         }
       ]
     },
-   {
+    {
       "filter_name": "Node Selection",
       "filter_type": 9,
       "screen_id": 201,
@@ -60,7 +77,12 @@
               "title": "Freight & Transportation Costs",
               "type": "calculated",
               "nodeValType": "$",
-              "nodeGrain": ["month", "location", "channel", "department"],
+              "nodeGrain": [
+                "month",
+                "location",
+                "channel",
+                "department"
+              ],
               "isEditable": false
             },
             {
@@ -68,7 +90,12 @@
               "title": "Transportation Costs Calculated",
               "type": "calculated",
               "nodeValType": "$",
-              "nodeGrain": ["month", "location", "channel", "department"],
+              "nodeGrain": [
+                "month",
+                "location",
+                "channel",
+                "department"
+              ],
               "isEditable": false
             },
             {
@@ -76,7 +103,12 @@
               "title": "Freight & Transportation Costs % of Sales",
               "type": "input",
               "nodeValType": "%",
-              "nodeGrain": ["month", "location", "channel", "department"],
+              "nodeGrain": [
+                "month",
+                "location",
+                "channel",
+                "department"
+              ],
               "isEditable": true
             }
           ],

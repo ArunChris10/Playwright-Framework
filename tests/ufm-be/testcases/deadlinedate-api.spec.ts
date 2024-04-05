@@ -6,7 +6,7 @@ import testdatafile from '../testdata/historical-forecast.json';
 import { UfmUtility } from "../fixtures/ufm-utils";
 
 
-test.describe('Verify the @deadlinedate API @Regression @Smoke', () => {
+test.describe('Verify the deadline date API', { tag: "@Smoke, @deadlinedate" }, () => {
   // variable used to store the filter id and use it across the tests under this describe
   let apiResponse, apiResponseBody;
   // API endpoint URL
@@ -14,15 +14,15 @@ test.describe('Verify the @deadlinedate API @Regression @Smoke', () => {
   const historicalEndpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`
   debug.log(endpointURL);
 
-  test('Verify if the user is able to see the @deadlinedate', async ({ request }) => {
+  test('Verify if the user is able to see the deadlinedate', async ({ request }) => {
 
     //Making a get request to fetch the deadline date
     await test.step('Make a Get Request to get the deadline date', async () => {
 
       //API Request
       debug.log('Make a Get Request to get the deadline date');
-      apiResponse = await request.get(endpointURL,{
-      params: {
+      apiResponse = await request.get(endpointURL, {
+        params: {
           ...testdata.queryParams
         }
       });
@@ -39,22 +39,22 @@ test.describe('Verify the @deadlinedate API @Regression @Smoke', () => {
     //Date Assertion
     await test.step('Verify the deadline date received', async () => {
       //Getting historical data in a variable
-      let responseData = await UfmUtility.GetHistorical("RX",request);
+      let responseData = await UfmUtility.GetHistorical("RX", request);
 
       //checking whether the historical data is null or not
-      if(responseData["row_data"]=== null){
-  
-      // appending z to the date string from the response to make it time format as it is missing from the response    
-      let actualDate = new Date(apiResponseBody.date + 'Z');
+      if (responseData["row_data"] === null) {
 
-      // from the array of deadline dates for the whole year, find the next upcoming date
-      let strExpdate = await Utility.getUpcomingForecastSubmissionDate(testdata.expected_reponse)
+        // appending z to the date string from the response to make it time format as it is missing from the response    
+        let actualDate = new Date(apiResponseBody.date + 'Z');
 
-      //Comparing the actual aand expecetd dates
-      debug.log('Checking if the deadline date is  : ', strExpdate);
-      expect(actualDate).toStrictEqual(strExpdate);
-      
+        // from the array of deadline dates for the whole year, find the next upcoming date
+        let strExpdate = await Utility.getUpcomingForecastSubmissionDate(testdata.expected_reponse)
+
+        //Comparing the actual aand expecetd dates
+        debug.log('Checking if the deadline date is  : ', strExpdate);
+        expect(actualDate).toStrictEqual(strExpdate);
+
       }
-      });
-    })
+    });
   })
+})

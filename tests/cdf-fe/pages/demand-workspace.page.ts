@@ -6,8 +6,8 @@ export class DemandWorkspace {
   private readonly page: Page;
   private readonly btnFirstTileMenu: Locator;
   private readonly btnScenarioMenu;
-  private readonly btnConfirm : Locator;
-  private readonly urlEndpoint = process.env.cdfAppBaseURL+"";
+  private readonly btnConfirm: Locator;
+  private readonly urlEndpoint = process.env.cdfAppBaseURL + "";
 
 
   constructor(page: Page) {
@@ -30,7 +30,7 @@ export class DemandWorkspace {
     return txtTitle;
   }
 
-  async openMenuOptionFromExistingScenario(option:string) {
+  async openMenuOptionFromExistingScenario(option: string) {
     await Utility.waitForLoaderToBeInvisible(this.page);
     await this.btnFirstTileMenu.first().click();
     await this.selectScenarioMenu(option);
@@ -52,7 +52,7 @@ export class DemandWorkspace {
       .waitFor({ state: "visible", timeout: 420000 });
   }
 
-  async waitForScenarioCreation(scenarioName:string, maxPoll: number) {
+  async waitForScenarioCreation(scenarioName: string, maxPoll: number) {
     let waitCount = maxPoll;
 
     while (waitCount > 0 && !(await this.btnScenarioMenu(scenarioName).first().isEnabled())) {
@@ -69,7 +69,7 @@ export class DemandWorkspace {
     await Utility.waitForLoaderToBeInvisible(this.page);
   }
 
-  async navigate(){    
+  async navigate() {
     await this.page.goto(this.urlEndpoint, {
       timeout: 500000,
     });

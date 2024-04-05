@@ -16,17 +16,13 @@
       "name": "Optical May FY25 Forecast"
     }
   },
-     
-    "deleteForecastPayload":{
-      "scenario":
-        {
-          "dim_id" : 11,
-          "dim_val_id": 110016
-        }
-    },
-   "scenario_id": 13341709794921,
-    
-  
+  "deleteForecastPayload": {
+    "scenario": {
+      "dim_id": 11,
+      "dim_val_id": 110016
+    }
+  },
+  "scenario_id": 13341709794921,
   "createSuccessMessage": "Scenario created successfully",
   "createAlreadyMessage": "Forecast scenario is already created for current period!",
   "deleteMessage": "Scenario scenario_id deleted successfully",

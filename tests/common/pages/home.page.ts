@@ -1,10 +1,8 @@
 import { Locator, Page, expect } from "@playwright/test";
-
-
 export class Home {
   readonly page: Page;
-  readonly pageHeading : Locator
-  readonly menu : Locator
+  readonly pageHeading: Locator
+  readonly menu: Locator
 
   constructor(page: Page) {
     this.page = page;
@@ -13,12 +11,12 @@ export class Home {
 
   }
 
-  async open(menuOption:string) {
+  async open(menuOption: string) {
     await this.menu.click();
     await this.page.getByLabel('Menu', { exact: true }).getByText(menuOption).click();
   }
 
-  async checkIfHomepageIsVisible(){
+  async checkIfHomepageIsVisible() {
     await expect(this.pageHeading).toBeVisible();
   }
 

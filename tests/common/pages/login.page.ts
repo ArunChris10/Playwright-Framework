@@ -19,13 +19,13 @@ export class LoginPage {
     this.drpCountry = page.locator("#domainName");
     this.drpLocation = page.locator("#BU");
     this.btnSignIn = page.getByText("SIGN IN");
-   
-    
+
+
   }
 
   async login(userName) {
     await this.txtUserName.fill(userName);
-    await this.txtPassword.fill(await Utility.getLoginPassword(userName));    
+    await this.txtPassword.fill(await Utility.getLoginPassword(userName));
     await this.btnSignIn.click();
   }
 }
