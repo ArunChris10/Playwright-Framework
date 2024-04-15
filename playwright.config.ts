@@ -22,7 +22,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: process.env.CI ? [['html'], ['@walmartlabs/testburst-playwright-js-reporter']] : "html",
+  reporter: process.env.CI ? [['html', { outputFolder: `playwright-report/${process.env.APP_NAME}` }], ['@walmartlabs/testburst-playwright-js-reporter']] : "html",
   //reporter: "html",
   //reporter: 'allure-playwright',
   /* maximum time each test can run for */

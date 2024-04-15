@@ -14,13 +14,20 @@ envs:
         - ibg-ufm-allocation-engine
         - ibg-ufm2-ui
         - ibg-ufm-canned-reports
-      ALL:
+        - ibg-ufm-canned-reports-backend
+      COMMON_REPOS:
         - ibg-shared-ui
         - ibg-visualizer-ui
+        - ibg-service-visualizer
+      CDF_REPOS:
+        - ibg-centrifuge-ui
+        - ibg-service-scenario-financials
 
         
 triggers:
-  - push: disabled
+  - push: 
+      name: Run ConcordTriggeredFlow
+      call: push-flow 
   - manual:
       name: Run API Regression
       call: runUFMBeTests
@@ -33,7 +40,9 @@ triggers:
       parameters:
         - playwrightProject: { type: string , label : "Provide the project name that matches with the one in the playwright config file"}
         - testTag: { type: string , label : "Provide the unique tag to run the test"}
-        
+  - manual:
+      name: Run ConcordTriggeredFlow
+      call: concord-triggered-flow        
 parameters:
   - app: { type: string }
   - envr: { type: string }
@@ -43,6 +52,10 @@ flows:
   default:
     - echo "IBG Test Suite!"
     - call: runAllTests
+  push-flow:
+    - var(app = 'ibg-shared-ui')
+    - var(envr = 'qa')
+    - call: concord-triggered-flow
   concord-triggered-flow:
     - echo "Calling e2e flow from concord"
     - if: $app
@@ -51,15 +64,21 @@ flows:
       - var(REPO_NAME = '$app')
     - echo "Running for App -> ${REPO_NAME}"
     - if: | #search all app name here
-       %{app =~ ALL}
+       %{app =~ COMMON_REPOS}
       then:
       - var(APP_NAME = 'IBG')
-      - call: runAllTests
+      - call: runUFMSMokeTest
+      - call: runCDFSMokeTest
     - if: | #search ufm app name here
        %{app =~ UFM_REPOS}
       then:
       - var(APP_NAME = 'UFM')
       - call: runUFMSMokeTest
+    - if: | #search ufm app name here
+       %{app =~ CDF_REPOS}
+      then:
+      - var(APP_NAME = 'CDF')
+      - call: runCDFSMokeTest
     - if: | 
        %{APP_NAME == 'BLANK'}
       then:
@@ -92,6 +111,13 @@ flows:
       - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests 
     finally:
       - call: reporter
+  runCDFSMokeTest:
+    try:
+      - echo "Running UFM Smoke testcases "
+      - call: setup
+      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:cdf-tests 
+    finally:
+      - call: reporter
   runCustomTest:
     try:
       - echo "Running Custom TestCase Manual Trigger "
@@ -109,8 +135,8 @@ flows:
       - echo '{}' > secrets/nexus-user-storagestate.json
   reporter:
     - publishReport:
-        context: playwright
-        dir: playwright-report
+        context: playwright/${APP_NAME}
+        dir: playwright-report/${APP_NAME}
         index: index.html
         verbose: true
 
