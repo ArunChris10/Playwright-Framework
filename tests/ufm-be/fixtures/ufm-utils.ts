@@ -1,5 +1,6 @@
 import debug from "debug";
 import forecastData from '../testdata/forecast-api.json'
+import filterData from '../testdata/filter-service.json'
 import hisTestdatafile from '../testdata/historical-forecast.json';
 import { expect } from '../../common/fixtures/test-hook';
 
@@ -25,6 +26,32 @@ export class UfmUtility {
     //returning the scenario Id of the created forecast
     return responseBody.scenario.scenario_id;
   }
+
+  static async createFilter(payload, request) {
+    //Making the get call to create filter
+    const endpointURL = `${process.env.apiBaseURLUFM}${filterData.endpoint}`;
+    debug.log(endpointURL);
+
+    const response = await request.post(
+      endpointURL,
+      {
+        data: payload
+      }
+    )
+
+    let responseBody = await response.json();
+    if (response.status === 200) {
+      expect(responseBody.message).toEqual(filterData.success_message);
+    } else if (response.status === filterData.duplicate_filter_name_response.status_code) {
+      expect(responseBody.message).toEqual(filterData.duplicate_filter_name_response.message);
+    }
+
+    debug.log(JSON.stringify(responseBody));
+    return responseBody
+  }
+
+
+
 
   // This method will delete the sceanrio
   static async deleteForecast(scenario_id, dimId, dimValId, request) {
