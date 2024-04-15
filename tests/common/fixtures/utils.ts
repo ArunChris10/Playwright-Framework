@@ -41,9 +41,12 @@ export class Utility {
     //removing the past dates
     const futureDates = dates.filter((date) => date >= currentDate);
 
-    //sorting the dates in ascending order and return the first date
-    futureDates.sort((dt1, dt2) => dt1.getDate() - dt2.getDate());
-    return futureDates[0];
+   //sorting the dates in ascending order and return the first date
+    futureDates.sort((dt1, dt2) => dt1.getTime() - dt2.getTime());
+
+    // return futureDates[0] in a particular format
+    return futureDates[0].toLocaleDateString("en-US", { month: 'short', day: 'numeric', year: 'numeric' });
+
   }
 
   static async fetchIBGFakeToken(userId: string, request) {
