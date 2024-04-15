@@ -60,7 +60,6 @@ export default defineConfig({
     },
     {
       name: 'ui-setup',
-      dependencies: ['api-setup'],
       testMatch: /ui-auth-setup\.ts/,
       grep: [new RegExp(process.env.APP_NAME + "")],
       use: {
