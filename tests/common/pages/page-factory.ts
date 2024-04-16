@@ -2,6 +2,7 @@ import { Page } from "@playwright/test";
 import { CDFPageFactory } from "../../cdf-fe/pages/cdf-page-factory";
 import { Home } from "./home.page";
 import { LoginPage } from "./login.page";
+import { UFMPageFactory } from "../../ufm-fe/pages/ufm-page-factory";
 
 export class PageFactory {
     private readonly page: Page;
@@ -16,5 +17,9 @@ export class PageFactory {
     }
     cdfPageFactory() {
         return new CDFPageFactory(this.page);
+    }
+
+    ufmPageFactory() {
+        return new UFMPageFactory(this.page)
     }
 }
