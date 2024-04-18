@@ -22,6 +22,12 @@ export class CurrentForecast {
   readonly viewInAbsoluteNumbers: Locator;
   readonly totalForecastValueFirstRow: Locator;
   readonly netSalesForecastValueFirstRow: Locator;
+  readonly createNewFilterSet: Locator;
+  readonly filterSetName: Locator;
+  readonly selectedUFMFilterSection: Locator
+  readonly saveFilterSet: Locator;
+
+
   private readonly urlEndpoint = process.env.ufmAppBaseURL + "";
   readonly date: Locator;
 
@@ -38,6 +44,12 @@ export class CurrentForecast {
     this.totalForecastValueFirstRow = page.locator('(//div[@col-id="totalvalue.forecast" and @role="gridcell"])[1]')
     this.netSalesForecastValueFirstRow = page.locator('(//div[@col-id="netsales.forecast" and @role="gridcell"])[1]')
     this.date = page.locator('//h3[text()="Current Forecast"]//following::div[@class="vis-container"]//child::div[@class = "msg"]');
+    this.createNewFilterSet = page.getByRole('button', { name: 'Create new filter set' });
+    this.filterSetName = page.getByPlaceholder('Filter set')
+    this.selectedUFMFilterSection = page.locator('//p[contains(@class,"UFMFilters_selectedFilters")]')
+    this.saveFilterSet = page.getByText("Save")
+
+
   }
 
   async gotoOrganisationSelection() {
@@ -57,7 +69,7 @@ export class CurrentForecast {
   }
 
   async clickOnFilterSetsDropdown() {
-
+    await this.page.keyboard.press('Escape');
     await this.filterSetsDropdown.click()
     await this.waitForFiltersetListToBeVisible()
   }
@@ -122,13 +134,45 @@ export class CurrentForecast {
   }
 
 
-  async verifyVisibilityOfDeadlineDate(){
+  async verifyVisibilityOfDeadlineDate() {
 
     const deadlineDate = await this.date.innerText(); //Segment will submit the forecast on Apr,29 2024
     const stringToTrim = deadlineDate;
     const actualDate = stringToTrim.substring(stringToTrim.indexOf('on') + 3).trim();
     let strExpdate = await Utility.getUpcomingForecastSubmissionDate(testdata.expected_reponse);
     expect(actualDate).toEqual(strExpdate);
-  
-}}
+
+  }
+  async clickOnFilterDropdown(filterName: string) {
+    await this.page.getByRole('button', { name: `${filterName}`, exact: true }).click();
+  }
+  async selectFilterOption(filterOption: string) {
+    const filterSelection = await this.page.getByLabel(`${filterOption}`);
+
+    await filterSelection.check()
+    await expect(filterSelection).toBeChecked();
+    await this.page.keyboard.press('Escape');
+  }
+
+  async clickOnCreateNewFilterSet() {
+    await this.createNewFilterSet.click()
+  }
+
+  async fillFilterSetName(filterSetName: string) {
+    await this.filterSetName.fill(filterSetName)
+  }
+
+  async getUFMSelectedFilters() {
+    return await this.selectedUFMFilterSection.allInnerTexts()
+  }
+
+  async clickOnSaveFilterSet() {
+    await this.saveFilterSet.click()
+  }
+
+  async deleteFilterSet(filterSetName: string) {
+    await this.page.locator(`//label[@data-testid="${filterSetName}"]/following-sibling::*[@data-testid="del_button"]`).click()
+    await this.page.waitForTimeout(1000)
+  }
+}
 

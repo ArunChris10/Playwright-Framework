@@ -42,5 +42,29 @@
                 ]
             }
         }
+    ],
+    "filterOptions": [
+        {
+            "sbaName": "Merchandising",
+            "filterSetName": "auto_ui_test",
+            "data": {
+                "channelGroup": {
+                    "dropDown": "Channel Group",
+                    "option": "INSTORE_INCLUB"
+                },
+                "channel": {
+                    "dropDown": "Channel",
+                    "option": "INSTORE_INCLUB"
+                },
+                "sbu": {
+                    "dropDown": "SBU",
+                    "option": "HOME"
+                },
+                "department": {
+                    "dropDown": "Department",
+                    "option": "14_COOK AND DINE"
+                }
+            }
+        }
     ]
 }
