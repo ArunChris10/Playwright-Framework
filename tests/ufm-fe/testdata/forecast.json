@@ -10,7 +10,20 @@
         "dim_val_id": 110016
     },
     "Merch": {
+        "forecastName": "New MERCHANDISING",
+        "forecastPreparationName": "MERCHANDISING",
+        "baseForecastName": "PRIMARY",
         "nameOfTheSBA": "Merchandising",
-        "sbaBreadCrumName": "UFM Merchandising"
+        "nameOfTheForecastInCreateForecastWindow": "New MERCHANDISING",
+        "sbaBreadCrumName": "UFM Merchandising",
+        "scenario_id": 13311708950300,
+        "dim_id": 11,
+        "dim_val_id": 110014
+    },
+    "DataVentures":{
+        "nameOfTheSBA": "Customer & revenue",
+        "forecastStatus": "Draft",
+        "organizationReviewButton": "Send to  Customer & revenue review",
+        "finalForecastStatus": "Customer & revenue Review"
     }
 }

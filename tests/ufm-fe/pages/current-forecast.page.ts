@@ -1,11 +1,11 @@
 import { ElementHandle, expect, Locator, Page } from "@playwright/test";
 import { CreateForecastPopup } from "./create-forecast.-popup.page";
 import { OpenCurrentForecast } from '../pages/open-forecast.page';
-import forecast from '../testdata/forecast.json'
-import debug from "debug";
-import { DateTime } from "luxon";
+import { ScenarioStatus } from '../pages/scenario-status.page';
+import forecast from '../testdata/forecast.json';
 import { Utility } from '../../common/fixtures/utils';
 import testdata from '../../ufm-be/testdata/deadlinedate-api.json';
+import debug from "debug";
 
 export class CurrentForecast {
 
@@ -13,6 +13,7 @@ export class CurrentForecast {
   readonly lnkOrganisationSelection: Locator;
   readonly createForecastButton: Locator;
   readonly sbaName: Locator;
+  readonly forecastStatus: Locator;
 
   readonly filterSetsDropdown: Locator;
   readonly filterSetsList: Locator;
@@ -35,6 +36,7 @@ export class CurrentForecast {
     this.page = page;
     this.lnkOrganisationSelection = page.getByText("Organization Selection");
     this.createForecastButton = page.getByText('Create forecast');
+    this.forecastStatus = page.locator('//div[@class="ag-pinned-left-cols-container"]//child::div[@class = "ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-value"]//div');
     this.filterSetsDropdown = page.getByText('Filter sets')
     this.filterSetsList = page.locator('//*[contains(@class,"FilterSet_filtersetModalContainer")]/descendant::span')
     this.totalValueForecastHeader = page.locator('//div[@col-id="totalvalue.forecast"]')
@@ -66,6 +68,15 @@ export class CurrentForecast {
     console.log(sbaNameText)
     expect(sbaNameText).toBe(forecast.Merch.sbaBreadCrumName);
     return new OpenCurrentForecast(this.page);
+  }
+
+  async isForecastStatusDraftOrChangesRequested(){
+
+    const scenariosStatus = await this.forecastStatus.innerText();
+    console.log(scenariosStatus);
+    const statuses: string[] = ["Draft", "Change requested"];
+    expect(statuses.includes(scenariosStatus)).toBeTruthy();
+    return new ScenarioStatus(this.page);
   }
 
   async clickOnFilterSetsDropdown() {

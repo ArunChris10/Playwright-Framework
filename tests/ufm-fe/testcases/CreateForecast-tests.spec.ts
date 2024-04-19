@@ -6,23 +6,25 @@ import forecastdata from '../testdata/forecast.json'
 import { UfmUtility } from "../../ufm-be/fixtures/ufm-utils";
 
 test.describe('Create Forecast Feature Test', { tag: "@Smoke @createForecast" }, () => {
-  let SBAname = 'Optical'
-  let sbaData = forecastdata[SBAname];
 
-  test.beforeAll(async ({ request }) => { await UfmUtility.deleteForecast(sbaData.scenario_id, sbaData.dim_id, sbaData.dim_val_id, request) });
+  const forecast = "Merch";
+  const lob = forecastdata[forecast];
+
+  test.beforeAll(async ({ request }) => { await UfmUtility.deleteForecast(lob.scenario_id, lob.dim_id, lob.dim_val_id, request) });
+  console.log(lob.scenario_id);
 
   test('Check if the user is able to createForecast', { tag: "@createForecast" }, async ({ page }) => {
-    test.setTimeout(300000);
+    test.setTimeout(480000);
 
     let currentForecast: CurrentForecast;
     let currentForecastPopup: CreateForecastPopup;
 
-    await test.step('Click on the particular SBA' + sbaData.sbaName, async () => {
+    await test.step('Click on the particular BA' + lob.nameOfTheSBA, async () => {
 
       await page.goto(process.env.ufmAppBaseURL, { timeout: 120000 });
       await page.setViewportSize({ width: 1920, height: 1080 });
       let organisationSelection: OrganisationSelection = new OrganisationSelection(page);
-      currentForecast = await organisationSelection.selectOrganisation(sbaData.sbaName);
+      currentForecast = await organisationSelection.selectOrganisation(lob.nameOfTheSBA);
 
     });
 
@@ -33,7 +35,7 @@ test.describe('Create Forecast Feature Test', { tag: "@Smoke @createForecast" },
 
     await test.step('Click on Prepare the forecast for Particular drivers', async () => {
 
-      await currentForecastPopup.clickOnPrepareTheForecastForParticularDrivers(sbaData.forecastPreparationName);
+      await currentForecastPopup.clickOnPrepareTheForecastForParticularDrivers(lob.forecastPreparationName);
 
     });
 
@@ -42,14 +44,14 @@ test.describe('Create Forecast Feature Test', { tag: "@Smoke @createForecast" },
       await currentForecastPopup.clickOnContinueButton();
     });
 
-    await test.step('Fill input field with forecast name' + sbaData.forecastName, async () => {
-      await currentForecastPopup.fillTheInputField(sbaData.nameOfTheForecastInCreateForecastWindow);
+    await test.step('Fill input field with forecast name' + lob.nameOfTheForecastInCreateForecastWindow, async () => {
+      await currentForecastPopup.fillTheInputField(lob.nameOfTheForecastInCreateForecastWindow);
 
     });
 
     await test.step('Select base forecast', async () => {
 
-      await currentForecastPopup.selectBaseForecastPrimaryOption(sbaData.baseForecastName);
+      await currentForecastPopup.selectBaseForecastPrimaryOption(lob.baseForecastName);
     });
 
     await test.step('Click on Create Forecast', async () => {
@@ -60,7 +62,7 @@ test.describe('Create Forecast Feature Test', { tag: "@Smoke @createForecast" },
 
     await test.step('Verify forecast name', async () => {
 
-      await currentForecastPopup.verifyForecastHasBeenCreatedSuccessfully(sbaData.forecastName);
+      await currentForecastPopup.verifyForecastHasBeenCreatedSuccessfully(lob.forecastName);
     });
   });
 }); 

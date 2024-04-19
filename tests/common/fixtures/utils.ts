@@ -9,7 +9,9 @@ export class Utility {
   private static readonly nexusTokenFilePath: string = "./secrets/nexus-users-token.json";
   private static readonly ibgTokenFilePath: string = "./secrets/ibg-users-token.json";
   private static readonly secretFilePath: string = "./secrets/ufm-secrets.json";
-
+  private static spinner = "//span[contains(@class, 'Spinner')]";
+  
+  
   private static createLogFileDir() {
     if (!fs.existsSync(this.dir)) {
       fs.mkdirSync(this.dir);
@@ -147,4 +149,18 @@ export class Utility {
       .first()
       .waitFor({ state: "detached", timeout: 420000 });
   };
+
+  public static async waitForSpinnerToBeVisible(page){
+    
+    await page
+    .locator(this.spinner)
+    .waitFor({ state: 'visible', timeout: 480000 });
+
+}
+
+public static async waitForSpinnerToBeInvisible(page){
+    await page
+    .locator(this.spinner)
+    .waitFor({ state: 'detached', timeout: 480000 });
+  }
 }

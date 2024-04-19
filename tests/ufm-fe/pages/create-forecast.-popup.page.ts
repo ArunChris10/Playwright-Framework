@@ -1,4 +1,6 @@
 import { expect, Locator, Page } from "@playwright/test";
+import { Utility } from "../../common/fixtures/utils";
+
 export class CreateForecastPopup {
 
   readonly page: Page;
@@ -34,7 +36,7 @@ export class CreateForecastPopup {
 
   async fillTheInputField(forecastName: string) {
 
-    await this.page.getByPlaceholder(`${forecastName}`).fill("OpticalForecast");
+    await this.page.getByPlaceholder(`${forecastName}`).fill(forecastName);
   }
 
   async selectBaseForecastPrimaryOption(baseForecastsPrimary: string) {
@@ -51,8 +53,8 @@ export class CreateForecastPopup {
 
   async verifyForecastHasBeenCreatedSuccessfully(finalForecastCreated: string) {
 
-    await this.spinner.waitFor({ state: 'visible', timeout: 300000 });
-    await this.spinner.waitFor({ state: 'detached', timeout: 420000 });
+    await Utility.waitForSpinnerToBeVisible(this.page);
+    await Utility.waitForSpinnerToBeInvisible(this.page);
     await expect(this.page.getByText(`${finalForecastCreated}`)).toBeVisible();
 
   }
