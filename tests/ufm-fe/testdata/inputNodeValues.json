@@ -1,0 +1,14 @@
+{
+    "testData": [
+        {
+            "sbaName": "Health & wellness",
+            "LOB": "OPTICAL",
+            "driver": {
+                "inputDriver": "Optical Payroll Tax",
+                "noOfMonth": 2,
+                "allocationMethod": "Maintain ratio",
+                "forecastValue": 10000
+            }
+        }
+    ]
+}

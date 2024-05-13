@@ -20,10 +20,21 @@
         "dim_id": 11,
         "dim_val_id": 110014
     },
-    "DataVentures":{
+    "DataVentures": {
         "nameOfTheSBA": "Customer & revenue",
         "forecastStatus": "Draft",
         "organizationReviewButton": "Send to  Customer & revenue review",
         "finalForecastStatus": "Customer & revenue Review"
+    },
+    "Fulfillment": {
+        "forecastName": "Fulfillment",
+        "forecastPreparationName": "FULFILLMENT",
+        "baseForecastName": "PRIMARY",
+        "nameOfTheSBA": "Supply chain",
+        "nameOfTheForecastInCreateForecastWindow": "Fulfillment",
+        "sbaBreadCrumName": "UFM Supply Chain",
+        "scenario_id": 13321708951420,
+        "dim_id": 11,
+        "dim_val_id": 110008
     }
 }

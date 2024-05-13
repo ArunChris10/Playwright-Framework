@@ -3,9 +3,10 @@ import { CreateForecastPopup } from "./create-forecast.-popup.page";
 import { OpenCurrentForecast } from '../pages/open-forecast.page';
 import { ScenarioStatus } from '../pages/scenario-status.page';
 import forecast from '../testdata/forecast.json';
+import debug from "debug";
+import { DateTime } from "luxon";
 import { Utility } from '../../common/fixtures/utils';
 import testdata from '../../ufm-be/testdata/deadlinedate-api.json';
-import debug from "debug";
 
 export class CurrentForecast {
 
@@ -14,7 +15,6 @@ export class CurrentForecast {
   readonly createForecastButton: Locator;
   readonly sbaName: Locator;
   readonly forecastStatus: Locator;
-
   readonly filterSetsDropdown: Locator;
   readonly filterSetsList: Locator;
   readonly totalValueForecastHeader: Locator;
@@ -27,10 +27,10 @@ export class CurrentForecast {
   readonly filterSetName: Locator;
   readonly selectedUFMFilterSection: Locator
   readonly saveFilterSet: Locator;
-
-
+  readonly open: Locator;
   private readonly urlEndpoint = process.env.ufmAppBaseURL + "";
   readonly date: Locator;
+  readonly forecastHeader: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -50,8 +50,8 @@ export class CurrentForecast {
     this.filterSetName = page.getByPlaceholder('Filter set')
     this.selectedUFMFilterSection = page.locator('//p[contains(@class,"UFMFilters_selectedFilters")]')
     this.saveFilterSet = page.getByText("Save")
-
-
+    this.open = page.getByText("Open")
+    this.forecastHeader = page.locator('//div[contains(@class,"title-forecast")]')
   }
 
   async gotoOrganisationSelection() {
@@ -70,7 +70,7 @@ export class CurrentForecast {
     return new OpenCurrentForecast(this.page);
   }
 
-  async isForecastStatusDraftOrChangesRequested(){
+  async isForecastStatusDraftOrChangesRequested() {
 
     const scenariosStatus = await this.forecastStatus.innerText();
     console.log(scenariosStatus);
@@ -133,11 +133,8 @@ export class CurrentForecast {
     let totalValueFirstRow = await this.totalForecastValueFirstRow.innerText()
     let netSalesFirstRow = await this.netSalesForecastValueFirstRow.innerText()
 
-    totalValueFirstRow = totalValueFirstRow.slice(1, -1)
-    netSalesFirstRow = netSalesFirstRow.slice(1, -1)
-
-    totalValueFirstRow = totalValueFirstRow.replace(/,/g, '')
-    netSalesFirstRow = netSalesFirstRow.replace(/,/g, '')
+    totalValueFirstRow = totalValueFirstRow.replace(/[,$-]/g, '')
+    netSalesFirstRow = netSalesFirstRow.replace(/[,$-]/g, '')
 
     debug.log("totalValue:", totalValueFirstRow, " netSales:", netSalesFirstRow)
 
@@ -184,6 +181,24 @@ export class CurrentForecast {
   async deleteFilterSet(filterSetName: string) {
     await this.page.locator(`//label[@data-testid="${filterSetName}"]/following-sibling::*[@data-testid="del_button"]`).click()
     await this.page.waitForTimeout(1000)
+  }
+
+  async clickOnOpenParticularForecast(LOB: string) {
+
+    let forecastParentElement = this.page.locator(`//div[contains(@class,'CurrentForecast_card-container')]//div[contains(text(),"${LOB}")]/parent::div`)
+
+    let forecastRowID = await forecastParentElement.getAttribute('row-id')
+
+    let forecastName = await forecastParentElement.locator('//div[@col-id="name"]').innerText()
+
+    let LOBForecast = await this.page.locator(`//div[contains(@class,'CurrentForecast_card-container')]//div[@row-id=${forecastRowID}]`);
+
+    await LOBForecast.locator(this.open).click()
+
+    let foreCastHeader = await this.forecastHeader.innerText()
+
+    expect(foreCastHeader).toEqual(forecastName)
+
   }
 }
 

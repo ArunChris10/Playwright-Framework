@@ -1,16 +1,43 @@
 import { Locator, Page } from "@playwright/test";
+import debug from "debug";
 
 export class OpenCurrentForecast {
 
     readonly page: Page;
     readonly btnOpenCurrentForecast: Locator;
     readonly txtCurrentForecast: Locator;
+    readonly actionButton: Locator;
+    readonly addDriverButton: Locator;
+    readonly forecastInputCell: string;
+    readonly allocationMethodDropDown: Locator;
+    readonly maintainRatioOption: Locator;
+    readonly calculateButton: Locator;
+    readonly calculationSuccessfulMessage: Locator;
+    readonly calculationSpinner: Locator;
+    readonly saveButton: Locator;
+    readonly calculateErrorMessage: string
+    readonly saveErrorMessage: string
+    readonly allocateErrorMessage: string;
+    readonly forecastTable: Locator;
 
     constructor(page: Page) {
 
         this.page = page;
         this.btnOpenCurrentForecast = page.locator("//button[text()='Open']");
         this.txtCurrentForecast = page.getByText("Current Forecast");
+        this.actionButton = this.page.locator('//div[@class="table-container"]//button[contains(text(),"Actions")]')
+        this.addDriverButton = page.getByText('Add Driver')
+        this.forecastInputCell = '//div[contains(@col-id,"forecast") and @role="gridcell"]'
+        this.allocationMethodDropDown = this.page.locator('//button[@aria-label="More options"]')
+        this.maintainRatioOption = this.page.getByText("Maintain ratio")
+        this.calculateButton = this.page.getByText('Calculate');
+        this.calculationSuccessfulMessage = this.page.getByText("Calculation was successful, and allocation methods were applied to all dimensions")
+        this.calculationSpinner = this.page.getByText('Calculating your inputs')
+        this.saveButton = this.page.getByText('Save')
+        this.calculateErrorMessage = 'Please edit atleast one cell'
+        this.saveErrorMessage = 'Before saving the forecast, calculate your changes in the table.'
+        this.allocateErrorMessage = 'Select a method';
+        this.forecastTable = this.page.locator('//div[@data-testid="forecast-table"]')
 
     }
 
@@ -28,4 +55,120 @@ export class OpenCurrentForecast {
 
         await this.txtCurrentForecast.isVisible();
     }
+
+    async clickOnActionButton() {
+        this.actionButton.click()
+    }
+
+    async clickOnAddDriver() {
+        await this.addDriverButton.waitFor({ state: "visible" })
+
+        await this.addDriverButton.click()
+    }
+
+    async validateDriverPresence(driverName: string) {
+        await this.page.locator(`//div[@col-id="nodeName"]//span[contains(text(),"${driverName}")]`).waitFor({ state: "visible" })
+        return true
+    }
+
+    async fillForecastInputCell(noOfCells, inputValue) {
+        let count = 0
+
+        let forecastInputElement = (await this.page.locator("(" + this.forecastInputCell + ")" + "[1]"))
+
+        let col_id = (await forecastInputElement.getAttribute("col-id"))?.split('.')?.[0]
+
+        let col_ids = new Map()
+
+
+        while (count < noOfCells) {
+            if (typeof col_id === 'string') {
+                let actualColId = `${parseInt(col_id) + count}.forecast`;
+
+                let currentValue: string | number = await this.page.locator(`//div[contains(@col-id,"${parseInt(col_id || "SelectorError") + count}.forecast")]//div[contains(@class,"tableCell")]/span`).innerText()
+
+                currentValue = parseFloat(currentValue.replace(/[$,]/g, ''));
+
+                let incrementedValue = currentValue + inputValue
+                col_ids.set(actualColId, incrementedValue);
+                await this.page.locator(`//div[contains(@col-id,"${parseInt(col_id || "SelectorError") + count}.forecast")]//div[contains(@class,"tableCell")]/span`).dblclick().then(async () => {
+
+                    await this.page.keyboard.type(incrementedValue.toString());
+                });
+            }
+            else {
+                debug.log("Unable to convert the col-id")
+            }
+            count++
+        }
+
+        return col_ids
+    }
+
+    async selectAllocationMethod(allocationMethod: string) {
+        await this.allocationMethodDropDown.click()
+        await this.page.getByText(allocationMethod).click()
+    }
+
+    async allocationErrorMessageExistence() {
+        const allocationErrorMessageExistence = await this.page.waitForSelector(`//span[contains(text(),"${this.allocateErrorMessage}")]`, { state: 'attached' })
+            .then(() => true)
+            .catch(() => false);
+
+        return allocationErrorMessageExistence
+    }
+
+    async calculateErrorMessageExistence() {
+
+        const calculateErrorMessageExistence = await this.page.waitForSelector(`//span[contains(text(),"${this.calculateErrorMessage}")]`, { state: 'attached' })
+            .then(() => true)
+            .catch(() => false);
+
+        return calculateErrorMessageExistence
+
+    }
+    async clickOnCalculateButton() {
+        await this.calculateButton.click()
+    }
+
+    async waitForCalculationSuccessMessage() {
+        await this.calculationSuccessfulMessage.waitFor({ state: "visible" })
+    }
+
+
+    async saveErrorMessageExistence() {
+
+        const saveErrorMessageExistence = await this.page.waitForSelector(`//span[contains(text(),"${this.saveErrorMessage}")]`, { state: 'attached', timeout: 3000 })
+            .then(() => true)
+            .catch(() => false);
+
+        return saveErrorMessageExistence
+
+    }
+    async clickOnSave() {
+        await this.saveButton.click()
+        await this.calculationSpinner.waitFor({ state: "hidden" })
+        await this.forecastTable.waitFor({ state: "visible" })
+    }
+
+    async getDriverMonthForecastValue(colIdMap) {
+
+
+        for (let key of colIdMap.keys()) {
+            // Get the element with the corresponding col-id
+            var forecastValueFromTable = await this.page.locator(`//div[contains(@col-id,"${key}")]//div[contains(@class,"tableCell")]/span`);
+
+            if (forecastValueFromTable) {
+                // Get the current inner text of the element
+                var currentInnerText: string | number = await forecastValueFromTable.innerText()
+                currentInnerText = parseFloat(currentInnerText.replace(/[$,]/g, ''));
+                // Convert the inner text to a number and update the map value
+                colIdMap.set(key, currentInnerText);
+            }
+        }
+
+        // Return the updated map
+        return colIdMap;
+    }
+
 }

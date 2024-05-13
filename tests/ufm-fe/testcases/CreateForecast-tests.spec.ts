@@ -7,11 +7,10 @@ import { UfmUtility } from "../../ufm-be/fixtures/ufm-utils";
 
 test.describe('Create Forecast Feature Test', { tag: "@Smoke @createForecast" }, () => {
 
-  const forecast = "Merch";
+  const forecast = "Fulfillment";
   const lob = forecastdata[forecast];
 
   test.beforeAll(async ({ request }) => { await UfmUtility.deleteForecast(lob.scenario_id, lob.dim_id, lob.dim_val_id, request) });
-  console.log(lob.scenario_id);
 
   test('Check if the user is able to createForecast', { tag: "@createForecast" }, async ({ page }) => {
     test.setTimeout(480000);
