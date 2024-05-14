@@ -123,7 +123,6 @@ flows:
       - echo "Running Custom TestCase Manual Trigger "
       - call: setup
       - APP_NAME=$app tag=$testTag PROJECT=$playwrightProject ENV=$envr npm run tests:looper-tests
-      
     finally:
       - var(APP_NAME = $app)
       - call: reporter   

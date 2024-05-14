@@ -3,7 +3,7 @@ import { Utility } from '../../common/fixtures/utils';
 
 //This method gets the fake token from IBG FakeToken URL used for IBG Homepage
 setup('getting token to authenticate CDF Apis',  { tag: "@CDF , @IBG " }, async ({ request }) => {
-    await Utility.getIBGFakeToken(process.env.cdfUser + "", request);
+    await Utility.getNexusFakeToken(process.env.cdfUser + "", request);
 });
 
 //This method gets the fake token from Nexus FakeToken URL used for UFM 

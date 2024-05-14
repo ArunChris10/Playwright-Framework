@@ -15,7 +15,14 @@ setup("Login to CDF using faketoken api",  { tag: "@CDF , @IBG , @faketoken" }, 
   await Utility.loginToIBGUsingToken(page, request);
   const homePage: Home = new Home(page);
   await homePage.checkIfHomepageIsVisible();
-  await homePage.open("Demand Workspace")
+  await homePage.open("Demand");
+
+  const { cdfAppBaseURL, cdfUser } = process.env;
+  const loginPage = new LoginPage(page);
+  await loginPage.login(cdfUser);
+  await page.waitForURL(cdfAppBaseURL + "");
+  await homePage.checkIfHomepageIsVisible();
+
   await page.context().storageState({ path: ibgAuthFile });
 });
 

@@ -12,12 +12,12 @@ test.describe('Navigation @Smoke', () => {
       await page.goto(appBaseURL + "", { timeout: 300000 })
       const homePage: Home = new Home(page);
       await homePage.checkIfHomepageIsVisible();
-      await homePage.open('Demand Workspace');
+      await homePage.open('Demand');
     })
 
     await page.getByLabel("menu").click();
-    await page.getByLabel('Menu', { exact: true }).getByText('Demand Workspace').click();
-    await expect(page.getByText('View Demand Workspace by')).toBeVisible();
+    await page.getByLabel('Menu', { exact: true }).getByText('Demand').click();
+    await expect(page.getByText('View Demand by')).toBeVisible();
 
   });
 })
