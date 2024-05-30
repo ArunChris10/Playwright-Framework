@@ -6,18 +6,17 @@ export class Home {
 
   constructor(page: Page) {
     this.page = page;
-    this.pageHeading = page.getByText('Intelligent Business Growth');
+    this.pageHeading = this.page.getByText('IBG');
     this.menu = this.page.getByLabel("menu")
 
   }
 
   async open(menuOption: string) {
-    await this.menu.click();
-    await this.page.getByLabel('Menu', { exact: true }).getByText(menuOption).click();
+    await this.page.getByText(menuOption, { exact: true }).click();
   }
 
   async checkIfHomepageIsVisible() {
-    await expect(this.pageHeading).toBeVisible();
+    await expect(this.pageHeading.first()).toBeVisible();
   }
 
   async checkAlertMessageFor(message: string) {

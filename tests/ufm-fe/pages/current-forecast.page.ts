@@ -125,8 +125,8 @@ export class CurrentForecast {
 
   }
 
-  async clickOnViewInAbsolute() {
-    await this.viewInAbsoluteNumbers.click()
+  async clickOnViewIn(Conversion: string) {
+    await this.page.getByText(`${Conversion}`).click()
   }
 
   async getForecastValues() {
@@ -138,7 +138,7 @@ export class CurrentForecast {
 
     debug.log("totalValue:", totalValueFirstRow, " netSales:", netSalesFirstRow)
 
-    return { totalValue: parseInt(totalValueFirstRow), netSales: parseInt(netSalesFirstRow) }
+    return { totalValue: parseFloat(totalValueFirstRow), netSales: parseFloat(netSalesFirstRow) }
   }
 
 
@@ -185,7 +185,7 @@ export class CurrentForecast {
 
   async clickOnOpenParticularForecast(LOB: string) {
 
-    let forecastParentElement = this.page.locator(`//div[contains(@class,'CurrentForecast_card-container')]//div[contains(text(),"${LOB}")]/parent::div`)
+    let forecastParentElement = this.page.locator(`//div[contains(@class,'CurrentForecast_card-container')]//div[contains(text(),"${LOB}")]/parent::div`).first()
 
     let forecastRowID = await forecastParentElement.getAttribute('row-id')
 

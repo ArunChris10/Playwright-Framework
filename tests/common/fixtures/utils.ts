@@ -1,8 +1,9 @@
-import { TestInfo } from "@playwright/test";
+import { TestInfo, Page } from "@playwright/test";
 import fs from "fs";
 import debug from "debug";
 import usersIBGFormat from "../testdata/users.json";
 import usersNexusFormat from "../testdata/users-nexus-format.json";
+
 
 export class Utility {
   private static readonly dir: string = "./test-results/logs/";
@@ -10,8 +11,11 @@ export class Utility {
   private static readonly ibgTokenFilePath: string = "./secrets/ibg-users-token.json";
   private static readonly secretFilePath: string = "./secrets/ufm-secrets.json";
   private static spinner = "//span[contains(@class, 'Spinner')]";
-  
-  
+  readonly page: Page;
+
+  constructor(page: Page) {
+    this.page = page;
+  }
   private static createLogFileDir() {
     if (!fs.existsSync(this.dir)) {
       fs.mkdirSync(this.dir);
@@ -43,7 +47,7 @@ export class Utility {
     //removing the past dates
     const futureDates = dates.filter((date) => date >= currentDate);
 
-   //sorting the dates in ascending order and return the first date
+    //sorting the dates in ascending order and return the first date
     futureDates.sort((dt1, dt2) => dt1.getTime() - dt2.getTime());
 
     // return futureDates[0] in a particular format
@@ -150,17 +154,21 @@ export class Utility {
       .waitFor({ state: "detached", timeout: 420000 });
   };
 
-  public static async waitForSpinnerToBeVisible(page){
-    
-    await page
-    .locator(this.spinner)
-    .waitFor({ state: 'visible', timeout: 480000 });
+  public static async waitForSpinnerToBeVisible(page) {
 
-}
-
-public static async waitForSpinnerToBeInvisible(page){
     await page
-    .locator(this.spinner)
-    .waitFor({ state: 'detached', timeout: 480000 });
+      .locator(this.spinner)
+      .waitFor({ state: 'visible', timeout: 480000 });
+
+  }
+
+  public static async waitForSpinnerToBeInvisible(page) {
+    await page
+      .locator(this.spinner)
+      .waitFor({ state: 'detached', timeout: 480000 });
+  }
+
+  async keyPress(key) {
+    await this.page.keyboard.press(key)
   }
 }

@@ -86,19 +86,28 @@ testData.forEach(forecastNodeDetail => {
 
                     await test.step('Click on Calculate', async () => {
                         await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCalculateButton()
+                        expect(await objpageFactory.ufmPageFactory().openCurrentForecast().isSomethingWentWrongError()).toBeFalsy()
                         await objpageFactory.ufmPageFactory().openCurrentForecast().waitForCalculationSuccessMessage()
 
                     })
 
                     await test.step('Click on Save', async () => {
                         await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSave()
+                        expect(await objpageFactory.ufmPageFactory().openCurrentForecast().isSomethingWentWrongError()).toBeFalsy()
                         saveErrorMessageExistence = await objpageFactory.ufmPageFactory().openCurrentForecast().saveErrorMessageExistence()
                         await expect(saveErrorMessageExistence).toBeFalsy()
                     })
 
                     await test.step('Validate the inputted value persist after clicking on save', async () => {
-                        let currentInputNodeValues = await objpageFactory.ufmPageFactory().openCurrentForecast().getDriverMonthForecastValue(inputNodeValues)
-                        expect(inputNodeValues == currentInputNodeValues).toBeTruthy()
+                        let currentInputNodeValues = await objpageFactory.ufmPageFactory().openCurrentForecast().getDriverMonthForecastValue(inputNodeValues["updated_col_ids"])
+
+                        expect(inputNodeValues["updated_col_ids"].size).toBe(currentInputNodeValues.size);
+
+                        for (const [key, value] of inputNodeValues["updated_col_ids"]) {
+                            console.log(key, value)
+                            expect(currentInputNodeValues.has(key)).toBeTruthy();
+                            expect(currentInputNodeValues.get(key)).toBe(value);
+                        }
                     })
 
 

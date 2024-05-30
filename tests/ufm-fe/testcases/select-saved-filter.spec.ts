@@ -42,8 +42,7 @@ testData.forEach(filter => {
                     })
                     await test.step('Click on View in Absolute Numbers selection', async () => {
                         await objpageFactory.ufmPageFactory().currentForecast().waitForForecastToLoad()
-                        await objpageFactory.ufmPageFactory().currentForecast().clickOnViewInAbsolute()
-
+                        await objpageFactory.ufmPageFactory().currentForecast().clickOnViewIn("Absolute")
                     })
                     await test.step('Get forecast value before applying filter for comparison', async () => {
                         forecastValueBeforeFilter = await objpageFactory.ufmPageFactory().currentForecast().getForecastValues()

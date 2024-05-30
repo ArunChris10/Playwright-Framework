@@ -19,6 +19,7 @@ export class OpenCurrentForecast {
     readonly saveErrorMessage: string
     readonly allocateErrorMessage: string;
     readonly forecastTable: Locator;
+    readonly somethingWentWrong: Locator;
 
     constructor(page: Page) {
 
@@ -38,6 +39,7 @@ export class OpenCurrentForecast {
         this.saveErrorMessage = 'Before saving the forecast, calculate your changes in the table.'
         this.allocateErrorMessage = 'Select a method';
         this.forecastTable = this.page.locator('//div[@data-testid="forecast-table"]')
+        this.somethingWentWrong = this.page.getByText('Something Went Wrong')
 
     }
 
@@ -78,8 +80,8 @@ export class OpenCurrentForecast {
 
         let col_id = (await forecastInputElement.getAttribute("col-id"))?.split('.')?.[0]
 
-        let col_ids = new Map()
-
+        let updated_col_ids = new Map()
+        let old_col_ids = new Map()
 
         while (count < noOfCells) {
             if (typeof col_id === 'string') {
@@ -88,12 +90,16 @@ export class OpenCurrentForecast {
                 let currentValue: string | number = await this.page.locator(`//div[contains(@col-id,"${parseInt(col_id || "SelectorError") + count}.forecast")]//div[contains(@class,"tableCell")]/span`).innerText()
 
                 currentValue = parseFloat(currentValue.replace(/[$,]/g, ''));
-
+                old_col_ids.set(actualColId, currentValue)
                 let incrementedValue = currentValue + inputValue
-                col_ids.set(actualColId, incrementedValue);
+                updated_col_ids.set(actualColId, incrementedValue);
+
+
                 await this.page.locator(`//div[contains(@col-id,"${parseInt(col_id || "SelectorError") + count}.forecast")]//div[contains(@class,"tableCell")]/span`).dblclick().then(async () => {
 
                     await this.page.keyboard.type(incrementedValue.toString());
+                    await this.page.keyboard.press('Shift+Tab')
+
                 });
             }
             else {
@@ -102,7 +108,7 @@ export class OpenCurrentForecast {
             count++
         }
 
-        return col_ids
+        return { "updated_col_ids": updated_col_ids, "old_col_ids": old_col_ids }
     }
 
     async selectAllocationMethod(allocationMethod: string) {
@@ -169,6 +175,10 @@ export class OpenCurrentForecast {
 
         // Return the updated map
         return colIdMap;
+    }
+
+    async isSomethingWentWrongError() {
+        return this.somethingWentWrong.isVisible()
     }
 
 }

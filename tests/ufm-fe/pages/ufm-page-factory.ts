@@ -4,7 +4,6 @@ import { CurrentForecast } from './current-forecast.page';
 import { OpenCurrentForecast } from './open-forecast.page';
 import { OrganisationSelection } from './organisation-selection.page';
 import { AddDriverPage } from "./add-driver-page";
-import { KpiForecastPage } from "./kpi-forecast-page";
 
 
 export class UFMPageFactory {
