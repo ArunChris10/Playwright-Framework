@@ -104,7 +104,7 @@ testData.forEach(forecastNodeDetail => {
                         expect(inputNodeValues["updated_col_ids"].size).toBe(currentInputNodeValues.size);
 
                         for (const [key, value] of inputNodeValues["updated_col_ids"]) {
-                            console.log(key, value)
+
                             expect(currentInputNodeValues.has(key)).toBeTruthy();
                             expect(currentInputNodeValues.get(key)).toBe(value);
                         }

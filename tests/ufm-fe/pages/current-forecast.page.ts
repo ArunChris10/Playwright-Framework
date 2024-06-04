@@ -31,6 +31,9 @@ export class CurrentForecast {
   private readonly urlEndpoint = process.env.ufmAppBaseURL + "";
   readonly date: Locator;
   readonly forecastHeader: Locator;
+  readonly rollingForecastCalendarTab: Locator;
+  readonly forecastCycleContainer: Locator;
+  readonly nudgeMessageForCreateDueDate: Locator
 
   constructor(page: Page) {
     this.page = page;
@@ -52,6 +55,9 @@ export class CurrentForecast {
     this.saveFilterSet = page.getByText("Save")
     this.open = page.getByText("Open")
     this.forecastHeader = page.locator('//div[contains(@class,"title-forecast")]')
+    this.rollingForecastCalendarTab = page.getByText("Rolling forecast calender")
+    this.forecastCycleContainer = page.locator('//div[contains(@class,"forecastCycleContainer")]')
+    this.nudgeMessageForCreateDueDate = page.getByText('A new fiscal year is approaching. Set rolling forecast due dates for FY')
   }
 
   async gotoOrganisationSelection() {
@@ -200,5 +206,17 @@ export class CurrentForecast {
     expect(foreCastHeader).toEqual(forecastName)
 
   }
+
+  async clickOnRollingForecastCalendarTab() {
+    await this.rollingForecastCalendarTab.click()
+    await this.forecastCycleContainer.waitFor({ state: "visible" })
+  }
+
+  async isCreateDueDateNudgeMessageDisplayed() {
+    await this.page.waitForTimeout(1000)
+    return await this.nudgeMessageForCreateDueDate.isVisible()
+  }
+
+
 }
 
