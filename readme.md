@@ -13,7 +13,7 @@ For any help in playwright please refer the playwright documentation below
 ### Installation
 - Clone the repository to your local machine
 
-        git clone https://gecgithub01.walmart.com/IBG/ibg-test-scripts-bdd.git
+        git clone https://gecgithub01.walmart.com/IBG/ibg-testscripts-playwright.git
 
 - Install the required dependencies
 
