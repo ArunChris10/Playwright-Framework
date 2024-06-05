@@ -7,7 +7,6 @@ export class OrganisationSelection {
 
   constructor(page: Page) {
     this.page = page;
-
   }
 
   async selectOrganisation(organisationName: string) {
@@ -16,7 +15,6 @@ export class OrganisationSelection {
   }
 
   async isOrganisationSelectionNavigated() {
-
     await this.page.waitForSelector('.loading', { state: 'hidden', timeout: 160000 });
     return await this.page.getByText('Choose an organization to view UFM forecasts').isVisible();
   }
@@ -24,4 +22,5 @@ export class OrganisationSelection {
   async navigate() {
     await this.page.goto(this.urlEndpoint, { timeout: 120000 });
   }
+
 }

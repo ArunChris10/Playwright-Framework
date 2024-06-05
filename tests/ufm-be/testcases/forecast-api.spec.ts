@@ -3,7 +3,7 @@ import debug from "debug";
 import { UfmUtility } from "../fixtures/ufm-utils";
 import forecastData from '../testdata/forecast-api.json'
 
-test.describe("The @Forecast API @regression", () => {
+test.describe("Verify create delete forecast API", { tag: "@Smoke @forecast" }, () => {
 
   test.describe.configure({ timeout: 120_000, mode: 'serial' });
   let forecastCreated;

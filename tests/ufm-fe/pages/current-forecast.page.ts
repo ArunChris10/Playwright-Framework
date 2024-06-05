@@ -1,10 +1,9 @@
-import { ElementHandle, expect, Locator, Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 import { CreateForecastPopup } from "./create-forecast.-popup.page";
 import { OpenCurrentForecast } from '../pages/open-forecast.page';
 import { ScenarioStatus } from '../pages/scenario-status.page';
 import forecast from '../testdata/forecast.json';
 import debug from "debug";
-import { DateTime } from "luxon";
 import { Utility } from '../../common/fixtures/utils';
 import testdata from '../../ufm-be/testdata/deadlinedate-api.json';
 
@@ -77,7 +76,6 @@ export class CurrentForecast {
   }
 
   async isForecastStatusDraftOrChangesRequested() {
-
     const scenariosStatus = await this.forecastStatus.innerText();
     console.log(scenariosStatus);
     const statuses: string[] = ["Draft", "Change requested"];
@@ -98,37 +96,31 @@ export class CurrentForecast {
   }
 
   async getAvailableFilterSetsList() {
-
     const filterSetInnerTexts = await this.filterSetsList.allInnerTexts()
     return filterSetInnerTexts
-
   }
+
   async waitForForecastToLoad() {
     await this.totalValueForecastHeader.first().waitFor({ state: "visible" })
   }
 
   async clickOnFilterSet(filterSetName: string) {
     await this.page
-      .getByText(`${filterSetName}`)
-      .click()
+      .getByText(`${filterSetName}`).click()
 
     const selectedRadioButton = await this.page.$(`//span[contains(text(),"${filterSetName}")]/parent::label`);
     const classOfSelectedFilter = await selectedRadioButton.getAttribute('class');
 
     expect(classOfSelectedFilter.includes("checked"))
   }
+
   async clickOnApplyFilterSet() {
-    await this.applyFilterSet
-      .click()
-
+    await this.applyFilterSet.click()
     await this.filterSetsList.waitFor({ state: 'hidden' });
-
   }
 
   async clickOnApplyFilter() {
-    await this.applyFilter
-      .click()
-
+    await this.applyFilter.click()
   }
 
   async clickOnViewIn(Conversion: string) {
@@ -155,11 +147,12 @@ export class CurrentForecast {
     const actualDate = stringToTrim.substring(stringToTrim.indexOf('on') + 3).trim();
     let strExpdate = await Utility.getUpcomingForecastSubmissionDate(testdata.expected_reponse);
     expect(actualDate).toEqual(strExpdate);
-
   }
+
   async clickOnFilterDropdown(filterName: string) {
     await this.page.getByRole('button', { name: `${filterName}`, exact: true }).click();
   }
+
   async selectFilterOption(filterOption: string) {
     const filterSelection = await this.page.getByLabel(`${filterOption}`);
 
@@ -216,7 +209,6 @@ export class CurrentForecast {
     await this.page.waitForTimeout(1000)
     return await this.nudgeMessageForCreateDueDate.isVisible()
   }
-
 
 }
 

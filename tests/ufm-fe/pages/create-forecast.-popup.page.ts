@@ -21,7 +21,6 @@ export class CreateForecastPopup {
   }
 
   async clickOnCreateForecast() {
-
     await this.clickOnCreateForecast();
   }
 
@@ -30,32 +29,25 @@ export class CreateForecastPopup {
   }
 
   async clickOnContinueButton() {
-
     await this.btnContinue.click();
   }
 
   async fillTheInputField(forecastName: string) {
-
     await this.page.getByPlaceholder(`${forecastName}`).fill(forecastName);
   }
 
   async selectBaseForecastPrimaryOption(baseForecastsPrimary: string) {
-
     await this.drpBaseForecastOption.selectOption({ label: baseForecastsPrimary });
-
   }
 
   async clickOnCreateForecastFinalButton() {
-
     await this.btnForecastCreateFinalOption.click();
-
   }
 
   async verifyForecastHasBeenCreatedSuccessfully(finalForecastCreated: string) {
-
     await Utility.waitForSpinnerToBeVisible(this.page);
     await Utility.waitForSpinnerToBeInvisible(this.page);
     await expect(this.page.getByText(`${finalForecastCreated}`)).toBeVisible();
-
   }
+
 }

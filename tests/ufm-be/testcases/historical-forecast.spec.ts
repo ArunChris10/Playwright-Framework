@@ -3,7 +3,7 @@ import { test, expect } from '../../common/fixtures/test-hook';
 import debug from 'debug';
 
 testdatafile.sba_datas.forEach(sba_date => {
-    test.describe('Validation of @Historical_Forecast @Regression', () => {
+    test.describe('Validation of @Historical_Forecast @Regression', { tag: "@Regression @Smoke @Historical_Forecas" }, () => {
 
         //declaring test data
         let testdata = testdatafile;

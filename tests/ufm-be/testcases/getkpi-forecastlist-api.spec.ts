@@ -2,7 +2,7 @@ import testdata from "../testdata/getkpiforecast.json";
 import { test, expect } from "../../common/fixtures/test-hook";
 import debug from "debug";
 
-test.describe("Verify the @GetKPIForecast API @Smoke @Regression", () => {
+test.describe("Verify the @GetKPIForecast API @Smoke @Regression", { tag: "@Regression @Smoke @GetKPIForecast" }, () => {
   let apiResponse, apiResponseBody;
   // API endpoint URL
   const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;

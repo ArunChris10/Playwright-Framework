@@ -1,4 +1,4 @@
-import { Locator, Page, expect } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 export class AddDriverPage {
 
@@ -25,24 +25,15 @@ export class AddDriverPage {
     async inputDriverName(driverName: string) {
         await this.page.locator(this.searchDriverField).fill(driverName).then(async () => {
             await this.page.waitForTimeout(1000)
-
             await this.searchIcon.dblclick()
         })
-
-
-
     }
 
     async selectDriver(driverName: string) {
-
         await this.page.waitForSelector(this.driverSearchResult);
-
         const driverNodeElement = await this.page.$(`span[data-testid="remainingWord"]:has-text("${driverName}")`);
-
         await driverNodeElement.click()
-
         await this.page.locator(`//div[@class="customSelected"]//span[contains(text(),"${driverName}")]`).waitFor({ state: "visible" })
-
     }
 
     async clickOnApplyDrivers() {

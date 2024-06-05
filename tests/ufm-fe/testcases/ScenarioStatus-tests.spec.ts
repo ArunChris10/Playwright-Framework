@@ -6,14 +6,14 @@ import { ScenarioStatus } from '../pages/scenario-status.page';
 
 test.describe('Verify user is able to update forecast status', { tag: "@Smoke @ForecastStatus" }, () => {
 
-    test('Check if the user is able to update forecast status', { tag: "@ForecastStatus" }, async ({ page}) => {
-        
+    test('Check if the user is able to update forecast status', { tag: "@ForecastStatus" }, async ({ page }) => {
+
         test.setTimeout(480000);
         let currentForecast: CurrentForecast;
         let scenarioStatus: ScenarioStatus;
-       
+
         await test.step('User clicks on the particular SBA' + forecast.DataVentures.nameOfTheSBA, async () => {
-            
+
             await page.goto(process.env.ufmAppBaseURL, { timeout: 120000 });
             let organisationSelection: OrganisationSelection = new OrganisationSelection(page);
             currentForecast = await organisationSelection.selectOrganisation(forecast.DataVentures.nameOfTheSBA);
@@ -21,8 +21,8 @@ test.describe('Verify user is able to update forecast status', { tag: "@Smoke @F
         });
 
         await test.step('Clicks on three dots', async () => {
-           
-        await scenarioStatus.clickOnThreeDots();
+
+            await scenarioStatus.clickOnThreeDots();
         });
 
         await test.step('Clicks on the send to organization review button' + forecast.DataVentures.organizationReviewButton, async () => {
@@ -32,7 +32,7 @@ test.describe('Verify user is able to update forecast status', { tag: "@Smoke @F
 
         await test.step('Verify scenario status should be set to' + forecast.DataVentures.finalForecastStatus, async () => {
 
-            await scenarioStatus.verifyForecastStatusIsSetToParticularOrganizationReview();           
+            await scenarioStatus.verifyForecastStatusIsSetToParticularOrganizationReview();
         });
-})
+    })
 });

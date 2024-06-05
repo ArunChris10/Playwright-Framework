@@ -94,7 +94,6 @@ export class OpenCurrentForecast {
                 let incrementedValue = currentValue + inputValue
                 updated_col_ids.set(actualColId, incrementedValue);
 
-
                 await this.page.locator(`//div[contains(@col-id,"${parseInt(col_id || "SelectorError") + count}.forecast")]//div[contains(@class,"tableCell")]/span`).dblclick().then(async () => {
 
                     await this.page.keyboard.type(incrementedValue.toString());
@@ -131,8 +130,8 @@ export class OpenCurrentForecast {
             .catch(() => false);
 
         return calculateErrorMessageExistence
-
     }
+
     async clickOnCalculateButton() {
         await this.calculateButton.click()
     }
@@ -141,7 +140,6 @@ export class OpenCurrentForecast {
         await this.calculationSuccessfulMessage.waitFor({ state: "visible" })
     }
 
-
     async saveErrorMessageExistence() {
 
         const saveErrorMessageExistence = await this.page.waitForSelector(`//span[contains(text(),"${this.saveErrorMessage}")]`, { state: 'attached', timeout: 3000 })
@@ -149,8 +147,8 @@ export class OpenCurrentForecast {
             .catch(() => false);
 
         return saveErrorMessageExistence
-
     }
+
     async clickOnSave() {
         await this.saveButton.click()
         await this.calculationSpinner.waitFor({ state: "hidden" })
@@ -158,7 +156,6 @@ export class OpenCurrentForecast {
     }
 
     async getDriverMonthForecastValue(colIdMap) {
-
 
         for (let key of colIdMap.keys()) {
             // Get the element with the corresponding col-id

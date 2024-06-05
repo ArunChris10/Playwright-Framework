@@ -2,7 +2,7 @@ import { test, expect } from '../../common/fixtures/test-hook';
 import testdatafile from "../testdata/getConfig.json";
 import debug from "debug";
 
-test.describe("Verify the @getConfig API @Regression", () => {
+test.describe("Verify the getConfig API", { tag: "@Regression @getConfig" }, () => {
     let responseBody;
     const endpointURL = `${process.env.apiBaseURLUFM}${testdatafile.endpoint}`;
     debug.log(endpointURL);

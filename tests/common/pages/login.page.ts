@@ -1,5 +1,4 @@
 import { Locator, Page } from "@playwright/test";
-import debug from "debug";
 import { Utility } from "../../common/fixtures/utils";
 
 

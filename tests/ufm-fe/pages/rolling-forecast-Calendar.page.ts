@@ -1,5 +1,4 @@
-import { expect, Locator, Page } from "@playwright/test";
-
+import { Locator, Page } from "@playwright/test";
 
 export class RollingForecastCalendar {
 
@@ -58,7 +57,6 @@ export class RollingForecastCalendar {
   }
 
   async isCreateForecastCycleModalOpened() {
-
     await this.saveForecastCycle.waitFor({ state: "visible" })
     return await this.createForecastCycleModal.isVisible()
   }
@@ -67,7 +65,6 @@ export class RollingForecastCalendar {
     await this.page.waitForTimeout(500)
     return await this.chooseDateMessage.isVisible()
   }
-
 
   async clickOnSaveForecastCycle() {
     await this.saveForecastCycle.first().click()
@@ -80,6 +77,7 @@ export class RollingForecastCalendar {
   async clickOnCancelModal() {
     await this.cancelModal.click()
   }
+
   async setOrganizationRadioButton(selection: string) {
     await this.page.locator(`//span[contains(text(),"${selection}")]/../input`).click()
   }
@@ -164,5 +162,5 @@ export class RollingForecastCalendar {
   async getCorporateDueDateMessage() {
     return this.corporateDueDateMessage.innerText()
   }
-}
 
+}

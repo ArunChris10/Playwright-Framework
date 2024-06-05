@@ -2,8 +2,8 @@ import testdatafile from "../testdata/baseline-api.json";
 import { test, expect } from '../../common/fixtures/test-hook'
 import debug from "debug";
 
-test.describe("Validating the baseline forecast Details @Regression @baseline", () => {
-  let apiResponse, apiResponseBody, forcastNames;
+test.describe("Validating the baseline forecast Details", { tag: "@Regression @baselinedate" }, () => {
+  let apiResponseBody, forcastNames;
   // API endpoint URL
   const testdata = testdatafile;
   const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;

@@ -3,7 +3,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 import debug from "debug";
 
 testdata.payloads.forEach(payload => {
-  test.describe("Verify the Filter API for " + payload.filter_name, { tag: "@Smoke, @filter, @Regression" }, () => {
+  test.describe("Verify the Filter API for " + payload.filter_name, { tag: "@Smoke @filter @Regression" }, () => {
     test.describe.configure({ mode: "serial" });
 
     // variable used to store the filter id and use it across the tests under this describe

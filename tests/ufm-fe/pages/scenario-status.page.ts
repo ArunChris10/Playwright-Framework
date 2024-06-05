@@ -4,35 +4,32 @@ import { Utility } from "../../common/fixtures/utils";
 
 export class ScenarioStatus {
 
-    readonly page: Page;
-    readonly btnThreeDots: Locator;
-    readonly forecastStatusSpinner: Locator;
-    readonly finalScenarioStatus: Locator;
-    readonly btnSend: Locator;
-    
-    constructor(page: Page) {
+  readonly page: Page;
+  readonly btnThreeDots: Locator;
+  readonly forecastStatusSpinner: Locator;
+  readonly finalScenarioStatus: Locator;
+  readonly btnSend: Locator;
 
-      this.page = page;
-      this.btnThreeDots = page.locator("#basic-button");
-      this.finalScenarioStatus = page.getByTestId("scenario-status");
-      this.btnSend = page.locator("//button[text()='Send']");
-    }
-  
-    async clickOnThreeDots() {
+  constructor(page: Page) {
 
-      await this.btnThreeDots.click();
-    }
+    this.page = page;
+    this.btnThreeDots = page.locator("#basic-button");
+    this.finalScenarioStatus = page.getByTestId("scenario-status");
+    this.btnSend = page.locator("//button[text()='Send']");
+  }
 
-    async clickOnParticularSendToOrganizationReviewButton(organisationReviewButton: string){
+  async clickOnThreeDots() {
+    await this.btnThreeDots.click();
+  }
 
-      await this.page.getByText(`${organisationReviewButton}`).click();
-    }
+  async clickOnParticularSendToOrganizationReviewButton(organisationReviewButton: string) {
+    await this.page.getByText(`${organisationReviewButton}`).click();
+  }
 
-    async verifyForecastStatusIsSetToParticularOrganizationReview(){
-
-      await this.btnSend.click();
-      await Utility.waitForSpinnerToBeVisible(this.page);
-      await Utility.waitForSpinnerToBeInvisible(this.page);
-      await expect(this.finalScenarioStatus).toContainText(forecast.DataVentures.finalForecastStatus);
-    }
+  async verifyForecastStatusIsSetToParticularOrganizationReview() {
+    await this.btnSend.click();
+    await Utility.waitForSpinnerToBeVisible(this.page);
+    await Utility.waitForSpinnerToBeInvisible(this.page);
+    await expect(this.finalScenarioStatus).toContainText(forecast.DataVentures.finalForecastStatus);
+  }
 }
