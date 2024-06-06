@@ -17,10 +17,10 @@ envs:
         - ibg-ufm-canned-reports-backend
       COMMON_REPOS:
         - ibg-shared-ui
-        - ibg-visualizer-ui
         - ibg-service-visualizer
       CDF_REPOS:
         - ibg-centrifuge-ui
+        - ibg-visualizer-ui
         - ibg-service-scenario-financials
 
         
@@ -32,8 +32,14 @@ triggers:
       name: Run API Regression
       call: runUFMBeTests
   - manual:
+      name: Run API SMoke
+      call: runUFMBeSmokeTests
+  - manual:
       name: Run UFM UI Regression
       call: runUFMFeTests
+  - manual:
+      name: Run UFM UI Smoke
+      call: runUFMUISMokeTest
   - manual:
       name: Run Adhoc Test
       call: runCustomTest
@@ -111,9 +117,23 @@ flows:
       - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests 
     finally:
       - call: reporter
+  runUFMUISMokeTest:
+    try:
+      - echo "Running UFM UI Smoke testcases "
+      - call: setup
+      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests-fe
+    finally:
+      - call: reporter
+  runUFMBeSmokeTests:
+    try:
+      - echo "Running UFM API Smoke testcases "
+      - call: setup
+      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests-be
+    finally:
+      - call: reporter
   runCDFSMokeTest:
     try:
-      - echo "Running UFM Smoke testcases "
+      - echo "Running CDF Smoke testcases "
       - call: setup
       - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:cdf-tests 
     finally:
