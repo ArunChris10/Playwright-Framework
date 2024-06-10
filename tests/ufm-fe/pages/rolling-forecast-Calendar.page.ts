@@ -24,7 +24,9 @@ export class RollingForecastCalendar {
   readonly nudgeMessageForPublishDueDate: Locator;
   readonly corporateDueDateMessage: Locator;
   readonly filterContainer: Locator;
-
+  readonly saveAndSetNextDateButton: Locator;
+  readonly corporateCalendarDateText: Locator;
+  readonly organizationCalendarDateText: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -49,6 +51,9 @@ export class RollingForecastCalendar {
     this.rollingForecastTab = page.getByText("Rolling forecast", { exact: true })
     this.nudgeMessageForPublishDueDate = page.getByText('Once you\'ve set all the fiscal year\'s dates, publish the line of business forecast due dates.')
     this.corporateDueDateMessage = page.getByText('The corporate forecast is due on')
+    this.saveAndSetNextDateButton = page.getByRole('button', { name: 'Save and set next date' })
+    this.corporateCalendarDateText = page.locator("//div[contains(text(),'Corporate forecast submission date')]/following-sibling::div[@class='calendarDateText']")
+    this.organizationCalendarDateText = page.locator("//div[contains(text(),'Organization forecast due date')]/following-sibling::div[@class='calendarDateText']")
   }
 
   async clickOnAddCycle() {
@@ -88,14 +93,13 @@ export class RollingForecastCalendar {
 
   async getDateProperty(date: number, month: number) {
     let backgroundColor;
-
     backgroundColor = await this.page.$eval(`(//div[contains(@class,"MuiDateCalendar-root")])[${month}]//div[@role="rowgroup"]//button[contains(text(),"${date}")]`, element => {
       const style = window.getComputedStyle(element);
       return { backgroundColour: style.backgroundColor, border: style.border };
     });
     return backgroundColor;
   }
-
+  // Checks the existence of corporate cycle
   async isCycleExists(date: number, month: string, waitfor = false) {
     await this.cycleContainer.first().waitFor({ state: "visible" })
     if (waitfor == true) {
@@ -107,6 +111,19 @@ export class RollingForecastCalendar {
     return await this.page.locator(`${this.cycleContainerString}//div[contains(text(),"${month} ${date}")]`).isVisible()
   }
 
+  async isOrgCycleExists(org = 'all', date: number, month: string, waitfor = false) {
+
+    if (org == "all") org = "All other organizations"
+
+    if (waitfor == true) {
+      await this.page.locator(`//div[@class="renderOrgListContainer" and contains(text(),"${org}")]/following-sibling::ul/li[contains(text(),'${month} ${date}')]`).waitFor({ state: "visible" })
+    }
+    else {
+      await this.page.waitForTimeout(1000)
+    }
+    return await this.page.locator(`//div[@class="renderOrgListContainer" and contains(text(),"${org}")]/following-sibling::ul/li[contains(text(),'${month} ${date}')]`).isVisible()
+
+  }
   async clickOnPublishCalendar() {
     await this.publishCalendar.click()
   }
@@ -161,6 +178,17 @@ export class RollingForecastCalendar {
 
   async getCorporateDueDateMessage() {
     return this.corporateDueDateMessage.innerText()
+  }
+
+  async clickOnSaveSetNextDueDate() {
+    await this.saveAndSetNextDateButton.click()
+  }
+
+  async getCorporateCalendarDateText() {
+    return await this.corporateCalendarDateText.innerText()
+  }
+  async getOrganizationCalendarDateText() {
+    return await this.organizationCalendarDateText.innerText()
   }
 
 }

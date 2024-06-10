@@ -76,7 +76,7 @@ testData.forEach(filter => {
                     await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().setOrganizationRadioButton("No")
                 })
 
-                await test.step(`Select ${payload.date} from December Month as corporate date`, async () => {
+                await test.step(`Select ${payload.date} from ${payload.monthString} Month as corporate date`, async () => {
                     await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().selectCalendarDate(payload.date, payload.month)
                 })
 

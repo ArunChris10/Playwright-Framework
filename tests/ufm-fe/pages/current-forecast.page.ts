@@ -85,7 +85,7 @@ export class CurrentForecast {
 
   async clickOnFilterSetsDropdown() {
     await this.page.keyboard.press('Escape');
-    await this.filterSetsDropdown.click()
+    await this.filterSetsDropdown.first().click()
     await this.waitForFiltersetListToBeVisible()
   }
 
@@ -150,7 +150,7 @@ export class CurrentForecast {
   }
 
   async clickOnFilterDropdown(filterName: string) {
-    await this.page.getByRole('button', { name: `${filterName}`, exact: true }).click();
+    await this.page.getByRole('button', { name: `${filterName}`, exact: true }).first().click();
   }
 
   async selectFilterOption(filterOption: string) {
