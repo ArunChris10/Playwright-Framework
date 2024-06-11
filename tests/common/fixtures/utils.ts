@@ -11,6 +11,7 @@ export class Utility {
   private static readonly ibgTokenFilePath: string = "./secrets/ibg-users-token.json";
   private static readonly secretFilePath: string = "./secrets/ufm-secrets.json";
   private static spinner = "//span[contains(@class, 'Spinner')]";
+  private static dataLoading = "//span[contains(@class, 'ag-overlay-loading-center')]"
   readonly page: Page;
 
   constructor(page: Page) {
@@ -166,6 +167,18 @@ export class Utility {
     await page
       .locator(this.spinner)
       .waitFor({ state: 'detached', timeout: 480000 });
+  }
+
+  public static async waitForDataLoadingMessageToBeVisible(page) {
+    await page
+      .locator(this.dataLoading).first()
+      .waitFor({ state: 'visible', timeout: 480000 });
+  }
+
+  public static async waitForDataLoadingMessageToBeInvisible(page) {
+    await page
+      .locator(this.dataLoading).first()
+      .waitFor({ state: 'hidden', timeout: 480000 });
   }
 
   async keyPress(key) {

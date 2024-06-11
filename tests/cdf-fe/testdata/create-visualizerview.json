@@ -1,0 +1,9 @@
+{
+    "viewName": "Test Automation Visualizer View",
+    "scenarioName": "Actual",
+    "viewDateType": "Year",
+    "startDate": "FY20",
+    "endDate": "FY25",
+    "metrics": ["GMV", "UNITS"],
+    "hierarchys": ["SBU", "Department"]
+}

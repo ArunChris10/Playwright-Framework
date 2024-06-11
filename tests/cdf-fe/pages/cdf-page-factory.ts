@@ -1,6 +1,10 @@
 import { Page } from "@playwright/test";
 import { CopyScenario } from "./copy-scenario.page";
 import { DemandWorkspace } from "./demand-workspace.page";
+import { Visualizer } from "./visualizer.page";
+import { CurrentDemand } from "./currentdemand.page";
+import { dssPage } from "./dssPage.page";
+
 
 export class CDFPageFactory {
 
@@ -14,5 +18,17 @@ export class CDFPageFactory {
   }
   copyScenario() {
     return new CopyScenario(this.page);
+  }
+
+  visualizer() {
+    return new Visualizer(this.page)
+  }
+
+  currentDemand() {
+    return new CurrentDemand(this.page);
+  }
+
+  dssPage() {
+    return new dssPage(this.page);
   }
 }

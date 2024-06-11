@@ -32,7 +32,7 @@ export class DemandWorkspace {
 
   async openMenuOptionFromExistingScenario(option: string) {
     await Utility.waitForLoaderToBeInvisible(this.page);
-    await this.btnFirstTileMenu.first().click();
+    await this.page.locator('.IconButton-module_iconButton__SqVG-').first().click();
     await this.selectScenarioMenu(option);
   }
 
@@ -50,6 +50,11 @@ export class DemandWorkspace {
       .getByText(scenarioName)
       .first()
       .waitFor({ state: "visible", timeout: 420000 });
+  }
+
+  async openFirstDSS() {
+    await this.page.locator('.Button-module_button__3Eu7g').first().click();
+    await Utility.waitForLoaderToBeInvisible(this.page);
   }
 
   async waitForScenarioCreation(scenarioName: string, maxPoll: number) {
