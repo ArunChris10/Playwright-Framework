@@ -6,7 +6,7 @@ envs:
   global:
     variables:
       REPO_NAME: ALL #default value for all apps
-      APP_NAME: BLANK
+      APP_NAME: $app
       UFM_REPOS:  #add app names here
         - ibg-ufm-metadata-service
         - ibg-ufm-core-service
@@ -15,8 +15,9 @@ envs:
         - ibg-ufm2-ui
         - ibg-ufm-canned-reports
         - ibg-ufm-canned-reports-backend
-      COMMON_REPOS:
         - ibg-shared-ui
+        - ibg-shared-pages
+      COMMON_REPOS:
         - ibg-service-visualizer
       CDF_REPOS:
         - ibg-centrifuge-ui
@@ -25,26 +26,29 @@ envs:
 
         
 triggers:
-  - push: 
-      name: Run ConcordTriggeredFlow
-      call: push-flow 
+  # - push: 
+  #     name: Run ConcordTriggeredFlow
+  #     call: push-flow 
   - manual:
-      name: Run API Regression
+      name: Run UFM API Regression
       call: runUFMBeTests
   - manual:
-      name: Run API SMoke
+      name: Run UFM API Smoke
       call: runUFMBeSmokeTests
   - manual:
       name: Run UFM UI Regression
-      call: runUFMFeTests
+      call: runUFMUITests
   - manual:
       name: Run UFM UI Smoke
-      call: runUFMUISMokeTest
+      call: runUFMUISmokeTest
+  - manual:
+      name: Run CDF Test
+      call: runCDFSMokeTest
   - manual:
       name: Run Adhoc Test
       call: runCustomTest
       parameters:
-        - playwrightProject: { type: string , label : "Provide the project name that matches with the one in the playwright config file"}
+        - playwrightProject: { type: string , label : "Provide the project name that matches with the one in the playwright config file- EX-(ufm-be,ufm-fe,cdf-be,cdf-fe)"}
         - testTag: { type: string , label : "Provide the unique tag to run the test"}
   - manual:
       name: Run ConcordTriggeredFlow
@@ -58,10 +62,10 @@ flows:
   default:
     - echo "IBG Test Suite!"
     - call: runAllTests
-  push-flow:
-    - var(app = 'ibg-shared-ui')
-    - var(envr = 'qa')
-    - call: concord-triggered-flow
+  # push-flow:
+  #   - var(app = 'ibg-shared-ui')
+  #   - var(envr = 'qa')
+  #   - call: concord-triggered-flow
   concord-triggered-flow:
     - echo "Calling e2e flow from concord"
     - if: $app
@@ -73,13 +77,12 @@ flows:
        %{app =~ COMMON_REPOS}
       then:
       - var(APP_NAME = 'IBG')
-      - call: runUFMSMokeTest
       - call: runCDFSMokeTest
     - if: | #search ufm app name here
        %{app =~ UFM_REPOS}
       then:
       - var(APP_NAME = 'UFM')
-      - call: runUFMSMokeTest
+      - call: runUFMUISmokeTest
     - if: | #search ufm app name here
        %{app =~ CDF_REPOS}
       then:
@@ -93,58 +96,59 @@ flows:
     try:
       - echo "Running all the tests in the repo"
       - call: setup
-      - RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests 
+      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests 
     finally:
       - call: reporter
   runUFMBeTests:
     try:
-      - echo "Running UFM API testcases "
+      - echo "Running UFM API Regression testcases "
       - call: setup
-      - RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-be
-    finally:
-      - call: reporter
-  runUFMFeTests:
-    try:
-      - echo "Running UFM UI testcases "
-      - call: setup
-      - RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-fe
-    finally:
-      - call: reporter
-  runUFMSMokeTest:
-    try:
-      - echo "Running UFM Smoke testcases "
-      - call: setup
-      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests 
-    finally:
-      - call: reporter
-  runUFMUISMokeTest:
-    try:
-      - echo "Running UFM UI Smoke testcases "
-      - call: setup
-      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests-fe
+      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-be
     finally:
       - call: reporter
   runUFMBeSmokeTests:
     try:
       - echo "Running UFM API Smoke testcases "
       - call: setup
-      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests-be
+      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests-be
     finally:
       - call: reporter
+  runUFMUITests:
+    try:
+      - echo "Running UFM UI Regression testcases "
+      - call: setup
+      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-fe
+    finally:
+      - call: reporter
+  runUFMUISmokeTest:
+    try:
+      - echo "Running UFM UI Smoke testcases "
+      - call: setup
+      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests-fe
+    finally:
+      - call: reporter
+  runUFMSMokeTest:
+    try:
+      - echo "Running UFM Smoke testcases "
+      - call: setup
+      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests 
+    finally:
+      - call: reporter
+  
   runCDFSMokeTest:
     try:
       - echo "Running CDF Smoke testcases "
       - call: setup
-      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:cdf-tests 
+      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:cdf-tests 
     finally:
       - call: reporter
+
   runCustomTest:
     try:
       - echo "Running Custom TestCase Manual Trigger "
       - call: setup
       - APP_NAME=$app tag=$testTag PROJECT=$playwrightProject ENV=$envr npm run tests:looper-tests
     finally:
-      - var(APP_NAME = $app)
       - call: reporter   
 
 
