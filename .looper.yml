@@ -103,35 +103,35 @@ flows:
     try:
       - echo "Running UFM API Regression testcases "
       - call: setup
-      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-be
+      - RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-be
     finally:
       - call: reporter
   runUFMBeSmokeTests:
     try:
       - echo "Running UFM API Smoke testcases "
       - call: setup
-      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests-be
+      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests-be
     finally:
       - call: reporter
   runUFMUITests:
     try:
       - echo "Running UFM UI Regression testcases "
       - call: setup
-      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-fe
+      - RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-fe
     finally:
       - call: reporter
   runUFMUISmokeTest:
     try:
       - echo "Running UFM UI Smoke testcases "
       - call: setup
-      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests-fe
+      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests-fe
     finally:
       - call: reporter
   runUFMSMokeTest:
     try:
       - echo "Running UFM Smoke testcases "
       - call: setup
-      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests 
+      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests 
     finally:
       - call: reporter
   
@@ -139,7 +139,7 @@ flows:
     try:
       - echo "Running CDF Smoke testcases "
       - call: setup
-      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:cdf-tests 
+      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:cdf-tests 
     finally:
       - call: reporter
 
