@@ -3,7 +3,7 @@ import testdata from "../testdata/create-visualizerview.json";
 import { PageFactory } from "../../common/pages/page-factory";
 
 test.describe(
-  "New Visualizer View",
+  "New Visualizer View Creation Tests",
   { tag: "@Smoke @Visualizer" },
   async () => {
     test.describe.configure({ timeout: 300_000, mode: "serial" });
@@ -16,7 +16,7 @@ test.describe(
     });
 
     test(
-      "Verify User can create a visualizer view and save it",
+      "Verify User can create a a new visualizer view and save it",
       { tag: "@createVisualizer" },
       async () => {
         test.setTimeout(500000);
@@ -51,7 +51,7 @@ test.describe(
     );
 
     test (
-        "Pin and Unpin Views test",
+        "Pin and Unpin different visualizer views on saved views page test",
         {tag: "@pin/unpinSavedViews"},
         async () => {
             test.setTimeout(500000);

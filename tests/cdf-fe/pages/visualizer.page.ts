@@ -1,4 +1,4 @@
-import { Page, expect } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 import testdata from "../testdata/create-visualizerview.json";
 import { Utility } from "../../common/fixtures/utils";
 
@@ -6,32 +6,52 @@ export class Visualizer {
 
   private readonly page: Page;
   private readonly urlEndpoint = process.env.cdfAppBaseURL + "";
+  private readonly viewNameTextField: Locator;
+  private readonly createViewButton: Locator;
+  private readonly searchScenarioField: Locator;
+  private readonly dateRange: Locator;
+  private readonly saveDateRange: Locator;
+  private readonly openMoreSavedViews: Locator;
+  private readonly savedViewsButton: Locator;
+  private readonly saveNewView: Locator;
+  private readonly visualizerName: Locator;
+  private readonly settingsButton: Locator;
 
 
   constructor(page: Page) {
     this.page = page;
+    this.viewNameTextField = this.page.getByPlaceholder('Write a View Name');
+    this.createViewButton = this.page.getByRole('button', { name: 'Create View' });
+    this.searchScenarioField = this.page.getByPlaceholder('Search');
+    this.dateRange = this.page.getByTestId('date-range-component').locator('div');
+    this.saveDateRange = this.page.getByRole('button', { name: 'Apply' });
+    this.openMoreSavedViews = this.page.getByLabel('more');
+    this.savedViewsButton = this.page.getByRole('menuitem', { name: 'Saved Views' });
+    this.saveNewView = this.page.getByRole('button', { name: 'Create View' });
+    this.visualizerName = this.page.locator('a').filter({ hasText: testdata.viewName });
+    this.settingsButton = this.page.getByLabel('icon').nth(1);
   }
 
   async openCreateNewVisualizerModal() {
-    await this.page.getByRole('button', { name: 'Create View' }).click();
+    await this.createViewButton.click();
   }
 
   async populateNewVisualizerName(name) {
-    await this.page.getByPlaceholder('Write a View Name').click();
-    await this.page.getByPlaceholder('Write a View Name').fill(name);
+    await this.viewNameTextField.click();
+    await this.viewNameTextField.fill(name);
   }
 
   async searchForNewScenario(name) {
-    await this.page.getByPlaceholder('Search').click();
+    await this.searchScenarioField.click();
     await this.page.getByText(name).click();
   }
 
   async chooseNewDateRange(dateType, startDate, endDate) {
-    await this.page.getByTestId('date-range-component').locator('div').first().click();
+    await this.dateRange.first().click();
     await this.page.getByLabel(dateType).check();
     await this.page.getByRole('button', { name: startDate }).click();
     await this.page.getByRole('button', { name: endDate }).click();
-    await this.page.getByRole('button', { name: 'Apply' }).click();
+    await this.saveDateRange.click();
   }
 
   async chooseNewHierarchys(hierarchys) {
@@ -47,8 +67,8 @@ export class Visualizer {
   }
 
   async openSavedViews() {
-    await this.page.getByLabel('more').click();
-    await this.page.getByRole('menuitem', { name: 'Saved Views' }).click();
+    await this.openMoreSavedViews.click();
+    await this.savedViewsButton.click();
     await Utility.waitForLoaderToBeInvisible(this.page);
   }
 
@@ -57,7 +77,6 @@ export class Visualizer {
     await this.page.getByRole('row', {name: name, exact: false}).first().getByRole('button').nth(1).click();
     const unpinned = this.page.getByRole('row', {name: name, exact: false}).last().getByRole('button').nth(1)
     await expect(pinned).not.toBe(unpinned);
-    await this.page.waitForTimeout(5000);
   }
 
   async pinSavedView(name) {
@@ -69,12 +88,12 @@ export class Visualizer {
   }
 
   async saveView() {
-    await this.page.getByRole('button', { name: 'Create View' }).first().click();
+    await this.saveNewView.first().click();
     await Utility.waitForDataLoadingMessageToBeInvisible(this.page);
   }
 
   async verifyView(hierarchys) {
-    await expect(await this.page.locator('a').filter({ hasText: testdata.viewName }).allTextContents()).toContain(testdata.viewName);
+    await expect(await this.visualizerName.allTextContents()).toContain(testdata.viewName);
     await expect(this.page.getByRole('columnheader', { name: 'Actual' })).toBeVisible();
     for (let hierarchy of hierarchys) {
       await expect(this.page.getByRole('columnheader', { name: hierarchy })).toBeVisible();
@@ -82,12 +101,6 @@ export class Visualizer {
   }
 
   async openSettings() {
-      await this.page.getByLabel('icon').nth(1).click();
-  }
-
-  async navigate() {
-    await this.page.goto(this.urlEndpoint, {
-      timeout: 500000,
-    });
+      await this.settingsButton.click();
   }
 }

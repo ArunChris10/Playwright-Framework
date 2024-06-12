@@ -3,7 +3,7 @@ import testdata from "../testdata/create-publishDSS.json";
 import { PageFactory } from "../../common/pages/page-factory";
 
 test.describe(
-  "Publish Demand Stack Scenario",
+  "Publish Demand Stack Scenario Tests (Make sure DSS can be published and viewed on currentdemand page)",
   { tag: "@Smoke @PublishDSS" },
   async () => {
     test.describe.configure({ timeout: 300_000, mode: "serial" });
@@ -16,7 +16,7 @@ test.describe(
     });
 
     test(
-      "Publish DSS works",
+      "Publish DSS works (User can select which slot to publish too and corresponding slot will be published on currentdemand page)",
       { tag: "@publishDSS" },
       async () => {
         test.setTimeout(500000);
@@ -42,7 +42,7 @@ test.describe(
         });
 
         await test.step("Verify DSS has been published", async () => {
-            await objpageFactory.cdfPageFactory().currentDemand().verifyDSSPublished();
+            await objpageFactory.cdfPageFactory().currentDemand().verifyDSSPublished(testdata.dssName);
         })
 
       }

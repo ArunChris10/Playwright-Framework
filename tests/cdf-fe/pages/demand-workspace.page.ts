@@ -8,6 +8,8 @@ export class DemandWorkspace {
   private readonly btnScenarioMenu;
   private readonly btnConfirm: Locator;
   private readonly urlEndpoint = process.env.cdfAppBaseURL + "";
+  private readonly openButton: Locator;
+  private readonly moreOptions: Locator;
 
 
   constructor(page: Page) {
@@ -19,6 +21,8 @@ export class DemandWorkspace {
       );
     };
     this.btnConfirm = page.getByRole("button", { name: "Confirm" });
+    this.openButton = this.page.getByRole('button', { name: 'Open' });
+    this.moreOptions = this.page.getByRole('button', {name: 'More options', exact: false});
   }
 
   async getScenarioLockStatus(scenarioName: string) {
@@ -32,7 +36,7 @@ export class DemandWorkspace {
 
   async openMenuOptionFromExistingScenario(option: string) {
     await Utility.waitForLoaderToBeInvisible(this.page);
-    await this.page.locator('.IconButton-module_iconButton__SqVG-').first().click();
+    await this.moreOptions.first().click();
     await this.selectScenarioMenu(option);
   }
 
@@ -53,7 +57,7 @@ export class DemandWorkspace {
   }
 
   async openFirstDSS() {
-    await this.page.locator('.Button-module_button__3Eu7g').first().click();
+    await this.openButton.first().click();
     await Utility.waitForLoaderToBeInvisible(this.page);
   }
 

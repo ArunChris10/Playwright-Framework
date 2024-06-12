@@ -1,4 +1,5 @@
 {
     "options": ["Publish to downstream applications"],
-    "slot": "1"
+    "slot": "1",
+    "dssName": "Test Automation DSS"
 }

@@ -1,24 +1,26 @@
-import { Page, expect } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 
 export class CurrentDemand {
 
   private readonly page: Page;
   private readonly urlEndpoint = process.env.cdfAppBaseURL + "/currentdemand";
+  private readonly gridCell: Locator;
 
 
   constructor(page: Page) {
     this.page = page;
+    this.gridCell = this.page.getByRole('gridcell');
   }
 
   async checkEditableSummary() {
     const original = this.page;
-    await this.page.getByRole('gridcell').last().click();
-    await this.page.getByRole('gridcell').last().dblclick();
+    await this.gridCell.last().click();
+    await this.gridCell.last().dblclick();
     await expect(original).toBe(this.page);
   }
 
-  async verifyDSSPublished() {
-    await expect(this.page.getByText('Test Automation DSS').nth(1)).toBeVisible();
+  async verifyDSSPublished(name) {
+    await expect(this.page.getByText(name).nth(1)).toBeVisible();
   }
 
 
