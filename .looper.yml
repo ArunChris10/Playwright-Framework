@@ -160,7 +160,6 @@ flows:
       - echo '{}' > secrets/ibg-user-storagestate.json
       - echo '{}' > secrets/nexus-user-storagestate.json
   reporter:
-    - var(APP_NAME = '$app')
     - publishReport:
         context: playwright/${APP_NAME}
         dir: playwright-report/${APP_NAME}
