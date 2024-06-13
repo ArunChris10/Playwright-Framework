@@ -1,5 +1,6 @@
 import { test } from "../../common/fixtures/test-hook";
 import testdata from "../testdata/create-publishDSS.json";
+import testdataNewDSS from "../testdata/create-demandstackscenario.json";
 import { PageFactory } from "../../common/pages/page-factory";
 
 test.describe(
@@ -20,6 +21,43 @@ test.describe(
       { tag: "@publishDSS" },
       async () => {
         test.setTimeout(500000);
+
+        await test.step("Open the copy dialog", async () => {
+          //Opening the copy dialog
+          await objpageFactory
+            .cdfPageFactory()
+            .demandWorkspace()
+            .openMenuOptionFromExistingScenario("copy");
+        });
+
+        await test.step("Create a new scenario in the copy dialog", async () => {
+          //Creating a new scenario in the copy dialog
+          await objpageFactory
+            .cdfPageFactory()
+            .copyScenario()
+            .createNewDemandScenario(testdataNewDSS.dssName, testdataNewDSS.description);
+          await objpageFactory
+            .cdfPageFactory()
+            .copyScenario()
+            .verifyCopyConfirmation(testdataNewDSS.msgCopyStarted);
+        });
+
+        await test.step("Check if the scenario creation Job Started", async () => {
+          //Check for the sceanario creation start
+          await objpageFactory
+            .cdfPageFactory()
+            .demandWorkspace()
+            .waitForScenarioToBeVisible(testdataNewDSS.dssName);
+          await objpageFactory.home().checkAlertMessageFor(testdataNewDSS.dssName);
+        });
+
+        await test.step("Check if the scenario creation Job Completed", async () => {
+          //Waiting for the async process to complete
+          await objpageFactory
+            .cdfPageFactory()
+            .demandWorkspace()
+            .waitForScenarioCreation(testdataNewDSS.dssName, 4);
+        });
 
         await test.step("Go to the first DSS", async () => {
             await objpageFactory.cdfPageFactory().demandWorkspace().openFirstDSS();
