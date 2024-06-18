@@ -12,7 +12,7 @@ export class Home {
   }
 
   async open(menuOption: string) {
-    await this.page.getByText(menuOption, { exact: true }).click();
+    await this.page.getByRole("tab", { name: menuOption }).click();
   }
 
   async checkIfHomepageIsVisible() {
