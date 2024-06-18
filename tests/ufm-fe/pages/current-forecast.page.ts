@@ -120,7 +120,7 @@ export class CurrentForecast {
   }
 
   async clickOnApplyFilter() {
-    await this.applyFilter.click()
+    await this.applyFilter.first().click()
   }
 
   async clickOnViewIn(Conversion: string) {
@@ -128,15 +128,18 @@ export class CurrentForecast {
   }
 
   async getForecastValues() {
-    let totalValueFirstRow = await this.totalForecastValueFirstRow.innerText()
-    let netSalesFirstRow = await this.netSalesForecastValueFirstRow.innerText()
+    let totalValueFirstRow: string | number = await this.totalForecastValueFirstRow.innerText()
+    let netSalesFirstRow: string | number = await this.netSalesForecastValueFirstRow.innerText()
 
-    totalValueFirstRow = totalValueFirstRow.replace(/[,$-]/g, '')
-    netSalesFirstRow = netSalesFirstRow.replace(/[,$-]/g, '')
+    totalValueFirstRow = parseFloat(totalValueFirstRow.replace(/[,$-]/g, ''))
+    netSalesFirstRow = parseFloat(netSalesFirstRow.replace(/[,$-]/g, ''))
+
+    totalValueFirstRow = isNaN(totalValueFirstRow) ? 0 : totalValueFirstRow
+    netSalesFirstRow = isNaN(netSalesFirstRow) ? 0 : netSalesFirstRow
 
     debug.log("totalValue:", totalValueFirstRow, " netSales:", netSalesFirstRow)
 
-    return { totalValue: parseFloat(totalValueFirstRow), netSales: parseFloat(netSalesFirstRow) }
+    return { totalValue: totalValueFirstRow, netSales: netSalesFirstRow }
   }
 
 

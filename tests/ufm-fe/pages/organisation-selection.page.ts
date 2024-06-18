@@ -1,12 +1,14 @@
-import { Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import { CurrentForecast } from "./current-forecast.page";
 
 export class OrganisationSelection {
   readonly page: Page;
+  readonly organizationSelectionBreadCrumb: Locator;
   private readonly urlEndpoint = process.env.ufmAppBaseURL + "";
 
   constructor(page: Page) {
     this.page = page;
+    this.organizationSelectionBreadCrumb = page.getByText("Organization Selection")
   }
 
   async selectOrganisation(organisationName: string) {
@@ -21,6 +23,10 @@ export class OrganisationSelection {
 
   async navigate() {
     await this.page.goto(this.urlEndpoint, { timeout: 120000 });
+  }
+
+  async clickOnOrganizationBreadcrumb() {
+    await this.organizationSelectionBreadCrumb.click()
   }
 
 }

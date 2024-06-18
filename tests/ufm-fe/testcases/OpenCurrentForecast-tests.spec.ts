@@ -23,7 +23,7 @@ test.describe('Verify user is able to Open Current Forecast', { tag: "@Smoke @Op
         });
 
         await test.step('Click on particular SBA breadcrum', async () => {
-            await openCurrentForecast.clickOnBreadcrum(forecast.Merch.sbaBreadCrumName);
+            await openCurrentForecast.clickOnBreadcrum(forecast.Merch.nameOfTheSBA);
         });
 
         await test.step('Verify successful landing back on current forecast page', async () => {

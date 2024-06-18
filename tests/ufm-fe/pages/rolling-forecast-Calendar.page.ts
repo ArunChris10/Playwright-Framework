@@ -23,6 +23,7 @@ export class RollingForecastCalendar {
   readonly rollingForecastTab: Locator;
   readonly nudgeMessageForPublishDueDate: Locator;
   readonly corporateDueDateMessage: Locator;
+  readonly organizationDueDateMessage: Locator;
   readonly filterContainer: Locator;
   readonly saveAndSetNextDateButton: Locator;
   readonly corporateCalendarDateText: Locator;
@@ -51,6 +52,7 @@ export class RollingForecastCalendar {
     this.rollingForecastTab = page.getByText("Rolling forecast", { exact: true })
     this.nudgeMessageForPublishDueDate = page.getByText('Once you\'ve set all the fiscal year\'s dates, publish the line of business forecast due dates.')
     this.corporateDueDateMessage = page.getByText('The corporate forecast is due on')
+    this.organizationDueDateMessage = page.getByText('The organisation forecast submission is due on')
     this.saveAndSetNextDateButton = page.getByRole('button', { name: 'Save and set next date' })
     this.corporateCalendarDateText = page.locator("//div[contains(text(),'Corporate forecast submission date')]/following-sibling::div[@class='calendarDateText']")
     this.organizationCalendarDateText = page.locator("//div[contains(text(),'Organization forecast due date')]/following-sibling::div[@class='calendarDateText']")
@@ -178,6 +180,10 @@ export class RollingForecastCalendar {
 
   async getCorporateDueDateMessage() {
     return this.corporateDueDateMessage.innerText()
+  }
+
+  async getOrganizationDueDateMessage() {
+    return this.organizationDueDateMessage.innerText()
   }
 
   async clickOnSaveSetNextDueDate() {

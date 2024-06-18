@@ -141,7 +141,7 @@ testData.forEach(filter => {
                 const currentDate = new Date();
                 let year = currentDate.getFullYear();
 
-                let corporateDueDateTemplate = `The corporate forecast is due on ${payload.monthString} ${payload.date}, 2024`
+                let corporateDueDateTemplate = `The corporate forecast is due on ${payload.monthString} ${payload.date}, ${year}`
 
                 expect(corporateDueDate).toEqual(corporateDueDateTemplate)
             })
