@@ -50,7 +50,7 @@ export class OpenCurrentForecast {
 
     async clickOnBreadcrum(sbaName: string) {
 
-        await this.page.getByText(`${sbaName}`).click();
+        await this.page.getByText(`UFM ${sbaName}`).click();
     }
 
     async verifyCreateForecastScreenIsVisible() {

@@ -2,21 +2,17 @@ import { testData } from '../testdata/forecast_cycle.json';
 import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
 
-testData.forEach(filter => {
+testData.forEach(data => {
     test.describe('Create forecast Cycle', { tag: "@Smoke @organizationForecastCycle" }, async () => {
-        let payload = filter
+        let payload = data
         test.describe.configure({ timeout: 300_000, mode: "serial" })
         let objpageFactory: PageFactory;
 
         test.beforeAll(async ({ pageFactory }) => {
             objpageFactory = pageFactory;
         })
-        test.afterAll(async () => {
-            await test.step('Delete all available cycle', async () => {
-                await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().deleteAllCycles()
-            })
-        })
-        test('Verify user can create forecast cycle with corporate date', { tag: "@createForecastCycleOrganization" },
+
+        test('Verify user can create forecast cycle with corporate and organization due date date', { tag: "@createForecastCycleOrganization" },
             async () => {
 
                 test.setTimeout(300000);
@@ -157,6 +153,35 @@ testData.forEach(filter => {
                 expect(orgDueDateProperty.backgroundColour).toMatch(/rgb(a)?\(0, 0, 0/)
                 expect(orgDueDateProperty.border).toMatch(/rgb(a)?\(255, 194, 32/)
             })
+        })
+
+        test('Verify User can validate due dates in LOB Inputter', { tag: "@LOBDueDateValidation" }, async () => {
+
+
+            await test.step('Go To organization selection page', async () => {
+                await objpageFactory.ufmPageFactory().organisationSelection().clickOnOrganizationBreadcrumb()
+            })
+            await test.step(`Click on ${data.LOBSBAName} Organization`, async () => {
+                await objpageFactory.ufmPageFactory().organisationSelection().selectOrganisation(data.LOBSBAName);
+            })
+
+            await test.step(`Validate Corporate and Organization Due date message with corresponding date format`, async () => {
+                let corporateDueDate = await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().getCorporateDueDateMessage()
+                let organizationDueDate = await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().getOrganizationDueDateMessage()
+
+                const currentDate = new Date();
+                let year = currentDate.getFullYear();
+
+                let corporateDueDateTemplate = `The corporate forecast is due on ${payload.monthString} ${payload.date}, ${year}`
+                let organizationDueDateTemplate = `The organisation forecast submission is due on ${payload.OrgMonthString} ${payload.orgDueDate}, ${year}`
+
+                expect(corporateDueDate).toEqual(corporateDueDateTemplate)
+                expect(organizationDueDate).toEqual(organizationDueDateTemplate)
+
+            })
+
+
+
         })
 
     })
