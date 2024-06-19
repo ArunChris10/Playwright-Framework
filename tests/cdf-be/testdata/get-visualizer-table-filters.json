@@ -1,0 +1,906 @@
+{
+    "endpoint": "/api/visualizer/templates/1/filters/4af19248-6a90-4e4d-a47d-e2f932035f53",
+    "expected_response": {
+        "baseChannels": [
+            {
+                "id": "baseChannelId:1",
+                "filterDisplayName": "InStore InClub",
+                "filterIdentification": {
+                    "baseChannelId": "1"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:2",
+                "filterDisplayName": "OTHER PHYSICAL",
+                "filterIdentification": {
+                    "baseChannelId": "2"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:3",
+                "filterDisplayName": "Scheduled Delivery",
+                "filterIdentification": {
+                    "baseChannelId": "3"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:4",
+                "filterDisplayName": "INHOME DELIVERY",
+                "filterIdentification": {
+                    "baseChannelId": "4"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:5",
+                "filterDisplayName": "Express Delivery",
+                "filterIdentification": {
+                    "baseChannelId": "5"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:6",
+                "filterDisplayName": "Unscheduled Delivery",
+                "filterIdentification": {
+                    "baseChannelId": "6"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:8",
+                "filterDisplayName": "WMT Instacart",
+                "filterIdentification": {
+                    "baseChannelId": "8"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:10",
+                "filterDisplayName": "Ship From Store",
+                "filterIdentification": {
+                    "baseChannelId": "10"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:12",
+                "filterDisplayName": "Scheduled Pickup",
+                "filterIdentification": {
+                    "baseChannelId": "12"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:13",
+                "filterDisplayName": "Unscheduled Pickup",
+                "filterIdentification": {
+                    "baseChannelId": "13"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:14",
+                "filterDisplayName": "Express Pickup",
+                "filterIdentification": {
+                    "baseChannelId": "14"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:16",
+                "filterDisplayName": "Gift Registry",
+                "filterIdentification": {
+                    "baseChannelId": "16"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:17",
+                "filterDisplayName": "WMT Photo",
+                "filterIdentification": {
+                    "baseChannelId": "17"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:18",
+                "filterDisplayName": "Services Physical",
+                "filterIdentification": {
+                    "baseChannelId": "18"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:19",
+                "filterDisplayName": "WMT Pharmacy Rx",
+                "filterIdentification": {
+                    "baseChannelId": "19"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:22",
+                "filterDisplayName": "DSV S2H",
+                "filterIdentification": {
+                    "baseChannelId": "22"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:23",
+                "filterDisplayName": "Owned S2H",
+                "filterIdentification": {
+                    "baseChannelId": "23"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:26",
+                "filterDisplayName": "DSV S2S",
+                "filterIdentification": {
+                    "baseChannelId": "26"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:27",
+                "filterDisplayName": "OWNED S2S",
+                "filterIdentification": {
+                    "baseChannelId": "27"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:28",
+                "filterDisplayName": "Third Party Website",
+                "filterIdentification": {
+                    "baseChannelId": "28"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:29",
+                "filterDisplayName": "Core Services",
+                "filterIdentification": {
+                    "baseChannelId": "29"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:31",
+                "filterDisplayName": "WMT Advertising",
+                "filterIdentification": {
+                    "baseChannelId": "31"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:32",
+                "filterDisplayName": "SELLER FULFILLED",
+                "filterIdentification": {
+                    "baseChannelId": "32"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:33",
+                "filterDisplayName": "Walmart Fulfillment Services",
+                "filterIdentification": {
+                    "baseChannelId": "33"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "baseChannelId:999",
+                "filterDisplayName": "NONE",
+                "filterIdentification": {
+                    "baseChannelId": "999"
+                },
+                "dependentFilters": {}
+            }
+        ],
+        "channelGroups": [
+            {
+                "id": "channelGroupId:1",
+                "filterDisplayName": "Instore Inclub",
+                "filterIdentification": {
+                    "channelGroupId": "1"
+                },
+                "dependentFilters": {
+                    "baseChannels": [
+                        "baseChannelId:1",
+                        "baseChannelId:2",
+                        "baseChannelId:999"
+                    ]
+                }
+            },
+            {
+                "id": "channelGroupId:2",
+                "filterDisplayName": "DELIVERY",
+                "filterIdentification": {
+                    "channelGroupId": "2"
+                },
+                "dependentFilters": {
+                    "baseChannels": [
+                        "baseChannelId:3",
+                        "baseChannelId:4",
+                        "baseChannelId:5",
+                        "baseChannelId:6",
+                        "baseChannelId:8",
+                        "baseChannelId:10",
+                        "baseChannelId:22",
+                        "baseChannelId:23",
+                        "baseChannelId:32",
+                        "baseChannelId:33"
+                    ]
+                }
+            },
+            {
+                "id": "channelGroupId:3",
+                "filterDisplayName": "PICKUP",
+                "filterIdentification": {
+                    "channelGroupId": "3"
+                },
+                "dependentFilters": {
+                    "baseChannels": [
+                        "baseChannelId:12",
+                        "baseChannelId:13",
+                        "baseChannelId:14",
+                        "baseChannelId:16",
+                        "baseChannelId:17",
+                        "baseChannelId:19",
+                        "baseChannelId:26",
+                        "baseChannelId:27"
+                    ]
+                }
+            },
+            {
+                "id": "channelGroupId:4",
+                "filterDisplayName": "OTHER",
+                "filterIdentification": {
+                    "channelGroupId": "4"
+                },
+                "dependentFilters": {
+                    "baseChannels": [
+                        "baseChannelId:18",
+                        "baseChannelId:28",
+                        "baseChannelId:29",
+                        "baseChannelId:31"
+                    ]
+                }
+            }
+        ],
+        "sbus": [
+            {
+                "id": "sbuId:4",
+                "filterDisplayName": "FASHION",
+                "filterIdentification": {
+                    "sbuId": "4"
+                },
+                "dependentFilters": {
+                    "departments": [
+                        "departmentId:23",
+                        "departmentId:24",
+                        "departmentId:25",
+                        "departmentId:26",
+                        "departmentId:27",
+                        "departmentId:28",
+                        "departmentId:29",
+                        "departmentId:30",
+                        "departmentId:31",
+                        "departmentId:32",
+                        "departmentId:33",
+                        "departmentId:34",
+                        "departmentId:35",
+                        "departmentId:36"
+                    ]
+                }
+            },
+            {
+                "id": "sbuId:27",
+                "filterDisplayName": "FOOD",
+                "filterIdentification": {
+                    "sbuId": "27"
+                },
+                "dependentFilters": {
+                    "departments": [
+                        "departmentId:1",
+                        "departmentId:80",
+                        "departmentId:81",
+                        "departmentId:82",
+                        "departmentId:83",
+                        "departmentId:84",
+                        "departmentId:90",
+                        "departmentId:91",
+                        "departmentId:92",
+                        "departmentId:93",
+                        "departmentId:94",
+                        "departmentId:95",
+                        "departmentId:96",
+                        "departmentId:97",
+                        "departmentId:98"
+                    ]
+                }
+            },
+            {
+                "id": "sbuId:29",
+                "filterDisplayName": "CONSUMABLES",
+                "filterIdentification": {
+                    "sbuId": "29"
+                },
+                "dependentFilters": {
+                    "departments": [
+                        "departmentId:2",
+                        "departmentId:4",
+                        "departmentId:8",
+                        "departmentId:13",
+                        "departmentId:40",
+                        "departmentId:46",
+                        "departmentId:79"
+                    ]
+                }
+            },
+            {
+                "id": "sbuId:47",
+                "filterDisplayName": "HOME",
+                "filterIdentification": {
+                    "sbuId": "47"
+                },
+                "dependentFilters": {
+                    "departments": [
+                        "departmentId:14",
+                        "departmentId:17",
+                        "departmentId:19",
+                        "departmentId:20",
+                        "departmentId:22",
+                        "departmentId:71",
+                        "departmentId:74"
+                    ]
+                }
+            },
+            {
+                "id": "sbuId:60",
+                "filterDisplayName": "HARDLINES",
+                "filterIdentification": {
+                    "sbuId": "60"
+                },
+                "dependentFilters": {
+                    "departments": [
+                        "departmentId:3",
+                        "departmentId:9",
+                        "departmentId:10",
+                        "departmentId:11",
+                        "departmentId:12",
+                        "departmentId:16",
+                        "departmentId:37",
+                        "departmentId:56"
+                    ]
+                }
+            },
+            {
+                "id": "sbuId:196",
+                "filterDisplayName": "ETS",
+                "filterIdentification": {
+                    "sbuId": "196"
+                },
+                "dependentFilters": {
+                    "departments": [
+                        "departmentId:5",
+                        "departmentId:6",
+                        "departmentId:7",
+                        "departmentId:18",
+                        "departmentId:21",
+                        "departmentId:58",
+                        "departmentId:67",
+                        "departmentId:72",
+                        "departmentId:77",
+                        "departmentId:85",
+                        "departmentId:87"
+                    ]
+                }
+            }
+        ],
+        "departments": [
+            {
+                "id": "departmentId:1",
+                "filterDisplayName": "CANDY",
+                "filterIdentification": {
+                    "departmentId": "1"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:2",
+                "filterDisplayName": "PERSONAL CARE",
+                "filterIdentification": {
+                    "departmentId": "2"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:3",
+                "filterDisplayName": "STATIONERY",
+                "filterIdentification": {
+                    "departmentId": "3"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:4",
+                "filterDisplayName": "HOUSEHOLD PAPER",
+                "filterIdentification": {
+                    "departmentId": "4"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:5",
+                "filterDisplayName": "MEDIA AND GAMING",
+                "filterIdentification": {
+                    "departmentId": "5"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:6",
+                "filterDisplayName": "CAMERAS & SUPPLIES",
+                "filterIdentification": {
+                    "departmentId": "6"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:7",
+                "filterDisplayName": "TOYS",
+                "filterIdentification": {
+                    "departmentId": "7"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:8",
+                "filterDisplayName": "PETS & SUPPLIES",
+                "filterIdentification": {
+                    "departmentId": "8"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:9",
+                "filterDisplayName": "SPORTING GOODS",
+                "filterIdentification": {
+                    "departmentId": "9"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:10",
+                "filterDisplayName": "AUTOMOTIVE",
+                "filterIdentification": {
+                    "departmentId": "10"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:11",
+                "filterDisplayName": "HARDWARE",
+                "filterIdentification": {
+                    "departmentId": "11"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:12",
+                "filterDisplayName": "PAINT & ACCESSORIES",
+                "filterIdentification": {
+                    "departmentId": "12"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:13",
+                "filterDisplayName": "CLEANING",
+                "filterIdentification": {
+                    "departmentId": "13"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:14",
+                "filterDisplayName": "COOK AND DINE",
+                "filterIdentification": {
+                    "departmentId": "14"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:16",
+                "filterDisplayName": "LAWN AND GARDEN",
+                "filterIdentification": {
+                    "departmentId": "16"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:17",
+                "filterDisplayName": "HOME DECOR",
+                "filterIdentification": {
+                    "departmentId": "17"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:18",
+                "filterDisplayName": "SEASONAL",
+                "filterIdentification": {
+                    "departmentId": "18"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:19",
+                "filterDisplayName": "ARTS, CRAFTS, SEWING & FABRICS",
+                "filterIdentification": {
+                    "departmentId": "19"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:20",
+                "filterDisplayName": "BATH AND SHOWER",
+                "filterIdentification": {
+                    "departmentId": "20"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:21",
+                "filterDisplayName": "BOOKS AND MAGAZINES",
+                "filterIdentification": {
+                    "departmentId": "21"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:22",
+                "filterDisplayName": "BEDDING",
+                "filterIdentification": {
+                    "departmentId": "22"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:23",
+                "filterDisplayName": "MENS APPAREL",
+                "filterIdentification": {
+                    "departmentId": "23"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:24",
+                "filterDisplayName": "BOYS APPAREL",
+                "filterIdentification": {
+                    "departmentId": "24"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:25",
+                "filterDisplayName": "SHOES",
+                "filterIdentification": {
+                    "departmentId": "25"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:26",
+                "filterDisplayName": "BABY AND TODDLER APPAREL",
+                "filterIdentification": {
+                    "departmentId": "26"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:27",
+                "filterDisplayName": "FAMILY SOCKS",
+                "filterIdentification": {
+                    "departmentId": "27"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:28",
+                "filterDisplayName": "HOSIERY",
+                "filterIdentification": {
+                    "departmentId": "28"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:29",
+                "filterDisplayName": "INTIMATE APPAREL",
+                "filterIdentification": {
+                    "departmentId": "29"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:30",
+                "filterDisplayName": "FOUNDATIONS",
+                "filterIdentification": {
+                    "departmentId": "30"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:31",
+                "filterDisplayName": "ACCESSORIES",
+                "filterIdentification": {
+                    "departmentId": "31"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:32",
+                "filterDisplayName": "JEWELRY",
+                "filterIdentification": {
+                    "departmentId": "32"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:33",
+                "filterDisplayName": "GIRLS APPAREL",
+                "filterIdentification": {
+                    "departmentId": "33"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:34",
+                "filterDisplayName": "WOMENS APPAREL",
+                "filterIdentification": {
+                    "departmentId": "34"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:35",
+                "filterDisplayName": "PLUS SIZES/MATERNITY",
+                "filterIdentification": {
+                    "departmentId": "35"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:36",
+                "filterDisplayName": "WOMENS OUTERWEAR",
+                "filterIdentification": {
+                    "departmentId": "36"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:37",
+                "filterDisplayName": "AUTO SERVICE",
+                "filterIdentification": {
+                    "departmentId": "37"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:40",
+                "filterDisplayName": "OTC PHARMACY",
+                "filterIdentification": {
+                    "departmentId": "40"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:46",
+                "filterDisplayName": "BEAUTY",
+                "filterIdentification": {
+                    "departmentId": "46"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:56",
+                "filterDisplayName": "HORTICULTURE",
+                "filterIdentification": {
+                    "departmentId": "56"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:58",
+                "filterDisplayName": "WIRELESS SERVICE INCOME",
+                "filterIdentification": {
+                    "departmentId": "58"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:67",
+                "filterDisplayName": "CELEBRATION",
+                "filterIdentification": {
+                    "departmentId": "67"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:71",
+                "filterDisplayName": "FURNITURE",
+                "filterIdentification": {
+                    "departmentId": "71"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:72",
+                "filterDisplayName": "ELECTRONICS",
+                "filterIdentification": {
+                    "departmentId": "72"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:74",
+                "filterDisplayName": "HOME MANAGEMENT",
+                "filterIdentification": {
+                    "departmentId": "74"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:77",
+                "filterDisplayName": "LARGE HOUSEHOLD GOODS",
+                "filterIdentification": {
+                    "departmentId": "77"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:79",
+                "filterDisplayName": "INFANT CONSUMABLE HARDLINES",
+                "filterIdentification": {
+                    "departmentId": "79"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:80",
+                "filterDisplayName": "SERVICE DELI",
+                "filterIdentification": {
+                    "departmentId": "80"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:81",
+                "filterDisplayName": "COM BREAD",
+                "filterIdentification": {
+                    "departmentId": "81"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:82",
+                "filterDisplayName": "IMPULSE MERCHANDISE",
+                "filterIdentification": {
+                    "departmentId": "82"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:83",
+                "filterDisplayName": "SEAFOOD",
+                "filterIdentification": {
+                    "departmentId": "83"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:84",
+                "filterDisplayName": "BALLOONS & FLOWERS",
+                "filterIdentification": {
+                    "departmentId": "84"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:85",
+                "filterDisplayName": "Photo",
+                "filterIdentification": {
+                    "departmentId": "85"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:87",
+                "filterDisplayName": "WIRELESS",
+                "filterIdentification": {
+                    "departmentId": "87"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:90",
+                "filterDisplayName": "DAIRY",
+                "filterIdentification": {
+                    "departmentId": "90"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:91",
+                "filterDisplayName": "FROZEN",
+                "filterIdentification": {
+                    "departmentId": "91"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:92",
+                "filterDisplayName": "GROCERY",
+                "filterIdentification": {
+                    "departmentId": "92"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:93",
+                "filterDisplayName": "MEAT",
+                "filterIdentification": {
+                    "departmentId": "93"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:94",
+                "filterDisplayName": "PRODUCE",
+                "filterIdentification": {
+                    "departmentId": "94"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:95",
+                "filterDisplayName": "DSD GROCERY",
+                "filterIdentification": {
+                    "departmentId": "95"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:96",
+                "filterDisplayName": "LIQUOR",
+                "filterIdentification": {
+                    "departmentId": "96"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:97",
+                "filterDisplayName": "WALL DELI",
+                "filterIdentification": {
+                    "departmentId": "97"
+                },
+                "dependentFilters": {}
+            },
+            {
+                "id": "departmentId:98",
+                "filterDisplayName": "BAKERY",
+                "filterIdentification": {
+                    "departmentId": "98"
+                },
+                "dependentFilters": {}
+            }
+        ]
+    }
+}

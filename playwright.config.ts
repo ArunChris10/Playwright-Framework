@@ -123,7 +123,7 @@ export default defineConfig({
       grep: [new RegExp(process.env.tag + "")],
       use: {
         extraHTTPHeaders: {
-          "Authorization": `Bearer ${ibgTokens[process.env.cdfUser + ""]}`
+          "Authorization": `Bearer ${nexusTokens[process.env.cdfUser + ""]}`
         }
       }
     },
