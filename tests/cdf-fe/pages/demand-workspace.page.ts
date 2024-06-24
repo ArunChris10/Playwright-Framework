@@ -10,6 +10,8 @@ export class DemandWorkspace {
   private readonly urlEndpoint = process.env.cdfAppBaseURL + "";
   private readonly openButton: Locator;
   private readonly moreOptions: Locator;
+  private readonly archiveButton: Locator;
+  private readonly unarchiveButton: Locator;
 
 
   constructor(page: Page) {
@@ -23,6 +25,8 @@ export class DemandWorkspace {
     this.btnConfirm = page.getByRole("button", { name: "Confirm" });
     this.openButton = this.page.getByRole('button', { name: 'Open' });
     this.moreOptions = this.page.getByRole('button', {name: 'More options', exact: false});
+    this.archiveButton = this.page.getByRole('switch', { name: 'Unarchived' });
+    this.unarchiveButton = this.page.getByRole('switch', { name: 'Archived' });
   }
 
   async getScenarioLockStatus(scenarioName: string) {
@@ -76,6 +80,19 @@ export class DemandWorkspace {
     await this.selectScenarioMenu('Delete')
     await this.btnConfirm.click();
     await Utility.waitForLoaderToBeInvisible(this.page);
+  }
+
+  async toggleArchivedView() {
+    await this.archiveButton.click();
+    await Utility.waitForLoaderToBeInvisible(this.page);
+  }
+  async toggleUnarchivedView() {
+    await this.unarchiveButton.click();
+    await Utility.waitForLoaderToBeInvisible(this.page);
+  }
+
+  async checkScenarioArchives(dssName: string) {
+   return this.page.getByText(dssName).first();
   }
 
   async navigate() {

@@ -125,6 +125,61 @@ test.describe(
     );
 
     test(
+      "Verify User can Archive a Demand Stack Scenario",
+      { tag: "@archiveDSS" },
+      async () => {
+        await test.step("Open Scenario Menu", async () => {
+          await objpageFactory
+            .cdfPageFactory()
+            .demandWorkspace()
+            .openScenarioMenuFor(testdata.dssName);
+        });
+        await test.step("Click on Archive and check alert message", async () => {
+          await objpageFactory
+            .cdfPageFactory()
+            .demandWorkspace()
+            .selectScenarioMenu("Archive");
+          await objpageFactory
+            .home()
+            .checkAlertMessageFor(testdata.msgArchiveSuccessfully);
+        });
+        await test.step("Toggle archived view", async () => {
+            await objpageFactory
+                .cdfPageFactory()
+                .demandWorkspace()
+                .toggleArchivedView();
+        })
+        await test.step("Check if the scenario is archived", async () => {
+            expect(
+                await objpageFactory
+                .cdfPageFactory()
+                .demandWorkspace()
+                .checkScenarioArchives(testdata.dssName)
+            ).toBeVisible();
+        })
+        await test.step("Click on Unrchive and check alert message", async () => {
+          await objpageFactory
+            .cdfPageFactory()
+            .demandWorkspace()
+            .openScenarioMenuFor(testdata.dssName);
+          await objpageFactory
+            .cdfPageFactory()
+            .demandWorkspace()
+            .selectScenarioMenu("Unarchive");
+          await objpageFactory
+            .home()
+            .checkAlertMessageFor(testdata.msgUnarchiveSuccessfully);
+        });
+        await test.step("Toggle unarchived view", async () => {
+            await objpageFactory
+                .cdfPageFactory()
+                .demandWorkspace()
+                .toggleUnarchivedView();
+        })
+      }
+    );
+
+    test(
       "Verify User can Delete a Demand Stack Scenario",
       { tag: "@deleteDSS" },
       async () => {
