@@ -5,5 +5,12 @@
     "startDate": "FY20",
     "endDate": "FY25",
     "metrics": ["GMV", "UNITS"],
-    "hierarchys": ["SBU", "Department"]
+    "metric": ["GMV"],
+    "hierarchys": ["SBU", "Department"],
+    "customScenariosCreatedFrom": ["Actual", "Current Demand"],
+    "customScenarioOperation": "sum",
+    "customScenarioName":"Test Automation Custom Scenario Name",
+    "customMetricCreatedFrom": ["GMV", "UNITS"],
+    "customMetricOperation": "sum",
+    "customMetricName":"Test Automation Custom Metric Name"
 }

@@ -16,6 +16,14 @@ export class Visualizer {
   private readonly saveNewView: Locator;
   private readonly visualizerName: Locator;
   private readonly settingsButton: Locator;
+  private readonly addCustomScenarioButton: Locator;
+  private readonly customScenarioNameTextField: Locator;
+  private readonly addCalculationButton: Locator;
+  private readonly addCustomMetricButton: Locator;
+  private readonly customMetricNameTextField: Locator;
+  private readonly pauseRefreshToggle: Locator;
+  private readonly noRows: Locator;
+  private readonly gridcell: Locator;
 
 
   constructor(page: Page) {
@@ -30,6 +38,14 @@ export class Visualizer {
     this.saveNewView = this.page.getByRole('button', { name: 'Create View' });
     this.visualizerName = this.page.locator('a').filter({ hasText: testdata.viewName });
     this.settingsButton = this.page.getByLabel('icon').nth(1);
+    this.addCustomScenarioButton = this.page.getByRole('button', { name: 'Add new scenario' });
+    this.customScenarioNameTextField = this.page.getByPlaceholder('Enter new scenario name');
+    this.addCalculationButton = this.page.getByRole('button', { name: 'Add calculation' });
+    this.addCustomMetricButton = this.page.getByRole('button', {name: 'Add new metric'});
+    this.customMetricNameTextField = this.page.getByPlaceholder('Enter new metric name');
+    this.pauseRefreshToggle = this.page.getByRole('switch', { name: 'Pause refresh' })
+    this.noRows = this.page.getByText("No Rows To Show");
+    this.gridCell = this.page.getByRole('gridcell', {name : '$', exact:false});
   }
 
   async openCreateNewVisualizerModal() {
@@ -42,7 +58,7 @@ export class Visualizer {
   }
 
   async searchForNewScenario(name) {
-    await this.searchScenarioField.click();
+    await this.searchScenarioField.first().click();
     await this.page.getByText(name).click();
   }
 
@@ -64,6 +80,59 @@ export class Visualizer {
     for (let metric of metrics) {
       await this.page.getByLabel(metric).check();
     }
+  }
+
+  async createScenario(customScenarioName, customScenariosCreatedFrom, customScenarioOperation) {
+      await this.addCustomScenarioButton.click();
+      await this.customScenarioNameTextField.fill(customScenarioName);
+      await this.page.getByRole('button', { name: customScenarioOperation }).click();
+      for (let scenario of customScenariosCreatedFrom) {
+        await this.page.getByLabel(scenario).check();
+      }
+      await this.addCalculationButton.click();
+  }
+
+  async verifyCustomScenarioView(scenarioNames, operation) {
+    let operationNum = -1;
+    if (operation === 'sum') {
+      operationNum = parseInt(await this.gridCell.nth(1).innerText()) + parseInt(await this.gridCell.nth(2).innerText());
+    }
+    if (operation === 'difference') {
+      operationNum = parseInt(await this.gridCell.nth(1).innerText()) - parseInt(await this.gridCell.nth(2).innerText());
+    }
+    const value = parseInt(await this.gridCell.nth(3).innerText());
+    await expect(value).toBe(operationNum);
+  }
+
+  async createMetric(customMetricName, customMetricCreatedFrom, customMetricOperation) {
+      await this.addCustomMetricButton.click();
+      await this.customMetricNameTextField.fill(customMetricName);
+      await this.page.getByRole('button', { name: customMetricOperation }).click();
+      for (let metric of customMetricCreatedFrom) {
+        await this.page.getByLabel(metric).check();
+      }
+      await this.addCalculationButton.click();
+  }
+
+  async verifyCustomMetric(metricName, operation) {
+    await expect(this.page.getByText(metricName).first()).toBeVisible();
+    let operationNum = -1;
+    if (operation === 'sum') {
+      operationNum = parseInt(await this.gridCell.nth(1).innerText()) + parseInt(await this.gridCell.nth(2).innerText());
+    }
+    if (operation === 'difference') {
+      operationNum = parseInt(await this.gridCell.nth(1).innerText()) - parseInt(await this.gridCell.nth(2).innerText());
+    }
+    const value = parseInt(await this.gridCell.nth(3).innerText());
+    await expect(operationNum).toBe(value);
+  }
+
+  async pauseRefreshToggleButton() {
+    await this.pauseRefreshToggle.click();
+  }
+
+  async temporaryPauseRefreshCheck() {
+    await expect(this.noRows.first()).toBeVisible();
   }
 
   async openSavedViews() {
