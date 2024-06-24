@@ -1,8 +1,8 @@
-import { testData } from '../testdata/forecast_cycle.json';
+import { Corporate } from '../testdata/forecast_cycle.json';
 import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
 
-testData.forEach(filter => {
+Corporate.forEach(filter => {
     test.describe('Create forecast Cycle', { tag: "@Smoke @createForecastCycle" }, async () => {
         let payload = filter
         test.describe.configure({ timeout: 300_000, mode: "serial" })

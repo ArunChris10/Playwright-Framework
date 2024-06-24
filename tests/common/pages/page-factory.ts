@@ -27,4 +27,8 @@ export class PageFactory {
     utilities() {
         return new Utility(this.page)
     }
+
+    quit() {
+        this.page.close()
+    }
 }

@@ -51,7 +51,7 @@ export class RollingForecastCalendar {
     this.ellipsesGenericButton = page.locator('button[id="basic-button"]');
     this.rollingForecastTab = page.getByText("Rolling forecast", { exact: true })
     this.nudgeMessageForPublishDueDate = page.getByText('Once you\'ve set all the fiscal year\'s dates, publish the line of business forecast due dates.')
-    this.corporateDueDateMessage = page.getByText('The corporate forecast is due on')
+    this.corporateDueDateMessage = page.getByText('The corporate forecast')
     this.organizationDueDateMessage = page.getByText('The organisation forecast submission is due on')
     this.saveAndSetNextDateButton = page.getByRole('button', { name: 'Save and set next date' })
     this.corporateCalendarDateText = page.locator("//div[contains(text(),'Corporate forecast submission date')]/following-sibling::div[@class='calendarDateText']")

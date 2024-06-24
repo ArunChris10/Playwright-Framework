@@ -1,8 +1,8 @@
-import { testData } from '../testdata/forecast_cycle.json';
+import { Organization } from '../testdata/forecast_cycle.json';
 import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
 
-testData.forEach(data => {
+Organization.forEach(data => {
     test.describe('Create forecast Cycle', { tag: "@Smoke @organizationForecastCycle" }, async () => {
         let payload = data
         test.describe.configure({ timeout: 300_000, mode: "serial" })
@@ -11,8 +11,11 @@ testData.forEach(data => {
         test.beforeAll(async ({ pageFactory }) => {
             objpageFactory = pageFactory;
         })
+        test.afterAll(async () => {
+            await objpageFactory.quit()
+        })
 
-        test('Verify user can create forecast cycle with corporate and organization due date date', { tag: "@createForecastCycleOrganization" },
+        test(`Verify user can create forecast cycle with corporate due date ${payload.date} ${payload.monthString} and organization due date date ${payload.orgDueDate} ${payload.OrgMonthString}`, { tag: "@createForecastCycleOrganization" },
             async () => {
 
                 test.setTimeout(300000);
@@ -111,15 +114,27 @@ testData.forEach(data => {
                     expect(corpDueDateProperty.backgroundColour).toMatch(/rgb(a)?\(0, 113, 220/)
                     expect(corpDueDateProperty.border).toMatch(/rgb(a)?\(255, 255, 255/)
                 })
-                await test.step('Validate created organization date is highlighted with yellow border  in calendar', async () => {
-                    let orgDueDateProperty = await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().getDateProperty(payload.orgDueDate, payload.orgDueMonth)
-                    expect(orgDueDateProperty.backgroundColour).toMatch(/rgb(a)?\(0, 0, 0/)
-                    expect(orgDueDateProperty.border).toMatch(/rgb(a)?\(255, 194, 32/)
+                await test.step('Validate created organization date is highlighted with appropriate colour in calendar', async () => {
+
+                    if (payload.date == payload.orgDueDate && payload.month == payload.orgDueMonth) {
+                        await test.step('Validate created organization date is highlighted blue in calendar', async () => {
+                            let orgDueDateProperty = await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().getDateProperty(payload.orgDueDate, payload.orgDueMonth)
+                            expect(orgDueDateProperty.backgroundColour).toMatch(/rgb(a)?\(0, 113, 220/)
+                            expect(orgDueDateProperty.border).toMatch(/rgb(a)?\(255, 255, 255/)
+                        })
+                    }
+                    else {
+                        await test.step('Validate created organization date is highlighted with yellow border  in calendar', async () => {
+                            let orgDueDateProperty = await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().getDateProperty(payload.orgDueDate, payload.orgDueMonth)
+                            expect(orgDueDateProperty.backgroundColour).toMatch(/rgb(a)?\(0, 0, 0/)
+                            expect(orgDueDateProperty.border).toMatch(/rgb(a)?\(255, 194, 32/)
+                        })
+                    }
                 })
 
             })
 
-        test('Verify user can publish a created corporate forecast cycle', { tag: "@publishForecastCycle" }, async () => {
+        test(`Verify user can publish a created organization forecast cycle with due date ${payload.date} ${payload.monthString} and organization due date date ${payload.orgDueDate} ${payload.OrgMonthString}`, { tag: "@publishForecastCycle" }, async () => {
 
 
             await test.step('Validate the nudge message for publish due date is displayed in Rolling forecast calendar page', async () => {
@@ -145,17 +160,29 @@ testData.forEach(data => {
 
             await test.step('Validate created corporate date is highlighted blue in calendar', async () => {
                 let corpDueDateProperty = await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().getDateProperty(payload.date, payload.month)
-                expect(corpDueDateProperty.backgroundColour).toMatch(/rgb(a)?\(0, 113, 220/)
-                expect(corpDueDateProperty.border).toMatch(/rgb(a)?\(255, 255, 255/)
+                expect.soft(corpDueDateProperty.backgroundColour).toMatch(/rgb(a)?\(0, 113, 220/)
+                expect.soft(corpDueDateProperty.border).toMatch(/rgb(a)?\(255, 255, 255/)
             })
-            await test.step('Validate created organization date is highlighted with yellow border  in calendar', async () => {
-                let orgDueDateProperty = await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().getDateProperty(payload.orgDueDate, payload.orgDueMonth)
-                expect(orgDueDateProperty.backgroundColour).toMatch(/rgb(a)?\(0, 0, 0/)
-                expect(orgDueDateProperty.border).toMatch(/rgb(a)?\(255, 194, 32/)
+            await test.step('Validate created organization date is highlighted with appropriate colour in calendar', async () => {
+
+                if (payload.date == payload.orgDueDate && payload.month == payload.orgDueMonth) {
+                    await test.step('Validate created organization date is highlighted blue in calendar', async () => {
+                        let orgDueDateProperty = await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().getDateProperty(payload.orgDueDate, payload.orgDueMonth)
+                        expect.soft(orgDueDateProperty.backgroundColour).toMatch(/rgb(a)?\(0, 113, 220/)
+                        expect.soft(orgDueDateProperty.border).toMatch(/rgb(a)?\(255, 255, 255/)
+                    })
+                }
+                else {
+                    await test.step('Validate created organization date is highlighted with yellow border  in calendar', async () => {
+                        let orgDueDateProperty = await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().getDateProperty(payload.orgDueDate, payload.orgDueMonth)
+                        expect.soft(orgDueDateProperty.backgroundColour).toMatch(/rgb(a)?\(0, 0, 0/)
+                        expect.soft(orgDueDateProperty.border).toMatch(/rgb(a)?\(255, 194, 32/)
+                    })
+                }
             })
         })
 
-        test('Verify User can validate due dates in LOB Inputter', { tag: "@LOBDueDateValidation" }, async () => {
+        test(`Verify User can validate due dates in LOB Inputter with due date ${payload.date} ${payload.monthString} and organization due date date ${payload.orgDueDate} ${payload.OrgMonthString} `, { tag: "@LOBDueDateValidation" }, async () => {
 
 
             await test.step('Go To organization selection page', async () => {
@@ -167,17 +194,22 @@ testData.forEach(data => {
 
             await test.step(`Validate Corporate and Organization Due date message with corresponding date format`, async () => {
                 let corporateDueDate = await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().getCorporateDueDateMessage()
-                let organizationDueDate = await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().getOrganizationDueDateMessage()
+
 
                 const currentDate = new Date();
                 let year = currentDate.getFullYear();
 
                 let corporateDueDateTemplate = `The corporate forecast is due on ${payload.monthString} ${payload.date}, ${year}`
                 let organizationDueDateTemplate = `The organisation forecast submission is due on ${payload.OrgMonthString} ${payload.orgDueDate}, ${year}`
-
-                expect(corporateDueDate).toEqual(corporateDueDateTemplate)
-                expect(organizationDueDate).toEqual(organizationDueDateTemplate)
-
+                let sameDateTemplate = `The corporate forecast and organisation forecast submission is due on ${payload.OrgMonthString} ${payload.orgDueDate}, ${year}`
+                if (payload.date == payload.orgDueDate && payload.month == payload.orgDueMonth) {
+                    expect.soft(corporateDueDate.trim()).toEqual(sameDateTemplate.trim())
+                }
+                else {
+                    let organizationDueDate = await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().getOrganizationDueDateMessage()
+                    expect.soft(corporateDueDate.trim()).toEqual(corporateDueDateTemplate.trim())
+                    expect.soft(organizationDueDate.trim()).toEqual(organizationDueDateTemplate.trim())
+                }
             })
 
 
