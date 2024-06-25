@@ -5,6 +5,7 @@
     "startDate": "FY20",
     "endDate": "FY25",
     "metrics": ["GMV", "UNITS"],
+    "filters": ["Channel Group", "Channel", "SBU", "Department"],
     "metric": ["GMV"],
     "hierarchys": ["SBU", "Department"],
     "customScenariosCreatedFrom": ["Actual", "Current Demand"],

@@ -49,6 +49,17 @@ test.describe(
         })
       }
     );
+    
+    test (
+        "Verify visualizer filters are present",
+        {tag: "@VisualizerFilters"},
+        async () => {
+            test.setTimeout(500000);
+            await test.step("Open saved views", async () => {
+                await objpageFactory.cdfPageFactory().visualizer().verifyFiltersPresent(testdata.filters);
+            })
+        }
+    );
 
     test (
         "Testing Custom Calculated Scenario Creation",
@@ -86,7 +97,6 @@ test.describe(
             await test.step("Verify custom scenario has been created", async () => {
                 await objpageFactory.cdfPageFactory().visualizer().verifyCustomScenarioView([...testdata.customScenariosCreatedFrom, testdata.customScenarioName], testdata.customScenarioOperation);
             })
-            
         }
     );
 
@@ -126,7 +136,7 @@ test.describe(
             
         }
     );
-
+    
     test (
         "Testing pause refresh button on visualizer view",
         {tag: "@pauseRefresh"},
@@ -160,7 +170,49 @@ test.describe(
             await test.step("Finally save visualizer view", async () => {
                 await objpageFactory.cdfPageFactory().visualizer().saveView();
             })
-            
+           
+        }
+    );
+  
+    test (
+        "Verify user can publish to current demand",
+        {tag: "@VisualizerPublishCurrentDemand"},
+        async () => {
+            test.setTimeout(500000);
+            await test.step("Open create new visualizer modal", async () => {
+                await objpageFactory.cdfPageFactory().visualizer().openCreateNewVisualizerModal();
+            })
+            await test.step("Enter new visualizer name", async () => {
+                await objpageFactory.cdfPageFactory().visualizer().populateNewVisualizerName(testdata.viewName);
+            })
+            await test.step("Search for a new scenario", async () => {
+                await objpageFactory.cdfPageFactory().visualizer().searchForNewScenario(testdata.scenarioName);
+            })
+            await test.step("Choose date type and range for new view", async () => {
+                await objpageFactory.cdfPageFactory().visualizer().chooseNewDateRange(testdata.viewDateType, testdata.startDate, testdata.endDate);
+            })
+            await test.step("Choose hierarchys for new view", async () => {
+                await objpageFactory.cdfPageFactory().visualizer().chooseNewHierarchys(testdata.hierarchys);
+            })
+            await test.step("Choose metrics for new view", async () => {
+                await objpageFactory.cdfPageFactory().visualizer().chooseNewMetrics(testdata.metrics);
+            })
+            await test.step("Publish to current demand", async () => {
+                await objpageFactory.cdfPageFactory().visualizer().publishToCurrentDemand();
+            })
+            await test.step("Finally save visualizer view", async () => {
+                await objpageFactory.cdfPageFactory().visualizer().saveView();
+            })
+            await test.step("Navigate to current demand page", async () => {
+                await objpageFactory.cdfPageFactory().currentDemand().navigate();
+            })
+            await test.step("Verify DSS has been published", async () => {
+                await objpageFactory.cdfPageFactory().currentDemand().verifyVisualizerViewPublished(testdata.viewname);
+            })
+            await test.step("reset back to main page", async () => {
+                await objpageFactory.cdfPageFactory().demandWorkspace().navigate();
+                await objpageFactory.cdfPageFactory().demandWorkspace().openFirstDSS();
+            })
         }
     );
 

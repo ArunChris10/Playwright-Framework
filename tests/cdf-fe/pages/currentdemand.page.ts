@@ -5,11 +5,13 @@ export class CurrentDemand {
   private readonly page: Page;
   private readonly urlEndpoint = process.env.cdfAppBaseURL + "/currentdemand";
   private readonly gridCell: Locator;
+  private readonly body: Locator;
 
 
   constructor(page: Page) {
     this.page = page;
     this.gridCell = this.page.getByRole('gridcell');
+    this.body = this.page.locator('a');
   }
 
   async checkEditableSummary() {
@@ -21,6 +23,11 @@ export class CurrentDemand {
 
   async verifyDSSPublished(name) {
     await expect(this.page.getByText(name).nth(1)).toBeVisible();
+  }
+
+  async verifyVisualizerViewPublished(name) {
+    await this.body.filter({ hasText: name }).first().click();
+    await expect(this.body.filter({ hasText: name }).first()).toBeVisible();
   }
 
 

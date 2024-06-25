@@ -16,6 +16,7 @@ export class Visualizer {
   private readonly saveNewView: Locator;
   private readonly visualizerName: Locator;
   private readonly settingsButton: Locator;
+  private readonly publishToCurrentDemandButton: Locator;
   private readonly addCustomScenarioButton: Locator;
   private readonly customScenarioNameTextField: Locator;
   private readonly addCalculationButton: Locator;
@@ -38,6 +39,7 @@ export class Visualizer {
     this.saveNewView = this.page.getByRole('button', { name: 'Create View' });
     this.visualizerName = this.page.locator('a').filter({ hasText: testdata.viewName });
     this.settingsButton = this.page.getByLabel('icon').nth(1);
+    this.publishToCurrentDemandButton = this.page.getByLabel('Publish');
     this.addCustomScenarioButton = this.page.getByRole('button', { name: 'Add new scenario' });
     this.customScenarioNameTextField = this.page.getByPlaceholder('Enter new scenario name');
     this.addCalculationButton = this.page.getByRole('button', { name: 'Add calculation' });
@@ -167,6 +169,16 @@ export class Visualizer {
     for (let hierarchy of hierarchys) {
       await expect(this.page.getByRole('columnheader', { name: hierarchy })).toBeVisible();
     }
+  }
+
+  async verifyFiltersPresent(filters) {
+    for (let filter of filters) {
+      await expect(this.page.getByText(filter).first()).toBeVisible();
+    }
+  }
+
+  async publishToCurrentDemand() {
+    await this.publishToCurrentDemandButton.check();
   }
 
   async openSettings() {
