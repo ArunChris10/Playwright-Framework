@@ -28,6 +28,7 @@ export class RollingForecastCalendar {
   readonly saveAndSetNextDateButton: Locator;
   readonly corporateCalendarDateText: Locator;
   readonly organizationCalendarDateText: Locator;
+  readonly chooseOrganizationMessage: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -56,6 +57,7 @@ export class RollingForecastCalendar {
     this.saveAndSetNextDateButton = page.getByRole('button', { name: 'Save and set next date' })
     this.corporateCalendarDateText = page.locator("//div[contains(text(),'Corporate forecast submission date')]/following-sibling::div[@class='calendarDateText']")
     this.organizationCalendarDateText = page.locator("//div[contains(text(),'Organization forecast due date')]/following-sibling::div[@class='calendarDateText']")
+    this.chooseOrganizationMessage = page.getByText('Choose organizations for this due date')
   }
 
   async clickOnAddCycle() {
@@ -196,5 +198,25 @@ export class RollingForecastCalendar {
   async getOrganizationCalendarDateText() {
     return await this.organizationCalendarDateText.innerText()
   }
+
+  async selectOrganizationAssignment(assignment: String = 'All' || 'Some') {
+    this.page.locator(`//button[text()='${assignment}']`).click()
+  }
+
+  async isChooseOrgMessageDisplayed(waitfor = false) {
+
+    if (waitfor == true) {
+      await this.chooseOrganizationMessage.waitFor({ state: "visible" })
+    }
+    else {
+      await this.page.waitForTimeout(500)
+    }
+    return await this.chooseOrganizationMessage.isVisible()
+  }
+
+  async selectOrganization(orgName: string) {
+    await this.page.getByText(`${orgName}`).click();
+  }
+
 
 }

@@ -104,7 +104,7 @@ Organization.forEach(data => {
                     await expect(await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().isCycleExists(payload.date, payload.monthString, true))
                         .toBeTruthy()
 
-                    await expect(await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().isOrgCycleExists('all', payload.orgDueDate, payload.OrgMonthString, true))
+                    await expect(await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().isOrgCycleExists('All', payload.orgDueDate, payload.OrgMonthString, true))
                         .toBeTruthy()
 
                 })
