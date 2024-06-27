@@ -137,7 +137,7 @@ export class Utility {
       localStorage.setItem("isAutomationTestRunning", JSON.stringify(true))
     );
     const token = await Utility.getIBGFakeToken(
-      process.env.cdfUser + "",
+      process.env.ibgUser + "",
       request
     );
     await page.evaluate(

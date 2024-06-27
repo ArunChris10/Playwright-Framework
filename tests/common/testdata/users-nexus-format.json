@@ -2251,5 +2251,204 @@
         "accessType": "READ"
       }
     ]
-  }
+  },
+  {
+      "userId": "LB-cdf-super-user",
+      "appId": "29",
+      "appIdentifier": "ibg-ufm",
+      "displayName": "Super cdf user",
+      "givenName": "Super",
+      "familyName": "cdf user",
+      "mail": "NOT_FOUND",
+      "pfed_down": false,
+      "memberOf": [],
+      "userInBlackoutList": true,
+      "roles": [
+        {
+          "id": "102",
+          "name": "IBG_UFM_USER_ADMIN",
+          "blackoutListEnabled": true,
+          "description": "IBG_UFM_USER_ADMIN",
+          "permissions": [
+            {
+              "id": 95,
+              "name": "U_VIEW_APPLY_FILTERS_RO",
+              "description": "view and apply filters",
+              "permission_attribute": []
+            },
+            {
+              "id": 96,
+              "name": "U_SAVE_FILTERS_RW",
+              "description": "on clicking create Filter-set",
+              "permission_attribute": []
+            },
+            {
+              "id": 99,
+              "name": "U_VIEW_CURRENT_FORECAST_RO",
+              "description": "View current forecast component.",
+              "permission_attribute": []
+            },
+            {
+              "id": 100,
+              "name": "U_OPEN_FORECAST_RW",
+              "description": "Open button access to view reports.",
+              "permission_attribute": []
+            },
+            {
+              "id": 102,
+              "name": "U_NAVIGATE_DRIVER_TREE_RO",
+              "description": "NAVIGATE_DRIVER_TREE_Read and Write",
+              "permission_attribute": []
+            },
+            {
+              "id": 103,
+              "name": "U_VIEW_FORECAST_STATUS_RO",
+              "description": "view forecast status",
+              "permission_attribute": []
+            },
+            {
+              "id": 104,
+              "name": "U_SEND_FORECAST_BACK_RW",
+              "description": "send forecast",
+              "permission_attribute": []
+            },
+            {
+              "id": 106,
+              "name": "U_UPCOMING_FORECAST_RO",
+              "description": "Deadline date read",
+              "permission_attribute": []
+            },
+            {
+              "id": 107,
+              "name": "U_VIEW_FINANCIAL_SUMMARY_RO",
+              "description": "view finanical summary",
+              "permission_attribute": []
+            },
+            {
+              "id": 108,
+              "name": "U_VIEW_HISTORICAL_FORECAST_RO",
+              "description": "Historical forecast view  ",
+              "permission_attribute": []
+            },
+            {
+              "id": 109,
+              "name": "U_ACCESS_USER_REQUEST",
+              "description": "Access to user Request",
+              "permission_attribute": [
+                "segment"
+              ]
+            },
+            {
+              "id": 111,
+              "name": "U_ACCESS_HOME_SCREEN",
+              "description": "Able to access home screen of UFM",
+              "permission_attribute": []
+            },
+            {
+              "id": 114,
+              "name": "U_ACCESS_FORECAST_SCREEN",
+              "description": "Access FORECAST(My Kpi) screen ",
+              "permission_attribute": []
+            },
+            {
+              "id": 115,
+              "name": "U_ACCESS_ORG_LEVEL_SCREEN",
+              "description": "Access to ORG level Screen",
+              "permission_attribute": []
+            },
+            {
+              "id": 116,
+              "name": "U_DELETE_FILTERS_RW",
+              "description": "Delete filters",
+              "permission_attribute": []
+            },
+            {
+              "id": 118,
+              "name": "U_VIEW_SCENARIO_COMPOSITION",
+              "description": "Scenario Composition",
+              "permission_attribute": []
+            },
+            {
+              "id": 123,
+              "name": "U_SUBMIT_FORECAST_RW",
+              "description": "submit final forecast",
+              "permission_attribute": [
+                "segment"
+              ]
+            },
+            {
+              "id": 125,
+              "name": "U_SCREEN_DETAILS_RO",
+              "description": "Screen details",
+              "permission_attribute": []
+            },
+            {
+              "id": 130,
+              "name": "U_CREATE_BA_SEG_SCENARIO",
+              "description": "Creating scenario for BA and Segment.",
+              "permission_attribute": []
+            },
+            {
+              "id": 131,
+              "name": "U_CREATE_PRIM_SCENARIO",
+              "description": "create primary Scenario by Segment",
+              "permission_attribute": []
+            },
+            {
+              "id": 142,
+              "name": "U_FORECAST_CALENDAR_RO",
+              "description": "Allows user to view the forecast calendar details",
+              "permission_attribute": []
+            },
+            {
+              "id": 143,
+              "name": "U_FORECAST_CALENDAR_RW",
+              "description": "allows segment user to read and write forecast calendars",
+              "permission_attribute": []
+            },
+            {
+              "id": 144,
+              "name": "U_FORECAST_DEADLINE_DATE_RO",
+              "description": "Allows users to view the next submission deadline",
+              "permission_attribute": []
+            },
+            {
+              "id": 145,
+              "name": "U_DT_CSV_VALIDATION",
+              "description": "add new permission to Admin role",
+              "permission_attribute": []
+            },
+            {
+              "id": 148,
+              "name": "C_DEMAND_SUPER_USER",
+              "description": "super user for demand workspace",
+              "permission_attribute": []
+            }
+          ]
+        },
+        {
+          "id": "116",
+          "name": "ml-scenario-modeler",
+          "blackoutListEnabled": true,
+          "description": "ml-scenario-modeler",
+          "permissions": []
+        },
+        {
+          "id": "124",
+          "name": "centrifuge-super-user",
+          "blackoutListEnabled": true,
+          "description": "centrifuge super user",
+          "permissions": []
+        }
+      ],
+      "alignments": [],
+      "attributes": [
+        {
+          "type": "segment",
+          "valueId": "130001",
+          "valueName": "WMT US SEGMENT FINANCE",
+          "accessType": "WRITE"
+        }
+      ]
+    }
 ]
