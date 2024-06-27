@@ -24,7 +24,17 @@ export class CdfUtility {
       let responseBody = await response.json();
       debug.log(JSON.stringify(responseBody));
       return responseBody.demandStackScenarioId;
-  }        
+  }
+  
+  static async deleteScenario(request, demandId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${demandId}`;
+    console.log(endpointURL);
+    const response = await request.delete(
+        endpointURL,
+  
+        { data: archiveScenario.createScenarioPayload, headers: CdfUtility.headers }
+      );
+  }
 
   static async archiveScenario(request) {
     const demandId = await CdfUtility.createScenario(request);

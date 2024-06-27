@@ -24,7 +24,7 @@ export class Visualizer {
   private readonly customMetricNameTextField: Locator;
   private readonly pauseRefreshToggle: Locator;
   private readonly noRows: Locator;
-  private readonly gridcell: Locator;
+  private readonly gridCell: Locator;
 
 
   constructor(page: Page) {

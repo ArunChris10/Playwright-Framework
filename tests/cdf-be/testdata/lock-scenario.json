@@ -1,0 +1,7 @@
+{
+    "endpoint": "/api/demandscenarios/",
+    "payload": {
+        "baseURL": "https://scenario.qa.ibg.walmart.com/api/demandscenarios/6cc48da4-5348-446e-96a3-ada9d0bddbe9/lock"
+    },
+    "expected_response": {}
+}
