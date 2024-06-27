@@ -1,0 +1,18 @@
+{
+"endpoint": "/api/demandscenarios/",
+"archive_scenario_payload":{
+        "isArchive": true
+    },
+    "unarchive_scenario_payload":{
+        "isArchive": false
+    },
+"createScenarioPayload": {
+    "forecastInfoDTO": {
+        "forecastInfo": {
+            "id": "aa8ec420-f3bf-4966-9826-554b1980cefe"
+        }
+    },
+    "title": "DS Forecast-testautomation",
+    "description": "hello "
+}
+}
