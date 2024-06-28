@@ -1,0 +1,37 @@
+{
+    "endpoint": "/api/demandscenarios/",
+    "cloneScenarioPayload":{
+            "endpoint":"/clone",
+            "data1":{
+                "demandStackDesc": "desc ",
+                "demandStackName": "demand Name",
+                "destinationDemandStackId":null,
+                "layerTypes": []
+            },
+            "data2":{
+                "demandStackDesc": "desc ",
+                "demandStackName": "demand Name",
+                "destinationDemandStackId":null,
+                "layerTypes":["CHANNEL_SPLIT", "INTEL", "HIGHLIGHTER", "UPLOAD"]
+            }
+        },
+    "freezeScenarioPayload":{
+        "isFrozen": true
+    },
+    "UnfreezeScenarioPayload":{
+        "isFrozen": false
+    },
+    "createScenarioPayload": {
+        "forecastInfoDTO": {
+            "forecastInfo": {
+                "id": "aa8ec420-f3bf-4966-9826-554b1980cefe"
+            }
+        },
+        "title": "DS Forecast-testautomation",
+        "description": "hello "
+    },
+    "jobStatusPayload":{
+      "endpoint":"/Create_Update_Demand_Scenario/status"
+    }
+    
+    }
