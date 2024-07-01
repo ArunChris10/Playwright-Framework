@@ -1,8 +1,4 @@
 import debug from "debug";
-import createEmtLayer from '../testdata/create-emt-layer.json';
-import editEmtLayer from '../testdata/edit-emt-layer.json';
-import deleteEmtLayer from '../testdata/delete-emt-layer.json';
-import getEmtLayer from '../testdata/get-emt-layer.json';
 
 export class AdjustmentUtility {
 
@@ -12,15 +8,15 @@ export class AdjustmentUtility {
         "WM_SVC.ENV": process.env.envName
     }
 
-    static async createEMTLayer(request, demandId) {
-        const endpointURL = `${process.env.apiBaseURLCDF}${createEmtLayer.endpoint}${demandId}`;
+    static async createEMTLayer(request, demandId, testdatafileCreateEMT) {
+        const endpointURL = `${process.env.apiBaseURLCDF}${testdatafileCreateEMT.endpoint}${demandId}`;
         debug.log(endpointURL);
 
         // API Request
         const response = await request.put(
             endpointURL,
             { 
-                data: createEmtLayer.payload,
+                data: testdatafileCreateEMT.payload,
                 headers: AdjustmentUtility.headers
             }
         );
@@ -28,15 +24,15 @@ export class AdjustmentUtility {
         return response;
     }
 
-    static async getEMTLayer(request, demandId) {
-        const endpointURL = `${process.env.apiBaseURLCDF}${getEmtLayer.endpoint}${demandId}`;
+    static async getEMTLayer(request, demandId, testdatafileGetEMT) {
+        const endpointURL = `${process.env.apiBaseURLCDF}${testdatafileGetEMT.endpoint}${demandId}`;
         debug.log(endpointURL);
 
         // API Request
         const response = await request.get(
             endpointURL,
             { 
-                data: getEmtLayer.payload,
+                data: testdatafileGetEMT.payload,
                 headers: AdjustmentUtility.headers
             }
         );
@@ -44,15 +40,15 @@ export class AdjustmentUtility {
         return response;
     }
 
-    static async editEMTLayer(request, demandId) {
-        const endpointURL = `${process.env.apiBaseURLCDF}${editEmtLayer.endpoint}${demandId}`;
+    static async editEMTLayer(request, demandId, testdatafileEditEMT) {
+        const endpointURL = `${process.env.apiBaseURLCDF}${testdatafileEditEMT.endpoint}${demandId}`;
         debug.log(endpointURL);
 
         // API Request
         const response = await request.get(
             endpointURL,
             { 
-                data: editEmtLayer.payload,
+                data: testdatafileEditEMT.payload,
                 headers: AdjustmentUtility.headers
             }
         );
@@ -60,15 +56,79 @@ export class AdjustmentUtility {
         return response;
     }
 
-    static async deleteEMTLayer(request, layerId, demandId) {
-        const endpointURL = `${process.env.apiBaseURLCDF}${deleteEmtLayer.endpoint}${demandId}/layer/${layerId}`;
+    static async deleteEMTLayer(request, layerId, demandId, testdatafileDeleteEMT) {
+        const endpointURL = `${process.env.apiBaseURLCDF}${testdatafileDeleteEMT.endpoint}${demandId}/layer/${layerId}`;
         debug.log(endpointURL);
 
         // API Request
         const response = await request.delete(
             endpointURL,
             { 
-                data: deleteEmtLayer.payload,
+                data: testdatafileDeleteEMT.payload,
+                headers: AdjustmentUtility.headers
+            }
+        );
+
+        return response;
+    }
+
+    static async createManualAdjustmentLayer(request, demandId, testdatafileCreateManualAdjustment) {
+        const endpointURL = `${process.env.apiBaseURLCDF}${testdatafileCreateManualAdjustment.endpoint}${demandId}`;
+        debug.log(endpointURL);
+
+        // API Request
+        const response = await request.put(
+            endpointURL,
+            { 
+                data: testdatafileCreateManualAdjustment.payload,
+                headers: AdjustmentUtility.headers
+            }
+        );
+
+        return response;
+    }
+
+    static async getManualAdjustmentLayer(request, demandId, testdatafileGetManualAdjustment) {
+        const endpointURL = `${process.env.apiBaseURLCDF}${testdatafileGetManualAdjustment.endpoint}${demandId}`;
+        debug.log(endpointURL);
+
+        // API Request
+        const response = await request.get(
+            endpointURL,
+            { 
+                data: testdatafileGetManualAdjustment.payload,
+                headers: AdjustmentUtility.headers
+            }
+        );
+
+        return response;
+    }
+
+    static async editManualAdjustmentLayer(request, demandId, testdatafileEditManualAdjustment) {
+        const endpointURL = `${process.env.apiBaseURLCDF}${testdatafileEditManualAdjustment.endpoint}${demandId}`;
+        debug.log(endpointURL);
+
+        // API Request
+        const response = await request.get(
+            endpointURL,
+            { 
+                data: testdatafileEditManualAdjustment.payload,
+                headers: AdjustmentUtility.headers
+            }
+        );
+
+        return response;
+    }
+
+    static async deleteManualAdjustmentLayer(request, layerId, demandId, testdatafileDeleteManualAdjustment) {
+        const endpointURL = `${process.env.apiBaseURLCDF}${testdatafileDeleteManualAdjustment.endpoint}${demandId}/layer/${layerId}`;
+        debug.log(endpointURL);
+
+        // API Request
+        const response = await request.delete(
+            endpointURL,
+            { 
+                data: testdatafileDeleteManualAdjustment.payload,
                 headers: AdjustmentUtility.headers
             }
         );

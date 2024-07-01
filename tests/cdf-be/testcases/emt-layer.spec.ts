@@ -3,6 +3,7 @@ import { AdjustmentUtility } from '../fixtures/adjustment-utils';
 import testdatafileCreateEMT from '../testdata/create-emt-layer.json';
 import testdatafileEditEMT from '../testdata/edit-emt-layer.json';
 import testdatafileGetEMT from '../testdata/get-emt-layer.json';
+import testdatafileDeleteEMT from '../testdata/delete-emt-layer.json';
 import { LockUnlockUtility } from '../fixtures/lock-unlock-utils';
 import { CdfUtility } from '../fixtures/cdf-utils';
 import debug from 'debug';
@@ -21,7 +22,7 @@ test.describe("Verify user can create/edit/delete an EMT layer", { tag: "@Smoke 
         expect(lockDSSDataResponse).toBeOK();
 
         let createEmtLayerDataResponse;
-        createEmtLayerDataResponse = await AdjustmentUtility.createEMTLayer(request, demandId);
+        createEmtLayerDataResponse = await AdjustmentUtility.createEMTLayer(request, demandId, testdatafileCreateEMT);
 
         // Assertion
         expect(createEmtLayerDataResponse).toBeOK();
@@ -38,7 +39,7 @@ test.describe("Verify user can create/edit/delete an EMT layer", { tag: "@Smoke 
 
     test("Verify user is able to get and switch to a EMT Layer", async ({ request }) => {
         let getEmtLayerDataResponse;
-        getEmtLayerDataResponse = await AdjustmentUtility.getEMTLayer(request, demandId);
+        getEmtLayerDataResponse = await AdjustmentUtility.getEMTLayer(request, demandId, testdatafileGetEMT);
 
         // Assertion
         expect(getEmtLayerDataResponse).toBeOK();
@@ -54,7 +55,7 @@ test.describe("Verify user can create/edit/delete an EMT layer", { tag: "@Smoke 
 
     test("Verify user is able to edit a EMT Layer", async ({ request }) => {
         let editEmtLayerDataResponse;
-        editEmtLayerDataResponse = await AdjustmentUtility.editEMTLayer(request, demandId);
+        editEmtLayerDataResponse = await AdjustmentUtility.editEMTLayer(request, demandId, testdatafileEditEMT);
 
         // Assertion
         expect(editEmtLayerDataResponse).toBeOK();
@@ -70,7 +71,7 @@ test.describe("Verify user can create/edit/delete an EMT layer", { tag: "@Smoke 
 
     test("Verify user is able to delete a EMT Layer", async ({ request }) => {
         let deleteEmtLayerDataResponse;
-        deleteEmtLayerDataResponse = await AdjustmentUtility.deleteEMTLayer(request, layerId, demandId);
+        deleteEmtLayerDataResponse = await AdjustmentUtility.deleteEMTLayer(request, layerId, demandId, testdatafileDeleteEMT);
 
         // Assertion
         expect(deleteEmtLayerDataResponse).toBeOK();

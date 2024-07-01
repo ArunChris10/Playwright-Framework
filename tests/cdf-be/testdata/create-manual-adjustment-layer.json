@@ -1,0 +1,84 @@
+{
+    "endpoint": "/api/demandscenarios/stacks/",
+    "payload": {
+        "layers": [
+            {
+                "layerType": "HIGHLIGHTER",
+                "allocationType": "DOLLAR",
+                "layerDescription": "Test Automation New Manual Adjustment Layer Description",
+                "layerName": "Test Automation New Manual Adjustment Layer",
+                "forecastVersion": "1712604073000",
+                "isConfirmed": true,
+                "isPreview": false,
+                "highlighterAllocationsList": [
+                    {
+                        "sbu": "FOOD",
+                        "sbuId": 27,
+                        "channels": [],
+                        "amount": -20728035094.36,
+                        "yearMonth": "2030-12",
+                        "channelIds": []
+                    },
+                    {
+                        "sbu": "FOOD",
+                        "sbuId": 27,
+                        "channels": [],
+                        "amount": -22794286023.18,
+                        "yearMonth": "2030-11",
+                        "channelIds": []
+                    }
+                ]
+            }
+        ]
+    },
+    "expected_response": [
+        {
+            "allocationType": "DOLLAR",
+            "layerType": "HIGHLIGHTER",
+            "allocationAmountTypeEnum": "ABSOLUTE",
+            "allocationUnitType": "HOLD_AUR",
+            "forecastVersion": "1712604073000",
+            "layerName": "Test Automation New Manual Adjustment Layer",
+            "layerDescription": "Test Automation New Manual Adjustment Layer Description",
+            "isConfirmed": true,
+            "isPreview": false,
+            "createdBy": "LB-cdf-super-user",
+            "updatedBy": "LB-cdf-super-user",
+            "allocationFilter": {
+                "sbuList": [],
+                "deptList": [],
+                "baseChannelList": [],
+                "sbuIdsList": [],
+                "deptIdsList": [],
+                "baseChannelIdsList": []
+            },
+            "deAllocationFilter": {
+                "sbuList": [],
+                "deptList": [],
+                "baseChannelList": [],
+                "sbuIdsList": [],
+                "deptIdsList": [],
+                "baseChannelIdsList": []
+            },
+            "highlighterAllocationsList": [
+                {
+                    "sbu": "FOOD",
+                    "channels": [],
+                    "amount": -20728035094.36,
+                    "yearMonth": "2030-12",
+                    "sbuId": 27,
+                    "channelIds": []
+                },
+                {
+                    "sbu": "FOOD",
+                    "channels": [],
+                    "amount": -22794286023.18,
+                    "yearMonth": "2030-11",
+                    "sbuId": 27,
+                    "channelIds": []
+                }
+            ],
+            "isTestLayer": false
+        }
+    ]
+}

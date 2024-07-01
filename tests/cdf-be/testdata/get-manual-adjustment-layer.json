@@ -1,0 +1,39 @@
+{
+    "endpoint": "/api/demandscenarios/stacks/",
+    "payload": {},
+    "expected_response": {
+        "layers": [
+            {
+                "layerName": "Test Automation New Manual Adjustment Layer",
+                "layerType": "HIGHLIGHTER",
+                "layerJson": "{\"allocationType\":\"DOLLAR\",\"allocationAmountTypeEnum\":\"ABSOLUTE\",\"allocationUnitType\":\"HOLD_AUR\",\"allocationFilter\":{\"sbuList\":[],\"deptList\":[],\"baseChannelList\":[],\"sbuIdsList\":[],\"deptIdsList\":[],\"baseChannelIdsList\":[]},\"deAllocationFilter\":{\"sbuList\":[],\"deptList\":[],\"baseChannelList\":[],\"sbuIdsList\":[],\"deptIdsList\":[],\"baseChannelIdsList\":[]},\"highlighterAllocationsList\":[{\"sbu\":\"FOOD\",\"channels\":[],\"amount\":-20728035094.36,\"yearMonth\":{\"year\":2030,\"month\":12},\"sbuId\":27,\"channelIds\":[]},{\"sbu\":\"FOOD\",\"channels\":[],\"amount\":-22794286023.18,\"yearMonth\":{\"year\":2030,\"month\":11},\"sbuId\":27,\"channelIds\":[]}]}",
+                "layerDescription": "Test Automation New Manual Adjustment Layer Description",
+                "userId": "LB-cdf-super-user",
+                "isConfirmed": true,
+                "version": "1712604073000",
+                "projectionMethod": "YoY Projection",
+                "createdBy": "LB-cdf-super-user",
+                "createdByUserName": "",
+                "updatedBy": "LB-cdf-super-user",
+                "updatedByUserName": "",
+                "isPreview": false
+            },
+            {
+                "layerId": "419bb884-17f0-4229-9810-c4dbf3ca7d0c",
+                "layerName": "DS Forecast",
+                "layerType": "FORECAST",
+                "layerCreationDateTime": "2024-04-09T22:24:56",
+                "userId": "System",
+                "isConfirmed": true,
+                "layerUpdateDateTime": "2024-04-09T22:24:56",
+                "version": "1712604073000",
+                "projectionMethod": "YoY Projection",
+                "createdBy": "System",
+                "createdByUserName": "",
+                "updatedBy": "System",
+                "updatedByUserName": "",
+                "isPreview": false
+            }
+        ]
+        }
+}
