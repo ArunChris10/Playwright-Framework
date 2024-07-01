@@ -120,6 +120,23 @@ export class CdfUtility {
     return responseBody;
   }
 
+
+  static async cloneToNewScenarioWithLayers(request,scenarioId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${scenarioId}${scenario.cloneScenarioPayload.endpoint}`;
+    debug.log(endpointURL);
+    const response = await request.post(
+      endpointURL,
+      { data: scenario.cloneScenarioPayload.data2 , headers: CdfUtility.headers }
+    );
+    //asserting the response
+    expect(response).toBeOK();
+    let responseBody = await response.json();
+    debug.log(JSON.stringify(responseBody));
+
+    //returning the response of the created scenario
+    return responseBody;
+  }
+    
   static async freezeScenario(request,scenarioId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${scenarioId}${scenario.cloneScenarioPayload.endpoint}`;
     debug.log(endpointURL);
