@@ -1,5 +1,6 @@
 import debug from "debug";
 import archiveScenario from '../testdata/archive-scenario.json'
+import currentDemandData from '../testdata/current-demand.json'
 import getDemandScenario from '../testdata/get-demand-scenario-forecast.json'
 import { expect } from '../../common/fixtures/test-hook';
 import scenario from '../testdata/scenario.json';
@@ -118,7 +119,7 @@ export class CdfUtility {
     //returning the response of the created scenario
     return responseBody;
   }
-    
+
   static async freezeScenario(request,scenarioId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${scenarioId}${scenario.cloneScenarioPayload.endpoint}`;
     debug.log(endpointURL);
@@ -180,4 +181,78 @@ export class CdfUtility {
         await delay(10000);
       }
   }
+
+  static async getDemandScenarioById(request, demandId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenario.endpoint}${demandId}`;
+    debug.log(endpointURL);
+    const response = await request.post(
+      endpointURL,
+
+      { data: getDemandScenario.payload, headers: CdfUtility.headers }
+    );
+    //asserting the response
+    expect(response).toBeOK();
+    let responseBody = await response.json();
+    debug.log(JSON.stringify(responseBody));
+
+    //returning the scenario Id of the created forecast
+    return responseBody;
+  }
+
+  // Method to publish DSS
+  static async publishDSS(request, demandId, slotId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.publishEndpointPrefix}${demandId}${currentDemandData.publishEndpointSuffix}${slotId}/`;
+    debug.log(endpointURL);
+
+    const response = await request.post(
+        endpointURL,
+        { data: currentDemandData.payload, headers: CdfUtility.headers }
+    )
+
+    return response;
+  }
+
+  // Method to fetch the publish status
+  static async getFCPWritebackStatus(request) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.statusEndpointPrefix}${archiveScenario.createScenarioPayload.forecastInfoDTO.forecastInfo.version}${currentDemandData.statusEndpointSuffix}`;
+
+    const response = await request.get(
+        endpointURL,
+        { headers: CdfUtility.headers }
+    )
+
+    return response;
+  }
+
+  static async pollPublishData(request){
+    let retryCount = 15;
+    let statusResponse,statusResponseBody;
+    while(retryCount > 0) {
+        debug.log(retryCount);
+        statusResponse = await CdfUtility.getFCPWritebackStatus(request);
+        statusResponseBody = await statusResponse.json();
+        if( statusResponseBody.jobStatus == currentDemandData.expected_status_response){
+            break;
+        }
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        retryCount -= 1;
+    }
+    debug.log(statusResponseBody)
+    return statusResponseBody;
+  }
+
+
+  // Method to get the current demand data
+  static async currentDemand(request, slotId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.currentDemandEndpoint}${slotId}`;
+    debug.log(endpointURL);
+
+    const response = await request.post(
+        endpointURL,
+        { data: currentDemandData.currentDemandPayload, headers: CdfUtility.headers }
+    )
+
+    return response;
+  }
+
 }

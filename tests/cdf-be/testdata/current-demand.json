@@ -1,0 +1,115 @@
+{
+  "publishEndpointPrefix": "/api/demandscenarios/",
+  "publishEndpointSuffix": "/preInitiativeCdf/",
+  "statusEndpointPrefix": "/api/forecast/",
+  "statusEndpointSuffix": "/FCP_Writeback/status",
+  "currentDemandEndpoint": "/api/demandscenarios/currentDemand/",
+  "yearToTest": 2027,
+  "MonthToTest": 4,
+  "sbuToTest": "CONSUMABLES",
+  "slotId" :2,
+  "payload": {
+    "interplanSyncInd": false,
+    "ufmSyncInd": true
+  },
+  "demandStackScnearioPayload" : {
+    "sbu": [
+      "FASHION",
+      "CONSUMABLES",
+      "ENTERTAINMENT TOYS AND SEASONAL",
+      "FOOD",
+      "HARDLINES",
+      "HOME"
+    ],
+    "sbuIds": [
+      4,
+      29,
+      196,
+      27,
+      60,
+      47
+    ],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": [],
+    "baseChannelIds": [],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": [
+      "419bb884-17f0-4229-9810-c4dbf3ca7d0c"
+    ],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": true,
+    "organizationalLevel": "SBU",
+    "loadHeirarchyParams": null,
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": false,
+      "isMonthSelected": false,
+      "isQuarterSelected": false,
+      "yearMonths": [],
+      "yearQuarters": [],
+      "years": [],
+      "yearList": []
+    },
+    "version": "1712604073000",
+    "filtersChanged": true,
+    "departmentName": [],
+    "filterLoadComplete": true,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
+  },
+  "currentDemandPayload" : {
+    "sbu": [
+      "FASHION",
+      "CONSUMABLES",
+      "ENTERTAINMENT TOYS AND SEASONAL",
+      "FOOD",
+      "HARDLINES",
+      "HOME"
+    ],
+    "sbuIds": [
+      4,
+      29,
+      196,
+      27,
+      60,
+      47
+    ],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": [],
+    "baseChannelIds": [],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": [],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": true,
+    "organizationalLevel": "SBU",
+    "loadHeirarchyParams": null,
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": false,
+      "isMonthSelected": false,
+      "isQuarterSelected": false,
+      "yearMonths": [],
+      "yearQuarters": [],
+      "years": [],
+      "yearList": []
+    },
+    "departmentName": [],
+    "filtersChanged": true,
+    "filterLoadComplete": true,
+    "isUfmSyncCache": true,
+    "latestSyncScenario": true,
+    "fetchFromBq": true
+  },
+  "expected_response": {
+    "message" : "Job created and FCP CDF Write Back started."
+  },
+  "expected_status_response": "FCP write back Complete"
+}
