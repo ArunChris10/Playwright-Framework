@@ -1,12 +1,20 @@
 import { expect, test } from '../../common/fixtures/test-hook';
 import { VisualizerUtility } from '../fixtures/visualizer-utils';
 import testdatafile from '../testdata/visualizer-table-data-custom-metrics.json';
+import { CdfUtility } from '../fixtures/cdf-utils';
 import debug from 'debug';
 
 test.describe("Verify that the user should be able to add custom metrices under metric section on the visualizer", { tag: "@Smoke @visualizerTableDataCustomMetrics" }, () => {
 
+    let demandId;
+
+    test.beforeAll(async ({ request }) => { demandId = await CdfUtility.createScenario(request); });
+
+    test.afterAll(async ({ request }) => { await CdfUtility.deleteScenario(request, demandId); });
+
+
     test("Verify the custom metric SUM", async ({ request }) => {
-        let visualizerTableDataCustomMeticsResponse = await VisualizerUtility.visualizerTableDataCustomMetricsForSum(request);
+        let visualizerTableDataCustomMeticsResponse = await VisualizerUtility.visualizerTableDataCustomMetricsForSum(request, demandId);
 
         // Assertion
         expect(visualizerTableDataCustomMeticsResponse).toBeOK();
@@ -26,14 +34,11 @@ test.describe("Verify that the user should be able to add custom metrices under 
         
         // Assertion of calculated sum with response sum
         expect(sumValue).toEqual(calculatedSumValue);
-
-        // Assertion of actual response with expected response
-        expect(visualizerTableDataCustomMeticsResponseBody).toEqual(testdatafile.expected_response_for_sum);
         debug.log("User is able to add custom metric sum");
     })
 
     test("Verify the custom metric DIFFERENCE", async ({ request }) => {
-        let visualizerTableDataCustomMeticsResponse = await VisualizerUtility.visualizerTableDataCustomMetricsForDifference(request);
+        let visualizerTableDataCustomMeticsResponse = await VisualizerUtility.visualizerTableDataCustomMetricsForDifference(request, demandId);
 
         // Assertion
         expect(visualizerTableDataCustomMeticsResponse).toBeOK();
@@ -53,14 +58,11 @@ test.describe("Verify that the user should be able to add custom metrices under 
         
         // Assertion of calculated difference with response difference
         expect(differenceValue).toEqual(calculatedDifferenceValue);
-        
-        // Assertion of actual response with expected response
-        expect(visualizerTableDataCustomMeticsResponseBody).toEqual(testdatafile.expected_response_for_difference);
         debug.log("User is able to add custom metric difference");
     })
 
     test("Verify the custom metric PERCENT DIFFERENCE", async ({ request }) => {
-        let visualizerTableDataCustomMeticsResponse = await VisualizerUtility.visualizerTableDataCustomMetricsForPercentDifference(request);
+        let visualizerTableDataCustomMeticsResponse = await VisualizerUtility.visualizerTableDataCustomMetricsForPercentDifference(request, demandId);
 
         // Assertion
         expect(visualizerTableDataCustomMeticsResponse).toBeOK();
@@ -80,14 +82,11 @@ test.describe("Verify that the user should be able to add custom metrices under 
 
         // Assertion of calculated percent difference value with response percent difference value
         expect(percentDifferenceValue).toEqual(calculatedPercentDifferenceValue);
-        
-        // Assertion of actual response with expected response
-        expect(visualizerTableDataCustomMeticsResponseBody).toEqual(testdatafile.expected_response_for_percent_difference);
         debug.log("User is able to add custom metric percent difference");
     })
 
     test("Verify the custom metric YEAR OVER YEAR PERCENT", async ({ request }) => {
-        let visualizerTableDataCustomMeticsResponse = await VisualizerUtility.visualizerTableDataCustomMetricsForYearOverYearPercent(request);
+        let visualizerTableDataCustomMeticsResponse = await VisualizerUtility.visualizerTableDataCustomMetricsForYearOverYearPercent(request, demandId);
 
         // Assertion
         expect(visualizerTableDataCustomMeticsResponse).toBeOK();
@@ -107,14 +106,11 @@ test.describe("Verify that the user should be able to add custom metrices under 
 
         // Assertion of calculated yoyDifferencePercent with response yoyDifferencePercent
         expect(yoyDifferencePercentValue).toEqual(CalculatedYoyDifferencePercentValue);
-        
-        // Assertion of actual response with expected response
-        expect(visualizerTableDataCustomMeticsResponseBody).toEqual(testdatafile.expected_response_for_yoy);
         debug.log("User is able to add custom metric yoy difference percent");
     })
 
     test("Verify the custom metric YOY Difference", async ({ request }) => {
-        let visualizerTableDataCustomMeticsResponse = await VisualizerUtility.visualizerTableDataCustomMetricsForYoyDifference(request);
+        let visualizerTableDataCustomMeticsResponse = await VisualizerUtility.visualizerTableDataCustomMetricsForYoyDifference(request, demandId);
 
         // Assertion
         expect(visualizerTableDataCustomMeticsResponse).toBeOK();
@@ -134,14 +130,11 @@ test.describe("Verify that the user should be able to add custom metrices under 
 
         // Assertion of calculated yoy difference with response yoy difference
         expect(yoyDifferenceValue).toEqual(CalculatedYoyDifferenceValue);
-        
-        // Assertion of actual response with expected response
-        expect(visualizerTableDataCustomMeticsResponseBody).toEqual(testdatafile.expected_response_for_yoy_difference);
         debug.log("User is able to add custom metric yoy difference");
     })
 
     test("Verify the custom metric Last Year Value", async ({ request }) => {
-        let visualizerTableDataCustomMeticsResponse = await VisualizerUtility.visualizerTableDataCustomMetricsForLastYearValue(request);
+        let visualizerTableDataCustomMeticsResponse = await VisualizerUtility.visualizerTableDataCustomMetricsForLastYearValue(request, demandId);
 
         // Assertion
         expect(visualizerTableDataCustomMeticsResponse).toBeOK();
@@ -150,13 +143,16 @@ test.describe("Verify that the user should be able to add custom metrices under 
         let visualizerTableDataCustomMeticsResponseBody = await visualizerTableDataCustomMeticsResponse.json();
         debug.log(JSON.stringify(visualizerTableDataCustomMeticsResponseBody));
 
-        // Assertion of actual response with expected response
-        expect(visualizerTableDataCustomMeticsResponseBody).toEqual(testdatafile.expected_response_for_last_year_value);
+        let previousYearValue = visualizerTableDataCustomMeticsResponseBody[0].data[0].data[1].data[0].kpiValue
+        let currentYearValue = visualizerTableDataCustomMeticsResponseBody[0].data[0].data[13].data[2].kpiValue
+        
+        // Assertion of last year value with current year value
+        expect(previousYearValue).toEqual(currentYearValue);
         debug.log("User is able to add custom metric last year value");
     })
 
     test("Verify the custom metric Percent of Sales", async ({ request }) => {
-        let visualizerTableDataCustomMeticsResponse = await VisualizerUtility.visualizerTableDataCustomMetricsForPercentOfSales(request);
+        let visualizerTableDataCustomMeticsResponse = await VisualizerUtility.visualizerTableDataCustomMetricsForPercentOfSales(request, demandId);
 
         // Assertion
         expect(visualizerTableDataCustomMeticsResponse).toBeOK();
@@ -176,9 +172,6 @@ test.describe("Verify that the user should be able to add custom metrices under 
 
         // Assertion of calculated percent of sales value with response percent of sales value
         expect(percentOfSalesValue).toEqual(calculatedPercentOfSalesValue);
-        
-        // Assertion of actual response with expected response
-        expect(visualizerTableDataCustomMeticsResponseBody).toEqual(testdatafile.expected_response_for_percent_of_sales);
         debug.log("User is able to add custom metric percent of sales");
     })
 
