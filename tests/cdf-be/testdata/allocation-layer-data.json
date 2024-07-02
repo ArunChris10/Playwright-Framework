@@ -1,0 +1,21 @@
+{
+  "getDemandScenarioSplitsData": {
+    "endpoint": "/api/demandscenarios/splits"
+  },
+  "updateDemandScenarioSplitData": {
+    "endpoint": "/api/demandscenarios/stacks/"
+  },
+  "lockDemandScenarioEndpoint": "/api/demandscenarios/",
+  "getDemandScenarioLayersData": {
+    "endpoint": "/api/demandscenarios/stacks/"
+  },
+  "getDemandScenarioForecast": {
+    "endpoint": "/api/demandscenarios/demand/"
+  },
+  "sourceChannel": "Marketplace",
+  "sourceChannelId": 1010,
+  "targetChannel": "SELLER_FULFILLED",
+  "targetChannelId": 32,
+  "differenceAmount": 100,
+  "filterLevel": "MONTH"
+}
