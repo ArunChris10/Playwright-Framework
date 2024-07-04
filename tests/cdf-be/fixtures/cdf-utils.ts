@@ -2,6 +2,8 @@ import debug from "debug";
 import archiveScenario from '../testdata/archive-scenario.json'
 import currentDemandData from '../testdata/current-demand.json'
 import getDemandScenario from '../testdata/get-demand-scenario-forecast.json'
+import getCurrentDemandForecast from '../testdata/get-currentdemand-scenario-forecast.json'
+import filterScenarioCurrentDemand from '../testdata/filter-retention-current-demand.json'
 import { expect } from '../../common/fixtures/test-hook';
 import scenario from '../testdata/scenario.json';
 
@@ -71,14 +73,14 @@ export class CdfUtility {
     return responseBody;
   }
   
-  static async getDemandScenario(request) {
+  static async getDemandScenario(request, payload) {
     const demandId = await CdfUtility.createScenario(request);
     const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenario.endpoint}${demandId}`;
     debug.log(endpointURL);
     const response = await request.post(
       endpointURL,
 
-      { data: getDemandScenario.payload, headers: CdfUtility.headers }
+      { data: payload, headers: CdfUtility.headers }
     );
     //asserting the response
     expect(response).toBeOK();
@@ -270,6 +272,54 @@ export class CdfUtility {
     )
 
     return response;
+  }
+
+  static async filterScenarioCurrentDemand(request, demandId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${demandId}${filterScenarioCurrentDemand.endpoint}`;
+    console.log(endpointURL);
+    const response = await request.get(
+      endpointURL,
+
+      { headers: CdfUtility.headers});
+    //returning the response of the created scenario
+    let responseBody = await response.json();
+    debug.log(JSON.stringify(responseBody));
+
+    //returning the scenario Id of the created forecast
+    return responseBody;
+  }
+
+
+  static async filterUpdateScenarioCurrentDemand(request, demandId, payload) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${demandId}${filterScenarioCurrentDemand.endpoint}`;
+    debug.log(endpointURL);
+    const response = await request.put(
+      endpointURL,
+
+      { data: payload, headers: CdfUtility.headers})
+      expect(response).toBeOK();
+      let responseBody = await response.json();
+      debug.log(JSON.stringify(responseBody));
+  
+      //returning the scenario Id of the created forecast
+      return responseBody;
+  }
+
+
+  static async getCurrentDemandForecast(request) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${getCurrentDemandForecast.endpoint}`;
+    console.log(endpointURL);
+    const response = await request.post(
+      endpointURL,
+
+      { data: getCurrentDemandForecast.payload, headers: CdfUtility.headers})
+      expect(response).toBeOK();
+      let responseBody = await response.json();
+      debug.log(JSON.stringify(responseBody));
+  
+      //returning the scenario Id of the created forecast
+      return responseBody;
+
   }
 
 }
