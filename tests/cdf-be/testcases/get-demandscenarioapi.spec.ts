@@ -1,6 +1,6 @@
 import { test, expect } from "../../common/fixtures/test-hook";
 import debug from "debug";
-import getCurrentDemandForecast from '../testdata/get-currentdemand-scenario-forecast.json'
+import getCurrentDemandForecast from '../testdata/get-demand-scenario-forecast.json'
 import { CdfUtility } from "../fixtures/cdf-utils";
 
 test.describe("Verify scenario is archived", { tag: "@Smoke @getDemandScenario" }, () => {
