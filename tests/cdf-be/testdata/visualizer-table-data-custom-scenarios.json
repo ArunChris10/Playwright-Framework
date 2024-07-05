@@ -1,0 +1,394 @@
+{
+    "endpoint": "/api/visualizer/templates/1/scenarios/4af19248-6a90-4e4d-a47d-e2f932035f53/data",
+    "visualizer_table_data_payload_sum_diff" : {
+        "scenarioIdentification": [
+          { "demandStackScenarioId": "demandStackId" },
+          { "demandStackScenarioId": "demandStackId" }
+        ],
+        "selectionFilter": {
+          "dimensions": [
+            "CHNL_GRP.DISP_NM"
+          ],
+          "excelDimension": [
+            "CHNL_GRP.DISP_NM"
+          ],
+          "kpis": [
+            "FCST_SALES_AMT"
+          ],
+          "timeDimensions": [
+            "FISCAL_PERIOD_KEY"
+          ]
+        },
+        "dimensionFilter": {},
+        "dateIntervalFilter": {
+          "intervalType": "MONTH",
+          "startInterval": "2025-03",
+          "endInterval": "2025-04"
+        },
+        "headerDimensionFilters": {},
+        "derivedScenariosList": [
+          {
+            "identificationId": "ce0db429-785e-40ec-8384-c1d0a787be77",
+            "displayName": "test_sum",
+            "scenarioDisplayName": "test_sum",
+            "operationType": "SUM",
+            "checked": true,
+            "scenarios": [
+              {
+                "scenarioIdentification": { "demandStackScenarioId": "demandStackId" }
+              },
+              {
+                "scenarioIdentification": { "demandStackScenarioId": "demandStackId" }
+              }
+            ],
+            "label": "test_sum",
+            "value": "test_sum"
+          },
+          {
+            "identificationId": "d7fcbdb7-215b-4f59-bb0a-49ec3c3959cf",
+            "displayName": "test_diff",
+            "scenarioDisplayName": "test_diff",
+            "operationType": "ABSOLUTE_DIFFERENCE",
+            "checked": true,
+            "scenarios": [
+              {
+                "scenarioIdentification": { "demandStackScenarioId": "demandStackId" }
+              },
+              {
+                "scenarioIdentification": { "demandStackScenarioId": "demandStackId" }
+              }
+            ],
+            "label": "test_diff",
+            "value": "test_diff"
+          },
+          {
+            "identificationId": "c28b36ed-9aa5-409d-959f-755e2992dbf2",
+            "displayName": "test_diff_percentage",
+            "scenarioDisplayName": "test_diff_percentage",
+            "operationType": "PERCENTAGE_DIFFERENCE",
+            "checked": true,
+            "scenarios": [
+              {
+                "scenarioIdentification": { "demandStackScenarioId": "demandStackId" }
+              },
+              {
+                "scenarioIdentification": { "demandStackScenarioId": "demandStackId" }
+              }
+            ],
+            "label": "test_diff_percentage",
+            "value": "test_diff_percentage"
+          }
+        ],
+        "derivedMetricList": [],
+        "metricOrderList": [
+          {
+            "columnName": "FCST_SALES_AMT",
+            "displayName": "GMV"
+          },
+          {
+            "columnName": "FCST_UNIT",
+            "displayName": "Units"
+          },
+          {
+            "columnName": "FCST_AUR",
+            "displayName": "AUR"
+          },
+          {
+            "columnName": "UOM_QTY",
+            "displayName": "UOM"
+          },
+          {
+            "columnName": "SALES",
+            "displayName": "Net Merch Sales"
+          }
+        ],
+        "rows": [
+          {
+            "displayName": "Channel Group",
+            "attributeName": "channelGroup",
+            "columnName": "CHNL_GRP.DISP_NM",
+            "key": "CHANNEL_GROUP",
+            "children": [
+              {
+                "displayName": "Base Channel",
+                "attributeName": "baseChannelName",
+                "columnName": "BASE_CHNL.DISP_NM",
+                "key": "BASE_CHANNEL",
+                "identification": [
+                  {
+                    "attributeName": "baseChannelId",
+                    "columnName": "BASE_CHNL_ID",
+                    "tableName": "LAYR_DATA"
+                  }
+                ]
+              }
+            ],
+            "identification": [
+              {
+                "attributeName": "channelGroupId",
+                "columnName": "CHNL_GRP_ID",
+                "tableName": "CHNL_GRP_TO_CHNL_MAP"
+              }
+            ],
+            "checked": true
+          }
+        ],
+        "columns": [
+          {
+            "attributeName": "scenarios",
+            "columnName": "SCENARIOS",
+            "displayName": "Scenarios",
+            "checked": true
+          },
+          {
+            "displayName": "Fiscal Month",
+            "attributeName": "fiscalMonth",
+            "columnName": "FISCAL_PERIOD_KEY",
+            "checked": true
+          },
+          {
+            "attributeName": "metrics",
+            "columnName": "METRICS",
+            "displayName": "Metrics",
+            "checked": true
+          }
+        ],
+        "pivotEnabled": true,
+        "scenarioOrderList": [
+          {
+            "scenarioIdentification": { "demandStackScenarioId": "demandStackId" },
+            "isDerivedScenario": false
+          },
+          {
+            "scenarioIdentification": { "demandStackScenarioId": "demandStackId" },
+            "isDerivedScenario": false
+          },
+          {
+            "identificationId": "ce0db429-785e-40ec-8384-c1d0a787be77",
+            "isDerivedScenario": true
+          },
+          {
+            "identificationId": "d7fcbdb7-215b-4f59-bb0a-49ec3c3959cf",
+            "isDerivedScenario": true
+          },
+          {
+            "identificationId": "c28b36ed-9aa5-409d-959f-755e2992dbf2",
+            "isDerivedScenario": true
+          }
+        ],
+        "scenarioIdentificationFilter": [],
+        "kpiIdentificationFilter": [],
+        "expanded": false
+      },
+    "custom_scenario_yoy" : [
+        {
+          "identificationId": "c87d038c-2586-4170-9082-eb297de290fa",
+          "displayName": "test_yoy_percentage",
+          "scenarioDisplayName": "test_yoy_percentage",
+          "operationType": "YOY_PERCENTAGE_GROWTH",
+          "checked": true,
+          "scenarios": [
+            {
+              "scenarioIdentification": {
+                "forecastVersion": "1677700783102",
+                "activeStartDate": "2023-03-01"
+              }
+            }
+          ],
+          "label": "test_yoy_percentage",
+          "value": "test_yoy_percentage"
+        },
+        {
+          "identificationId": "27c79b51-e769-40fc-adde-89f843b4e4ba",
+          "displayName": "test_yoy_difference",
+          "scenarioDisplayName": "test_yoy_difference",
+          "operationType": "YOY_ABSOLUTE_DIFFERENCE",
+          "checked": true,
+          "scenarios": [
+            {
+              "scenarioIdentification": {
+                "forecastVersion": "1677700783102",
+                "activeStartDate": "2023-03-01"
+              }
+            }
+          ],
+          "label": "test_yoy_difference",
+          "value": "test_yoy_difference"
+        },
+        {
+          "identificationId": "80671b5d-9430-48cd-a37f-630c79cc82e4",
+          "displayName": "test_last_year_value",
+          "scenarioDisplayName": "test_last_year_value",
+          "operationType": "LAST_YEAR_VALUE",
+          "checked": true,
+          "scenarios": [
+            {
+              "scenarioIdentification": {
+                "forecastVersion": "1677700783102",
+                "activeStartDate": "2023-03-01"
+              }
+            }
+          ],
+          "label": "test_last_year_value",
+          "value": "test_last_year_value"
+        }
+      ],
+    "visualizer_table_data_payload_yoy" : {
+        "scenarioIdentification": [
+          { "demandStackScenarioId": "demandStackId" }
+        ],
+        "selectionFilter": {
+          "dimensions": [
+            "CHNL_GRP.DISP_NM"
+          ],
+          "excelDimension": [
+            "CHNL_GRP.DISP_NM"
+          ],
+          "kpis": [
+            "FCST_SALES_AMT"
+          ],
+          "timeDimensions": [
+            "FISCAL_PERIOD_KEY"
+          ]
+        },
+        "dimensionFilter": {},
+        "dateIntervalFilter": {
+          "intervalType": "MONTH",
+          "startInterval": "2026-03",
+          "endInterval": "2026-04"
+        },
+        "headerDimensionFilters": {},
+        "derivedScenariosList": [
+            {
+              "identificationId": "c87d038c-2586-4170-9082-eb297de290fa",
+              "displayName": "test_yoy_percentage",
+              "scenarioDisplayName": "test_yoy_percentage",
+              "operationType": "YOY_PERCENTAGE_GROWTH",
+              "checked": true,
+              "scenarios": [ {"scenarioIdentification": { "demandStackScenarioId": "demandStackId" } } ],
+              "label": "test_yoy_percentage",
+              "value": "test_yoy_percentage"
+            },
+            {
+              "identificationId": "27c79b51-e769-40fc-adde-89f843b4e4ba",
+              "displayName": "test_yoy_difference",
+              "scenarioDisplayName": "test_yoy_difference",
+              "operationType": "YOY_ABSOLUTE_DIFFERENCE",
+              "checked": true,
+              "scenarios": [ {"scenarioIdentification": { "demandStackScenarioId": "demandStackId" } } ],
+              "label": "test_yoy_difference",
+              "value": "test_yoy_difference"
+            },
+            {
+              "identificationId": "80671b5d-9430-48cd-a37f-630c79cc82e4",
+              "displayName": "test_last_year_value",
+              "scenarioDisplayName": "test_last_year_value",
+              "operationType": "LAST_YEAR_VALUE",
+              "checked": true,
+              "scenarios": [ {"scenarioIdentification": { "demandStackScenarioId": "demandStackId" } } ],
+              "label": "test_last_year_value",
+              "value": "test_last_year_value"
+            }
+          ],
+        "derivedMetricList": [],
+        "metricOrderList": [
+          {
+            "columnName": "FCST_SALES_AMT",
+            "displayName": "GMV"
+          },
+          {
+            "columnName": "FCST_UNIT",
+            "displayName": "Units"
+          },
+          {
+            "columnName": "FCST_AUR",
+            "displayName": "AUR"
+          },
+          {
+            "columnName": "UOM_QTY",
+            "displayName": "UOM"
+          },
+          {
+            "columnName": "SALES",
+            "displayName": "Net Merch Sales"
+          }
+        ],
+        "rows": [
+          {
+            "displayName": "Channel Group",
+            "attributeName": "channelGroup",
+            "columnName": "CHNL_GRP.DISP_NM",
+            "key": "CHANNEL_GROUP",
+            "children": [
+              {
+                "displayName": "Base Channel",
+                "attributeName": "baseChannelName",
+                "columnName": "BASE_CHNL.DISP_NM",
+                "key": "BASE_CHANNEL",
+                "identification": [
+                  {
+                    "attributeName": "baseChannelId",
+                    "columnName": "BASE_CHNL_ID",
+                    "tableName": "LAYR_DATA"
+                  }
+                ]
+              }
+            ],
+            "identification": [
+              {
+                "attributeName": "channelGroupId",
+                "columnName": "CHNL_GRP_ID",
+                "tableName": "CHNL_GRP_TO_CHNL_MAP"
+              }
+            ],
+            "checked": true
+          }
+        ],
+        "columns": [
+          {
+            "attributeName": "scenarios",
+            "columnName": "SCENARIOS",
+            "displayName": "Scenarios",
+            "checked": true
+          },
+          {
+            "displayName": "Fiscal Month",
+            "attributeName": "fiscalMonth",
+            "columnName": "FISCAL_PERIOD_KEY",
+            "checked": true
+          },
+          {
+            "attributeName": "metrics",
+            "columnName": "METRICS",
+            "displayName": "Metrics",
+            "checked": true
+          }
+        ],
+        "pivotEnabled": true,
+        "scenarioOrderList": [
+          {
+            "scenarioIdentification": { "demandStackScenarioId": "demandStackId" },
+            "isDerivedScenario": false
+          },
+          {
+            "identificationId": "c87d038c-2586-4170-9082-eb297de290fa",
+            "isDerivedScenario": true
+          },
+          {
+            "identificationId": "27c79b51-e769-40fc-adde-89f843b4e4ba",
+            "isDerivedScenario": true
+          },
+          {
+            "identificationId": "80671b5d-9430-48cd-a37f-630c79cc82e4",
+            "isDerivedScenario": true
+          }
+        ],
+        "scenarioIdentificationFilter": [],
+        "kpiIdentificationFilter": [],
+        "expanded": false
+      },
+    "dateIntervalStartOld" : "2026-03",
+    "dateIntervalEndtOld" : "2026-04",
+    "dateIntervalStartNew" : "2027-03",
+    "dateIntervalEndNew" : "2027-04"
+}

@@ -2,6 +2,7 @@ import debug from "debug";
 import getVisualizerTableFilterData from '../testdata/get-visualizer-table-filters.json';
 import visualizerSaveData from '../testdata/publish-to-current-demand.json';
 import visualizerTableDataCustomMetrics from '../testdata/visualizer-table-data-custom-metrics.json';
+import visualizerTableDataCustomScenarios from '../testdata/visualizer-table-data-custom-scenarios.json'
 
 export class VisualizerUtility {
 
@@ -205,6 +206,53 @@ export class VisualizerUtility {
         const response = await request.post(
             endpointURL,
             { data: visualizerTableDataCustomMetrics.payload_for_percent_of_sales, headers: VisualizerUtility.headers }
+        )
+
+        return response;
+    }
+
+    static async visualizerTableDataCustomScenarioSumDiff(request, demandId1, demandId2) {
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerTableDataCustomScenarios.endpoint}`;
+        debug.log(endpointURL);
+
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_sum_diff.scenarioIdentification[0].demandStackScenarioId = demandId1
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_sum_diff.scenarioIdentification[1].demandStackScenarioId = demandId2
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_sum_diff.derivedScenariosList[0].scenarios[0].scenarioIdentification.demandStackScenarioId = demandId1
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_sum_diff.derivedScenariosList[0].scenarios[1].scenarioIdentification.demandStackScenarioId = demandId2
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_sum_diff.derivedScenariosList[1].scenarios[0].scenarioIdentification.demandStackScenarioId = demandId1
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_sum_diff.derivedScenariosList[1].scenarios[1].scenarioIdentification.demandStackScenarioId = demandId2
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_sum_diff.derivedScenariosList[2].scenarios[0].scenarioIdentification.demandStackScenarioId = demandId1
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_sum_diff.derivedScenariosList[2].scenarios[1].scenarioIdentification.demandStackScenarioId = demandId2
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_sum_diff.scenarioOrderList[0].scenarioIdentification!.demandStackScenarioId = demandId1
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_sum_diff.scenarioOrderList[1].scenarioIdentification!.demandStackScenarioId = demandId2
+
+        debug.log(visualizerTableDataCustomScenarios.visualizer_table_data_payload_sum_diff);
+
+        const response = await request.post(
+            endpointURL,
+            { data: visualizerTableDataCustomScenarios.visualizer_table_data_payload_sum_diff, headers: VisualizerUtility.headers }
+        )
+
+        return response;
+    }
+
+    static async visualizerTableDataCustomScenarioYoy(request, demandId, dateIntervalStart, dateIntervalEnd) {
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerTableDataCustomScenarios.endpoint}`;
+        debug.log(endpointURL);
+
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_yoy.scenarioIdentification[0].demandStackScenarioId = demandId
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_yoy.derivedScenariosList[0].scenarios[0].scenarioIdentification.demandStackScenarioId = demandId
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_yoy.derivedScenariosList[1].scenarios[0].scenarioIdentification.demandStackScenarioId = demandId
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_yoy.derivedScenariosList[2].scenarios[0].scenarioIdentification.demandStackScenarioId = demandId
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_yoy.scenarioOrderList[0].scenarioIdentification!.demandStackScenarioId = demandId
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_yoy.dateIntervalFilter.startInterval = dateIntervalStart
+        visualizerTableDataCustomScenarios.visualizer_table_data_payload_yoy.dateIntervalFilter.endInterval = dateIntervalEnd
+
+        debug.log(visualizerTableDataCustomScenarios.visualizer_table_data_payload_yoy);
+
+        const response = await request.post(
+            endpointURL,
+            { data: visualizerTableDataCustomScenarios.visualizer_table_data_payload_yoy, headers: VisualizerUtility.headers }
         )
 
         return response;
