@@ -2,10 +2,12 @@ import debug from "debug";
 import archiveScenario from '../testdata/archive-scenario.json'
 import currentDemandData from '../testdata/current-demand.json'
 import getDemandScenario from '../testdata/get-demand-scenario-forecast.json'
+import tagNotificationData from '../testdata/tag-notification.json'
 import getCurrentDemandForecast from '../testdata/get-currentdemand-scenario-forecast.json'
 import filterScenarioCurrentDemand from '../testdata/filter-retention-current-demand.json'
 import { expect } from '../../common/fixtures/test-hook';
 import scenario from '../testdata/scenario.json';
+import { Utility } from "../../common/fixtures/utils";
 
 export class CdfUtility {   
   
@@ -274,6 +276,52 @@ export class CdfUtility {
     return response;
   }
 
+  static async postComment(request) {
+    const endpointURL = `${process.env.collaborationBaseURL}${tagNotificationData.postCommentEndpoint}`;
+    debug.log(endpointURL);
+
+    let token = await Utility.fetchIBGFakeToken(`${process.env.collaborationUser}`, request);
+
+    let payload = tagNotificationData.postCommentPayload;
+
+    payload.taggedUsers[0].userId = `${process.env.ibgUser}`;
+
+    const response = await request.post(
+        endpointURL,
+        { data: payload, headers: {
+          "Authorization": `Bearer ${token}`
+        }}
+    )
+
+    return response;
+  }
+
+  static async getNotification(request) {
+    const endpointURL = `${process.env.notificationBaseUrl}${tagNotificationData.getNotificationEndpoint}`;
+    debug.log(endpointURL);
+
+    let token = await Utility.fetchNexusFakeTokens(`${process.env.ibgUser}`, request);
+
+    let payload = tagNotificationData.postCommentPayload;
+
+    let headers_notification = {
+      "WM_CONSUMER.ID": process.env.WM_CONSUMER_ID,
+      "WM_SVC.NAME": process.env.WM_SVC_NAME_NOTIFICATION,
+      "WM_SVC.ENV": process.env.envName
+    }
+
+    payload.taggedUsers[0].userId = `${process.env.ibgUser}`;
+
+    headers_notification["Authorization"] = `Bearer ${token}`;
+
+    const response = await request.get(
+        endpointURL,
+        { data: payload, headers: headers_notification}
+    )
+
+    return response;
+  }
+  
   static async filterScenarioCurrentDemand(request, demandId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${demandId}${filterScenarioCurrentDemand.endpoint}`;
     console.log(endpointURL);
