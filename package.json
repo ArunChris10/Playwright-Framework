@@ -25,6 +25,7 @@
   "dependencies": {
     "debug": "^4.3.4",
     "env-cmd": "^10.1.0",
-    "luxon": "^3.4.4"
+    "luxon": "^3.4.4",
+    "xlsx": "^0.18.5"
   }
 }

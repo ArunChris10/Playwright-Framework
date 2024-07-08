@@ -2,6 +2,7 @@ import debug from "debug";
 import getVisualizerTableFilterData from '../testdata/get-visualizer-table-filters.json';
 import visualizerSaveData from '../testdata/publish-to-current-demand.json';
 import visualizerTableDataCustomMetrics from '../testdata/visualizer-table-data-custom-metrics.json';
+import visualizerDownloadData from '../testdata/visualizer-view-download.json';
 import visualizerTableDataCustomScenarios from '../testdata/visualizer-table-data-custom-scenarios.json'
 
 export class VisualizerUtility {
@@ -211,6 +212,28 @@ export class VisualizerUtility {
         return response;
     }
 
+    static async getVisualizerData(request, demandScenarioId, type){
+        let suffix;
+        if (type === visualizerDownloadData.excel)
+            suffix = visualizerDownloadData.excelEndpointSuffix;
+        else if (type === visualizerDownloadData.csv)
+            suffix = visualizerDownloadData.csvEndpointSuffix;
+        else if (type === visualizerDownloadData.data)
+            suffix = visualizerDownloadData.dataEndpointSuffix;
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerDownloadData.endpointPrefix}${suffix}`;
+        debug.log(endpointURL);
+
+        visualizerDownloadData.dataPayload.scenarioIdentification[0].demandStackScenarioId = demandScenarioId;
+        visualizerDownloadData.dataPayload.scenarioOrderList[0].scenarioIdentification.demandStackScenarioId = demandScenarioId;
+
+        const response = await request.post(
+            endpointURL,
+            { data: visualizerDownloadData.dataPayload, headers: VisualizerUtility.headers }
+        )
+
+        return response;
+    }
+    
     static async visualizerTableDataCustomScenarioSumDiff(request, demandId1, demandId2) {
         const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerTableDataCustomScenarios.endpoint}`;
         debug.log(endpointURL);
