@@ -4,7 +4,7 @@ import { DemandWorkspace } from "./demand-workspace.page";
 import { Visualizer } from "./visualizer.page";
 import { CurrentDemand } from "./currentdemand.page";
 import { dssPage } from "./dssPage.page";
-
+import { DemandOutput } from "./demand-output.page";
 
 export class CDFPageFactory {
 
@@ -30,5 +30,9 @@ export class CDFPageFactory {
 
   dssPage() {
     return new dssPage(this.page);
+  }
+
+  demandOutput() {
+    return new DemandOutput(this.page);
   }
 }

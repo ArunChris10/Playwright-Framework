@@ -4,14 +4,16 @@ import debug from "debug";
 import usersIBGFormat from "../testdata/users.json";
 import usersNexusFormat from "../testdata/users-nexus-format.json";
 
-
 export class Utility {
   private static readonly dir: string = "./test-results/logs/";
-  private static readonly nexusTokenFilePath: string = "./secrets/nexus-users-token.json";
-  private static readonly ibgTokenFilePath: string = "./secrets/ibg-users-token.json";
+  private static readonly nexusTokenFilePath: string =
+    "./secrets/nexus-users-token.json";
+  private static readonly ibgTokenFilePath: string =
+    "./secrets/ibg-users-token.json";
   private static readonly secretFilePath: string = "./secrets/ufm-secrets.json";
   private static spinner = "//span[contains(@class, 'Spinner')]";
-  private static dataLoading = "//span[contains(@class, 'ag-overlay-loading-center')]"
+  private static dataLoading =
+    "//span[contains(@class, 'ag-overlay-loading-center')]";
   readonly page: Page;
 
   constructor(page: Page) {
@@ -52,8 +54,11 @@ export class Utility {
     futureDates.sort((dt1, dt2) => dt1.getTime() - dt2.getTime());
 
     // return futureDates[0] in a particular format
-    return futureDates[0].toLocaleDateString("en-US", { month: 'short', day: 'numeric', year: 'numeric' });
-
+    return futureDates[0].toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
   }
 
   static async fetchIBGFakeToken(userId: string, request) {
@@ -153,35 +158,41 @@ export class Utility {
       .getByRole("img", { name: "loading" })
       .first()
       .waitFor({ state: "detached", timeout: 420000 });
-  };
+  }
 
   public static async waitForSpinnerToBeVisible(page) {
-
     await page
       .locator(this.spinner)
-      .waitFor({ state: 'visible', timeout: 480000 });
-
+      .waitFor({ state: "visible", timeout: 480000 });
   }
 
   public static async waitForSpinnerToBeInvisible(page) {
     await page
-      .getByRole('status', { name: 'Spinner' })
-      .waitFor({ state: 'detached', timeout: 480000 });
+      .getByRole("status", { name: "Spinner" })
+      .waitFor({ state: "detached", timeout: 480000 });
   }
 
   public static async waitForDataLoadingMessageToBeVisible(page) {
     await page
-      .locator(this.dataLoading).first()
-      .waitFor({ state: 'visible', timeout: 480000 });
+      .locator(this.dataLoading)
+      .first()
+      .waitFor({ state: "visible", timeout: 480000 });
   }
 
   public static async waitForDataLoadingMessageToBeInvisible(page) {
     await page
-      .locator(this.dataLoading).first()
-      .waitFor({ state: 'hidden', timeout: 480000 });
+      .locator(this.dataLoading)
+      .first()
+      .waitFor({ state: "hidden", timeout: 480000 });
+  }
+  public static async validateDataInGridAvailable(page, dataLoading) {
+    await page
+      .locator(dataLoading)
+      .first()
+      .waitFor({ state: "visible", timeout: 480000 });
   }
 
   async keyPress(key) {
-    await this.page.keyboard.press(key)
+    await this.page.keyboard.press(key);
   }
 }
