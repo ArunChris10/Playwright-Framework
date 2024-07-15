@@ -20,15 +20,37 @@ export class CdfUtility {
     "WM_SVC.NAME": process.env.WM_SVC_NAME,
     "WM_SVC.ENV": process.env.envName
   }
-
+  static createScenarioPayload;
+  static async getDemandScenarioList(request){
+    const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}`;
+    console.log(endpointURL);
+    this.headers["Connection"] = "keep-alive";
+    const response = await request.get(
+      endpointURL,
+      { headers: CdfUtility.headers }
+    );
+      const demandScenarioDetails = await response.json();
+      return demandScenarioDetails[0].forecastInfoDTO.forecastInfo;
+  }
    // This method will create the scenario and asserts the response
    static async createScenario(request){
+    const forecastInfo = await this.getDemandScenarioList(request)
     const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${CdfUtility.demandScenario}`;
     console.log(endpointURL);
+    this.createScenarioPayload = {
+      forecastInfoDTO: {
+        forecastInfo: {
+          id: forecastInfo.id,
+          version: forecastInfo.version,
+        },
+      },
+      title: "DS Forecast-testautomation",
+      description: "DS Forecast - testautomation ",
+    }
     const response = await request.post(
         endpointURL,
   
-        { data: archiveScenario.createScenarioPayload, headers: CdfUtility.headers }
+        { data: this.createScenarioPayload, headers: CdfUtility.headers }
       );
       let responseBody = await response.json();
       debug.log(JSON.stringify(responseBody));
@@ -41,7 +63,7 @@ export class CdfUtility {
     const response = await request.delete(
         endpointURL,
   
-        { data: archiveScenario.createScenarioPayload, headers: CdfUtility.headers }
+        { data: this.createScenarioPayload, headers: CdfUtility.headers }
       );
   }
 
@@ -102,7 +124,7 @@ export class CdfUtility {
     const response = await request.post(
         endpointURL,
   
-        { data: archiveScenario.createScenarioPayload, headers: CdfUtility.headers }
+        { data: this.createScenarioPayload, headers: CdfUtility.headers }
       );
       expect(response).toBeOK();
       let responseBody = await response.json();
@@ -238,7 +260,7 @@ export class CdfUtility {
 
   // Method to fetch the publish status
   static async getFCPWritebackStatus(request) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.statusEndpointPrefix}${archiveScenario.createScenarioPayload.forecastInfoDTO.forecastInfo.version}${currentDemandData.statusEndpointSuffix}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.statusEndpointPrefix}${this.createScenarioPayload.forecastInfoDTO.forecastInfo.version}${currentDemandData.statusEndpointSuffix}`;
 
     const response = await request.get(
         endpointURL,
