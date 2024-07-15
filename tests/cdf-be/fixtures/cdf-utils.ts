@@ -382,13 +382,13 @@ export class CdfUtility {
   }
 
 
-  static async getCurrentDemandForecast(request) {
+  static async getCurrentDemandForecast(request, payload) {
     const endpointURL = `${process.env.apiBaseURLCDF}${getCurrentDemandForecast.endpoint}`;
     console.log(endpointURL);
     const response = await request.post(
       endpointURL,
 
-      { data: getCurrentDemandForecast.payload, headers: CdfUtility.headers})
+      { data: payload, headers: CdfUtility.headers})
       expect(response).toBeOK();
       let responseBody = await response.json();
       debug.log(JSON.stringify(responseBody));

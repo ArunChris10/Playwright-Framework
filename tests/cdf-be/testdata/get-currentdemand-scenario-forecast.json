@@ -130,5 +130,46 @@
         "isUfmSyncCache": true,
         "latestSyncScenario": true,
         "fetchFromBq": true
+    },
+    "payload_all_years_only" : {
+        "baseURL": "https://scenario.qa.ibg.walmart.com/api/demandscenarios/currentDemand/1",
+        "sbu": [
+            "FASHION",
+            "CONSUMABLES",
+            "ENTERTAINMENT TOYS AND SEASONAL",
+            "FOOD",
+            "HARDLINES",
+            "HOME"
+        ],
+        "sbuIds": [4, 29, 196, 27, 60, 47],
+        "department": [],
+        "departmentIds": [],
+        "baseChannel": [],
+        "baseChannelIds": [],
+        "channelGroup": [],
+        "channelGroupIds": [],
+        "demandChannel": [],
+        "layerIds": [],
+        "clearAll": false,
+        "includeDerivedMetrics": true,
+        "includeTotals": true,
+        "organizationalLevel": "SBU",
+        "loadHeirarchyParams": null,
+        "timeFilter": {
+            "filterLevel": "YEAR",
+            "isYearSelected": false,
+            "isMonthSelected": false,
+            "isQuarterSelected": false,
+            "yearMonths": [],
+            "yearQuarters": [],
+            "years": [],
+            "yearList": []
+        },
+        "departmentName": [],
+        "filtersChanged": true,
+        "filterLoadComplete": true,
+        "isUfmSyncCache": true,
+        "latestSyncScenario": true,
+        "fetchFromBq": true
     }
 }

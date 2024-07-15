@@ -44,7 +44,7 @@ test.describe("Verify user can copy layers to a new scenario", { tag: "@Smoke @c
             demandIdTwo = cloneScenario.demandStackDTO.demandStackScenarioId;
             await CdfUtility.checkClonedJobStatus(request,cloneScenario.demandStackDTO.demandStackScenarioId)
             debug.log("Scenario is clone  : ", demandIdTwo);
-        })
+        });
 
         await test.step("User gets the list of copied layers from the newly created scenario", async () => {
             let getEmtLayerDataResponse;
