@@ -5,6 +5,7 @@ import getDemandScenario from '../testdata/get-demand-scenario-forecast.json'
 import tagNotificationData from '../testdata/tag-notification.json'
 import getCurrentDemandForecast from '../testdata/get-currentdemand-scenario-forecast.json'
 import filterScenarioCurrentDemand from '../testdata/filter-retention-current-demand.json'
+import baseDSForecast from '../testdata/base-ds-forecast.json'
 import { expect } from '../../common/fixtures/test-hook';
 import scenario from '../testdata/scenario.json';
 import { Utility } from "../../common/fixtures/utils";
@@ -409,6 +410,18 @@ export class CdfUtility {
     return response;
 
     
+  }
+
+  static async switchBaseDSResponse(request, demandId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${baseDSForecast.endpoint}`;
+    debug.log(endpointURL);
+    debug.log(JSON.stringify({...baseDSForecast.switchBaseDSPayload, demandStackId: demandId}));
+    const response = await request.put(
+      endpointURL,
+      { data: {...baseDSForecast.switchBaseDSPayload, demandStackId: demandId}, headers: CdfUtility.headers}
+    )
+    expect(response).toBeOK();
+    return response;
   }
 
 }

@@ -1,0 +1,16 @@
+{
+    "endpoint": "/api/demandscenarios/",
+    "switchBaseDSPayload": {
+        "forecastVersion": "1710184807723",
+        "demandStackId": "",
+        "demandStackName": "DS Forecast-testautomation",
+        "demandStackDesc": "hello ",
+        "baseURL": "https://scenario.qa.ibg.walmart.com/api/demandscenarios"
+    },
+    "expected_response": {
+        "jobId": "",
+        "jobMessagePart1": "job id: ",
+        "jobMessagePart3": " - job has been created for updating relations of the demand stack"
+    }
+    
+}
