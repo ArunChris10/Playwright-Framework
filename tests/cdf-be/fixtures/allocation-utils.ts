@@ -155,15 +155,6 @@ export class AllocationUtils extends DemandBaseClass {
     return await response.json();
   }
 
-  static async lockUnlockDemandScenario(request, urlParam, demandStackId) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${allocationsData.lockDemandScenarioEndpoint}${demandStackId}/${urlParam}`;
-    // API Request
-    const response = await request.post(endpointURL, {
-      headers: this.headers,
-    });
-    return response;
-  }
-
   static async verifyGeneratePreviewAllocationSplitLayer(
     request,
     demandStackId,

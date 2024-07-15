@@ -5,7 +5,7 @@
   "updateDemandScenarioSplitData": {
     "endpoint": "/api/demandscenarios/stacks/"
   },
-  "lockDemandScenarioEndpoint": "/api/demandscenarios/",
+  "demandScenarioEndpoint": "/api/demandscenarios/",
   "getDemandScenarioLayersData": {
     "endpoint": "/api/demandscenarios/stacks/"
   },
@@ -17,5 +17,9 @@
   "targetChannel": "SELLER_FULFILLED",
   "targetChannelId": 32,
   "differenceAmount": 100,
-  "filterLevel": "MONTH"
+  "filterLevel": "MONTH",
+  "demandStacksEndpoint": "/api/demandscenarios/stacks/",
+  "getLayerDataEndpoint": "/api/layers/",
+  "layerName": "test automation",
+  "uploadExcelLayerForecastAmount": 228424848.48
 }

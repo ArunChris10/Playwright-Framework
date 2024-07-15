@@ -3,6 +3,7 @@ import scenario from "../testdata/scenario.json";
 import * as path from 'path';
 import * as fs from 'fs';
 import * as xlsx from 'xlsx'
+import allocationsData from "../testdata/allocation-layer-data.json";
 
 export class DemandBaseClass {
   static headers = {
@@ -46,6 +47,43 @@ export class DemandBaseClass {
     return excelData;
   }
 
+  static async lockUnlockDemandScenario(request, urlParam, demandStackId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${allocationsData.demandScenarioEndpoint}${demandStackId}/${urlParam}`;
+    // API Request
+    const response = await request.post(endpointURL, {
+      headers: this.headers,
+    });
+    return response;
+  }
+
+  static async saveExcel(excelApiResponse, fileName) {
+    // This function accepts the excel download api response as input, downloads and saves the file.
+    let excelBuffer = await excelApiResponse.body();
+    let excelFilePath = path.join(__dirname, fileName);
+    fs.writeFileSync(excelFilePath, excelBuffer);
+    debug.log("excel downloaded successfully");
+    fs.unlinkSync(excelFilePath);
+  }
+
+  static async getByteStreamFromExcel(fileName) {
+    // This function takes filepath and convert it into byte stream.
+    let excelFilePath = path.join(__dirname, fileName);
+    
+  }
+  static async fileToBase64(fileName) {
+    let excelFilePath = path.join(__dirname, fileName);
+    return new Promise((resolve, reject) => {
+      fs.readFile(excelFilePath, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          const base64 = Buffer.from(data).toString('base64');
+          resolve(base64);
+        }
+      });
+    });
+  };
+
   static async getSheetDataFromExcel(excelApiResponse) {
     // This function accepts the excel download api response as input, downloads and saves the file, reads data, deletes file
     // and return the data from the cell value mentioned in the input
@@ -59,4 +97,5 @@ export class DemandBaseClass {
     fs.unlinkSync(excelFilePath);
     return xlsx.utils.sheet_to_json(sheet);
   }
+
 }
