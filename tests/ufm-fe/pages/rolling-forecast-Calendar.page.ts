@@ -18,6 +18,7 @@ export class RollingForecastCalendar {
   readonly publishDates: Locator
   readonly publishSuccessMessage: Locator
   readonly deleteCycle: Locator
+  readonly editCycle: Locator
   readonly deleteCycleInModal: Locator
   readonly ellipsesGenericButton: Locator;
   readonly rollingForecastTab: Locator;
@@ -29,6 +30,7 @@ export class RollingForecastCalendar {
   readonly corporateCalendarDateText: Locator;
   readonly organizationCalendarDateText: Locator;
   readonly chooseOrganizationMessage: Locator;
+  readonly cycleCardHeader: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -47,6 +49,7 @@ export class RollingForecastCalendar {
     this.publishDates = page.getByText(/Publish FY\d{2} dates/)
     this.publishSuccessMessage = page.getByText('Due dates published successfully')
     this.deleteCycle = page.locator('//span[contains(text(),"Delete cycle")]')
+    this.editCycle = page.locator('//span[contains(text(),"Edit cycle")]')
     this.deleteCycleInModal = page.getByRole('button').filter({ hasText: 'Delete Cycle' })
     this.deleteMessage = page.getByText('Once deleted, all the due dates you set in this forecast cycle will be permanently removed.')
     this.ellipsesGenericButton = page.locator('button[id="basic-button"]');
@@ -58,6 +61,7 @@ export class RollingForecastCalendar {
     this.corporateCalendarDateText = page.locator("//div[contains(text(),'Corporate forecast submission date')]/following-sibling::div[@class='calendarDateText']")
     this.organizationCalendarDateText = page.locator("//div[contains(text(),'Organization forecast due date')]/following-sibling::div[@class='calendarDateText']")
     this.chooseOrganizationMessage = page.getByText('Choose organizations for this due date')
+    this.cycleCardHeader = page.locator('//div[@class="review-business-progress-header"]/h3')
   }
 
   async clickOnAddCycle() {
@@ -150,6 +154,14 @@ export class RollingForecastCalendar {
 
   async clickOnDeleteCycle() {
     await this.deleteCycle.click()
+  }
+
+  async clickOnEditCycle() {
+    await this.editCycle.click()
+  }
+
+  async getCycleCardHeaderText() {
+    return await this.cycleCardHeader.innerText()
   }
 
   async clickOnDeleteCycleInModal() {
