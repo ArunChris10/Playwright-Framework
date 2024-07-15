@@ -45,4 +45,18 @@ export class DemandBaseClass {
     fs.unlinkSync(excelFilePath);
     return excelData;
   }
+
+  static async getSheetDataFromExcel(excelApiResponse) {
+    // This function accepts the excel download api response as input, downloads and saves the file, reads data, deletes file
+    // and return the data from the cell value mentioned in the input
+    let excelBuffer = await excelApiResponse.body();
+    let excelFilePath = path.join(__dirname, "download.xlsx");
+    fs.writeFileSync(excelFilePath, excelBuffer);
+    debug.log("excel downloaded successfully");
+    let workbook = xlsx.readFile(excelFilePath);
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    fs.unlinkSync(excelFilePath);
+    return xlsx.utils.sheet_to_json(sheet);
+  }
 }

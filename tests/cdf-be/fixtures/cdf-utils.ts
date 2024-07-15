@@ -10,6 +10,7 @@ import baseDSForecast from '../testdata/base-ds-forecast.json'
 import { expect } from '../../common/fixtures/test-hook';
 import scenario from '../testdata/scenario.json';
 import { Utility } from "../../common/fixtures/utils";
+import currentDemandExcelData from '../testdata/current-demand-excel-download.json'
 
 export class CdfUtility {   
   
@@ -425,6 +426,40 @@ export class CdfUtility {
     return response;
   }
 
+
+  static async currentDemandForMetric(request, slotId, metric, organizationalLevel, type) {
+    let suffix;
+        if (type === currentDemandExcelData.excelType){
+            suffix = currentDemandExcelData.excelSuffix;
+            currentDemandExcelData.currentDemandPayload.metricType = metric;
+        }
+
+        else if (type === currentDemandExcelData.csvType){
+            suffix = currentDemandExcelData.csvSuffix;
+            currentDemandExcelData.currentDemandPayload.metricType = metric;
+        }
+        else {
+            suffix = "";
+            currentDemandExcelData.currentDemandPayload.metricType = "";
+        }
+    const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandExcelData.currentDemandEndpoint}${slotId}${suffix}`;
+    debug.log(endpointURL);
+    currentDemandExcelData.currentDemandPayload.organizationalLevel = organizationalLevel;
+    let response;
+    CdfUtility.headers["Connection"] = "keep-alive";
+    try{
+        response = await request.post(
+          endpointURL,
+          { data: currentDemandExcelData.currentDemandPayload, headers: CdfUtility.headers, timeout: 100000 },
+      )
+    } catch(error) {
+      debug.log("Error ", error.message)
+    }
+
+    return response;
+  }
+
+
   static async getCurrentDemandSlotsForecast(request,slotId,viewType='SBU') {
     const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandSlotTestData.slotsEndpoint}/${slotId}`;
     const payload = {
@@ -460,4 +495,5 @@ export class CdfUtility {
     expect(await currentDemandScenario.yearlyForecast).toHaveLength(14);
     CdfUtility.validateYearlyAndMerticData(currentDemandScenario);
   }
+
 }
