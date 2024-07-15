@@ -1,0 +1,42 @@
+{
+    "endpoint": "/api/demandscenarios/",
+    "payload": {
+        "sbu": [
+            "FASHION",
+            "CONSUMABLES",
+            "ENTERTAINMENT TOYS AND SEASONAL",
+            "FOOD",
+            "HARDLINES",
+            "HOME"
+        ],
+        "sbuIds": [],
+        "department": [],
+        "departmentIds": [],
+        "baseChannel": [],
+        "baseChannelIds": [],
+        "channelGroup": [],
+        "channelGroupIds": [],
+        "demandChannel": [],
+        "layerIds": [],
+        "clearAll": false,
+        "includeDerivedMetrics": false,
+        "includeTotals": true,
+        "organizationalLevel": "SBU",
+        "loadHeirarchyParams": null,
+        "timeFilter": {
+            "filterLevel": "MONTH",
+            "isYearSelected": false,
+            "isMonthSelected": false,
+            "isQuarterSelected": false,
+            "yearMonths": [],
+            "yearQuarters": [],
+            "years": [],
+            "yearList": []
+        },
+        "version": "1712604073000",
+        "departmentName": [],
+        "filtersChanged": true,
+        "filterLoadComplete": true,
+        "metricType": "GMV Shipped"
+    }
+}

@@ -123,7 +123,7 @@ export class CdfUtility {
     //returning the response of the created scenario
     return responseBody;
   }
-
+  
 
   static async cloneToNewScenarioWithLayers(request,scenarioId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${scenarioId}${scenario.cloneScenarioPayload.endpoint}`;
@@ -140,7 +140,7 @@ export class CdfUtility {
     //returning the response of the created scenario
     return responseBody;
   }
-    
+
   static async freezeScenario(request,scenarioId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${scenarioId}${scenario.cloneScenarioPayload.endpoint}`;
     debug.log(endpointURL);
@@ -276,6 +276,33 @@ export class CdfUtility {
     return response;
   }
 
+  static async saveFiltersSaved(request, demandId, filtersData) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${filtersData.endpoint}${demandId}/filter`;
+    debug.log(endpointURL);
+
+    const response = await request.put(
+        endpointURL,
+        { data: filtersData.saveFiltersPayload, headers: CdfUtility.headers }
+    )
+    return response;
+  }
+
+  static async checkFiltersSaved(request, demandId, filtersData) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${filtersData.endpoint}${demandId}/filter`;
+    debug.log(endpointURL);
+
+    const response = await request.get(
+        endpointURL,
+        { data: filtersData.getFiltersPayload, headers: CdfUtility.headers }
+    )
+
+    expect(response).toBeOK();
+    let responseBody = await response.json();
+    expect(filtersData.saveFiltersPayload).toEqual(responseBody);
+
+    return response;
+  }
+
   static async postComment(request) {
     const endpointURL = `${process.env.collaborationBaseURL}${tagNotificationData.postCommentEndpoint}`;
     debug.log(endpointURL);
@@ -368,6 +395,20 @@ export class CdfUtility {
       //returning the scenario Id of the created forecast
       return responseBody;
 
+
+  }
+
+  static async downloadScenario(request, demandId, testdata) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${testdata.endpoint}${demandId}/excel`
+    debug.log(endpointURL);
+    const response = await request.post(
+        endpointURL,
+        { data: testdata.payload, headers: CdfUtility.headers }
+    )
+    expect(response).toBeOK();
+    return response;
+
+    
   }
 
 }

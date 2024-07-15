@@ -1,0 +1,14 @@
+{
+    "endpoint": "/api/demandscenarios/",
+    "saveFiltersPayload": {
+        "filterJson": "{\"aggregationType\":\"MONTH\",\"baseChannel\":[\"DSV_S2H\",\"Express_Delivery\",\"INHOME_DELIVERY\",\"Owned_S2H\",\"Scheduled_Delivery\",\"SELLER_FULFILLED\",\"Ship_From_Store\",\"Unscheduled_Delivery\",\"WMT_Instacart\",\"Walmart_Fulfillment_Services\"],\"baseChannelIds\":[22,5,4,23,3,32,10,6,8,33],\"channelGroup\":[\"DELIVERY\"],\"channelGroupIds\":[2],\"demandChannel\":[],\"department\":[\"CANDY\",\"SERVICE DELI\",\"COM BREAD\",\"IMPULSE MERCHANDISE\",\"SEAFOOD\",\"BALLOONS & FLOWERS\",\"DAIRY\",\"FROZEN\",\"GROCERY\",\"MEAT\",\"PRODUCE\",\"DSD GROCERY\",\"LIQUOR\",\"WALL DELI\",\"BAKERY\"],\"departmentIds\":[1,80,81,82,83,84,90,91,92,93,94,95,96,97,98],\"departmentName\":[\"1 - CANDY\",\"80 - SERVICE DELI\",\"81 - COM BREAD\",\"82 - IMPULSE MERCHANDISE\",\"83 - SEAFOOD\",\"84 - BALLOONS & FLOWERS\",\"90 - DAIRY\",\"91 - FROZEN\",\"92 - GROCERY\",\"93 - MEAT\",\"94 - PRODUCE\",\"95 - DSD GROCERY\",\"96 - LIQUOR\",\"97 - WALL DELI\",\"98 - BAKERY\"],\"displayOption\":\"absolute\",\"includeDerivedMetrics\":false,\"metricUnit\":\"gmv\",\"organizationalLevel\":\"SBU\",\"sbu\":[\"FOOD\"],\"sbuIds\":[27],\"timeFilter\":{\"filterLevel\":\"MONTH\",\"isYearSelected\":true,\"isMonthSelected\":true,\"isQuarterSelected\":false,\"yearMonths\":[\"202601\",\"202602\",\"202603\"],\"yearQuarters\":[],\"years\":[\"2026\"],\"yearList\":[\"FY 2026\"]},\"view\":\"tabular\",\"saveParams\":true}"
+    },
+    "getFiltersPayload" : {
+
+    },
+    "getFiltersResponse" : {
+        "filterJson": "{\"aggregationType\":\"MONTH\",\"baseChannel\":[],\"baseChannelIds\":[],\"channelGroup\":[],\"channelGroupIds\":[],\"demandChannel\":[],\"department\":[\"CANDY\",\"SERVICE DELI\",\"COM BREAD\",\"IMPULSE MERCHANDISE\",\"SEAFOOD\",\"BALLOONS & FLOWERS\",\"DAIRY\",\"FROZEN\",\"GROCERY\",\"MEAT\",\"PRODUCE\",\"DSD GROCERY\",\"LIQUOR\",\"WALL DELI\",\"BAKERY\"],\"departmentIds\":[1,80,81,82,83,84,90,91,92,93,94,95,96,97,98],\"departmentName\":[\"1 - CANDY\",\"80 - SERVICE DELI\",\"81 - COM BREAD\",\"82 - IMPULSE MERCHANDISE\",\"83 - SEAFOOD\",\"84 - BALLOONS & FLOWERS\",\"90 - DAIRY\",\"91 - FROZEN\",\"92 - GROCERY\",\"93 - MEAT\",\"94 - PRODUCE\",\"95 - DSD GROCERY\",\"96 - LIQUOR\",\"97 - WALL DELI\",\"98 - BAKERY\"],\"displayOption\":\"absolute\",\"includeDerivedMetrics\":false,\"metricUnit\":\"gmv\",\"organizationalLevel\":\"SBU\",\"sbu\":[\"FOOD\"],\"sbuIds\":[27],\"timeFilter\":{\"filterLevel\":\"MONTH\",\"isYearSelected\":false,\"isMonthSelected\":false,\"isQuarterSelected\":false,\"yearMonths\":[],\"yearQuarters\":[],\"years\":[],\"yearList\":[]},\"view\":\"tabular\",\"saveParams\":true}"
+    }
+
+    
+}
