@@ -1,0 +1,86 @@
+{
+  "filterCategories": {
+    "channelGroups": [
+      "Delivery",
+      "Pickup"
+
+    ],
+    "channels": [
+      "Express Delivery",
+      "Express Pickup"
+    ],
+    "sbus": [
+      "Food",
+      "Fashion"
+    ],
+    "departments": [
+      "Candy",
+      "Shoes",
+      "Accessories"
+    ],
+    "years": [
+      "FY 2025",
+      "FY 2026"
+    ],
+    "quarters": [
+      "Q2",
+      "Q3"
+    ],
+    "months": [
+      "03- April",
+      "04- May"
+    ]
+  },
+  "excludedCategories": {
+    "channelGroups": [
+      "InStore InClub"
+    ],
+    "channels": [
+      "Scheduled Delivery"
+    ],
+    "sbus": [
+      "Home"
+    ],
+    "departments": [
+      "Mens Apparel",
+      "Meat"
+    ],
+    "years": [
+      "FY 2024"
+    ],
+    "quarters": [
+      "Q1"
+    ],
+    "months": [
+      "02- March"
+    ]
+  },
+  "metrics": [
+    {
+      "name": "Scanned Units",
+      "unit": ""
+    },
+    {
+      "name": "AUR YoY Growth %",
+      "unit": "%"
+    },
+    {
+      "name": "Net Merch Sales",
+      "unit": "$"
+    }
+  ],
+  "figures": [
+    {
+      "name": "absolute",
+      "unit": "absolute"
+    },
+    {
+      "name": "millions",
+      "unit": "M"
+    },
+    {
+      "name": "billions",
+      "unit": "B"
+    }
+  ]
+}

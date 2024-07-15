@@ -3,7 +3,7 @@ import { CopyScenario } from "./copy-scenario.page";
 import { DemandWorkspace } from "./demand-workspace.page";
 import { Visualizer } from "./visualizer.page";
 import { CurrentDemand } from "./currentdemand.page";
-import { dssPage } from "./dssPage.page";
+import { DssPage } from "./dssPage.page";
 import { DemandOutput } from "./demand-output.page";
 import { AdjustmentLayer } from "./adjustment-layer.page";
 
@@ -29,7 +29,7 @@ export class CDFPageFactory {
   }
 
   dssPage() {
-    return new dssPage(this.page);
+    return new DssPage(this.page);
   }
 
   demandOutput() {

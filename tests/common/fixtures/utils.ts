@@ -195,4 +195,14 @@ export class Utility {
   async keyPress(key) {
     await this.page.keyboard.press(key);
   }
+
+  /*
+  * Helps avoid test flakiness
+  *
+  * On long pages, the test runner sometimes scrolls too low from previous tests and accidentally clicks overlapping header buttons.
+  * Scrolling to the top of the page is functionally a position-reset
+  */
+  async scrollToTop() {
+    await this.page.evaluate(() => window.scrollTo(0, 0));
+  }
 }
