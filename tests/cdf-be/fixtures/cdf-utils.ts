@@ -4,6 +4,7 @@ import currentDemandData from '../testdata/current-demand.json'
 import getDemandScenario from '../testdata/get-demand-scenario-forecast.json'
 import tagNotificationData from '../testdata/tag-notification.json'
 import getCurrentDemandForecast from '../testdata/get-currentdemand-scenario-forecast.json'
+import currentDemandSlotTestData from '../testdata/get-currentdemand-scenario-slot-forecast.json'
 import filterScenarioCurrentDemand from '../testdata/filter-retention-current-demand.json'
 import baseDSForecast from '../testdata/base-ds-forecast.json'
 import { expect } from '../../common/fixtures/test-hook';
@@ -424,4 +425,39 @@ export class CdfUtility {
     return response;
   }
 
+  static async getCurrentDemandSlotsForecast(request,slotId,viewType='SBU') {
+    const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandSlotTestData.slotsEndpoint}/${slotId}`;
+    const payload = {
+      ...currentDemandSlotTestData.payload,
+      organizationalLevel: viewType,
+    }
+    const response = await request.post(
+      endpointURL,
+
+      { data: payload, headers: CdfUtility.headers})
+      expect(response).toBeOK();
+      let responseBody = await response.json();  
+      return responseBody;
+
+  }
+  static async validateYearlyAndMerticData(currentDemandScenario) {
+    expect(
+      await currentDemandScenario.yearlyForecast[0].forecast
+    ).toHaveLength(11);
+    currentDemandSlotTestData.metrics.forEach(async (metric) => {
+      expect(
+        await currentDemandScenario.yearlyForecast[0].forecast[0].hasOwnProperty(
+          metric
+        )
+      ).toBeTruthy();
+    });
+  }
+  static async validatePublishCurrentDemandSbuData(currentDemandScenario) {
+    expect(await currentDemandScenario.yearlyForecast).toHaveLength(6);
+    CdfUtility.validateYearlyAndMerticData(currentDemandScenario);
+  }
+  static async validatePublishCurrentDemandChannelData(currentDemandScenario) {
+    expect(await currentDemandScenario.yearlyForecast).toHaveLength(14);
+    CdfUtility.validateYearlyAndMerticData(currentDemandScenario);
+  }
 }
