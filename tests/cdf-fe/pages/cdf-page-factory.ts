@@ -5,9 +5,9 @@ import { Visualizer } from "./visualizer.page";
 import { CurrentDemand } from "./currentdemand.page";
 import { DssPage } from "./dssPage.page";
 import { DemandOutput } from "./demand-output.page";
-import { AdjustmentLayer } from "./adjustment-layer.page";
 
 export class CDFPageFactory {
+
   private readonly page: Page;
   constructor(page: Page) {
     this.page = page;
@@ -21,7 +21,7 @@ export class CDFPageFactory {
   }
 
   visualizer() {
-    return new Visualizer(this.page);
+    return new Visualizer(this.page)
   }
 
   currentDemand() {
@@ -34,8 +34,5 @@ export class CDFPageFactory {
 
   demandOutput() {
     return new DemandOutput(this.page);
-  }
-  adjustmentLayer() {
-    return new AdjustmentLayer(this.page);
   }
 }
