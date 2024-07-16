@@ -1,6 +1,7 @@
 import debug from "debug";
 import getVisualizerTableFilterData from '../testdata/get-visualizer-table-filters.json';
-import visualizerSaveData from '../testdata/publish-to-current-demand.json';
+import visualizerSaveData from '../testdata/visualizer-create-view-scenarios-list.json';
+import visualizerSaveCurrentDemandData from '../testdata/publish-to-current-demand.json';
 import visualizerTableDataCustomMetrics from '../testdata/visualizer-table-data-custom-metrics.json';
 import visualizerDownloadData from '../testdata/visualizer-view-download.json';
 import visualizerTableDataCustomScenarios from '../testdata/visualizer-table-data-custom-scenarios.json'
@@ -35,6 +36,17 @@ export class VisualizerUtility {
         const response = await request.put(
             endpointURL,
             { data: visualizerSaveData.payload, headers: VisualizerUtility.headers }
+        )
+
+        return response;
+    }
+   static async visualizerSaveCurrentDemand(request) {
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerSaveCurrentDemandData.endpoint}`;
+        debug.log(endpointURL);
+
+        const response = await request.put(
+            endpointURL,
+            { data: visualizerSaveCurrentDemandData.payload, headers: VisualizerUtility.headers }
         )
 
         return response;
@@ -280,4 +292,16 @@ export class VisualizerUtility {
 
         return response;
     }
+
+      static async deleteView(request, viewId) {
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/views/${viewId}`;
+        console.log(endpointURL);
+        const response = await request.delete(
+            endpointURL,
+
+            { headers: VisualizerUtility.headers }
+          );
+
+           return response;
+      }
 }

@@ -7,7 +7,7 @@ test.describe("Verify if super user can publish a view to current demand", { tag
     let visualizerSaveDataResponse;
 
     test("Verify visualizer-save api is working", async ({ request }) => {
-        visualizerSaveDataResponse = await VisualizerUtility.visualizerSave(request);
+        visualizerSaveDataResponse = await VisualizerUtility.visualizerSaveCurrentDemand(request);
 
         // Assertion
         expect(visualizerSaveDataResponse).toBeOK();
