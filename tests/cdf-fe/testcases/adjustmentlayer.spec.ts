@@ -76,6 +76,7 @@ test.describe(
             .adjustmentLayer()
             .createAndSave();
         });
+
         await test.step("Load already created Adjustment Layer", async () => {
           await objpageFactory
             .cdfPageFactory()
@@ -85,4 +86,44 @@ test.describe(
       }
     );
   }
+  
+  test.describe(
+    "Editing a EMT's layers name and description",
+    { tag: "@Smoke @AdjustmentLayer @editEmtLayer" },
+    async () => {
+      test.describe.configure({ timeout: 300_000, mode: "serial" });
+
+      let objpageFactory: PageFactory;
+
+      test.beforeAll(async ({ pageFactory }) => {
+        objpageFactory = pageFactory;
+        await objpageFactory.cdfPageFactory().demandWorkspace().navigate();
+      });
+      test(
+        "Editing a EMT's layers name and description",
+        { tag: "@AdjustmentLayer" },
+        async () => {
+          test.setTimeout(500000);
+          await test.step("Open the demand stack scenario", async () => {
+            await objpageFactory
+              .cdfPageFactory()
+              .demandWorkspace()
+              .openFirstDSS();
+          });
+          await test.step("Create and Save Adjustment Layer", async () => {
+            await objpageFactory
+              .cdfPageFactory()
+              .adjustmentLayer()
+              .createAndSave();
+          });
+          await test.step("Preview Adjustment Layer and see it doesn't create Adjustment Layer", async () => {
+            await objpageFactory
+              .cdfPageFactory()
+              .adjustmentLayer()
+              .updateLayerNameAndDescription();
+          });
+        }
+      );
+    }
+  );
 );

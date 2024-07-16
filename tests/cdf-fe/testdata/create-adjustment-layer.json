@@ -3,5 +3,7 @@
   "desc": "create adjustment layer Description",
   "tempName": "Test Automation New EMT Layer",
   "tempDesc": "Test Automation New EMT Layer Description",
-  "foodValue": "-1000"
+  "foodValue": "-1000",
+  "updatedName": "create adjustment layer updated name",
+  "updatedDescription": "create adjustment layer updated description"
 }

@@ -21,6 +21,9 @@ export class AdjustmentLayer {
   private readonly adjustmentTab: Locator;
   private readonly openLayer: Locator;
   private readonly proceedDialog: Locator;
+  private readonly editLayerNameDescription: Locator;
+  private readonly editLayerName: Locator;
+  private readonly deleteIcon: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -64,6 +67,11 @@ export class AdjustmentLayer {
     this.proceedDialog = this.page.getByRole("button", {
       name: "Proceed without saving",
     });
+    this.editLayerNameDescription = this.page.getByRole('button', {
+      name: 'Edit title/description'
+    });
+    this.editLayerName = this.page.getByLabel('Edit Layer Metadata').getByPlaceholder('Name');
+    this.deleteIcon = this.page.getByLabel('Press SPACE to deselect this').locator('svg');
   }
 
   async addNameAndDesc({ name, desc }) {
@@ -110,5 +118,27 @@ export class AdjustmentLayer {
     await this.openLayer.click();
     await this.emtExpandSBU.click();
     await expect(this.emtFoodSBUNode).toBeChecked();
+  }
+  async updateLayerNameAndDescription() {
+    await this.openLayer.click();
+    await this.editLayerNameDescription.click();
+    await this.editLayerName.fill(testdata.updatedName);
+    await this.emtDescInput.click();
+    await this.emtDescInput.fill(testdata.updatedDescription);
+    await this.emtSaveButton.click();
+    await this.emtBackAdjstButton.click();
+    await Utility.validateDataInGridAvailable(this.page, this.intelLayer);
+    const allLayers = this.page.locator(this.intelLayer);
+    expect(allLayers.first()).toContainText(testdata.updatedName);
+  }
+  async deleteEMTLayer() {
+    const originalLayers = this.page.locator(this.intelLayer);
+    const originalLayersCount = await originalLayers.count();
+    await this.deleteIcon.first().click();
+    await this.emtConfirmButton.click();
+    await Utility.waitForDataLoadingMessageToBeInvisible(this.page);
+    const newLayers = this.page.locator(this.intelLayer);
+    const newLayersCount = await newLayers.count();
+    expect(originalLayersCount - 1).toBe(newLayersCount);
   }
 }
