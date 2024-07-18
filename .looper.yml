@@ -8,7 +8,7 @@ envs:
     variables:
       REPO_NAME: ALL #default value for all apps
       APP_NAME: $app
-      UFM_REPOS:  #add app names here
+      UFM_REPOS: #add app names here
         - ibg-ufm-metadata-service
         - ibg-ufm-core-service
         - ibg-ufm-domino-service
@@ -25,11 +25,10 @@ envs:
         - ibg-visualizer-ui
         - ibg-service-scenario-financials
 
-        
 triggers:
-  # - push: 
+  # - push:
   #     name: Run ConcordTriggeredFlow
-  #     call: push-flow 
+  #     call: push-flow
   - manual:
       name: Run UFM API Regression
       call: runUFMBeTests
@@ -49,11 +48,16 @@ triggers:
       name: Run Adhoc Test
       call: runCustomTest
       parameters:
-        - playwrightProject: { type: string , label : "Provide the project name that matches with the one in the playwright config file- EX-(ufm-be,ufm-fe,cdf-be,cdf-fe)"}
-        - testTag: { type: string , label : "Provide the unique tag to run the test"}
+        - playwrightProject:
+            {
+              type: string,
+              label: "Provide the project name that matches with the one in the playwright config file- EX-(ufm-be,ufm-fe,cdf-be,cdf-fe)",
+            }
+        - testTag:
+            { type: string, label: "Provide the unique tag to run the test" }
   - manual:
       name: Run ConcordTriggeredFlow
-      call: concord-triggered-flow        
+      call: concord-triggered-flow
 parameters:
   - app: { type: string }
   - envr: { type: string }
@@ -61,10 +65,10 @@ parameters:
 
 flows:
   run-sonar-pr:
-  - sonar("Sonar"):
-    - (name Sonar) sonar-scanner -X -Dproject.settings=sonar-project.properties
+    - sonar("Sonar"):
+        - (name Sonar) sonar-scanner -X -Dproject.settings=sonar-project.properties
           -Dsonar.pullrequest.github.repository=IBG/ibg-testscripts-playwright
-          -Dsonar.host.url="https://sonar.looper.prod.walmartlabs.com" 
+          -Dsonar.host.url="https://sonar.looper.prod.walmartlabs.com"
           -Dsonar.pullrequest.key=${GITHUB_PR_NUMBER}
           -Dsonar.pullrequest.branch=${GITHUB_PR_SOURCE_BRANCH}
           -Dsonar.pullrequest.base=${GITHUB_PR_TARGET_BRANCH}
@@ -92,33 +96,33 @@ flows:
     - echo "Calling e2e flow from concord"
     - if: $app
       then:
-      - echo "App found from Concord"
-      - var(REPO_NAME = '$app')
+        - echo "App found from Concord"
+        - var(REPO_NAME = '$app')
     - echo "Running for App -> ${REPO_NAME}"
     - if: | #search all app name here
-       %{app =~ COMMON_REPOS}
+        %{app =~ COMMON_REPOS}
       then:
-      - var(APP_NAME = 'IBG')
-      - call: runCDFSMokeTest
+        - var(APP_NAME = 'IBG')
+        - call: runCDFSMokeTest
     - if: | #search ufm app name here
-       %{app =~ UFM_REPOS}
+        %{app =~ UFM_REPOS}
       then:
-      - var(APP_NAME = 'UFM')
-      - call: runUFMUISmokeTest
+        - var(APP_NAME = 'UFM')
+        - call: runUFMBeTests
     - if: | #search ufm app name here
-       %{app =~ CDF_REPOS}
+        %{app =~ CDF_REPOS}
       then:
-      - var(APP_NAME = 'CDF')
-      - call: runCDFSMokeTest
-    - if: | 
-       %{APP_NAME == 'BLANK'}
+        - var(APP_NAME = 'CDF')
+        - call: runCDFSMokeTest
+    - if: |
+        %{APP_NAME == 'BLANK'}
       then:
-      - echo "No matching app name was found. Exiting!!"
+        - echo "No matching app name was found. Exiting!!"
   runAllTests:
     try:
       - echo "Running all the tests in the repo"
       - call: setup
-      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests 
+      - APP_NAME=$app RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests
     finally:
       - call: reporter
   runUFMBeTests:
@@ -153,15 +157,15 @@ flows:
     try:
       - echo "Running UFM Smoke testcases "
       - call: setup
-      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests 
+      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests
     finally:
       - call: reporter
-  
+
   runCDFSMokeTest:
     try:
       - echo "Running CDF Smoke testcases "
       - call: setup
-      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:cdf-tests 
+      - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:cdf-tests
     finally:
       - call: reporter
 
@@ -171,20 +175,18 @@ flows:
       - call: setup
       - APP_NAME=$app tag=$testTag PROJECT=$playwrightProject ENV=$envr npm run tests:looper-tests
     finally:
-      - call: reporter   
-
+      - call: reporter
 
   setup:
-      - npm install
-      - npx playwright install chromium
-      - echo '{}' > secrets/nexus-users-token.json
-      - echo '{}' > secrets/ibg-users-token.json
-      - echo '{}' > secrets/ibg-user-storagestate.json
-      - echo '{}' > secrets/nexus-user-storagestate.json
+    - npm install
+    - npx playwright install chromium
+    - echo '{}' > secrets/nexus-users-token.json
+    - echo '{}' > secrets/ibg-users-token.json
+    - echo '{}' > secrets/ibg-user-storagestate.json
+    - echo '{}' > secrets/nexus-user-storagestate.json
   reporter:
     - publishReport:
         context: playwright/${APP_NAME}
         dir: playwright-report/${APP_NAME}
         index: index.html
         verbose: true
-

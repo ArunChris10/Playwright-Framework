@@ -3,22 +3,25 @@
     "classification_id": "12",
     "visual_indicator_response": [
         {
-            "dataset_type": "Actuals",
+            "dataset_type": "Actuals updated",
             "id": 10041697017824,
-            "version": 1701419411,
-            "last_updated": "2023-12-01T08:30:11"
+            "version": 1718269089,
+            "last_updated": "2024-06-13T08:58:09",
+            "actual_sync_time": "202504"
         },
         {
-            "dataset_type": "Extrapolated Forecast",
+            "dataset_type": "IBG Demand Updated",
             "id": 10061697018013,
-            "version": 1701253922,
-            "last_updated": "2023-11-29T10:32:02"
+            "version": 1718269089,
+            "last_updated": "2024-06-13T08:58:09",
+            "actual_sync_time": ""
         },
         {
-            "dataset_type": "Forecast",
+            "dataset_type": "Forecasts updated",
             "id": 10051697018005,
-            "version": 1701256293,
-            "last_updated": "2023-11-29T11:11:33"
+            "version": 1718952183,
+            "last_updated": "2024-06-21T06:43:03",
+            "actual_sync_time": ""
         }
     ]
 }

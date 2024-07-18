@@ -12,107 +12,59 @@
             },
             {
                 "id": 3,
-                "value": "CHANNEL"
-            },
-            {
-                "id": 4,
-                "value": "CHANNEL_GROUP"
-            },
-            {
-                "id": 5,
-                "value": "ENTITY"
-            },
-            {
-                "id": 6,
-                "value": "REPORTING"
-            },
-            {
-                "id": 7,
-                "value": "BUSINESS_AREA"
-            },
-            {
-                "id": 8,
-                "value": "SC_NETWORK"
-            },
-            {
-                "id": 9,
-                "value": "PBA"
-            },
-            {
-                "id": 10,
-                "value": "SBA"
-            },
-            {
-                "id": 11,
-                "value": "SEGMENT"
-            },
-            {
-                "id": 12,
                 "value": "FINANCIAL_SUBGROUP"
             },
             {
-                "id": 13,
+                "id": 4,
                 "value": "FINANCIAL_SEGMENT"
             },
             {
+                "id": 6,
+                "value": "CHANNEL"
+            },
+            {
+                "id": 7,
+                "value": "CHANNEL_GROUP"
+            },
+            {
+                "id": 8,
+                "value": "CHANNEL_HIERARCHY_V1"
+            },
+            {
+                "id": 9,
+                "value": "CHANNEL_HIERARCHY_V2"
+            },
+            {
+                "id": 11,
+                "value": "SBA"
+            },
+            {
+                "id": 12,
+                "value": "PBA"
+            },
+            {
+                "id": 13,
+                "value": "SEGMENT"
+            },
+            {
                 "id": 14,
+                "value": "REPORTING"
+            },
+            {
+                "id": 15,
+                "value": "BUSINESS_AREA"
+            },
+            {
+                "id": 16,
                 "value": "LOCATION"
             },
             {
-                "id": 21,
-                "value": "DEPARTMENT_NEW"
+                "id": 17,
+                "value": "ENTITY"
             },
             {
-                "id": 22,
-                "value": "SBU_NEW"
-            },
-            {
-                "id": 23,
-                "value": "CHANNEL_NEW"
-            },
-            {
-                "id": 24,
-                "value": "CHANNEL_GROUP_NEW"
-            },
-            {
-                "id": 25,
-                "value": "ENTITY_NEW"
-            },
-            {
-                "id": 26,
-                "value": "REPORTING_NEW"
-            },
-            {
-                "id": 27,
-                "value": "BUSINESS_AREA_NEW"
-            },
-            {
-                "id": 28,
-                "value": "SC_NETWORK_NEW"
-            },
-            {
-                "id": 29,
-                "value": "PBA_NEW"
-            },
-            {
-                "id": 30,
-                "value": "SBA_NEW"
-            },
-            {
-                "id": 31,
-                "value": "SEGMENT_NEW"
-            },
-            {
-                "id": 32,
-                "value": "FINANCIAL_SUBGROUP_NEW"
-            },
-            {
-                "id": 33,
-                "value": "FINANCIAL_SEGMENT_NEW"
-            },
-            {
-                "id": 34,
-                "value": "LOCATION_NEW"
+                "id": 19,
+                "value": "MONTH"
             }
         ]
     },

@@ -8,11 +8,16 @@ test.describe("Validating the @screenDetails API @Regression", () => {
   const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
   debug.log(endpointURL);
 
-  test("Checking the screen Details API response ", async ({ context }) => {
+  test("Checking the screen Details API response ", async ({ request }) => {
     //get request for the screen details
     await test.step("Make a Get Request for screen Details", async () => {
       debug.log("Make a Get Request for screen Details");
-      const responseData = await context.request.get(endpointURL);
+      const responseData = await request.get(endpointURL, {
+        params: {
+            "dim_id": testdatafile.configEndpoint.dim_id,
+            "dim_val_id":testdatafile.configEndpoint.dim_val_id
+        }
+    })
       responseBody = JSON.parse(await responseData.text());
       debug.log("responseBody", responseBody);
     });

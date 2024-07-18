@@ -1,84 +1,50 @@
 {
     "configEndpoint": {
         "endpoint": "/filter/screen_details",
+        "dim_id":"12",
+        "dim_val_id":"120007",
         "expected_response": [
             {
-                "screen_name": "Segment, Summary",
+                "screen_name": "Organisation",
                 "screen_sect_id": 101,
                 "screen_id": 1,
-                "screen_sec_name": "P&L"
+                "screen_sec_name": "Inputter"
             },
             {
-                "screen_name": "Segment, Projections",
+                "screen_name": "Organisation",
+                "screen_sect_id": 102,
+                "screen_id": 1,
+                "screen_sec_name": "BAReviewer"
+            },
+            {
+                "screen_name": "Organisation",
+                "screen_sect_id": 103,
+                "screen_id": 1,
+                "screen_sec_name": "Segment"
+            },
+            {
+                "screen_name": "LOB",
                 "screen_sect_id": 201,
                 "screen_id": 2,
-                "screen_sec_name": "Scenarios"
+                "screen_sec_name": "Forecast"
             },
             {
-                "screen_name": "Segment, Choices & RNOs",
-                "screen_sect_id": 301,
-                "screen_id": 3,
-                "screen_sec_name": "Choices, 6-Line P&L"
+                "screen_name": "LOB",
+                "screen_sect_id": 202,
+                "screen_id": 2,
+                "screen_sec_name": "DriverModel"
             },
             {
-                "screen_name": "Segment, Choices & RNOs",
-                "screen_sect_id": 302,
-                "screen_id": 3,
-                "screen_sec_name": "Choices, Choices"
+                "screen_name": "LOB",
+                "screen_sect_id": 203,
+                "screen_id": 2,
+                "screen_sec_name": "BAReviewer"
             },
             {
-                "screen_name": "Segment, Choices & RNOs",
-                "screen_sect_id": 303,
-                "screen_id": 3,
-                "screen_sec_name": "RNOs, 6-Line P&L"
-            },
-            {
-                "screen_name": "Segment, Choices & RNOs",
-                "screen_sect_id": 304,
-                "screen_id": 3,
-                "screen_sec_name": "RNOs, RNOs"
-            },
-            {
-                "screen_name": "Segment, Audit Adjustments",
-                "screen_sect_id": 305,
-                "screen_id": 4,
-                "screen_sec_name": "Latest Enterprise Primary Scenario"
-            },
-            {
-                "screen_name": "Non-Segment, Summary",
-                "screen_sect_id": 501,
-                "screen_id": 5,
-                "screen_sec_name": "P&L"
-            },
-            {
-                "screen_name": "Non-Segment, Projections",
-                "screen_sect_id": 601,
-                "screen_id": 6,
-                "screen_sec_name": "Scenarios"
-            },
-            {
-                "screen_name": "Non-Segment, Choices & RNOs",
-                "screen_sect_id": 701,
-                "screen_id": 7,
-                "screen_sec_name": "Choices, 6-Line P&L"
-            },
-            {
-                "screen_name": "Non-Segment, Choices & RNOs",
-                "screen_sect_id": 702,
-                "screen_id": 7,
-                "screen_sec_name": "Choices, Choices"
-            },
-            {
-                "screen_name": "Non-Segment, Choices & RNOs",
-                "screen_sect_id": 703,
-                "screen_id": 7,
-                "screen_sec_name": "RNOs, 6-Line P&L"
-            },
-            {
-                "screen_name": "Non-Segment, Choices & RNOs",
-                "screen_sect_id": 704,
-                "screen_id": 7,
-                "screen_sec_name": "RNOs, RNOs"
+                "screen_name": "LOB",
+                "screen_sect_id": 204,
+                "screen_id": 2,
+                "screen_sec_name": "Segment"
             }
         ]
     }

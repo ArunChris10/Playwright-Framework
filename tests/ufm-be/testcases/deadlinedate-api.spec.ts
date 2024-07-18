@@ -6,7 +6,7 @@ import testdatafile from '../testdata/historical-forecast.json';
 import { UfmUtility } from "../fixtures/ufm-utils";
 
 
-test.describe('Verify the deadline date API', { tag: "@Smoke @deadlinedate" }, () => {
+test.describe('Verify the deadline date API', { tag: "@Smoke @Regression @deadlinedate" }, () => {
   // variable used to store the filter id and use it across the tests under this describe
   let apiResponse, apiResponseBody;
   // API endpoint URL
