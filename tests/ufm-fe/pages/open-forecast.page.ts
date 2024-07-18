@@ -7,7 +7,7 @@ export class OpenCurrentForecast {
     readonly btnOpenCurrentForecast: Locator;
     readonly txtCurrentForecast: Locator;
     readonly actionButton: Locator;
-    readonly addDriverButton: Locator;
+    readonly chooseDifferentDriverButton: Locator;
     readonly forecastInputCell: string;
     readonly allocationMethodDropDown: Locator;
     readonly maintainRatioOption: Locator;
@@ -27,7 +27,7 @@ export class OpenCurrentForecast {
         this.btnOpenCurrentForecast = page.locator("//button[text()='Open']");
         this.txtCurrentForecast = page.getByText("Current Forecast");
         this.actionButton = this.page.locator('//div[@class="table-container"]//button[contains(text(),"Actions")]')
-        this.addDriverButton = page.getByText('Add Driver')
+        this.chooseDifferentDriverButton = page.getByText('Choose different drivers')
         this.forecastInputCell = '//div[contains(@col-id,"forecast") and @role="gridcell"]'
         this.allocationMethodDropDown = this.page.locator('//button[@aria-label="More options"]')
         this.maintainRatioOption = this.page.getByText("Maintain ratio")
@@ -62,10 +62,10 @@ export class OpenCurrentForecast {
         this.actionButton.click()
     }
 
-    async clickOnAddDriver() {
-        await this.addDriverButton.waitFor({ state: "visible" })
+    async clickOnChooseDifferentDriver() {
+        await this.chooseDifferentDriverButton.waitFor({ state: "visible" })
 
-        await this.addDriverButton.click()
+        await this.chooseDifferentDriverButton.click()
     }
 
     async validateDriverPresence(driverName: string) {
@@ -95,6 +95,43 @@ export class OpenCurrentForecast {
                 updated_col_ids.set(actualColId, incrementedValue);
 
                 await this.page.locator(`//div[contains(@col-id,"${parseInt(col_id || "SelectorError") + count}.forecast")]//div[contains(@class,"tableCell")]/span`).dblclick().then(async () => {
+
+                    await this.page.keyboard.type(incrementedValue.toString());
+                    await this.page.keyboard.press('Shift+Tab')
+
+                });
+            }
+            else {
+                debug.log("Unable to convert the col-id")
+            }
+            count++
+        }
+
+        return { "updated_col_ids": updated_col_ids, "old_col_ids": old_col_ids }
+    }
+
+    async fillForecastQuarterInputCell(noOfCells, inputValue) {
+        let count = 0
+
+        let forecastInputElement = (await this.page.locator("(" + this.forecastInputCell + ")" + "[1]"))
+
+        let col_id = (await forecastInputElement.getAttribute("col-id"))?.split('.')?.[0]
+
+        let updated_col_ids = new Map()
+        let old_col_ids = new Map()
+
+        while (count < noOfCells) {
+            if (typeof col_id === 'string') {
+                let actualColId = `${parseInt(col_id) + count}Q4.forecast`;
+
+                let currentValue: string | number = await this.page.locator(`//div[contains(@col-id,"${parseInt(col_id || "SelectorError") + count}Q4.forecast")]//div[contains(@class,"tableCell")]/span`).innerText()
+
+                currentValue = parseFloat(currentValue.replace(/[$,]/g, ''));
+                old_col_ids.set(actualColId, currentValue)
+                let incrementedValue = currentValue + inputValue
+                updated_col_ids.set(actualColId, incrementedValue);
+
+                await this.page.locator(`//div[contains(@col-id,"${parseInt(col_id || "SelectorError") + count}Q4.forecast")]//div[contains(@class,"tableCell")]/span`).dblclick().then(async () => {
 
                     await this.page.keyboard.type(incrementedValue.toString());
                     await this.page.keyboard.press('Shift+Tab')

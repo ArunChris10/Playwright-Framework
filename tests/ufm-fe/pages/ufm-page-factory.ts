@@ -5,6 +5,7 @@ import { OpenCurrentForecast } from './open-forecast.page';
 import { OrganisationSelection } from './organisation-selection.page';
 import { AddDriverPage } from "./add-driver-page";
 import { RollingForecastCalendar } from "./rolling-forecast-Calendar.page";
+import { UpdatePageCalendarView } from "./update-page-calendar-view";
 
 export class UFMPageFactory {
 
@@ -23,6 +24,10 @@ export class UFMPageFactory {
 
   openCurrentForecast() {
     return new OpenCurrentForecast(this.page);
+  }
+
+  updatePageCalendarView() {
+    return new UpdatePageCalendarView(this.page);
   }
 
   organisationSelection() {

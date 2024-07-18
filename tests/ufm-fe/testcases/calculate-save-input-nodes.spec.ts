@@ -31,12 +31,8 @@ testData.forEach(forecastNodeDetail => {
                 await objpageFactory.ufmPageFactory().currentForecast().clickOnOpenParticularForecast(data.LOB)
             })
 
-            await test.step('Click on Actions', async () => {
-                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnActionButton()
-            })
-
-            await test.step('Click on Add driver', async () => {
-                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnAddDriver()
+            await test.step('Click on choose different drivers', async () => {
+                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnChooseDifferentDriver()
             })
 
             await test.step(`Search for input driver: ${data.driver.inputDriver}`, async () => {

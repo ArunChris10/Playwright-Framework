@@ -10,5 +10,17 @@
                 "forecastValue": 10000
             }
         }
+    ],
+    "testAdditiveDataQuarter": [
+        {
+            "sbaName": "Health & wellness",
+            "LOB": "OPTICAL",
+            "driver": {
+                "inputDriver": "Variable managed care expenses % of D75",
+                "noOfQuarter": 1,
+                "allocationMethod": "Maintain ratio",
+                "forecastValue": 10000
+            }
+        }
     ]
 }

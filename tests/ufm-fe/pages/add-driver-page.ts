@@ -25,14 +25,21 @@ export class AddDriverPage {
     async inputDriverName(driverName: string) {
         await this.page.locator(this.searchDriverField).fill(driverName).then(async () => {
             await this.page.waitForTimeout(1000)
-            await this.searchIcon.dblclick()
+            await this.page.keyboard.press('Enter')
         })
     }
 
     async selectDriver(driverName: string) {
         await this.page.waitForSelector(this.driverSearchResult);
-        const driverNodeElement = await this.page.$(`span[data-testid="remainingWord"]:has-text("${driverName}")`);
-        await driverNodeElement.click()
+        await this.page.evaluate(() => {
+            const elements = document.querySelectorAll('[data-testid="virtualTree"]');
+            const lastElement = elements[elements.length - 1];
+            lastElement.scrollIntoView();
+        });
+        await this.page.waitForSelector(`label:has(span[data-testid="remainingWord"]):has-text("${driverName}")`, {state: 'attached'});
+        await this.page.waitForTimeout(5000);
+        const driverNodeElement = await this.page.$(`label:has(span[data-testid="remainingWord"]):has-text("${driverName}")`);
+        await driverNodeElement.click();
         await this.page.locator(`//div[@class="customSelected"]//span[contains(text(),"${driverName}")]`).waitFor({ state: "visible" })
     }
 
