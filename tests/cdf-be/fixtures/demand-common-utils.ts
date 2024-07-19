@@ -19,17 +19,42 @@ export class DemandBaseClass {
     return await response.json();
   }
 
-  static async getCSVDataAsObjects(csvApiResponse) {
+  static async getCSVDataAsArray(csvApiResponse): Promise<string[][]> {
     // This function accepts the csv download api response as input, downloads and saves the file, reads data, deletes file 
     // and returns the data of the csv file as an array of objects
     let csvBuffer = await csvApiResponse.body();
     let csvFilePath = path.join(__dirname, "download.csv");
     fs.writeFileSync(csvFilePath, csvBuffer);
-    debug.log("CSV downloaded successfully");
+    // debug.log("CSV downloaded successfully");
     let csvFileData = fs.readFileSync(csvFilePath, 'utf8');
-    const rows = csvFileData.split('\n');
+
+    const csvArray = csvFileData
+        .split(/\r\n/)
+        .map(row =>
+            // Matches commas with no space after them. The lookahead regex is needed to parse the
+            // file correctly because sometimes cell values can contain commas, i.e. ARTS, CRAFTS, SEWING & FABRICS
+            row.split(/,(?=\S)/)
+        )
+
+    // The CSV ends with a comma, and as expected, this matches the regex and creates a final entry with [''] as a value.
+    // So, discard this. Unfortunately, there is no better way to match/remove all commas without generating this entry.
+    csvArray.splice(csvArray.length - 1)
+
     fs.unlinkSync(csvFilePath);
-    return rows;
+    return csvArray;
+  }
+
+  // Locating the appropriate data belonging to a column can be troublesome within the CSV array rows (and must be referenced by index)
+  // The returned record provides a way to reference the column by name
+  static getCSVHeadersRecord(csvArray: string[][]): Record<string, number> {
+    const csvHeaders = csvArray[0]
+    const csvColumnNamesRecord = {}
+
+    csvHeaders.forEach((columnName, index) => {
+      csvColumnNamesRecord[columnName] = index
+    })
+
+    return csvColumnNamesRecord
   }
 
   static async getCellValueFromExcel(excelApiResponse, cellId) {

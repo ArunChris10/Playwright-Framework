@@ -24,8 +24,8 @@ test.describe("Verify that the user should be able to download csv and excel fro
     test("Download csv, save the csv and validate data", async ({ request }) => {
         let csvDownloadResponse = await VisualizerUtility.getVisualizerData(request, demandId, testdatafile.csv);
         expect(csvDownloadResponse).toBeOK();
-        let csvResponseData = await DemandBaseClass.getCSVDataAsObjects(csvDownloadResponse);
-        let csvData = parseFloat(csvResponseData.map(row => row.split(',')).filter(row => row[0] === "202602" && row[1] === "DELIVERY").map(row => row[2])[0].trim());
+        let csvResponseData = await DemandBaseClass.getCSVDataAsArray(csvDownloadResponse);
+        let csvData = parseFloat(csvResponseData.filter(row => row[0] === "202602" && row[1] === "DELIVERY").map(row => row[2])[0]);
         debug.log(csvData);
         expect(csvData).toEqual(visualizerData);
     });

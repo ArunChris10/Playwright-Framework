@@ -1,0 +1,80 @@
+{
+  "currentDemandEndpoint": "/api/demandscenarios/currentDemand/",
+  "csvEndpointSuffix": "/csv",
+  "expectedCsvMetrics": [
+    "GMV Shipped",
+    "Scanned Units",
+    "ForecastAur",
+    "Net Merch Sales",
+    "UOM"
+  ],
+  "monthHeader": "Fiscal Month",
+  "expectedMonthsCount": 12,
+  "testCSVBy": {
+    "baseChannel": "Base Channel",
+    "sbu": "SBU Name"
+  },
+  "metricToTest": {
+    "api": "amount",
+    "csv": "GMV Shipped"
+  },
+  "baseChannelToTest": "Express_Delivery",
+  "sbuToTest": "CONSUMABLES",
+  "monthToTest": 6,
+  "slotIds": [1, 2, 3],
+  "payload": {
+    "interplanSyncInd": false,
+    "ufmSyncInd": true
+  },
+  "currentDemandPayload" : {
+    "sbu": [
+      "FASHION",
+      "CONSUMABLES",
+      "ENTERTAINMENT TOYS AND SEASONAL",
+      "FOOD",
+      "HARDLINES",
+      "HOME"
+    ],
+    "sbuIds": [
+      4,
+      29,
+      196,
+      27,
+      60,
+      47
+    ],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": [],
+    "baseChannelIds": [],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": [],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": true,
+    "organizationalLevel": "SBU",
+    "loadHeirarchyParams": null,
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": true,
+      "isMonthSelected": false,
+      "isQuarterSelected": false,
+      "yearMonths": [],
+      "yearQuarters": [],
+      "years": [
+        "2024"
+      ],
+      "yearList": [
+        "FY 2024"
+      ]
+    },
+    "departmentName": [],
+    "filtersChanged": true,
+    "filterLoadComplete": true,
+    "isUfmSyncCache": true,
+    "latestSyncScenario": true,
+    "fetchFromBq": true
+  }
+}
