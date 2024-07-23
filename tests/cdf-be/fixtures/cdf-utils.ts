@@ -23,7 +23,7 @@ export class CdfUtility {
   static createScenarioPayload;
   static async getDemandScenarioList(request){
     const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}`;
-    console.log(endpointURL);
+    console.log("endpointURL = " + endpointURL);
     this.headers["Connection"] = "keep-alive";
     const response = await request.get(
       endpointURL,
@@ -37,6 +37,8 @@ export class CdfUtility {
     const forecastInfo = await this.getDemandScenarioList(request)
     const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${CdfUtility.demandScenario}`;
     console.log(endpointURL);
+    const scenarioNameAutomation = "Reg - AutoTest - " + Date.now();
+     const scenarioDescriptionAutomation = "Description - " + scenarioNameAutomation;
     this.createScenarioPayload = {
       forecastInfoDTO: {
         forecastInfo: {
@@ -44,8 +46,8 @@ export class CdfUtility {
           version: forecastInfo.version,
         },
       },
-      title: "DS Forecast-testautomation",
-      description: "DS Forecast - testautomation ",
+      title: scenarioNameAutomation,
+      description: scenarioDescriptionAutomation,
     }
     const response = await request.post(
         endpointURL,
@@ -59,12 +61,13 @@ export class CdfUtility {
   
   static async deleteScenario(request, demandId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${demandId}`;
-    console.log(endpointURL);
+    console.log("Delete scenario endpoint url" + endpointURL);
     const response = await request.delete(
         endpointURL,
   
         { data: this.createScenarioPayload, headers: CdfUtility.headers }
       );
+      return response;
   }
 
   static async archiveScenario(request) {
@@ -245,6 +248,25 @@ export class CdfUtility {
     return responseBody;
   }
 
+    static async getDemandScenarioByIdWithMinimumDataPayload(request, demandId) {
+      const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenario.endpoint}${demandId}`;
+      debug.log(endpointURL);
+      let payload = getDemandScenario.payloadWithMinimumData
+      payload.version = this.createScenarioPayload.forecastInfoDTO.forecastInfo.version
+      const response = await request.post(
+        endpointURL,
+
+        { data: payload, headers: CdfUtility.headers }
+      );
+      //asserting the response
+      expect(response).toBeOK();
+      let responseBody = await response.json();
+      debug.log(JSON.stringify(responseBody));
+
+      //returning the scenario Id of the created forecast
+      return responseBody;
+    }
+
   // Method to publish DSS
   static async publishDSS(request, demandId, slotId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.publishEndpointPrefix}${demandId}${currentDemandData.publishEndpointSuffix}${slotId}/`;
@@ -271,7 +293,7 @@ export class CdfUtility {
   }
 
   static async pollPublishData(request){
-    let retryCount = 15;
+    let retryCount = 45;
     let statusResponse,statusResponseBody;
     while(retryCount > 0) {
         debug.log(retryCount);
@@ -280,7 +302,7 @@ export class CdfUtility {
         if( statusResponseBody.jobStatus == currentDemandData.expected_status_response){
             break;
         }
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        await new Promise(resolve => setTimeout(resolve, 10000));
         retryCount -= 1;
     }
     debug.log(statusResponseBody)
@@ -288,9 +310,9 @@ export class CdfUtility {
   }
 
 
-  // Method to get the current demand data
+  // Method to get the current demand data on the basis of slot id
   static async currentDemand(request, slotId) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.currentDemandEndpoint}${slotId}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.currentDemandMultipleDSSEndpoint}${slotId}`;
     debug.log(endpointURL);
 
     const response = await request.post(
@@ -300,6 +322,19 @@ export class CdfUtility {
 
     return response;
   }
+
+   static async getCurrentDemandBySlotIdWithMinimumDataPayload(request, slotId) {
+      const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.currentDemandMultipleDSSEndpoint}${slotId}`;
+      debug.log(endpointURL);
+      let payload = currentDemandData.payloadWithMinimumData
+      payload.version = this.createScenarioPayload.forecastInfoDTO.forecastInfo.version
+      const response = await request.post(
+          endpointURL,
+          { data: payload, headers: CdfUtility.headers }
+      )
+
+      return response;
+    }
 
   static async saveFiltersSaved(request, demandId, filtersData) {
     const endpointURL = `${process.env.apiBaseURLCDF}${filtersData.endpoint}${demandId}/filter`;
@@ -312,6 +347,29 @@ export class CdfUtility {
     return response;
   }
 
+  // Method to get the current demand data
+  static async currentDemand(request) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.currentDemandEndpoint}`;
+    debug.log(endpointURL);
+
+    const response = await request.get(
+        endpointURL,
+        { headers: CdfUtility.headers }
+    )
+
+    return response;
+  }
+
+  static async fetchSlots(request){
+      const endpointURL=`${process.env.apiBaseURLCDF}${currentDemandData.fetchSlotsEndpoints}`;
+      debug.log(endpointURL);
+
+      const response = await request.get(
+      endpointURL,
+      {headers: CdfUtility.headers}
+      )
+      return response;
+  }
   static async checkFiltersSaved(request, demandId, filtersData) {
     const endpointURL = `${process.env.apiBaseURLCDF}${filtersData.endpoint}${demandId}/filter`;
     debug.log(endpointURL);

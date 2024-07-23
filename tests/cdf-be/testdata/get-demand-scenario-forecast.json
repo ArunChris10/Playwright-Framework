@@ -234,5 +234,52 @@
     "filterLoadComplete": true,
     "isUfmSyncCache": false,
     "latestSyncScenario": false
+  },
+  "payloadWithMinimumData": {
+    "sbu": [
+      "FASHION",
+      "CONSUMABLES",
+      "ENTERTAINMENT TOYS AND SEASONAL",
+      "FOOD",
+      "HARDLINES",
+      "HOME"
+    ],
+    "sbuIds": [
+      4,
+      29,
+      196,
+      27,
+      60,
+      47
+    ],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": [],
+    "baseChannelIds": [],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": [],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": true,
+    "organizationalLevel": "SBU",
+    "loadHeirarchyParams": null,
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": false,
+      "isMonthSelected": false,
+      "isQuarterSelected": false,
+      "yearMonths": [],
+      "yearQuarters": [],
+      "years": [],
+      "yearList": []
+    },
+    "version": "",
+    "departmentName": [],
+    "filtersChanged": true,
+    "filterLoadComplete": true,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
   }
 }

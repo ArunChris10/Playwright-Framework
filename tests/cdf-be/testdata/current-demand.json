@@ -3,7 +3,9 @@
   "publishEndpointSuffix": "/preInitiativeCdf/",
   "statusEndpointPrefix": "/api/forecast/",
   "statusEndpointSuffix": "/FCP_Writeback/status",
-  "currentDemandEndpoint": "/api/demandscenarios/currentDemand/",
+  "currentDemandMultipleDSSEndpoint": "/api/demandscenarios/currentDemand/",
+  "currentDemandEndpoint": "/api/demandscenarios/currentdemand/",
+  "fetchSlotsEndpoints": "/api/demandscenarios/slots/",
   "yearToTest": 2027,
   "MonthToTest": 4,
   "sbuToTest": "CONSUMABLES",
@@ -107,6 +109,53 @@
     "isUfmSyncCache": true,
     "latestSyncScenario": true,
     "fetchFromBq": true
+  },
+  "payloadWithMinimumData": {
+    "sbu": [
+      "FASHION",
+      "CONSUMABLES",
+      "ENTERTAINMENT TOYS AND SEASONAL",
+      "FOOD",
+      "HARDLINES",
+      "HOME"
+    ],
+    "sbuIds": [
+      4,
+      29,
+      196,
+      27,
+      60,
+      47
+    ],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": [],
+    "baseChannelIds": [],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": [],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": true,
+    "organizationalLevel": "SBU",
+    "loadHeirarchyParams": null,
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": false,
+      "isMonthSelected": false,
+      "isQuarterSelected": false,
+      "yearMonths": [],
+      "yearQuarters": [],
+      "years": [],
+      "yearList": []
+    },
+    "version": "",
+    "departmentName": [],
+    "filtersChanged": true,
+    "filterLoadComplete": true,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
   },
   "expected_response": {
     "message" : "Job created and FCP CDF Write Back started."
