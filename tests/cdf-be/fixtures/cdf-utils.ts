@@ -576,4 +576,11 @@ export class CdfUtility {
     CdfUtility.validateYearlyAndMerticData(currentDemandScenario);
   }
 
+  static async assertAmountWithinTolerance(amount, aur, units) {
+    const higherValue = (aur + 0.005) * units;
+    const lowerValue = (aur - 0.005) * units;
+    expect(amount).toBeGreaterThanOrEqual(lowerValue);
+    expect(amount).toBeLessThanOrEqual(higherValue);
+  }
+
 }
