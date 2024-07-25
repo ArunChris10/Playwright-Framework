@@ -583,6 +583,12 @@ export class CdfUtility {
     expect(amount).toBeLessThanOrEqual(higherValue);
   }
 
+  static async assertAurWithinTolerance(aur, amount, units) {
+    const value = amount / units;
+    expect(aur).toBeGreaterThanOrEqual(value - 0.005);
+    expect(aur).toBeLessThanOrEqual(value + 0.005);
+    
+  }
   static async assertUnitsWithinTolerance(units, amount, aur) {
     const higherValue = amount / (aur - 0.005);
     const lowerValue =  amount / (aur + 0.005);
