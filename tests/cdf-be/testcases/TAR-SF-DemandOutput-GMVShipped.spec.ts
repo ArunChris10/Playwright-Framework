@@ -23,9 +23,6 @@ test.describe("Verify GMV = AUR * Units", { tag: "@Regression @verifyGMVShipped 
     })
 
     await test.step("Verify forecast data", async () => {
-        let demandScenarioResponse = await CdfUtility.getCurrentDemandForecast(request, getDemandTestData.payload);
-        scenarioForecast = demandScenarioResponse.forecast;
-        scenarioTotals = demandScenarioResponse.forecastTotals;
         scenarioForecast.forEach(sbu => {
             sbu.forecast.forEach(forecastData => {
                 CdfUtility.assertAmountWithinTolerance(forecastData.amount, forecastData.aur, forecastData.units);

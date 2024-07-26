@@ -23,9 +23,6 @@ test.describe("Verify AUR is equal to GMV Shipped divided by Scanned Units", { t
     })
 
     await test.step("Verify forecast data", async () => {
-        let demandScenarioResponse = await CdfUtility.getCurrentDemandForecast(request, getDemandTestData.payload);
-        scenarioForecast = demandScenarioResponse.forecast;
-        scenarioTotals = demandScenarioResponse.forecastTotals;
         scenarioForecast.forEach(sbu => {
             sbu.forecast.forEach(forecastData => {
                 CdfUtility.assertAurWithinTolerance(forecastData.aur, forecastData.amount, forecastData.units);

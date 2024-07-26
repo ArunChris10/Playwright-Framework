@@ -86,6 +86,7 @@ test.describe(
       }
     );
   }
+);
   
   test.describe(
     "Editing a EMT's layers name and description",
@@ -126,4 +127,4 @@ test.describe(
       );
     }
   );
-);
+

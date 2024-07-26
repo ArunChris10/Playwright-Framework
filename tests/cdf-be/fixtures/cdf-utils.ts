@@ -596,4 +596,9 @@ export class CdfUtility {
     expect(units).toBeLessThanOrEqual(higherValue);
   }
 
+  static async verifyYoYPercentage(expected, current, past) {
+    const expectedPercentage = (current - past) / (past / 100);
+    expect(parseFloat(expectedPercentage.toFixed(2))).toBe(expected);
+  }
+
 }
