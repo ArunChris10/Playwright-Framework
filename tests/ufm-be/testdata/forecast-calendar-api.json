@@ -1,0 +1,37 @@
+{
+    "endpoint": "/forecast_calendar/",
+    "createForecastCalendarPayload": {
+        "classification_id": 1,
+        "fiscal_year": 2039,
+        "published_flag": true,
+        "dim_id": 13,
+        "dim_val_id": 1
+    },
+    "getForecastCalendarPayload": {
+        "dim_id": "13",
+        "dim_val_id": "130001",
+        "classification_id": "1",
+        "fiscal_year": "2039"
+    },
+    "createForecastCalendarCyclesPayload": {
+      "deadlines": [{
+        "dim_id": 13,
+        "dim_val_id": 130001,
+        "deadline": "2038-10-29 20:11:46.153",
+        "timezone": "CST",
+        "event_id": "28"
+      },
+    {
+      "dim_id": 12,
+        "dim_val_id": 130001,
+        "deadline": "2038-10-28 20:11:46.153",
+        "timezone": "CST",
+        "event_id": "28"
+    }]
+    },
+    "createSuccessResponseCode": 201,
+    "createAlreadyMessage": "Forecast scenario is already created for current period!",
+    "deleteCycleResponseCode": 204,
+    "cycleDeletedAlreadyMessage": "No scenario id found",
+    "notFoundCode": 404
+  }

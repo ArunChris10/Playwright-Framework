@@ -1,11 +1,97 @@
 import debug from "debug";
-import forecastData from "../testdata/forecast-api.json";
+import forecastData from '../testdata/forecast-api.json'
 import currentforecastData from "../testdata/getCurrrentForecast.json";
-import filterData from "../testdata/filter-service.json";
-import hisTestdatafile from "../testdata/historical-forecast.json";
-import { expect } from "../../common/fixtures/test-hook";
+import forecastCalendarData from '../testdata/forecast-calendar-api.json'
+import filterData from '../testdata/filter-service.json'
+import hisTestdatafile from '../testdata/historical-forecast.json';
+import { expect } from '../../common/fixtures/test-hook';
 
 export class UfmUtility {
+
+  // This method will create a forecast calendar and assert the response
+  static async createForecastCalendar(request) {
+    
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}`
+    const response = await request.post(
+      endpointURL,
+      { data: forecastCalendarData.createForecastCalendarPayload }
+    )
+    expect(response).toBeOK();
+    let responseBody = await response.json();
+    expect(responseBody.status_code).toEqual(forecastCalendarData.createSuccessResponseCode)
+    return responseBody;
+  }
+
+    // This method will get the forecast cycle and assert the response
+    static async getForecastCalendar(request, fcst_id) {
+      const params = new URLSearchParams({
+        dim_id: forecastCalendarData.getForecastCalendarPayload.dim_id,
+        dim_val_id: forecastCalendarData.getForecastCalendarPayload.dim_val_id,
+        classification_id: forecastCalendarData.getForecastCalendarPayload.classification_id,
+        fiscal_year: forecastCalendarData.getForecastCalendarPayload.fiscal_year,
+      });
+      const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}?${params.toString()}`;
+      const response = await request.get(
+        endpointURL,
+        { params: null }
+      )
+      expect(response).toBeOK();
+      let responseBody = await response.json();
+      console.log(responseBody);
+      expect(responseBody.calendar_id).toEqual(fcst_id)
+    }
+
+  // This method will create the forecast calendar cycle and assert the response
+  static async createForecastCalendarCycles(fcst_id, request) {
+    
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}/${fcst_id}/cycles`
+    const response = await request.post(
+      endpointURL,
+      { data: forecastCalendarData.createForecastCalendarCyclesPayload }
+    )
+    expect(response).toBeOK();
+    let responseBody = await response.json();
+    expect(responseBody.cycle_id).not.toEqual(null)
+    return responseBody;
+  }
+
+  // This method will publish the forecast and assert the response
+  static async publishForecastCalendar(fcst_id, request) {
+
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}/${fcst_id}`
+    const payload = {
+      "published_flag": true
+    }
+    const response = await request.patch(
+      endpointURL,
+      { data: payload }
+    )
+    expect(response).toBeOK();
+    let responseBody = await response.json();
+    expect(responseBody.calendar_id).not.toEqual(null)
+  }
+
+  // This method will get the forecast deadlines and assert the response
+  static async getForecastDeadlines(request) {
+
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}/deadlines}`
+    const response = await request.patch(
+      endpointURL,
+    )
+    let responseBody = await response.json();
+    expect(responseBody.calendar_id).not.toEqual(null)
+  }
+
+  // This method will delete the forecast cycle and assert the response to be ok
+  static async deleteForecastCalendarCycle(fcst_id, cycle_id, request) {
+    
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}/${fcst_id}/cycles/${cycle_id}`
+    const response = await request.delete(
+      endpointURL
+    )
+    expect(response).toBeOK()
+  }
+
   // This method will create the scenario and asserts the response
   static async createForecast(lobName, request) {
     //Making the get call to create forecast
