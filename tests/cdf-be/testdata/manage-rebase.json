@@ -1,0 +1,454 @@
+{
+  "endpointForGetDemandScenarioForecast": "/api/demandscenarios/demand/",
+  "payloadForGetDemandScenarioForecast": {
+    "sbu": ["FOOD"],
+    "sbuIds": [27],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": ["DSV_S2H"],
+    "baseChannelIds": [22],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": ["layerId"],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": false,
+    "organizationalLevel": "DEPARTMENT",
+    "loadHeirarchyParams": {
+      "baseChannel": ["DSV_S2H"],
+      "baseChannelIds": [22],
+      "sbu": ["FOOD"],
+      "sbuIds": [27],
+      "organizationalLevel": "DEPARTMENT"
+    },
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": true,
+      "isMonthSelected": true,
+      "isQuarterSelected": false,
+      "yearMonths": ["202706"],
+      "yearQuarters": [],
+      "years": ["2027"],
+      "yearList": ["FY 2027"]
+    },
+    "version": "forecastVersion",
+    "forceRefresh": false,
+    "filtersChanged": true,
+    "departmentName": [],
+    "filterLoadComplete": true,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
+  },
+  "endpointForCreateManualAdjustmentLayer": "/api/demandscenarios/stacks/",
+  "payloadForManualAdjustmentLayer1": {
+    "layers": [
+      {
+        "layerType": "HIGHLIGHTER",
+        "allocationType": "DOLLAR",
+        "layerDescription": "Man 01",
+        "layerName": "Man 01",
+        "forecastVersion": "forecastVersion",
+        "isConfirmed": true,
+        "isPreview": false,
+        "highlighterAllocationsList": [
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": ["DSV_S2H"],
+            "amount": 1000,
+            "yearMonth": "2027-06",
+            "department": "BAKERY",
+            "departmentId": 98,
+            "channelIds": [22]
+          },
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": ["DSV_S2H"],
+            "amount": -26150.4,
+            "yearMonth": "2027-06",
+            "department": "WALL DELI",
+            "departmentId": 97,
+            "channelIds": [22]
+          },
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": ["DSV_S2H"],
+            "amount": 573.74,
+            "yearMonth": "2027-06",
+            "department": "LIQUOR",
+            "departmentId": 96,
+            "channelIds": [22]
+          },
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": ["DSV_S2H"],
+            "amount": -461218.17,
+            "yearMonth": "2027-06",
+            "department": "DSD GROCERY",
+            "departmentId": 95,
+            "channelIds": [22]
+          },
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": ["DSV_S2H"],
+            "amount": -2704.58,
+            "yearMonth": "2027-06",
+            "department": "PRODUCE",
+            "departmentId": 94,
+            "channelIds": [22]
+          },
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": ["DSV_S2H"],
+            "amount": 867.59,
+            "yearMonth": "2027-06",
+            "department": "MEAT",
+            "departmentId": 93,
+            "channelIds": [22]
+          },
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": ["DSV_S2H"],
+            "amount": -380245.41,
+            "yearMonth": "2027-06",
+            "department": "GROCERY",
+            "departmentId": 92,
+            "channelIds": [22]
+          },
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": ["DSV_S2H"],
+            "amount": -40739.06,
+            "yearMonth": "2027-06",
+            "department": "FROZEN",
+            "departmentId": 91,
+            "channelIds": [22]
+          },
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": ["DSV_S2H"],
+            "amount": -860.3800000000001,
+            "yearMonth": "2027-06",
+            "department": "DAIRY",
+            "departmentId": 90,
+            "channelIds": [22]
+          },
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": ["DSV_S2H"],
+            "amount": -2857496.14,
+            "yearMonth": "2027-06",
+            "department": "IMPULSE MERCHANDISE",
+            "departmentId": 82,
+            "channelIds": [22]
+          },
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": ["DSV_S2H"],
+            "amount": 863.99,
+            "yearMonth": "2027-06",
+            "department": "COM BREAD",
+            "departmentId": 81,
+            "channelIds": [22]
+          },
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": ["DSV_S2H"],
+            "amount": -34710.95,
+            "yearMonth": "2027-06",
+            "department": "CANDY",
+            "departmentId": 1,
+            "channelIds": [22]
+          }
+        ]
+      }
+    ]
+  },
+  "payloadForGetDemandScenarioForecastAfterLayer1": {
+    "sbu": ["FOOD"],
+    "sbuIds": [27],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": ["DSV_S2H"],
+    "baseChannelIds": [22],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": ["layerId"],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": false,
+    "organizationalLevel": "DEPARTMENT",
+    "loadHeirarchyParams": {
+      "baseChannel": ["DSV_S2H"],
+      "baseChannelIds": [22],
+      "sbu": ["FOOD"],
+      "sbuIds": [27],
+      "organizationalLevel": "DEPARTMENT"
+    },
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": true,
+      "isMonthSelected": true,
+      "isQuarterSelected": false,
+      "yearMonths": ["202706"],
+      "yearQuarters": [],
+      "years": ["2027"],
+      "yearList": ["FY 2027"]
+    },
+    "version": "forecastVersion",
+    "forceRefresh": false,
+    "filtersChanged": true,
+    "departmentName": [],
+    "filterLoadComplete": true,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
+  },
+  "payloadForGetDemandScenarioForecastAfterLayer2": {
+    "sbu": ["FOOD"],
+    "sbuIds": [27],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": ["DSV_S2H"],
+    "baseChannelIds": [22],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": ["layerId"],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": false,
+    "organizationalLevel": "DEPARTMENT",
+    "loadHeirarchyParams": {
+      "baseChannel": ["DSV_S2H"],
+      "baseChannelIds": [22],
+      "sbu": ["FOOD"],
+      "sbuIds": [27],
+      "organizationalLevel": "DEPARTMENT"
+    },
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": true,
+      "isMonthSelected": true,
+      "isQuarterSelected": false,
+      "yearMonths": ["202706"],
+      "yearQuarters": [],
+      "years": ["2027"],
+      "yearList": ["FY 2027"]
+    },
+    "version": "forecastVersion",
+    "forceRefresh": false,
+    "filtersChanged": true,
+    "departmentName": [],
+    "filterLoadComplete": true,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
+  },
+  "payloadForManualAdjustmentLayer2": {
+    "layers": [
+      {
+        "layerType": "HIGHLIGHTER",
+        "allocationType": "DOLLAR",
+        "layerDescription": "Man 02",
+        "layerName": "Man 02",
+        "forecastVersion": "1712604073000",
+        "isConfirmed": true,
+        "isPreview": false,
+        "highlighterAllocationsList": [
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": ["DSV_S2H"],
+            "amount": 12000,
+            "yearMonth": "2027-06",
+            "channelIds": [22]
+          }
+        ]
+      }
+    ]
+  },
+  "payloadForManageLayers": {
+    "layers": [
+      {
+        "layerId": "layerId2",
+        "allocationType": "DOLLAR",
+        "layerType": "HIGHLIGHTER",
+        "forecastVersion": "forecastVersion",
+        "isConfirmed": true
+      },
+      {
+        "layerId": "layerId1",
+        "allocationType": "DOLLAR",
+        "layerType": "HIGHLIGHTER",
+        "forecastVersion": "forecastVersion",
+        "isConfirmed": false
+      }
+    ]
+  },
+  "payloadForGetDemandScenarioForecastWithLayers": {
+    "sbu": ["FOOD"],
+    "sbuIds": [27],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": ["DSV_S2H"],
+    "baseChannelIds": [22],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": ["layerId"],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": false,
+    "organizationalLevel": "DEPARTMENT",
+    "loadHeirarchyParams": {
+      "baseChannel": ["DSV_S2H"],
+      "baseChannelIds": [22],
+      "sbu": ["FOOD"],
+      "sbuIds": [27],
+      "organizationalLevel": "DEPARTMENT"
+    },
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": true,
+      "isMonthSelected": true,
+      "isQuarterSelected": false,
+      "yearMonths": ["202706"],
+      "yearQuarters": [],
+      "years": ["2027"],
+      "yearList": ["FY 2027"]
+    },
+    "version": "forecastVersion",
+    "forceRefresh": false,
+    "filtersChanged": true,
+    "departmentName": [],
+    "filterLoadComplete": true,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
+  },
+  "payloadForCreateManualAdjustmentLayerRebase": {
+    "layers": [
+      {
+        "layerType": "HIGHLIGHTER",
+        "allocationType": "DOLLAR",
+        "layerDescription": "Man 01",
+        "layerName": "Man 01",
+        "forecastVersion": "forecastVersion",
+        "isConfirmed": true,
+        "isPreview": false,
+        "highlighterAllocationsList": [
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": ["DSV_S2H"],
+            "amount": -3800819.77,
+            "yearMonth": "2027-06",
+            "channelIds": [22]
+          }
+        ]
+      }
+    ]
+  },
+  "endpointForUpdateDemandScenarioBaseForecast": "/api/demandscenarios",
+  "payloadForUpdateDemandScenarioBaseForecast": {
+    "forecastVersion": "forecastVersion",
+    "demandStackId": "demandId",
+    "demandStackName": "Reg - AutoTest - 1721362846817",
+    "demandStackDesc": "Description - Reg - AutoTest - 1721362846817"
+  },
+  "payloadForGetDemandScenarioForecastAfterBaseDSRebase": {
+    "sbu": ["FOOD"],
+    "sbuIds": [27],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": ["DSV_S2H"],
+    "baseChannelIds": [22],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": ["layerId"],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": false,
+    "organizationalLevel": "DEPARTMENT",
+    "loadHeirarchyParams": {
+      "baseChannel": ["DSV_S2H"],
+      "baseChannelIds": [22],
+      "sbu": ["FOOD"],
+      "sbuIds": [27],
+      "organizationalLevel": "DEPARTMENT"
+    },
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": true,
+      "isMonthSelected": true,
+      "isQuarterSelected": false,
+      "yearMonths": ["202706"],
+      "yearQuarters": [],
+      "years": ["2027"],
+      "yearList": ["FY 2027"]
+    },
+    "version": "forecastVersion",
+    "forceRefresh": false,
+    "filtersChanged": true,
+    "departmentName": [],
+    "filterLoadComplete": true,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
+  },
+  "payloadForGetDemandScenarioForecastAdjustmentLayer": {
+    "sbu": ["FOOD"],
+    "sbuIds": [27],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": ["DSV_S2H"],
+    "baseChannelIds": [22],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": ["layerId"],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": false,
+    "organizationalLevel": "DEPARTMENT",
+    "loadHeirarchyParams": {
+      "baseChannel": ["DSV_S2H"],
+      "baseChannelIds": [22],
+      "sbu": ["FOOD"],
+      "sbuIds": [27],
+      "organizationalLevel": "DEPARTMENT"
+    },
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": true,
+      "isMonthSelected": true,
+      "isQuarterSelected": false,
+      "yearMonths": ["202706"],
+      "yearQuarters": [],
+      "years": ["2027"],
+      "yearList": ["FY 2027"]
+    },
+    "version": "forecastVersion",
+    "forceRefresh": false,
+    "filtersChanged": true,
+    "departmentName": [],
+    "filterLoadComplete": true,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
+  },
+  "endpointForForecastInfoList": "/api/forecast/info/list",
+  "payloadForForecastInfoList": {
+    "startDate": "202305"
+  }
+}
