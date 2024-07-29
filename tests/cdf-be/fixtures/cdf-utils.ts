@@ -11,6 +11,7 @@ import { expect } from '../../common/fixtures/test-hook';
 import scenario from '../testdata/scenario.json';
 import { Utility } from "../../common/fixtures/utils";
 import currentDemandExcelData from '../testdata/current-demand-excel-download.json'
+import demandworkspace from '../testdata/get-dssorder.json'
 
 export class CdfUtility {   
   
@@ -599,6 +600,19 @@ export class CdfUtility {
   static async verifyYoYPercentage(expected, current, past) {
     const expectedPercentage = (current - past) / (past / 100);
     expect(parseFloat(expectedPercentage.toFixed(2))).toBe(expected);
+  }
+
+  static async fetchallForecast(request) {
+  const endpointURL = `${process.env.apiBaseURLCDF}${demandworkspace.endpoint}`;
+    console.log(endpointURL);
+    const response = await request.get(
+      endpointURL,
+      { headers: CdfUtility.headers});
+    let responseBody = await response.json();
+    debug.log(JSON.stringify(responseBody));
+
+    //fetch list of all demand stacks and then return response
+    return responseBody;
   }
 
 }
