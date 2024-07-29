@@ -1,7 +1,6 @@
 import { test } from "../../common/fixtures/test-hook";
 import { CdfUtility } from "../fixtures/cdf-utils";
 import getDemandTestData from '../testdata/get-demand-scenario-forecast.json';
-import debug from "debug";
 
 test.describe("Verify if user can see the data for Scanned units y/y growth % (xxx.xx 2 decimals)", { tag: "@Regression @verifyUnitsYoY @ibg-service-scenario-financials @DemandOutput" }, () => {
 
@@ -32,7 +31,6 @@ test.describe("Verify if user can see the data for Scanned units y/y growth % (x
                 CdfUtility.verifyYoYPercentage(currentYearData.forecastGrowth['yearOverYearUnitsPercentage'], currentYearData.units, pastYearData.units);
             }
         }
-        debug.log(scenarioForecast);
     })
     await test.step("Verify Totals data", async () => {
         for (let i = 1; i < scenarioTotals.grandTotal.forecast.length; i++) {
