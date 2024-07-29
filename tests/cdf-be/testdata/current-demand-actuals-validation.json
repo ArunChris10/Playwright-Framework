@@ -1,0 +1,661 @@
+{
+  "endpointForCurrentDemandActualsValidation": "/api/demandscenarios/currentDemand/",
+  "slotIds": [1, 2, 3],
+  "payloadForCurrentDemandActualsValidation": {
+    "sbu": [
+      "FASHION",
+      "CONSUMABLES",
+      "ENTERTAINMENT TOYS AND SEASONAL",
+      "FOOD",
+      "HARDLINES",
+      "HOME"
+    ],
+    "sbuIds": [4, 29, 196, 27, 60, 47],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": [],
+    "baseChannelIds": [],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": [],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": true,
+    "organizationalLevel": "organizationalLevel",
+    "loadHeirarchyParams": null,
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": false,
+      "isMonthSelected": false,
+      "isQuarterSelected": false,
+      "yearMonths": [],
+      "yearQuarters": [],
+      "years": [],
+      "yearList": []
+    },
+    "departmentName": [],
+    "filtersChanged": true,
+    "filterLoadComplete": true,
+    "isUfmSyncCache": true,
+    "latestSyncScenario": true,
+    "fetchFromBq": true
+  },
+  "endpointForReportsMyKPI": "/reports/get-mykpi",
+  "payloadForReportsMyKPI": {
+    "dim_id": 13,
+    "dim_val_id": 130001,
+    "classification_id": 12,
+    "template_id": 3,
+    "filters": [
+      {
+        "dim_id": 6,
+        "dim_val_ids": [
+          60003, 60004, 60005, 60006, 60008, 60009, 60012, 60015, 60016, 60017,
+          60018, 60020, 60023, 60024, 60025, 60029, 60030
+        ],
+        "children": []
+      },
+      {
+        "dim_id": 2,
+        "dim_val_ids": [20002, 20003, 20004, 20006, 20008, 20010],
+        "children": [
+          {
+            "dim_id": 1,
+            "dim_val_ids": [
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20,
+              21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
+              37, 40, 46, 56, 58, 67, 71, 72, 74, 77, 79, 80, 81, 82, 83, 84,
+              85, 87, 90, 91, 92, 93, 94, 95, 96, 97, 98
+            ],
+            "children": []
+          }
+        ]
+      }
+    ],
+    "additional_filters": {
+      "pivot_cols": ["month"],
+      "pivot_index": ["node_id"],
+      "period_view": ["month"],
+      "nodes": ["grossshippedgmv", "grossunitsplaceholder", "grossmetrics"],
+      "template_include_headers": [
+        {
+          "name": "Driver"
+        },
+        {
+          "name": "202101",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202102",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202103",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202104",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202105",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202106",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202107",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202108",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202109",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202110",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202111",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202112",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202201",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202202",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202203",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202204",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202205",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202206",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202207",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202208",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202209",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202210",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202211",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202212",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202301",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202302",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202303",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202304",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202305",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202306",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202307",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202308",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202309",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202310",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202311",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202312",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202401",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202402",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202403",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202404",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202405",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202406",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202407",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202408",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202409",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202410",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202411",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202412",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202501",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202502",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202503",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202504",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202505",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202506",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202507",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202508",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202509",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202510",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202511",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202512",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202601",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202602",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202603",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202604",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202605",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202606",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202607",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202608",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202609",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202610",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202611",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202612",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202701",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202702",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202703",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202704",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202705",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202706",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202707",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202708",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202709",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202710",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202711",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202712",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202801",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202802",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202803",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202804",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202805",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202806",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202807",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202808",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202809",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202810",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202811",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202812",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202901",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202902",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202903",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202904",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202905",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202906",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202907",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202908",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202909",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202910",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202911",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "202912",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "",
+          "columnsMenuParams": "fixedColumns"
+        },
+        {
+          "name": "Allocation Method",
+          "columnsMenuParams": "action"
+        },
+        {
+          "name": "Forecast",
+          "editable": false
+        },
+        {
+          "name": "Value",
+          "editable": false
+        }
+      ],
+      "month": [
+        "202101",
+        "202102",
+        "202103",
+        "202104",
+        "202105",
+        "202106",
+        "202107",
+        "202108",
+        "202109",
+        "202110",
+        "202111",
+        "202112",
+        "202201",
+        "202202",
+        "202203",
+        "202204",
+        "202205",
+        "202206",
+        "202207",
+        "202208",
+        "202209",
+        "202210",
+        "202211",
+        "202212",
+        "202301",
+        "202302",
+        "202303",
+        "202304",
+        "202305",
+        "202306",
+        "202307",
+        "202308",
+        "202309",
+        "202310",
+        "202311",
+        "202312",
+        "202401",
+        "202402",
+        "202403",
+        "202404",
+        "202405",
+        "202406",
+        "202407",
+        "202408",
+        "202409",
+        "202410",
+        "202411",
+        "202412",
+        "202501",
+        "202502",
+        "202503",
+        "202504",
+        "202505",
+        "202506",
+        "202507",
+        "202508",
+        "202509",
+        "202510",
+        "202511",
+        "202512",
+        "202601",
+        "202602",
+        "202603",
+        "202604",
+        "202605",
+        "202606",
+        "202607",
+        "202608",
+        "202609",
+        "202610",
+        "202611",
+        "202612",
+        "202701",
+        "202702",
+        "202703",
+        "202704",
+        "202705",
+        "202706",
+        "202707",
+        "202708",
+        "202709",
+        "202710",
+        "202711",
+        "202712",
+        "202801",
+        "202802",
+        "202803",
+        "202804",
+        "202805",
+        "202806",
+        "202807",
+        "202808",
+        "202809",
+        "202810",
+        "202811",
+        "202812",
+        "202901",
+        "202902",
+        "202903",
+        "202904",
+        "202905",
+        "202906",
+        "202907",
+        "202908",
+        "202909",
+        "202910",
+        "202911",
+        "202912"
+      ]
+    }
+  },
+  "endpointForUploadGrossGmvUnits": "/api/layers/uploadGrossGmvUnits?scenarioId=12911706193644&type=ACTUAL",
+  "payloadForUploadGrossGmvUnits": {
+    "nodeIds": [
+      {
+        "1002_GMV": "GROSS_GMV",
+        "2003_GMV": "GROSS_UNIT"
+      }
+    ],
+    "nodeVarNames": [
+      {
+        "GROSS_GMV": "grossshippedgmv",
+        "GROSS_UNIT": "grossunitsplaceholder"
+      }
+    ]
+  }
+}
