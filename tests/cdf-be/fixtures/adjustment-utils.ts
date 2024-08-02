@@ -1,12 +1,9 @@
 import debug from "debug";
+import { DemandBaseClass } from "./demand-common-utils";
+import adjustmentData from "../testdata/adjustment-layer-data.json";
+import commonEndpoints from "../testdata/common-demand-endpoints.json";
 
-export class AdjustmentUtility {
-
-    static headers = {
-        "WM_CONSUMER.ID": process.env.WM_CONSUMER_ID,
-        "WM_SVC.NAME": process.env.WM_SVC_NAME,
-        "WM_SVC.ENV": process.env.envName
-    }
+export class AdjustmentUtility extends DemandBaseClass {
 
     static async createEMTLayer(request, demandId, testdatafileCreateEMT) {
         const endpointURL = `${process.env.apiBaseURLCDF}${testdatafileCreateEMT.endpoint}${demandId}`;
@@ -135,4 +132,118 @@ export class AdjustmentUtility {
 
         return response;
     }
+
+
+  static async getAllDemandScenarioForecastData(
+    request,
+    demandStackId,
+    demandScenarioDetails,
+    sbuName = [],
+    sbuIds = [],
+    department = [],
+    departmentIds = [],
+    baseChannel = [],
+    baseChannelIds = [],
+    yearMonths = [],
+    layerIds = []
+  ) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.getDemandScenarioForecastEndpoint}${demandStackId}`;
+    const payload = {
+      sbu: sbuName,
+      sbuIds: sbuIds,
+      department: department,
+      departmentIds: departmentIds,
+      baseChannel: baseChannel,
+      baseChannelIds: baseChannelIds,
+      channelGroup: [],
+      channelGroupIds: [],
+      demandChannel: [],
+      layerIds: layerIds,
+      clearAll: false,
+      includeDerivedMetrics: true,
+      includeTotals: false,
+      organizationalLevel: null,
+      loadHeirarchyParams: null,
+      timeFilter: {
+        filterLevel: adjustmentData.filterLevel,
+        isYearSelected: false,
+        isMonthSelected: false,
+        isQuarterSelected: false,
+        yearMonths: yearMonths,
+        yearQuarters: [],
+        years: [],
+        yearList: [],
+      },
+      filtersChanged: true,
+      filterLoadComplete: true,
+      version: demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version,
+      departmentName: [],
+      isUfmSyncCache: false,
+      latestSyncScenario: false,
+      flattenHierarchy: true,
+    };
+    // API Request
+    const response = await request.post(endpointURL, {
+      data: payload,
+      headers: this.headers,
+    });
+    debug.log(response);
+    return await response.json();
+  }
+
+  static getInputValueForBaseForecast(value) {
+    return -(value - (value/2));
+  }
+
+  static async updateDemandStacksData(
+    request,
+    demandStackId,
+    demandScenarioDetails,
+    sbuName,
+    sbuId,
+    department,
+    departmentId,
+    baseChannel,
+    baseChannelIds,
+    yearMonths,
+    isSave,
+    baseForecastData,
+    allocationUnitType = null
+  ) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioStacksEndpoint}${demandStackId}`;
+    const payload = {
+      layers: [
+        {
+          layerType: "HIGHLIGHTER",
+          allocationType: null,
+          allocationUnitType: allocationUnitType,
+          layerDescription: "test",
+          layerName: "test automation",
+          forecastVersion: demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version,
+          isConfirmed: isSave,
+          isPreview: !isSave,
+          highlighterAllocationsList: [
+            {
+              sbu: sbuName,
+              sbuId: sbuId,
+              channels: baseChannel,
+              amount: adjustmentData.forecastUpdatePayload.gmv,
+              units: adjustmentData.forecastUpdatePayload.units,
+              yearMonth: yearMonths,
+              department: department,
+              departmentId: departmentId,
+              channelIds: baseChannelIds,
+            },
+          ],
+        },
+      ],
+    };
+    // API Request
+    const response = await request.put(endpointURL, {
+      data: payload,
+      headers: this.headers,
+    });
+    debug.log(response);
+    return await response.json();
+  }
 }

@@ -1,17 +1,4 @@
 {
-  "getDemandScenarioSplitsData": {
-    "endpoint": "/api/demandscenarios/splits"
-  },
-  "updateDemandScenarioSplitData": {
-    "endpoint": "/api/demandscenarios/stacks/"
-  },
-  "demandScenarioEndpoint": "/api/demandscenarios/",
-  "getDemandScenarioLayersData": {
-    "endpoint": "/api/demandscenarios/stacks/"
-  },
-  "getDemandScenarioForecast": {
-    "endpoint": "/api/demandscenarios/demand/"
-  },
   "sourceChannel": "Marketplace",
   "sourceChannelId": 1010,
   "targetChannel": "SELLER_FULFILLED",
@@ -21,5 +8,21 @@
   "demandStacksEndpoint": "/api/demandscenarios/stacks/",
   "getLayerDataEndpoint": "/api/layers/",
   "layerName": "test automation",
-  "uploadExcelLayerForecastAmount": 228424848.48
+  "uploadExcelLayerForecastAmount": 228424848.48,
+  "sbuFilter": {
+    "sbuName": ["FOOD"],
+    "sbuIds": [27]
+  },
+  "deptartmentFilter": {
+    "deptName": ["CANDY"],
+    "deptIds": [1]
+  },
+  "channelFilter": {
+    "channelName": ["DSV_S2H"],
+    "channelIds": [22]
+  },
+  "forecastUpdatePayload": {
+    "gmv": 100,
+    "units": 10
+  }
 }

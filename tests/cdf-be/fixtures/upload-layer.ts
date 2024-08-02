@@ -1,6 +1,7 @@
 import allocationsData from "../testdata/allocation-layer-data.json";
 import dataStream from "../testdata/excel-encoded.json";
 import { DemandBaseClass } from "./demand-common-utils";
+import commonEndpoints from "../testdata/common-demand-endpoints.json";
 
 export class UploadLayerUtil extends DemandBaseClass {
   static async verifyDownloadExcel(
@@ -9,7 +10,7 @@ export class UploadLayerUtil extends DemandBaseClass {
     demandScenarioDetails,
     fileName
   ) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${allocationsData.demandScenarioEndpoint}${demandStackId}/excel`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioEndpoint}${demandStackId}/excel`;
     const payload = {
       sbu: [],
       sbuIds: [],
@@ -115,7 +116,7 @@ export class UploadLayerUtil extends DemandBaseClass {
   }
 
   static async deleteUploadLayer(request, demandStackId, layerId) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${allocationsData.demandScenarioEndpoint}${demandStackId}/layer/${layerId}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioEndpoint}${demandStackId}/layer/${layerId}`;
     // API Request
     const response = await request.delete(endpointURL, {
       headers: this.headers,

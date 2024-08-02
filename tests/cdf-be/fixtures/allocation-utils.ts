@@ -2,6 +2,7 @@ import debug from "debug";
 import allocationsData from "../testdata/allocation-layer-data.json";
 import { expect } from "@playwright/test";
 import { DemandBaseClass } from "./demand-common-utils";
+import commonEndpoints from "../testdata/common-demand-endpoints.json";
 
 export class AllocationUtils extends DemandBaseClass {
   static async getDemandScenarioSplits(
@@ -9,7 +10,7 @@ export class AllocationUtils extends DemandBaseClass {
     demandStackId,
     demandScenarioDetails
   ) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${allocationsData.getDemandScenarioSplitsData.endpoint}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioSplitsEndpoint}`;
     const payload = {
       demandStackScenarioId: demandStackId,
       forecastFilter: {
@@ -42,7 +43,7 @@ export class AllocationUtils extends DemandBaseClass {
     demandScenarioDetails,
     layerIds
   ) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${allocationsData.getDemandScenarioForecast.endpoint}${demandStackId}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.getDemandScenarioForecastEndpoint}${demandStackId}`;
     const payload = {
       sbu: [],
       sbuIds: [],
@@ -86,7 +87,7 @@ export class AllocationUtils extends DemandBaseClass {
   }
 
   static async getDemandScenarioLayers(request, demandStackId) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${allocationsData.getDemandScenarioLayersData.endpoint}${demandStackId}?layerType=CHANNEL_SPLIT`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioStacksEndpoint}${demandStackId}?layerType=CHANNEL_SPLIT`;
     // API Request
     const response = await request.get(endpointURL, {
       headers: this.headers,
@@ -109,7 +110,7 @@ export class AllocationUtils extends DemandBaseClass {
         ? "0" + sellerFulfilled.forecast[0].month
         : sellerFulfilled.forecast[0].month
     }`;
-    const endpointURL = `${process.env.apiBaseURLCDF}${allocationsData.updateDemandScenarioSplitData.endpoint}${demandStackId}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioStacksEndpoint}${demandStackId}`;
     let payload = {
       layers: [
         {

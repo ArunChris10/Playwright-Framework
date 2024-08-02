@@ -1,0 +1,6 @@
+{
+    "demandScenarioSplitsEndpoint": "/api/demandscenarios/splits",
+    "demandScenarioStacksEndpoint": "/api/demandscenarios/stacks/",
+    "demandScenarioEndpoint": "/api/demandscenarios/",
+    "getDemandScenarioForecastEndpoint": "/api/demandscenarios/demand/"
+}

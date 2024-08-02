@@ -3,7 +3,7 @@ import scenario from "../testdata/scenario.json";
 import * as path from 'path';
 import * as fs from 'fs';
 import * as xlsx from 'xlsx'
-import allocationsData from "../testdata/allocation-layer-data.json";
+import commonEndpoints from "../testdata/common-demand-endpoints.json";
 
 export class DemandBaseClass {
   static headers = {
@@ -73,7 +73,7 @@ export class DemandBaseClass {
   }
 
   static async lockUnlockDemandScenario(request, urlParam, demandStackId) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${allocationsData.demandScenarioEndpoint}${demandStackId}/${urlParam}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioEndpoint}${demandStackId}/${urlParam}`;
     // API Request
     const response = await request.post(endpointURL, {
       headers: this.headers,
