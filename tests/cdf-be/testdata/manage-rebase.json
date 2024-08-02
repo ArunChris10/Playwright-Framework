@@ -450,5 +450,23 @@
   "endpointForForecastInfoList": "/api/forecast/info/list",
   "payloadForForecastInfoList": {
     "startDate": "202305"
-  }
+  },
+  "expectedValuesForForecastInfoList": [
+        "id",
+        "version",
+        "activeStartDate",
+        "name",
+        "locked",
+        "langType",
+        "forecastFdfId",
+        "dateCreated",
+        "lastModified",
+        "createdBy",
+        "updatedBy",
+        "updatedByUserName",
+        "createdByUserName",
+        "status",
+        "forecastLayerId",
+        "finalized"
+    ]
 }
