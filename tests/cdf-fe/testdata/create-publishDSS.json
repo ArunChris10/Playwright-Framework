@@ -1,5 +1,5 @@
 {
-    "options": ["Publish to downstream applications"],
+    "options": ["wmlink/currentdemand"],
     "slot": "1",
     "dssName": "Test Automation DSS"
 }

@@ -8,7 +8,7 @@ export class DssPage {
   private readonly page: Page;
 
   private readonly syncButtonToOpenModal: Locator;
-  private readonly publishSlotSelection: Locator;
+  private readonly publishSlotRadioButtons: Locator;
   private readonly publishButton: Locator;
   private readonly syncStartedConfirmation: Locator;
   private readonly filterButtons: {
@@ -51,7 +51,10 @@ export class DssPage {
     this.page = page;
 
     this.syncButtonToOpenModal = this.page.getByTitle('Publish Data to Consumption').locator('#resync_btn');
-    this.publishSlotSelection = this.page.getByLabel('Publish ', { exact: false }).getByLabel('', { exact: true })
+    this.publishSlotRadioButtons = this
+        .page
+        .getByRole('group', { name: 'Publish on wmlink/currentdemand as'})
+        .getByRole('radio')
     this.publishButton = this.page.getByRole('button', { name: 'Publish' });
     this.syncStartedConfirmation = this.page.getByText('Sync UFM started');
 
@@ -119,7 +122,7 @@ export class DssPage {
     for (let option of options) {
       await this.page.getByText(option).click();
     }
-    await this.publishSlotSelection.selectOption(slot);
+    await this.publishSlotRadioButtons.nth(slot - 1).click()
     await this.publishButton.click();
   }
 

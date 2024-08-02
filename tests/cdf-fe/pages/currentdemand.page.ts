@@ -4,6 +4,7 @@ export class CurrentDemand {
 
   private readonly page: Page;
   private readonly urlEndpoint = process.env.cdfAppBaseURL + "/currentdemand";
+  private readonly selectDemandButton: Locator;
   private readonly gridCell: Locator;
   private readonly body: Locator;
 
@@ -11,6 +12,7 @@ export class CurrentDemand {
   constructor(page: Page) {
     this.page = page;
     this.gridCell = this.page.getByRole('gridcell');
+    this.selectDemandButton = this.page.getByRole('button', { name: 'Choose a Demand output to view'})
     this.body = this.page.locator('a');
   }
 
@@ -22,7 +24,8 @@ export class CurrentDemand {
   }
 
   async verifyDSSPublished(name) {
-    await expect(this.page.getByText(name).nth(1)).toBeVisible();
+    await this.selectDemandButton.click()
+    await expect(this.page.getByText(name)).toBeVisible();
   }
 
   async verifyVisualizerViewPublished(name) {
