@@ -38,5 +38,19 @@ test.describe("Verify demand scenario is showing correct filters", { tag: "@Regr
             expect(scenarioForecast[0].forecast).toStrictEqual(scenarioTotalForecast.grandTotal.forecast);
         }
     })
+
+    await test.step("Verify user can filter data by SBU", async () =>{
+      let demandScenarioResponse = await CdfUtility.getDemandScenarioById(request, demandId);
+      const sbuValues = demandScenarioResponse.forecast.map(item => item.sbu);
+      let sbuCount = 0;
+      demandScenarioResponse.forecast.forEach(item => {
+        if (getDemandTestData.payload.sbu.includes(item.sbu)) {
+          sbuCount += 1;
+        }
+      });
+      expect(sbuValues.length).toEqual(getDemandTestData.payload.sbu.length)
+      expect(sbuCount).toEqual(getDemandTestData.payload.sbu.length);
+      console.log(sbuCount);
+    })
   });
 });
