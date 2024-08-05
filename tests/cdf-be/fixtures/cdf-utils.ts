@@ -12,6 +12,7 @@ import scenario from '../testdata/scenario.json';
 import { Utility } from "../../common/fixtures/utils";
 import currentDemandExcelData from '../testdata/current-demand-excel-download.json'
 import demandworkspace from '../testdata/get-dssorder.json'
+import commonDemandEndpoints from '../testdata/common-demand-endpoints.json';
 
 export class CdfUtility {   
   
@@ -59,6 +60,40 @@ export class CdfUtility {
       debug.log(JSON.stringify(responseBody));
       return responseBody.demandStackScenarioId;
   }
+
+  static async createScenarioByOtherUser(request, user){
+    const forecastInfo = await this.getDemandScenarioList(request)
+    const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${CdfUtility.demandScenario}`;
+    console.log(endpointURL);
+    const scenarioNameAutomation = "Reg - AutoTest - " + Date.now();
+     const scenarioDescriptionAutomation = "Description - " + scenarioNameAutomation;
+    this.createScenarioPayload = {
+      forecastInfoDTO: {
+        forecastInfo: {
+          id: forecastInfo.id,
+          version: forecastInfo.version,
+        },
+      },
+      title: scenarioNameAutomation,
+      description: scenarioDescriptionAutomation,
+    }
+
+    let token = await this.fetchTokenByUser(request, user);
+
+    let CDFUpdatedHeaders = { 
+      ...CdfUtility.headers, 
+      "Authorization": `Bearer ${token}`
+    }
+
+    const response = await request.post(
+        endpointURL,
+  
+        { data: this.createScenarioPayload, headers: CDFUpdatedHeaders }
+      );
+      let responseBody = await response.json();
+      debug.log(JSON.stringify(responseBody));
+      return responseBody.demandStackScenarioId;
+  }
   
   static async deleteScenario(request, demandId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${demandId}`;
@@ -71,8 +106,25 @@ export class CdfUtility {
       return response;
   }
 
-  static async archiveScenario(request) {
-    const demandId = await CdfUtility.createScenario(request);
+  static async deleteScenarioByOtherUser(request, demandId, user) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${demandId}`;
+    debug.log("Delete scenario endpoint url" + endpointURL);
+    
+    let token = await this.fetchTokenByUser(request, user);
+
+    let CDFUpdatedHeaders = { 
+      ...CdfUtility.headers, 
+      "Authorization": `Bearer ${token}`
+    }
+    const response = await request.delete(
+        endpointURL,
+  
+        { data: this.createScenarioPayload, headers: CDFUpdatedHeaders }
+      );
+      return response;
+  }
+
+  static async archiveScenario(request, demandId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${demandId}`;
     debug.log(endpointURL);
     const response = await request.patch(
@@ -87,8 +139,7 @@ export class CdfUtility {
     return responseBody;
   }
 
-  static async unarchiveScenario(request) {
-    const demandId = await CdfUtility.createScenario(request);
+  static async unarchiveScenario(request, demandId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${demandId}`;
     debug.log(endpointURL);
     const response = await request.patch(
@@ -102,6 +153,50 @@ export class CdfUtility {
     debug.log(JSON.stringify(responseBody));
     expect(responseBody.demandStackScenarioId).toEqual(demandId);
     return responseBody;
+  }
+
+  static async archiveScenarioNormalUser(request, demandId, user) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${demandId}`;
+    debug.log(endpointURL);
+
+    let token = await this.fetchTokenByUser(request, user);
+
+    let CDFUpdatedHeaders = { 
+      ...CdfUtility.headers, 
+      "Authorization": `Bearer ${token}`
+    }
+
+    const response = await request.patch(
+      endpointURL,
+      { data: archiveScenario.archive_scenario_payload, headers: CDFUpdatedHeaders }
+    );
+    //asserting the response
+    expect(response).toBeOK();
+    let responseBody = await response.json();
+    debug.log(JSON.stringify(responseBody));
+    expect(responseBody.demandStackScenarioId).toEqual(demandId);
+    return responseBody;
+  }
+
+  static async unarchiveScenarioNormalUser(request, demandId, user) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${demandId}`;
+    debug.log(endpointURL);
+
+    // API Request
+    let token = await this.fetchTokenByUser(request, user);
+
+    let CDFUpdatedHeaders = { 
+      ...CdfUtility.headers, 
+      "Authorization": `Bearer ${token}`
+    }
+    
+    const response = await request.patch(
+      endpointURL,
+
+      { data: archiveScenario.unarchive_scenario_payload, headers: CDFUpdatedHeaders }
+    );
+
+    return response;
   }
   
   static async getDemandScenario(request, payload) {
@@ -219,16 +314,17 @@ export class CdfUtility {
 
   }
 
+  static delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   static async checkClonedJobStatus(request, scenarioId){  
     //check the job status
-    function delay(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
     let jobStatus = { jobStatus: '' };
     while (jobStatus.jobStatus == '' || jobStatus?.jobStatus === 'Job Created') {
         jobStatus = await CdfUtility.jobStatusCheck(request, scenarioId);
         debug.log(jobStatus);
-        await delay(10000);
+        await this.delay(10000);
       }
   }
 
@@ -612,6 +708,67 @@ export class CdfUtility {
     debug.log(JSON.stringify(responseBody));
 
     //fetch list of all demand stacks and then return response
+    return responseBody;
+  }
+
+  static async fetchTokenByUser(request, user) {
+    let token = await Utility.getNexusFakeToken(user + "", request);
+
+    token = token.replace("\"","");
+    token = token.replace("\"","");
+
+    return token;
+  }
+
+  static async getActivityLogs(request, demandId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonDemandEndpoints.getActivityLogs}${demandId}`;
+    console.log("Endpoint URL for Activity Logs: ", endpointURL);
+
+    // API Request
+    const response = await request.get(
+      endpointURL,
+      { headers: CdfUtility.headers }
+    );
+
+    expect(response).toBeOK();
+    const responseBody = await response.json();
+    return responseBody;
+  }
+
+  static async getActivityLogsStatus(request, demandId, message) {
+    let activityLogsResponse;
+
+    let retryCount = 5;
+
+    let startCount = 0;
+
+    while(startCount <= retryCount) {
+      activityLogsResponse = await CdfUtility.getActivityLogs(request, demandId);
+      debug.log("Activity Logs Response: ", activityLogsResponse);
+      if(activityLogsResponse.length != 0) {
+        if(activityLogsResponse[0].action === message) {
+          return activityLogsResponse;
+        }
+      }
+      startCount += 1;
+      await this.delay(10000);
+    }
+
+    return null;
+  }
+
+  static async getDemandScenarioListForArchiveAndUnarchive(request, endpoint) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${endpoint}`;
+    console.log("Endpoint URL for getDemandScenarioList: ", endpointURL);
+
+    // API Request
+    const response = await request.get(
+      endpointURL,
+      { headers: CdfUtility.headers }
+    );
+
+    expect(response).toBeOK();
+    const responseBody = await response.json();
     return responseBody;
   }
 

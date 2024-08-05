@@ -2,5 +2,8 @@
     "demandScenarioSplitsEndpoint": "/api/demandscenarios/splits",
     "demandScenarioStacksEndpoint": "/api/demandscenarios/stacks/",
     "demandScenarioEndpoint": "/api/demandscenarios/",
-    "getDemandScenarioForecastEndpoint": "/api/demandscenarios/demand/"
+    "getDemandScenarioForecastEndpoint": "/api/demandscenarios/demand/",
+    "getActivityLogs": "/api/activityLog/",
+    "demandScenarioListUnarchived": "/api/demandscenarios?isArchive=false",
+    "demandScenarioListArchived": "/api/demandscenarios?isArchive=true"
 }
