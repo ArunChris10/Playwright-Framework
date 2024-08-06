@@ -3,6 +3,7 @@ import fs from "fs";
 import debug from "debug";
 import usersIBGFormat from "../testdata/users.json";
 import usersNexusFormat from "../testdata/users-nexus-format.json";
+import { expect } from "../fixtures/test-hook";
 
 export class Utility {
   private static readonly dir: string = "./test-results/logs/";
@@ -192,16 +193,25 @@ export class Utility {
       .waitFor({ state: "visible", timeout: 480000 });
   }
 
+  //This method checks for status 200 of response and converts response to json and logs it on console and debug logs
+  static async assertAndLog(response) {
+    await expect.soft(response).toBeOK();
+    let responseBody = await response.json();
+    console.log(responseBody);
+    debug.log(JSON.stringify(responseBody));
+    return responseBody;
+  }
+
   async keyPress(key) {
     await this.page.keyboard.press(key);
   }
 
   /*
-  * Helps avoid test flakiness
-  *
-  * On long pages, the test runner sometimes scrolls too low from previous tests and accidentally clicks overlapping header buttons.
-  * Scrolling to the top of the page is functionally a position-reset
-  */
+   * Helps avoid test flakiness
+   *
+   * On long pages, the test runner sometimes scrolls too low from previous tests and accidentally clicks overlapping header buttons.
+   * Scrolling to the top of the page is functionally a position-reset
+   */
   async scrollToTop() {
     await this.page.evaluate(() => window.scrollTo(0, 0));
   }

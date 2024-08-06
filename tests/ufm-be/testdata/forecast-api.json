@@ -1,37 +1,5 @@
 {
   "endpoint": "/scenario/",
-  "createForecastPayloads": {
-    "optical": {
-      "type": 3,
-      "source": {
-        "scenarios": [
-          {
-            "scenario_id": 12911706193644
-          }
-        ]
-      },
-      "name": "Optical - Automation ",
-      "classification_id": 12,
-      "dim_id": 11,
-      "dim_val_id": 110016
-    },
-
-    "merch": {
-      "type": 3,
-      "source": {
-        "scenarios": [
-          {
-            "scenario_id": 12911706193644
-          }
-        ]
-      },
-      "name": "Merch - Automation ",
-      "classification_id": 12,
-      "dim_id": 11,
-      "dim_val_id": 110014
-    }
-  },
-
   "createSuccessMessage": "Scenario created successfully",
   "createAlreadyMessage": "Forecast scenario is already created for current period!",
   "deleteMessage": "Scenario scenario_id deleted successfully",

@@ -7,21 +7,24 @@ test.describe("Validating the dimension @mapping Details @Regression", () => {
   const endpointURL = `${process.env.apiBaseURLUFM}${testdatafile.endpoint}`;
   debug.log(endpointURL);
 
-  test('Checking the dimension mapping API for All dim grp ids', async ({ request }) => {
+  test("Checking the dimension mapping API for All dim grp ids", async ({
+    request,
+  }) => {
     //get request for the dimension mapping details includes all dim group ids
     await test.step("Make a Get Request for dimension mapping Details for all dim group ids", async () => {
-      debug.log("Make a Get Request for dimension mapping Details for all dim group ids");
+      debug.log(
+        "Make a Get Request for dimension mapping Details for all dim group ids"
+      );
       //API Request
       const responseData = await request.get(endpointURL, {
         params: {
-            "dimension_group_id": testdatafile.dimension_group_id
-        }
-    });
+          dimension_group_id: testdatafile.dimension_group_id,
+        },
+      });
       //Extracting the response body
       const responseBody = JSON.parse(await responseData.text());
       expect(responseBody).toMatchObject(testdatafile.expected_response);
-    }
-    );
+    });
   });
   // testdatafile.dim_group_id_data.forEach(testdata => {
   //   test('Checking the dimension mapping API for ' + testdata.name + '', async ({ context }) => {
@@ -41,6 +44,4 @@ test.describe("Validating the dimension @mapping Details @Regression", () => {
   //     );
   //   });
   // });
-}
-);
-
+});

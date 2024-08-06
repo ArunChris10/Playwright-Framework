@@ -2,48 +2,60 @@ import { test, expect } from "../../common/fixtures/test-hook";
 import debug from "debug";
 import { UfmUtility } from "../fixtures/ufm-utils";
 import forecastData from "../testdata/forecast-api.json";
+import commonData from "../testdata/common.json";
 
 test.describe(
   "Verify create and delete forecast API",
-  { tag: "@Smoke @Regression @forecast" },
+  { tag: "@Smoke @Regression @create_forecast" },
   () => {
     test.describe.configure({ timeout: 240_000, mode: "serial" });
 
-    let lobName = ["optical", "merch"];
+    let lobName = [
+      // "optical",
+      // "rx",
+      // "merch",
+      "ecommerce",
+      "lmd",
+      // "e2e_delivery",
+      "core_service",
+      // "fulfillment",
+      // "i&a",
+      // "connect",
+      // "marketing",
+      "data_ventures",
+      "operations",
+      // "real_estate",
+      // "fuel",
+      "segment",
+      // "home_office",
+    ];
 
     lobName.forEach((lobName) => {
       let scenario_version, scenario_id;
-      let dimId = forecastData.createForecastPayloads[lobName].dim_id;
-      let dimValId = forecastData.createForecastPayloads[lobName].dim_val_id;
+      let dimId = commonData.ba_dim_id;
+      let dimValId = commonData[lobName].dim_val_id;
 
       test(`Verify if the user is able to createforecast for LOB - ${lobName}`, async ({
         request,
       }) => {
         scenario_id = await UfmUtility.createForecast(lobName, request);
-        debug.log("Forecast is created  : ", scenario_id);
-        console.log("Forecast is created  : ", scenario_id);
       });
 
       test(`Verify if the user is able to delete created forecast for LOB ${lobName}`, async ({
         request,
       }) => {
-        let currentForecast = await UfmUtility.getCurrentForecast(
+        let currentForecast = await UfmUtility.getCurrentForecastList(
           lobName,
           request
         );
         console.log(`No of scenarios present: ${currentForecast.length}`);
         debug.log(`No of scenarios present: ${currentForecast.length}`);
 
-        for (let i = 0; i < currentForecast.length; i++) {
-          console.log(currentForecast[i]);
-          if (currentForecast[i].scenarioId == scenario_id) {
-            console.log(
-              `Scenario Version: ${currentForecast[i].scenarioVersion}`
-            );
-            scenario_version = currentForecast[i].scenarioVersion;
-            break;
-          }
-        }
+        //Get scenario version from scenario id from forecast list
+        scenario_version = await UfmUtility.getScenarioVersion(
+          currentForecast,
+          scenario_id
+        );
 
         console.log(scenario_version);
         debug.log(scenario_version);
@@ -54,8 +66,7 @@ test.describe(
           dimValId,
           request
         );
-        debug.log("Forecast is deleted  : ", forecastDeleted);
-        console.log("Forecast is deleted  : ", forecastDeleted);
+
         let message = forecastData.deleteMessage.replace(
           "scenario_id",
           scenario_id

@@ -7,34 +7,23 @@
   "filters": [
     {
       "dim_id": 17,
-      "dim_val_ids": [
-        170009
-      ],
+      "dim_val_ids": [170009],
       "children": []
     },
     {
       "dim_id": 6,
-      "dim_val_ids": [
-        60009
-      ],
+      "dim_val_ids": [60009],
       "children": []
     },
     {
       "dim_id": 1,
-      "dim_val_ids": [
-        2,
-        1
-      ],
+      "dim_val_ids": [2, 1],
       "children": []
     }
   ],
   "additional_filters": {
-    "pivot_cols": [
-      "month"
-    ],
-    "pivot_index": [
-      "node_id"
-    ],
+    "pivot_cols": ["month"],
+    "pivot_index": ["node_id"],
     "periods": [
       "202501",
       "202502",

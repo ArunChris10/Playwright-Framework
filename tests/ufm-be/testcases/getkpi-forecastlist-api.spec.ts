@@ -1,6 +1,7 @@
 import testdata from "../testdata/getkpiforecast.json";
 import { test, expect } from "../../common/fixtures/test-hook";
 import debug from "debug";
+import { Utility } from "../../common/fixtures/utils";
 
 test.describe(
   "Verify the @GetKPIForecast API",
@@ -24,9 +25,7 @@ test.describe(
 
       // Check if the response is success
       await test.step("Check if the response message is success", async () => {
-        await expect(apiResponse).toBeOK();
-        apiResponseBody = await apiResponse.json();
-        debug.log(JSON.stringify(apiResponseBody));
+        await Utility.assertAndLog(apiResponse);
       });
 
       // Check if the response columns header matches withe payload Month filter

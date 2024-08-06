@@ -1,168 +1,154 @@
 {
-    "endpoint": "/scenario/configs",
-    "config": [
-        {
-            "type": "all",
-            "query": {},
-            "expected_response": {
-                "UFM_SCENARIO_TYPE_ID": {
-                    "BASELINE": 1,
-                    "PRIMARY": 2,
-                    "SANDBOX": 3,
-                    "SSDT_SANDBOX": 61
-                },
-                "UFM_SCENARIO_STS_ID": {
-                    "WORKING": 4,
-                    "PROMOTED": 5,
-                    "MERGED": 6,
-                    "LOCKED": 7,
-                    "INFO NEEDED": 17,
-                    "NEW SCENARIO NEEDED": 18
-                },
-                "SAVED_FILTR_TYPE_ID": {
-                    "FILTER_SET": 8,
-                    "DRIVER_SET": 9
-                },
-                "UFM_SCENARIO_CLASS_ID": {
-                    "LRP": 10,
-                    "AOP": 11,
-                    "FORECAST": 12
-                },
-                "ENTY_TYPE_CD": {
-                    "Scenario": 13
-                },
-                "UFM_SCENARIO_ACTN_NM": {
-                    "NOT_STARTED": 20,
-                    "DRAFT": 21,
-                    "BA_REVIEW": 22,
-                    "SEGMENT_REVIEW": 23,
-                    "SUBMITTED": 24,
-                    "CHANGE_REQUESTED": 25,
-                    "ARCHIVED": 26
-                },
-                "NM_TMPL_ID": {
-                    "{dim_val_desc} {month} Forecast": 27
-                },
-                "null": {
-                    "FCST_SUBMTN": 28
-                },
-                "DIM_GROUP_ID": {
-                    "CHNL_HIER": 2,
-                    "DEPT_HIER": 1,
-                    "SEG_HIER": 7,
-                    "LOC_HIER": 3,
-                    "TIME_PERIOD_HIER": 8
-                },
-                "ALLOCATION_METHOD": {
-                    "MAINTAIN_RATIO": 29,
-                    "CSTNT_VAL": 30,
-                    "EQ_DISTR": 31,
-                    "PCT_TIME_BY_ROLL": 32
-                },
-                "PROJECTION_METHOD": {
-                    "HIST_GROWTH_RATE": 33,
-                    "USER_INPUT_GROWTH_RATE": 34,
-                    "REGRESSION": 35
-                },
-                "DEPT_LOOKUP": {
-                    "1": 36,
-                    "5": 43,
-                    "2": 37
-                },
-                "CHNL_LOOKUP": {
-                    "8": 41,
-                    "10": 42,
-                    "6": 38
-                },
-                "LOC_LOOKUP": {
-                    "16": 45,
-                    "17": 39,
-                    "18": 40
-                },
-                "TIME_PERIOD_LOOKUP": {
-                    "19": 46,
-                    "20": 47
-                },
-                "DRIVER_TYPE": {
-                    "All": 48,
-                    "Input": 49,
-                    "General ledger metrics": 50
-                },
-                "ENTY_FLTR_LIST": {
-                    "170001": 51,
-                    "170002": 52,
-                    "170003": 53
-                },
-                "REPORTING_LOOKUP": {
-                    "21": 54,
-                    "14": 55
-                },
-                "BUSINESS_AREA_LOOKUP": {
-                    "15": 56,
-                    "22": 57
-                },
-                "NODE_DOC_VER": {
-                    "26": 58
-                },
-                "DOC_TYPE_ID": {
-                    "NE_DOC": 59,
-                    "NE_VALID_RPT": 60
-                }
-            }
-            
+  "endpoint": "/scenario/configs",
+  "config": [
+    {
+      "type": "all",
+      "query": {},
+      "expected_response": {
+        "UFM_SCENARIO_TYPE_ID": {
+          "BASELINE": 1,
+          "PRIMARY": 2,
+          "SANDBOX": 3,
+          "SSDT_SANDBOX": 61
         },
-        {
-            "type": "Forecast type",
-            "query": {
-                "type_codes": [
-                    "UFM_SCENARIO_CLASS_ID"
-                ]
-            },
-            "expected_response": {
-                "UFM_SCENARIO_CLASS_ID": {
-                    "LRP": 10,
-                    "AOP": 11,
-                    "FORECAST": 12
-                }
-            }
+        "UFM_SCENARIO_STS_ID": {
+          "WORKING": 4,
+          "PROMOTED": 5,
+          "MERGED": 6,
+          "LOCKED": 7,
+          "INFO NEEDED": 17,
+          "NEW SCENARIO NEEDED": 18
         },
-        {
-            "type": "Scenario type",
-            "query": {
-                "type_codes": [
-                    "UFM_SCENARIO_TYPE_ID"
-                ]
-            },
-            "expected_response": {
-                "UFM_SCENARIO_TYPE_ID": {
-                    "BASELINE": 1,
-                    "PRIMARY": 2,
-                    "SANDBOX": 3,
-                    "SSDT_SANDBOX": 61
-                }
-            }
+        "SAVED_FILTR_TYPE_ID": {
+          "FILTER_SET": 8,
+          "DRIVER_SET": 9
         },
-        {
-            "type": "Status Forecast type",
-            "query": {
-                "type_codes": [
-                    "UFM_SCENARIO_CLASS_ID"
-                ],
-                "status_codes": [
-                    4,
-                    7,
-                    17,
-                    18,
-                    11,
-                    10
-                ]
-            },
-            "expected_response": {
-                "UFM_SCENARIO_CLASS_ID": {
-                    "LRP": 10,
-                    "AOP": 11
-                }
-            }
+        "UFM_SCENARIO_CLASS_ID": {
+          "LRP": 10,
+          "AOP": 11,
+          "FORECAST": 12
+        },
+        "ENTY_TYPE_CD": {
+          "Scenario": 13
+        },
+        "UFM_SCENARIO_ACTN_NM": {
+          "NOT_STARTED": 20,
+          "DRAFT": 21,
+          "BA_REVIEW": 22,
+          "SEGMENT_REVIEW": 23,
+          "SUBMITTED": 24,
+          "CHANGE_REQUESTED": 25,
+          "ARCHIVED": 26
+        },
+        "NM_TMPL_ID": {
+          "{dim_val_desc} {month} Forecast": 27
+        },
+        "null": {
+          "FCST_SUBMTN": 28
+        },
+        "DIM_GROUP_ID": {
+          "CHNL_HIER": 2,
+          "DEPT_HIER": 1,
+          "SEG_HIER": 7,
+          "LOC_HIER": 3,
+          "TIME_PERIOD_HIER": 8
+        },
+        "ALLOCATION_METHOD": {
+          "MAINTAIN_RATIO": 29,
+          "CSTNT_VAL": 30,
+          "EQ_DISTR": 31,
+          "PCT_TIME_BY_ROLL": 32
+        },
+        "PROJECTION_METHOD": {
+          "HIST_GROWTH_RATE": 33,
+          "USER_INPUT_GROWTH_RATE": 34,
+          "REGRESSION": 35
+        },
+        "DEPT_LOOKUP": {
+          "1": 36,
+          "5": 43,
+          "2": 37
+        },
+        "CHNL_LOOKUP": {
+          "8": 41,
+          "10": 42,
+          "6": 38
+        },
+        "LOC_LOOKUP": {
+          "16": 45,
+          "17": 39,
+          "18": 40
+        },
+        "TIME_PERIOD_LOOKUP": {
+          "19": 46,
+          "20": 47
+        },
+        "DRIVER_TYPE": {
+          "All": 48,
+          "Input": 49,
+          "General ledger metrics": 50
+        },
+        "ENTY_FLTR_LIST": {
+          "170001": 51,
+          "170002": 52,
+          "170003": 53
+        },
+        "REPORTING_LOOKUP": {
+          "21": 54,
+          "14": 55
+        },
+        "BUSINESS_AREA_LOOKUP": {
+          "15": 56,
+          "22": 57
+        },
+        "NODE_DOC_VER": {
+          "27": 58
+        },
+        "DOC_TYPE_ID": {
+          "NE_DOC": 59,
+          "NE_VALID_RPT": 60
         }
-    ]
+      }
+    },
+    {
+      "type": "Forecast type",
+      "query": {
+        "type_codes": ["UFM_SCENARIO_CLASS_ID"]
+      },
+      "expected_response": {
+        "UFM_SCENARIO_CLASS_ID": {
+          "LRP": 10,
+          "AOP": 11,
+          "FORECAST": 12
+        }
+      }
+    },
+    {
+      "type": "Scenario type",
+      "query": {
+        "type_codes": ["UFM_SCENARIO_TYPE_ID"]
+      },
+      "expected_response": {
+        "UFM_SCENARIO_TYPE_ID": {
+          "BASELINE": 1,
+          "PRIMARY": 2,
+          "SANDBOX": 3,
+          "SSDT_SANDBOX": 61
+        }
+      }
+    },
+    {
+      "type": "Status Forecast type",
+      "query": {
+        "type_codes": ["UFM_SCENARIO_CLASS_ID"],
+        "status_codes": [4, 7, 17, 18, 11, 10]
+      },
+      "expected_response": {
+        "UFM_SCENARIO_CLASS_ID": {
+          "LRP": 10,
+          "AOP": 11
+        }
+      }
+    }
+  ]
 }

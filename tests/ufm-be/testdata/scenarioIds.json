@@ -1,0 +1,34 @@
+{
+  "endpoint": "/scenario/compute",
+  "payloads": {
+    "Primary": { "scenario_id": 12911706193644 },
+    "Segment_Finance": { "scenario_id": 12921706193757 },
+    "H&W": { "scenario_id": 12981706197393 },
+    "BA_Merch": { "scenario_id": 12931706193776 },
+    "CUSTOMER & REVENUE": { "scenario_id": 12961706193799 },
+    "BA_Operations": { "scenario_id": 13221708418239 },
+    "Supply Chain": { "scenario_id": 12951706193785 },
+    "BA_Segment": { "scenario_id": 13231708418453 },
+    "BA_Ecomm": { "scenario_id": 12941706193780 },
+
+    "Optical": { "scenario_id": 11 },
+    "RX": { "scenario_id": 11 },
+    "Merch": { "scenario_id": 12 },
+    "E2E_Delivery": { "scenario_id": 12 },
+    "Core_Service": { "scenario_id": 12 },
+    "Fulfillment": { "scenario_id": 12 },
+    "I&A": { "scenario_id": 12 },
+    "LMD": { "scenario_id": 12 },
+    "Connect": { "scenario_id": 12 },
+    "Marketing": { "scenario_id": 12 },
+    "Data_Ventures": { "scenario_id": 12 },
+    "Ecommerce": { "scenario_id": 12 },
+    "Operations": { "scenario_id": 12 },
+    "Real_Estate": { "scenario_id": 12 },
+    "Fuel": { "scenario_id": 12 },
+    "Segment": { "scenario_id": 12 },
+    "Home_Office": { "scenario_id": 12 }
+  },
+
+  "successMessage": "Successfully computed scenario"
+}
