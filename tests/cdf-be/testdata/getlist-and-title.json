@@ -1,0 +1,4 @@
+{
+    "endpoint": "/api/forecast/info/list",
+    "payload": {"startDate":"202307"} 
+}

@@ -12,6 +12,7 @@ import scenario from '../testdata/scenario.json';
 import { Utility } from "../../common/fixtures/utils";
 import currentDemandExcelData from '../testdata/current-demand-excel-download.json'
 import demandworkspace from '../testdata/get-dssorder.json'
+import forecastinfolist from '../testdata/getlist-and-title.json'
 import commonDemandEndpoints from '../testdata/common-demand-endpoints.json';
 
 export class CdfUtility {   
@@ -698,6 +699,7 @@ export class CdfUtility {
     expect(parseFloat(expectedPercentage.toFixed(2))).toBe(expected);
   }
 
+
   static async fetchallForecast(request) {
   const endpointURL = `${process.env.apiBaseURLCDF}${demandworkspace.endpoint}`;
     console.log(endpointURL);
@@ -710,6 +712,22 @@ export class CdfUtility {
     //fetch list of all demand stacks and then return response
     return responseBody;
   }
+
+  
+  static async forecastInfoList(request) {
+    // forecast info api to fetch list of all forecast
+    const endpointURL = `${process.env.apiBaseURLCDF}${forecastinfolist.endpoint}`;
+      console.log(endpointURL);
+      const response = await request.post(
+        endpointURL,
+  
+        { data: forecastinfolist.payload, headers: CdfUtility.headers})
+      let responseBody = await response.json();
+      debug.log(JSON.stringify(responseBody));
+  
+      return responseBody;
+    }
+
   static async assertFY2020WithinTolerance(containsFY2020: any) {
     expect(containsFY2020).toEqual(true);
   }
