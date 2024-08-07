@@ -327,7 +327,7 @@ export class CdfUtility {
         await this.delay(10000);
       }
   }
-
+  
   static async getDemandScenarioById(request, demandId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenario.endpoint}${demandId}`;
     debug.log(endpointURL);
@@ -709,6 +709,9 @@ export class CdfUtility {
 
     //fetch list of all demand stacks and then return response
     return responseBody;
+  }
+  static async assertFY2020WithinTolerance(containsFY2020: any) {
+    expect(containsFY2020).toEqual(true);
   }
 
   static async fetchTokenByUser(request, user) {
