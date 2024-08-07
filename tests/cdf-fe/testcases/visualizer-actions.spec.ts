@@ -238,3 +238,87 @@ test.describe(
     );
 }
 );
+
+test.describe(
+  "Visualizer Drop Down Tests",
+  { tag: "@Smoke @Visualizer" },
+  async () => {
+    test.describe.configure({ timeout: 300_000, mode: "serial" });
+
+    let objpageFactory: PageFactory;
+
+    test.beforeAll(async ({ pageFactory }) => {
+      objpageFactory = pageFactory;
+      await objpageFactory.cdfPageFactory().demandWorkspace().navigate();
+    });
+
+    test(
+      "Verify user can create visualizer view and see channel dropdowns merch channel",
+      { tag: "@visualizerChannelDropdowns" },
+      async () => {
+        test.setTimeout(500000);
+        await test.step("Open the demand stack scenario", async () => {
+            await objpageFactory.cdfPageFactory().demandWorkspace().openFirstDSS();
+        })
+        await test.step("Open create new visualizer modal", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().openCreateNewVisualizerModal();
+        })
+        await test.step("Enter new visualizer name", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().populateNewVisualizerName(testdata.viewName);
+        })
+        await test.step("Search for a new scenario", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().searchForNewScenario(testdata.scenarioName);
+        })
+        await test.step("Choose date type and range for new view", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().chooseNewDateRange(testdata.viewDateType, testdata.startDate, testdata.endDate);
+        })
+        await test.step("Choose hierarchys for new view", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().chooseNewHierarchys(testdata.merchChannelHierarchy);
+        })
+        await test.step("Choose metrics for ner view", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().chooseNewMetrics(testdata.metrics);
+        })
+        await test.step("Finally save visualizer view", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().saveView();
+        })
+        await test.step("Verify channel dropdowns are correct", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().verifyChannelDropdowns(testdata.merchChannelGroupsDropdown);    
+            await objpageFactory.cdfPageFactory().visualizer().verifyChannelDropdownsNotPresent(testdata.defaultChannelGroupsDropdown);
+        })
+      }
+    );
+
+    test(
+      "Verify user can create visualizer view and see channel dropdowns default values",
+      { tag: "@visualizerChannelDropdowns" },
+      async () => {
+        test.setTimeout(500000);
+        await test.step("Open create new visualizer modal", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().openCreateNewVisualizerModal();
+        })
+        await test.step("Enter new visualizer name", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().populateNewVisualizerName(testdata.viewName);
+        })
+        await test.step("Search for a new scenario", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().searchForNewScenario(testdata.scenarioName);
+        })
+        await test.step("Choose date type and range for new view", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().chooseNewDateRange(testdata.viewDateType, testdata.startDate, testdata.endDate);
+        })
+        await test.step("Choose hierarchys for new view", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().chooseNewHierarchys(testdata.hierarchys);
+        })
+        await test.step("Choose metrics for ner view", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().chooseNewMetrics(testdata.metrics);
+        })
+        await test.step("Finally save visualizer view", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().saveView();
+        })
+        await test.step("Verify channel dropdowns are correct", async () => {
+            await objpageFactory.cdfPageFactory().visualizer().verifyChannelDropdowns(testdata.defaultChannelGroupsDropdown);    
+            await objpageFactory.cdfPageFactory().visualizer().verifyChannelDropdownsNotPresent(testdata.merchChannelGroupsDropdown);
+        })
+      }
+    );
+  }
+);

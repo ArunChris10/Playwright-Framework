@@ -13,5 +13,8 @@
     "customScenarioName":"Test Automation Custom Scenario Name",
     "customMetricCreatedFrom": ["GMV", "UNITS"],
     "customMetricOperation": "sum",
-    "customMetricName":"Test Automation Custom Metric Name"
+    "customMetricName":"Test Automation Custom Metric Name",
+    "merchChannelHierarchy": ["Merch Channel"],
+    "merchChannelGroupsDropdown": ["Core", "Stores", "Seller Fulfilled", "Walmart Fulfillment Services"],
+    "defaultChannelGroupsDropdown": ["INSTORE INCLUB", "DELIVERY", "PICKUP", "OTHER"]
 }

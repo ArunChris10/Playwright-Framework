@@ -25,6 +25,7 @@ export class Visualizer {
   private readonly pauseRefreshToggle: Locator;
   private readonly noRows: Locator;
   private readonly gridCell: Locator;
+  private readonly channelGroupDropdown: Locator;
 
 
   constructor(page: Page) {
@@ -48,6 +49,7 @@ export class Visualizer {
     this.pauseRefreshToggle = this.page.getByRole('switch', { name: 'Pause refresh' })
     this.noRows = this.page.getByText("No Rows To Show");
     this.gridCell = this.page.getByRole('gridcell', {name : '$', exact:false});
+    this.channelGroupDropdown = this.page.getByRole('button', { name: 'All Channel Group' })
   }
 
   async openCreateNewVisualizerModal() {
@@ -168,6 +170,19 @@ export class Visualizer {
     await expect(this.page.getByRole('columnheader', { name: 'Actual' })).toBeVisible();
     for (let hierarchy of hierarchys) {
       await expect(this.page.getByRole('columnheader', { name: hierarchy })).toBeVisible();
+    }
+  }
+
+  async verifyChannelDropdowns(channelGroupFilters) {
+      await this.channelGroupDropdown.click();
+      for (let filter of channelGroupFilters) {
+        await expect(this.page.getByText(filter).first()).toBeVisible();
+    }
+  }
+
+  async verifyChannelDropdownsNotPresent(channelGroupFilters) {
+    for (let filter of channelGroupFilters) {
+      await expect(this.page.getByText(filter).first()).not.toBeVisible();
     }
   }
 
