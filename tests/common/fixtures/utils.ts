@@ -123,8 +123,9 @@ export class Utility {
     let raw_ufm_secrets;
     if (!process.env.CI) {
       raw_ufm_secrets = fs.readFileSync(this.secretFilePath, "utf8");
+      
     } else {
-      raw_ufm_secrets = fs.readFileSync(process.env.ufm_secrets + "", "utf8");
+      raw_ufm_secrets = process.env.CRED_SECRET;
     }
     const ufm_secrets = JSON.parse(raw_ufm_secrets);
     return ufm_secrets;

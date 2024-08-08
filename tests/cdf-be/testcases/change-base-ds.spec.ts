@@ -3,14 +3,14 @@ import { CdfUtility } from '../fixtures/cdf-utils';
 import baseDSForecast from '../testdata/base-ds-forecast.json'
 import debug from "debug";
 
-test.describe("Verify user can create/edit/delete an EMT layer", { tag: "@Smoke @changeBaseDSForecast"}, () => {
+test.describe("Base DS Forecast Change", { tag: "@Smoke @changeBaseDSForecast @ibg-service-scenario-financials @Regression"}, () => {
     let demandId;
 
     test.beforeAll(async ({ request }) => { demandId = await CdfUtility.createScenario(request); });
 
     test.afterAll(async ({ request }) => { await CdfUtility.deleteScenario(request, demandId); });
 
-    test("Publish DSS to current Demand", async ({ request }) => {
+    test("Verify if user switch the Base DS Forecast", async ({ request }) => {
         let jobId;
         await test.step("Switch base DS to a different version", async () => {
             let switchBaseDSResponse;

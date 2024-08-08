@@ -7,7 +7,7 @@ import currentDemandData from "../testdata/current-demand-download.json"
 const slots: number[] = currentDemandData.slotIds
 
 test.describe.configure({ mode: 'parallel' });
-test.describe("Verify current demand CSV export/download works and has the correct data", { tag: "@Smoke @CurrentDemandCSV"}, () => {
+test.describe("Verify current demand CSV export/download works and has the correct data", { tag: "@Smoke @CurrentDemandCSV @ibg-service-scenario-financials @Regression"}, () => {
     test("Verify SBU CSV data for all slots", async ({ request }) => {
         let currentDemandResponses: GetDemandScenarioForecastResponse[]
         let csvResponsesData: string[][][]

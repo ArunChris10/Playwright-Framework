@@ -6,7 +6,7 @@ import { LockUnlockUtility } from '../fixtures/lock-unlock-utils';
 import { CdfUtility } from '../fixtures/cdf-utils';
 import debug from 'debug';
 
-test.describe("Verify user can copy layers to a new scenario", { tag: "@Smoke @copyLayersToNewScenario"}, () => {
+test.describe("Verify user can copy layers to a new scenario", { tag: "@Smoke @copyLayersToNewScenario @ibg-service-scenario-financials @Regression"}, () => {
     let demandIdOne;
     let demandIdTwo;
     let layerId;

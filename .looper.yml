@@ -3,9 +3,12 @@ tools:
   nodejs: 16.18.0
   npm: 8.19.2
 
+useSecretStore: true
+
 envs:
   global:
     variables:
+      CRED_SECRET: "%{credentials.secret('ufm_secrets')}"
       REPO_NAME: ALL #default value for all apps
       APP_NAME: $app
       UFM_REPOS: #add app names here
@@ -44,6 +47,9 @@ triggers:
   - manual:
       name: Run CDF Test
       call: runCDFSMokeTest
+  - manual:
+      name: Run CDF Custom Test
+      call: runCDFCustomTest
   - manual:
       name: Run Adhoc Test
       call: runCustomTest
@@ -160,6 +166,14 @@ flows:
       - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests
     finally:
       - call: reporter
+
+  runCDFCustomTest:
+    try:
+      - echo "Running CDF Smoke testcases "
+      - call: setup
+      - APP_NAME=CDF RUN_ID=$testrunid ENV=qa TEST=custom_tag npm run tests:cdf-tests
+    finally:
+      - call: reporter  
 
   runCDFSMokeTest:
     try:

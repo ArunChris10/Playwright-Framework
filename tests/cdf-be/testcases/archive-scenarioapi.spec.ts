@@ -2,7 +2,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 import debug from "debug";
 import { CdfUtility } from "../fixtures/cdf-utils";
 
-test.describe("Verify scenario is archived", { tag: "@Smoke @archiveScenario" }, () => {
+test.describe("Verify scenario is archived", { tag: "@Smoke @archiveScenario @ibg-service-scenario-financials @Regression" }, () => {
 
   test.describe.configure({ timeout: 120_000, mode: 'serial' });
   let archiveScenario;
