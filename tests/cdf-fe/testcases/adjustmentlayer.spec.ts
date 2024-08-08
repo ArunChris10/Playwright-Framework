@@ -128,3 +128,36 @@ test.describe(
     }
   );
 
+  test.describe(
+    "Manual Adjustment layer.",
+    { tag: "@Smoke @AdjustmentLayerManual @Regression" },
+    async () => {
+      test.describe.configure({ timeout: 300_000, mode: "serial" });
+  
+      let objpageFactory: PageFactory;
+  
+      test.beforeAll(async ({ pageFactory }) => {
+        objpageFactory = pageFactory;
+        await objpageFactory.cdfPageFactory().demandWorkspace().navigate();
+      });
+      test(
+        "create a manual adjustment with department filters",
+        { tag: "@AdjustmentLayerManual" },
+        async () => {
+          test.setTimeout(500000);
+          await test.step("Open the demand stack scenario", async () => {
+            await objpageFactory
+              .cdfPageFactory()
+              .demandWorkspace()
+              .openFirstDSS();
+          });
+          await test.step("Create Manual Adjustment layer and save.", async () => {
+            await objpageFactory
+              .cdfPageFactory()
+              .adjustmentLayer()
+              .createHighliterManualAdjustmentAndSave();
+          });
+        }
+      );
+    }
+  );

@@ -24,6 +24,13 @@ export class AdjustmentLayer {
   private readonly editLayerNameDescription: Locator;
   private readonly editLayerName: Locator;
   private readonly deleteIcon: Locator;
+  private readonly highligterMenu: Locator;
+  private readonly departmentFilter: Locator;
+  private readonly selectAlldepartmentFilter: Locator;
+  private readonly selectCandyDepartment: Locator;
+  private readonly cellUpdatePlaceholder: Locator;
+  private readonly highligterSaveButton: Locator;
+  readonly confirmDepartmentsFilter: string;
 
   constructor(page: Page) {
     this.page = page;
@@ -72,6 +79,15 @@ export class AdjustmentLayer {
     });
     this.editLayerName = this.page.getByLabel('Edit Layer Metadata').getByPlaceholder('Name');
     this.deleteIcon = this.page.getByLabel('Press SPACE to deselect this').locator('svg');
+    this.highligterMenu = this.page.getByRole("menuitem", {
+      name: "Manual Adjustment - hierarchy",
+    });
+    this.departmentFilter = this.page.getByRole('button', { name: 'Department' });
+    this.selectAlldepartmentFilter = this.page.getByLabel('Select All');
+    this.selectCandyDepartment = this.page.getByLabel('- Candy');
+    this.confirmDepartmentsFilter = "//button[@test-data='submitSelection']";
+    this.cellUpdatePlaceholder = this.page.getByPlaceholder('New value');
+    this.highligterSaveButton = this.page.getByRole('button', { name: 'Save' });
   }
 
   async addNameAndDesc({ name, desc }) {
@@ -140,5 +156,51 @@ export class AdjustmentLayer {
     const newLayers = this.page.locator(this.intelLayer);
     const newLayersCount = await newLayers.count();
     expect(originalLayersCount - 1).toBe(newLayersCount);
+  }
+
+  async getForecastYearMonth() {
+    // current date plus 1 years and 1 month
+    const currentDate = new Date();
+    currentDate.setFullYear(currentDate.getFullYear() + 1);
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+    const formattedDate = `${year}${month.toString().padStart(2, '0')}`;
+    return formattedDate;
+  }
+
+  async getFirstCellofGrid() {
+    const yearMonth = await this.getForecastYearMonth()
+    return this.page.locator(`//div[@row-index='0']/div[@col-id='${yearMonth}']`)
+  }
+
+  async applyDepartmentFilters() {
+    await this.departmentFilter.click();
+    await this.selectAlldepartmentFilter.uncheck();
+    await this.selectCandyDepartment.check();
+    await this.page.locator(this.confirmDepartmentsFilter).click();
+    const cellLocator = await this.getFirstCellofGrid();
+    await cellLocator.dblclick();
+    await this.cellUpdatePlaceholder.fill(testdata.manualAdjustmentValue);
+    await this.highligterSaveButton.click();
+  }
+
+  async addNameAndDescHighligter({ name, desc }) {
+    await this.adjustmentTab.click();
+    await this.createLayer.click();
+    await this.highligterMenu.click();
+    await this.emtNameInput.click();
+    await this.emtNameInput.fill(name);
+    await this.emtDescInput.click();
+    await this.emtDescInput.fill(desc);
+    await this.emtSaveButton.click();
+  }
+
+  async createHighliterManualAdjustmentAndSave() {
+    await this.addNameAndDescHighligter({ name: testdata.name, desc: testdata.desc });
+    await this.applyDepartmentFilters();
+    await this.emtGenrtPrevButton.click();
+    await this.emtConfirmButton.click();
+    let updatedCell = await this.getFirstCellofGrid();
+    expect(updatedCell).toContainText(`$${testdata.manualAdjustmentValue}`);
   }
 }
