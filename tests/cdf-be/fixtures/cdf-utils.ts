@@ -450,6 +450,20 @@ export class CdfUtility {
       return responseBody;
     }
 
+    static async getDemandScenarioByIdAndPayload(request, demandId, payload) {
+        const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenario.endpoint}${demandId}`;
+        debug.log(endpointURL);
+        const response = await request.post(endpointURL, {
+            data: payload,
+            headers: CdfUtility.headers,
+        });
+        //asserting the response
+        expect(response).toBeOK();
+        let responseBody = await response.json();
+        debug.log(JSON.stringify(responseBody));
+        return responseBody;
+    }
+
   // Method to publish DSS
   static async publishDSS(request, demandId, slotId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.publishEndpointPrefix}${demandId}${currentDemandData.publishEndpointSuffix}${slotId}/`;
