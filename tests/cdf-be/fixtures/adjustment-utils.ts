@@ -4,7 +4,6 @@ import adjustmentData from "../testdata/adjustment-layer-data.json";
 import commonEndpoints from "../testdata/common-demand-endpoints.json";
 
 export class AdjustmentUtility extends DemandBaseClass {
-
     static async createEMTLayer(request, demandId, testdatafileCreateEMT) {
         const endpointURL = `${process.env.apiBaseURLCDF}${testdatafileCreateEMT.endpoint}${demandId}`;
         debug.log(endpointURL);
