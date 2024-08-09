@@ -14,7 +14,7 @@ import currentDemandExcelData from '../testdata/current-demand-excel-download.js
 import demandworkspace from '../testdata/get-dssorder.json'
 import forecastinfolist from '../testdata/getlist-and-title.json'
 import commonDemandEndpoints from '../testdata/common-demand-endpoints.json';
-
+import getDemandScenarioCSV from '../testdata/get-demand-scenario-forecast-csv.json'
 export class CdfUtility {   
   
   static demandScenario = "demandscenario"
@@ -344,6 +344,21 @@ export class CdfUtility {
 
     //returning the scenario Id of the created forecast
     return responseBody;
+  }
+
+  static async getDemandScenarioByIdCSV(request, demandId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenarioCSV.endpoint}${demandId}${"/csv"}`;
+    let payload = getDemandScenarioCSV.payload
+      payload.version = this.createScenarioPayload.forecastInfoDTO.forecastInfo.version
+    const response = await request.post(
+      endpointURL,
+
+      { data: getDemandScenarioCSV.payload, headers: CdfUtility.headers }
+    );
+
+    //asserting the response
+    expect(response).toBeOK();
+    return response;
   }
 
     static async getDemandScenarioByIdWithMinimumDataPayload(request, demandId) {
