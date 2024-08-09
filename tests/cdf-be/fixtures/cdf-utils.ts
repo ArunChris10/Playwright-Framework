@@ -2,6 +2,7 @@ import debug from "debug";
 import archiveScenario from '../testdata/archive-scenario.json'
 import currentDemandData from '../testdata/current-demand.json'
 import getDemandScenario from '../testdata/get-demand-scenario-forecast.json'
+import getDemandScenarioFilterRetention from '../testdata/get-demand-scenario-forecast-filter-retention.json'
 import tagNotificationData from '../testdata/tag-notification.json'
 import getCurrentDemandForecast from '../testdata/get-currentdemand-scenario-forecast.json'
 import currentDemandSlotTestData from '../testdata/get-currentdemand-scenario-slot-forecast.json'
@@ -341,11 +342,79 @@ export class CdfUtility {
     //asserting the response
     expect(response).toBeOK();
     let responseBody = await response.json();
-    debug.log(JSON.stringify(responseBody));
+    // debug.log(JSON.stringify(responseBody));
 
     //returning the scenario Id of the created forecast
     return responseBody;
   }
+  static async getDemandScenarioByIdBeforeFilterSave(request, demandId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenario.endpoint}${demandId}`;
+    debug.log(endpointURL);
+    let payload = getDemandScenario.payloadWithFilterBeforeSave;
+    payload.version = this.createScenarioPayload.forecastInfoDTO.forecastInfo.version
+    const response = await request.post(
+      endpointURL,
+
+      { data: payload, headers: CdfUtility.headers }
+    );
+    //asserting the response
+    expect(response).toBeOK();
+    let responseBody = await response.json();
+    // debug.log(JSON.stringify(responseBody));
+
+    //returning the scenario Id of the created forecast
+    return responseBody;
+  }
+  static async getDemandScenarioByIdWithFilters(request, demandId,sbu,sbuIds) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenario.endpoint}${demandId}`;
+    debug.log(endpointURL);
+    let payload = getDemandScenario.payloadWithFilter;
+    payload.sbu = sbu;
+    payload.sbuIds = sbuIds;
+    payload.version = this.createScenarioPayload.forecastInfoDTO.forecastInfo.version
+    const response = await request.post(
+      endpointURL,
+
+      { data: payload, headers: CdfUtility.headers }
+    );
+    //asserting the response
+    expect(response).toBeOK();
+    let responseBody = await response.json();
+    //returning the scenario Id of the created forecast
+    return responseBody;
+  }
+  static async saveUserProfileFilter(request, demandId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenarioFilterRetention.endpoint}${demandId}${"/filter"}`;
+    debug.log(endpointURL);
+    const response = await request.put(
+      endpointURL,
+
+      { data: getDemandScenarioFilterRetention.saveFilterPayload, headers: CdfUtility.headers }
+    );
+    //asserting the response
+    expect(response).toBeOK();
+    let responseBody = await response.json();
+
+    //returning the scenario Id of the created forecast
+    return responseBody;
+  }
+
+  static async fetchUserProfileFilter(request, demandId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenarioFilterRetention.endpoint}${demandId}${"/filter?isCurrentDemand=false"}`;
+    debug.log(endpointURL);
+    const response = await request.get(
+      endpointURL,
+
+      { data: getDemandScenarioFilterRetention.fetchFilterPayload, headers: CdfUtility.headers }
+    );
+    //asserting the response
+    expect(response).toBeOK();
+    let responseBody = await response.json();
+
+    //returning the scenario Id of the created forecast
+    return responseBody;
+  }
+  
 
   static async getDemandScenarioByIdCSV(request, demandId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenarioCSV.endpoint}${demandId}${"/csv"}`;
