@@ -3,15 +3,19 @@ import { CdfUtility } from "./cdf-utils";
 import { DemandBaseClass } from "./demand-common-utils";
 import type {
     organizationalLevel,
-    GetDemandScenarioForecastResponse
+    GetDemandScenarioForecastResponse,
+    SBU,
+    Channel
 } from "../types/get-demand-scenario-forecast-response";
 import debug from "debug";
 
 import currentDemandData from "../testdata/current-demand-download.json"
 
 export class CurrentDemandUtility {
-    static async getCurrentDemandData(request: APIRequestContext, slot: number, organizationalLevel: organizationalLevel):
-        Promise<GetDemandScenarioForecastResponse>
+    static async getCurrentDemandData(request: APIRequestContext, slot: number, organizationalLevel: 'SBU'):
+        Promise<GetDemandScenarioForecastResponse<SBU>>
+    static async getCurrentDemandData(request: APIRequestContext, slot: number, organizationalLevel: 'BASE_CHANNEL'):
+        Promise<GetDemandScenarioForecastResponse<Channel>>
     static async getCurrentDemandData(request: APIRequestContext, slot: number, organizationalLevel: organizationalLevel, format: 'csv'):
         Promise<string[][]>
     static async getCurrentDemandData(request: APIRequestContext, slot: number, organizationalLevel: organizationalLevel, format?: 'csv') {
@@ -69,7 +73,7 @@ export class CurrentDemandUtility {
 
     static assertCSVDataMatchesAPI(
         csv: string[][],
-        apiResponse: GetDemandScenarioForecastResponse,
+        apiResponse: GetDemandScenarioForecastResponse<Channel|SBU>,
         kind: 'sbu' | 'baseChannel'
     ) {
         const csvHeaders = DemandBaseClass.getCSVHeadersRecord(csv)

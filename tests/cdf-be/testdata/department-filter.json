@@ -1,0 +1,31 @@
+{
+  "department": [
+    "CANDY",
+    "DAIRY",
+    "MEAT"
+  ],
+  "departmentName": [
+    "1 - CANDY",
+    "90 - DAIRY",
+    "93 - MEAT"
+  ],
+  "departmentIds": [ 1, 90, 93 ],
+  "sbu": [
+    "FOOD"
+  ],
+  "sbuIds": [
+    27
+  ],
+  "loadHeirarchyParams": {
+    "baseChannel": [],
+    "baseChannelIds": [],
+    "organizationalLevel": "DEPARTMENT",
+    "sbu": [
+      "FOOD"
+    ],
+    "sbuIds": [
+      27
+    ]
+  },
+  "organizationalLevel": "DEPARTMENT"
+}

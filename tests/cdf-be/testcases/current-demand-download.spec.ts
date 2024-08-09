@@ -1,6 +1,6 @@
 import { test } from '../../common/fixtures/test-hook'
 import { CurrentDemandUtility } from "../fixtures/current-demand-utils";
-import type { GetDemandScenarioForecastResponse } from "../types/get-demand-scenario-forecast-response";
+import type { GetDemandScenarioForecastResponse, SBU, Channel } from "../types/get-demand-scenario-forecast-response";
 
 import currentDemandData from "../testdata/current-demand-download.json"
 
@@ -9,7 +9,7 @@ const slots: number[] = currentDemandData.slotIds
 test.describe.configure({ mode: 'parallel' });
 test.describe("Verify current demand CSV export/download works and has the correct data", { tag: "@Smoke @CurrentDemandCSV @ibg-service-scenario-financials @Regression"}, () => {
     test("Verify SBU CSV data for all slots", async ({ request }) => {
-        let currentDemandResponses: GetDemandScenarioForecastResponse[]
+        let currentDemandResponses: GetDemandScenarioForecastResponse<SBU>[]
         let csvResponsesData: string[][][]
 
         await test.step("Download the current demand API data and CSVs for each slot", async () => {
@@ -39,7 +39,7 @@ test.describe("Verify current demand CSV export/download works and has the corre
     })
 
     test("Verify Base Channel CSV data for all slots", async ({ request }) => {
-        let currentDemandResponses: GetDemandScenarioForecastResponse[]
+        let currentDemandResponses: GetDemandScenarioForecastResponse<Channel>[]
         let csvResponsesData: string[][][]
 
         await test.step("Download the current demand API data and CSVs for each slot", async () => {

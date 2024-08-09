@@ -1,4 +1,6 @@
-interface forecast {
+// Note: Many of these records modeling the API response are incomplete.
+// If something is missing, and you need to access it, you can add the property/type
+interface Forecast {
     year: number
     quarter: number
     month: number
@@ -11,44 +13,52 @@ interface forecast {
     grossUnit: number
 }
 
-interface sbu {
+interface SBU {
     sbu: string
     sbuDisplayName: string
-    forecast: forecast[]
+    forecast: Forecast[]
     displayOrder: number
     displayName: string
     sbuId: number
 }
 
-interface channel {
+export interface Department {
+    sbu: string,
+    department: string,
+    departmentId: number
+    forecast: Forecast[]
+}
+
+export interface Channel {
     baseChannel: string,
-    forecast: forecast[],
+    forecast: Forecast[],
     displayOrder: number
     displayName: string,
     baseChannelId: string,
 }
 
-interface forecastTotals {
+interface ForecastTotals {
     sbu: 'Total'
-    forecast: forecast[]
+    forecast: Forecast[]
 }
 
-interface totalAfterExcludingDepartments {
+interface TotalAfterExcludingDepartments {
     sbu: 'Total Ex Photo'
-    forecast: forecast[]
+    forecast: Forecast[]
 }
 
-interface totalOfExcludingDepartments {
+interface TotalOfExcludingDepartments {
     sbu: 'ETS Ex Photo'
-    forecast: forecast[]
+    forecast: Forecast[]
 }
 
 // forecastTotals exists if the request body's filterLevel is 'MONTH'
-export interface GetDemandScenarioForecastResponse {
-    forecastTotals?: forecastTotals
-    totalAfterExcludingDepartments: totalAfterExcludingDepartments
-    totalOfExcludingDepartments: totalOfExcludingDepartments
-    forecast: channel[] | sbu[]
+export interface GetDemandScenarioForecastResponse<forecastType> {
+    forecastTotals?: ForecastTotals
+    totalAfterExcludingDepartments: TotalAfterExcludingDepartments
+    totalOfExcludingDepartments: TotalOfExcludingDepartments
+    forecast: forecastType[]
 }
+
 
 export type organizationalLevel = 'SBU' | 'BASE_CHANNEL'

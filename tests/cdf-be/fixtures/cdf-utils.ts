@@ -38,7 +38,7 @@ export class CdfUtility {
       return demandScenarioDetails[0].forecastInfoDTO.forecastInfo;
   }
    // This method will create the scenario and asserts the response
-   static async createScenario(request){
+   static async createScenario(request): Promise<string> {
     const forecastInfo = await this.getDemandScenarioList(request)
     const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${CdfUtility.demandScenario}`;
     console.log(endpointURL);
@@ -61,7 +61,7 @@ export class CdfUtility {
       );
       let responseBody = await response.json();
       debug.log(JSON.stringify(responseBody));
-      return responseBody.demandStackScenarioId;
+      return responseBody.demandStackScenarioId as string;
   }
 
   static async createScenarioByOtherUser(request, user){
@@ -431,7 +431,7 @@ export class CdfUtility {
     return response;
   }
 
-    static async getDemandScenarioByIdWithMinimumDataPayload(request, demandId) {
+    static async getDemandScenarioByIdWithMinimumDataPayload(request, demandId, payloadExtension: Object = {}) {
       const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenario.endpoint}${demandId}`;
       debug.log(endpointURL);
       let payload = getDemandScenario.payloadWithMinimumData
@@ -439,7 +439,7 @@ export class CdfUtility {
       const response = await request.post(
         endpointURL,
 
-        { data: payload, headers: CdfUtility.headers }
+        { data: { ...payload, ...payloadExtension }, headers: CdfUtility.headers }
       );
       //asserting the response
       expect(response).toBeOK();
