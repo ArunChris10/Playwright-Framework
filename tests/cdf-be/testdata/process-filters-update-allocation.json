@@ -1,0 +1,302 @@
+{
+  "payloadForGetDemandScenarioForecast": {
+    "sbu": ["FOOD"],
+    "sbuIds": [27],
+    "department": [
+      "CANDY",
+      "SERVICE DELI",
+      "COM BREAD",
+      "IMPULSE MERCHANDISE",
+      "SEAFOOD",
+      "BALLOONS & FLOWERS",
+      "DAIRY",
+      "FROZEN",
+      "GROCERY",
+      "MEAT",
+      "PRODUCE",
+      "DSD GROCERY",
+      "LIQUOR",
+      "WALL DELI",
+      "BAKERY"
+    ],
+    "departmentIds": [
+      1, 80, 81, 82, 83, 84, 90, 91, 92, 93, 94, 95, 96, 97, 98
+    ],
+    "baseChannel": [],
+    "baseChannelIds": [],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": ["layerId"],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": false,
+    "organizationalLevel": "DEPARTMENT",
+    "loadHeirarchyParams": {
+      "baseChannel": [],
+      "baseChannelIds": [],
+      "sbu": ["FOOD"],
+      "sbuIds": [27],
+      "organizationalLevel": "DEPARTMENT"
+    },
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": true,
+      "isMonthSelected": true,
+      "isQuarterSelected": false,
+      "yearMonths": ["202705"],
+      "yearQuarters": [],
+      "years": ["2027"],
+      "yearList": ["FY 2027"]
+    },
+    "metricUnit": "gmv",
+    "version": "forecastVersion",
+    "forceRefresh": false,
+    "filtersChanged": true,
+    "departmentName": [
+      "1 - CANDY",
+      "80 - SERVICE DELI",
+      "81 - COM BREAD",
+      "82 - IMPULSE MERCHANDISE",
+      "83 - SEAFOOD",
+      "84 - BALLOONS & FLOWERS",
+      "90 - DAIRY",
+      "91 - FROZEN",
+      "92 - GROCERY",
+      "93 - MEAT",
+      "94 - PRODUCE",
+      "95 - DSD GROCERY",
+      "96 - LIQUOR",
+      "97 - WALL DELI",
+      "98 - BAKERY"
+    ],
+    "filterLoadComplete": true,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
+  },
+  "payloadForGetDemandScenarioForecastWithoutDepartments": {
+    "sbu": ["FOOD"],
+    "sbuIds": [27],
+    "department": [
+      "COM BREAD",
+      "IMPULSE MERCHANDISE",
+      "SEAFOOD",
+      "BALLOONS & FLOWERS",
+      "DAIRY",
+      "FROZEN",
+      "GROCERY",
+      "MEAT",
+      "PRODUCE",
+      "DSD GROCERY",
+      "LIQUOR",
+      "WALL DELI",
+      "BAKERY"
+    ],
+    "departmentIds": [81, 82, 83, 84, 90, 91, 92, 93, 94, 95, 96, 97, 98],
+    "baseChannel": [],
+    "baseChannelIds": [],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": ["layerId"],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": false,
+    "organizationalLevel": "DEPARTMENT",
+    "loadHeirarchyParams": {
+      "baseChannel": [],
+      "baseChannelIds": [],
+      "sbu": ["FOOD"],
+      "sbuIds": [27],
+      "organizationalLevel": "DEPARTMENT"
+    },
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": true,
+      "isMonthSelected": true,
+      "isQuarterSelected": false,
+      "yearMonths": ["202705"],
+      "yearQuarters": [],
+      "years": ["2027"],
+      "yearList": ["FY 2027"]
+    },
+    "metricUnit": "gmv",
+    "version": "forecastVersion",
+    "forceRefresh": false,
+    "filtersChanged": true,
+    "departmentName": [
+      "81 - COM BREAD",
+      "82 - IMPULSE MERCHANDISE",
+      "83 - SEAFOOD",
+      "84 - BALLOONS & FLOWERS",
+      "90 - DAIRY",
+      "91 - FROZEN",
+      "92 - GROCERY",
+      "93 - MEAT",
+      "94 - PRODUCE",
+      "95 - DSD GROCERY",
+      "96 - LIQUOR",
+      "97 - WALL DELI",
+      "98 - BAKERY"
+    ],
+    "filterLoadComplete": true,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
+  },
+  "payloadForManualAdjustmentLayerSBUView": {
+    "layers": [
+      {
+        "layerType": "HIGHLIGHTER",
+        "allocationType": "DOLLAR",
+        "layerDescription": "Man 01",
+        "layerName": "Man 01",
+        "forecastVersion": "forecastVersion",
+        "isConfirmed": true,
+        "isPreview": false,
+        "highlighterAllocationsList": [
+          {
+            "sbu": "FOOD",
+            "sbuId": 27,
+            "channels": [],
+            "amount": -10000,
+            "yearMonth": "2027-05",
+            "channelIds": [],
+            "departments": ["CANDY", "SERVICE DELI"],
+            "departmentIds": [1, 80]
+          }
+        ]
+      }
+    ]
+  },
+  "payloadForGetDemandScenarioForecastChannelView": {
+    "sbu": ["FOOD", "CONSUMABLES"],
+    "sbuIds": [27, 29],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": ["DSV_S2H"],
+    "baseChannelIds": [22],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": ["layerId"],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": false,
+    "organizationalLevel": "DEPARTMENT",
+    "loadHeirarchyParams": {
+      "baseChannel": ["DSV_S2H"],
+      "baseChannelIds": [22],
+      "sbu": ["FOOD", "CONSUMABLES"],
+      "sbuIds": [27, 29],
+      "organizationalLevel": "DEPARTMENT"
+    },
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": true,
+      "isMonthSelected": true,
+      "isQuarterSelected": false,
+      "yearMonths": ["202705"],
+      "yearQuarters": [],
+      "years": ["2027"],
+      "yearList": ["FY 2027"]
+    },
+    "metricUnit": "",
+    "filtersChanged": true,
+    "filterLoadComplete": true,
+    "version": "forecastVersion",
+    "departmentName": [],
+    "forceRefresh": false,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
+  },
+  "payloadForGetDemandScenarioForecastChannelViewOtherSBUs": {
+    "sbu": ["FASHION", "ENTERTAINMENT TOYS AND SEASONAL", "HARDLINES", "HOME"],
+    "sbuIds": [4, 196, 60, 47],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": ["DSV_S2H"],
+    "baseChannelIds": [22],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": ["layerId"],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": false,
+    "organizationalLevel": "DEPARTMENT",
+    "loadHeirarchyParams": {
+      "baseChannel": ["DSV_S2H"],
+      "baseChannelIds": [22],
+      "sbu": ["FASHION", "ENTERTAINMENT TOYS AND SEASONAL", "HARDLINES", "HOME"],
+      "sbuIds": [4, 196, 60, 47],
+      "organizationalLevel": "DEPARTMENT"
+    },
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": true,
+      "isMonthSelected": true,
+      "isQuarterSelected": false,
+      "yearMonths": ["202705"],
+      "yearQuarters": [],
+      "years": ["2027"],
+      "yearList": ["FY 2027"]
+    },
+    "metricUnit": "",
+    "filtersChanged": true,
+    "filterLoadComplete": true,
+    "version": "forecastVersion",
+    "departmentName": [],
+    "forceRefresh": false,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
+  },
+  "payloadForManualAdjustmentLayerChannelView": {
+    "layers": [
+      {
+        "layerType": "HIGHLIGHTER",
+        "allocationType": "DOLLAR",
+        "layerDescription": "M1",
+        "layerName": "M1",
+        "forecastVersion": "forecastVersion",
+        "isConfirmed": true,
+        "isPreview": false,
+        "highlighterAllocationsList": [
+          {
+            "channels": ["DSV_S2H"],
+            "amount": -10000,
+            "yearMonth": "2027-05",
+            "departments": [
+              "CANDY",
+              "PERSONAL CARE",
+              "HOUSEHOLD PAPER",
+              "PETS & SUPPLIES",
+              "CLEANING",
+              "OTC PHARMACY",
+              "BEAUTY",
+              "INFANT CONSUMABLE HARDLINES",
+              "SERVICE DELI",
+              "COM BREAD",
+              "IMPULSE MERCHANDISE",
+              "SEAFOOD",
+              "BALLOONS & FLOWERS",
+              "DAIRY",
+              "FROZEN",
+              "GROCERY",
+              "MEAT",
+              "PRODUCE",
+              "DSD GROCERY",
+              "LIQUOR",
+              "WALL DELI",
+              "BAKERY"
+            ],
+            "departmentIds": [
+              1, 2, 4, 8, 13, 40, 46, 79, 80, 81, 82, 83, 84, 90, 91, 92, 93,
+              94, 95, 96, 97, 98
+            ],
+            "channelIds": [22]
+          }
+        ]
+      }
+    ]
+  }
+}

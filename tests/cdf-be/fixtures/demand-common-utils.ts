@@ -123,4 +123,18 @@ export class DemandBaseClass {
     return xlsx.utils.sheet_to_json(sheet);
   }
 
+  static async deleteManualAdjustmentLayer(request, demandId, layerId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioEndpoint}${demandId}` + "/layer/" + `${layerId}`;
+    console.log("Endpoint URL for deleting Manual adjustment layer: ", endpointURL);
+
+    // API Request
+    const response = await request.delete(
+        endpointURL,
+        {
+            header: this.headers
+        }
+    );
+
+    return response;
+  }
 }
