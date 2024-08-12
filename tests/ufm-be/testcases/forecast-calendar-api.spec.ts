@@ -4,54 +4,54 @@ import { UfmUtility } from "../fixtures/ufm-utils";
 
 test.describe(
   "Verify forecast calendar APIs",
-  { tag: "@Smoke @Regression @forecastCalendar" },
+   { tag: "@Smoke @Regression @forecastCalendar" },
   () => {
-    test.describe.configure({ timeout: 120_000, mode: "serial" });
-    let fcst_id: string;
-    let cycle_id: string;
+  test.describe.configure({ timeout: 120_000, mode: "serial" });
+  let fcst_id: string;
+  let cycle_id: string;
 
-    test("Verify if the user is able to @addNewForecastCalendar", async ({
-      request,
-    }) => {
-      let forecastCalendarCreated = await UfmUtility.createForecastCalendar(
-        request
+  test("Verify if the user is able to @addNewForecastCalendar", async ({
+    request,
+  }) => {
+    let forecastCalendarCreated = await UfmUtility.createForecastCalendar(
+      request
       );
-      fcst_id = forecastCalendarCreated.calendar_id;
-      debug.log("Forecast is created  : ", forecastCalendarCreated);
-    });
+    fcst_id = forecastCalendarCreated.calendar_id;
+    debug.log("Forecast is created  : ", forecastCalendarCreated);
+  });
 
-    test("Verify if the user is able to @getForecastCalendar", async ({
+  test("Verify if the user is able to @getForecastCalendar", async ({
+    request,
+  }) => {
+    let getForecastCalendar = await UfmUtility.getForecastCalendar(
       request,
-    }) => {
-      let getForecastCalendar = await UfmUtility.getForecastCalendar(
-        request,
-        fcst_id
+      fcst_id
       );
-      debug.log("Forecast is retrieved  : ", getForecastCalendar);
-    });
+    debug.log("Forecast is retrieved  : ", getForecastCalendar);
+  });
 
-    test("Verify if the user is able to @createForecastCalendarCycles", async ({
-      request,
-    }) => {
-      let createForecastCalendarCycles =
-        await UfmUtility.createForecastCalendarCycles(fcst_id, request);
-      expect(createForecastCalendarCycles.cycle_id).toBeDefined();
-      debug.log(
-        "Forecast calendar cycle is created : ",
-        JSON.stringify(createForecastCalendarCycles, null, 2)
+  test("Verify if the user is able to @createForecastCalendarCycles", async ({
+    request,
+  }) => {
+    let createForecastCalendarCycles =
+    await UfmUtility.createForecastCalendarCycles(fcst_id, request);
+    expect(createForecastCalendarCycles.cycle_id).toBeDefined();
+    debug.log(
+      "Forecast calendar cycle is created : "
+      , JSON.stringify(createForecastCalendarCycles, null, 2)
       );
-      cycle_id = createForecastCalendarCycles.cycle_id;
-    });
+    cycle_id = createForecastCalendarCycles.cycle_id;
+  });
 
-    test("Verify if the user is able to @publishForecastCalendar", async ({
-      request,
-    }) => {
-      let publishForecastCalendar = await UfmUtility.publishForecastCalendar(
-        fcst_id,
-        request
+  test("Verify if the user is able to @publishForecastCalendar", async ({
+    request,
+  }) => {
+    let publishForecastCalendar = await UfmUtility.publishForecastCalendar(
+      fcst_id,
+      request
       );
-      debug.log("Forecast is published  : ", publishForecastCalendar);
-    });
+    debug.log("Forecast is published  : ", publishForecastCalendar);
+  });
 
     test("Verify if the user is able to @getForecastDeadlines", async ({
       request,

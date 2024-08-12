@@ -1,39 +1,68 @@
 {
-  "endpoint": "/forecast_calendar/",
-  "createForecastCalendarPayload": {
-    "classification_id": 1,
-    "fiscal_year": 2039,
-    "published_flag": true,
-    "dim_id": 13,
-    "dim_val_id": 1
-  },
-  "getForecastCalendarPayload": {
-    "dim_id": "13",
-    "dim_val_id": "130001",
-    "classification_id": "1",
-    "fiscal_year": "2039"
-  },
-  "createForecastCalendarCyclesPayload": {
-    "deadlines": [
-      {
+
+    "endpoint": "/forecast_calendar/",
+    "createForecastCalendarPayload": {
+        "classification_id": 1,
+        "fiscal_year": 2994,
+        "published_flag": true,
         "dim_id": 13,
-        "dim_val_id": 130001,
-        "deadline": "2038-10-29 20:11:46.153",
+        "dim_val_id": 1
+    },
+    "createForecastCalendarPayloadInvalidDimId": {
+        "classification_id": 1,
+        "fiscal_year": 2994,
+        "published_flag": true,
+        "dim_id": 12,
+        "dim_val_id": 1
+    },
+    "createForecastCalendarPayloadInvalidDimVal": {
+        "classification_id": 1,
+        "fiscal_year": 2994,
+        "published_flag": true,
+        "dim_id": 13,
+        "dim_val_id": 0
+    },
+    "createForecastCalendarPayloadInvalidYear": {
+        "classification_id": 1,
+        "fiscal_year": -9999,
+        "published_flag": true,
+        "dim_id": 13,
+        "dim_val_id": 1
+    },
+    "getForecastCalendarPayload": {
+        "dim_id": "13",
+        "dim_val_id": "1",
+        "classification_id": "1",
+        "fiscal_year": "2994",
+        "invalid_dim_id":"12"
+    },
+    "createForecastCalendarCyclesPayload": {
+      "deadlines": [{
+        "dim_id": 13,
+        "dim_val_id": 1,
+        "deadline": "2993-10-29 20:11:46.153",
         "timezone": "CST",
         "event_id": "28"
       },
-      {
-        "dim_id": 12,
-        "dim_val_id": 130001,
-        "deadline": "2038-10-28 20:11:46.153",
+    {
+      "dim_id": 12,
+        "dim_val_id": 1,
+        "deadline": "2993-10-28 20:11:46.153",
         "timezone": "CST",
         "event_id": "28"
-      }
-    ]
-  },
-  "createSuccessResponseCode": 201,
-  "createAlreadyMessage": "Forecast scenario is already created for current period!",
-  "deleteCycleResponseCode": 204,
-  "cycleDeletedAlreadyMessage": "No scenario id found",
-  "notFoundCode": 404
-}
+    }]
+    },
+    "createSuccessResponseCode": 201,
+    "createErrorDuplicateResponse": "Forecast calendar with attributes: classification_id:1, fiscal_year:2994, dim_id:13, dim_val_id:1 already exists.",
+    "createErrorInvalidPermissionResponse": "Request denied dim_id:12 does not have the permissions",
+    "createErrorInvalidDimValResponse": "Invalid reference id 0 for the reference type DIM_VAL",
+    "createErrorInvalidYear": "Forecast calendar with fiscal year -9999 is not valid must be in YYYY format",
+    "getCalendarErrorDoesNotExist":"Calendar does not exist.",
+    "getCalendarErrorInvalidPermissionResponse":"User does not have the permissions to perform this operation.",
+    "createDuplicateForecastCycleResponse":"Corporate deadline already exists.",
+    "publishForecastCalendarErrorAlreadyExists":"Publishing of due dates failed. Calendar does not exist or cycles already published.",
+    "createAlreadyMessage": "Forecast scenario is already created for current period!",
+    "deleteCycleResponseCode": 204,
+    "cycleDeletedAlreadyMessage": "No scenario id found",
+    "notFoundCode": 404
+  }
