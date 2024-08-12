@@ -2,7 +2,7 @@ import { expect, test } from '../../common/fixtures/test-hook';
 import { VisualizerUtility } from '../fixtures/visualizer-utils';
 import debug from 'debug';
 
-test.describe("Verify user should be able to create a new view and scenarios should be displayed ", { tag: "@Smoke @createNewView" }, () => {
+test.describe("Verify user should be able to create a new view and scenarios should be displayed ", { tag: "@Smoke @createNewView @ibg-service-visualizer @Regression" }, () => {
 
     let visualizerSaveDataResponse;
 

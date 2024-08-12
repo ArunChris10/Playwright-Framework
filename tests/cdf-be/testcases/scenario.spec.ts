@@ -2,7 +2,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 import debug from "debug";
 import { CdfUtility } from "../fixtures/cdf-utils";
 
-test.describe("Verify scenario ", { tag: "@Smoke @scenario" }, () => {
+test.describe("Verify scenario ", { tag: "@Smoke @scenario @ibg-service-scenario-financials @Regression" }, () => {
 
   test.describe.configure({ timeout: 180_000, mode: 'serial' });
   

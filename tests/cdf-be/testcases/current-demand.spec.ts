@@ -4,16 +4,13 @@ import currentDemandData from '../testdata/current-demand.json'
 import testdatafile from '../testdata/current-demand.json';
 import debug from 'debug';
 
-test.describe("Verify user can publish to current demand and user is able to see the details of the latest synced DSS", { tag: "@Smoke @currentDemand"}, () => {
-
+test.describe("Verify user can publish to current demand and user is able to see the details of the latest synced DSS", { tag: "@Smoke @currentDemand @ibg-service-scenario-financials @Regression"}, () => {
+    let demandId;
+    test.beforeAll(async ({ request }) => { demandId = await CdfUtility.createScenario(request);});
+    test.afterAll(async ({ request }) => { await CdfUtility.deleteScenario(request, demandId);});
     test("Publish DSS to current Demand", async ({ request }) => {
 
-        let demandId, demandScenarioData, publishDssResponse, currentDemandResponse, currentDemandResponseBody, demandAmountValue, currentDemandAmountValue;
-
-        await test.step("Create new sceanrio", async () => {
-            demandId = await CdfUtility.createScenario(request);
-            debug.log(JSON.stringify(demandId));
-        });
+        let demandScenarioData, publishDssResponse, currentDemandResponse, currentDemandResponseBody, demandAmountValue, currentDemandAmountValue;
 
         await test.step("Fetch details of the newly created DSS", async () => {
             demandScenarioData = await CdfUtility.getDemandScenarioById(request, demandId);

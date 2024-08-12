@@ -4,7 +4,7 @@ import testdatafile from '../testdata/visualizer-table-data-custom-metrics.json'
 import { CdfUtility } from '../fixtures/cdf-utils';
 import debug from 'debug';
 
-test.describe("Verify that the user should be able to add custom metrices under metric section on the visualizer", { tag: "@Smoke @visualizerTableDataCustomMetrics" }, () => {
+test.describe("Verify that the user should be able to add custom metrices under metric section on the visualizer", { tag: "@Smoke @visualizerTableDataCustomMetrics @ibg-service-visualizer @Regression" }, () => {
 
     let demandId;
 

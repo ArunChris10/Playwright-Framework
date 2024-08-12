@@ -4,7 +4,7 @@ import getCurrentDemandForecast from '../testdata/get-demand-scenario-forecast.j
 import filtersData from '../testdata/filterretention.json';
 import { CdfUtility } from "../fixtures/cdf-utils";
 
-test.describe("Verify scenario is archived", { tag: "@Smoke @getDemandScenario" }, () => {
+test.describe("Verify scenario is archived", { tag: "@Smoke @getDemandScenario @ibg-service-scenario-financials @Regression" }, () => {
 
   test.describe.configure({ timeout: 120_000, mode: 'serial' });
   let demandScenario;
@@ -19,7 +19,7 @@ test.describe("Verify scenario is archived", { tag: "@Smoke @getDemandScenario" 
 
 })
 
-test.describe("Verify filters are being retained in demand scenario", { tag: "@Smoke @filterRetention" }, () => {
+test.describe("Verify filters are being retained in demand scenario", { tag: "@Smoke @filterRetention @ibg-service-scenario-financials @Regression" }, () => {
 
     let demandId;
     test.beforeAll(async ({ request }) => { demandId = await CdfUtility.createScenario(request);});

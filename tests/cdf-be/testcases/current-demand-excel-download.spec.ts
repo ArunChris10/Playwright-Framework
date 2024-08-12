@@ -4,7 +4,7 @@ import { CdfUtility } from '../fixtures/cdf-utils';
 import { DemandBaseClass } from '../fixtures/demand-common-utils'
 import debug from 'debug';
 
-test.describe("Verify that the user should be able to download excel from current demand page and verify the data", { tag: "@Smoke @currentDemandExcelDownloadTest" }, () => {
+test.describe("Verify that the user should be able to download excel from current demand page and verify the data", { tag: "@Smoke @currentDemandExcelDownloadTest @ibg-service-scenario-financials @Regression" }, () => {
 
     let currentDemandDataResponseBodySBU, currentDemandDataResponseBodyBaseChannel;
 

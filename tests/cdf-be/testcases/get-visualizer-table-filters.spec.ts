@@ -3,7 +3,7 @@ import { VisualizerUtility } from '../fixtures/visualizer-utils';
 import testdatafile from '../testdata/get-visualizer-table-filters.json';
 import debug from 'debug';
 
-test.describe("Verify user sees options to filter the view based upon dimensions:Channel group,base channel,SBU and Dept", { tag: "@Smoke @getVisualizerTableFilter"}, () => {
+test.describe("Verify user sees options to filter the view based upon dimensions:Channel group,base channel,SBU and Dept", { tag: "@Smoke @getVisualizerTableFilter @ibg-service-scenario-financials @Regression"}, () => {
     let getVisualizerTableFilterDataResponse;
 
     test("Verify user options to filter the view based upon dimensions", async ({ request }) => {

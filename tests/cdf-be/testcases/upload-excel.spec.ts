@@ -3,7 +3,7 @@ import { UploadLayerUtil } from "../fixtures/upload-layer";
 import allocationsData from "../testdata/allocation-layer-data.json";
 import { CdfUtility } from "../fixtures/cdf-utils";
 
-test.describe("Verify ", { tag: "@Smoke @verifyUploadLayer" }, () => {
+test.describe("Verify ", { tag: "@Smoke @verifyUploadLayer @ibg-service-scenario-financials @Regression" }, () => {
   let layerId,
     demandStackId,
     demandScenarioDetails,

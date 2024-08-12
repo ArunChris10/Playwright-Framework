@@ -5,7 +5,7 @@ import { CdfUtility } from '../fixtures/cdf-utils';
 import { DemandBaseClass } from '../fixtures/demand-common-utils'
 import debug from 'debug';
 
-test.describe("Verify that the user should be able to download csv and excel from the visualizer screen and validate the data", { tag: "@visualizerDownloadTest" }, () => {
+test.describe("Verify that the user should be able to download csv and excel from the visualizer screen and validate the data", { tag: "@visualizerDownloadTest @ibg-service-visualizer @Regression" }, () => {
 
     let demandId, visualizerData;
 

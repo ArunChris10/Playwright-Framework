@@ -4,7 +4,7 @@ import { CdfUtility } from '../fixtures/cdf-utils';
 import userData from '../../common/testdata/users.json';
 import debug from 'debug';
 
-test.describe("Verify that when a user is tagged in comment, a notification is sent", { tag: "@Smoke @tagNotification" }, () => {
+test.describe("Verify that when a user is tagged in comment, a notification is sent", { tag: "@Smoke @tagNotification @ibg-service-scenario-financials @Regression" }, () => {
 
     test("Verify that notification is sent", async ({ request }) => {
         let postCommentResponse = await CdfUtility.postComment(request);

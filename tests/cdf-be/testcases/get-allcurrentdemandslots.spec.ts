@@ -4,7 +4,7 @@ import currentDemandSlotTestData from "../testdata/get-currentdemand-scenario-sl
 
 test.describe(
   "Verify user is able to get all current demand forecast on currentdemand page",
-  { tag: "@Smoke @currentDemandSlots" },
+  { tag: "@Smoke @currentDemandSlots @ibg-service-scenario-financials @Regression" },
   () => {
     test.describe.configure({ timeout: 120_000, mode: "serial" });
     let currentDemandScenario;

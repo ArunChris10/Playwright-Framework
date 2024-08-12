@@ -3,7 +3,7 @@ import debug from "debug";
 import { CdfUtility } from "../fixtures/cdf-utils";
 import getCurrentDemandForecast from '../testdata/get-currentdemand-scenario-forecast.json'
 
-test.describe("Verify user is able to get current demand forecast on currentdemand page", { tag: "@Smoke @currentDemand" }, () => {
+test.describe("Verify user is able to get current demand forecast on currentdemand page", { tag: "@Smoke @currentDemand @ibg-service-scenario-financials @Regression" }, () => {
 
   test.describe.configure({ timeout: 120_000, mode: 'serial' });
   let currentDemandScenario;
@@ -16,7 +16,7 @@ test.describe("Verify user is able to get current demand forecast on currentdema
   });
 })
 
-test.describe("Verify user is able to view yOy data", { tag: "@Smoke @currentDemand @forecastYOY" }, () => {
+test.describe("Verify user is able to view yOy data", { tag: "@Smoke @currentDemand @forecastYOY @ibg-service-scenario-financials @Regression" }, () => {
 
   test.describe.configure({ timeout: 120_000, mode: 'serial' });
   let currentDemandScenarioData;

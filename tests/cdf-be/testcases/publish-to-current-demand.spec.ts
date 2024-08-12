@@ -2,7 +2,7 @@ import { expect, test } from '../../common/fixtures/test-hook';
 import { VisualizerUtility } from '../fixtures/visualizer-utils';
 import debug from 'debug';
 
-test.describe("Verify if super user can publish a view to current demand", { tag: "@Smoke @publishToCurrentDemand" }, () => {
+test.describe("Verify if super user can publish a view to current demand", { tag: "@Smoke @publishToCurrentDemand @ibg-service-scenario-financials @Regression" }, () => {
     
     let visualizerSaveDataResponse;
 

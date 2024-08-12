@@ -8,7 +8,7 @@ import { LockUnlockUtility } from '../fixtures/lock-unlock-utils';
 import { CdfUtility } from '../fixtures/cdf-utils';
 import debug from 'debug';
 
-test.describe("Verify user can create/edit/delete an Manual Adjustment layer", { tag: "@Smoke @manualAdjustmentLayer"}, () => {
+test.describe("Verify user can create/edit/delete an Manual Adjustment layer", { tag: "@Smoke @manualAdjustmentLayer @ibg-service-scenario-financials @Regression"}, () => {
     let layerId;
     let demandId;
 

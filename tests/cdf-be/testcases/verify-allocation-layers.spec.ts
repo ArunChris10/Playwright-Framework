@@ -3,7 +3,7 @@ import { AllocationUtils } from "../fixtures/allocation-utils";
 import allocationsData from "../testdata/allocation-layer-data.json";
 import { CdfUtility } from "../fixtures/cdf-utils";
 
-test.describe("Verify ", { tag: "@Smoke @verifyAllocations" }, () => {
+test.describe("Verify ", { tag: "@Smoke @verifyAllocations @ibg-service-scenario-financials @Regression" }, () => {
   let layerId, demandStackId, demandScenarioDetails;
 
   test.beforeAll(async ({ request }) => {

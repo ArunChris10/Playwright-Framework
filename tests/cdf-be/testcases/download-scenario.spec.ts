@@ -4,7 +4,7 @@ import downloadScenarioData from '../testdata/downloadscenario.json';
 import { DemandBaseClass } from '../fixtures/demand-common-utils';
 import { CdfUtility } from "../fixtures/cdf-utils";
 
-test.describe("Verify default unit is GMV while downloaded", { tag: "@Smoke @downloadScenario" }, () => {
+test.describe("Verify default unit is GMV while downloaded", { tag: "@Smoke @downloadScenario @ibg-service-scenario-financials @Regression" }, () => {
 
     let demandId;
     test.beforeAll(async ({ request }) => { demandId = await CdfUtility.createScenario(request);});

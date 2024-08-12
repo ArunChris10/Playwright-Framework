@@ -3,10 +3,13 @@ import debug from "debug";
 import filterScenarioCurrentDemand from '../testdata/filter-retention-current-demand.json'
 import { CdfUtility } from "../fixtures/cdf-utils";
 
-test.describe("Verify user is able to filter scenario", { tag: "@Smoke @filterScenario" }, () => {
+test.describe("Verify user is able to filter scenario", { tag: "@Smoke @filterScenario @ibg-service-scenario-financials @Regression" }, () => {
   let demandIdOne;
   test.describe.configure({ timeout: 120_000, mode: 'serial' });
   let filterScenario;
+
+  test.beforeAll(async ({ request }) => { demandIdOne = await CdfUtility.createScenario(request);});
+  test.afterAll(async ({ request }) => { await CdfUtility.deleteScenario(request, demandIdOne);});
 
   test("Verify the filter retention in current demand page", async ({
     request
