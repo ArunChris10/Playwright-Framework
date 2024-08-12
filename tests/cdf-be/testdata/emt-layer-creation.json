@@ -1,0 +1,41 @@
+{
+    "endpoint": "/api/demandscenarios/stacks/",
+    "payload": {
+        "layers": [
+            {
+                "layerType": "INTEL",
+                "allocationType": "",
+                "allocationAmountTypeEnum": "ABSOLUTE",
+                "forecastVersion": "",
+                "userId": "",
+                "totalBudget": 0,
+                "isConfirmed": true,
+                "isPreview": false,
+                "layerName": "emt name",
+                "layerDescription": "emt description",
+                "yearMonths": [
+                    "2027-05"
+                ],
+                "allocationYearMonths": [
+                    "2027-05"
+                ],
+                "allocationUnitType": "",
+                "allocationSbus": [
+                    {
+                        "name": "CONSUMABLES",
+                        "value": 13000000000000,
+                        "id": 29
+                    }
+                ],
+                "deAllocationSbus": [
+                    {
+                        "name": "FOOD",
+                        "value": -13000000000000,
+                        "id": 27
+                    }
+                ]
+            }
+        ]
+    }
+}
+  
