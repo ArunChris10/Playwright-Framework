@@ -46,20 +46,19 @@ export class CdfUtility {
     const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${CdfUtility.demandScenario}`;
     console.log(endpointURL);
     const scenarioNameAutomation = "Reg - AutoTest - " + Date.now();
-     const scenarioDescriptionAutomation = "Description - " + scenarioNameAutomation;
+    const scenarioDescriptionAutomation = "Description - " + scenarioNameAutomation;
     this.createScenarioPayload = {
       forecastInfoDTO: {
         forecastInfo: {
           id: forecastInfo.id,
-          version: forecastInfo.version,
+          version: forecastInfo.version
         },
       },
       title: scenarioNameAutomation,
       description: scenarioDescriptionAutomation,
-    }
+    };
     const response = await request.post(
         endpointURL,
-  
         { data: this.createScenarioPayload, headers: CdfUtility.headers }
       );
       let responseBody = await response.json();
@@ -177,6 +176,20 @@ export class CdfUtility {
       { data: archiveScenario.archive_scenario_payload, headers: CDFUpdatedHeaders }
     );
     //asserting the response
+    expect(response).toBeOK();
+    let responseBody = await response.json();
+    debug.log(JSON.stringify(responseBody));
+    expect(responseBody.demandStackScenarioId).toEqual(demandId);
+    return responseBody;
+  }
+
+  static async getDssInfo(request, demandId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${baseDSForecast.endpoint}${demandId}`;
+    debug.log(endpointURL);
+    const response = await request.get(endpointURL, {
+      data: this.createScenarioPayload,
+      headers: CdfUtility.headers,
+    });
     expect(response).toBeOK();
     let responseBody = await response.json();
     debug.log(JSON.stringify(responseBody));
