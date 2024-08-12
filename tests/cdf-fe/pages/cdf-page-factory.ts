@@ -6,6 +6,7 @@ import { CurrentDemand } from "./currentdemand.page";
 import { DssPage } from "./dssPage.page";
 import { DemandOutput } from "./demand-output.page";
 import { AdjustmentLayer } from "./adjustment-layer.page";
+import { ManualAdjustmentFlattened } from "./adjustment-flattened.page";
 
 export class CDFPageFactory {
   private readonly page: Page;
@@ -37,5 +38,9 @@ export class CDFPageFactory {
   }
   adjustmentLayer() {
     return new AdjustmentLayer(this.page);
+  }
+
+  flattenedManualAdjustmentLayer() {
+    return new ManualAdjustmentFlattened(this.page);
   }
 }
