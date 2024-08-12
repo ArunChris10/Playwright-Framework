@@ -1,0 +1,47 @@
+{
+  "payloadForGetDemandScenarioForecastAur": {
+    "sbu": ["FOOD"],
+    "sbuIds": [27],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": ["DSV_S2H"],
+    "baseChannelIds": [22],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": ["layerId"],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": false,
+    "organizationalLevel": "DEPARTMENT",
+    "loadHeirarchyParams": {
+      "baseChannel": ["DSV_S2H"],
+      "baseChannelIds": [22],
+      "sbu": ["FOOD"],
+      "sbuIds": [27],
+      "organizationalLevel": "DEPARTMENT"
+    },
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": true,
+      "isMonthSelected": true,
+      "isQuarterSelected": false,
+      "yearMonths": ["202705"],
+      "yearQuarters": [],
+      "years": ["2027"],
+      "yearList": ["FY 2027"]
+    },
+    "metricUnit": "gmv",
+    "version": "forecastVersion",
+    "forceRefresh": false,
+    "filtersChanged": true,
+    "departmentName": [],
+    "filterLoadComplete": true,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
+  },
+  "positionOfImpactOfGMV": "C9",
+  "candyAurValueToBeUpdated": 200,
+  "impactOfGMVForUnitsConstant": "Keep Units Constant",
+  "impactOfGMVForGMVConstant": "Keep GMV Constant"
+}
