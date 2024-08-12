@@ -3,6 +3,7 @@ import allocationsData from "../testdata/allocation-layer-data.json";
 import { expect } from "@playwright/test";
 import { DemandBaseClass } from "./demand-common-utils";
 import commonEndpoints from "../testdata/common-demand-endpoints.json";
+import highlighterlayer from "../testdata/highlighter-layer-allocation-data.json";
 import allocationLayer from '../testdata/allocation-layer.json'
 
 export class AllocationUtils extends DemandBaseClass {
@@ -230,6 +231,32 @@ export class AllocationUtils extends DemandBaseClass {
       (forecast) => forecast.year === year && forecast.month === month
     );
     return Math.abs(totalForecasts[0].amount - initialAmount);
+  }
+
+  static async allocationdeallocation(request, demandStackId, demandScenarioDetails){
+    const endpointURL = `${process.env.apiBaseURLCDF}${allocationsData.demandStacksEndpoint}${demandStackId}`;
+    const payload = {
+      layers: [
+        {
+          layerType: "HIGHLIGHTER",
+          forecastVersion:
+            demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version,
+          isConfirmed: true,
+          layerName: allocationsData.layerName,
+          layerDescription: allocationsData.layerName,
+          allocationType: "DOLLAR",
+          isPreview: false,
+          highlighterAllocationsList: [highlighterlayer]
+        },
+      ],
+    };
+    this.headers["Connection"] = "keep-alive";
+    const response = await request.put(endpointURL, {
+      data: payload,
+      headers: this.headers,
+    });
+    console.log(await response.json());
+    return await response.json();
   }
 
   static async getDemandScenarioStack(request, demandStackId) {

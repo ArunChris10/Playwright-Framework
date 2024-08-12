@@ -133,7 +133,8 @@ export class UploadLayerUtil extends DemandBaseClass {
       headers: this.headers,
     });
     return await response.json();
-  }
+}
+  
 
   static getFilteredForecastData(expectedResponse, forecastData, yearMonth) {
     expectedResponse[yearMonth] = [];
