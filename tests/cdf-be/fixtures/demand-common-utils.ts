@@ -163,7 +163,7 @@ export class DemandBaseClass {
       demandChannel: [],
       layerIds: layerIds,
       clearAll: false,
-      includeDerivedMetrics: false,
+      includeDerivedMetrics: true,
       includeTotals: true,
       organizationalLevel: organizationalLevel,
       loadHeirarchyParams: null,
@@ -199,7 +199,8 @@ export class DemandBaseClass {
     departments = [],
     departmentIds = [],
     channelGroups = [],
-    channelGroupIds = []
+    channelGroupIds = [],
+    yearMonths = []
   ) {
     const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.getDemandScenarioForecastEndpoint}${demandStackId}`;
     let payload = this.makeDemandScenarioForecastPayload(
@@ -214,7 +215,8 @@ export class DemandBaseClass {
       departments,
       departmentIds,
       channelGroups,
-      channelGroupIds
+      channelGroupIds,
+      yearMonths,
     )
     payload = {
       ...payload,
