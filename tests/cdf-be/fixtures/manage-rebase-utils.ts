@@ -1,5 +1,6 @@
 import debug from "debug";
 import testDataForManage from '../testdata/manage-rebase.json';
+import { expect } from "@playwright/test";
 
 export class ManageRebaseUtility {
 

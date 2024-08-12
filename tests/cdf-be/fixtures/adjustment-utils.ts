@@ -2,10 +2,11 @@ import debug from "debug";
 import { DemandBaseClass } from "./demand-common-utils";
 import adjustmentData from "../testdata/adjustment-layer-data.json";
 import commonEndpoints from "../testdata/common-demand-endpoints.json";
+import testDataForManage from '../testdata/manage-rebase.json';
+import { expect } from "@playwright/test";
 import allocationsData from "../testdata/allocation-layer-data.json";
 import emtLayerUnitData from "../testdata/emt-layer-unit-data.json";
 import emtLayerData from "../testdata/emt-layer-data.json";
-import testDataForManage from '../testdata/manage-rebase.json';
 
 export class AdjustmentUtility extends DemandBaseClass {
     static async createEMTLayer(request, demandId, testdatafileCreateEMT) {
@@ -250,6 +251,25 @@ export class AdjustmentUtility extends DemandBaseClass {
     return await response.json();
   }
 
+  static async editTitileDescriptionAdjustment(request, demandId, forecastVersion, title) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${testDataForManage.endpointForUpdateDemandScenarioBaseForecast}`;
+    console.log("Endpoint URL for switchBaseDSResponse: ", endpointURL);
+
+    testDataForManage.payloadForUpdateDemandScenarioBaseForecast.demandStackId = demandId;
+    testDataForManage.payloadForUpdateDemandScenarioBaseForecast.forecastVersion = forecastVersion;
+    testDataForManage.payloadForUpdateDemandScenarioBaseForecast.demandStackDesc = "test-description";
+    testDataForManage.payloadForUpdateDemandScenarioBaseForecast.demandStackName = title;
+    // API Request
+    const response = await request.put(
+        endpointURL,
+        {
+            data: testDataForManage.payloadForUpdateDemandScenarioBaseForecast,
+            headers: this.headers
+        }
+    )
+    expect(response).toBeOK();
+    return await response.json();
+}
   static async emtLayerAdjustment(request, demandStackId, demandScenarioDetails, allocationType, layername){
     // emtlayercreation endpoint
     const endpointURL = `${process.env.apiBaseURLCDF}${allocationsData.demandStacksEndpoint}${demandStackId}`;
