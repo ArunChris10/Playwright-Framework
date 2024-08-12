@@ -232,6 +232,15 @@ export class AllocationUtils extends DemandBaseClass {
     return Math.abs(totalForecasts[0].amount - initialAmount);
   }
 
+  static async getDemandScenarioStack(request, demandStackId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${allocationsData.demandStacksEndpoint}${demandStackId}`;
+    // API Request
+    const response = await request.get(endpointURL, {
+      headers: this.headers,
+    });
+    debug.log(response);
+    return await response.json();
+  }
   static async getDemandSplitsData(request, demandScenarioID, type,forecastVersion){
     const endpointURL = `${process.env.apiBaseURLCDF}${allocationLayer[type].baseURL}`;
     console.log("getDemandSplitsData: " + endpointURL);

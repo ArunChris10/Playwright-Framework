@@ -2,6 +2,9 @@ import debug from "debug";
 import { DemandBaseClass } from "./demand-common-utils";
 import adjustmentData from "../testdata/adjustment-layer-data.json";
 import commonEndpoints from "../testdata/common-demand-endpoints.json";
+import allocationsData from "../testdata/allocation-layer-data.json";
+import emtLayerData from "../testdata/emt-layer-data.json";
+import testDataForManage from '../testdata/manage-rebase.json';
 
 export class AdjustmentUtility extends DemandBaseClass {
     static async createEMTLayer(request, demandId, testdatafileCreateEMT) {
@@ -243,6 +246,21 @@ export class AdjustmentUtility extends DemandBaseClass {
       headers: this.headers,
     });
     debug.log(response);
+    return await response.json();
+  }
+
+  static async emtLayerAdjustment(request, demandStackId, demandScenarioDetails, allocationType, layername){
+    // emtlayercreation endpoint
+    const endpointURL = `${process.env.apiBaseURLCDF}${allocationsData.demandStacksEndpoint}${demandStackId}`;
+    const payload = emtLayerData;
+    payload.layers[0].allocationType = allocationType;
+    payload.layers[0].forecastVersion = demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version;
+    payload.layers[0].layerName = layername
+    this.headers["Connection"] = "keep-alive";
+    const response = await request.put(endpointURL, {
+      data: payload,
+      headers: this.headers,
+    });
     return await response.json();
   }
 }

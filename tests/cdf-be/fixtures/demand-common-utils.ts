@@ -3,6 +3,9 @@ import scenario from "../testdata/scenario.json";
 import * as path from 'path';
 import * as fs from 'fs';
 import * as xlsx from 'xlsx'
+import allocationsData from "../testdata/allocation-layer-data.json";
+import emtLayerData from "../testdata/emt-layer-data.json";
+import testDataForManage from '../testdata/manage-rebase.json';
 import commonEndpoints from "../testdata/common-demand-endpoints.json";
 
 export class DemandBaseClass {
