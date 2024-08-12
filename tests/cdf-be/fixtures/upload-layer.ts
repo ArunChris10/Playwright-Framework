@@ -153,6 +153,7 @@ export class UploadLayerUtil extends DemandBaseClass {
     demandScenarioDetails,
     fileName,
     metric = "GMV Shipped",
+    organizationalLevel,
     baseChannels = [],
     baseChannelIds = [],
     sbuNames = [],
@@ -167,7 +168,7 @@ export class UploadLayerUtil extends DemandBaseClass {
     let payload = this.makeDemandScenarioForecastPayload(
       demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version,
       "MONTH",
-      "SBU",
+      organizationalLevel,
       demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.forecastLayerId,
       baseChannels,
       baseChannelIds,
@@ -185,6 +186,7 @@ export class UploadLayerUtil extends DemandBaseClass {
       metricType: metric,
     };
     // API Request
+    this.headers["Connection"] = "keep-alive";
     const response = await request.post(endpointURL, {
       data: payload,
       headers: this.headers,

@@ -31,7 +31,7 @@ test.describe(
       demandScenarioDetails.forecastInfoDTO.forecastInfo.forecastLayerId = [];
     });
 
-    test("Verify: Excel download and verify start year for gmv YoY mertic", async ({
+    test("Verify: Excel download and verify start year for gmv YoY mertic SBU View", async ({
       request,
     }) => {
       const downloadResponse = await UploadLayerUtil.downloadExcelandReturnData(
@@ -39,7 +39,8 @@ test.describe(
         demandStackId,
         demandScenarioDetails,
         fileName,
-        "GMV YoY Growth %"
+        "GMV YoY Growth %",
+        "SBU"
       );
       for (const [cellId, cellObj] of Object.entries(downloadResponse)) {
         if (parseInt(cellId.match(/\d+$/)) === 8) {
@@ -48,7 +49,7 @@ test.describe(
       }
     });
 
-    test("Verify: Excel download and verify start year for scanned units YoY mertic", async ({
+    test("Verify: Excel download and verify start year for scanned units YoY mertic SBU View", async ({
       request,
     }) => {
       const downloadResponse = await UploadLayerUtil.downloadExcelandReturnData(
@@ -56,7 +57,8 @@ test.describe(
         demandStackId,
         demandScenarioDetails,
         fileName,
-        "Scanned Units YoY Growth %"
+        "Scanned Units YoY Growth %",
+        "SBU"
       );
       for (const [cellId, cellObj] of Object.entries(downloadResponse)) {
         if (parseInt(cellId.match(/\d+$/)) === 8) {
@@ -65,7 +67,7 @@ test.describe(
       }
     });
 
-    test("Verify: Excel download and verify start year for aur YoY mertic", async ({
+    test("Verify: Excel download and verify start year for aur YoY mertic SBU View", async ({
       request,
     }) => {
       const downloadResponse = await UploadLayerUtil.downloadExcelandReturnData(
@@ -73,7 +75,8 @@ test.describe(
         demandStackId,
         demandScenarioDetails,
         fileName,
-        "AUR YoY Growth %"
+        "AUR YoY Growth %",
+        "SBU"
       );
       for (const [cellId, cellObj] of Object.entries(downloadResponse)) {
         if (parseInt(cellId.match(/\d+$/)) === 8) {
@@ -82,7 +85,7 @@ test.describe(
       }
     });
 
-    test("Verify: Excel download and verify start year for uom YoY mertic", async ({
+    test("Verify: Excel download and verify start year for uom YoY mertic SBU View", async ({
       request,
     }) => {
       const downloadResponse = await UploadLayerUtil.downloadExcelandReturnData(
@@ -90,7 +93,8 @@ test.describe(
         demandStackId,
         demandScenarioDetails,
         fileName,
-        "UOM YoY Growth %"
+        "UOM YoY Growth %",
+        "SBU"
       );
       for (const [cellId, cellObj] of Object.entries(downloadResponse)) {
         if (parseInt(cellId.match(/\d+$/)) === 8) {
@@ -98,6 +102,79 @@ test.describe(
         }
       }
     });
+
+    test("Verify: Excel download and verify start year for gmv YoY mertic Channel View", async ({
+      request,
+    }) => {
+      const downloadResponse = await UploadLayerUtil.downloadExcelandReturnData(
+        request,
+        demandStackId,
+        demandScenarioDetails,
+        fileName,
+        "GMV YoY Growth %",
+        "BASE_CHANNEL"
+      );
+      for (const [cellId, cellObj] of Object.entries(downloadResponse)) {
+        if (parseInt(cellId.match(/\d+$/)) === 8) {
+          expect(cellObj.v.includes(String(startDate))).toBeFalsy();
+        }
+      }
+    });
+
+    test("Verify: Excel download and verify start year for scanned units YoY mertic Channel View", async ({
+      request,
+    }) => {
+      const downloadResponse = await UploadLayerUtil.downloadExcelandReturnData(
+        request,
+        demandStackId,
+        demandScenarioDetails,
+        fileName,
+        "Scanned Units YoY Growth %",
+        "BASE_CHANNEL"
+      );
+      for (const [cellId, cellObj] of Object.entries(downloadResponse)) {
+        if (parseInt(cellId.match(/\d+$/)) === 8) {
+          expect(cellObj.v.includes(String(startDate))).toBeFalsy();
+        }
+      }
+    });
+
+    test("Verify: Excel download and verify start year for aur YoY mertic Channel View", async ({
+      request,
+    }) => {
+      const downloadResponse = await UploadLayerUtil.downloadExcelandReturnData(
+        request,
+        demandStackId,
+        demandScenarioDetails,
+        fileName,
+        "AUR YoY Growth %",
+        "BASE_CHANNEL"
+      );
+      for (const [cellId, cellObj] of Object.entries(downloadResponse)) {
+        if (parseInt(cellId.match(/\d+$/)) === 8) {
+          expect(cellObj.v.includes(String(startDate))).toBeFalsy();
+        }
+      }
+    });
+
+    test("Verify: Excel download and verify start year for uom YoY mertic Channel View", async ({
+      request,
+    }) => {
+      const downloadResponse = await UploadLayerUtil.downloadExcelandReturnData(
+        request,
+        demandStackId,
+        demandScenarioDetails,
+        fileName,
+        "UOM YoY Growth %",
+        "BASE_CHANNEL"
+      );
+      for (const [cellId, cellObj] of Object.entries(downloadResponse)) {
+        if (parseInt(cellId.match(/\d+$/)) === 8) {
+          expect(cellObj.v.includes(String(startDate))).toBeFalsy();
+        }
+      }
+    });
+    
 
     test.afterAll(async ({ request }) => {
       await CdfUtility.deleteScenario(request, demandStackId);
