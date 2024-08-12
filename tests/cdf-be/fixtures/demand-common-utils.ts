@@ -7,6 +7,9 @@ import allocationsData from "../testdata/allocation-layer-data.json";
 import emtLayerData from "../testdata/emt-layer-data.json";
 import testDataForManage from '../testdata/manage-rebase.json';
 import commonEndpoints from "../testdata/common-demand-endpoints.json";
+import allocationsData from "../testdata/allocation-layer-data.json";
+import updateDemandStacksData from "../testdata/update-demand-stack.json"
+import getdemandforecaseData from "../testdata/demand-scenario-forecast.json"
 
 export class DemandBaseClass {
   static headers = {
@@ -139,6 +142,34 @@ export class DemandBaseClass {
     return xlsx.utils.sheet_to_json(sheet);
   }
 
+  static async getdemandStackForecast(
+    request,
+    demandStackId,
+    demandScenarioDetails,
+    filterLevel, 
+    layerIds,
+    organizationalLevel,
+    loadHeirarchyParams
+  ) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.getDemandScenarioForecastEndpoint}${demandStackId}`;
+    const payload = getdemandforecaseData;
+    payload.version =  demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version;
+    payload.timeFilter.filterLevel = filterLevel;
+    payload.layerIds = layerIds;
+    if (organizationalLevel != null){
+      payload.organizationalLevel = organizationalLevel;
+    }
+    if(loadHeirarchyParams!=null){
+    payload.loadHeirarchyParams = loadHeirarchyParams;
+    }
+    // API Request
+    const response = await request.post(endpointURL, {
+      data: payload,
+      headers: this.headers,
+    });
+    return await response.json();
+  }
+
   static makeDemandScenarioForecastPayload(
     forecastVersion,
     filterLevel,
@@ -231,7 +262,6 @@ export class DemandBaseClass {
       data: payload,
       headers: this.headers,
     });
-    debug.log(response);
     return await response.json();
   }
 

@@ -1,0 +1,60 @@
+{
+    "endpoint": "/api/demandscenarios/stacks/",
+    "payload": { "layers": [
+      {
+        "layerType": "HIGHLIGHTER",
+        "allocationType": "DOLLAR",
+        "layerDescription": "testing",
+        "layerName": "manaul-testing",
+        "forecastVersion": "",
+        "isConfirmed": true,
+        "isPreview": false,
+        "highlighterAllocationsList": [
+          {
+            "channels": [
+              "DSV_S2H"
+            ],
+            "amount": 10000000,
+            "year": "2025",
+            "departments": [
+              "CANDY",
+              "SERVICE DELI",
+              "COM BREAD",
+              "IMPULSE MERCHANDISE",
+              "SEAFOOD",
+              "BALLOONS & FLOWERS",
+              "DAIRY",
+              "FROZEN",
+              "GROCERY",
+              "MEAT",
+              "PRODUCE",
+              "DSD GROCERY",
+              "LIQUOR",
+              "WALL DELI",
+              "BAKERY"
+            ],
+            "departmentIds": [
+              1,
+              80,
+              81,
+              82,
+              83,
+              84,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98
+            ],
+            "channelIds": [
+              22
+            ]
+          }
+        ]
+      }
+    ]
+  }}

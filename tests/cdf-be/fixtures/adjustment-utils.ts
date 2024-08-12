@@ -3,6 +3,7 @@ import { DemandBaseClass } from "./demand-common-utils";
 import adjustmentData from "../testdata/adjustment-layer-data.json";
 import commonEndpoints from "../testdata/common-demand-endpoints.json";
 import allocationsData from "../testdata/allocation-layer-data.json";
+import emtLayerUnitData from "../testdata/emt-layer-unit-data.json";
 import emtLayerData from "../testdata/emt-layer-data.json";
 import testDataForManage from '../testdata/manage-rebase.json';
 
@@ -263,4 +264,5 @@ export class AdjustmentUtility extends DemandBaseClass {
     });
     return await response.json();
   }
+
 }

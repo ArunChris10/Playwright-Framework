@@ -1,0 +1,108 @@
+import { test } from "../../common/fixtures/test-hook";
+import { CdfUtility } from "../fixtures/cdf-utils";
+import { expect } from '../../common/fixtures/test-hook';
+import { UploadLayerUtil } from "../fixtures/upload-layer";
+import { DemandBaseClass } from "../fixtures/demand-common-utils";
+import { AdjustmentUtility } from "../fixtures/adjustment-utils";
+import updateDemandStacksData from "../testdata/update-demand-stack.json"
+
+
+
+test.describe("Verify if adding all type of adjustment layer for Scanned Units data automatically updates the GMV shipped data and other derived metrics",
+ { tag: "@Regression @scannedunitallocation @ibg-service-scenario-financials @Allocation Layer" }, () => {
+    let demandStackId,
+    demandScenarioDetails;
+
+  test.beforeAll(async ({ request }) => {
+    demandStackId = await CdfUtility.createScenario(request);
+    demandScenarioDetails = await UploadLayerUtil.getDemandStackDetails(
+      request,
+      demandStackId
+    );
+  });
+
+  test.afterAll(async ({ request }) => { await CdfUtility.deleteScenario(request, demandStackId); });
+
+  test("Verify if adding all type of adjustment layer for Scanned Units data automatically updates the GMV shipped data and other derived metrics", async ({
+    request
+  }) => {
+    await test.step("Verify if adding emt layer for Scanned Units data automatically updates the GMV shipped data and other derived metrics ", async () => {
+      let getdemandforecastbeforeAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", []);  
+      await DemandBaseClass.lockUnlockDemandScenario(request, "lock", demandStackId);
+      let emtLayerResponseGmv = await AdjustmentUtility.emtLayerAdjustment(request, demandStackId, demandScenarioDetails, "UNIT", "SCANNED-UNIT-TEST");
+      let layerId = emtLayerResponseGmv[0].layerId;
+      let getdemandforecastAfterAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [layerId]);
+      let yearValue, postYearValue, yearAmount, postYearAmount;
+      yearValue = getdemandforecastbeforeAdjustmentYear.yearlyForecast[0].forecast; 
+      postYearValue = getdemandforecastAfterAdjustmentYear.yearlyForecast[0].forecast;
+      for(let i=0;i<yearValue.length;i++){
+        if (yearValue[i].year == "2025"){
+            yearAmount = yearValue[i].amount;
+            break;
+        }
+      }   
+      for(let i=0;i<postYearValue.length;i++){
+        if (postYearValue[i].year == "2025"){
+            postYearAmount = postYearValue[i].amount;
+            break;
+        }
+      }    
+      expect(yearAmount).not.toBe(postYearAmount); 
+  })
+
+  await test.step("Verify if adding manual layer for Scanned Units data automatically updates the GMV shipped data and other derived metrics ", async () => {
+    let getdemandforecastbeforeAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", []);  
+    await DemandBaseClass.lockUnlockDemandScenario(request, "lock", demandStackId);
+    updateDemandStacksData.payload.layers[0].forecastVersion = demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version;
+    let manualadjustment = await AdjustmentUtility.createManualAdjustmentLayer(request, demandStackId, updateDemandStacksData);
+    let manualadjustmentresponse = await manualadjustment.json();
+    let layerId = manualadjustmentresponse[0].layerId;
+    let getdemandforecastAfterAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [layerId]);
+    let yearValue, postYearValue, yearAmount, postYearAmount;
+    yearValue = getdemandforecastbeforeAdjustmentYear.yearlyForecast[0].forecast; 
+    postYearValue = getdemandforecastAfterAdjustmentYear.yearlyForecast[0].forecast;
+    for(let i=0;i<yearValue.length;i++){
+      if (yearValue[i].year == "2025"){
+          yearAmount = yearValue[i].amount;
+          break;
+      }
+    }   
+    for(let i=0;i<postYearValue.length;i++){
+      if (postYearValue[i].year == "2025"){
+          postYearAmount = postYearValue[i].amount;
+          break;
+      }
+    }    
+    expect(yearAmount).not.toBe(postYearAmount); 
+})
+
+await test.step("Verify if uploading file for Scanned Units data automatically updates the GMV shipped data and other derived metrics ", async () => {
+    let getdemandforecastbeforeAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", []);  
+    await DemandBaseClass.lockUnlockDemandScenario(request, "lock", demandStackId);
+    const response = await UploadLayerUtil.verifyUploadExcel(
+        request,
+        demandStackId,
+        demandScenarioDetails
+      );
+    let layerId = response[0].layerId;
+    let getdemandforecastAfterAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [layerId]);
+    let yearValue, postYearValue, yearAmount, postYearAmount;
+    yearValue = getdemandforecastbeforeAdjustmentYear.yearlyForecast[0].forecast; 
+    postYearValue = getdemandforecastAfterAdjustmentYear.yearlyForecast[0].forecast;
+    for(let i=0;i<yearValue.length;i++){
+      if (yearValue[i].year == "2025"){
+          yearAmount = yearValue[i].amount;
+          break;
+      }
+    }   
+    for(let i=0;i<postYearValue.length;i++){
+      if (postYearValue[i].year == "2025"){
+          postYearAmount = postYearValue[i].amount;
+          break;
+      }
+    }    
+    expect(yearAmount).not.toBe(postYearAmount); 
+})   
+
+  });
+})
