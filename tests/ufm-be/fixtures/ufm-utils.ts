@@ -82,7 +82,9 @@ export class UfmUtility {
   // This method will create the forecast and assert the response
   static async createForecast(lobName, request) {
     //Making the get call to create forecast
+    console.log(`Creating Scenario for ${lobName}`);
     const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}`;
+    console.log(endpointURL);
     debug.log(endpointURL);
     let payload = {
       type: commonData.type,
@@ -110,8 +112,14 @@ export class UfmUtility {
     expect
       .soft(responseBody.message)
       .toEqual(forecastData.createSuccessMessage);
-    debug.log("Forecast is created  : ", responseBody.scenario.scenario_id);
-    console.log("Forecast is created  : ", responseBody.scenario.scenario_id);
+    debug.log(
+      `Forecast is created for ${lobName}  : `,
+      responseBody.scenario.scenario_id
+    );
+    console.log(
+      `Forecast is created for ${lobName}  : `,
+      responseBody.scenario.scenario_id
+    );
 
     //returning the scenario Id of the created forecast
     return responseBody.scenario.scenario_id;
@@ -120,6 +128,8 @@ export class UfmUtility {
   // This method will get all the current forecast for BA and assert the response
   static async getCurrentForecastList(lobName, request) {
     //Making the get call to create forecast
+    console.log(`Getting current forecast list for lob : ${lobName}`);
+    debug.log(`Getting current forecast list for lob : ${lobName}`);
     const endpointURL = `${process.env.apiBaseURLUFM}${commonData.endpoint}`;
     debug.log(endpointURL);
     const response = await request.post(endpointURL, {
@@ -195,6 +205,12 @@ export class UfmUtility {
     let forecastDeleted = await Utility.assertAndLog(response);
     debug.log("Forecast is deleted  : ", forecastDeleted);
     console.log("Forecast is deleted  : ", forecastDeleted);
+    let message = forecastData.deleteMessage.replace(
+      "scenario_id",
+      scenario_id
+    );
+    expect(forecastDeleted.message).toEqual(message);
+    debug.log(JSON.stringify(forecastDeleted));
     return forecastDeleted;
   }
 
@@ -220,6 +236,8 @@ export class UfmUtility {
   //Technically screen is BA screen or Segment finance screen
   static async getProgresstracker(screen, request) {
     let template_id, dim_id;
+    console.log(`Getting progress tracker for screen : ${screen}`);
+    debug.log(`Getting progress tracker for screen : ${screen}`);
     if (screen == "Segment_Finance") {
       template_id = commonData.Segment_Finance.template_id;
       dim_id = commonData.Segment_Finance.dim_id;
@@ -242,6 +260,8 @@ export class UfmUtility {
 
   //This method will give details of BA from canned report screen
   static async getIndividualstatus(orgName, request) {
+    console.log(`Getting Individual status for org : ${orgName}`);
+    debug.log(`Getting Individual status for org : ${orgName}`);
     const endpointURL = `${process.env.apiBaseURLUFM}${commonData.individual_status_endpoint}`;
     const response = await request.post(endpointURL, {
       data: {
@@ -257,8 +277,9 @@ export class UfmUtility {
   //This method will give you the scenario version if you pass the scenario id and current forecast list
   static async getScenarioVersion(forecast_list, scenario_id) {
     let scenario_version;
+    console.log(`Getting Scenario version`);
     for (let i = 0; i < forecast_list.length; i++) {
-      console.log(forecast_list[i]);
+      //console.log(forecast_list[i]);
       if (forecast_list[i].scenarioId == scenario_id) {
         console.log(`Scenario Version: ${forecast_list[i].scenarioVersion}`);
         scenario_version = forecast_list[i].scenarioVersion;
@@ -277,24 +298,27 @@ export class UfmUtility {
     dim_val_id,
     request
   ) {
+    console.log(`Sending scenario id : ${scenario_id} to status : ${status}`);
+    debug.log(`Sending scenario id : ${scenario_id} to status : ${status}`);
+    console.log(scenario_id, scenario_version, status, dim_id, dim_val_id);
     const endpointURL = `${process.env.apiBaseURLUFM}${commonData.review_endpoint}`;
     debug.log(endpointURL);
+    console.log(endpointURL);
 
     const queryParams = {
       scenario_id: scenario_id,
       scenario_version: scenario_version,
       status: status,
     };
-    const response = await request.post(endpointURL, {
+    const response = await request.put(endpointURL, {
       params: queryParams,
       data: {
         dim_id: dim_id,
         dim_val_id: dim_val_id,
       },
     });
-    expect(response).toBeOK();
-    expect(response).toEqual(commonData.sendToReviewSuccessful);
-    //asserting the response
-    await Utility.assertAndLog(response);
+    //asserting the responseawait expect(response).toBeOK();
+    let responseBody = await Utility.assertAndLog(response);
+    await expect(responseBody).toEqual(commonData.sendToReviewSuccessful);
   }
 }

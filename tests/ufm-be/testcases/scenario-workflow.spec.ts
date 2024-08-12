@@ -2,77 +2,87 @@ import { test } from "../../common/fixtures/test-hook";
 import { UfmUtility } from "../fixtures/ufm-utils";
 import commonData from "../testdata/common.json";
 
+let lobName: string;
+let response;
 let orgName = [
-  // "BA_Merch",
-  // "H&W",
-  // "CUSTOMER & REVENUE",
-  // "BA_Operations",
-  // "Supply Chain",
-  // "BA_Segment",
+  "BA_Merch",
+  "H&W",
+  "CUSTOMER & REVENUE",
+  "BA_Operations",
+  "Supply Chain",
+  "BA_Segment",
   "BA_Ecomm",
 ];
-let lobName: string;
 
-orgName.forEach((orgName) => {
+for (let i = 0; i < orgName.length; i++) {
   test.describe(
-    `Submit ${orgName} BAs to Segment Review`,
+    `Submit ${orgName[i]} BAs to Segment Review`,
     { tag: "@sendtoreview" },
     async () => {
-      test.describe.configure({ timeout: 600_000, mode: "serial" });
-      let scenario_id, scenario_version, response;
+      test.describe.configure({ timeout: 600_000_000, mode: "serial" });
+      let scenario_id, scenario_version;
 
-      test(`Send ${orgName} to BA review`, async ({ request }) => {
-        console.log(`Get scenario progress tracker`);
+      test(`Get scenario tracker for ${orgName[i]} BA `, async ({
+        request,
+      }) => {
+        response = await UfmUtility.getProgresstracker(orgName[i], request);
+      });
 
-        await test.step(`Get scenario and send to BA review if not already`, async () => {
-          response = await UfmUtility.getProgresstracker(orgName, request);
+      test(`Send ${orgName[i]} to BA review`, async ({ request }) => {
+        console.log(response.rowData.length);
+        for (let j = 0; j < response.rowData.length; j++) {
+          let dim_val_id = response.rowData[j].lineOfBusiness;
+          lobName = commonData[dim_val_id];
+          lobName = lobName.toLowerCase();
+          console.log(lobName);
+          //checking if status is Not started or draft , then creating forecast
+          if (
+            response.rowData[j].forecastStatus != commonData.Segment_Review &&
+            response.rowData[j].forecastStatus != commonData.BA_Review
+          ) {
+            // console.log("inside if");
 
-          response.rowData.forEach((rowData) => {
-            //checking if status is Not started or draft , then creating forecast
-            console.log("inside for each");
-            if (rowData.forecastStatus != 22 && rowData.forecastStatus != 23) {
-              console.log("inside if");
-              let dim_val_id = rowData.lineOfBusiness;
-              lobName = commonData[dim_val_id];
-              lobName = lobName.toLowerCase();
-              scenario_id = UfmUtility.createForecast(lobName, request);
+            scenario_id = await UfmUtility.createForecast(lobName, request);
 
-              let currentForecastList = UfmUtility.getCurrentForecastList(
-                lobName,
-                request
-              );
-              scenario_version = UfmUtility.getScenarioVersion(
-                currentForecastList,
-                scenario_id
-              );
-              UfmUtility.sendToReview(
-                scenario_id,
-                scenario_version,
-                commonData.BA_Review,
-                commonData.lob_dim_id,
-                commonData[lobName].dim_val_id,
-                request
-              );
-              console.log(`Sent ${lobName} to BA Review`);
-            }
-          });
-        });
-
-        await test.step(`Send BA ${orgName} to Segment review  `, async () => {
-          let response = await UfmUtility.getIndividualstatus(orgName, request);
-          if (response.forecastStatus == 22) {
-            await UfmUtility.sendToReview(
-              response.scenario_id,
-              response.scenario_version,
-              commonData.Segment_Review,
-              commonData.ba_dim_id,
-              commonData[orgName].dim_val_id,
+            let currentForecastList = await UfmUtility.getCurrentForecastList(
+              lobName,
               request
             );
-            console.log(`Sent to Segment Review - ${orgName}`);
+            scenario_version = await UfmUtility.getScenarioVersion(
+              currentForecastList,
+              scenario_id
+            );
+
+            //Sending created forecast to BA review
+            await UfmUtility.sendToReview(
+              scenario_id,
+              scenario_version,
+              commonData.BA_Review,
+              commonData.lob_dim_id,
+              commonData[lobName].dim_val_id,
+              request
+            );
+            console.log(`Sent ${lobName} to BA Review`);
           }
-        });
+        }
+      });
+
+      //Sending To Segment review
+      test(`Send BA ${orgName[i]} to Segment review  `, async ({ request }) => {
+        response = await UfmUtility.getIndividualstatus(orgName[i], request);
+        if (response.forecastStatus == commonData.BA_Review) {
+          let org = await orgName[i];
+          await UfmUtility.sendToReview(
+            response.scenarioId,
+            response.scenarioVersion,
+            commonData.Segment_Review,
+            commonData.ba_dim_id,
+            commonData[org].dim_val_id,
+            request
+          );
+          console.log(`Sent ${orgName[i]} to Segment Review`);
+        }
       });
     }
   );
-});
+}

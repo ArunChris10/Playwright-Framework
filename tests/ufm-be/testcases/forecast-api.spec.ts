@@ -59,20 +59,13 @@ test.describe(
 
         console.log(scenario_version);
         debug.log(scenario_version);
-        let forecastDeleted = await UfmUtility.deleteForecast(
+        await UfmUtility.deleteForecast(
           scenario_id,
           scenario_version,
           dimId,
           dimValId,
           request
         );
-
-        let message = forecastData.deleteMessage.replace(
-          "scenario_id",
-          scenario_id
-        );
-        expect(forecastDeleted.message).toEqual(message);
-        debug.log(JSON.stringify(forecastDeleted));
       });
     });
   }
