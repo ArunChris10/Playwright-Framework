@@ -7,7 +7,6 @@ import allocationsData from "../testdata/allocation-layer-data.json";
 import emtLayerData from "../testdata/emt-layer-data.json";
 import testDataForManage from '../testdata/manage-rebase.json';
 import commonEndpoints from "../testdata/common-demand-endpoints.json";
-import allocationsData from "../testdata/allocation-layer-data.json";
 import updateDemandStacksData from "../testdata/update-demand-stack.json"
 import getdemandforecaseData from "../testdata/demand-scenario-forecast.json"
 
@@ -142,6 +141,17 @@ export class DemandBaseClass {
     return xlsx.utils.sheet_to_json(sheet);
   }
 
+  static async getDemandScenarioStackWithQueryParams(request, demandStackId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${allocationsData.demandStacksEndpoint}${demandStackId}${allocationsData.getdemandStacksQueryParam}`;
+    // API Request
+    const response = await request.get(endpointURL, {
+      headers: this.headers,
+    });
+    debug.log(response);
+    return await response.json();
+  }
+  
+  
   static async getdemandStackForecast(
     request,
     demandStackId,

@@ -6,6 +6,7 @@
   "differenceAmount": 100,
   "filterLevel": "MONTH",
   "demandStacksEndpoint": "/api/demandscenarios/stacks/",
+  "getdemandStacksQueryParam": "?layerType=CHANNEL_SPLIT",
   "getLayerDataEndpoint": "/api/layers/",
   "layerName": "test automation",
   "uploadExcelLayerForecastAmount": 228424848.48,
