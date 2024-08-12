@@ -27,6 +27,13 @@ test.describe("Verify no data downloaded for FY20 for YOY metrics", { tag: "@Reg
         expect(csvResponseData).not.toBe(2020);
 
     })
+    await test.step("Verify FY20 for YOY metrics is not populated", async () => {
+      let csvResponse = await CdfUtility.getDemandScenarioByIdChannelCSV(request, demandId);
+      let csvResponseData = await DemandBaseClass.getCellValueFromExcel(csvResponse,"B2")
+      debug.log(csvResponseData);
+      expect(csvResponseData).not.toBe(2020);
+
+  })
   });
 
 })

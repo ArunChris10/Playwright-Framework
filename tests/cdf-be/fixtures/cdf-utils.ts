@@ -430,6 +430,20 @@ export class CdfUtility {
     expect(response).toBeOK();
     return response;
   }
+  static async getDemandScenarioByIdChannelCSV(request, demandId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenarioCSV.endpoint}${demandId}${"/csv"}`;
+    let payload = getDemandScenarioCSV.payloadChannelCSV
+      payload.version = this.createScenarioPayload.forecastInfoDTO.forecastInfo.version
+    const response = await request.post(
+      endpointURL,
+
+      { data: getDemandScenarioCSV.payload, headers: CdfUtility.headers }
+    );
+
+    //asserting the response
+    expect(response).toBeOK();
+    return response;
+  }
 
     static async getDemandScenarioByIdWithMinimumDataPayload(request, demandId, payloadExtension: Object = {}) {
       const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenario.endpoint}${demandId}`;
