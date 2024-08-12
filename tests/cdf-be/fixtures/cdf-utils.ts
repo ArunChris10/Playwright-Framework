@@ -1,5 +1,6 @@
 import debug from "debug";
 import archiveScenario from '../testdata/archive-scenario.json'
+import cdfFilter from "../testdata/cdfFilter.json";
 import currentDemandData from '../testdata/current-demand.json'
 import getDemandScenario from '../testdata/get-demand-scenario-forecast.json'
 import getDemandScenarioFilterRetention from '../testdata/get-demand-scenario-forecast-filter-retention.json'
@@ -234,6 +235,17 @@ export class CdfUtility {
 
     //returning the scenario Id of the created forecast
     return responseBody
+  }
+
+  static async fetchFilterDataFromEndpoint(request) {
+    const endpointURL = `${process.env.apiBaseURLCDFFilter}${cdfFilter.endpoint}`;
+    const response = await request.get(endpointURL, {
+      data: cdfFilter.channelGroupToBaseChannelMap_payload,
+      headers: CdfUtility.headers,
+    });
+
+    const data = await response.json();
+    return data;
   }
 
   static async createNewScenario(request){

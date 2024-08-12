@@ -1,0 +1,7 @@
+{
+  "endpoint": "/filters",
+  "channelGroupToBaseChannelMap_payload": {
+    "sbuToDeptMap": true,
+    "channelGroupToBaseChannelMap": true
+  }
+}
