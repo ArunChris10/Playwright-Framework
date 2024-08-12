@@ -1,0 +1,11 @@
+{
+  "sbuNames": ["FOOD", "CONSUMABLES", "FASHION"],
+  "sbuIds": [27, 29, 4],
+  "departments": ["CANDY", "PERSONAL CARE", "HOUSEHOLD PAPER"],
+  "departmentIds": [1, 2, 4],
+  "baseChannels": ["DSV_S2H", "EXPRESS_DELIVERY", "INHOME_DELIVERY"],
+  "baseChannelIds": [22, 5, 4],
+  "channelGroups": ["DELIVERY", "INSTORE_INCLUB"],
+  "channelGroupIds": [2, 1],
+  "filterLevel": "MONTH"
+}

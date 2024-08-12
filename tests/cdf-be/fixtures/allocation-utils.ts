@@ -38,55 +38,6 @@ export class AllocationUtils extends DemandBaseClass {
     return await response.json();
   }
 
-  static async getDemandScenarioForecast(
-    request,
-    demandStackId,
-    demandScenarioDetails,
-    layerIds
-  ) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.getDemandScenarioForecastEndpoint}${demandStackId}`;
-    const payload = {
-      sbu: [],
-      sbuIds: [],
-      department: [],
-      departmentIds: [],
-      baseChannel: [allocationsData?.targetChannel],
-      baseChannelIds: [allocationsData?.targetChannelId],
-      channelGroup: [],
-      channelGroupIds: [],
-      demandChannel: [],
-      layerIds: layerIds,
-      clearAll: false,
-      includeDerivedMetrics: false,
-      includeTotals: true,
-      organizationalLevel: "SBU",
-      loadHeirarchyParams: null,
-      timeFilter: {
-        filterLevel: allocationsData.filterLevel,
-        isYearSelected: false,
-        isMonthSelected: false,
-        isQuarterSelected: false,
-        yearMonths: [],
-        yearQuarters: [],
-        years: [],
-        yearList: [],
-      },
-      filtersChanged: true,
-      filterLoadComplete: true,
-      version: demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version,
-      departmentName: [],
-      isUfmSyncCache: false,
-      latestSyncScenario: false,
-    };
-    // API Request
-    const response = await request.post(endpointURL, {
-      data: payload,
-      headers: this.headers,
-    });
-    debug.log(response);
-    return await response.json();
-  }
-
   static async getDemandScenarioLayers(request, demandStackId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioStacksEndpoint}${demandStackId}?layerType=CHANNEL_SPLIT`;
     // API Request
@@ -267,8 +218,12 @@ export class AllocationUtils extends DemandBaseClass {
     const response = await this.getDemandScenarioForecast(
       request,
       demandStackId,
-      demandScenarioDetails,
-      layerIds
+      demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version,
+      allocationsData.filterLevel,
+      "SBU",
+      layerIds,
+      [allocationsData?.targetChannel],
+      [allocationsData?.targetChannelId]
     );
     let totalForecasts = response.forecastTotals.grandTotal.forecast;
     totalForecasts = totalForecasts.filter(

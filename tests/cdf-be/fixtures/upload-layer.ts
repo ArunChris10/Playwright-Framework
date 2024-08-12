@@ -2,6 +2,8 @@ import allocationsData from "../testdata/allocation-layer-data.json";
 import dataStream from "../testdata/excel-encoded.json";
 import { DemandBaseClass } from "./demand-common-utils";
 import commonEndpoints from "../testdata/common-demand-endpoints.json";
+import filterData from "../testdata/ds-excelexport.json";
+import { expect } from "../../common/fixtures/test-hook";
 
 export class UploadLayerUtil extends DemandBaseClass {
   static async verifyDownloadExcel(
@@ -131,5 +133,94 @@ export class UploadLayerUtil extends DemandBaseClass {
       headers: this.headers,
     });
     return await response.json();
+  }
+
+  static getFilteredForecastData(expectedResponse, forecastData, yearMonth) {
+    expectedResponse[yearMonth] = [];
+    forecastData.forecast.forEach((departmentData) => {
+      expectedResponse[yearMonth][departmentData.department] =
+        departmentData.forecast.filter(
+          (element) =>
+            element.year === parseInt(yearMonth.substring(0, 4)) &&
+            element.month === parseInt(yearMonth.substring(5, 7))
+        )[0];
+    });
+  }
+
+  static async downloadExcelandReturnData(
+    request,
+    demandStackId,
+    demandScenarioDetails,
+    fileName,
+    metric = "GMV Shipped",
+    baseChannels = [],
+    baseChannelIds = [],
+    sbuNames = [],
+    sbuIds = [],
+    departments = [],
+    departmentIds = [],
+    channelGroups = [],
+    channelGroupIds = [],
+    yearMonths = []
+  ) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioEndpoint}${demandStackId}/excel`;
+    let payload = this.makeDemandScenarioForecastPayload(
+      demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version,
+      "MONTH",
+      "SBU",
+      demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.forecastLayerId,
+      baseChannels,
+      baseChannelIds,
+      sbuNames,
+      sbuIds,
+      departments,
+      departmentIds,
+      channelGroups,
+      channelGroupIds,
+      yearMonths
+    );
+    payload = {
+      ...payload,
+      filterLoadComplete: true,
+      metricType: metric,
+    };
+    // API Request
+    const response = await request.post(endpointURL, {
+      data: payload,
+      headers: this.headers,
+    });
+    const sheetData = await this.saveExcelAndReturnSheetData(
+      response,
+      fileName
+    );
+    return sheetData;
+  }
+
+  static validateDownloadResponseWithJson(
+    downloadResponse,
+    expectedResponse,
+    actualsYearMonth,
+    forecastYearMonth,
+    valueKey
+  ) {
+    let startCell = parseInt(downloadResponse["!ref"].match(/\d+/)[0]);
+    let endCell = parseInt(downloadResponse["!ref"].match(/\d+$/)[0]);
+    for (let i = startCell; i <= endCell; i++) {
+      if (
+        downloadResponse.hasOwnProperty(`C${i}`) &&
+        filterData.departments.includes(downloadResponse[`C${i}`].v)
+      ) {
+        expect(
+          expectedResponse[actualsYearMonth][downloadResponse[`C${i}`].v][
+            valueKey
+          ] === downloadResponse[`D${i}`].v
+        ).toBe(true);
+        expect(
+          expectedResponse[forecastYearMonth][downloadResponse[`C${i}`].v][
+            valueKey
+          ] === downloadResponse[`E${i}`].v
+        ).toBe(true);
+      }
+    }
   }
 }

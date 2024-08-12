@@ -90,6 +90,19 @@ export class DemandBaseClass {
     fs.unlinkSync(excelFilePath);
   }
 
+  static async saveExcelAndReturnSheetData(excelApiResponse, fileName) {
+    // This function accepts the excel download api response as input, downloads and saves the file.
+    let excelBuffer = await excelApiResponse.body();
+    let excelFilePath = path.join(__dirname, fileName);
+    fs.writeFileSync(excelFilePath, excelBuffer);
+    debug.log("excel downloaded successfully");
+    let workbook = xlsx.readFile(excelFilePath);
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    fs.unlinkSync(excelFilePath);
+    return sheet
+  }
+
   static async getByteStreamFromExcel(fileName) {
     // This function takes filepath and convert it into byte stream.
     let excelFilePath = path.join(__dirname, fileName);
@@ -121,6 +134,100 @@ export class DemandBaseClass {
     const sheet = workbook.Sheets[sheetName];
     fs.unlinkSync(excelFilePath);
     return xlsx.utils.sheet_to_json(sheet);
+  }
+
+  static makeDemandScenarioForecastPayload(
+    forecastVersion,
+    filterLevel,
+    organizationalLevel,
+    layerIds = [],
+    baseChannels = [],
+    baseChannelIds = [],
+    sbuNames = [],
+    sbuIds = [],
+    departments = [],
+    departmentIds = [],
+    channelGroups = [],
+    channelGroupIds = [],
+    yearMonths = [],
+  ) {
+    const payload = {
+      sbu: sbuNames,
+      sbuIds: sbuIds,
+      department: departments,
+      departmentIds: departmentIds,
+      baseChannel: baseChannels,
+      baseChannelIds: baseChannelIds,
+      channelGroup: channelGroups,
+      channelGroupIds: channelGroupIds,
+      demandChannel: [],
+      layerIds: layerIds,
+      clearAll: false,
+      includeDerivedMetrics: false,
+      includeTotals: true,
+      organizationalLevel: organizationalLevel,
+      loadHeirarchyParams: null,
+      timeFilter: {
+        filterLevel: filterLevel,
+        isYearSelected: false,
+        isMonthSelected: false,
+        isQuarterSelected: false,
+        yearMonths: yearMonths,
+        yearQuarters: [],
+        years: [],
+        yearList: [],
+      },
+      filtersChanged: true,
+      filterLoadComplete: true,
+      version: forecastVersion,
+      departmentName: [],
+    };
+    return payload;
+  }
+
+  static async getDemandScenarioForecast(
+    request,
+    demandStackId,
+    forecastVersion,
+    filterLevel = "MONTH",
+    organizationalLevel = "SBU",
+    layerIds = [],
+    baseChannels = [],
+    baseChannelIds = [],
+    sbuNames = [],
+    sbuIds = [],
+    departments = [],
+    departmentIds = [],
+    channelGroups = [],
+    channelGroupIds = []
+  ) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.getDemandScenarioForecastEndpoint}${demandStackId}`;
+    let payload = this.makeDemandScenarioForecastPayload(
+      forecastVersion,
+      filterLevel,
+      organizationalLevel,
+      layerIds,
+      baseChannels,
+      baseChannelIds,
+      sbuNames,
+      sbuIds,
+      departments,
+      departmentIds,
+      channelGroups,
+      channelGroupIds
+    )
+    payload = {
+      ...payload,
+      isUfmSyncCache: false,
+      latestSyncScenario: false,
+    }
+    // API Request
+    const response = await request.post(endpointURL, {
+      data: payload,
+      headers: this.headers,
+    });
+    debug.log(response);
+    return await response.json();
   }
 
   static async deleteManualAdjustmentLayer(request, demandId, layerId) {
