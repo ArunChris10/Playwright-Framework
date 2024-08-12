@@ -16,8 +16,9 @@ import demandworkspace from '../testdata/get-dssorder.json'
 import forecastinfolist from '../testdata/getlist-and-title.json'
 import commonDemandEndpoints from '../testdata/common-demand-endpoints.json';
 import getDemandScenarioCSV from '../testdata/get-demand-scenario-forecast-csv.json'
+import { APIRequestContext, APIResponse } from "@playwright/test";
 import type { PostArchiveDemandScenarioResponse } from "../types/post-archive-demand-scenario-response";
-import { APIRequestContext } from "@playwright/test";
+
 
 export class CdfUtility {   
   
@@ -111,7 +112,7 @@ export class CdfUtility {
       return response;
   }
 
-  static async deleteScenarioByOtherUser(request, demandId, user) {
+  static async deleteScenarioByOtherUser(request: APIRequestContext, demandId: string, user: string): Promise<APIResponse> {
     const endpointURL = `${process.env.apiBaseURLCDF}${archiveScenario.endpoint}${demandId}`;
     debug.log("Delete scenario endpoint url" + endpointURL);
     
