@@ -719,6 +719,68 @@
     "filterLoadComplete": true,
     "isUfmSyncCache": false,
     "latestSyncScenario": false
+  },
+  "payloadGetAllDssList": {
+    "endpoint": "/api/demandscenarios",
+    "forecastVersion": ""
+  },
+  "payloadDssfromAllList": {
+    "endpoint": "/api/demandscenarios/demand/",
+    "sbu": [],
+    "department": [],
+    "baseChannel": [],
+    "demandChannel": [],
+    "layerIds": [],
+    "clearAll": false,
+    "includeDerivedMetrics": true,
+    "includeTotals": true,
+    "organizationalLevel": "BASE_CHANNEL",
+    "loadHeirarchyParams": null,
+    "timeFilter": {
+        "filterLevel": "YEAR",
+        "yearMonths": [],
+        "yearQuarters": [],
+        "years": [],
+        "yearList": []
+    },
+    "totalsOnly": true,
+    "version": "",
+    "filtersChanged": false
+  },
+  "payloadDssForecastData": {
+    "endpoint": "/api/demandscenarios/demand/",
+    "sbu": [],
+    "sbuIds": [],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": [],
+    "baseChannelIds": [],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": [],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": true,
+    "organizationalLevel": "BASE_CHANNEL",
+    "loadHeirarchyParams": null,
+    "timeFilter": {
+        "filterLevel": "YEAR",
+        "isYearSelected": false,
+        "isMonthSelected": false,
+        "isQuarterSelected": false,
+        "yearMonths": [],
+        "yearQuarters": [],
+        "years": [],
+        "yearList": []
+    },
+    "version": "",
+    "forceRefresh": true,
+    "filtersChanged": true,
+    "departmentName": [],
+    "filterLoadComplete": true,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
   }
   
 }

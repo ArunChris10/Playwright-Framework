@@ -949,4 +949,42 @@ export class CdfUtility {
     return responseBody;
   }
 
+  static async getAllDSSList(request, payload) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${payload.endpoint}`;
+    //console.log(endpointURL);
+    
+    const response = await request.post(
+      endpointURL,
+
+      { data: payload, headers: CdfUtility.headers})
+      expect(response).toBeOK();
+      let responseBody = await response.json();
+      //console.log(JSON.stringify(responseBody));
+  
+      return responseBody;
+
+
+  }
+
+  static async getDemandScenarioForecast(request, demandStackId, payload) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${payload.endpoint}${demandStackId}`;
+
+    // API Request
+    const response = await request.post(endpointURL, {
+      data: payload,
+      headers: this.headers,
+    });
+    let responseBody = await response.json();
+    //debug.log(JSON.stringify(responseBody));
+    return await response.json();
+  }
+
+  static getMatchedDss(dssList, dssId) {
+    for (let i = 0; i < dssList.length; i++) {
+      if(dssList[i]["demandStackScenarioId"] === dssId) {
+        return dssList[i];
+      }
+    }
+  }
+
 }
