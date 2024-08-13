@@ -316,5 +316,16 @@
             },
             "isTestLayer": false
         }
-    ]
+    ],
+    "emtScannedUnits11Allocation": {
+        "name": "CONSUMABLES",
+        "value": 10000000,
+        "id": 29
+    },
+    "emtScannedUnits11DeAllocation": {
+        "name": "FOOD",
+        "value": -10000000,
+        "id": 27
+    }
+
 }
