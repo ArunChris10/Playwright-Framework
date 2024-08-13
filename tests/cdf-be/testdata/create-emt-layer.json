@@ -317,6 +317,15 @@
             "isTestLayer": false
         }
     ],
+    "deAllocationQuarters": [
+        {
+            "quarterOrMonth": {
+                "year": 2027,
+                "quarterOrMonth": 2
+            },
+            "value": -1
+        }
+    ]
     "emtScannedUnits11Allocation": {
         "name": "CONSUMABLES",
         "value": 10000000,
