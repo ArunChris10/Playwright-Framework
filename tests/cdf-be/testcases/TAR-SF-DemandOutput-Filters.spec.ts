@@ -1,6 +1,7 @@
 import { test, expect } from "../../common/fixtures/test-hook";
 import { CdfUtility } from "../fixtures/cdf-utils";
 import { DemandBaseClass } from "../fixtures/demand-common-utils";
+import testData from '../testdata/cdfFilter.json';
 
 test.describe(
   "Verify Demand Output Filters.",
@@ -57,5 +58,36 @@ test.describe(
     test.afterAll(async ({ request }) => {
       await CdfUtility.deleteScenario(request, demandStackId);
     });
+  }
+);
+
+test.describe(
+  "Check if the user switches to any metric from YOY Growth % , the Year filters should be resetted back to inlcude Fy20",
+  {
+    tag: "@Regression @ibg-service-scenario-financials @DemandOutput",
+  },
+  () => {
+      let demandId, payloadExtension, forecast;
+
+      test.beforeAll(async ({ request }) => { demandId = await CdfUtility.createScenario(request); });
+
+      test.afterAll(async ({ request }) => { await CdfUtility.deleteScenario(request, demandId); });
+
+      test("YOY Growth % metrics should not have FY20 or first year, but other metrics should", async ({ request }) => {
+          payloadExtension = {
+            metricUnit: "GMV YoY Growth %",
+            timeFilter: testData.timeFilter,
+          };
+          // selecting YoY Growth % metric, FE removes first year in payload
+          payloadExtension.timeFilter.years.shift();
+          payloadExtension.timeFilter.yearList.shift();
+          forecast = (await CdfUtility.getDemandScenarioByIdWithMinimumDataPayload(request, demandId, payloadExtension)).yearlyForecast[0].forecast;
+          expect(forecast[0].year).not.toBe(2020);
+          payloadExtension.metricUnit = "GMV Shipped";
+          payloadExtension.timeFilter.yearList.unshift("FY 2020");
+          payloadExtension.timeFilter.years.unshift("2020");
+          forecast = (await CdfUtility.getDemandScenarioByIdWithMinimumDataPayload(request, demandId, payloadExtension)).yearlyForecast[0].forecast;
+          expect(forecast[0].year).toBe(2020);
+      })
   }
 );

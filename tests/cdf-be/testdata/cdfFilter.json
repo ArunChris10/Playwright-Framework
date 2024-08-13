@@ -4,7 +4,7 @@
     "sbuToDeptMap": true,
     "channelGroupToBaseChannelMap": true
   },
-  "baseChannels" : [
+  "baseChannels": [
     {
       "displayName": "DSV S2H",
       "displayOrder": 4,
@@ -103,5 +103,41 @@
       "id": 17,
       "name": "WMT_Photo"
     }
-  ]
+  ],
+  "timeFilter": {
+    "filterLevel": "YEAR",
+    "isMonthSelected": false,
+    "isQuarterSelected": false,
+    "isYearSelected": true,
+    "yearList": [
+      "FY 2020",
+      "FY 2021",
+      "FY 2022",
+      "FY 2023",
+      "FY 2024",
+      "FY 2025",
+      "FY 2026",
+      "FY 2027",
+      "FY 2028",
+      "FY 2029",
+      "FY 2030",
+      "FY 2031"
+    ],
+    "yearMonths": [],
+    "yearQuarters": [],
+    "years": [
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+      "2024",
+      "2025",
+      "2026",
+      "2027",
+      "2028",
+      "2029",
+      "2030",
+      "2031"
+    ]
+  }
 }
