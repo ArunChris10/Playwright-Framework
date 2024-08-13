@@ -128,6 +128,30 @@ export class UfmUtility {
     return responseBody;
   }
 
+  // This method will edit the forecast calendar cycle with no change and assert the response
+  static async editForecastCalendarCycleNoChange(fcst_id, cycle_id, request) {
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}/${fcst_id}/cycles/${cycle_id}`;
+    const response = await request.patch(endpointURL, {
+      data: forecastCalendarData.createForecastCalendarCyclesPayload,
+    });
+    expect(response.status === 422);
+    let responseBody = await response.json()
+    expect(responseBody.message).toEqual(forecastCalendarData.editCycleNoChange)
+    return responseBody;
+  }
+
+  // This method will edit the forecast calendar cycle and assert the response
+  static async editForecastCalendarCycle(fcst_id, cycle_id, request) {
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}/${fcst_id}/cycles/${cycle_id}`;
+    const response = await request.patch(endpointURL, {
+      data: forecastCalendarData.editForecastCalendarCyclesPayload,
+    });
+
+    let responseBody = await Utility.assertAndLog(response);
+    expect(responseBody.message).toEqual(forecastCalendarData.editCycleSuccessResponse)
+    return responseBody;
+  }
+
   // This method will create a duplicate forecast calendar cycle and assert the response
   static async createDuplicateForecastCalendarCycles(fcst_id, request) {
     
@@ -402,6 +426,17 @@ export class UfmUtility {
       }
     }
     return scenario_version;
+  }
+
+  //This method will give you the last locked scenario
+  static async getLastLockedScenario(request) {
+    console.log(`Getting last locked scenario`);
+    const endpointURL = `${process.env.apiBaseURLUFM}${commonData.last_locked_scenario_endpoint}`;
+    const response = await request.get(endpointURL, { params: null });
+
+    let responseBody = await Utility.assertAndLog(response);
+
+    return responseBody;
   }
 
   //This method will send LOB to BA review and BA to Segment review based on scenario id , dim val id and status paased

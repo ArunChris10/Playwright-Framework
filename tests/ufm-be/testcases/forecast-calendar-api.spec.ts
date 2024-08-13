@@ -30,6 +30,15 @@ test.describe(
     debug.log("Forecast is retrieved  : ", getForecastCalendar);
   });
 
+  test("Verify if the user is able to @getInvalidForecastCalendar", async ({
+    request,
+  }) => {
+    let getInvalidForecastCalendar = await UfmUtility.getInvalidForecastCalendar(
+      request
+      );
+    debug.log("Forecast is invalid  : ", getInvalidForecastCalendar);
+  });
+
   test("Verify if the user is able to @createForecastCalendarCycles", async ({
     request,
   }) => {
@@ -42,6 +51,82 @@ test.describe(
       );
     cycle_id = createForecastCalendarCycles.cycle_id;
   });
+  test("Verify if the user is able to @createDuplicateForecastCalendarCycles", async ({
+    request,
+  }) => {
+    let createDuplicateForecastCalendarCycles =
+    await UfmUtility.createDuplicateForecastCalendarCycles(fcst_id, request);
+    debug.log(
+      "Forecast calendar cycle already exists : "
+      , JSON.stringify(createDuplicateForecastCalendarCycles, null, 2)
+      );
+  });
+
+  test("Verify if the user is able to @createForecastCalendarDuplicate", async ({
+    request,
+  }) => {
+    let createForecastCalendarDuplicate =
+    await UfmUtility.createForecastCalendarDuplicate(request);
+    debug.log(
+      "Forecast calendar cycle already exists : "
+      , JSON.stringify(createForecastCalendarDuplicate, null, 2)
+      );
+  });
+
+  test("Verify if the user is able to @createForecastCalendarInvalidDimId", async ({
+    request,
+  }) => {
+    let createForecastCalendarInvalidDimId =
+    await UfmUtility.createForecastCalendarInvalidDimId(request);
+    debug.log(
+      "Forecast calendar cycle invalid dim id : "
+      , JSON.stringify(createForecastCalendarInvalidDimId, null, 2)
+      );
+  });
+
+  test("Verify if the user is able to @createForecastCalendarInvalidDimVal", async ({
+    request,
+  }) => {
+    let createForecastCalendarInvalidDimVal =
+    await UfmUtility.createForecastCalendarInvalidDimVal(request);
+    debug.log(
+      "Forecast calendar cycle invalid dim id : "
+      , JSON.stringify(createForecastCalendarInvalidDimVal, null, 2)
+      );
+  });
+
+  test("Verify if the user is able to @createForecastCalendarInvalidYear", async ({
+    request,
+  }) => {
+    let createForecastCalendarInvalidYear =
+    await UfmUtility.createForecastCalendarInvalidYear(request);
+    debug.log(
+      "Forecast calendar cycle invalid year : "
+      , JSON.stringify(createForecastCalendarInvalidYear, null, 2)
+      );
+  });
+
+  test("Verify if the user is able to @editForecastCalendarCycleNoChange", async ({
+    request,
+  }) => {
+    let editForecastCalendarCycleNoChange =
+    await UfmUtility.editForecastCalendarCycleNoChange(fcst_id, cycle_id, request);
+    debug.log(
+      "Forecast calendar cycle is not edited : "
+      , JSON.stringify(editForecastCalendarCycleNoChange, null, 2)
+      );
+  });
+
+  test("Verify if the user is able to @editForecastCalendarCycle", async ({
+    request,
+  }) => {
+    let editForecastCalendarCycle =
+    await UfmUtility.editForecastCalendarCycle(fcst_id, cycle_id, request);
+    debug.log(
+      "Forecast calendar cycle is edited : "
+      , JSON.stringify(editForecastCalendarCycle, null, 2)
+      );
+  });
 
   test("Verify if the user is able to @publishForecastCalendar", async ({
     request,
@@ -51,6 +136,16 @@ test.describe(
       request
       );
     debug.log("Forecast is published  : ", publishForecastCalendar);
+  });
+
+  test("Verify if the user is able to @publishDuplicateForecastCalendar", async ({
+    request,
+  }) => {
+    let publishDuplicateForecastCalendar = await UfmUtility.publishDuplicateForecastCalendar(
+      fcst_id,
+      request
+      );
+    debug.log("Forecast is a duplicate  : ", publishDuplicateForecastCalendar);
   });
 
     test("Verify if the user is able to @getForecastDeadlines", async ({
@@ -70,6 +165,18 @@ test.describe(
           request
         );
       debug.log("Forecast cycle is deleted  : ", deleteForecastCalendarCycle);
+    });
+
+    test("Verify if the user is able to @deleteMissingForecastCalendarCycle", async ({
+      request,
+    }) => {
+      let deleteMissingForecastCalendarCycle =
+        await UfmUtility.deleteMissingForecastCalendarCycle(
+          fcst_id,
+          cycle_id,
+          request
+        );
+      debug.log("Forecast cycle does not exist  : ", deleteMissingForecastCalendarCycle);
     });
   }
 );

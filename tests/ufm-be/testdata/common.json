@@ -2,7 +2,7 @@
   "endpoint": "/reports/get-report",
   "review_endpoint": "/workflow/status",
   "individual_status_endpoint": "/workflow/get-individual-status",
-
+  "last_locked_scenario_endpoint":"/scenario/last-locked-scenario",
   "classification_id": 12,
   "lob_dim_id": 11,
   "ba_dim_id": 12,

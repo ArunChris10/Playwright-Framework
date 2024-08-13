@@ -3,21 +3,21 @@
     "endpoint": "/forecast_calendar/",
     "createForecastCalendarPayload": {
         "classification_id": 1,
-        "fiscal_year": 2994,
+        "fiscal_year": 2805,
         "published_flag": true,
         "dim_id": 13,
         "dim_val_id": 1
     },
     "createForecastCalendarPayloadInvalidDimId": {
         "classification_id": 1,
-        "fiscal_year": 2994,
+        "fiscal_year": 2805,
         "published_flag": true,
         "dim_id": 12,
         "dim_val_id": 1
     },
     "createForecastCalendarPayloadInvalidDimVal": {
         "classification_id": 1,
-        "fiscal_year": 2994,
+        "fiscal_year": 2805,
         "published_flag": true,
         "dim_id": 13,
         "dim_val_id": 0
@@ -33,33 +33,51 @@
         "dim_id": "13",
         "dim_val_id": "1",
         "classification_id": "1",
-        "fiscal_year": "2994",
+        "fiscal_year": "2805",
         "invalid_dim_id":"12"
     },
     "createForecastCalendarCyclesPayload": {
       "deadlines": [{
         "dim_id": 13,
         "dim_val_id": 1,
-        "deadline": "2993-10-29 20:11:46.153",
+        "deadline": "2804-10-29 20:11:46.153",
         "timezone": "CST",
         "event_id": "28"
       },
     {
       "dim_id": 12,
         "dim_val_id": 1,
-        "deadline": "2993-10-28 20:11:46.153",
+        "deadline": "2804-10-28 20:11:46.153",
+        "timezone": "CST",
+        "event_id": "28"
+    }]
+    },
+    "editForecastCalendarCyclesPayload": {
+      "deadlines": [{
+        "dim_id": 13,
+        "dim_val_id": 1,
+        "deadline": "2804-9-27 5:12:46.153",
+        "timezone": "CST",
+        "event_id": "28"
+      },
+    {
+      "dim_id": 12,
+        "dim_val_id": 1,
+        "deadline": "2804-8-26 20:11:46.153",
         "timezone": "CST",
         "event_id": "28"
     }]
     },
     "createSuccessResponseCode": 201,
-    "createErrorDuplicateResponse": "Forecast calendar with attributes: classification_id:1, fiscal_year:2994, dim_id:13, dim_val_id:1 already exists.",
+    "createErrorDuplicateResponse": "Forecast calendar with attributes: classification_id:1, fiscal_year:2805, dim_id:13, dim_val_id:1 already exists.",
     "createErrorInvalidPermissionResponse": "Request denied dim_id:12 does not have the permissions",
     "createErrorInvalidDimValResponse": "Invalid reference id 0 for the reference type DIM_VAL",
     "createErrorInvalidYear": "Forecast calendar with fiscal year -9999 is not valid must be in YYYY format",
     "getCalendarErrorDoesNotExist":"Calendar does not exist.",
     "getCalendarErrorInvalidPermissionResponse":"User does not have the permissions to perform this operation.",
     "createDuplicateForecastCycleResponse":"Corporate deadline already exists.",
+    "editCycleNoChange":"No changes have been made to forecast cycle",
+    "editCycleSuccessResponse":"Cycle updated successfully.",
     "publishForecastCalendarErrorAlreadyExists":"Publishing of due dates failed. Calendar does not exist or cycles already published.",
     "createAlreadyMessage": "Forecast scenario is already created for current period!",
     "deleteCycleResponseCode": 204,
