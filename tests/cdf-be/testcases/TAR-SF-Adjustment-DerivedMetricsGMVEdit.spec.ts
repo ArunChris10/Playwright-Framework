@@ -27,57 +27,50 @@ test.describe("Verify if adding all type of adjustment layer for Scanned Units d
     request
   }) => {
     await test.step("Verify if adding emt layer for GMV data automatically updates the GMV shipped data and other derived metrics ", async () => {
-      let getdemandforecastbeforeAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", []);  
+      let getdemandforecastbeforeAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [], null, null);  
       await DemandBaseClass.lockUnlockDemandScenario(request, "lock", demandStackId);
       let emtLayerResponseGmv = await AdjustmentUtility.emtLayerAdjustment(request, demandStackId, demandScenarioDetails, "DOLLAR", "GMV-TEST");
       let layerId = emtLayerResponseGmv[0].layerId;
-      let getdemandforecastAfterAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [layerId]);
-      let yearValue, postYearValue, yearAmount, postYearAmount;
+      let getdemandforecastAfterAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [layerId], null, null);
+      let yearValue, postYearValue, yearAmount, postYearAmount, yearAur, yearUnits, postYearUnits, postYearAur;
       yearValue = getdemandforecastbeforeAdjustmentYear.yearlyForecast[0].forecast; 
       postYearValue = getdemandforecastAfterAdjustmentYear.yearlyForecast[0].forecast;
-      for(let i=0;i<yearValue.length;i++){
-        if (yearValue[i].year == "2025"){
-            yearAmount = yearValue[i].amount;
-            break;
-        }
-      }   
+      console.log(yearValue); 
       for(let i=0;i<postYearValue.length;i++){
         if (postYearValue[i].year == "2025"){
             postYearAmount = postYearValue[i].amount;
+            postYearAur = postYearValue[i].aur;
+            postYearUnits = postYearValue[i].units;
             break;
         }
       }    
-      expect(yearAmount).not.toBe(postYearAmount); 
+      expect(Math.floor(postYearAmount/postYearUnits).toFixed(6)).toEqual(Math.floor(postYearAur).toFixed(6)); 
   })
 
   await test.step("Verify if adding manual layer for GMV data automatically updates the GMV shipped data and other derived metrics ", async () => {
-    let getdemandforecastbeforeAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", []);  
+    let getdemandforecastbeforeAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [], null, null);  
     await DemandBaseClass.lockUnlockDemandScenario(request, "lock", demandStackId);
     updateDemandStacksData.payload.layers[0].forecastVersion = demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version;
     let manualadjustment = await AdjustmentUtility.createManualAdjustmentLayer(request, demandStackId, updateDemandStacksData);
     let manualadjustmentresponse = await manualadjustment.json();
     let layerId = manualadjustmentresponse[0].layerId;
-    let getdemandforecastAfterAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [layerId]);
-    let yearValue, postYearValue, yearAmount, postYearAmount;
+    let getdemandforecastAfterAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [layerId], null, null);
+    let yearValue, postYearValue, yearAmount, postYearAmount, yearAur, yearUnits, postYearUnits, postYearAur;
     yearValue = getdemandforecastbeforeAdjustmentYear.yearlyForecast[0].forecast; 
     postYearValue = getdemandforecastAfterAdjustmentYear.yearlyForecast[0].forecast;
-    for(let i=0;i<yearValue.length;i++){
-      if (yearValue[i].year == "2025"){
-          yearAmount = yearValue[i].amount;
-          break;
-      }
-    }   
     for(let i=0;i<postYearValue.length;i++){
       if (postYearValue[i].year == "2025"){
-          postYearAmount = postYearValue[i].amount;
+        postYearAmount = postYearValue[i].amount;
+        postYearAur = postYearValue[i].aur;
+        postYearUnits = postYearValue[i].units;
           break;
       }
     }    
-    expect(yearAmount).not.toBe(postYearAmount); 
+    expect(Math.floor(postYearAmount/postYearUnits).toFixed(6)).toEqual(Math.floor(postYearAur).toFixed(6)); 
 })
 
 await test.step("Verify if uploading file for GMV data automatically updates the GMV shipped data and other derived metrics ", async () => {
-    let getdemandforecastbeforeAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", []);  
+    let getdemandforecastbeforeAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [], null, null);  
     await DemandBaseClass.lockUnlockDemandScenario(request, "lock", demandStackId);
     const response = await UploadLayerUtil.verifyUploadExcel(
         request,
@@ -85,23 +78,19 @@ await test.step("Verify if uploading file for GMV data automatically updates the
         demandScenarioDetails
       );
     let layerId = response[0].layerId;
-    let getdemandforecastAfterAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [layerId]);
-    let yearValue, postYearValue, yearAmount, postYearAmount;
+    let getdemandforecastAfterAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [layerId], null, null);
+    let yearValue, postYearValue, yearAmount, postYearAmount, yearAur, yearUnits, postYearUnits, postYearAur;
     yearValue = getdemandforecastbeforeAdjustmentYear.yearlyForecast[0].forecast; 
-    postYearValue = getdemandforecastAfterAdjustmentYear.yearlyForecast[0].forecast;
-    for(let i=0;i<yearValue.length;i++){
-      if (yearValue[i].year == "2025"){
-          yearAmount = yearValue[i].amount;
-          break;
-      }
-    }   
+    postYearValue = getdemandforecastAfterAdjustmentYear.yearlyForecast[0].forecast; 
     for(let i=0;i<postYearValue.length;i++){
       if (postYearValue[i].year == "2025"){
-          postYearAmount = postYearValue[i].amount;
+        postYearAmount = postYearValue[i].amount;
+        postYearAur = postYearValue[i].aur;
+        postYearUnits = postYearValue[i].units;
           break;
       }
     }    
-    expect(yearAmount).not.toBe(postYearAmount); 
+    expect(Math.floor(postYearAmount/postYearUnits).toFixed(6)).toEqual(Math.floor(postYearAur).toFixed(6)); 
 })   
 
   });

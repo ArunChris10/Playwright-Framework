@@ -27,8 +27,8 @@ test.describe("Verify user is able to edit the Value at Channel Level and the da
     request
   }) => {
     await test.step("Verify user is able to edit the Value at Channel Level and the data is distributed to the SBUs under it on prorated ratio", async () => {
-      let getdemandforecastbeforeAdjustmentChannel = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [], "BASE_CHANNEL");
-      let getdemandforecastbeforeAdjustmentSbu = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [], null);
+      let getdemandforecastbeforeAdjustmentChannel = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [], "BASE_CHANNEL", null);
+      let getdemandforecastbeforeAdjustmentSbu = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [], "SBU", null);
       let channelValue, sbuvalue, posteditChannel, posteditSbu, channelAmount, sbuAmount;
       channelValue = getdemandforecastbeforeAdjustmentChannel.yearlyForecast[0].forecast; 
       sbuvalue = getdemandforecastbeforeAdjustmentSbu.yearlyForecast[0].forecast;
@@ -48,8 +48,8 @@ test.describe("Verify user is able to edit the Value at Channel Level and the da
       let manualadjustment = await AdjustmentUtility.createManualAdjustmentLayer(request, demandStackId, updateDemandStacksData);
       let manualadjustmentresponse = await manualadjustment.json();
       let layerId = manualadjustmentresponse[0].layerId;
-      let getdemandforecastChannel = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [layerId], "BASE_CHANNEL");
-      let getdemandforecastSbu = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [layerId], null);
+      let getdemandforecastChannel = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [layerId], "BASE_CHANNEL", null);
+      let getdemandforecastSbu = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [layerId], "SBU", null);
       let postdemandforecastChannel = getdemandforecastChannel.yearlyForecast[0].forecast;
       let postdemandforecastSbu = getdemandforecastSbu.yearlyForecast[0].forecast;
       for(let i=0;i<postdemandforecastChannel.length;i++){
