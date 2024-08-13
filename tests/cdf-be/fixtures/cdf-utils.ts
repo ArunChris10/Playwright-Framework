@@ -238,12 +238,12 @@ export class CdfUtility {
   }
 
   static async fetchFilterDataFromEndpoint(request) {
-    const endpointURL = `${process.env.apiBaseURLCDFFilter}${cdfFilter.endpoint}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${cdfFilter.endpoint}`;
     const response = await request.get(endpointURL, {
       data: cdfFilter.channelGroupToBaseChannelMap_payload,
       headers: CdfUtility.headers,
     });
-
+    expect(response).toBeOK();
     const data = await response.json();
     return data;
   }

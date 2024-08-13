@@ -1,7 +1,107 @@
 {
-  "endpoint": "/filters",
+  "endpoint": "/api/dimensions/filters",
   "channelGroupToBaseChannelMap_payload": {
     "sbuToDeptMap": true,
     "channelGroupToBaseChannelMap": true
-  }
+  },
+  "baseChannels" : [
+    {
+      "displayName": "DSV S2H",
+      "displayOrder": 4,
+      "id": 22,
+      "name": "DSV_S2H"
+    },
+    {
+      "displayName": "DSV S2S",
+      "displayOrder": 5,
+      "id": 26,
+      "name": "DSV_S2S"
+    },
+    {
+      "displayName": "Express Delivery",
+      "displayOrder": 7,
+      "id": 5,
+      "name": "Express_Delivery"
+    },
+    {
+      "displayName": "Express Pickup",
+      "displayOrder": 8,
+      "id": 14,
+      "name": "Express_Pickup"
+    },
+    {
+      "displayName": "Inhome Delivery",
+      "displayOrder": 10,
+      "id": 4,
+      "name": "INHOME_DELIVERY"
+    },
+    {
+      "displayName": "InStore InClub",
+      "displayOrder": 11,
+      "id": 1,
+      "name": "InStore_InClub"
+    },
+    { "displayName": "None", "displayOrder": 12, "id": 999, "name": "NONE" },
+    {
+      "displayName": "Owned S2H",
+      "displayOrder": 14,
+      "id": 23,
+      "name": "Owned_S2H"
+    },
+    {
+      "displayName": "Owned S2S",
+      "displayOrder": 15,
+      "id": 27,
+      "name": "OWNED_S2S"
+    },
+    {
+      "displayName": "Scheduled Delivery",
+      "displayOrder": 20,
+      "id": 3,
+      "name": "Scheduled_Delivery"
+    },
+    {
+      "displayName": "Scheduled Pickup",
+      "displayOrder": 21,
+      "id": 12,
+      "name": "Scheduled_Pickup"
+    },
+    {
+      "displayName": "Seller Fulfilled",
+      "displayOrder": 22,
+      "id": 32,
+      "name": "SELLER_FULFILLED"
+    },
+    {
+      "displayName": "Ship From Store",
+      "displayOrder": 25,
+      "id": 10,
+      "name": "Ship_From_Store"
+    },
+    { "displayName": "Test", "displayOrder": 27, "id": -99, "name": "TEST" },
+    {
+      "displayName": "Unscheduled Delivery",
+      "displayOrder": 29,
+      "id": 6,
+      "name": "Unscheduled_Delivery"
+    },
+    {
+      "displayName": "Unscheduled Pickup",
+      "displayOrder": 30,
+      "id": 13,
+      "name": "Unscheduled_Pickup"
+    },
+    {
+      "displayName": "Walmart Fulfillment Services",
+      "displayOrder": 31,
+      "id": 33,
+      "name": "Walmart_Fulfillment_Services"
+    },
+    {
+      "displayName": "WMT Photo",
+      "displayOrder": 35,
+      "id": 17,
+      "name": "WMT_Photo"
+    }
+  ]
 }

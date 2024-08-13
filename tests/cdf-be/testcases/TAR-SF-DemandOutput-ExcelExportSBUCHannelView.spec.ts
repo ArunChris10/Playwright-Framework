@@ -36,7 +36,6 @@ test.describe(
               (sbu: any) => sbu.sbu === "CONSUMABLES"
             ).forecast;
           } else {
-            // TODO: this is giving different values
             forecast = demandScenario.forecast.find(
               (baseChannel: any) => baseChannel.baseChannel === "DSV_S2H"
             ).forecast;
