@@ -7,7 +7,7 @@ import type { filterKey, testData as td } from "../types/demand-output-filters";
 
 const { filterCategories, excludedCategories, metrics, figures }: td = testData;
 
-test.describe("Demand Output Tests", { tag: "@Smoke @DemandOutputFilters"}, async () => {
+test.describe("Demand Output Tests", { tag: "@Smoke @DemandOutputFilters @Regression @ibg-centrifuge-ui"}, async () => {
     test.describe.configure({ timeout: 300_000, mode: "serial"})
 
     const METRIC_WITH_FIGURE_VIEWS = 'GMV Shipped'
