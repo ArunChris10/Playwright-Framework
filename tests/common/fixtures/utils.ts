@@ -126,6 +126,7 @@ export class Utility {
       
     } else {
       raw_ufm_secrets = process.env.CRED_SECRET;
+      console.log("logger "+raw_ufm_secrets)
     }
     const ufm_secrets = JSON.parse(raw_ufm_secrets);
     return ufm_secrets;
