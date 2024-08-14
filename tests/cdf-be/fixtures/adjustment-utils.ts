@@ -6,6 +6,7 @@ import testDataForManage from '../testdata/manage-rebase.json';
 import { expect } from "@playwright/test";
 import allocationsData from "../testdata/allocation-layer-data.json";
 import emtLayerUnitData from "../testdata/emt-layer-unit-data.json";
+import currentDemandData from '../testdata/current-demand.json'
 import emtLayerData from "../testdata/emt-layer-data.json";
 
 export class AdjustmentUtility extends DemandBaseClass {
@@ -285,4 +286,12 @@ export class AdjustmentUtility extends DemandBaseClass {
     return await response.json();
   }
 
+  static async getForecastRange(request, version) {
+      const endpoint = `${process.env.apiBaseURLCDF}${currentDemandData.statusEndpointPrefix}${version}/range`;
+      const response = await request.get(endpoint, {
+          headers: this.headers
+      })
+      expect(response).toBeOK();
+      return await response.json();
+  }
 }
