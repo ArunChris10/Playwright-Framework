@@ -4,7 +4,7 @@ import { PageFactory } from "../../common/pages/page-factory";
 
 test.describe(
   "New Visualizer View Creation Tests",
-  { tag: "@Smoke @Visualizer" },
+  { tag: "@Smoke @Visualizer @Regression @ibg-centrifuge-ui" },
   async () => {
     test.describe.configure({ timeout: 300_000, mode: "serial" });
 
