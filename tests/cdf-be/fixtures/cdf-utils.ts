@@ -16,6 +16,7 @@ import currentDemandExcelData from '../testdata/current-demand-excel-download.js
 import demandworkspace from '../testdata/get-dssorder.json'
 import forecastinfolist from '../testdata/getlist-and-title.json'
 import commonDemandEndpoints from '../testdata/common-demand-endpoints.json';
+import demandStackScenarioTotalList from '../testdata/demand-stack-scenarios-total-list.json'
 import getDemandScenarioCSV from '../testdata/get-demand-scenario-forecast-csv.json'
 import { APIRequestContext, APIResponse } from "@playwright/test";
 import type { PostArchiveDemandScenarioResponse } from "../types/post-archive-demand-scenario-response";
@@ -949,6 +950,20 @@ export class CdfUtility {
     return responseBody;
   }
 
+  static async getDemandStackScenarioTotalList(request, isArchived ) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${demandStackScenarioTotalList.endpoint}?isArchive=${isArchived}`;
+    console.log("Endpoint URL for getDemandStackScenarioTotalList: ", endpointURL);
+   
+    // API Request
+    const response = await request.get(
+      endpointURL,
+      { headers: CdfUtility.headers }
+    )
+    
+    expect(response).toBeOK();
+    const responseBody = await response.json();
+    return responseBody
+  }
   static async getAllDSSList(request, payload) {
     const endpointURL = `${process.env.apiBaseURLCDF}${payload.endpoint}`;
     //console.log(endpointURL);
