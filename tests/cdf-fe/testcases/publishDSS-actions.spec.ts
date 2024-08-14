@@ -5,7 +5,7 @@ import { PageFactory } from "../../common/pages/page-factory";
 
 test.describe(
   "Publish Demand Stack Scenario Tests (Make sure DSS can be published and viewed on currentdemand page)",
-  { tag: "@Smoke @PublishDSS" },
+  { tag: "@Smoke @PublishDSS @Regression @ibg-centrifuge-ui" },
   async () => {
     test.describe.configure({ timeout: 300_000, mode: "serial" });
 

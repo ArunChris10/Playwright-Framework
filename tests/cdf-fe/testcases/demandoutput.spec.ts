@@ -4,7 +4,7 @@ import testdata from "../testdata/create-demandoutput.json";
 
 test.describe(
   "Demandoutput Page Features (tests for regarding table data)",
-  { tag: "@Smoke @DemandOutput" },
+  { tag: "@Smoke @DemandOutput @Regression @ibg-centrifuge-ui" },
   async () => {
     test.describe.configure({ timeout: 300_000, mode: "serial" });
 

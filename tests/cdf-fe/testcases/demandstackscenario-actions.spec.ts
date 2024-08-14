@@ -4,7 +4,7 @@ import { PageFactory } from "../../common/pages/page-factory";
 
 test.describe(
   "Demand Stack Scenario Features",
-  { tag: "@Smoke @DSSActions" },
+  { tag: "@Smoke @DSSActions @Regression @ibg-centrifuge-ui" },
   async () => {
     test.describe.configure({ timeout: 300_000, mode: "serial" });
 

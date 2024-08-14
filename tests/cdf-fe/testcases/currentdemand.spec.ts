@@ -3,7 +3,7 @@ import { PageFactory } from "../../common/pages/page-factory";
 
 test.describe(
   "Currentdemand Page Features (tests for regarding table data)",
-  { tag: "@Smoke @Currentdemand" },
+  { tag: "@Regression @Currentdemand @ibg-centrifuge-ui" },
   async () => {
     test.describe.configure({ timeout: 300_000, mode: "serial" });
 
