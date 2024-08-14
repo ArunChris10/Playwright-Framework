@@ -1001,4 +1001,72 @@ export class CdfUtility {
       }
     }
   }
+
+  static async verifyForecastAggregationWithMinimumDataPayload(request, demandId, layerId?: string) {
+      let forecast;
+
+      const payloadExtension = {
+        layerIds: layerId ? [layerId] : [],
+        metricType: "GMV Shipped",
+        timeFilter: {
+          filterLevel: "MONTH",
+          isYearSelected: false,
+          isMonthSelected: false,
+          isQuarterSelected: false,
+          yearMonths: [],
+          yearQuarters: [],
+          years: [],
+          yearList: [],
+        },
+      };
+      forecast = (
+        await CdfUtility.getDemandScenarioByIdWithMinimumDataPayload(
+          request,
+          demandId,
+          payloadExtension
+        )
+      ).forecastTotals.grandTotal.forecast;
+      const start = {
+        month: forecast[0].month,
+        quarter: forecast[0].quarter,
+        year: forecast[0].year,
+      };
+      const end = {
+        month: forecast[forecast.length - 1].month,
+        quarter: forecast[forecast.length - 1].quarter,
+        year: forecast[forecast.length - 1].year,
+      };
+      const totalValue =
+        Math.round(forecast.reduce((a, b) => a + b.amount, 0) * 100) / 100;
+
+      payloadExtension.timeFilter.filterLevel = "YEAR";
+      forecast = (
+        await CdfUtility.getDemandScenarioByIdWithMinimumDataPayload(
+          request,
+          demandId,
+          payloadExtension
+        )
+      ).forecastTotals.grandTotal.forecast;
+      expect(forecast[0].year).toEqual(start.year);
+      expect(forecast[forecast.length - 1].year).toEqual(end.year);
+      expect(
+        Math.round(forecast.reduce((a, b) => a + b.amount, 0) * 100) / 100
+      ).toEqual(totalValue);
+
+      payloadExtension.timeFilter.filterLevel = "QUARTER";
+      forecast = (
+        await CdfUtility.getDemandScenarioByIdWithMinimumDataPayload(
+          request,
+          demandId,
+          payloadExtension
+        )
+      ).forecastTotals.grandTotal.forecast;
+      expect(forecast[0].quarter).toEqual(start.quarter);
+      expect(forecast[0].year).toEqual(start.year);
+      expect(forecast[forecast.length - 1].quarter).toEqual(end.quarter);
+      expect(forecast[forecast.length - 1].year).toEqual(end.year);
+      expect(
+        Math.round(forecast.reduce((a, b) => a + b.amount, 0) * 100) / 100
+      ).toEqual(totalValue);
+    }
 }
