@@ -1001,5 +1001,4 @@ export class CdfUtility {
       }
     }
   }
-
 }
