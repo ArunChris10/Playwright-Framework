@@ -1,6 +1,7 @@
 import testdata from "../testdata/filter-service.json";
 import { test, expect } from "../../common/fixtures/test-hook";
 import debug from "debug";
+import { Utility } from "../../common/fixtures/utils";
 
 testdata.payloads.forEach((payload) => {
   test.describe(
@@ -14,7 +15,7 @@ testdata.payloads.forEach((payload) => {
       let apiResponse, apiResponseBody;
       // API endpoint URL
       const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
-      debug.log(endpointURL);
+      Utility.logIt(endpointURL);
       const queryParams = {
         screen_id: payload.screen_id,
         type_id: payload.filter_type,
@@ -27,15 +28,15 @@ testdata.payloads.forEach((payload) => {
         async ({ context }) => {
           //post request for saving the filter
           await test.step("Make a Post Request for Saving the Filter", async () => {
-            debug.log("Make a Post Request for Saving the Filter");
+            Utility.logIt("Make a Post Request for Saving the Filter");
             payload.filter_name =
               payload.filter_name + new Date().toLocaleString();
-            console.log(payload);
+            Utility.logIt(payload);
             apiResponse = await context.request.post(endpointURL, {
               data: payload,
             });
             apiResponseBody = await apiResponse.json();
-            debug.log(JSON.stringify(apiResponseBody));
+            Utility.logIt(JSON.stringify(apiResponseBody));
           });
 
           //Assertion
@@ -56,7 +57,7 @@ testdata.payloads.forEach((payload) => {
               data: payload,
             });
             apiResponseBody = await apiResponse.json();
-            debug.log(JSON.stringify(apiResponseBody));
+            Utility.logIt(JSON.stringify(apiResponseBody));
           });
 
           //Assertion
@@ -79,8 +80,9 @@ testdata.payloads.forEach((payload) => {
               params: queryParams,
             });
             apiResponseBody = await apiResponse.json();
-            debug.log("Filter Response : ");
-            debug.log(JSON.stringify(apiResponseBody));
+            Utility.logIt(
+              `Filter Response : ${JSON.stringify(apiResponseBody)}`
+            );
             expect(apiResponse).toBeOK();
           });
 
@@ -100,7 +102,7 @@ testdata.payloads.forEach((payload) => {
                 filter_id = filterJson.filter_id;
               }
             });
-            debug.log(`Filter Id : ${filter_id}`);
+            Utility.logIt(`Filter Id : ${filter_id}`);
           });
         }
       );
@@ -111,15 +113,16 @@ testdata.payloads.forEach((payload) => {
           //get request to fetch the filter by filter id
 
           const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}${filter_id}`;
-          debug.log(endpointURL);
+          Utility.logIt(endpointURL);
 
           await test.step("Fetch the filter by filter id for the screen", async () => {
             apiResponse = await request.get(`${endpointURL}`, {
               params: queryParams,
             });
             apiResponseBody = await apiResponse.json();
-            debug.log("Filter Response : ");
-            debug.log(JSON.stringify(apiResponseBody));
+            Utility.logIt(
+              `Filter Response : ${JSON.stringify(apiResponseBody)}`
+            );
             expect(apiResponse).toBeOK();
           });
 
@@ -161,8 +164,11 @@ testdata.payloads.forEach((payload) => {
               params: queryParams,
             });
             apiResponseBody = await apiResponse.json();
-            debug.log("Available Filters after delete : ");
-            debug.log(JSON.stringify(apiResponseBody));
+            Utility.logIt(
+              `Available Filters after delete : ${JSON.stringify(
+                apiResponseBody
+              )}`
+            );
           });
           // Checking the filterId is not present in the filters
           await test.step("Check if the deleted filter is not available", async () => {

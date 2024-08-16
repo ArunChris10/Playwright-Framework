@@ -1,0 +1,7 @@
+{
+  "get_report_endpoint": "/reports/get-report",
+  "review_endpoint": "/workflow/status",
+  "individual_status_endpoint": "/workflow/get-individual-status",
+  "last_locked_scenario_endpoint": "/scenario/last-locked-scenario",
+  "sendToReviewSuccessful": "status migrated successfully"
+}

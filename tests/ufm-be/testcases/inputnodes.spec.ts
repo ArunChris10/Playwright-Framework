@@ -1,37 +1,21 @@
 import { test } from "../../common/fixtures/test-hook";
+import { Utility } from "../../common/fixtures/utils";
+import commonData from "../constants/common.json";
 import { UfmUtility } from "../fixtures/ufm-utils";
 
-let lobName = [
-  "optical",
-  "rx",
-  "merch",
-  "ecommerce",
-  "lmd",
-  "e2e_delivery",
-  "core_service",
-  "fulfillment",
-  "i&a",
-  "connect",
-  "marketing",
-  "data_ventures",
-  "operations",
-  "real_estate",
-  "fuel",
-  "segment",
-  "home_office",
-];
+const lobName = commonData.lobList;
 
-lobName.forEach((lobName) => {
+lobName.forEach((lob) => {
   test.describe(
-    `Find input nodes for ${lobName}`,
-    { tag: "@inputNodes" },
+    `Find input nodes for ${lob}`,
+    { tag: "@Smoke @Regression @inputNodes" },
     () => {
       test.describe.configure({ timeout: 600_000, mode: "parallel" });
 
-      test(`Find input nodes for ${lobName} scenario`, async ({ request }) => {
+      test(`Find input nodes for ${lob} scenario`, async ({ request }) => {
         let inputnodes: string[] = [];
-        inputnodes = await UfmUtility.getInputNodelist(lobName, request);
-        console.log(inputnodes);
+        inputnodes = await UfmUtility.getInputNodelist(lob, request);
+        Utility.logIt(inputnodes);
       });
     }
   );

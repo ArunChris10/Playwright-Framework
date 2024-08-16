@@ -37,10 +37,10 @@ orgName.forEach((orgName) => {
 
     const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
 
-    console.log(endpointURL);
+    Utility.logIt(endpointURL);
 
     test(`Run compute for ${orgName} scenario`, async ({ request }) => {
-      console.log(`Run compute for ${orgName} scenario`);
+      Utility.logIt(`Run compute for ${orgName} scenario`);
       //retrying untill passes
       // await expect(async () => {
       const response = await request.post(endpointURL, {
@@ -50,7 +50,7 @@ orgName.forEach((orgName) => {
       // asserting the response
       let responseBody = await Utility.assertAndLog(response);
       await expect.soft(responseBody).toEqual(testdata.successMessage);
-      console.log(
+      Utility.logIt(
         responseBody +
           " for " +
           orgName +

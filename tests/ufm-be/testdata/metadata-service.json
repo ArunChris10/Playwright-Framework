@@ -1,615 +1,615 @@
 {
-    "configEndpoint": {
-        "endpoint": "/metadata/dimensions/config",
-        "expected_response": [
-            {
-                "id": 1,
-                "value": "DEPARTMENT"
-            },
-            {
-                "id": 2,
-                "value": "SBU"
-            },
-            {
-                "id": 3,
-                "value": "FINANCIAL_SUBGROUP"
-            },
-            {
-                "id": 4,
-                "value": "FINANCIAL_SEGMENT"
-            },
-            {
-                "id": 6,
-                "value": "CHANNEL"
-            },
-            {
-                "id": 7,
-                "value": "CHANNEL_GROUP"
-            },
-            {
-                "id": 8,
-                "value": "CHANNEL_HIERARCHY_V1"
-            },
-            {
-                "id": 9,
-                "value": "CHANNEL_HIERARCHY_V2"
-            },
-            {
-                "id": 11,
-                "value": "SBA"
-            },
-            {
-                "id": 12,
-                "value": "PBA"
-            },
-            {
-                "id": 13,
-                "value": "SEGMENT"
-            },
-            {
-                "id": 14,
-                "value": "REPORTING"
-            },
-            {
-                "id": 15,
-                "value": "BUSINESS_AREA"
-            },
-            {
-                "id": 16,
-                "value": "LOCATION"
-            },
-            {
-                "id": 17,
-                "value": "ENTITY"
-            },
-            {
-                "id": 19,
-                "value": "MONTH"
-            }
-        ]
-    },
-    "dimensionEndpoint": [
-        {
-            "name": "DEPARTMENT",
-            "endpoint": "/metadata/dimensions",
-            "payload": [
-                {
-                    "dimension_id": 1
-                }
-            ],
-            "expected_response": [
-                {
-                    "dimension_id": 1,
-                    "values": [
-                        {
-                            "id": -999,
-                            "value": "-999_UNKNOWN",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 0,
-                            "value": "0_UNKNOWN",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 1,
-                            "value": "1_CANDY",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 2,
-                            "value": "2_PERSONAL CARE",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 3,
-                            "value": "3_STATIONERY",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 4,
-                            "value": "4_HOUSEHOLD PAPER",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 5,
-                            "value": "5_MEDIA AND GAMING",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 6,
-                            "value": "6_CAMERAS & SUPPLIES",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 7,
-                            "value": "7_TOYS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 8,
-                            "value": "8_PETS & SUPPLIES",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 9,
-                            "value": "9_SPORTING GOODS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 10,
-                            "value": "10_AUTOMOTIVE",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 11,
-                            "value": "11_HARDWARE",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 12,
-                            "value": "12_PAINT & ACCESSORIES",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 13,
-                            "value": "13_CLEANING",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 14,
-                            "value": "14_COOK AND DINE",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 15,
-                            "value": "15_HEALTH AND WELLNESS CLINICS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 16,
-                            "value": "16_LAWN AND GARDEN",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 17,
-                            "value": "17_HOME DECOR",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 18,
-                            "value": "18_SEASONAL",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 19,
-                            "value": "19_ARTS, CRAFTS, SEWING & FABRICS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 20,
-                            "value": "20_BATH AND SHOWER",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 21,
-                            "value": "21_BOOKS AND MAGAZINES",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 22,
-                            "value": "22_BEDDING",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 23,
-                            "value": "23_MENS APPAREL",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 24,
-                            "value": "24_BOYS APPAREL",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 25,
-                            "value": "25_SHOES",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 26,
-                            "value": "26_INFANT APPAREL",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 27,
-                            "value": "27_FAMILY SOCKS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 28,
-                            "value": "28_HOSIERY",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 29,
-                            "value": "29_INTIMATE APPAREL",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 30,
-                            "value": "30_FOUNDATIONS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 31,
-                            "value": "31_ACCESSORIES",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 32,
-                            "value": "32_JEWELRY",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 33,
-                            "value": "33_GIRLS APPAREL",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 34,
-                            "value": "34_WOMENS APPAREL",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 35,
-                            "value": "35_PLUS SIZES/MATERNITY",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 36,
-                            "value": "36_WOMENS OUTERWEAR",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 37,
-                            "value": "37_AUTO SERVICE",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 38,
-                            "value": "38_PHARMACY RX",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 39,
-                            "value": "39_CONSUMER SERVICES",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 40,
-                            "value": "40_OTC PHARMACY",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 46,
-                            "value": "46_BEAUTY",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 49,
-                            "value": "49_OPTICAL",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 50,
-                            "value": "50_OPTICAL",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 56,
-                            "value": "56_HORTICULTURE",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 57,
-                            "value": "57_HEARING CENTER",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 58,
-                            "value": "58_WIRELESS SERVICE INC",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 60,
-                            "value": "60_STAMPS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 61,
-                            "value": "61_SAMS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 62,
-                            "value": "62_SAMS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 63,
-                            "value": "63_SAMS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 64,
-                            "value": "64_SAMS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 65,
-                            "value": "65_GASOLINE",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 66,
-                            "value": "66_WALMART-ENERGY",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 67,
-                            "value": "67_CELEBRATION",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 68,
-                            "value": "68_SAMS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 69,
-                            "value": "69_WAL-MART ONLINE",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 70,
-                            "value": "70_STORE USE ONLY",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 71,
-                            "value": "71_FURNITURE",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 72,
-                            "value": "72_ELECTRONICS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 74,
-                            "value": "74_HOME MANAGEMENT",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 75,
-                            "value": "75_OPTICAL - DOCTORS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 76,
-                            "value": "76_ACADEMY",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 77,
-                            "value": "77_LARGE HOUSEHOLD GOODS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 79,
-                            "value": "79_INFANT CONSUMABLE HARDLINES",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 80,
-                            "value": "80_SERVICE DELI",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 81,
-                            "value": "81_COM BREAD",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 82,
-                            "value": "82_IMPULSE MERCHANDISE",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 83,
-                            "value": "83_SEAFOOD",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 84,
-                            "value": "84_BALLOONS & FLOWERS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 85,
-                            "value": "85_ONE HOUR PHOTO",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 86,
-                            "value": "86_WALMART SERVICES",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 87,
-                            "value": "87_WIRELESS",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 88,
-                            "value": "88_PMDCSIGNINIG",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 89,
-                            "value": "89_TRAVEL",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 90,
-                            "value": "90_DAIRY",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 91,
-                            "value": "91_FROZEN",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 92,
-                            "value": "92_GROCERY",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 93,
-                            "value": "93_MEAT",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 94,
-                            "value": "94_PRODUCE",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 95,
-                            "value": "95_DSD GROCERY",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 96,
-                            "value": "96_LIQUOR",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 97,
-                            "value": "97_WALL DELI",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 98,
-                            "value": "98_BAKERY",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 99,
-                            "value": "99_OFFICE & STORE",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 100,
-                            "value": "Missing",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 101,
-                            "value": "UNKNOWN",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 800,
-                            "value": "800_UNKNOWN",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 901,
-                            "value": "901_UNKNOWN",
-                            "dimension_id": 1
-                        },
-                        {
-                            "id": 999,
-                            "value": "DEFAULT",
-                            "dimension_id": 1
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "SBU",
-            "endpoint": "/metadata/dimensions",
-            "payload": [
-                {
-                    "dimension_id": 2
-                }
-            ],
-            "expected_response": [
-                {
-                    "dimension_id": 2,
-                    "values": [
-                        {
-                            "id": 201,
-                            "value": "APPAREL",
-                            "dimension_id": 2
-                        },
-                        {
-                            "id": 202,
-                            "value": "FOOD",
-                            "dimension_id": 2
-                        },
-                        {
-                            "id": 203,
-                            "value": "CONSUMABLES",
-                            "dimension_id": 2
-                        },
-                        {
-                            "id": 204,
-                            "value": "HEALTH AND WELLNESS",
-                            "dimension_id": 2
-                        },
-                        {
-                            "id": 205,
-                            "value": "HOME",
-                            "dimension_id": 2
-                        },
-                        {
-                            "id": 206,
-                            "value": "HARDLINES",
-                            "dimension_id": 2
-                        },
-                        {
-                            "id": 207,
-                            "value": "FUEL",
-                            "dimension_id": 2
-                        },
-                        {
-                            "id": 208,
-                            "value": "OTHER",
-                            "dimension_id": 2
-                        },
-                        {
-                            "id": 209,
-                            "value": "ENTERTAINMENT TOYS AND SEASONAL",
-                            "dimension_id": 2
-                        },
-                        {
-                            "id": 210,
-                            "value": "Missing",
-                            "dimension_id": 2
-                        },
-                        {
-                            "id": 211,
-                            "value": "UNKNOWN",
-                            "dimension_id": 2
-                        }
-                    ]
-                }
-            ]
-        }
+  "configEndpoint": {
+    "endpoint": "/metadata/dimensions/config",
+    "expected_response": [
+      {
+        "id": 1,
+        "value": "DEPARTMENT"
+      },
+      {
+        "id": 2,
+        "value": "SBU"
+      },
+      {
+        "id": 3,
+        "value": "FINANCIAL_SUBGROUP"
+      },
+      {
+        "id": 4,
+        "value": "FINANCIAL_SEGMENT"
+      },
+      {
+        "id": 6,
+        "value": "CHANNEL"
+      },
+      {
+        "id": 7,
+        "value": "CHANNEL_GROUP"
+      },
+      {
+        "id": 8,
+        "value": "CHANNEL_HIERARCHY_V1"
+      },
+      {
+        "id": 9,
+        "value": "CHANNEL_HIERARCHY_V2"
+      },
+      {
+        "id": 11,
+        "value": "SBA"
+      },
+      {
+        "id": 12,
+        "value": "PBA"
+      },
+      {
+        "id": 13,
+        "value": "SEGMENT"
+      },
+      {
+        "id": 14,
+        "value": "REPORTING"
+      },
+      {
+        "id": 15,
+        "value": "BUSINESS_AREA"
+      },
+      {
+        "id": 16,
+        "value": "LOCATION"
+      },
+      {
+        "id": 17,
+        "value": "ENTITY"
+      },
+      {
+        "id": 19,
+        "value": "MONTH"
+      }
     ]
+  },
+  "dimensionEndpoint": [
+    {
+      "name": "DEPARTMENT",
+      "endpoint": "/metadata/dimensions",
+      "payload": [
+        {
+          "dimension_id": 1
+        }
+      ],
+      "expected_response": [
+        {
+          "dimension_id": 1,
+          "values": [
+            {
+              "id": -999,
+              "value": "-999_UNKNOWN",
+              "dimension_id": 1
+            },
+            {
+              "id": 0,
+              "value": "0_UNKNOWN",
+              "dimension_id": 1
+            },
+            {
+              "id": 1,
+              "value": "1_CANDY",
+              "dimension_id": 1
+            },
+            {
+              "id": 2,
+              "value": "2_PERSONAL CARE",
+              "dimension_id": 1
+            },
+            {
+              "id": 3,
+              "value": "3_STATIONERY",
+              "dimension_id": 1
+            },
+            {
+              "id": 4,
+              "value": "4_HOUSEHOLD PAPER",
+              "dimension_id": 1
+            },
+            {
+              "id": 5,
+              "value": "5_MEDIA AND GAMING",
+              "dimension_id": 1
+            },
+            {
+              "id": 6,
+              "value": "6_CAMERAS & SUPPLIES",
+              "dimension_id": 1
+            },
+            {
+              "id": 7,
+              "value": "7_TOYS",
+              "dimension_id": 1
+            },
+            {
+              "id": 8,
+              "value": "8_PETS & SUPPLIES",
+              "dimension_id": 1
+            },
+            {
+              "id": 9,
+              "value": "9_SPORTING GOODS",
+              "dimension_id": 1
+            },
+            {
+              "id": 10,
+              "value": "10_AUTOMOTIVE",
+              "dimension_id": 1
+            },
+            {
+              "id": 11,
+              "value": "11_HARDWARE",
+              "dimension_id": 1
+            },
+            {
+              "id": 12,
+              "value": "12_PAINT & ACCESSORIES",
+              "dimension_id": 1
+            },
+            {
+              "id": 13,
+              "value": "13_CLEANING",
+              "dimension_id": 1
+            },
+            {
+              "id": 14,
+              "value": "14_COOK AND DINE",
+              "dimension_id": 1
+            },
+            {
+              "id": 15,
+              "value": "15_HEALTH AND WELLNESS CLINICS",
+              "dimension_id": 1
+            },
+            {
+              "id": 16,
+              "value": "16_LAWN AND GARDEN",
+              "dimension_id": 1
+            },
+            {
+              "id": 17,
+              "value": "17_HOME DECOR",
+              "dimension_id": 1
+            },
+            {
+              "id": 18,
+              "value": "18_SEASONAL",
+              "dimension_id": 1
+            },
+            {
+              "id": 19,
+              "value": "19_ARTS, CRAFTS, SEWING & FABRICS",
+              "dimension_id": 1
+            },
+            {
+              "id": 20,
+              "value": "20_BATH AND SHOWER",
+              "dimension_id": 1
+            },
+            {
+              "id": 21,
+              "value": "21_BOOKS AND MAGAZINES",
+              "dimension_id": 1
+            },
+            {
+              "id": 22,
+              "value": "22_BEDDING",
+              "dimension_id": 1
+            },
+            {
+              "id": 23,
+              "value": "23_MENS APPAREL",
+              "dimension_id": 1
+            },
+            {
+              "id": 24,
+              "value": "24_BOYS APPAREL",
+              "dimension_id": 1
+            },
+            {
+              "id": 25,
+              "value": "25_SHOES",
+              "dimension_id": 1
+            },
+            {
+              "id": 26,
+              "value": "26_INFANT APPAREL",
+              "dimension_id": 1
+            },
+            {
+              "id": 27,
+              "value": "27_FAMILY SOCKS",
+              "dimension_id": 1
+            },
+            {
+              "id": 28,
+              "value": "28_HOSIERY",
+              "dimension_id": 1
+            },
+            {
+              "id": 29,
+              "value": "29_INTIMATE APPAREL",
+              "dimension_id": 1
+            },
+            {
+              "id": 30,
+              "value": "30_FOUNDATIONS",
+              "dimension_id": 1
+            },
+            {
+              "id": 31,
+              "value": "31_ACCESSORIES",
+              "dimension_id": 1
+            },
+            {
+              "id": 32,
+              "value": "32_JEWELRY",
+              "dimension_id": 1
+            },
+            {
+              "id": 33,
+              "value": "33_GIRLS APPAREL",
+              "dimension_id": 1
+            },
+            {
+              "id": 34,
+              "value": "34_WOMENS APPAREL",
+              "dimension_id": 1
+            },
+            {
+              "id": 35,
+              "value": "35_PLUS SIZES/MATERNITY",
+              "dimension_id": 1
+            },
+            {
+              "id": 36,
+              "value": "36_WOMENS OUTERWEAR",
+              "dimension_id": 1
+            },
+            {
+              "id": 37,
+              "value": "37_AUTO SERVICE",
+              "dimension_id": 1
+            },
+            {
+              "id": 38,
+              "value": "38_PHARMACY RX",
+              "dimension_id": 1
+            },
+            {
+              "id": 39,
+              "value": "39_CONSUMER SERVICES",
+              "dimension_id": 1
+            },
+            {
+              "id": 40,
+              "value": "40_OTC PHARMACY",
+              "dimension_id": 1
+            },
+            {
+              "id": 46,
+              "value": "46_BEAUTY",
+              "dimension_id": 1
+            },
+            {
+              "id": 49,
+              "value": "49_OPTICAL",
+              "dimension_id": 1
+            },
+            {
+              "id": 50,
+              "value": "50_OPTICAL",
+              "dimension_id": 1
+            },
+            {
+              "id": 56,
+              "value": "56_HORTICULTURE",
+              "dimension_id": 1
+            },
+            {
+              "id": 57,
+              "value": "57_HEARING CENTER",
+              "dimension_id": 1
+            },
+            {
+              "id": 58,
+              "value": "58_WIRELESS SERVICE INC",
+              "dimension_id": 1
+            },
+            {
+              "id": 60,
+              "value": "60_STAMPS",
+              "dimension_id": 1
+            },
+            {
+              "id": 61,
+              "value": "61_SAMS",
+              "dimension_id": 1
+            },
+            {
+              "id": 62,
+              "value": "62_SAMS",
+              "dimension_id": 1
+            },
+            {
+              "id": 63,
+              "value": "63_SAMS",
+              "dimension_id": 1
+            },
+            {
+              "id": 64,
+              "value": "64_SAMS",
+              "dimension_id": 1
+            },
+            {
+              "id": 65,
+              "value": "65_GASOLINE",
+              "dimension_id": 1
+            },
+            {
+              "id": 66,
+              "value": "66_WALMART-ENERGY",
+              "dimension_id": 1
+            },
+            {
+              "id": 67,
+              "value": "67_CELEBRATION",
+              "dimension_id": 1
+            },
+            {
+              "id": 68,
+              "value": "68_SAMS",
+              "dimension_id": 1
+            },
+            {
+              "id": 69,
+              "value": "69_WAL-MART ONLINE",
+              "dimension_id": 1
+            },
+            {
+              "id": 70,
+              "value": "70_STORE USE ONLY",
+              "dimension_id": 1
+            },
+            {
+              "id": 71,
+              "value": "71_FURNITURE",
+              "dimension_id": 1
+            },
+            {
+              "id": 72,
+              "value": "72_ELECTRONICS",
+              "dimension_id": 1
+            },
+            {
+              "id": 74,
+              "value": "74_HOME MANAGEMENT",
+              "dimension_id": 1
+            },
+            {
+              "id": 75,
+              "value": "75_OPTICAL - DOCTORS",
+              "dimension_id": 1
+            },
+            {
+              "id": 76,
+              "value": "76_ACADEMY",
+              "dimension_id": 1
+            },
+            {
+              "id": 77,
+              "value": "77_LARGE HOUSEHOLD GOODS",
+              "dimension_id": 1
+            },
+            {
+              "id": 79,
+              "value": "79_INFANT CONSUMABLE HARDLINES",
+              "dimension_id": 1
+            },
+            {
+              "id": 80,
+              "value": "80_SERVICE DELI",
+              "dimension_id": 1
+            },
+            {
+              "id": 81,
+              "value": "81_COM BREAD",
+              "dimension_id": 1
+            },
+            {
+              "id": 82,
+              "value": "82_IMPULSE MERCHANDISE",
+              "dimension_id": 1
+            },
+            {
+              "id": 83,
+              "value": "83_SEAFOOD",
+              "dimension_id": 1
+            },
+            {
+              "id": 84,
+              "value": "84_BALLOONS & FLOWERS",
+              "dimension_id": 1
+            },
+            {
+              "id": 85,
+              "value": "85_ONE HOUR PHOTO",
+              "dimension_id": 1
+            },
+            {
+              "id": 86,
+              "value": "86_WALMART SERVICES",
+              "dimension_id": 1
+            },
+            {
+              "id": 87,
+              "value": "87_WIRELESS",
+              "dimension_id": 1
+            },
+            {
+              "id": 88,
+              "value": "88_PMDCSIGNINIG",
+              "dimension_id": 1
+            },
+            {
+              "id": 89,
+              "value": "89_TRAVEL",
+              "dimension_id": 1
+            },
+            {
+              "id": 90,
+              "value": "90_DAIRY",
+              "dimension_id": 1
+            },
+            {
+              "id": 91,
+              "value": "91_FROZEN",
+              "dimension_id": 1
+            },
+            {
+              "id": 92,
+              "value": "92_GROCERY",
+              "dimension_id": 1
+            },
+            {
+              "id": 93,
+              "value": "93_MEAT",
+              "dimension_id": 1
+            },
+            {
+              "id": 94,
+              "value": "94_PRODUCE",
+              "dimension_id": 1
+            },
+            {
+              "id": 95,
+              "value": "95_DSD GROCERY",
+              "dimension_id": 1
+            },
+            {
+              "id": 96,
+              "value": "96_LIQUOR",
+              "dimension_id": 1
+            },
+            {
+              "id": 97,
+              "value": "97_WALL DELI",
+              "dimension_id": 1
+            },
+            {
+              "id": 98,
+              "value": "98_BAKERY",
+              "dimension_id": 1
+            },
+            {
+              "id": 99,
+              "value": "99_OFFICE & STORE",
+              "dimension_id": 1
+            },
+            {
+              "id": 100,
+              "value": "Missing",
+              "dimension_id": 1
+            },
+            {
+              "id": 101,
+              "value": "UNKNOWN",
+              "dimension_id": 1
+            },
+            {
+              "id": 800,
+              "value": "800_UNKNOWN",
+              "dimension_id": 1
+            },
+            {
+              "id": 901,
+              "value": "901_UNKNOWN",
+              "dimension_id": 1
+            },
+            {
+              "id": 999,
+              "value": "DEFAULT",
+              "dimension_id": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SBU",
+      "endpoint": "/metadata/dimensions",
+      "payload": [
+        {
+          "dimension_id": 2
+        }
+      ],
+      "expected_response": [
+        {
+          "dimension_id": 2,
+          "values": [
+            {
+              "id": 201,
+              "value": "APPAREL",
+              "dimension_id": 2
+            },
+            {
+              "id": 202,
+              "value": "FOOD",
+              "dimension_id": 2
+            },
+            {
+              "id": 203,
+              "value": "CONSUMABLES",
+              "dimension_id": 2
+            },
+            {
+              "id": 204,
+              "value": "HEALTH AND WELLNESS",
+              "dimension_id": 2
+            },
+            {
+              "id": 205,
+              "value": "HOME",
+              "dimension_id": 2
+            },
+            {
+              "id": 206,
+              "value": "HARDLINES",
+              "dimension_id": 2
+            },
+            {
+              "id": 207,
+              "value": "FUEL",
+              "dimension_id": 2
+            },
+            {
+              "id": 208,
+              "value": "OTHER",
+              "dimension_id": 2
+            },
+            {
+              "id": 209,
+              "value": "ENTERTAINMENT TOYS AND SEASONAL",
+              "dimension_id": 2
+            },
+            {
+              "id": 210,
+              "value": "Missing",
+              "dimension_id": 2
+            },
+            {
+              "id": 211,
+              "value": "UNKNOWN",
+              "dimension_id": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

@@ -1,7 +1,6 @@
-import testdata from "../testdata/getkpiforecast.json";
-import { test, expect } from "../../common/fixtures/test-hook";
-import debug from "debug";
+import { expect, test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
+import testdata from "../testdata/getkpiforecast.json";
 
 test.describe(
   "Verify the @GetKPIForecast API",
@@ -10,14 +9,14 @@ test.describe(
     let apiResponse, apiResponseBody;
     // API endpoint URL
     const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
-    debug.log(endpointURL);
+    Utility.logIt(endpointURL);
 
-    test("Verify if the user is able to get data for the selected @Node and @Filter combination", async ({
+    test("Verify if the user is able to get data for the selected Node and Filter combination", async ({
       context,
     }) => {
       // Call the Get KPI Forecast API with the filter and Node combination
       await test.step("Make a Post Request for getting the forecast data", async () => {
-        debug.log("Make a Post Request for getting the forecast data");
+        Utility.logIt("Make a Post Request for getting the forecast data");
         apiResponse = await context.request.post(endpointURL, {
           data: testdata,
         });
@@ -25,7 +24,7 @@ test.describe(
 
       // Check if the response is success
       await test.step("Check if the response message is success", async () => {
-        await Utility.assertAndLog(apiResponse);
+        apiResponseBody = await Utility.assertAndLog(apiResponse);
       });
 
       // Check if the response columns header matches withe payload Month filter

@@ -1,14 +1,13 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { CreateForecastPopup } from "./create-forecast.-popup.page";
-import { OpenCurrentForecast } from '../pages/open-forecast.page';
-import { ScenarioStatus } from '../pages/scenario-status.page';
-import forecast from '../testdata/forecast.json';
+import { OpenCurrentForecast } from "../pages/open-forecast.page";
+import { ScenarioStatus } from "../pages/scenario-status.page";
+import forecast from "../testdata/forecast.json";
 import debug from "debug";
-import { Utility } from '../../common/fixtures/utils';
-import testdata from '../../ufm-be/testdata/deadlinedate-api.json';
+import { Utility } from "../../common/fixtures/utils";
+import testdata from "../../ufm-be/testdata/deadlinedate-api.json";
 
 export class CurrentForecast {
-
   readonly page: Page;
   readonly lnkOrganisationSelection: Locator;
   readonly createForecastButton: Locator;
@@ -24,7 +23,7 @@ export class CurrentForecast {
   readonly netSalesForecastValueFirstRow: Locator;
   readonly createNewFilterSet: Locator;
   readonly filterSetName: Locator;
-  readonly selectedUFMFilterSection: Locator
+  readonly selectedUFMFilterSection: Locator;
   readonly saveFilterSet: Locator;
   readonly open: Locator;
   private readonly urlEndpoint = process.env.ufmAppBaseURL + "";
@@ -32,31 +31,59 @@ export class CurrentForecast {
   readonly forecastHeader: Locator;
   readonly rollingForecastCalendarTab: Locator;
   readonly forecastCycleContainer: Locator;
-  readonly nudgeMessageForCreateDueDate: Locator
+  readonly nudgeMessageForCreateDueDate: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.lnkOrganisationSelection = page.getByText("Organization Selection");
-    this.createForecastButton = page.getByText('Create forecast');
-    this.forecastStatus = page.locator('//div[@class="ag-pinned-left-cols-container"]//child::div[@class = "ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-value"]//div');
-    this.filterSetsDropdown = page.getByText('Filter sets')
-    this.filterSetsList = page.locator('//*[contains(@class,"FilterSet_filtersetModalContainer")]/descendant::span')
-    this.totalValueForecastHeader = page.locator('//div[@col-id="totalvalue.forecast"]')
-    this.applyFilterSet = page.locator('//div[contains(@class,"FilterSet")]//button[contains(text(),"Apply")]')
-    this.applyFilter = page.locator('//div[contains(@class,"UFMFilters_filter_button")]//button[contains(text(),"Apply")]')
-    this.viewInAbsoluteNumbers = page.getByText("Absolute")
-    this.totalForecastValueFirstRow = page.locator('(//div[@col-id="totalvalue.forecast" and @role="gridcell"])[1]')
-    this.netSalesForecastValueFirstRow = page.locator('(//div[@col-id="netsales.forecast" and @role="gridcell"])[1]')
-    this.date = page.locator('//h3[text()="Current Forecast"]//following::div[@class="vis-container"]//child::div[@class = "msg"]');
-    this.createNewFilterSet = page.getByRole('button', { name: 'Create new filter set' });
-    this.filterSetName = page.getByPlaceholder('Filter set')
-    this.selectedUFMFilterSection = page.locator('//p[contains(@class,"UFMFilters_selectedFilters")]')
-    this.saveFilterSet = page.getByText("Save")
-    this.open = page.getByText("Open")
-    this.forecastHeader = page.locator('//div[contains(@class,"title-forecast")]')
-    this.rollingForecastCalendarTab = page.getByText("Rolling forecast calender")
-    this.forecastCycleContainer = page.locator('//div[contains(@class,"forecastCycleContainer")]')
-    this.nudgeMessageForCreateDueDate = page.getByText('A new fiscal year is approaching. Set rolling forecast due dates for FY')
+    this.createForecastButton = page.getByText("Create forecast");
+    this.forecastStatus = page.locator(
+      '//div[@class="ag-pinned-left-cols-container"]//child::div[@class = "ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-value"]//div'
+    );
+    this.filterSetsDropdown = page.getByText("Filter sets");
+    this.filterSetsList = page.locator(
+      '//*[contains(@class,"FilterSet_filtersetModalContainer")]/descendant::span'
+    );
+    this.totalValueForecastHeader = page.locator(
+      '//div[@col-id="totalvalue.forecast"]'
+    );
+    this.applyFilterSet = page.locator(
+      '//div[contains(@class,"FilterSet")]//button[contains(text(),"Apply")]'
+    );
+    this.applyFilter = page.locator(
+      '//div[contains(@class,"UFMFilters_filter_button")]//button[contains(text(),"Apply")]'
+    );
+    this.viewInAbsoluteNumbers = page.getByText("Absolute");
+    this.totalForecastValueFirstRow = page.locator(
+      '(//div[@col-id="totalvalue.forecast" and @role="gridcell"])[1]'
+    );
+    this.netSalesForecastValueFirstRow = page.locator(
+      '(//div[@col-id="netsales.forecast" and @role="gridcell"])[1]'
+    );
+    this.date = page.locator(
+      '//h3[text()="Current Forecast"]//following::div[@class="vis-container"]//child::div[@class = "msg"]'
+    );
+    this.createNewFilterSet = page.getByRole("button", {
+      name: "Create new filter set",
+    });
+    this.filterSetName = page.getByPlaceholder("Filter set");
+    this.selectedUFMFilterSection = page.locator(
+      '//p[contains(@class,"UFMFilters_selectedFilters")]'
+    );
+    this.saveFilterSet = page.getByText("Save");
+    this.open = page.getByText("Open");
+    this.forecastHeader = page.locator(
+      '//div[contains(@class,"title-forecast")]'
+    );
+    this.rollingForecastCalendarTab = page.getByText(
+      "Rolling forecast calender"
+    );
+    this.forecastCycleContainer = page.locator(
+      '//div[contains(@class,"forecastCycleContainer")]'
+    );
+    this.nudgeMessageForCreateDueDate = page.getByText(
+      "A new fiscal year is approaching. Set rolling forecast due dates for FY"
+    );
   }
 
   async gotoOrganisationSelection() {
@@ -65,28 +92,30 @@ export class CurrentForecast {
 
   async clickOnCreateForecast() {
     await this.createForecastButton.click();
-    return new CreateForecastPopup(this.page)
+    return new CreateForecastPopup(this.page);
   }
 
   async verifySBAName(breadCrumName: string) {
-    const sbaNameText = await this.page.getByText(`${breadCrumName}`).innerText();
-    console.log(sbaNameText)
+    const sbaNameText = await this.page
+      .getByText(`${breadCrumName}`)
+      .innerText();
+    Utility.logIt(sbaNameText);
     expect(sbaNameText).toBe(forecast.Merch.sbaBreadCrumName);
     return new OpenCurrentForecast(this.page);
   }
 
   async isForecastStatusDraftOrChangesRequested() {
     const scenariosStatus = await this.forecastStatus.innerText();
-    console.log(scenariosStatus);
+    Utility.logIt(scenariosStatus);
     const statuses: string[] = ["Draft", "Change requested"];
     expect(statuses.includes(scenariosStatus)).toBeTruthy();
     return new ScenarioStatus(this.page);
   }
 
   async clickOnFilterSetsDropdown() {
-    await this.page.keyboard.press('Escape');
-    await this.filterSetsDropdown.first().click()
-    await this.waitForFiltersetListToBeVisible()
+    await this.page.keyboard.press("Escape");
+    await this.filterSetsDropdown.first().click();
+    await this.waitForFiltersetListToBeVisible();
   }
 
   async waitForFiltersetListToBeVisible() {
@@ -96,122 +125,145 @@ export class CurrentForecast {
   }
 
   async getAvailableFilterSetsList() {
-    const filterSetInnerTexts = await this.filterSetsList.allInnerTexts()
-    return filterSetInnerTexts
+    const filterSetInnerTexts = await this.filterSetsList.allInnerTexts();
+    return filterSetInnerTexts;
   }
 
   async waitForForecastToLoad() {
-    await this.totalValueForecastHeader.first().waitFor({ state: "visible" })
+    await this.totalValueForecastHeader.first().waitFor({ state: "visible" });
   }
 
   async clickOnFilterSet(filterSetName: string) {
-    await this.page
-      .getByText(`${filterSetName}`).click()
+    await this.page.getByText(`${filterSetName}`).click();
 
-    const selectedRadioButton = await this.page.$(`//span[contains(text(),"${filterSetName}")]/parent::label`);
-    const classOfSelectedFilter = await selectedRadioButton.getAttribute('class');
+    const selectedRadioButton = await this.page.$(
+      `//span[contains(text(),"${filterSetName}")]/parent::label`
+    );
+    const classOfSelectedFilter = await selectedRadioButton.getAttribute(
+      "class"
+    );
 
-    expect(classOfSelectedFilter.includes("checked"))
+    expect(classOfSelectedFilter.includes("checked"));
   }
 
   async clickOnApplyFilterSet() {
-    await this.applyFilterSet.click()
-    await this.filterSetsList.waitFor({ state: 'hidden' });
+    await this.applyFilterSet.click();
+    await this.filterSetsList.waitFor({ state: "hidden" });
   }
 
   async clickOnApplyFilter() {
-    await this.applyFilter.first().click()
+    await this.applyFilter.first().click();
   }
 
   async clickOnViewIn(Conversion: string) {
-    await this.page.getByText(`${Conversion}`).click()
+    await this.page.getByText(`${Conversion}`).click();
   }
 
   async getForecastValues() {
-    let totalValueFirstRow: string | number = await this.totalForecastValueFirstRow.innerText()
-    let netSalesFirstRow: string | number = await this.netSalesForecastValueFirstRow.innerText()
+    let totalValueFirstRow: string | number =
+      await this.totalForecastValueFirstRow.innerText();
+    let netSalesFirstRow: string | number =
+      await this.netSalesForecastValueFirstRow.innerText();
 
-    totalValueFirstRow = parseFloat(totalValueFirstRow.replace(/[,$-]/g, ''))
-    netSalesFirstRow = parseFloat(netSalesFirstRow.replace(/[,$-]/g, ''))
+    totalValueFirstRow = parseFloat(totalValueFirstRow.replace(/[,$-]/g, ""));
+    netSalesFirstRow = parseFloat(netSalesFirstRow.replace(/[,$-]/g, ""));
 
-    totalValueFirstRow = isNaN(totalValueFirstRow) ? 0 : totalValueFirstRow
-    netSalesFirstRow = isNaN(netSalesFirstRow) ? 0 : netSalesFirstRow
+    totalValueFirstRow = isNaN(totalValueFirstRow) ? 0 : totalValueFirstRow;
+    netSalesFirstRow = isNaN(netSalesFirstRow) ? 0 : netSalesFirstRow;
 
-    debug.log("totalValue:", totalValueFirstRow, " netSales:", netSalesFirstRow)
+    debug.log(
+      "totalValue:",
+      totalValueFirstRow,
+      " netSales:",
+      netSalesFirstRow
+    );
 
-    return { totalValue: totalValueFirstRow, netSales: netSalesFirstRow }
+    return { totalValue: totalValueFirstRow, netSales: netSalesFirstRow };
   }
 
-
   async verifyVisibilityOfDeadlineDate() {
-
     const deadlineDate = await this.date.innerText(); //Segment will submit the forecast on Apr,29 2024
     const stringToTrim = deadlineDate;
-    const actualDate = stringToTrim.substring(stringToTrim.indexOf('on') + 3).trim();
-    let strExpdate = await Utility.getUpcomingForecastSubmissionDate(testdata.expected_reponse);
+    const actualDate = stringToTrim
+      .substring(stringToTrim.indexOf("on") + 3)
+      .trim();
+    let strExpdate = await Utility.getUpcomingForecastSubmissionDate(
+      testdata.expected_reponse
+    );
     expect(actualDate).toEqual(strExpdate);
   }
 
   async clickOnFilterDropdown(filterName: string) {
-    await this.page.getByRole('button', { name: `${filterName}`, exact: true }).first().click();
+    await this.page
+      .getByRole("button", { name: `${filterName}`, exact: true })
+      .first()
+      .click();
   }
 
   async selectFilterOption(filterOption: string) {
     const filterSelection = await this.page.getByLabel(`${filterOption}`);
 
-    await filterSelection.check()
+    await filterSelection.check();
     await expect(filterSelection).toBeChecked();
-    await this.page.keyboard.press('Escape');
+    await this.page.keyboard.press("Escape");
   }
 
   async clickOnCreateNewFilterSet() {
-    await this.createNewFilterSet.click()
+    await this.createNewFilterSet.click();
   }
 
   async fillFilterSetName(filterSetName: string) {
-    await this.filterSetName.fill(filterSetName)
+    await this.filterSetName.fill(filterSetName);
   }
 
   async getUFMSelectedFilters() {
-    return await this.selectedUFMFilterSection.allInnerTexts()
+    return await this.selectedUFMFilterSection.allInnerTexts();
   }
 
   async clickOnSaveFilterSet() {
-    await this.saveFilterSet.click()
+    await this.saveFilterSet.click();
   }
 
   async deleteFilterSet(filterSetName: string) {
-    await this.page.locator(`//label[@data-testid="${filterSetName}"]/following-sibling::*[@data-testid="del_button"]`).click()
-    await this.page.waitForTimeout(1000)
+    await this.page
+      .locator(
+        `//label[@data-testid="${filterSetName}"]/following-sibling::*[@data-testid="del_button"]`
+      )
+      .click();
+    await this.page.waitForTimeout(1000);
   }
 
   async clickOnOpenParticularForecast(LOB: string) {
+    let forecastParentElement = this.page
+      .locator(
+        `//div[contains(@class,'CurrentForecast_card-container')]//div[contains(text(),"${LOB}")]/parent::div`
+      )
+      .first();
 
-    let forecastParentElement = this.page.locator(`//div[contains(@class,'CurrentForecast_card-container')]//div[contains(text(),"${LOB}")]/parent::div`).first()
+    let forecastRowID = await forecastParentElement.getAttribute("row-id");
 
-    let forecastRowID = await forecastParentElement.getAttribute('row-id')
+    let forecastName = await forecastParentElement
+      .locator('//div[@col-id="name"]')
+      .innerText();
 
-    let forecastName = await forecastParentElement.locator('//div[@col-id="name"]').innerText()
+    let LOBForecast = await this.page.locator(
+      `//div[contains(@class,'CurrentForecast_card-container')]//div[@row-id=${forecastRowID}]`
+    );
 
-    let LOBForecast = await this.page.locator(`//div[contains(@class,'CurrentForecast_card-container')]//div[@row-id=${forecastRowID}]`);
+    await LOBForecast.locator(this.open).click();
 
-    await LOBForecast.locator(this.open).click()
+    let foreCastHeader = await this.forecastHeader.innerText();
 
-    let foreCastHeader = await this.forecastHeader.innerText()
-
-    expect(foreCastHeader).toEqual(forecastName)
-
+    expect(foreCastHeader).toEqual(forecastName);
   }
 
   async clickOnRollingForecastCalendarTab() {
-    await this.rollingForecastCalendarTab.click()
-    await this.forecastCycleContainer.waitFor({ state: "visible" })
+    await this.rollingForecastCalendarTab.click();
+    await this.forecastCycleContainer.waitFor({ state: "visible" });
   }
 
   async isCreateDueDateNudgeMessageDisplayed() {
-    await this.page.waitForTimeout(1000)
-    return await this.nudgeMessageForCreateDueDate.isVisible()
+    await this.page.waitForTimeout(1000);
+    return await this.nudgeMessageForCreateDueDate.isVisible();
   }
-
 }
-

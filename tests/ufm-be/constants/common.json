@@ -1,13 +1,37 @@
 {
-  "endpoint": "/reports/get-report",
-  "review_endpoint": "/workflow/status",
-  "individual_status_endpoint": "/workflow/get-individual-status",
-  "last_locked_scenario_endpoint":"/scenario/last-locked-scenario",
   "classification_id": 12,
   "lob_dim_id": 11,
   "ba_dim_id": 12,
   "ba_template_id": 2,
   "type": 3,
+  "lobList": [
+    "optical",
+    "rx",
+    "merch",
+    "ecommerce",
+    "lmd",
+    "e2e_delivery",
+    "core_service",
+    "fulfillment",
+    "i&a",
+    "connect",
+    "marketing",
+    "data_ventures",
+    "operations",
+    "real_estate",
+    "fuel",
+    "segment",
+    "home_office"
+  ],
+  "orgList": [
+    "BA_Merch",
+    "H&W",
+    "CUSTOMER & REVENUE",
+    "BA_Operations",
+    "Supply Chain",
+    "BA_Segment",
+    "BA_Ecomm"
+  ],
 
   "Segment_Finance": {
     "dim_val_id": 130001,
@@ -127,7 +151,5 @@
   "Draft": 21,
   "BA_Review": 22,
   "Segment_Review": 23,
-  "Change_Requested": 25,
-
-  "sendToReviewSuccessful": "status migrated successfully"
+  "Change_Requested": 25
 }
