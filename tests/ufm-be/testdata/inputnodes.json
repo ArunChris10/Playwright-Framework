@@ -1,0 +1,12 @@
+{
+  "endpoint": "/metadata/drivers",
+  "payloads": {
+    "dim_id": 11,
+    "dim_val_id": 110001,
+    "classification_id": 12,
+    "driver_type": 49,
+    "filters": [],
+    "utilisedBy": "",
+    "utilityObj": {}
+  }
+}

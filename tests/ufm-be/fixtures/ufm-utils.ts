@@ -4,7 +4,9 @@ import scenarioIds from "../testdata/scenarioIds.json";
 import forecastCalendarData from "../testdata/forecast-calendar-api.json";
 import filterData from "../testdata/filter-service.json";
 import hisTestdatafile from "../testdata/historical-forecast.json";
+import adjustmentData from "../testdata/adjustment.json";
 import commonData from "../testdata/common.json";
+import inputNodes from "../testdata/inputnodes.json";
 import { Utility } from "../../common/fixtures/utils";
 import { expect } from "../../common/fixtures/test-hook";
 
@@ -417,15 +419,12 @@ export class UfmUtility {
   static async getScenarioVersion(forecast_list, scenario_id) {
     let scenario_version;
     console.log(`Getting Scenario version`);
-    for (let i = 0; i < forecast_list.length; i++) {
-      //console.log(forecast_list[i]);
-      if (forecast_list[i].scenarioId == scenario_id) {
-        console.log(`Scenario Version: ${forecast_list[i].scenarioVersion}`);
-        scenario_version = forecast_list[i].scenarioVersion;
-        break;
+    forecast_list.filter(function (i) {
+      if (i["scenarioId"] == scenario_id) {
+        console.log(i["scenarioVersion"]);
+        return i["scenarioVersion"];
       }
-    }
-    return scenario_version;
+    });
   }
 
   //This method will give you the last locked scenario
@@ -470,5 +469,64 @@ export class UfmUtility {
     //asserting the responseawait expect(response).toBeOK();
     let responseBody = await Utility.assertAndLog(response);
     await expect(responseBody).toEqual(commonData.sendToReviewSuccessful);
+  }
+
+  // This method creates adjustment
+  static async createAdjustment(
+    scenario_id,
+    scenario_version,
+    lobName,
+    request
+  ) {
+    const endpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;
+    console.log(`Create adjustment for ${lobName}`);
+    adjustmentData.payloads.adjustment_metadata.adjustment_name =
+      lobName + " Auto Adjustment " + new Date().toLocaleString();
+    adjustmentData.payloads.adjustment_metadata.adjustment_reason =
+      lobName + " Auto Adjustment Desc " + new Date().toLocaleString();
+    adjustmentData.payloads.adjustment_metadata.scenario_id = scenario_id;
+    adjustmentData.payloads.adjustment_metadata.scenario_version_timestamp =
+      scenario_version;
+    adjustmentData.payloads.allocation_request.scenario_id = scenario_id;
+
+    const response = await request.patch(endpointURL, {
+      data: adjustmentData.payloads,
+    });
+
+    // asserting the response
+    let responseBody = await Utility.assertAndLog(response);
+    await expect
+      .soft(responseBody.message)
+      .toEqual(adjustmentData.successMessage);
+    await expect
+      .soft(responseBody.adjustment_metadata.adjustment_name)
+      .toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
+    await expect
+      .soft(responseBody.adjustment_metadata.adjustment_reason)
+      .toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_reason);
+
+    let adjustment_id = responseBody.adjustment_metadata.adjustment_id;
+    return adjustment_id;
+  }
+
+  static async getInputNodelist(lobName, request) {
+    let inputnodes: string[] = [];
+    const endpointURL = `${process.env.apiBaseURLUFM}${inputNodes.endpoint}`;
+
+    console.log(`Find input nodes for ${lobName} scenario`);
+    inputNodes.payloads.dim_val_id = commonData[lobName].dim_val_id;
+    const response = await request.post(endpointURL, {
+      data: inputNodes.payloads,
+    });
+    // asserting the response
+    await expect.soft(response).toBeOK();
+    let responseBody = await response.json();
+    responseBody.nodes.filter(function (i) {
+      if (i["is_editable"] == true) {
+        inputnodes.push(i["node_var_name"]);
+      }
+    });
+    console.log(`No of input nodes for ${lobName} - ${inputnodes.length}`);
+    return inputnodes;
   }
 }

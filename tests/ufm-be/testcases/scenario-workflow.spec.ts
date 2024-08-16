@@ -19,7 +19,7 @@ for (let i = 0; i < orgName.length; i++) {
     `Submit ${orgName[i]} BAs to Segment Review`,
     { tag: "@sendtoreview" },
     async () => {
-      test.describe.configure({ timeout: 600_000_000, mode: "serial" });
+      test.describe.configure({ timeout: 3_600_000, mode: "serial" });
       let scenario_id, scenario_version;
 
       test(`Get scenario tracker for ${orgName[i]} BA `, async ({

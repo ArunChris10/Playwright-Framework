@@ -4,7 +4,6 @@ tools:
   npm: 8.19.2
 
 useSecretStore: true
-
 envs:
   global:
     variables:
@@ -173,7 +172,7 @@ flows:
       - call: setup
       - APP_NAME=CDF RUN_ID=$testrunid ENV=qa TEST=custom_tag npm run tests:cdf-tests
     finally:
-      - call: reporter  
+      - call: reporter
 
   runCDFSMokeTest:
     try:
