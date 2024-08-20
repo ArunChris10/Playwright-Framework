@@ -1069,4 +1069,18 @@ export class CdfUtility {
         Math.round(forecast.reduce((a, b) => a + b.amount, 0) * 100) / 100
       ).toEqual(totalValue);
     }
+
+    static async verifyGMVMixPercentage(forecast, forecastTotals, plusMinusMonths) {
+      const currentDate = new Date();
+      let month = currentDate.getMonth();
+      let year = currentDate.getFullYear();
+      
+      let sbuForecastSaleMixPercentage = forecast[0].forecast.filter(c=>c.year == year && c.month == month + plusMinusMonths).map(c=>c.forecastGrowth.saleMixPercentage);
+      let sbuForecastGMV = forecast[0].forecast.filter(c=>c.year == year && c.month == month + plusMinusMonths).map(c=>c.amount);
+      let sbuForecastGMVTotal = forecastTotals.forecast.filter(c=>c.year == year && c.month == month + plusMinusMonths).map(c=>c.amount);
+
+      let gmvMixpercentage = parseFloat(((sbuForecastGMV / sbuForecastGMVTotal) * 100).toFixed(2));
+      
+      expect(sbuForecastSaleMixPercentage[0]).toEqual(gmvMixpercentage);
+    }
 }
