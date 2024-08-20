@@ -37,9 +37,15 @@ export interface Channel {
     baseChannelId: string,
 }
 
-interface ForecastTotals {
-    sbu: 'Total'
+interface ForecastTotal {
+    sbu: 'Total' | 'Total Ex Photo' | 'ETS Ex Photo'
     forecast: Forecast[]
+}
+
+interface ForecastTotals {
+    grandTotal: ForecastTotal
+    totalAfterExcludingDepartments: ForecastTotal
+    TotalOfExcludingDepartments: ForecastTotal
 }
 
 interface TotalAfterExcludingDepartments {
@@ -54,10 +60,8 @@ interface TotalOfExcludingDepartments {
 
 // forecastTotals exists if the request body's filterLevel is 'MONTH'
 export interface GetDemandScenarioForecastResponse<forecastType> {
-    forecastTotals?: ForecastTotals
-    totalAfterExcludingDepartments: TotalAfterExcludingDepartments
-    totalOfExcludingDepartments: TotalOfExcludingDepartments
     forecast: forecastType[]
+    forecastTotals?: ForecastTotals
 }
 
 
