@@ -91,9 +91,3 @@ test.describe("Verify that the user should be able to download excel from curren
     });
 
 });
-
-
-// Moved the endpoint to common endpoint file - done
-// Need to do a test run
-// Need to find a way to validate all the SBUs - Done
-// Need to find a way to validate all the SBUs  - Done - failing due to missing data - this needs to solved by matching it with months
