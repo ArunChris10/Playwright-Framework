@@ -1,0 +1,261 @@
+{"baseChannels": [
+    {
+      "displayName": "DSV S2H",
+      "displayOrder": 4,
+      "id": 22,
+      "name": "DSV_S2H"
+    },
+    {
+      "displayName": "DSV S2S",
+      "displayOrder": 5,
+      "id": 26,
+      "name": "DSV_S2S"
+    },
+    {
+      "displayName": "Express Delivery",
+      "displayOrder": 7,
+      "id": 5,
+      "name": "Express_Delivery"
+    },
+    {
+      "displayName": "Express Pickup",
+      "displayOrder": 8,
+      "id": 14,
+      "name": "Express_Pickup"
+    },
+    {
+      "displayName": "Inhome Delivery",
+      "displayOrder": 10,
+      "id": 4,
+      "name": "INHOME_DELIVERY"
+    },
+    {
+      "displayName": "InStore InClub",
+      "displayOrder": 11,
+      "id": 1,
+      "name": "InStore_InClub"
+    },
+    { "displayName": "None", "displayOrder": 12, "id": 999, "name": "NONE" },
+    {
+      "displayName": "Owned S2H",
+      "displayOrder": 14,
+      "id": 23,
+      "name": "Owned_S2H"
+    },
+    {
+      "displayName": "Owned S2S",
+      "displayOrder": 15,
+      "id": 27,
+      "name": "OWNED_S2S"
+    },
+    {
+      "displayName": "Scheduled Delivery",
+      "displayOrder": 20,
+      "id": 3,
+      "name": "Scheduled_Delivery"
+    },
+    {
+      "displayName": "Scheduled Pickup",
+      "displayOrder": 21,
+      "id": 12,
+      "name": "Scheduled_Pickup"
+    },
+    {
+      "displayName": "Seller Fulfilled",
+      "displayOrder": 22,
+      "id": 32,
+      "name": "SELLER_FULFILLED"
+    },
+    {
+      "displayName": "Ship From Store",
+      "displayOrder": 25,
+      "id": 10,
+      "name": "Ship_From_Store"
+    },
+    { "displayName": "Test", "displayOrder": 27, "id": -99, "name": "TEST" },
+    {
+      "displayName": "Unscheduled Delivery",
+      "displayOrder": 29,
+      "id": 6,
+      "name": "Unscheduled_Delivery"
+    },
+    {
+      "displayName": "Unscheduled Pickup",
+      "displayOrder": 30,
+      "id": 13,
+      "name": "Unscheduled_Pickup"
+    },
+    {
+      "displayName": "Walmart Fulfillment Services",
+      "displayOrder": 31,
+      "id": 33,
+      "name": "Walmart_Fulfillment_Services"
+    },
+    {
+      "displayName": "WMT Photo",
+      "displayOrder": 35,
+      "id": 17,
+      "name": "WMT_Photo"
+    }
+  ],
+  "sbus": [
+    { "displayName": "Consumables", "id": 29, "name": "CONSUMABLES" },
+    {
+      "displayName": "ETS",
+      "id": 196,
+      "name": "ENTERTAINMENT TOYS AND SEASONAL"
+    },
+    { "displayName": "Fashion", "id": 4, "name": "FASHION" },
+    { "displayName": "Food", "id": 27, "name": "FOOD" },
+    { "displayName": "Hardlines", "id": 60, "name": "HARDLINES" },
+    { "displayName": "Home", "id": 47, "name": "HOME" }
+  ],
+  "excludedsbus": [
+    { "displayName": "Fuel", "id": 65, "name": "FUEL" },
+    { "displayName": "H&W", "id": 30, "name": "HEALTH AND WELLNESS" },
+    { "displayName": "Other", "id": 99, "name": "OTHER" }
+  ],
+  "departments": [
+    { "displayName": "Academy", "id": 76, "name": "ACADEMY" },
+    { "displayName": "Accessories", "id": 31, "name": "ACCESSORIES" },
+    {
+      "displayName": "Arts, Crafts, Sewing & Fabrics",
+      "id": 19,
+      "name": "ARTS, CRAFTS, SEWING & FABRICS"
+    },
+    { "displayName": "Auto Service", "id": 37, "name": "AUTO SERVICE" },
+    { "displayName": "Automotive", "id": 10, "name": "AUTOMOTIVE" },
+    {
+      "displayName": "Baby And Toddler Apparel",
+      "id": 26,
+      "name": "BABY AND TODDLER APPAREL"
+    },
+    { "displayName": "Bakery", "id": 98, "name": "BAKERY" },
+    {
+      "displayName": "Balloons & Flowers",
+      "id": 84,
+      "name": "BALLOONS & FLOWERS"
+    },
+    { "displayName": "Bath And Shower", "id": 20, "name": "BATH AND SHOWER" },
+    { "displayName": "Beauty", "id": 46, "name": "BEAUTY" },
+    { "displayName": "Bedding", "id": 22, "name": "BEDDING" },
+    {
+      "displayName": "Books And Magazines",
+      "id": 21,
+      "name": "BOOKS AND MAGAZINES"
+    },
+    { "displayName": "Boys Apparel", "id": 24, "name": "BOYS APPAREL" },
+    {
+      "displayName": "Cameras & Supplies",
+      "id": 6,
+      "name": "CAMERAS & SUPPLIES"
+    },
+    { "displayName": "Candy", "id": 1, "name": "CANDY" },
+    { "displayName": "Celebration", "id": 67, "name": "CELEBRATION" },
+    { "displayName": "Cleaning", "id": 13, "name": "CLEANING" },
+    { "displayName": "Com Bread", "id": 81, "name": "COM BREAD" },
+    {
+      "displayName": "Consumer Services",
+      "id": 39,
+      "name": "CONSUMER SERVICES"
+    },
+    { "displayName": "Cook And Dine", "id": 14, "name": "COOK AND DINE" },
+    { "displayName": "Dairy", "id": 90, "name": "DAIRY" },
+    { "displayName": "DSD Grocery", "id": 95, "name": "DSD GROCERY" },
+    {
+      "displayName": "Electric Vehicle Charging",
+      "id": 15,
+      "name": "ELECTRIC VEHICLE CHARGING"
+    },
+    { "displayName": "Electronics", "id": 72, "name": "ELECTRONICS" },
+    { "displayName": "Family Socks", "id": 27, "name": "FAMILY SOCKS" },
+    { "displayName": "Foundations", "id": 30, "name": "FOUNDATIONS" },
+    { "displayName": "Frozen", "id": 91, "name": "FROZEN" },
+    { "displayName": "Furniture", "id": 71, "name": "FURNITURE" },
+    { "displayName": "Gasoline", "id": 65, "name": "GASOLINE" },
+    { "displayName": "Girls Apparel", "id": 33, "name": "GIRLS APPAREL" },
+    { "displayName": "Grocery", "id": 92, "name": "GROCERY" },
+    { "displayName": "Hardware", "id": 11, "name": "HARDWARE" },
+    { "displayName": "Home Decor", "id": 17, "name": "HOME DECOR" },
+    { "displayName": "Home Management", "id": 74, "name": "HOME MANAGEMENT" },
+    { "displayName": "Horticulture", "id": 56, "name": "HORTICULTURE" },
+    { "displayName": "Hosiery", "id": 28, "name": "HOSIERY" },
+    { "displayName": "Household Paper", "id": 4, "name": "HOUSEHOLD PAPER" },
+    {
+      "displayName": "Impulse Merchandise",
+      "id": 82,
+      "name": "IMPULSE MERCHANDISE"
+    },
+    {
+      "displayName": "Infant Consumable Hardlines",
+      "id": 79,
+      "name": "INFANT CONSUMABLE HARDLINES"
+    },
+    { "displayName": "Intimate Apparel", "id": 29, "name": "INTIMATE APPAREL" },
+    { "displayName": "Jewelry", "id": 32, "name": "JEWELRY" },
+    {
+      "displayName": "Large Household Goods",
+      "id": 77,
+      "name": "LARGE HOUSEHOLD GOODS"
+    },
+    { "displayName": "Lawn And Garden", "id": 16, "name": "LAWN AND GARDEN" },
+    { "displayName": "Liquor", "id": 96, "name": "LIQUOR" },
+    { "displayName": "Meat", "id": 93, "name": "MEAT" },
+    { "displayName": "Media And Gaming", "id": 5, "name": "MEDIA AND GAMING" },
+    { "displayName": "Mens Apparel", "id": 23, "name": "MENS APPAREL" },
+    { "displayName": "Not In Use", "id": 57, "name": "NOT IN USE" },
+    { "displayName": "Office & Store", "id": 99, "name": "OFFICE & STORE" },
+    { "displayName": "Photo", "id": 85, "name": "ONE HOUR PHOTO" },
+    { "displayName": "Optical", "id": 49, "name": "OPTICAL" },
+    { "displayName": "Optical", "id": 50, "name": "OPTICAL" },
+    {
+      "displayName": "Optical - Doctors",
+      "id": 75,
+      "name": "OPTICAL - DOCTORS"
+    },
+    { "displayName": "OTC Pharmacy", "id": 40, "name": "OTC PHARMACY" },
+    {
+      "displayName": "Paint & Accessories",
+      "id": 12,
+      "name": "PAINT & ACCESSORIES"
+    },
+    { "displayName": "Personal Care", "id": 2, "name": "PERSONAL CARE" },
+    { "displayName": "Pets & Supplies", "id": 8, "name": "PETS & SUPPLIES" },
+    { "displayName": "Pharmacy Rx", "id": 38, "name": "PHARMACY RX" },
+    {
+      "displayName": "Plus Sizes/maternity",
+      "id": 35,
+      "name": "PLUS SIZES/MATERNITY"
+    },
+    { "displayName": "Pmdcsigninig", "id": 88, "name": "PMDCSIGNINIG" },
+    { "displayName": "Produce", "id": 94, "name": "PRODUCE" },
+    { "displayName": "Sams", "id": 61, "name": "SAMS" },
+    { "displayName": "Sams", "id": 62, "name": "SAMS" },
+    { "displayName": "Sams", "id": 63, "name": "SAMS" },
+    { "displayName": "Sams", "id": 64, "name": "SAMS" },
+    { "displayName": "Sams", "id": 68, "name": "SAMS" },
+    { "displayName": "Seafood", "id": 83, "name": "SEAFOOD" },
+    { "displayName": "Seasonal", "id": 18, "name": "SEASONAL" },
+    { "displayName": "Service Deli", "id": 80, "name": "SERVICE DELI" },
+    { "displayName": "Shoes", "id": 25, "name": "SHOES" },
+    { "displayName": "Sporting Goods", "id": 9, "name": "SPORTING GOODS" },
+    { "displayName": "Stamps", "id": 60, "name": "STAMPS" },
+    { "displayName": "Stationery", "id": 3, "name": "STATIONERY" },
+    { "displayName": "Store Use Only", "id": 70, "name": "STORE USE ONLY" },
+    { "displayName": "Toys", "id": 7, "name": "TOYS" },
+    { "displayName": "Travel", "id": 89, "name": "TRAVEL" },
+    { "displayName": "Unknown", "id": -999, "name": "UNKNOWN" },
+    { "displayName": "Wal-mart Online", "id": 69, "name": "WAL-MART ONLINE" },
+    { "displayName": "Wall Deli", "id": 97, "name": "WALL DELI" },
+    { "displayName": "Walmart Services", "id": 86, "name": "WALMART SERVICES" },
+    { "displayName": "Walmart-energy", "id": 66, "name": "WALMART-ENERGY" },
+    { "displayName": "Wireless", "id": 87, "name": "WIRELESS" },
+    {
+      "displayName": "Wireless Service Income",
+      "id": 58,
+      "name": "WIRELESS SERVICE INCOME"
+    },
+    { "displayName": "Womens Apparel", "id": 34, "name": "WOMENS APPAREL" },
+    { "displayName": "Womens Outerwear", "id": 36, "name": "WOMENS OUTERWEAR" }
+  ]
+}
