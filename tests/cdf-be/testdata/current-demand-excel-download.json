@@ -1,5 +1,4 @@
 {
-    "currentDemandEndpoint": "/api/demandscenarios/currentDemand/",
     "currentDemandPayload" : {
     "sbu": [
       "FASHION",
