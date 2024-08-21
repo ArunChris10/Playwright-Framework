@@ -781,6 +781,42 @@
     "filterLoadComplete": true,
     "isUfmSyncCache": false,
     "latestSyncScenario": false
-  }
+  },
+  "payloadDssForecastGmvMixData": {
+    "endpoint": "/api/demandscenarios/demand/",
+    "sbu": [],
+    "sbuIds": [],
+    "department": [],
+    "departmentIds": [],
+    "baseChannel": [],
+    "baseChannelIds": [],
+    "channelGroup": [],
+    "channelGroupIds": [],
+    "demandChannel": [],
+    "layerIds": [],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": true,
+    "organizationalLevel": "BASE_CHANNEL",
+    "loadHeirarchyParams": null,
+    "timeFilter": {
+        "filterLevel": "MONTH",
+        "isYearSelected": false,
+        "isMonthSelected": false,
+        "isQuarterSelected": false,
+        "yearMonths": [],
+        "yearQuarters": [],
+        "years": [],
+        "yearList": []
+    },
+    "version": "",
+    "forceRefresh": true,
+    "filtersChanged": true,
+    "departmentName": [],
+    "filterLoadComplete": true,
+    "isUfmSyncCache": false,
+    "latestSyncScenario": false
+  },
+  "plusMinusMonths": 2
   
 }

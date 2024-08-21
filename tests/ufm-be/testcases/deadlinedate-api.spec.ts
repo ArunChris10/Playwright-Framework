@@ -1,9 +1,7 @@
-import testdata from "../testdata/deadlinedate-api.json";
-import { test, expect } from "../../common/fixtures/test-hook";
-import debug from "debug";
+import { expect, test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
-import testdatafile from "../testdata/historical-forecast.json";
 import { UfmUtility } from "../fixtures/ufm-utils";
+import testdata from "../testdata/deadlinedate-api.json";
 
 test.describe(
   "Verify the deadline date API",
@@ -14,7 +12,7 @@ test.describe(
     // API endpoint URL
     const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
     const historicalEndpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
-    debug.log(endpointURL);
+    Utility.logIt(endpointURL);
 
     test("Verify if the user is able to see the deadlinedate", async ({
       request,
@@ -22,7 +20,7 @@ test.describe(
       //Making a get request to fetch the deadline date
       await test.step("Make a Get Request to get the deadline date", async () => {
         //API Request
-        debug.log("Make a Get Request to get the deadline date");
+        Utility.logIt("Make a Get Request to get the deadline date");
         apiResponse = await request.get(endpointURL, {
           params: {
             ...testdata.queryParams,
@@ -48,7 +46,7 @@ test.describe(
           );
 
           //Comparing the actual aand expecetd dates
-          debug.log("Checking if the deadline date is  : ", strExpdate);
+          Utility.logIt(`Checking if the deadline date is  :  ${strExpdate}`);
           expect(actualDate).toStrictEqual(strExpdate);
         }
       });

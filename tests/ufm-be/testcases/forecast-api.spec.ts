@@ -1,72 +1,60 @@
-import { test, expect } from "../../common/fixtures/test-hook";
-import debug from "debug";
+import { test } from "../../common/fixtures/test-hook";
+import { Utility } from "../../common/fixtures/utils";
+import commonData from "../constants/common.json";
 import { UfmUtility } from "../fixtures/ufm-utils";
-import forecastData from "../testdata/forecast-api.json";
-import commonData from "../testdata/common.json";
 
-test.describe(
-  "Verify create and delete forecast API",
-  { tag: "@Smoke @Regression @create_forecast" },
-  () => {
-    test.describe.configure({ timeout: 240_000, mode: "serial" });
+const lobName = ["merch", "e2e_delivery"];
+for (let i = 0; i < lobName.length; i++) {
+  test.describe(
+    "Verify create and delete forecast API",
+    { tag: "@Smoke @Regression @create_forecast" },
+    async () => {
+      test.describe.configure({ timeout: 300_000, mode: "serial" });
 
-    let lobName = [
-      // "optical",
-      // "rx",
-      // "merch",
-      "ecommerce",
-      "lmd",
-      // "e2e_delivery",
-      "core_service",
-      // "fulfillment",
-      // "i&a",
-      // "connect",
-      // "marketing",
-      "data_ventures",
-      "operations",
-      // "real_estate",
-      // "fuel",
-      "segment",
-      // "home_office",
-    ];
-
-    lobName.forEach((lobName) => {
-      let scenario_version, scenario_id;
+      let scenarioId: number;
       let dimId = commonData.ba_dim_id;
-      let dimValId = commonData[lobName].dim_val_id;
+      let dimValId = commonData[lobName[i]].dim_val_id;
 
-      test(`Verify if the user is able to createforecast for LOB - ${lobName}`, async ({
+      test(`Delete all created forecast by automation user for LOB - ${lobName[i]}`, async ({
         request,
       }) => {
-        scenario_id = await UfmUtility.createForecast(lobName, request);
+        await UfmUtility.deleteAllforecastofUser(
+          request,
+          lobName[i],
+          process.env.ufmUser
+        );
       });
 
-      test(`Verify if the user is able to delete created forecast for LOB ${lobName}`, async ({
+      test(`Verify if the user is able to create forecast for LOB - ${lobName[i]}`, async ({
+        request,
+      }) => {
+        scenarioId = await UfmUtility.createForecast(lobName[i], request);
+      });
+
+      test(`Verify if the user is able to delete created forecast for LOB ${lobName[i]}`, async ({
         request,
       }) => {
         let currentForecast = await UfmUtility.getCurrentForecastList(
-          lobName,
+          lobName[i],
           request
         );
-        console.log(`No of scenarios present: ${currentForecast.length}`);
-        debug.log(`No of scenarios present: ${currentForecast.length}`);
+        Utility.logIt(`No of scenarios present: ${currentForecast.length}`);
 
         //Get scenario version from scenario id from forecast list
-        scenario_version = await UfmUtility.getScenarioVersion(
+        let scenario_version = await UfmUtility.getScenarioVersion(
           currentForecast,
-          scenario_id
+          scenarioId
         );
 
-        console.log(scenario_version);
-        debug.log(scenario_version);
+        Utility.logIt(scenario_version);
         await UfmUtility.deleteForecast(
-          scenario_id,
+          scenarioId,
           scenario_version,
           dimId,
           dimValId,
           request
         );
       });
-    });
-  }
-);
+    }
+  );
+}

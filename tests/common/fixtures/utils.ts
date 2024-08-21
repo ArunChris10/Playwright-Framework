@@ -4,6 +4,7 @@ import debug from "debug";
 import usersIBGFormat from "../testdata/users.json";
 import usersNexusFormat from "../testdata/users-nexus-format.json";
 import { expect } from "../fixtures/test-hook";
+import test from "node:test";
 
 export class Utility {
   private static readonly dir: string = "./test-results/logs/";
@@ -123,7 +124,6 @@ export class Utility {
     let raw_ufm_secrets;
     if (!process.env.CI) {
       raw_ufm_secrets = fs.readFileSync(this.secretFilePath, "utf8");
-      
     } else {
       raw_ufm_secrets = process.env.CRED_SECRET;
       console.log("logger "+raw_ufm_secrets)
@@ -202,6 +202,12 @@ export class Utility {
     console.log(responseBody);
     debug.log(JSON.stringify(responseBody));
     return responseBody;
+  }
+
+  //This method logs on console and debugger file
+  static async logIt(text) {
+    console.log(JSON.stringify(text));
+    debug.log(JSON.stringify(text));
   }
 
   async keyPress(key) {

@@ -1,0 +1,16 @@
+{
+  "payloads": {
+    "departmentPayloadExtension" : {
+      "loadHeirarchyParams": {
+        "baseChannel": [],
+        "baseChannelIds": [],
+        "organizationalLevel": "DEPARTMENT"
+      },
+      "organizationalLevel": "DEPARTMENT"
+      },
+    "channelPayloadExtension": {
+      "organizationalLevel": "BASE_CHANNEL"
+    }
+  },
+  "metricToTest": "amount"
+}

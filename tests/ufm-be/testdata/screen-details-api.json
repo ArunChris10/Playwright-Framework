@@ -1,51 +1,51 @@
 {
-    "configEndpoint": {
-        "endpoint": "/filter/screen_details",
-        "dim_id":"12",
-        "dim_val_id":"120007",
-        "expected_response": [
-            {
-                "screen_name": "Organisation",
-                "screen_sect_id": 101,
-                "screen_id": 1,
-                "screen_sec_name": "Inputter"
-            },
-            {
-                "screen_name": "Organisation",
-                "screen_sect_id": 102,
-                "screen_id": 1,
-                "screen_sec_name": "BAReviewer"
-            },
-            {
-                "screen_name": "Organisation",
-                "screen_sect_id": 103,
-                "screen_id": 1,
-                "screen_sec_name": "Segment"
-            },
-            {
-                "screen_name": "LOB",
-                "screen_sect_id": 201,
-                "screen_id": 2,
-                "screen_sec_name": "Forecast"
-            },
-            {
-                "screen_name": "LOB",
-                "screen_sect_id": 202,
-                "screen_id": 2,
-                "screen_sec_name": "DriverModel"
-            },
-            {
-                "screen_name": "LOB",
-                "screen_sect_id": 203,
-                "screen_id": 2,
-                "screen_sec_name": "BAReviewer"
-            },
-            {
-                "screen_name": "LOB",
-                "screen_sect_id": 204,
-                "screen_id": 2,
-                "screen_sec_name": "Segment"
-            }
-        ]
-    }
+  "configEndpoint": {
+    "endpoint": "/filter/screen_details",
+    "dim_id": "12",
+    "dim_val_id": "120007",
+    "expected_response": [
+      {
+        "screen_name": "Organisation",
+        "screen_sect_id": 101,
+        "screen_id": 1,
+        "screen_sec_name": "Inputter"
+      },
+      {
+        "screen_name": "Organisation",
+        "screen_sect_id": 102,
+        "screen_id": 1,
+        "screen_sec_name": "BAReviewer"
+      },
+      {
+        "screen_name": "Organisation",
+        "screen_sect_id": 103,
+        "screen_id": 1,
+        "screen_sec_name": "Segment"
+      },
+      {
+        "screen_name": "LOB",
+        "screen_sect_id": 201,
+        "screen_id": 2,
+        "screen_sec_name": "Forecast"
+      },
+      {
+        "screen_name": "LOB",
+        "screen_sect_id": 202,
+        "screen_id": 2,
+        "screen_sec_name": "DriverModel"
+      },
+      {
+        "screen_name": "LOB",
+        "screen_sect_id": 203,
+        "screen_id": 2,
+        "screen_sec_name": "BAReviewer"
+      },
+      {
+        "screen_name": "LOB",
+        "screen_sect_id": 204,
+        "screen_id": 2,
+        "screen_sec_name": "Segment"
+      }
+    ]
+  }
 }

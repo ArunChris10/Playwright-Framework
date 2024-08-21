@@ -1,27 +1,27 @@
 {
-    "endpoint": "/scenario/scenario-composition",
-    "classification_id": "12",
-    "visual_indicator_response": [
-        {
-            "dataset_type": "Actuals updated",
-            "id": 10041697017824,
-            "version": 1718269089,
-            "last_updated": "2024-06-13T08:58:09",
-            "actual_sync_time": "202504"
-        },
-        {
-            "dataset_type": "IBG Demand Updated",
-            "id": 10061697018013,
-            "version": 1718269089,
-            "last_updated": "2024-06-13T08:58:09",
-            "actual_sync_time": ""
-        },
-        {
-            "dataset_type": "Forecasts updated",
-            "id": 10051697018005,
-            "version": 1718952183,
-            "last_updated": "2024-06-21T06:43:03",
-            "actual_sync_time": ""
-        }
-    ]
+  "endpoint": "/scenario/scenario-composition",
+  "classification_id": "12",
+  "visual_indicator_response": [
+    {
+      "dataset_type": "Actuals updated",
+      "id": 10041697017824,
+      "version": 1718269089,
+      "last_updated": "2024-06-13T08:58:09",
+      "actual_sync_time": "202504"
+    },
+    {
+      "dataset_type": "IBG Demand Updated",
+      "id": 10061697018013,
+      "version": 1718269089,
+      "last_updated": "2024-06-13T08:58:09",
+      "actual_sync_time": ""
+    },
+    {
+      "dataset_type": "Forecasts updated",
+      "id": 10051697018005,
+      "version": 1718952183,
+      "last_updated": "2024-06-21T06:43:03",
+      "actual_sync_time": ""
+    }
+  ]
 }

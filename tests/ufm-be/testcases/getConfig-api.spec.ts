@@ -1,15 +1,14 @@
-import { test, expect } from "../../common/fixtures/test-hook";
+import { expect, test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import testdatafile from "../testdata/getConfig.json";
-import debug from "debug";
 
 test.describe(
   "Verify the getConfig API",
-  { tag: "@Regression @getConfig" },
+  { tag: "@Smoke @Regression @getConfig" },
   () => {
     let responseBody;
     const endpointURL = `${process.env.apiBaseURLUFM}${testdatafile.endpoint}`;
-    debug.log(endpointURL);
+    Utility.logIt(endpointURL);
     testdatafile.config.forEach((config_payload) => {
       test(
         "Verify if the api is returning " +
@@ -22,7 +21,7 @@ test.describe(
               config_payload.type +
               "  configs",
             async () => {
-              debug.log(
+              Utility.logIt(
                 "Make a Post Request for getting  " +
                   config_payload.type +
                   " configs"
