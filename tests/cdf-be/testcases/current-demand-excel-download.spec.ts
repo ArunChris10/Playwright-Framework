@@ -1,5 +1,6 @@
 import { expect, test } from '../../common/fixtures/test-hook';
 import testdatafile from '../testdata/current-demand-excel-download.json';
+import testdataDimension from '../testdata/dimensions.json';
 import { CdfUtility } from '../fixtures/cdf-utils';
 import { DemandBaseClass } from '../fixtures/demand-common-utils'
 import debug from 'debug';
@@ -7,6 +8,8 @@ import debug from 'debug';
 test.describe("Verify that the user should be able to download excel from current demand page and verify the data", { tag: "@Smoke @currentDemandExcelDownloadTest @ibg-service-scenario-financials @Regression" }, () => {
 
     let currentDemandDataResponseBodySBU, currentDemandDataResponseBodyBaseChannel;
+    let sbuNames = testdataDimension.sbus.map(item => item.displayName.toUpperCase());
+    let baseChannels = testdataDimension.baseChannels
 
     Object.keys(testdatafile.metrics).forEach(key => {
         // let currentDemandDataResponseBodySBU, currentDemandDataResponseBodyBaseChannel;
@@ -22,16 +25,24 @@ test.describe("Verify that the user should be able to download excel from curren
             let excelDownloadResponse = await CdfUtility.currentDemandForMetric(request, testdatafile.slotId1, testdatafile.metrics[key], testdatafile.sbuOrganizationalLevel, testdatafile.excelType);
             expect(excelDownloadResponse).toBeOK();
             let excelData = await DemandBaseClass.getSheetDataFromExcel(excelDownloadResponse);
-            let filteredData = excelData.find((data:any) => data['Selection Panel'] === 'CONSUMABLES') as any;
-            const valuesToAssert = Object.values(filteredData).slice(2);
-            debug.log(valuesToAssert);
-            let currentDemandData;
-            if (testdatafile.derivedMetrics.includes(key))
-                currentDemandData = currentDemandDataResponseBodySBU.forecast.filter(data => data.sbuDisplayName === 'CONSUMABLES')[0].forecast.filter(data => Object.keys(data).includes("forecastGrowth")).map(data => data.forecastGrowth![key] != undefined?data.forecastGrowth![key]:"");
-            else
-                currentDemandData = currentDemandDataResponseBodySBU.forecast.filter(data => data.sbuDisplayName === 'CONSUMABLES')[0].forecast.map(d => d[key] != undefined?d[key]:"");
-            debug.log(currentDemandData)
-            expect(valuesToAssert).toEqual(currentDemandData)
+            //Iterate and validate for all the SBUs
+
+            sbuNames.forEach(sbuName => {
+                debug.log("Asserting the Values for "+sbuName)
+                let filteredData = excelData.find((data:any) => data['Selection Panel'] === sbuName) as any;
+                const valuesToAssert = Object.values(filteredData).slice(2);
+                debug.log("Excel Data => "+valuesToAssert);
+                let currentDemandData;
+                if (testdatafile.derivedMetrics.includes(key))
+                    currentDemandData = currentDemandDataResponseBodySBU.forecast.filter(data => data.sbuDisplayName === sbuName)[0].forecast.filter(data => Object.keys(data).includes("forecastGrowth")).map(data => data.forecastGrowth![key] != undefined?data.forecastGrowth![key]:"");
+                else
+                    currentDemandData = currentDemandDataResponseBodySBU.forecast.filter(data => data.sbuDisplayName === sbuName)[0].forecast.map(d => d[key] != undefined?d[key]:"");
+                debug.log("Current Demand Data => "+currentDemandData)
+                expect(valuesToAssert).toEqual(currentDemandData)
+            });
+
+
+
         });
 
         test(`Download excel, save the excel and validate data for Base Channel view and metric ${testdatafile.metrics[key]}`, async ({ request }) => {
@@ -45,17 +56,28 @@ test.describe("Verify that the user should be able to download excel from curren
             let excelDownloadResponse = await CdfUtility.currentDemandForMetric(request, testdatafile.slotId1, testdatafile.metrics[key], testdatafile.baseChannelOrgLevel, testdatafile.excelType);
             expect(excelDownloadResponse).toBeOK();
             let excelData = await DemandBaseClass.getSheetDataFromExcel(excelDownloadResponse);
-            let filteredData = excelData.find((data:any) => data['Selection Panel'] === 'DSV S2H') as any;
-            const valuesToAssert = Object.values(filteredData).slice(3);
-            debug.log(valuesToAssert);
-            let currentDemandData;
-            if (testdatafile.derivedMetrics.includes(key))
-                currentDemandData = currentDemandDataResponseBodyBaseChannel.forecast.filter(data => data.baseChannel === 'DSV_S2H')[0].forecast.filter(data => Object.keys(data).includes("forecastGrowth")).map(data => data.forecastGrowth![key] != undefined?data.forecastGrowth![key]:0);
-            else
-                currentDemandData = currentDemandDataResponseBodyBaseChannel.forecast.filter(data => data.baseChannel === 'DSV_S2H')[0].forecast.map(d => d[key] != undefined?d[key]:0);
-            debug.log(currentDemandData);
-            expect(valuesToAssert).toEqual(currentDemandData)
+
+            baseChannels.forEach(channel => {
+                debug.log("Asserting the Values for "+channel.displayName)
+                let filteredData = excelData.find((data:any) => data['Selection Panel'].toUpperCase() === channel.displayName.toUpperCase()) as any;
+                const valuesToAssert = Object.values(filteredData).slice(3);
+                debug.log("Excel Data => "+valuesToAssert);
+                let currentDemandData;
+                if (testdatafile.derivedMetrics.includes(key))
+                    currentDemandData = currentDemandDataResponseBodyBaseChannel.forecast.filter(data => data.baseChannel.toUpperCase() === channel.name.toUpperCase())[0].forecast.filter(data => Object.keys(data).includes("forecastGrowth")).map(data => data.forecastGrowth![key] != undefined?data.forecastGrowth![key]:0);
+                else
+                    currentDemandData = currentDemandDataResponseBodyBaseChannel.forecast.filter(data => data.baseChannel.toUpperCase() === channel.name.toUpperCase())[0].forecast.map(d => d[key] != undefined?d[key]:0);
+                debug.log("Current Demand Data => "+currentDemandData);
+                expect(valuesToAssert).toEqual(currentDemandData)
+            })
+
         });
     });
 
 });
+
+
+// Moved the endpoint to common endpoint file - done
+// Need to do a test run
+// Need to find a way to validate all the SBUs - Done
+// Need to find a way to validate all the SBUs  - Done - failing due to missing data - this needs to solved by matching it with months

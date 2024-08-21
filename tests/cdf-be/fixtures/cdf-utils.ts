@@ -590,7 +590,7 @@ export class CdfUtility {
 
   // Method to get the current demand data
   static async currentDemand(request) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.currentDemandEndpoint}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonDemandEndpoints.currentDemandEndpoint}`;
     debug.log(endpointURL);
 
     const response = await request.get(
@@ -778,7 +778,7 @@ export class CdfUtility {
             suffix = "";
             currentDemandExcelData.currentDemandPayload.metricType = "";
         }
-    const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandExcelData.currentDemandEndpoint}${slotId}${suffix}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonDemandEndpoints.currentDemandEndpoint}${slotId}${suffix}`;
     debug.log(endpointURL);
     currentDemandExcelData.currentDemandPayload.organizationalLevel = organizationalLevel;
     let response;
