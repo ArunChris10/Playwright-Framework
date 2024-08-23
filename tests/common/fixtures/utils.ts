@@ -222,4 +222,8 @@ export class Utility {
   async scrollToTop() {
     await this.page.evaluate(() => window.scrollTo(0, 0));
   }
+
+  static roundToDecimals(num: number, decimals: number = 2) {
+    return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
+  }
 }
