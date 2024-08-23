@@ -341,9 +341,6 @@ export class AllocationUtils extends DemandBaseClass {
       const getScenarioSplitAfter  = await response.json()
       let basechannelId=  DemandSplitsData?.forecast[0].baseChannelForecast[0].baseChannelId
       getScenarioSplitAfter.forecast.filter(c =>c.baseChannelId==basechannelId)[0].forecast.filter(c=>c.year == yearvalue && c.month == monthdata).map(c=>c.amount).forEach(c=>expect(c).toEqual(amountvalueEdited))
-      let aftereEditamount = getScenarioSplitAfter.forecast.filter(c =>c.baseChannelId==basechannelId)[0].forecast.filter(c=>c.year == yearvalue && c.month == monthdata).map(c=>c.amount)[0]
-      expect(aftereEditamount).toEqual(amountvalueEdited)
-      
       payloadSbuLevelData.layerIds = [splitData[0].layerId]
       response  = await request.post(endpointURL3,  { data: payloadSbuLevelData, headers: AllocationUtils.headers });  
       const getsbuleveldataAfter = await response.json();
@@ -416,8 +413,6 @@ export class AllocationUtils extends DemandBaseClass {
     const getScenarioSplitAfter  = await response.json()
     let basechannelId=  DemandSplitsData?.forecast[0].baseChannelForecast[0].baseChannelId
     getScenarioSplitAfter.forecast.filter(c =>c.baseChannelId==basechannelId)[0].forecast.filter(c=>c.year == yearvalue && c.month == monthdata).map(c=>c.amount).forEach(c=>expect(c).toEqual(amountvalueEdited))
-    let aftereEditamount = getScenarioSplitAfter.forecast.filter(c =>c.baseChannelId==basechannelId)[0].forecast.filter(c=>c.year == yearvalue && c.month == monthdata).map(c=>c.amount)[0]
-    expect(aftereEditamount).toEqual(amountvalueEdited)
     
     payloadSbuLevelData.layerIds = [splitData[0].layerId]
     response  = await request.post(endpointURL3,  { data: payloadSbuLevelData, headers: AllocationUtils.headers });  
@@ -428,6 +423,70 @@ export class AllocationUtils extends DemandBaseClass {
     expect((sbuleveldataAfter/sbuleveldataBefore).toFixed(8)).toEqual((amountvalueEdited/beforeamountvalueEdited).toFixed(8));
    
     return getsbuleveldataAfter;
+}
+
+static async marketSplitAurConstant(request, demandScenarioID,demandScenarioDetails){
+  const endpointURL = `${process.env.apiBaseURLCDF}${allocationLayer.allocationLayerMarketSplit.baseURL}${demandScenarioID}`
+  console.log("allocationLayerMarketSplitData: " + endpointURL);
+  const forecastVersion = demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version
+
+  const endpointURL2 = `${process.env.apiBaseURLCDF}${allocationLayer.forecastScenarios.baseURL}${demandScenarioID}`
+  
+  const DemandSplitsData = await AllocationUtils.getDemandSplitsData(request, demandScenarioID,"allocationLayerMarketSplitData",forecastVersion)
+  let i =0 
+  let monthlySplitsRequestkey = ''
+  let yearvalue
+  let monthvalue
+  let monthdata
+  let amountvalueEdited
+  let beforeamountvalueEditedAur
+  let beforeamountvalueEditedScannedUnits
+  let channelId
+  let channelname
+  const monthlySplitsRequestkeyData = DemandSplitsData?.forecast[0].baseChannelForecast.map(channel => {
+      if(i==0){
+        beforeamountvalueEditedAur = channel.forecast[0].aur
+        beforeamountvalueEditedScannedUnits = channel.forecast[0].units
+        amountvalueEdited = channel.forecast[0].amount+100000
+        channelId = channel.baseChannelId
+        channelname = channel.baseChannel
+      }
+      i=i+1
+      monthvalue = channel.forecast[0].month.length>1 ? channel.forecast[0].month : "-0"+channel.forecast[0].month
+      monthdata = channel.forecast[0].month
+      yearvalue = channel.forecast[0].year
+      monthlySplitsRequestkey = yearvalue + monthvalue
+      return {amount : i%2==1 ?channel.forecast[0].amount+100000 :channel.forecast[0].amount-100000 , baseChannelId: channel.baseChannelId , baseChannel: channel.baseChannel}
+    })
+
+  let payloadAllocationLayerSplit  = allocationLayer.allocationLayerMarketSplit  
+  payloadAllocationLayerSplit.layers[0].monthlySplitsRequest[monthlySplitsRequestkey] =  monthlySplitsRequestkeyData  
+  payloadAllocationLayerSplit.layers[0].forecastVersion = forecastVersion       
+  payloadAllocationLayerSplit.layers[0].isConfirmed = true
+  payloadAllocationLayerSplit.layers[0].isPreview = false
+  const lockDemandScenarioResponse = await this.lockUnlockDemandScenario(
+    request,
+    "lock",
+    demandScenarioID
+  );
+  expect(lockDemandScenarioResponse).toBeOK();
+  let response = await request.put(endpointURL,  { data: payloadAllocationLayerSplit, headers: AllocationUtils.headers });
+  expect(response).toBeOK();
+  let splitData = await response.json();
+  debug.log(JSON.stringify(splitData));
+
+  let payloadForecastScenarios =  allocationLayer.forecastScenarios
+  payloadForecastScenarios.version = forecastVersion
+  payloadForecastScenarios.layerIds = [splitData[0].layerId]
+
+  response = await request.post(endpointURL2,  { data: payloadForecastScenarios, headers: AllocationUtils.headers });
+  const getScenarioSplitAfter  = await response.json()
+  let basechannelId=  DemandSplitsData?.forecast[0].baseChannelForecast[0].baseChannelId
+  getScenarioSplitAfter.forecast.filter(c =>c.baseChannelId==basechannelId)[0].forecast.filter(c=>c.year == yearvalue && c.month == monthdata).map(c=>c.aur).forEach(c=>expect(c).toEqual(beforeamountvalueEditedAur))
+  getScenarioSplitAfter.forecast.filter(c =>c.baseChannelId==basechannelId)[0].forecast.filter(c=>c.year == yearvalue && c.month == monthdata).map(c=>c.units).forEach(c=>expect(c).not.toEqual(beforeamountvalueEditedScannedUnits))
+
+  
+  return getScenarioSplitAfter;
 }
 
 }
