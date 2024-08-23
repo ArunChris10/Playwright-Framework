@@ -33,7 +33,9 @@
                         "value": -13000000000000,
                         "id": 27
                     }
-                ]
+                ],
+                "allocationDepartments": [],
+                "deAllocationDepartments": []
             }
         ]
     }

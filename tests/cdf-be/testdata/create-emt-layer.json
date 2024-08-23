@@ -261,5 +261,19 @@
     "name": "FOOD",
     "value": -10000000,
     "id": 27
+  },
+  "emtGMV11AllocationDepartment": {
+    "department": {
+      "name": "PERSONAL CARE",
+      "value": 10000000,
+      "id": 2
+    },
+    "sbuId": 29,
+    "sbu": "CONSUMABLES"
+  },
+  "emtGMV11DeAllocationDepartment": {
+    "department": { "name": "CANDY", "value": -10000000, "id": 1 },
+    "sbuId": 27,
+    "sbu": "FOOD"
   }
 }
