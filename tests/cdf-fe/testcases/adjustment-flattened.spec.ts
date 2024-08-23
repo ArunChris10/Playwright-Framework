@@ -63,6 +63,27 @@ test.describe(
             .flattenedManualAdjustmentLayer()
             .createAndSave();
         });
+
+        await test.step("When Editing GMV, hold GMV should not be allowed", async () => {
+          await objPageFactory
+            .cdfPageFactory()
+            .flattenedManualAdjustmentLayer()
+            .editGMVCell();
+        });
+
+        await test.step("When Editing Units, hold units should not be allowed", async () => {
+          await objPageFactory
+            .cdfPageFactory()
+            .flattenedManualAdjustmentLayer()
+            .editUnitsCell();
+        });
+
+        await test.step("When Editing GMV and Units, hold AUR should not be allowed", async () => {
+          await objPageFactory
+            .cdfPageFactory()
+            .flattenedManualAdjustmentLayer()
+            .editGMVandUnitsCells();
+        });
       }
     );
   }
