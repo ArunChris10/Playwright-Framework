@@ -23,6 +23,7 @@ export class CurrentDemandUtility {
         const endpointURL = `
             ${process.env.apiBaseURLCDF}${currentDemandData.currentDemandEndpoint}${slot}${suffix}
         `
+        CdfUtility.headers["Connection"] = "keep-alive";
 
         const response = await request.post(
             endpointURL, {
