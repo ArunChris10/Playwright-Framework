@@ -4,6 +4,7 @@ import debug from "debug";
 import usersIBGFormat from "../testdata/users.json";
 import usersNexusFormat from "../testdata/users-nexus-format.json";
 import { expect } from "../fixtures/test-hook";
+import { Forecast } from "../../cdf-be/types/get-demand-scenario-forecast-response";
 import test from "node:test";
 
 export class Utility {
@@ -192,6 +193,10 @@ export class Utility {
       .locator(dataLoading)
       .first()
       .waitFor({ state: "visible", timeout: 480000 });
+  }
+
+  public static getDateKey({ month, quarter, year }: Forecast) {
+    return `${month}-${quarter}-${year}`
   }
 
   //This method checks for status 200 of response and converts response to json and logs it on console and debug logs

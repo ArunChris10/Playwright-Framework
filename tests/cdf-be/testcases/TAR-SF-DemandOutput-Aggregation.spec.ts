@@ -1,5 +1,6 @@
 import { test, expect } from "../../common/fixtures/test-hook"
 import { CdfUtility } from "../fixtures/cdf-utils";
+import { Utility } from "../../common/fixtures/utils";
 import { debug } from "debug"
 
 import type {
@@ -18,9 +19,6 @@ test.describe(
     () => {
         let demandId: string
         let sbuForecast: GetDemandScenarioForecastResponse<SBU>
-
-        type objectWithDate = { year: number, month: number }
-        const getDateKey = ({year, month}: objectWithDate) => `${year}-${month}`
 
         test.beforeAll(async ({ request }) => {
             demandId = await CdfUtility.createScenario(request);
@@ -48,23 +46,18 @@ test.describe(
             await test.step("Compute the sum of department values for each month", () => {
                 for (const department of departmentForecast.forecast) {
                     department.forecast.forEach((forecast) => {
-                        const date = getDateKey(forecast)
+                        const date = Utility.getDateKey(forecast)
                         if (summedDepartments.has(department.sbu)) {
                             const monthlySums = summedDepartments.get(department.sbu)
-                            if (monthlySums.has(date)) {
-                                const prevSum = monthlySums.get(date)
-                                monthlySums.set(date, prevSum + forecast[metricToTest])
-                            } else {
-                                monthlySums.set(date, forecast[metricToTest])
-                                summedDepartments.set(department.sbu, monthlySums)
-                            }
+                            const prevSum = monthlySums.get(date) || 0
+                            monthlySums.set(date, prevSum + forecast[metricToTest])
                         } else {
-                                summedDepartments.set(
-                                    department.sbu,
-                                    new Map([
-                                        [ date, forecast[metricToTest] ]
-                                    ])
-                                )
+                            summedDepartments.set(
+                                department.sbu,
+                                new Map([
+                                    [ date, forecast[metricToTest] ]
+                                ])
+                            )
                         }
                     })
                 }
@@ -74,7 +67,7 @@ test.describe(
                 sbuForecast.forecast.forEach((sbu) => {
                     const monthlyDepartmentTotals = summedDepartments.get(sbu.sbu)
                     sbu.forecast.forEach(( monthTotal ) => {
-                        const date = getDateKey(monthTotal)
+                        const date = Utility.getDateKey(monthTotal)
                         const departmentSum = monthlyDepartmentTotals.get(date)
                         const sbuTotal = monthTotal[metricToTest]
 
@@ -85,8 +78,7 @@ test.describe(
                             '-'.repeat(15)
                         )
 
-                        expect(Math.round(departmentSum * 100) / 100)
-                            .toBe(Math.round(sbuTotal * 100) / 100)
+                        expect(Utility.roundToDecimals(departmentSum)).toBe(Utility.roundToDecimals(sbuTotal))
                     })
                 })
             })
@@ -137,13 +129,9 @@ test.describe(
 
                     for (const sbu of sbuForecast) {
                         sbu.forecast.forEach((monthTotal) => {
-                            const date = getDateKey(monthTotal)
-                            if (sbuSum.has(date)) {
-                                const previousSum = sbuSum.get(date)
-                                sbuSum.set(date, previousSum + monthTotal[metricToTest])
-                            } else {
-                                sbuSum.set(date, monthTotal[metricToTest])
-                            }
+                            const date = Utility.getDateKey(monthTotal)
+                            const previousSum = sbuSum.get(date) || 0
+                            sbuSum.set(date, previousSum + monthTotal[metricToTest])
                         })
                     }
 
@@ -155,7 +143,7 @@ test.describe(
                 for (const channel of channelForecast.forecast ) {
                     const monthlySbuTotals = summedSbus.get(channel.baseChannel)
                     channel.forecast.forEach((channelForecast) => {
-                        const sbuSum = monthlySbuTotals.get(getDateKey(channelForecast))
+                        const sbuSum = monthlySbuTotals.get(Utility.getDateKey(channelForecast))
                         const channelTotal = channelForecast[metricToTest]
 
                         debug.log(
@@ -165,8 +153,7 @@ test.describe(
                             '-'.repeat(15)
                         )
 
-                        expect(Math.round(sbuSum * 100) / 100)
-                            .toBe(Math.round(channelTotal * 100) / 100)
+                        expect(Utility.roundToDecimals(sbuSum)).toBe(Utility.roundToDecimals(channelTotal))
                     })
                 }
             })

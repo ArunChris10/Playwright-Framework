@@ -1,0 +1,27 @@
+{
+  "payloads": {
+    "channelExtension": {
+      "organizationalLevel": "BASE_CHANNEL"
+    },
+    "departmentExtension": {
+      "sbuIds": [ 196 ],
+      "organizationalLevel": "DEPARTMENT",
+      "includeTotals": true
+    },
+    "sbuExtension": {
+      "sbuIds": [ 196 ],
+      "organizationalLevel": "SBU"
+    },
+    "sbuFiltersExtension": {
+      "sbuIds": [ 1, 2, 3, 4 ]
+    }
+  },
+  "photoDepartment": {
+    "id": 85,
+    "sbuDisplayName": "ETS",
+    "departmentDisplayName": "Photo"
+  },
+  "etsExPhotoSbu": "ETS Ex Photo",
+  "totalExPhotoSbu": "Total Ex Photo",
+  "metricToTest": "amount"
+}
