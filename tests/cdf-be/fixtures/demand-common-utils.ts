@@ -4,11 +4,11 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as xlsx from 'xlsx'
 import allocationsData from "../testdata/allocation-layer-data.json";
-import emtLayerData from "../testdata/emt-layer-data.json";
-import testDataForManage from '../testdata/manage-rebase.json';
 import commonEndpoints from "../testdata/common-demand-endpoints.json";
-import updateDemandStacksData from "../testdata/update-demand-stack.json"
 import getdemandforecaseData from "../testdata/demand-scenario-forecast.json"
+
+import type { GetDemandScenarioDetailsResponse } from "../types/get-demand-scenario-details-response";
+import type { APIRequestContext } from "@playwright/test";
 
 export class DemandBaseClass {
   static headers = {
@@ -18,7 +18,7 @@ export class DemandBaseClass {
   };
 
   // This method will create the scenario and asserts the response
-  static async getDemandStackDetails(request, demandStackId) {
+  static async getDemandStackDetails(request: APIRequestContext, demandStackId: string): Promise<GetDemandScenarioDetailsResponse> {
     const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${demandStackId}`;
     const response = await request.get(endpointURL, { headers: this.headers });
     return await response.json();

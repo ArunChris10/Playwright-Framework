@@ -1,17 +1,21 @@
 import debug from "debug";
 import allocationsData from "../testdata/allocation-layer-data.json";
-import { expect } from "@playwright/test";
+import {APIRequestContext, expect} from "@playwright/test";
 import { DemandBaseClass } from "./demand-common-utils";
 import commonEndpoints from "../testdata/common-demand-endpoints.json";
 import highlighterlayer from "../testdata/highlighter-layer-allocation-data.json";
 import allocationLayer from '../testdata/allocation-layer.json'
 
+import type { GetDemandScenarioLayersResponse } from "../types/get-demand-scenario-layers-response";
+import { DemandScenarioDetails } from "../types/get-demand-scenario-details-response";
+import { BaseChannel, GetDemandScenarioSplitResponse} from "../types/get-demand-scenario-splits-response";
+
 export class AllocationUtils extends DemandBaseClass {
   static async getDemandScenarioSplits(
-    request,
-    demandStackId,
-    demandScenarioDetails
-  ) {
+    request: APIRequestContext,
+    demandStackId: string,
+    demandScenarioDetails: DemandScenarioDetails
+  ): Promise<GetDemandScenarioSplitResponse> {
     const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioSplitsEndpoint}`;
     const payload = {
       demandStackScenarioId: demandStackId,
@@ -39,7 +43,7 @@ export class AllocationUtils extends DemandBaseClass {
     return await response.json();
   }
 
-  static async getDemandScenarioLayers(request, demandStackId) {
+  static async getDemandScenarioLayers(request: APIRequestContext, demandStackId: string): Promise<GetDemandScenarioLayersResponse> {
     const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioStacksEndpoint}${demandStackId}?layerType=CHANNEL_SPLIT`;
     // API Request
     const response = await request.get(endpointURL, {
@@ -50,13 +54,14 @@ export class AllocationUtils extends DemandBaseClass {
   }
 
   static async updateDemandScenarioSplit(
-    request,
-    sellerFulfilled,
-    mrktplaceFullfilled,
-    isConfirmed,
-    layerId,
-    demandStackId,
-    demandScenarioDetails
+    request: APIRequestContext,
+    sellerFulfilled: BaseChannel,
+    marketplaceFulfilled: BaseChannel,
+    isConfirmed: boolean,
+    layerId: string | null,
+    demandStackId: string,
+    demandScenarioDetails: DemandScenarioDetails,
+    allocationType: 'DOLLAR' | 'CONVERTED_SALE' = 'DOLLAR'
   ) {
     const dateFormat = `${sellerFulfilled.forecast[0].year}-${
       sellerFulfilled.forecast[0].month < 10
@@ -67,7 +72,7 @@ export class AllocationUtils extends DemandBaseClass {
     let payload = {
       layers: [
         {
-          allocationType: "DOLLAR",
+          allocationType,
           layerType: "CHANNEL_SPLIT",
           isConfirmed: isConfirmed,
           isPreview: !isConfirmed,
@@ -79,6 +84,8 @@ export class AllocationUtils extends DemandBaseClass {
           demandChannelId: sellerFulfilled.demandChannelId,
           lastUpdated:
             demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.lastModified,
+          monthlySplitsRequest: undefined,
+          layerId: undefined,
         },
       ],
     };
@@ -90,12 +97,12 @@ export class AllocationUtils extends DemandBaseClass {
           {
             baseChannel: sellerFulfilled.baseChannel,
             baseChannelId: sellerFulfilled.baseChannelId,
-            amount: sellerFulfilled.forecast[0].amount + allocationsData?.differenceAmount,
+            amount: sellerFulfilled.forecast[0][allocationsData.allocationType[allocationType]] + allocationsData?.differenceAmount,
           },
           {
-            baseChannel: mrktplaceFullfilled.baseChannel,
-            baseChannelId: mrktplaceFullfilled.baseChannelId,
-            amount: mrktplaceFullfilled.forecast[0].amount - allocationsData?.differenceAmount,
+            baseChannel: marketplaceFulfilled.baseChannel,
+            baseChannelId: marketplaceFulfilled.baseChannelId,
+            amount: marketplaceFulfilled.forecast[0][allocationsData.allocationType[allocationType]] - allocationsData?.differenceAmount,
           },
         ],
       };
@@ -105,7 +112,10 @@ export class AllocationUtils extends DemandBaseClass {
       data: payload,
       headers: this.headers,
     });
-    debug.log(response);
+
+    debug.log(JSON.stringify(response));
+    expect(response.status()).toEqual(200)
+
     return await response.json();
   }
 

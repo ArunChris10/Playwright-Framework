@@ -4,6 +4,10 @@
   "targetChannel": "SELLER_FULFILLED",
   "targetChannelId": 32,
   "differenceAmount": 100,
+  "allocationType": {
+    "DOLLAR": "amount",
+    "CONVERTED_SALE": "sales"
+  },
   "filterLevel": "MONTH",
   "demandStacksEndpoint": "/api/demandscenarios/stacks/",
   "getdemandStacksQueryParam": "?layerType=CHANNEL_SPLIT",
