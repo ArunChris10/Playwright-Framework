@@ -1,0 +1,446 @@
+{
+  "endpoint": "/percentageToAbsolute",
+  "metrics": [
+    ["DOLLAR", "amount"],
+    ["UNIT", "units"],
+    ["CONVERTED_SALE", "sales"]
+  ],
+  "payloadSBU": {
+    "yearMonths": ["2027-05"],
+    "sbus": [
+      {
+        "name": "FOOD",
+        "value": 0.1,
+        "id": 27
+      },
+      {
+        "name": "CONSUMABLES",
+        "value": 0.1,
+        "id": 29
+      },
+      {
+        "name": "FASHION",
+        "value": 0.1,
+        "id": 4
+      },
+      {
+        "name": "HOME",
+        "value": 0.1,
+        "id": 47
+      },
+      {
+        "name": "HARDLINES",
+        "value": 0.1,
+        "id": 60
+      },
+      {
+        "name": "ENTERTAINMENT TOYS AND SEASONAL",
+        "value": 0.1,
+        "id": 196
+      }
+    ],
+    "allocationType": ""
+  },
+  "payloadCHANNEL": {
+    "yearMonths": ["2027-05"],
+    "baseChannels": [
+      {
+        "name": "DSV_S2H",
+        "value": 0.1,
+        "id": 22
+      },
+      {
+        "name": "DSV_S2S",
+        "value": 0.1,
+        "id": 26
+      },
+      {
+        "name": "Express_Delivery",
+        "value": 0.1,
+        "id": 5
+      },
+      {
+        "name": "Express_Pickup",
+        "value": 0.1,
+        "id": 14
+      },
+      {
+        "name": "INHOME_DELIVERY",
+        "value": 0.1,
+        "id": 4
+      },
+      {
+        "name": "InStore_InClub",
+        "value": 0.1,
+        "id": 1
+      },
+      {
+        "name": "Owned_S2H",
+        "value": 0.1,
+        "id": 23
+      },
+      {
+        "name": "OWNED_S2S",
+        "value": 0.1,
+        "id": 27
+      },
+      {
+        "name": "Scheduled_Delivery",
+        "value": 0.1,
+        "id": 3
+      },
+      {
+        "name": "Scheduled_Pickup",
+        "value": 0.15,
+        "id": 12
+      },
+      {
+        "name": "SELLER_FULFILLED",
+        "value": 0.1,
+        "id": 32
+      },
+      {
+        "name": "Ship_From_Store",
+        "value": 0.1,
+        "id": 10
+      },
+      {
+        "name": "Unscheduled_Delivery",
+        "value": 0.1,
+        "id": 6
+      },
+      {
+        "name": "Unscheduled_Pickup",
+        "value": 0.1,
+        "id": 13
+      },
+      {
+        "name": "Walmart_Fulfillment_Services",
+        "value": 0.1,
+        "id": 33
+      },
+      {
+        "name": "WMT_Photo",
+        "value": 0.1,
+        "id": 17
+      }
+    ],
+    "allocationType": ""
+  },
+  "payloadDEPARTMENT": {
+    "yearMonths": ["2027-05"],
+    "departments": [
+      {
+        "name": "CANDY",
+        "value": 0.1,
+        "id": 1
+      },
+      {
+        "name": "SERVICE DELI",
+        "value": 0.1,
+        "id": 80
+      },
+      {
+        "name": "COM BREAD",
+        "value": 0.1,
+        "id": 81
+      },
+      {
+        "name": "IMPULSE MERCHANDISE",
+        "value": 0.1,
+        "id": 82
+      },
+      {
+        "name": "SEAFOOD",
+        "value": 0.1,
+        "id": 83
+      },
+      {
+        "name": "BALLOONS & FLOWERS",
+        "value": 0.1,
+        "id": 84
+      },
+      {
+        "name": "DAIRY",
+        "value": 0.1,
+        "id": 90
+      },
+      {
+        "name": "FROZEN",
+        "value": 0.1,
+        "id": 91
+      },
+      {
+        "name": "GROCERY",
+        "value": 0.1,
+        "id": 92
+      },
+      {
+        "name": "MEAT",
+        "value": 0.1,
+        "id": 93
+      },
+      {
+        "name": "PRODUCE",
+        "value": 0.1,
+        "id": 94
+      },
+      {
+        "name": "DSD GROCERY",
+        "value": 0.1,
+        "id": 95
+      },
+      {
+        "name": "LIQUOR",
+        "value": 0.1,
+        "id": 96
+      },
+      {
+        "name": "WALL DELI",
+        "value": 0.1,
+        "id": 97
+      },
+      {
+        "name": "BAKERY",
+        "value": 0.1,
+        "id": 98
+      },
+      {
+        "name": "PERSONAL CARE",
+        "value": 0.1,
+        "id": 2
+      },
+      {
+        "name": "HOUSEHOLD PAPER",
+        "value": 0.1,
+        "id": 4
+      },
+      {
+        "name": "PETS & SUPPLIES",
+        "value": 0.1,
+        "id": 8
+      },
+      {
+        "name": "CLEANING",
+        "value": 0.1,
+        "id": 13
+      },
+      {
+        "name": "OTC PHARMACY",
+        "value": 0.1,
+        "id": 40
+      },
+      {
+        "name": "BEAUTY",
+        "value": 0.1,
+        "id": 46
+      },
+      {
+        "name": "INFANT CONSUMABLE HARDLINES",
+        "value": 0.1,
+        "id": 79
+      },
+      {
+        "name": "MENS APPAREL",
+        "value": 0.1,
+        "id": 23
+      },
+      {
+        "name": "BOYS APPAREL",
+        "value": 0.1,
+        "id": 24
+      },
+      {
+        "name": "SHOES",
+        "value": 0.1,
+        "id": 25
+      },
+      {
+        "name": "BABY AND TODDLER APPAREL",
+        "value": 0.1,
+        "id": 26
+      },
+      {
+        "name": "FAMILY SOCKS",
+        "value": 0.1,
+        "id": 27
+      },
+      {
+        "name": "HOSIERY",
+        "value": 0.1,
+        "id": 28
+      },
+      {
+        "name": "INTIMATE APPAREL",
+        "value": 0.1,
+        "id": 29
+      },
+      {
+        "name": "FOUNDATIONS",
+        "value": 0.1,
+        "id": 30
+      },
+      {
+        "name": "ACCESSORIES",
+        "value": 0.1,
+        "id": 31
+      },
+      {
+        "name": "JEWELRY",
+        "value": 0.1,
+        "id": 32
+      },
+      {
+        "name": "GIRLS APPAREL",
+        "value": 0.1,
+        "id": 33
+      },
+      {
+        "name": "WOMENS APPAREL",
+        "value": 0.1,
+        "id": 34
+      },
+      {
+        "name": "PLUS SIZES/MATERNITY",
+        "value": 0.1,
+        "id": 35
+      },
+      {
+        "name": "WOMENS OUTERWEAR",
+        "value": 0.1,
+        "id": 36
+      },
+      {
+        "name": "COOK AND DINE",
+        "value": 0.1,
+        "id": 14
+      },
+      {
+        "name": "HOME DECOR",
+        "value": 0.1,
+        "id": 17
+      },
+      {
+        "name": "ARTS, CRAFTS, SEWING & FABRICS",
+        "value": 0.1,
+        "id": 19
+      },
+      {
+        "name": "BATH AND SHOWER",
+        "value": 0.1,
+        "id": 20
+      },
+      {
+        "name": "BEDDING",
+        "value": 0.1,
+        "id": 22
+      },
+      {
+        "name": "FURNITURE",
+        "value": 0.1,
+        "id": 71
+      },
+      {
+        "name": "HOME MANAGEMENT",
+        "value": 0.1,
+        "id": 74
+      },
+      {
+        "name": "STATIONERY",
+        "value": 0.1,
+        "id": 3
+      },
+      {
+        "name": "SPORTING GOODS",
+        "value": 0.1,
+        "id": 9
+      },
+      {
+        "name": "AUTOMOTIVE",
+        "value": 0.1,
+        "id": 10
+      },
+      {
+        "name": "HARDWARE",
+        "value": 0.1,
+        "id": 11
+      },
+      {
+        "name": "PAINT & ACCESSORIES",
+        "value": 0.1,
+        "id": 12
+      },
+      {
+        "name": "LAWN AND GARDEN",
+        "value": 0.1,
+        "id": 16
+      },
+      {
+        "name": "AUTO SERVICE",
+        "value": 0.1,
+        "id": 37
+      },
+      {
+        "name": "HORTICULTURE",
+        "value": 0.1,
+        "id": 56
+      },
+      {
+        "name": "MEDIA AND GAMING",
+        "value": 0.1,
+        "id": 5
+      },
+      {
+        "name": "CAMERAS & SUPPLIES",
+        "value": 0.1,
+        "id": 6
+      },
+      {
+        "name": "TOYS",
+        "value": 0.1,
+        "id": 7
+      },
+      {
+        "name": "SEASONAL",
+        "value": 0.1,
+        "id": 18
+      },
+      {
+        "name": "BOOKS AND MAGAZINES",
+        "value": 0.1,
+        "id": 21
+      },
+      {
+        "name": "WIRELESS SERVICE INCOME",
+        "value": 0.1,
+        "id": 58
+      },
+      {
+        "name": "CELEBRATION",
+        "value": 0.1,
+        "id": 67
+      },
+      {
+        "name": "ELECTRONICS",
+        "value": 0.1,
+        "id": 72
+      },
+      {
+        "name": "LARGE HOUSEHOLD GOODS",
+        "value": 0.1,
+        "id": 77
+      },
+      {
+        "name": "ONE HOUR PHOTO",
+        "value": 0.1,
+        "id": 85
+      },
+      {
+        "name": "WIRELESS",
+        "value": 0.1,
+        "id": 87
+      }
+    ],
+    "allocationType": ""
+  }
+}
