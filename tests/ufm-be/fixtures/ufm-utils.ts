@@ -342,7 +342,7 @@ export class UfmUtility {
         request
       );
       Utility.logIt(
-        `Forecast deleted for scenario id : ${scenarioId} and scneario version : ${scenarioVersion}`
+        `Forecast deleted for scenario id : ${scenarioId} and scenario version : ${scenarioVersion}`
       );
       // return responseBody;
     }

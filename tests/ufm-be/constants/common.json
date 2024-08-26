@@ -26,11 +26,11 @@
   "orgList": [
     "BA_Merch",
     "H&W",
+    "BA_Segment",
+    "BA_Ecomm",
     "CUSTOMER & REVENUE",
     "BA_Operations",
-    "Supply Chain",
-    "BA_Segment",
-    "BA_Ecomm"
+    "Supply Chain"
   ],
 
   "Segment_Finance": {
@@ -151,5 +151,6 @@
   "Draft": 21,
   "BA_Review": 22,
   "Segment_Review": 23,
+  "Send_To_Corporate": 24,
   "Change_Requested": 25
 }

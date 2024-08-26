@@ -210,7 +210,7 @@ export class Utility {
 
   //This method logs on console and debugger file
   static async logIt(text) {
-    console.log(JSON.stringify(text));
+    console.log(text);
     debug.log(JSON.stringify(text));
   }
 
