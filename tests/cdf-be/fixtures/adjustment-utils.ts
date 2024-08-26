@@ -304,4 +304,5 @@ export class AdjustmentUtility extends DemandBaseClass {
     expect(response).toBeOK();
     return await response.json();
   }
+
 }
