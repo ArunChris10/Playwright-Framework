@@ -924,6 +924,7 @@ export class CdfUtility {
       activityLogsResponse = await CdfUtility.getActivityLogs(request, demandId);
       debug.log("Activity Logs Response: ", activityLogsResponse);
       if(activityLogsResponse.length != 0) {
+        
         if(activityLogsResponse[0].action === message) {
           return activityLogsResponse;
         }
@@ -950,6 +951,16 @@ export class CdfUtility {
     return responseBody;
   }
 
+
+  static async updateActivityLogsComment(request, currentLayerId, comment) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonDemandEndpoints.getActivityLogs}${currentLayerId}`;
+    console.log("Endpoint URL for updateActivityLogsComment: ", endpointURL);
+
+    await request.put(endpointURL, {
+      data: { comment },
+      headers: CdfUtility.headers,
+    });
+
   static async getDemandStackScenarioTotalList(request, isArchived ) {
     const endpointURL = `${process.env.apiBaseURLCDF}${demandStackScenarioTotalList.endpoint}?isArchive=${isArchived}`;
     console.log("Endpoint URL for getDemandStackScenarioTotalList: ", endpointURL);
@@ -963,6 +974,7 @@ export class CdfUtility {
     expect(response).toBeOK();
     const responseBody = await response.json();
     return responseBody
+
   }
   static async getAllDSSList(request, payload) {
     const endpointURL = `${process.env.apiBaseURLCDF}${payload.endpoint}`;
@@ -1001,6 +1013,7 @@ export class CdfUtility {
       }
     }
   }
+
 
   static async verifyForecastAggregationWithMinimumDataPayload(request, demandId, layerId?: string) {
       let forecast;
@@ -1083,4 +1096,5 @@ export class CdfUtility {
       
       expect(sbuForecastSaleMixPercentage[0]).toEqual(gmvMixpercentage);
     }
+
 }

@@ -1,0 +1,9 @@
+{
+    "comment": "activity log comment test",
+    "action_allocation": "Create Split Layer",
+    "action_adjustment": "Create Intel Layer",
+    "action_archived": "Demand Stack Archived",
+    "action_unarchived": "Demand Stack Un Archived",
+    "delete_action_adjustment": "Delete Intel Layer",
+    "delete_action_allocation": "Delete Split Layer"
+}

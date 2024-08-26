@@ -53,6 +53,16 @@ export class AllocationUtils extends DemandBaseClass {
     return await response.json();
   }
 
+  static async deleteAllocationLayer(request, demandStackId, layerId) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioEndpoint}${demandStackId}${allocationsData.layerEndpoint}${layerId}`;
+    debug.log(endpointURL);
+    
+    const response = await request.delete(endpointURL, {
+      headers: this.headers,
+    });
+    return response;
+  }
+
   static async updateDemandScenarioSplit(
     request: APIRequestContext,
     sellerFulfilled: BaseChannel,
