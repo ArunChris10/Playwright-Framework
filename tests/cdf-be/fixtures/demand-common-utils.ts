@@ -1,14 +1,15 @@
 import debug from "debug";
+import { expect } from "../../common/fixtures/test-hook";
 import scenario from "../testdata/scenario.json";
-import * as path from 'path';
-import * as fs from 'fs';
-import * as xlsx from 'xlsx'
+import * as path from "path";
+import * as fs from "fs";
+import * as xlsx from "xlsx";
 import allocationsData from "../testdata/allocation-layer-data.json";
 import commonEndpoints from "../testdata/common-demand-endpoints.json";
-import getdemandforecaseData from "../testdata/demand-scenario-forecast.json"
+import getdemandforecaseData from "../testdata/demand-scenario-forecast.json";
 
 import type { GetDemandScenarioDetailsResponse } from "../types/get-demand-scenario-details-response";
-import type { APIRequestContext } from "@playwright/test";
+import type { APIRequestContext, APIResponse } from "@playwright/test";
 
 export class DemandBaseClass {
   static headers = {
@@ -18,32 +19,55 @@ export class DemandBaseClass {
   };
 
   // This method will create the scenario and asserts the response
-  static async getDemandStackDetails(request: APIRequestContext, demandStackId: string): Promise<GetDemandScenarioDetailsResponse> {
+  static async getDemandStackDetails(
+    request: APIRequestContext,
+    demandStackId: string
+  ): Promise<GetDemandScenarioDetailsResponse> {
     const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${demandStackId}`;
     const response = await request.get(endpointURL, { headers: this.headers });
     return await response.json();
   }
 
+  static async editDemandStackDetails(
+    request: APIRequestContext,
+    demandStackId: string,
+    forecastVersion: string,
+    demandStackName?: string,
+    demandStackDesc?: string
+  ) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}`;
+    debug.log(endpointURL);
+    const response = await request.put(endpointURL, {
+      data: {
+        demandStackId: demandStackId,
+        forecastVersion: forecastVersion,
+        demandStackName: demandStackName,
+        demandStackDesc: demandStackDesc,
+      },
+      headers: this.headers,
+    });
+    expect(response).toBeOK();
+    return await response.json();
+  }
+
   static async getCSVDataAsArray(csvApiResponse): Promise<string[][]> {
-    // This function accepts the csv download api response as input, downloads and saves the file, reads data, deletes file 
+    // This function accepts the csv download api response as input, downloads and saves the file, reads data, deletes file
     // and returns the data of the csv file as an array of objects
     let csvBuffer = await csvApiResponse.body();
     let csvFilePath = path.join(__dirname, "download.csv");
     fs.writeFileSync(csvFilePath, csvBuffer);
     // debug.log("CSV downloaded successfully");
-    let csvFileData = fs.readFileSync(csvFilePath, 'utf8');
+    let csvFileData = fs.readFileSync(csvFilePath, "utf8");
 
-    const csvArray = csvFileData
-        .split(/\r\n/)
-        .map(row =>
-            // Matches commas with no space after them. The lookahead regex is needed to parse the
-            // file correctly because sometimes cell values can contain commas, i.e. ARTS, CRAFTS, SEWING & FABRICS
-            row.split(/,(?=\S)/)
-        )
+    const csvArray = csvFileData.split(/\r\n/).map((row) =>
+      // Matches commas with no space after them. The lookahead regex is needed to parse the
+      // file correctly because sometimes cell values can contain commas, i.e. ARTS, CRAFTS, SEWING & FABRICS
+      row.split(/,(?=\S)/)
+    );
 
     // The CSV ends with a comma, and as expected, this matches the regex and creates a final entry with [''] as a value.
     // So, discard this. Unfortunately, there is no better way to match/remove all commas without generating this entry.
-    csvArray.splice(csvArray.length - 1)
+    csvArray.splice(csvArray.length - 1);
 
     fs.unlinkSync(csvFilePath);
     return csvArray;
@@ -52,14 +76,14 @@ export class DemandBaseClass {
   // Locating the appropriate data belonging to a column can be troublesome within the CSV array rows (and must be referenced by index)
   // The returned record provides a way to reference the column by name
   static getCSVHeadersRecord(csvArray: string[][]): Record<string, number> {
-    const csvHeaders = csvArray[0]
-    const csvColumnNamesRecord = {}
+    const csvHeaders = csvArray[0];
+    const csvColumnNamesRecord = {};
 
     csvHeaders.forEach((columnName, index) => {
-      csvColumnNamesRecord[columnName] = index
-    })
+      csvColumnNamesRecord[columnName] = index;
+    });
 
-    return csvColumnNamesRecord
+    return csvColumnNamesRecord;
   }
 
   static async getCellValueFromExcel(excelApiResponse, cellId) {
@@ -105,13 +129,12 @@ export class DemandBaseClass {
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
     fs.unlinkSync(excelFilePath);
-    return sheet
+    return sheet;
   }
 
   static async getByteStreamFromExcel(fileName) {
     // This function takes filepath and convert it into byte stream.
     let excelFilePath = path.join(__dirname, fileName);
-    
   }
   static async fileToBase64(fileName) {
     let excelFilePath = path.join(__dirname, fileName);
@@ -120,12 +143,12 @@ export class DemandBaseClass {
         if (err) {
           reject(err);
         } else {
-          const base64 = Buffer.from(data).toString('base64');
+          const base64 = Buffer.from(data).toString("base64");
           resolve(base64);
         }
       });
     });
-  };
+  }
 
   static async getSheetDataFromExcel(excelApiResponse) {
     // This function accepts the excel download api response as input, downloads and saves the file, reads data, deletes file
@@ -150,27 +173,27 @@ export class DemandBaseClass {
     debug.log(response);
     return await response.json();
   }
-  
-  
+
   static async getdemandStackForecast(
     request,
     demandStackId,
     demandScenarioDetails,
-    filterLevel, 
+    filterLevel,
     layerIds,
     organizationalLevel,
     loadHeirarchyParams
   ) {
     const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.getDemandScenarioForecastEndpoint}${demandStackId}`;
     const payload = getdemandforecaseData;
-    payload.version =  demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version;
+    payload.version =
+      demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version;
     payload.timeFilter.filterLevel = filterLevel;
     payload.layerIds = layerIds;
-    if (organizationalLevel != null){
+    if (organizationalLevel != null) {
       payload.organizationalLevel = organizationalLevel;
     }
-    if(loadHeirarchyParams!=null){
-    payload.loadHeirarchyParams = loadHeirarchyParams;
+    if (loadHeirarchyParams != null) {
+      payload.loadHeirarchyParams = loadHeirarchyParams;
     }
     // API Request
     const response = await request.post(endpointURL, {
@@ -193,7 +216,7 @@ export class DemandBaseClass {
     departmentIds = [],
     channelGroups = [],
     channelGroupIds = [],
-    yearMonths = [],
+    yearMonths = []
   ) {
     const payload = {
       sbu: sbuNames,
@@ -260,13 +283,13 @@ export class DemandBaseClass {
       departmentIds,
       channelGroups,
       channelGroupIds,
-      yearMonths,
-    )
+      yearMonths
+    );
     payload = {
       ...payload,
       isUfmSyncCache: false,
       latestSyncScenario: false,
-    }
+    };
     // API Request
     const response = await request.post(endpointURL, {
       data: payload,
@@ -276,16 +299,19 @@ export class DemandBaseClass {
   }
 
   static async deleteManualAdjustmentLayer(request, demandId, layerId) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioEndpoint}${demandId}` + "/layer/" + `${layerId}`;
-    console.log("Endpoint URL for deleting Manual adjustment layer: ", endpointURL);
+    const endpointURL =
+      `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioEndpoint}${demandId}` +
+      "/layer/" +
+      `${layerId}`;
+    console.log(
+      "Endpoint URL for deleting Manual adjustment layer: ",
+      endpointURL
+    );
 
     // API Request
-    const response = await request.delete(
-        endpointURL,
-        {
-            header: this.headers
-        }
-    );
+    const response = await request.delete(endpointURL, {
+      header: this.headers,
+    });
 
     return response;
   }

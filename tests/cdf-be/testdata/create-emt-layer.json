@@ -1,73 +1,73 @@
 {
-    "endpoint": "/api/demandscenarios/stacks/",
-    "payload": {
-        "layers": [
-            {
-                "layerType": "INTEL",
-                "allocationType": "DOLLAR",
-                "allocationAmountTypeEnum": "ABSOLUTE",
-                "forecastVersion": "1712604073000",
-                "userId": "LB-ibg-lob-cmn",
-                "totalBudget": -55,
-                "isConfirmed": true,
-                "isPreview": false,
-                "layerName": "Test Automation New EMT Layer",
-                "layerDescription": "Test Automation New EMT Layer Description",
-                "yearMonths": [
-                    "2029-12",
-                    "2030-01",
-                    "2030-02",
-                    "2030-03",
-                    "2030-04",
-                    "2030-05",
-                    "2030-06",
-                    "2030-07",
-                    "2030-08",
-                    "2030-09",
-                    "2030-10",
-                    "2030-11",
-                    "2030-12"
-                ],
-                "allocationYearMonths": [],
-                "allocationUnitType": "HOLD_AUR",
-                "allocationDepartments": [],
-                "deAllocationDepartments": [],
-                "allocationSbus": [],
-                "deAllocationSbus": [
-                    {
-                        "name": "FOOD",
-                        "value": -55,
-                        "id": 27
-                    }
-                ],
-                "allocationChannels": [],
-                "deAllocationChannels": [],
-                "allocationQuarters": [],
-                "deAllocationQuarters": [],
-                "allocationYears": [],
-                "deAllocationYears": [],
-                "allocationMonths": [],
-                "deAllocationMonths": [],
-                "allocationFilter": {
-                    "baseChannelList": [],
-                    "deptList": [],
-                    "sbuList": [],
-                    "sbuIdsList": [],
-                    "deptIdsList": [],
-                    "baseChannelIdsList": []
-                },
-                "deAllocationFilter": {
-                    "baseChannelList": [],
-                    "deptList": [],
-                    "sbuList": [],
-                    "sbuIdsList": [],
-                    "deptIdsList": [],
-                    "baseChannelIdsList": []
-                }
-            }
+  "endpoint": "/api/demandscenarios/stacks/",
+  "payload": {
+    "layers": [
+      {
+        "layerType": "INTEL",
+        "allocationType": "DOLLAR",
+        "allocationAmountTypeEnum": "ABSOLUTE",
+        "forecastVersion": "1712604073000",
+        "userId": "LB-ibg-lob-cmn",
+        "totalBudget": -55,
+        "isConfirmed": true,
+        "isPreview": false,
+        "layerName": "Test Automation New EMT Layer",
+        "layerDescription": "Test Automation New EMT Layer Description",
+        "yearMonths": [
+          "2029-12",
+          "2030-01",
+          "2030-02",
+          "2030-03",
+          "2030-04",
+          "2030-05",
+          "2030-06",
+          "2030-07",
+          "2030-08",
+          "2030-09",
+          "2030-10",
+          "2030-11",
+          "2030-12"
         ],
-        "baseURL": "https://scenario.qa.ibg.walmart.com/api/demandscenarios/stacks/6cc48da4-5348-446e-96a3-ada9d0bddbe9"
-    },
+        "allocationYearMonths": [],
+        "allocationUnitType": "HOLD_AUR",
+        "allocationDepartments": [],
+        "deAllocationDepartments": [],
+        "allocationSbus": [],
+        "deAllocationSbus": [
+          {
+            "name": "FOOD",
+            "value": -55,
+            "id": 27
+          }
+        ],
+        "allocationChannels": [],
+        "deAllocationChannels": [],
+        "allocationQuarters": [],
+        "deAllocationQuarters": [],
+        "allocationYears": [],
+        "deAllocationYears": [],
+        "allocationMonths": [],
+        "deAllocationMonths": [],
+        "allocationFilter": {
+          "baseChannelList": [],
+          "deptList": [],
+          "sbuList": [],
+          "sbuIdsList": [],
+          "deptIdsList": [],
+          "baseChannelIdsList": []
+        },
+        "deAllocationFilter": {
+          "baseChannelList": [],
+          "deptList": [],
+          "sbuList": [],
+          "sbuIdsList": [],
+          "deptIdsList": [],
+          "baseChannelIdsList": []
+        }
+      }
+    ],
+    "baseURL": "https://scenario.qa.ibg.walmart.com/api/demandscenarios/stacks/6cc48da4-5348-446e-96a3-ada9d0bddbe9"
+  },
   "expected_response": [
     {
       "allocationType": "DOLLAR",
