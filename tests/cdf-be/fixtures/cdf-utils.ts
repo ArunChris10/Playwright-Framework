@@ -960,6 +960,7 @@ export class CdfUtility {
       data: { comment },
       headers: CdfUtility.headers,
     });
+  }
 
   static async getDemandStackScenarioTotalList(request, isArchived ) {
     const endpointURL = `${process.env.apiBaseURLCDF}${demandStackScenarioTotalList.endpoint}?isArchive=${isArchived}`;
