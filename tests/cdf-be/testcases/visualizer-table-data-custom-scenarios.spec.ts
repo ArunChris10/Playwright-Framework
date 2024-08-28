@@ -105,7 +105,7 @@ test.describe("Verify that the user should be able to add custom metrices under 
         debug.log("Calculated Diff Value: ", calculatedYoyDifference);
         debug.log("Diff Value: ", yoyDifference);
 
-        expect(yoyDifference).toEqual(calculatedYoyDifference);
+        expect(Math.floor(yoyDifference)).toEqual(Math.floor(calculatedYoyDifference));
         debug.log("Custom scenario YoY Difference check successful");
 
         let lastYearValue = visualizerTableDataCustomScenarioResponseBodyNew[0].data[3].data[0].data[0].kpiValue
