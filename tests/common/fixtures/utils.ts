@@ -1,11 +1,10 @@
-import { TestInfo, Page } from "@playwright/test";
-import fs from "fs";
+import { Page, TestInfo } from "@playwright/test";
 import debug from "debug";
-import usersIBGFormat from "../testdata/users.json";
-import usersNexusFormat from "../testdata/users-nexus-format.json";
-import { expect } from "../fixtures/test-hook";
+import fs from "fs";
 import { Forecast } from "../../cdf-be/types/get-demand-scenario-forecast-response";
-import test from "node:test";
+import { expect } from "../fixtures/test-hook";
+import usersNexusFormat from "../testdata/users-nexus-format.json";
+import usersIBGFormat from "../testdata/users.json";
 
 export class Utility {
   private static readonly dir: string = "./test-results/logs/";
@@ -13,6 +12,8 @@ export class Utility {
     "./secrets/nexus-users-token.json";
   private static readonly ibgTokenFilePath: string =
     "./secrets/ibg-users-token.json";
+  private static readonly mappingFilePath: string =
+    "./tests/ufm-be/constants/mapping.json";
   private static readonly secretFilePath: string = "./secrets/ufm-secrets.json";
   private static spinner = "//span[contains(@class, 'Spinner')]";
   private static dataLoading =
@@ -78,7 +79,7 @@ export class Utility {
   static async fetchNexusFakeTokens(userId: String, request) {
     const user = usersNexusFormat.filter((user) => user.userId === userId)[0];
 
-    debug.log("fetching token for : ", JSON.stringify(user.userId));
+    Utility.logIt(`fetching token for : ${JSON.stringify(user.userId)}`);
     const adminSecret = (await this.getSecret())["nexus"].adminSecret[
       process.env.envName + ""
     ];
@@ -132,6 +133,37 @@ export class Utility {
     return ufm_secrets;
   }
 
+  static async setmappings(request) {
+    const endpointURL = `${process.env.apiBaseURLUFM}/metadata/dimensions/mappings`;
+    this.logIt(endpointURL);
+    let nexusTokens = await Utility.getNexusFakeToken(
+      process.env.ufmUser + "",
+      request
+    );
+    //this.logIt(nexusTokens);
+    nexusTokens = nexusTokens.replace('"', "");
+    nexusTokens = nexusTokens.replace('"', "");
+    //API Request
+    const responseData = await request.get(endpointURL, {
+      headers: {
+        Authorization: `Bearer ` + nexusTokens,
+      },
+      params: {
+        dimension_group_id: 7,
+      },
+    });
+    expect(responseData).toBeOK();
+    //Extracting the response body
+    const responseBody = JSON.parse(await responseData.text());
+    let parsedData = JSON.stringify(responseBody, null, 2);
+
+    const rawdata = fs.existsSync(this.mappingFilePath)
+      ? fs.readFileSync(this.mappingFilePath)
+      : "";
+
+    fs.writeFileSync(this.mappingFilePath, parsedData);
+  }
+
   //this method gets the password for userIds from the secret file
   public static async getLoginPassword(userId) {
     return (await this.getSecret())[userId];
@@ -154,6 +186,15 @@ export class Utility {
     );
     const url = appBaseURL + "";
     await page.goto(url);
+  }
+  public static async randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  public static async getMonthYear() {
+    let m = ("0" + (new Date().getMonth() + 1)).slice(-2);
+    let y = new Date().getFullYear() + 1;
+    let year = y.toString();
+    return year + m;
   }
 
   public static async waitForLoaderToBeInvisible(page) {
@@ -196,21 +237,21 @@ export class Utility {
   }
 
   public static getDateKey({ month, quarter, year }: Forecast) {
-    return `${month}-${quarter}-${year}`
+    return `${month}-${quarter}-${year}`;
   }
 
   //This method checks for status 200 of response and converts response to json and logs it on console and debug logs
   static async assertAndLog(response) {
     await expect.soft(response).toBeOK();
     let responseBody = await response.json();
-    console.log(responseBody);
+    console.log(JSON.stringify(responseBody));
     debug.log(JSON.stringify(responseBody));
     return responseBody;
   }
 
   //This method logs on console and debugger file
   static async logIt(text) {
-    console.log(text);
+    console.log(JSON.stringify(text));
     debug.log(JSON.stringify(text));
   }
 

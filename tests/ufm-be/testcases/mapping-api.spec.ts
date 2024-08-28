@@ -1,4 +1,4 @@
-import { expect, test } from "../../common/fixtures/test-hook";
+import { test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import testdatafile from "../testdata/mapping-api.json";
 
@@ -25,8 +25,7 @@ test.describe(
           },
         });
         //Extracting the response body
-        const responseBody = JSON.parse(await responseData.text());
-        expect(responseBody).toMatchObject(testdatafile.expected_response);
+        Utility.assertAndLog(responseData);
       });
     });
     // testdatafile.dim_group_id_data.forEach(testdata => {

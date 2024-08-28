@@ -9,6 +9,7 @@ import hisTestdatafile from "../testdata/historical-forecast.json";
 import inputNodes from "../testdata/inputnodes.json";
 import scenarioIds from "../testdata/scenarioIds.json";
 import endpoints from "../testdata/statusendpoints.json";
+import { AllocationUtility } from "./allocate-utils";
 
 export class UfmUtility {
   // This method will create the forecast and assert the response
@@ -266,8 +267,17 @@ export class UfmUtility {
     adjustmentData.payloads.adjustment_metadata.scenario_id = scenario_id;
     adjustmentData.payloads.adjustment_metadata.scenario_version_timestamp =
       scenario_version;
-    adjustmentData.payloads.allocation_request.scenario_id = scenario_id;
-
+    // adjustmentData.payloads.allocation_request.scenario_id = scenario_id;
+    let allocationJson = await AllocationUtility.allocation(
+      lobName,
+      scenario_id,
+      commonData["Constant value"],
+      "save",
+      request
+    );
+    adjustmentData.payloads.dim_val_id = commonData[lobName].dim_val_id;
+    adjustmentData.payloads.allocation_request = allocationJson;
+    console.log(adjustmentData.payloads.allocation_request);
     const response = await request.patch(endpointURL, {
       data: adjustmentData.payloads,
     });
