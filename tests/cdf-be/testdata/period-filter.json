@@ -1,0 +1,129 @@
+{
+  "metrics": ["amount", "units", "sales", "uomValue"],
+  "yearFilter": {
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": true,
+      "isMonthSelected": false,
+      "isQuarterSelected": false,
+      "yearMonths": [
+        "202901",
+        "202902",
+        "202903",
+        "202904",
+        "202905",
+        "202906",
+        "202907",
+        "202908",
+        "202909",
+        "202910",
+        "202911",
+        "202912"
+      ],
+      "yearQuarters": [],
+      "years": ["2029"],
+      "yearList": ["FY 2029"]
+    }
+  },
+  "quarterFilter": {
+    "timeFilter": {
+      "filterLevel": "QUARTER",
+      "isYearSelected": true,
+      "isMonthSelected": false,
+      "isQuarterSelected": false,
+      "yearMonths": [],
+      "yearQuarters": ["202901", "202902", "202903", "202904"],
+      "years": ["2029"],
+      "yearList": ["FY 2029"]
+    }
+  },
+  "monthFilterWithQuarter": {
+    "timeFilter": {
+      "filterLevel": "QUARTER",
+      "isYearSelected": false,
+      "isMonthSelected": false,
+      "isQuarterSelected": true,
+      "yearMonths": [],
+      "yearQuarters": [
+        "202001",
+        "202101",
+        "202201",
+        "202301",
+        "202401",
+        "202501",
+        "202601",
+        "202701",
+        "202801",
+        "202901",
+        "203001",
+        "203101"
+      ],
+      "years": [],
+      "yearList": [
+        "FY 2020",
+        "FY 2021",
+        "FY 2022",
+        "FY 2023",
+        "FY 2024",
+        "FY 2025",
+        "FY 2026",
+        "FY 2027",
+        "FY 2028",
+        "FY 2029",
+        "FY 2030",
+        "FY 2031"
+      ]
+    }
+  },
+  "monthFilter": {
+    "timeFilter": {
+      "filterLevel": "MONTH",
+      "isYearSelected": false,
+      "isMonthSelected": true,
+      "isQuarterSelected": false,
+      "yearMonths": [
+        "202005",
+        "202105",
+        "202205",
+        "202305",
+        "202405",
+        "202505",
+        "202605",
+        "202705",
+        "202805",
+        "202905",
+        "203005",
+        "203105"
+      ],
+      "yearQuarters": [],
+      "years": [
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026",
+        "2027",
+        "2028",
+        "2029",
+        "2030",
+        "2031"
+      ],
+      "yearList": [
+        "FY 2020",
+        "FY 2021",
+        "FY 2022",
+        "FY 2023",
+        "FY 2024",
+        "FY 2025",
+        "FY 2026",
+        "FY 2027",
+        "FY 2028",
+        "FY 2029",
+        "FY 2030",
+        "FY 2031"
+      ]
+    }
+  }
+}
