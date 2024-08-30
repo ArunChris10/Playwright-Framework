@@ -121,6 +121,7 @@ export default defineConfig({
       use: {
         extraHTTPHeaders: {
           Authorization: `Bearer ${nexusTokens[process.env.cdfUser + ""]}`,
+          isAutomationTest: "true"
         },
       },
     },
