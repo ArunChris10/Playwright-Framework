@@ -28,7 +28,7 @@ test.describe("Verify user can publish multiple (upto 3) DSS onto Current Demand
             });
 
             await test.step("Fetch current demand data and extract name and description", async () => {
-                const currentDemandResponse = await CdfUtility.currentDemand(request);
+                const currentDemandResponse = await CdfUtility.fetchSlots(request);
                 expect(currentDemandResponse).toBeOK();
                 const currentDemandResponseBody = await currentDemandResponse.json();
                 debug.log(JSON.stringify(currentDemandResponseBody));
@@ -54,7 +54,7 @@ test.describe("Verify user can publish multiple (upto 3) DSS onto Current Demand
             });
 
             await test.step("Again fetch current demand data and extract and assert name & description", async () => {
-                const currentDemandResponse = await CdfUtility.currentDemand(request);
+                const currentDemandResponse = await CdfUtility.fetchSlots(request);
                 expect(currentDemandResponse).toBeOK();
                 const currentDemandResponseBody = await currentDemandResponse.json();
                 debug.log(JSON.stringify(currentDemandResponseBody));
