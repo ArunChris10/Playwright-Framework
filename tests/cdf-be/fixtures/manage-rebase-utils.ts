@@ -1,6 +1,6 @@
 import debug from "debug";
 import testDataForManage from '../testdata/manage-rebase.json';
-import { expect } from "@playwright/test";
+import { APIRequestContext, APIResponse, expect } from "@playwright/test";
 
 export class ManageRebaseUtility {
 
@@ -10,7 +10,12 @@ export class ManageRebaseUtility {
         "WM_SVC.ENV": process.env.envName
     }
 
-    static async getDemandScenarioForecast(request, demandId, endpoint, payload) {
+    static async getDemandScenarioForecast(
+        request: APIRequestContext,
+        demandId: string,
+        endpoint: string,
+        payload: Object
+    ): Promise<APIResponse> {
         const endpointURL = `${process.env.apiBaseURLCDF}${endpoint}${demandId}`;
         console.log("Endpoint URL for getDemandScenarioForecast: ", endpointURL);
 

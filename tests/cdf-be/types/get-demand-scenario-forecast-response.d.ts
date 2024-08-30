@@ -26,6 +26,7 @@ export interface Department {
     sbu: string,
     department: string,
     departmentId: number
+    departmentIdAndNameConcat: string,
     departmentDisplayName: string,
     sbuDisplayName: string,
     forecast: Forecast[]

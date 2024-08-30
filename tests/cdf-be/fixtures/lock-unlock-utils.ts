@@ -1,5 +1,6 @@
 import debug from "debug";
 import testdata from '../testdata/lock-scenario.json';
+import { APIRequestContext, APIResponse } from "@playwright/test";
 
 export class LockUnlockUtility {
 
@@ -9,7 +10,7 @@ export class LockUnlockUtility {
         "WM_SVC.ENV": process.env.envName
     }
 
-    static async lockDSSData(request, demandId) {
+    static async lockDSSData(request: APIRequestContext, demandId: string): Promise<APIResponse> {
         const endpointURL = `${process.env.apiBaseURLCDF}${testdata.endpoint}${demandId}/lock`;
         debug.log(endpointURL);
         

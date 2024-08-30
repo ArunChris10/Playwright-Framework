@@ -184,6 +184,46 @@
     "isUfmSyncCache": false,
     "latestSyncScenario": false
   },
+  "timeFilters": {
+    "year": {
+      "filterLevel": "YEAR",
+      "isMonthSelected": false,
+      "isQuarterSelected": false,
+      "isYearSelected": true,
+      "yearList": [
+        "FY 2026"
+      ],
+      "yearMonths": [],
+      "yearQuarters": [],
+      "years": [
+        "2026"
+      ]
+    },
+    "quarter": {
+      "filterLevel": "QUARTER",
+      "isMonthSelected": false,
+      "isQuarterSelected": false,
+      "isYearSelected": true,
+      "yearList": [
+        "FY 2026"
+      ],
+      "yearMonths": [],
+      "yearQuarters": [
+        "202601"
+      ],
+      "years": ["2026"]
+    },
+    "month": {
+      "filterLevel": "MONTH",
+      "isYearSelected": true,
+      "isMonthSelected": true,
+      "isQuarterSelected": false,
+      "yearMonths": ["202705"],
+      "yearQuarters": [],
+      "years": ["2027"],
+      "yearList": ["FY 2027"]
+    }
+  },
   "valueToBeUpdated": 10000,
   "cellPositionForDepartment": "E14",
   "cellPositionForSBU": "E13",
