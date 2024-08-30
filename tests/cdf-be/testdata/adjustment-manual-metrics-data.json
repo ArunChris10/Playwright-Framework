@@ -1,0 +1,169 @@
+{
+    "sbuleveldata":{
+    "baseURL": "/api/demandscenarios/demand/",
+    "payload" :  {
+           
+            "sbu": [
+                "FASHION",
+                "CONSUMABLES",
+                "ENTERTAINMENT TOYS AND SEASONAL",
+                "FOOD",
+                "HARDLINES",
+                "HOME"
+            ],
+            "sbuIds": [
+                4,
+                29,
+                196,
+                27,
+                60,
+                47
+            ],
+            "department": [],
+            "departmentIds": [],
+            "baseChannel": [],
+            "baseChannelIds": [],
+            "channelGroup": [],
+            "channelGroupIds": [],
+            "demandChannel": [],
+            "layerIds": [],
+            "clearAll": false,
+            "includeDerivedMetrics": false,
+            "includeTotals": true,
+            "organizationalLevel": "SBU",
+            "loadHeirarchyParams": null,
+            "timeFilter": {
+                "filterLevel": "YEAR",
+                "isYearSelected": false,
+                "isMonthSelected": false,
+                "isQuarterSelected": false,
+                "yearMonths": [],
+                "yearQuarters": [],
+                "years": [],
+                "yearList": []
+            },
+            "version": "forecastVersion",
+            "forceRefresh": false,
+            "filtersChanged": true,
+            "departmentName": [],
+            "filterLoadComplete": true,
+            "isUfmSyncCache": false,
+            "latestSyncScenario": false
+        }
+  },
+  "channelleveldata":{
+    "baseURL": "/api/demandscenarios/demand/",
+    "payload" :  {
+           
+            "sbu": [
+                "FASHION",
+                "CONSUMABLES",
+                "ENTERTAINMENT TOYS AND SEASONAL",
+                "FOOD",
+                "HARDLINES",
+                "HOME"
+            ],
+            "sbuIds": [
+                4,
+                29,
+                196,
+                27,
+                60,
+                47
+            ],
+            "department": [],
+            "departmentIds": [],
+            "baseChannel": [],
+            "baseChannelIds": [],
+            "channelGroup": [],
+            "channelGroupIds": [],
+            "demandChannel": [],
+            "layerIds": [],
+            "clearAll": false,
+            "includeDerivedMetrics": false,
+            "includeTotals": true,
+            "organizationalLevel": "BASE_CHANNEL",
+            "loadHeirarchyParams": null,
+            "timeFilter": {
+                "filterLevel": "YEAR",
+                "isYearSelected": false,
+                "isMonthSelected": false,
+                "isQuarterSelected": false,
+                "yearMonths": [],
+                "yearQuarters": [],
+                "years": [],
+                "yearList": []
+            },
+            "version": "forecastVersion",
+            "forceRefresh": false,
+            "filtersChanged": true,
+            "departmentName": [],
+            "filterLoadComplete": true,
+            "isUfmSyncCache": false,
+            "latestSyncScenario": false
+        }
+  },
+
+  "uploadadjustmentLayers" :{
+    "baseURL": "/api/demandscenarios/stacks/",
+    "payload": { "layers": [
+        {
+            "layerType": "HIGHLIGHTER",
+            "allocationType": "CONVERTED_SALE UNIT DOLLAR",
+            "layerDescription": "automation-test-cases",
+            "layerName": "manual-test",
+            "forecastVersion": "",
+            "isConfirmed": true,
+            "isPreview": false,
+            "highlighterAllocationsList": [
+                {
+                    "sbu": "FOOD",
+                    "sbuId": 27,
+                    "channels": [],
+                    "amount": 1000000,
+                    "year": "2026",
+                    "departments": [
+                        "CANDY",
+                        "SERVICE DELI",
+                        "COM BREAD",
+                        "IMPULSE MERCHANDISE",
+                        "SEAFOOD",
+                        "BALLOONS & FLOWERS",
+                        "DAIRY",
+                        "FROZEN",
+                        "GROCERY",
+                        "MEAT",
+                        "PRODUCE",
+                        "DSD GROCERY",
+                        "LIQUOR",
+                        "WALL DELI",
+                        "BAKERY"
+                    ],
+                    "departmentIds": [
+                        1,
+                        80,
+                        81,
+                        82,
+                        83,
+                        84,
+                        90,
+                        91,
+                        92,
+                        93,
+                        94,
+                        95,
+                        96,
+                        97,
+                        98
+                    ],
+                    "channelIds": []
+                }
+            ]
+        }
+    ]
+}
+},
+"lockScenario":{ 
+   "baseURL" : "/api/demandscenarios/demandId/lock"
+ }
+}

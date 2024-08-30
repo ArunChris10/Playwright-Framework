@@ -9,6 +9,7 @@ import emtLayerUnitData from "../testdata/emt-layer-unit-data.json";
 import currentDemandData from '../testdata/current-demand.json'
 import emtLayerData from "../testdata/emt-layer-data.json";
 
+
 export class AdjustmentUtility extends DemandBaseClass {
     static async createEMTLayer(request, demandId, testdatafileCreateEMT) {
         const endpointURL = `${process.env.apiBaseURLCDF}${testdatafileCreateEMT.endpoint}${demandId}`;
@@ -138,6 +139,22 @@ export class AdjustmentUtility extends DemandBaseClass {
         return response;
     }
 
+
+    static async getEmtLayerPercenatge(request, demandId, emtLayerPercenatge) {
+      const endpointURL = `${process.env.apiBaseURLCDF}${emtLayerPercenatge.baseURL}${demandId}/percentageToAbsolute`;
+      debug.log(endpointURL);
+
+      // API Request
+      const response = await request.put(
+          endpointURL,
+          { 
+              data: emtLayerPercenatge.payload,
+              headers: AdjustmentUtility.headers
+          }
+      );
+
+      return response;
+  }
 
   static async getAllDemandScenarioForecastData(
     request,
