@@ -20,6 +20,7 @@ import demandStackScenarioTotalList from '../testdata/demand-stack-scenarios-tot
 import getDemandScenarioCSV from '../testdata/get-demand-scenario-forecast-csv.json'
 import { APIRequestContext, APIResponse } from "@playwright/test";
 import type { PostArchiveDemandScenarioResponse } from "../types/post-archive-demand-scenario-response";
+import { Forecast } from "../types/get-demand-scenario-forecast-response";
 
 
 export class CdfUtility {   
@@ -1098,4 +1099,14 @@ export class CdfUtility {
       expect(sbuForecastSaleMixPercentage[0]).toEqual(gmvMixpercentage);
     }
 
+    static getForecastByMonth(
+        forecasts: Forecast[],
+        { month, year }: { month: number, year: number }
+    ): Forecast | null {
+      const monthlyForecast = forecasts.filter((forecast) =>
+        forecast.month === month && forecast.year === year
+      )[0]
+
+      return monthlyForecast || null
+    }
 }

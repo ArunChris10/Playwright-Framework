@@ -1,6 +1,6 @@
 import debug from "debug";
 import allocationsData from "../testdata/allocation-layer-data.json";
-import {APIRequestContext, expect} from "@playwright/test";
+import { APIRequestContext, APIResponse, expect } from "@playwright/test";
 import { DemandBaseClass } from "./demand-common-utils";
 import commonEndpoints from "../testdata/common-demand-endpoints.json";
 import highlighterlayer from "../testdata/highlighter-layer-allocation-data.json";
@@ -71,8 +71,9 @@ export class AllocationUtils extends DemandBaseClass {
     layerId: string | null,
     demandStackId: string,
     demandScenarioDetails: DemandScenarioDetails,
-    allocationType: 'DOLLAR' | 'CONVERTED_SALE' = 'DOLLAR'
-  ) {
+    allocationType: 'DOLLAR' | 'CONVERTED_SALE' = 'DOLLAR',
+    modificationAmount?: [ number, number ]
+  ): Promise<APIResponse> {
     const dateFormat = `${sellerFulfilled.forecast[0].year}-${
       sellerFulfilled.forecast[0].month < 10
         ? "0" + sellerFulfilled.forecast[0].month
@@ -107,12 +108,16 @@ export class AllocationUtils extends DemandBaseClass {
           {
             baseChannel: sellerFulfilled.baseChannel,
             baseChannelId: sellerFulfilled.baseChannelId,
-            amount: sellerFulfilled.forecast[0][allocationsData.allocationType[allocationType]] + allocationsData?.differenceAmount,
+            amount: modificationAmount
+                ? modificationAmount[0]
+                : sellerFulfilled.forecast[0][allocationsData.allocationType[allocationType]] + allocationsData?.differenceAmount,
           },
           {
             baseChannel: marketplaceFulfilled.baseChannel,
             baseChannelId: marketplaceFulfilled.baseChannelId,
-            amount: marketplaceFulfilled.forecast[0][allocationsData.allocationType[allocationType]] - allocationsData?.differenceAmount,
+            amount:  modificationAmount
+                ? modificationAmount[1]
+                : marketplaceFulfilled.forecast[0][allocationsData.allocationType[allocationType]] - allocationsData?.differenceAmount,
           },
         ],
       };

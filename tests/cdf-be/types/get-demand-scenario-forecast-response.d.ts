@@ -67,7 +67,6 @@ interface ForecastTotals {
     totalOfExcludingDepartments: TotalOfExcludingDepartments[]
 }
 
-// forecastTotals exists if the request body's filterLevel is 'MONTH'
 export interface GetDemandScenarioForecastResponse<forecastType> {
     forecast: forecastType[]
     forecastTotals?: ForecastTotals
