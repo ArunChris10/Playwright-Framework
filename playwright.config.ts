@@ -135,6 +135,9 @@ export default defineConfig({
         launchOptions: {
           args: ["--ignore-certificate-errors", "--start-fullscreen"],
         },
+        extraHTTPHeaders: {
+          "isAutomationTest": "true"
+        },
       },
     },
   ],
