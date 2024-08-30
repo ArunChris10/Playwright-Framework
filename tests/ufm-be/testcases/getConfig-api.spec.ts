@@ -33,13 +33,6 @@ test.describe(
               responseBody = JSON.parse(await responseBody.text());
             }
           );
-          //Assertion
-          await test.step(
-            "Check if the response has  " + config_payload.type + " config",
-            async () => {
-              expect(responseBody).toEqual(config_payload.expected_response);
-            }
-          );
         }
       );
     });

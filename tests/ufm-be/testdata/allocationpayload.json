@@ -1,0 +1,25 @@
+{
+  "allocation_request": {
+    "display_nodes": [],
+    "scenario_id": 18841722854230,
+    "dim_val_id": 110012,
+    "dim_id": 11,
+    "preview": false,
+    "edits": [
+      {
+        "node_var_name": "costperpaidvisit",
+        "node_dimension": {},
+        "data": {
+          "202507": 90
+        },
+        "allocation": {
+          "method": 30,
+          "interval": null,
+          "offset": null
+        }
+      }
+    ],
+    "filters": [],
+    "period_view": "month"
+  }
+}

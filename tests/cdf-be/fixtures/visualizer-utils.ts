@@ -1,10 +1,12 @@
 import debug from "debug";
+import { expect } from "@playwright/test";
 import getVisualizerTableFilterData from '../testdata/get-visualizer-table-filters.json';
 import visualizerSaveData from '../testdata/visualizer-create-view-scenarios-list.json';
 import visualizerSaveCurrentDemandData from '../testdata/publish-to-current-demand.json';
 import visualizerTableDataCustomMetrics from '../testdata/visualizer-table-data-custom-metrics.json';
 import visualizerDownloadData from '../testdata/visualizer-view-download.json';
 import visualizerTableDataCustomScenarios from '../testdata/visualizer-table-data-custom-scenarios.json'
+import visualizerTableData from '../testdata/visualizer-table-data.json';
 
 export class VisualizerUtility {
 
@@ -26,6 +28,30 @@ export class VisualizerUtility {
         );
 
         return response;
+    }
+
+    static async getTemplate(request, appId = 1) {
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/templates/${appId}`;
+        debug.log(endpointURL);
+        const response = await request.get(
+            endpointURL,
+            { headers: VisualizerUtility.headers }
+        )
+        expect(response).toBeOK();
+        const responseBody = await response.json();
+        return responseBody;
+    }
+
+    static async searchScenario(request, templateId: string, appId = 1, size = 50) {
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/templates/${appId}/scenarios/${templateId}/search?filterValue=&size=${size}`;
+        debug.log(endpointURL);
+        const response = await request.get(
+            endpointURL,
+            { headers: VisualizerUtility.headers }
+        )
+        expect(response).toBeOK();
+        const responseBody = await response.json();
+        return responseBody;
     }
 
     // Method to call visualizer-save api to publish to current demand
@@ -50,6 +76,18 @@ export class VisualizerUtility {
         )
 
         return response;
+    }
+
+    static async getVisualizerTableData(request, templateId: string, payloadExtension = {}, appId = 1) {
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/templates/${appId}/scenarios/${templateId}/data`;
+        debug.log(endpointURL);
+        const response = await request.post(
+            endpointURL,
+            { data: {...visualizerTableData.payload, ...payloadExtension}, headers: VisualizerUtility.headers }
+        )
+        expect(response).toBeOK();
+        const responseBody = await response.json();
+        return responseBody;
     }
 
     // Method to call visualizer-table-data api to fetch the visualizer data for custom metric Sum

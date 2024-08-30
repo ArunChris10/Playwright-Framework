@@ -4,10 +4,15 @@
   "targetChannel": "SELLER_FULFILLED",
   "targetChannelId": 32,
   "differenceAmount": 100,
+  "allocationType": {
+    "DOLLAR": "amount",
+    "CONVERTED_SALE": "sales"
+  },
   "filterLevel": "MONTH",
   "demandStacksEndpoint": "/api/demandscenarios/stacks/",
   "getdemandStacksQueryParam": "?layerType=CHANNEL_SPLIT",
   "getLayerDataEndpoint": "/api/layers/",
+  "layerEndpoint": "/layer/",
   "layerName": "test automation",
   "uploadExcelLayerForecastAmount": 228424848.48,
   "sbuFilter": {

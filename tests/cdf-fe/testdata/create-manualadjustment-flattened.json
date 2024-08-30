@@ -1,4 +1,7 @@
 {
   "name": "create manual adjustment flattened layer",
-  "desc": "create manual adjustment flattened layer Description"
+  "desc": "create manual adjustment flattened layer Description",
+  "metricGMV": "GMV Shipped",
+  "metricUnits": "Scanned Units",
+  "defaultMetricValue": "100"
 }

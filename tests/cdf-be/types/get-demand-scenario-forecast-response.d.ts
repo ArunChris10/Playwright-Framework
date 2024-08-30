@@ -1,6 +1,6 @@
 // Note: Many of these records modeling the API response are incomplete.
 // If something is missing, and you need to access it, you can add the property/type
-interface Forecast {
+export interface Forecast {
     year: number
     quarter: number
     month: number
@@ -26,6 +26,8 @@ export interface Department {
     sbu: string,
     department: string,
     departmentId: number
+    departmentDisplayName: string,
+    sbuDisplayName: string,
     forecast: Forecast[]
 }
 
@@ -49,13 +51,19 @@ interface ForecastTotals {
 }
 
 interface TotalAfterExcludingDepartments {
-    sbu: 'Total Ex Photo'
+    sbu: string
     forecast: Forecast[]
 }
 
 interface TotalOfExcludingDepartments {
-    sbu: 'ETS Ex Photo'
+    sbu: string
     forecast: Forecast[]
+}
+
+interface ForecastTotals {
+    grandTotal: ForecastTotal
+    totalAfterExcludingDepartments: TotalAfterExcludingDepartments
+    totalOfExcludingDepartments: TotalOfExcludingDepartments[]
 }
 
 // forecastTotals exists if the request body's filterLevel is 'MONTH'

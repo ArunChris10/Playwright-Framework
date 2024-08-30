@@ -133,8 +133,7 @@ export class UploadLayerUtil extends DemandBaseClass {
       headers: this.headers,
     });
     return await response.json();
-}
-  
+  }
 
   static getFilteredForecastData(expectedResponse, forecastData, yearMonth) {
     expectedResponse[yearMonth] = [];
@@ -163,14 +162,15 @@ export class UploadLayerUtil extends DemandBaseClass {
     departmentIds = [],
     channelGroups = [],
     channelGroupIds = [],
-    yearMonths = []
+    yearMonths = [],
+    layerIds = []
   ) {
     const endpointURL = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioEndpoint}${demandStackId}/excel`;
     let payload = this.makeDemandScenarioForecastPayload(
       demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version,
       "MONTH",
       organizationalLevel,
-      demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.forecastLayerId,
+      layerIds || demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.forecastLayerId,
       baseChannels,
       baseChannelIds,
       sbuNames,

@@ -294,4 +294,15 @@ export class AdjustmentUtility extends DemandBaseClass {
       expect(response).toBeOK();
       return await response.json();
   }
+
+  static async percentageToAbsolute(request, demandId, payload, endPoint) {
+    const endpoint = `${process.env.apiBaseURLCDF}${commonEndpoints.demandScenarioEndpoint}${demandId}${endPoint}`;
+    const response = await request.put(endpoint, {
+      data: payload,
+      headers: this.headers,
+    });
+    expect(response).toBeOK();
+    return await response.json();
+  }
+
 }

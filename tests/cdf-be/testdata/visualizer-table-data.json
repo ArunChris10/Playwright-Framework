@@ -1,0 +1,93 @@
+{
+  "payload": {
+    "scenarioIdentification": [],
+    "selectionFilter": {
+      "dimensions": [],
+      "customDimensions": [],
+      "excelDimension": [],
+      "kpis": ["FCST_SALES_AMT"],
+      "timeDimensions": ["YR_ID"]
+    },
+    "dimensionFilter": { "channelGroupId": [1, 2, 3, 4] },
+    "customDimensionFilter": [],
+    "dateIntervalFilter": {
+      "intervalType": "YEAR",
+      "startInterval": "2027",
+      "endInterval": "2027"
+    },
+    "headerDimensionFilters": {},
+    "derivedScenariosList": [],
+    "derivedMetricList": [],
+    "metricOrderList": [
+      { "columnName": "FCST_SALES_AMT", "displayName": "GMV" },
+      { "columnName": "FCST_UNIT", "displayName": "Units" },
+      { "columnName": "FCST_AUR", "displayName": "AUR" },
+      { "columnName": "UOM_QTY", "displayName": "UOM" },
+      { "columnName": "SALES", "displayName": "Net Merch Sales" }
+    ],
+    "rows": [],
+    "columns": [
+      {
+        "attributeName": "scenarios",
+        "columnName": "SCENARIOS",
+        "displayName": "Scenarios",
+        "checked": true
+      },
+      {
+        "displayName": "Year",
+        "attributeName": "fiscalYear",
+        "columnName": "YR_ID",
+        "checked": true
+      },
+      {
+        "attributeName": "metrics",
+        "columnName": "METRICS",
+        "displayName": "Metrics",
+        "checked": true
+      }
+    ],
+    "pivotEnabled": true,
+    "scenarioOrderList": [
+      {
+        "scenarioIdentification": {},
+        "isDerivedScenario": false
+      }
+    ],
+    "scenarioIdentificationFilter": [],
+    "kpiIdentificationFilter": [],
+    "customHierarchyList": [],
+    "expanded": false
+  },
+  "sbuExtendedPayload": {
+    "scenarioIdentification": [],
+    "selectionFilter": {
+      "dimensions": ["SBU.DISP_NM"],
+      "customDimensions": [],
+      "excelDimension": ["SBU.DISP_NM"],
+      "kpis": ["FCST_SALES_AMT"],
+      "timeDimensions": ["YR_ID"]
+    },
+    "rows": [
+      {
+        "displayName": "SBU",
+        "attributeName": "sbuName",
+        "columnName": "SBU.DISP_NM",
+        "key": "SBU",
+        "identification": [
+          {
+            "attributeName": "sbuId",
+            "columnName": "SBU_ID",
+            "tableName": "LAYR_DATA"
+          }
+        ],
+        "checked": true
+      }
+    ],
+    "scenarioOrderList": [
+      {
+        "scenarioIdentification": {},
+        "isDerivedScenario": false
+      }
+    ]
+  }
+}
