@@ -1109,4 +1109,32 @@ export class CdfUtility {
 
       return monthlyForecast || null
     }
+
+    /**
+ * Compares the values from an Excel download with the corresponding values from an API response.
+ *
+ * @param {number[]} excelValues - The values downloaded from the Excel file.
+ * @param {number[]} currentDemandData - The corresponding values from the API response.
+ * @param {number} allowedTolerance - The allowed tolerance for the comparison.
+ */
+static async compareExcelDownloadedValuesWithAPIResponse(
+  excelValues,
+  currentDemandData: number[],
+  allowedTolerance: number = 0.5
+) {
+  for(let i=0 ,j=0; i<excelValues.length;i++){
+    if(excelValues[i] != 0){
+        expect(excelValues[i]).toBeGreaterThan(currentDemandData[j]-allowedTolerance);
+        expect(excelValues[i]).toBeLessThan(currentDemandData[j]+allowedTolerance);
+        j++
+    }
+    else{
+        if(currentDemandData[j] == 0){
+            expect(excelValues[i]).toEqual(currentDemandData[j])
+            j++;
+        }
+    }
+    
+}
+}
 }
