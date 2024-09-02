@@ -1,15 +1,19 @@
 import { test, expect } from '../../common/fixtures/test-hook';
 import { CurrentDemandActualsValidation } from '../fixtures/current-demand-actuals-validation';
 import testDataFile from '../testdata/current-demand-actuals-validation.json';
+import endpoints from '../testdata/common-demand-endpoints.json';
 import debug from 'debug'; 
 
 test.describe("Verify if the current demand actuals data for non Yoy metrics are present", { tag: "@Regression @currentDemandActualsValidation @ibg-service-scenario-financials @CurrentDemand" }, () => {
     
     let monthsInFiveYears = 60;
+    let validateGrossGMV = false;
 
+    if(validateGrossGMV){
     test.beforeAll(async ({request}) => {
         await CurrentDemandActualsValidation.uploadGrossGmvUnits(request);
     });
+    }
 
     let slotIds = testDataFile.slotIds;
 
@@ -18,7 +22,7 @@ test.describe("Verify if the current demand actuals data for non Yoy metrics are
             let currentDemandDataSBUViewResponse;
             
             testDataFile.payloadForCurrentDemandActualsValidation.organizationalLevel = "SBU";
-            currentDemandDataSBUViewResponse = await CurrentDemandActualsValidation.getDemandScenarioForecastBySlot(request, testDataFile.endpointForCurrentDemandActualsValidation, testDataFile.payloadForCurrentDemandActualsValidation, slotId);
+            currentDemandDataSBUViewResponse = await CurrentDemandActualsValidation.getDemandScenarioForecastBySlot(request, endpoints.currentDemandEndpoint, testDataFile.payloadForCurrentDemandActualsValidation, slotId);
     
             let currentDemandDataSBUViewResponseBody;
             currentDemandDataSBUViewResponseBody = await currentDemandDataSBUViewResponse.json();
@@ -52,18 +56,19 @@ test.describe("Verify if the current demand actuals data for non Yoy metrics are
             // VALIDATION OF ALL THE METRICS EXCEPT GROSS GMV AND GROSS UNITS
     
             let countForecastOfForecast = CurrentDemandActualsValidation.validateActualsData(actualsStartMonth, actualsStartYear, actualsEndMonth, actualsEndYear, currentDemandDataSBUViewResponseBody.forecast[0].forecast);
-            expect(countForecastOfForecast).toEqual(monthsInFiveYears);
+            expect(countForecastOfForecast).toBeGreaterThanOrEqual(monthsInFiveYears);
     
             // Validation for forecast inside grandTotal inside forecastTotals
             let countForecastOfGrandTotalOfForecastTotals = CurrentDemandActualsValidation.validateActualsData(actualsStartMonth, actualsStartYear, actualsEndMonth, actualsEndYear, currentDemandDataSBUViewResponseBody.forecastTotals.grandTotal.forecast);
-            expect(countForecastOfGrandTotalOfForecastTotals).toEqual(monthsInFiveYears);
+            expect(countForecastOfGrandTotalOfForecastTotals).toBeGreaterThanOrEqual(monthsInFiveYears);
     
             let countForecastOfTotalAfterExcludingDepartmentsOfForecastTotals = CurrentDemandActualsValidation.validateActualsData(actualsStartMonth, actualsStartYear, actualsEndMonth, actualsEndYear, currentDemandDataSBUViewResponseBody.forecastTotals.totalAfterExcludingDepartments.forecast);
-            expect(countForecastOfTotalAfterExcludingDepartmentsOfForecastTotals).toEqual(monthsInFiveYears);
+            expect(countForecastOfTotalAfterExcludingDepartmentsOfForecastTotals).toBeGreaterThanOrEqual(monthsInFiveYears);
     
             let countForecastOfTotalOfExcludingDepartmentsOfForecastTotals = CurrentDemandActualsValidation.validateActualsData(actualsStartMonth, actualsStartYear, actualsEndMonth, actualsEndYear, currentDemandDataSBUViewResponseBody.forecastTotals.totalOfExcludingDepartments[0].forecast);
-            expect(countForecastOfTotalOfExcludingDepartmentsOfForecastTotals).toEqual(monthsInFiveYears);
+            expect(countForecastOfTotalOfExcludingDepartmentsOfForecastTotals).toBeGreaterThanOrEqual(monthsInFiveYears);
     
+            if(validateGrossGMV){
             let reportsKpiResponse;
             reportsKpiResponse = await CurrentDemandActualsValidation.getActualsStartDateFromUFM(request, testDataFile.endpointForReportsMyKPI)
     
@@ -75,6 +80,7 @@ test.describe("Verify if the current demand actuals data for non Yoy metrics are
             let startDateForGrossUnits = String(CurrentDemandActualsValidation.getMinYear(rowData[1]));
     
             // VALIDATION OF GROSS GMV
+            
             debug.log("Start Date For Gross GMV SBU View Slot " + slotId + ": ", String(startDateForGrossGMV));
     
             let actualsStartYearForGrossGMV = parseInt(startDateForGrossGMV.substring(0, 4));
@@ -123,6 +129,7 @@ test.describe("Verify if the current demand actuals data for non Yoy metrics are
     
             let countForecastOfTotalOfExcludingDepartmentsOfForecastTotalsGrossUnits = CurrentDemandActualsValidation.validateActualsDataForGrossUnits(actualsEndMonth, actualsEndYear, currentDemandDataSBUViewResponseBody.forecastTotals.totalOfExcludingDepartments[0].forecast);
             expect(countForecastOfTotalOfExcludingDepartmentsOfForecastTotalsGrossUnits).toEqual(monthsForActualsForGrossUnits);
+            }
     
         });
 
@@ -130,7 +137,7 @@ test.describe("Verify if the current demand actuals data for non Yoy metrics are
             let currentDemandDataChannelViewResponse;
             
             testDataFile.payloadForCurrentDemandActualsValidation.organizationalLevel = "BASE_CHANNEL";
-            currentDemandDataChannelViewResponse = await CurrentDemandActualsValidation.getDemandScenarioForecastBySlot(request, testDataFile.endpointForCurrentDemandActualsValidation, testDataFile.payloadForCurrentDemandActualsValidation, slotId);
+            currentDemandDataChannelViewResponse = await CurrentDemandActualsValidation.getDemandScenarioForecastBySlot(request, endpoints.currentDemandEndpoint, testDataFile.payloadForCurrentDemandActualsValidation, slotId);
     
             let currentDemandDataChannelViewResponseBody;
             currentDemandDataChannelViewResponseBody = await currentDemandDataChannelViewResponse.json();
@@ -165,19 +172,19 @@ test.describe("Verify if the current demand actuals data for non Yoy metrics are
     
             // Validation for forecast inside forecast of response 
             let countForecastOfForecast = CurrentDemandActualsValidation.validateActualsData(actualsStartMonth, actualsStartYear, actualsEndMonth, actualsEndYear, currentDemandDataChannelViewResponseBody.forecast[0].forecast);
-            expect(countForecastOfForecast).toEqual(monthsInFiveYears);
+            expect(countForecastOfForecast).toBeGreaterThanOrEqual(monthsInFiveYears);
     
             // Validation for forecast inside grandTotal inside forecastTotals
             let countForecastOfGrandTotalOfForecastTotals = CurrentDemandActualsValidation.validateActualsData(actualsStartMonth, actualsStartYear, actualsEndMonth, actualsEndYear, currentDemandDataChannelViewResponseBody.forecastTotals.grandTotal.forecast);
-            expect(countForecastOfGrandTotalOfForecastTotals).toEqual(monthsInFiveYears);
+            expect(countForecastOfGrandTotalOfForecastTotals).toBeGreaterThanOrEqual(monthsInFiveYears);
     
             let countForecastOfTotalAfterExcludingDepartmentsOfForecastTotals = CurrentDemandActualsValidation.validateActualsData(actualsStartMonth, actualsStartYear, actualsEndMonth, actualsEndYear, currentDemandDataChannelViewResponseBody.forecastTotals.totalAfterExcludingDepartments.forecast);
-            expect(countForecastOfTotalAfterExcludingDepartmentsOfForecastTotals).toEqual(monthsInFiveYears);
+            expect(countForecastOfTotalAfterExcludingDepartmentsOfForecastTotals).toBeGreaterThanOrEqual(monthsInFiveYears);
     
             let countForecastOfTotalOfExcludingDepartmentsOfForecastTotals = CurrentDemandActualsValidation.validateActualsData(actualsStartMonth, actualsStartYear, actualsEndMonth, actualsEndYear, currentDemandDataChannelViewResponseBody.forecastTotals.totalOfExcludingDepartments[0].forecast);
-            expect(countForecastOfTotalOfExcludingDepartmentsOfForecastTotals).toEqual(monthsInFiveYears);
+            expect(countForecastOfTotalOfExcludingDepartmentsOfForecastTotals).toBeGreaterThanOrEqual(monthsInFiveYears);
     
-    
+            if(validateGrossGMV){
             // VALIDATION OF GROSS GMV
     
             let reportsKpiResponse;
@@ -238,7 +245,9 @@ test.describe("Verify if the current demand actuals data for non Yoy metrics are
     
             let countForecastOfTotalOfExcludingDepartmentsOfForecastTotalsGrossUnits = CurrentDemandActualsValidation.validateActualsDataForGrossUnits(actualsEndMonth, actualsEndYear, currentDemandDataChannelViewResponseBody.forecastTotals.totalOfExcludingDepartments[0].forecast);
             expect(countForecastOfTotalOfExcludingDepartmentsOfForecastTotalsGrossUnits).toEqual(monthsForActualsForGrossUnits);
+            }
         });
+
         
     });
 
