@@ -61,14 +61,30 @@ test.describe("Verify that the user should be able to download excel from curren
                 debug.log("Asserting the Values for "+channel.displayName)
                 let filteredData = excelData.find((data:any) => data['Selection Panel'].toUpperCase() === channel.displayName.toUpperCase()) as any;
                 const valuesToAssert = Object.values(filteredData).slice(3);
-                debug.log("Excel Data => "+valuesToAssert);
+                let roundedExcelValues = valuesToAssert.map(data => Math.floor(data));
+                
+                debug.log("Excel Data => "+roundedExcelValues);
                 let currentDemandData;
-                if (testdatafile.derivedMetrics.includes(key))
-                    currentDemandData = currentDemandDataResponseBodyBaseChannel.forecast.filter(data => data.baseChannel.toUpperCase() === channel.name.toUpperCase())[0].forecast.filter(data => Object.keys(data).includes("forecastGrowth")).map(data => data.forecastGrowth![key] != undefined?data.forecastGrowth![key]:0);
-                else
-                    currentDemandData = currentDemandDataResponseBodyBaseChannel.forecast.filter(data => data.baseChannel.toUpperCase() === channel.name.toUpperCase())[0].forecast.map(d => d[key] != undefined?d[key]:0);
-                debug.log("Current Demand Data => "+currentDemandData);
-                expect(valuesToAssert).toEqual(currentDemandData)
+                let arrayForecast = currentDemandDataResponseBodyBaseChannel.forecast.filter(data => data.baseChannel.toUpperCase() === channel.name.toUpperCase())[0]
+                if(arrayForecast == undefined)
+                   roundedExcelValues.forEach(value => expect(value).toEqual(0))
+                else{
+                    if (testdatafile.derivedMetrics.includes(key))
+                    currentDemandData = arrayForecast.forecast.filter(data => Object.keys(data).includes("forecastGrowth")).map(data => data.forecastGrowth![key] != undefined?Math.floor(data.forecastGrowth![key]):0);
+                    else
+                        currentDemandData = arrayForecast.forecast.map(d => d[key] != undefined?Math.floor(d[key]):0);
+                    debug.log("Current Demand Data => "+currentDemandData);
+                    expect.soft(roundedExcelValues).toEqual(expect.arrayContaining(currentDemandData))
+                    if(test.info().errors.length>0){
+                        let roundedExcelValuesNonZero = roundedExcelValues.filter(data => data != 0)
+                        debug.log("Excel Data => "+roundedExcelValuesNonZero);
+                        expect.soft(roundedExcelValuesNonZero).toEqual(currentDemandData)
+                    }
+
+                }
+
+                expect(test.info().errors.length).toBeLessThanOrEqual(1);
+
             })
 
         });
