@@ -1,5 +1,4 @@
 {
-  "endpointForCurrentDemandActualsValidation": "/api/demandscenarios/currentDemand/",
   "slotIds": [1, 2, 3],
   "payloadForCurrentDemandActualsValidation": {
     "sbu": [

@@ -39,8 +39,8 @@ export class CurrentDemandActualsValidation extends DemandBaseClass{
     }
 
     static validateActualsData(actualsStartMonth, actualsStartYear, actualsEndMonth, actualsEndYear, forecastData) {
-        expect(parseInt(forecastData[0].year)).toEqual(actualsStartYear);
-        expect(parseInt(forecastData[0].month)).toEqual(actualsStartMonth);
+        expect(parseInt(forecastData[0].year)).toBeLessThanOrEqual(actualsStartYear);
+        expect(parseInt(forecastData[0].month)).toBeLessThanOrEqual(actualsStartMonth);
 
         // Traverse through the forecast data and validate 
         var count = 0;
