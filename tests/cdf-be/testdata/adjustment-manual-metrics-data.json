@@ -103,7 +103,6 @@
             "latestSyncScenario": false
         }
   },
-
   "uploadadjustmentLayers" :{
     "baseURL": "/api/demandscenarios/stacks/",
     "payload": { "layers": [

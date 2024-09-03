@@ -24,14 +24,12 @@ test.describe("Verify user is able to edit adjustment manual metrics", { tag: "@
         console.log("Forecast Version: ", forecastVersion);
         let payload = adjustmentData.sbuleveldata.payload
         payload.version = forecastVersion
-
         let getDemandScenarioForecastResponse = await ManageRebaseUtility.getDemandScenarioForecast(request, demandId, adjustmentData.sbuleveldata.baseURL, payload);
 
         let getDemandScenarioForecastResponseBody;
         getDemandScenarioForecastResponseBody = await getDemandScenarioForecastResponse.json();
 
-        beforeEditData  = getDemandScenarioForecastResponseBody.yearlyForecast.filter(c => c.sbu == 'FOOD')[0].forecast.filter(c => c.year == 2026).map(c => c)[0];
-   
+        beforeEditData  = getDemandScenarioForecastResponseBody.yearlyForecast.filter(c => c.sbu == 'FOOD')[0].forecast.filter(c => c.year == 2026).map(c => c)[0];   
     })
 
     test.afterAll(async ({ request }) => { await CdfUtility.deleteScenario(request, demandId); });
