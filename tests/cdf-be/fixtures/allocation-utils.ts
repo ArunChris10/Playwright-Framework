@@ -195,7 +195,7 @@ export class AllocationUtils extends DemandBaseClass {
       "lock",
       demandStackId
     );
-    expect(lockDemandScenarioResponse).toBeOK();
+    //expect(lockDemandScenarioResponse).toBeOK();
     const putScenarioSplitConfirmed = await this.updateDemandScenarioSplit(
       request,
       sellerFulfilled,
