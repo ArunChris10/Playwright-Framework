@@ -59,7 +59,6 @@
     "expanded": false
   },
   "sbuExtendedPayload": {
-    "scenarioIdentification": [],
     "selectionFilter": {
       "dimensions": ["SBU.DISP_NM"],
       "customDimensions": [],
@@ -82,11 +81,125 @@
         ],
         "checked": true
       }
-    ],
-    "scenarioOrderList": [
+    ]
+  },
+  "departmentExtendedPayload": {
+    "selectionFilter": {
+      "dimensions": ["DEPT.DISP_NM"],
+      "customDimensions": [],
+      "excelDimension": ["DEPT.DISP_NM"],
+      "kpis": ["FCST_SALES_AMT"],
+      "timeDimensions": ["YR_ID"]
+    },
+    "rows": [
       {
-        "scenarioIdentification": {},
-        "isDerivedScenario": false
+        "displayName": "Department",
+        "attributeName": "departmentName",
+        "columnName": "DEPT.DISP_NM",
+        "key": "DEPARTMENT",
+        "identification": [
+          {
+            "attributeName": "departmentId",
+            "columnName": "DEPT_ID",
+            "tableName": "LAYR_DATA"
+          }
+        ],
+        "checked": true
+      }
+    ]
+  },
+  "channelGroupExtendedPayload": {
+    "selectionFilter": {
+      "dimensions": ["CHNL_GRP.DISP_NM"],
+      "customDimensions": [],
+      "excelDimension": ["CHNL_GRP.DISP_NM"],
+      "kpis": ["FCST_SALES_AMT"],
+      "timeDimensions": ["YR_ID"]
+    },
+    "rows": [
+      {
+        "displayName": "Channel Group",
+        "attributeName": "channelGroup",
+        "columnName": "CHNL_GRP.DISP_NM",
+        "key": "CHANNEL_GROUP",
+        "identification": [
+          {
+            "attributeName": "channelGroupId",
+            "columnName": "CHNL_GRP_ID",
+            "tableName": "CHNL_GRP_TO_CHNL_MAP"
+          }
+        ],
+        "checked": true
+      }
+    ]
+  },
+  "channelExtendedPayload": {
+    "selectionFilter": {
+      "dimensions": ["BASE_CHNL.DISP_NM"],
+      "customDimensions": [],
+      "excelDimension": ["BASE_CHNL.DISP_NM"],
+      "kpis": ["FCST_SALES_AMT"],
+      "timeDimensions": ["YR_ID"]
+    },
+    "rows": [
+      {
+        "displayName": "Base Channel",
+        "attributeName": "baseChannelName",
+        "columnName": "BASE_CHNL.DISP_NM",
+        "key": "BASE_CHANNEL",
+        "identification": [
+          {
+            "attributeName": "baseChannelId",
+            "columnName": "BASE_CHNL_ID",
+            "tableName": "LAYR_DATA"
+          }
+        ],
+        "checked": true
+      }
+    ]
+  },
+  "sbuColumnDateMetricsRowExtendedPayload": {
+    "selectionFilter": {
+      "dimensions": ["SBU.DISP_NM"],
+      "customDimensions": [],
+      "excelDimension": ["SBU.DISP_NM"],
+      "kpis": ["FCST_SALES_AMT"],
+      "timeDimensions": ["YR_ID"]
+    },
+    "rows": [
+      {
+        "displayName": "Year",
+        "attributeName": "fiscalYear",
+        "columnName": "YR_ID",
+        "checked": true
+      },
+      {
+        "attributeName": "metrics",
+        "columnName": "METRICS",
+        "displayName": "Metrics",
+        "checked": true
+      }
+    ],
+    "columns": [
+      {
+        "attributeName": "scenarios",
+        "columnName": "SCENARIOS",
+        "displayName": "Scenarios",
+        "checked": true
+      },
+      {
+        "displayName": "SBU",
+        "attributeName": "sbuName",
+        "columnName": "SBU.DISP_NM",
+        "key": "SBU",
+        "identification": [
+          {
+            "attributeName": "sbuId",
+            "columnName": "SBU_ID",
+            "tableName": "LAYR_DATA"
+          }
+        ],
+        "checked": true
       }
     ]
   }

@@ -4,9 +4,22 @@ import { VisualizerUtility } from "../fixtures/visualizer-utils";
 
 test.describe(
   "Verify When Current Demand is used in a view it always use the most recently synced scenario.",
-  { tag: "@Regression @ibg-service-visualizer" },
+  { tag: "@Regression @ibg-service-visualizer @VisualizerScenario" },
   () => {
-    test("Verify Current Demand is most recently synced (assume there is at least 1 synced scenario)", async ({
+    let demandId;
+
+    test.beforeAll(async ({ request }) => {
+      demandId = await CdfUtility.createScenario(request);
+      const response = await CdfUtility.publishDSS(request, demandId, 1);
+      expect(response).toBeOK();
+      await CdfUtility.pollPublishData(request);
+    });
+
+    test.afterAll(async ({ request }) => {
+      await CdfUtility.deleteScenario(request, demandId);
+    });
+
+    test("Verify Current Demand is most recently synced", async ({
       request,
     }) => {
       let mostRecentDss;

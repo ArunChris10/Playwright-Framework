@@ -7,13 +7,7 @@ test.describe("Verify user should be able to create a new view and scenarios sho
     let visualizerSaveDataResponse;
 
     test("Verify visualizer-save api is working", async ({ request }) => {
-        visualizerSaveDataResponse = await VisualizerUtility.visualizerSave(request);
-
-        // Assertion
-        expect(visualizerSaveDataResponse).toBeOK();
-
-        // Extracting the response body
-        let visualizerSaveDataResponseBody = await visualizerSaveDataResponse.json();
+        let visualizerSaveDataResponseBody = await VisualizerUtility.visualizerSave(request);
         debug.log(JSON.stringify(visualizerSaveDataResponseBody));
 
         expect(visualizerSaveDataResponseBody.visualizerViewDto.visualizerViewId).not.toBeNull();
@@ -46,25 +40,15 @@ test.describe("Verify user should be able to create a new view and scenarios sho
     })
 
      test("Verify visualizer clone api is working", async ({ request }) => {
-            visualizerSaveDataResponse = await VisualizerUtility.visualizerSave(request);
+            let visualizerSaveDataResponseBody = await VisualizerUtility.visualizerSave(request);
 
-            // Assertion
-            expect(visualizerSaveDataResponse).toBeOK();
-
-            // Extracting the response body
-            let visualizerSaveDataResponseBody = await visualizerSaveDataResponse.json();
             debug.log(JSON.stringify(visualizerSaveDataResponseBody));
             expect(visualizerSaveDataResponseBody.visualizerViewDto.visualizerViewId).not.toBeNull();
             debug.log("Able to clone a existing view and scenarios are displayed ");
 
             // Extracting view id from newly cloned view
             let viewId = visualizerSaveDataResponseBody.visualizerViewDto.visualizerViewId
-            let visualizerDeleteDataResponse = await VisualizerUtility.deleteView(request, viewId);
-            // Assertion
-            expect(visualizerDeleteDataResponse).toBeOK();
-
-            // Extracting the response body
-            let visualizerDeleteDataResponseBody = await visualizerDeleteDataResponse.json();
+            let visualizerDeleteDataResponseBody = await VisualizerUtility.deleteView(request, viewId);
             debug.log(JSON.stringify(visualizerDeleteDataResponseBody));
 
              expect(visualizerDeleteDataResponseBody.message).toEqual("View has been deleted successfully!");

@@ -54,18 +54,18 @@ export class VisualizerUtility {
         return responseBody;
     }
 
-    // Method to call visualizer-save api to publish to current demand
-    static async visualizerSave(request) {
+    static async visualizerSave(request, payloadExtension = {}) {
         const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerSaveData.endpoint}`;
         debug.log(endpointURL);
-
         const response = await request.put(
             endpointURL,
-            { data: visualizerSaveData.payload, headers: VisualizerUtility.headers }
+            { data: {...visualizerSaveData.payload, ...payloadExtension}, headers: VisualizerUtility.headers }
         )
-
-        return response;
+        expect(response).toBeOK();
+        const responseBody = await response.json();
+        return responseBody;
     }
+
    static async visualizerSaveCurrentDemand(request) {
         const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerSaveCurrentDemandData.endpoint}`;
         debug.log(endpointURL);
@@ -336,10 +336,10 @@ export class VisualizerUtility {
         console.log(endpointURL);
         const response = await request.delete(
             endpointURL,
-
             { headers: VisualizerUtility.headers }
           );
-
-           return response;
+        expect(response).toBeOK();
+        const responseBody = await response.json();
+        return responseBody;
       }
 }
