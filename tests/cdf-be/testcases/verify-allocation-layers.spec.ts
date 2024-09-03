@@ -5,7 +5,7 @@ import { CdfUtility } from "../fixtures/cdf-utils";
 
 test.describe("Verify ", { tag: "@Smoke @verifyAllocations @ibg-service-scenario-financials @Regression" }, () => {
   let layerId, demandStackId, demandScenarioDetails;
-
+  test.describe.configure({mode : "serial"});
   test.beforeAll(async ({ request }) => {
     demandStackId = await CdfUtility.createScenario(request);
     demandScenarioDetails = await AllocationUtils.getDemandStackDetails(
