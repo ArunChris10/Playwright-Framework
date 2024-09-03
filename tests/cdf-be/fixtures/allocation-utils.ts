@@ -514,4 +514,77 @@ static async marketSplitAurConstant(request, demandScenarioID,demandScenarioDeta
   return getScenarioSplitAfter;
 }
 
+static async demandChannelConstCheck(request, demandScenarioID,demandScenarioDetails){
+  const endpointURL = `${process.env.apiBaseURLCDF}${allocationLayer.allocationLayerMarketSplit.baseURL}${demandScenarioID}`
+  console.log("allocationLayerMarketSplitData: " + endpointURL);
+  const forecastVersion = demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version
+
+  const endpointURL2 = `${process.env.apiBaseURLCDF}${allocationLayer.forecastScenarios.baseURL}${demandScenarioID}`
+
+  const DemandSplitsData = await AllocationUtils.getDemandSplitsData(request, demandScenarioID,"allocationLayerMarketSplitData",forecastVersion)
+
+  let amountvalueEdited
+
+  let monthlySplitsData = await AllocationUtils.getDyanamicMonthlySplitsRequestkeyData(DemandSplitsData)
+  let monthlySplitsRequestkeyData  = monthlySplitsData[0]
+  let yearvalue =  monthlySplitsData[1]
+  let monthdata = monthlySplitsData[2]
+  let monthlySplitsRequestkey =  monthlySplitsData[3]
+
+  amountvalueEdited =  DemandSplitsData.forecast[0].forecast.filter(c=>c.year == yearvalue && c.month == monthdata).map(c=>c.amount)[0]
+
+  await AllocationUtils.lockScenario(request, demandScenarioID);
+  
+  let layerID = await AllocationUtils.createMarketSplitLayer(request, demandScenarioID,monthlySplitsRequestkeyData, forecastVersion,monthlySplitsRequestkey)
+
+  let payloadForecastScenarios =  allocationLayer.forecastScenarios
+  payloadForecastScenarios.version = forecastVersion
+  payloadForecastScenarios.layerIds = [layerID]
+
+  const getScenarioSplitAfter = await AllocationUtils.getDemandSplitsData(request, demandScenarioID,"allocationLayerMarketSplitData",forecastVersion)
+  getScenarioSplitAfter.forecast[0].forecast.filter(c=>c.year == yearvalue && c.month == monthdata).map(c=>c.amount).forEach(c=>expect(c).toEqual(amountvalueEdited))
+
+  return getScenarioSplitAfter;
+}
+
+static async getDyanamicMonthlySplitsRequestkeyData (DemandSplitsData){
+  let i =0 
+  let monthlySplitsRequestkey = ''
+  let yearvalue
+  let monthvalue
+  let monthdata
+  const monthlySplitsRequestkeyData = DemandSplitsData?.forecast[0].baseChannelForecast.map(channel => {
+      i=i+1
+      monthvalue = channel.forecast[0].month.length>1 ? channel.forecast[0].month : "-0"+channel.forecast[0].month
+      monthdata = channel.forecast[0].month
+      yearvalue = channel.forecast[0].year
+      monthlySplitsRequestkey = yearvalue + monthvalue
+      return {amount : i%2==1 ?channel.forecast[0].amount+100000 :channel.forecast[0].amount-100000 , baseChannelId: channel.baseChannelId , baseChannel: channel.baseChannel}
+    })
+    return [monthlySplitsRequestkeyData , yearvalue, monthdata, monthlySplitsRequestkey]
+}
+
+static async lockScenario(request, demandScenarioID) {
+  const lockDemandScenarioResponse = await this.lockUnlockDemandScenario(
+    request,
+    "lock",
+    demandScenarioID
+  );
+  expect(lockDemandScenarioResponse).toBeOK();
+}
+
+static async createMarketSplitLayer(request, demandScenarioID,monthlySplitsRequestkeyData, forecastVersion,monthlySplitsRequestkey) {
+  const endpointURL = `${process.env.apiBaseURLCDF}${allocationLayer.allocationLayerMarketSplit.baseURL}${demandScenarioID}`
+  
+  let payloadAllocationLayerSplit  = allocationLayer.allocationLayerMarketSplit  
+  payloadAllocationLayerSplit.layers[0].monthlySplitsRequest[monthlySplitsRequestkey] =  monthlySplitsRequestkeyData  
+  payloadAllocationLayerSplit.layers[0].forecastVersion = forecastVersion       
+  payloadAllocationLayerSplit.layers[0].isConfirmed = true
+  payloadAllocationLayerSplit.layers[0].isPreview = false
+  
+  let response = await request.put(endpointURL,  { data: payloadAllocationLayerSplit, headers: AllocationUtils.headers });
+  expect(response).toBeOK();
+  let splitData = await response.json();
+  return splitData[0].layerId
+}
 }
