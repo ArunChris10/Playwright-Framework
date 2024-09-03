@@ -925,8 +925,12 @@ export class CdfUtility {
       activityLogsResponse = await CdfUtility.getActivityLogs(request, demandId);
       debug.log("Activity Logs Response: ", activityLogsResponse);
       if(activityLogsResponse.length != 0) {
-        
-        if(activityLogsResponse[0].action === message) {
+        let sortedActivityLogsResponseDesc = activityLogsResponse.sort((a, b) => {
+          const dateA = new Date(a.lastModified);
+          const dateB = new Date(b.lastModified);
+          return dateB.getTime() - dateA.getTime();
+        });
+        if(sortedActivityLogsResponseDesc[0].action === message) {
           return activityLogsResponse;
         }
       }

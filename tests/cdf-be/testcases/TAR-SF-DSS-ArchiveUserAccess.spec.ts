@@ -40,7 +40,7 @@ test.describe("Verify if Archive/Unarchive is working properly", { tag: "@Regres
     test("Verify a Super User can Unarchive DSS archived by anyone", async ({ request }) => {
         let archiveScenario;
         await test.step("Archive the DSS by non super user", async () => {
-            archiveScenario = await CdfUtility.archiveScenarioNormalUser(request, demandId, process.env.cdfNormalUser);
+            archiveScenario = await CdfUtility.archiveScenarioNormalUser(request, demandIdNonSuperUser, process.env.cdfNormalUser);
         });
 
         let unarchiveScenarioResponseBody;
