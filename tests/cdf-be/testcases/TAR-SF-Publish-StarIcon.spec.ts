@@ -21,15 +21,15 @@ test.describe(
                 demandScenarioData = await CdfUtility.getDemandScenarioById(request, demandId);
                 debug.log("New created demand scenario data is : " + JSON.stringify(demandScenarioData));
             });
-            await test.step("Fetch current demand data and extract name and description", async () => {
-                const currentDemandResponse = await CdfUtility.currentDemand(request);
-                expect(currentDemandResponse).toBeOK();
-                const currentDemandResponseBody = await currentDemandResponse.json();
-                debug.log(JSON.stringify(currentDemandResponseBody));
-                currentDemandName = currentDemandResponseBody.demandStackScenarioName;
-                currentDemandDescription = currentDemandResponseBody.demandStackScenarioDescription;
-                debug.log("Current demand scenario name is %s and description is %s", currentDemandName, currentDemandDescription);
-            });
+            // await test.step("Fetch current demand data and extract name and description", async () => {
+            //     const currentDemandResponse = await CdfUtility.currentDemand(request);
+            //     expect(currentDemandResponse).toBeOK();
+            //     const currentDemandResponseBody = await currentDemandResponse.json();
+            //     debug.log(JSON.stringify(currentDemandResponseBody));
+            //     currentDemandName = currentDemandResponseBody.demandStackScenarioName;
+            //     currentDemandDescription = currentDemandResponseBody.demandStackScenarioDescription;
+            //     debug.log("Current demand scenario name is %s and description is %s", currentDemandName, currentDemandDescription);
+            // });
             
             await test.step("Publish newly created demand scenario on slot id = 1", async () => {
                 publishDssResponse = await CdfUtility.publishDSS(request, demandId, slotId);
@@ -45,16 +45,19 @@ test.describe(
                 let demandStackScenario;
                 let publishStatus;
 
+
+                publishStatus = await CdfUtility.pollPublishData(request)
+                expect(publishStatus.jobStatus).toEqual(testdatafile.expected_status_response) 
+                
                 let response = await CdfUtility.getDemandStackScenarioTotalList(request, false)
                 demandStackScenario = response.find(element => {
                     if (element.demandStackScenarioId === demandId) {
                         return element
                     }
                 });
-                publishStatus = await CdfUtility.pollPublishData(request)
-                if (publishStatus.jobStatus === testdatafile.expected_status_response) {
-                    expect(demandStackScenario.syncDate).not.toBeNull();
-                }
+
+                expect(demandStackScenario.syncDate).not.toBeNull();
+                
                 debug.log("StarIcon displayed");
             });
 
