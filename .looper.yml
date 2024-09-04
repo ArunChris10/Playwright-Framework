@@ -47,11 +47,6 @@ triggers:
       name: Run CDF SmokeTest
       call: runCDFSMokeTest
   - manual:
-      name: Run CDF API Regression Test
-      - var(app = 'CDF')
-      - var(envr = 'qa')
-      call: runCDFCustomTest
-  - manual:
       name: Run CDF Custom Test
       call: runCDFCustomTest
   - manual:
