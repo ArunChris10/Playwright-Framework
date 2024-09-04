@@ -44,8 +44,13 @@ triggers:
       name: Run UFM UI Smoke
       call: runUFMUISmokeTest
   - manual:
-      name: Run CDF Test
+      name: Run CDF SmokeTest
       call: runCDFSMokeTest
+  - manual:
+      name: Run CDF API Regression Test
+      - var(app = 'CDF')
+      - var(envr = 'qa')
+      call: runCDFCustomTest
   - manual:
       name: Run CDF Custom Test
       call: runCDFCustomTest
@@ -170,7 +175,7 @@ flows:
     try:
       - echo "Running CDF Smoke testcases "
       - call: setup
-      - APP_NAME=CDF RUN_ID=$testrunid ENV=qa TEST=custom_tag npm run tests:cdf-tests
+      - APP_NAME=CDF RUN_ID=$testrunid ENV=qa TEST=custom_tag npm run tests:cdf-tests-be
     finally:
       - call: reporter
 
