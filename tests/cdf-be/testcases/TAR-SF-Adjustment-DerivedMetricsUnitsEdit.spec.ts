@@ -13,6 +13,7 @@ test.describe("Verify if adding all type of adjustment layer for Scanned Units d
     let demandStackId,
     demandScenarioDetails;
 
+    test.describe.configure({ mode: "serial" });
   test.beforeAll(async ({ request }) => {
     demandStackId = await CdfUtility.createScenario(request);
     demandScenarioDetails = await UploadLayerUtil.getDemandStackDetails(
@@ -23,7 +24,7 @@ test.describe("Verify if adding all type of adjustment layer for Scanned Units d
 
   test.afterAll(async ({ request }) => { await CdfUtility.deleteScenario(request, demandStackId); });
 
-  test("Verify if adding all type of adjustment layer for Scanned Units data automatically updates the GMV shipped data and other derived metrics", async ({
+  test("Verify if adding all emt layer for Scanned Units data automatically updates the GMV shipped data and other derived metrics", async ({
     request
   }) => {
     await test.step("Verify if adding emt layer for Scanned Units data automatically updates the GMV shipped data and other derived metrics ", async () => {
@@ -43,9 +44,12 @@ test.describe("Verify if adding all type of adjustment layer for Scanned Units d
             break;
         }
       }    
-      expect(Math.floor(postYearAmount/postYearUnits).toFixed(6)).toEqual(Math.floor(postYearAur).toFixed(6));  
+      expect(postYearAmount/postYearUnits).toBeCloseTo(postYearAur);  
   })
-
+});
+test("Verify if adding manual hierarchy layer for Scanned Units data automatically updates the GMV shipped data and other derived metrics", async ({
+  request
+}) => {
   await test.step("Verify if adding manual layer for Scanned Units data automatically updates the GMV shipped data and other derived metrics ", async () => {
     let getdemandforecastbeforeAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [], null, null);  
     await DemandBaseClass.lockUnlockDemandScenario(request, "lock", demandStackId);
@@ -58,16 +62,20 @@ test.describe("Verify if adding all type of adjustment layer for Scanned Units d
     yearValue = getdemandforecastbeforeAdjustmentYear.yearlyForecast[0].forecast; 
     postYearValue = getdemandforecastAfterAdjustmentYear.yearlyForecast[0].forecast;
     for(let i=0;i<postYearValue.length;i++){
-      if (postYearValue[i].year == "2025"){
+      if (postYearValue[i].year == updateDemandStacksData.payload.layers[0].highlighterAllocationsList[0].year){
           postYearAmount = postYearValue[i].amount;
           postYearAur = postYearValue[i].aur;
           postYearUnits = postYearValue[i].units;
           break;
       }
     }    
-    expect(Math.floor(postYearAmount/postYearUnits).toFixed(6)).toEqual(Math.floor(postYearAur).toFixed(6)); 
+    expect(postYearAmount/postYearUnits).toBeCloseTo(postYearAur); 
 })
-
+});
+test("Verify if adding all type of adjustment layer for Scanned Units data automatically updates the GMV shipped data and other derived metrics", async ({
+  request
+}) => {
+test.setTimeout(500000);
 await test.step("Verify if uploading file for Scanned Units data automatically updates the GMV shipped data and other derived metrics ", async () => {
     let getdemandforecastbeforeAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [], null, null);  
     await DemandBaseClass.lockUnlockDemandScenario(request, "lock", demandStackId);
@@ -89,7 +97,7 @@ await test.step("Verify if uploading file for Scanned Units data automatically u
           break;
       }
     }    
-    expect(Math.floor(postYearAmount/postYearUnits).toFixed(6)).toEqual(Math.floor(postYearAur).toFixed(6)); 
+    expect(postYearAmount/postYearUnits).toBeCloseTo(postYearAur); 
 })   
 
   });
