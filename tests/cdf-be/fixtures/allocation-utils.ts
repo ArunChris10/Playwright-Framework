@@ -349,10 +349,10 @@ export class AllocationUtils extends DemandBaseClass {
       
       let sbuleveldataBefore = getsbuleveldataBefore.forecast[0].forecast.filter(c=>c.year == yearvalue && c.month == monthdata).map(c=>c.amount)
      
-     
       let payloadAllocationLayerSplit  = allocationLayer.allocationLayerUnscheduledDeliverySplit  
       payloadAllocationLayerSplit.layers[0].monthlySplitsRequest[monthlySplitsRequestkey] =  monthlySplitsRequestkeyData  
-      payloadAllocationLayerSplit.layers[0].forecastVersion = forecastVersion                          
+      payloadAllocationLayerSplit.layers[0].forecastVersion = forecastVersion         
+      await AllocationUtils.lockScenario(request, demandScenarioID);                 
       response = await request.put(endpointURL,  { data: payloadAllocationLayerSplit, headers: AllocationUtils.headers });
       expect(response).toBeOK();
       let splitData = await response.json();
@@ -424,7 +424,8 @@ export class AllocationUtils extends DemandBaseClass {
    
     let payloadAllocationLayerSplit  = allocationLayer.allocationLayerMarketSplit  
     payloadAllocationLayerSplit.layers[0].monthlySplitsRequest[monthlySplitsRequestkey] =  monthlySplitsRequestkeyData  
-    payloadAllocationLayerSplit.layers[0].forecastVersion = forecastVersion                          
+    payloadAllocationLayerSplit.layers[0].forecastVersion = forecastVersion        
+    await AllocationUtils.lockScenario(request, demandScenarioID);                  
     response = await request.put(endpointURL,  { data: payloadAllocationLayerSplit, headers: AllocationUtils.headers });
     expect(response).toBeOK();
     let splitData = await response.json();
