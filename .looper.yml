@@ -171,14 +171,11 @@ flows:
       - echo "Running CDF Smoke testcases "
       - call: setup
       - APP_NAME=CDF RUN_ID=$testrunid ENV=qa TEST=custom_tag npm run tests:cdf-tests-be
-    finally:
-      - call: reporter
-    try:
       - echo "Retrying Failed"
       - APP_NAME=CDF RUN_ID=$testrunid ENV=qa TEST=custom_tag npm run tests:cdf-tests-be-failed
     finally:
       - call: reporter
-
+      
   runCDFSMokeTest:
     try:
       - echo "Running CDF Smoke testcases "
