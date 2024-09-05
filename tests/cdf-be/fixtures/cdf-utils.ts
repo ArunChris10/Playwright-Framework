@@ -828,7 +828,7 @@ export class CdfUtility {
     CdfUtility.validateYearlyAndMerticData(currentDemandScenario);
   }
   static async validatePublishCurrentDemandChannelData(currentDemandScenario) {
-    expect(await currentDemandScenario.yearlyForecast).toHaveLength(14);
+    expect(await currentDemandScenario.yearlyForecast).toHaveLength(16);
     CdfUtility.validateYearlyAndMerticData(currentDemandScenario);
   }
 
