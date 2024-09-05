@@ -342,4 +342,25 @@ export class VisualizerUtility {
         const responseBody = await response.json();
         return responseBody;
       }
+
+      static  createScenarioObject( scenario) {
+        const displayLabelInList =
+        scenario.scenarioIdentification.forecastVersion +
+        "_" +
+        scenario.scenarioIdentification.activeStartDate;
+      const id =
+        "***" +
+        scenario.scenarioIdentification.forecastVersion +
+        "***" +
+        scenario.scenarioIdentification.activeStartDate;
+        return {
+        label: scenario.scenarioDisplayName,
+        value: scenario.scenarioDisplayName,
+        displayLabelInList: displayLabelInList,
+        scenarioDisplayName: scenario.scenarioDisplayName,
+        scenarioIdentification: scenario.scenarioIdentification,
+        checked: true,
+        id: id,
+      };
+      }
 }
