@@ -8,9 +8,8 @@ test.describe("Verify scenario is archived", { tag: "@Smoke @archiveScenario @ib
   test.describe.configure({ timeout: 120_000, mode: 'serial' });
   let templateId;
   let scenario;
-  let scenario2;
  
-   let viewId;
+  let viewId;
   test.beforeAll(async ({ request }) => {
     const templates = await VisualizerUtility.getTemplate(request);
     templateId = templates.find(
@@ -115,27 +114,9 @@ test.describe("Verify scenario is archived", { tag: "@Smoke @archiveScenario @ib
   });
 
  
-    test("Create the view", async ({
+    test("Create the view with mutiple scenarios", async ({
             request
     }) => {    
-    // const displayLabelInList =
-    //   scenario.scenarioIdentification.forecastVersion +
-    //   "_" +
-    //   scenario.scenarioIdentification.activeStartDate;
-    // const id =
-    //   "***" +
-    //   scenario.scenarioIdentification.forecastVersion +
-    //   "***" +
-    //   scenario.scenarioIdentification.activeStartDate;
-    // const scenarioObject = {
-    //   label: scenario.scenarioDisplayName,
-    //   value: scenario.scenarioDisplayName,
-    //   displayLabelInList: displayLabelInList,
-    //   scenarioDisplayName: scenario.scenarioDisplayName,
-    //   scenarioIdentification: scenario.scenarioIdentification,
-    //   checked: true,
-    //   id: id,
-    // };
 
     let scenarioObject1 =  VisualizerUtility.createScenarioObject(scenario[0])
     let scenarioObject2 =  VisualizerUtility.createScenarioObject(scenario[1])
