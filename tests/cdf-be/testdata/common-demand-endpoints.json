@@ -6,5 +6,6 @@
     "getActivityLogs": "/api/activityLog/",
     "demandScenarioListUnarchived": "/api/demandscenarios?isArchive=false",
     "demandScenarioListArchived": "/api/demandscenarios?isArchive=true",
-    "currentDemandEndpoint": "/api/demandscenarios/currentDemand/"
+    "currentDemandEndpoint": "/api/demandscenarios/currentDemand/",
+    "visualiserFilterEndpoint": "/api/visualizer/templates/1/filters/"
 }

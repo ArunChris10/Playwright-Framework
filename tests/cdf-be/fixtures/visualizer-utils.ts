@@ -1,5 +1,6 @@
 import debug from "debug";
 import { expect } from "@playwright/test";
+import commonEndpoints from '../testdata/common-demand-endpoints.json'
 import getVisualizerTableFilterData from '../testdata/get-visualizer-table-filters.json';
 import visualizerSaveData from '../testdata/visualizer-create-view-scenarios-list.json';
 import visualizerSaveCurrentDemandData from '../testdata/publish-to-current-demand.json';
@@ -18,7 +19,7 @@ export class VisualizerUtility {
 
     // Method to call the get-visualizer-table-filters api
     static async getVisualizerTableFilters(request) {
-        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${getVisualizerTableFilterData.endpoint}`;
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${commonEndpoints.visualiserFilterEndpoint}${process.env.visualiserId}`;
         debug.log(endpointURL);
 
         // API Request
