@@ -3,7 +3,7 @@ import debug from "debug";
 import { VisualizerUtility } from "../fixtures/visualizer-utils";
 import visualizerSaveData from "../testdata/visualizer-create-view-scenarios-list.json";
 
-test.describe("Verify scenario is archived", { tag: "@Smoke @archiveScenario @ibg-service-visualizer @Regression" }, () => {
+test.describe("Verify scenario is archived", { tag: "@Smoke @visualizerConfigPanel @ibg-service-visualizer @Regression" }, () => {
 
   test.describe.configure({ timeout: 120_000, mode: 'serial' });
   let templateId;
@@ -43,7 +43,7 @@ test.describe("Verify scenario is archived", { tag: "@Smoke @archiveScenario @ib
     await VisualizerUtility.deleteView(request, viewId);
   });
 
-  test("Verify if Current Demand Scenario is available in Total list  @archiveScenario", async ({
+  test("Verify if Current Demand Scenario is available in Total list", async ({
     request
   }) => {
     let templateId = "";
@@ -62,7 +62,7 @@ test.describe("Verify scenario is archived", { tag: "@Smoke @archiveScenario @ib
       debug.log("Current Demand Scenario is available in Total list ");
   });
 
-  test("Verify if Search Scenario order  @archiveScenario", async ({
+  test("Verify if Search Scenario order", async ({
     request
   }) => {
     let templateId = "";
@@ -144,6 +144,7 @@ test.describe("Verify scenario is archived", { tag: "@Smoke @archiveScenario @ib
     );
     viewId = view.visualizerViewDto.visualizerViewId;
     expect(viewId).toBeTruthy();
+    debug.log("Create the view with mutiple scenarios completed ");
   });
 
   
