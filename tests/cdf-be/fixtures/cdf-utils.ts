@@ -299,9 +299,9 @@ export class CdfUtility {
   }
 
   static async freezeScenario(request,scenarioId) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${scenarioId}${scenario.cloneScenarioPayload.endpoint}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${scenarioId}`;
     debug.log(endpointURL);
-    const response = await request.post(
+    const response = await request.patch(
       endpointURL,
       { data: scenario.freezeScenarioPayload , headers: CdfUtility.headers }
     );
@@ -315,9 +315,9 @@ export class CdfUtility {
   }
 
   static async UnFreezeScenario(request,scenarioId) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${scenarioId}${scenario.cloneScenarioPayload.endpoint}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${scenarioId}`;
     debug.log(endpointURL);
-    const response = await request.post(
+    const response = await request.patch(
       endpointURL,
       { data: scenario.UnfreezeScenarioPayload , headers: CdfUtility.headers }
     );
