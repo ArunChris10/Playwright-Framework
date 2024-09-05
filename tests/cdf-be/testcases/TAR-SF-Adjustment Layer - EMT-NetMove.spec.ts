@@ -76,11 +76,9 @@ test.describe(
             const channelResultant = absoluteBody.baseChannels.find(
               (channel) => channel.id === channelId
             );
-            expect(Math.round(channelResultant.value)).toBe(
-              Math.round(
+            expect(channelResultant.value).toBeCloseTo(
                 forecastItem.forecast[0][metric[1]] *
                   (channelPayload?.value || 0)
-              )
             );
           }
         }
@@ -119,10 +117,8 @@ test.describe(
             const sbuResultant = absoluteBody.sbus.find(
               (sbu) => sbu.id === sbuId
             );
-            expect(Math.round(sbuResultant.value)).toBe(
-              Math.round(
+            expect(sbuResultant.value).toBeCloseTo(
                 forecastItem.forecast[0][metric[1]] * (sbuPayload?.value || 0)
-              )
             );
           }
         }
