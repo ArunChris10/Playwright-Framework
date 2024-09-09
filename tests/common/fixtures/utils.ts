@@ -241,8 +241,8 @@ export class Utility {
   }
 
   //This method checks for status 200 of response and converts response to json and logs it on console and debug logs
-  static async assertAndLog(response) {
-    await expect.soft(response).toBeOK();
+  static async assertAndLog(response, isError = false) {
+    if (!isError) await expect.soft(response).toBeOK();
     let responseBody = await response.json();
     console.log(JSON.stringify(responseBody));
     debug.log(JSON.stringify(responseBody));

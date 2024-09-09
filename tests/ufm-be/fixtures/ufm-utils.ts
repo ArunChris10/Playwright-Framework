@@ -294,7 +294,42 @@ export class UfmUtility {
       .toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_reason);
 
     let adjustment_id = responseBody.adjustment_metadata.adjustment_id;
-    return adjustment_id;
+    return responseBody.adjustment_metadata;
+  }
+
+
+  // This method will fetch available adjustments for the particular LOB scenario
+  static async getAllAdjustments(
+    scenario_id,
+    scenario_version,
+    lobName,
+    request,
+    isError = false
+  ) {
+    const endpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}?scenario_id=${scenario_id}&scenario_version_timestamp=${scenario_version}`;
+    Utility.logIt(`Get adjustments for ${lobName}`);
+
+    const response = await request.get(endpointURL)
+    let responseBody = await Utility.assertAndLog(response, isError);
+    return responseBody[0] ? responseBody[0] : responseBody
+  }
+
+  static async deleteAdjustment(
+    adjustment_id,
+    scenario_id,
+    scenario_version,
+    request,
+    isError = false
+  ) {
+    const endpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}${adjustment_id}?scenario_id=${scenario_id}&scenario_version_timestamp=${scenario_version}`;
+
+    Utility.logIt(`Deleting adjustment with adjustment id ${adjustment_id}`);
+
+    const response = await request.delete(endpointURL)
+
+    let responseBody = await Utility.assertAndLog(response, isError);
+
+    return responseBody[0] ? responseBody[0] : responseBody
   }
 
   //This method gets the list of all input nodes for a particular lob

@@ -1,5 +1,6 @@
 {
   "endpoint": "/adjustment/",
+  "getErrorMessage": "Something went wrong while getting the adjustments",
   "payloads": {
     "adjustment_metadata": {
       "adjustment_name": "",
