@@ -272,7 +272,6 @@ export class UfmUtility {
       lobName,
       scenario_id,
       commonData["Constant value"],
-      "save",
       request
     );
     adjustmentData.payloads.dim_val_id = commonData[lobName].dim_val_id;
