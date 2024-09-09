@@ -227,5 +227,17 @@
   "valueToBeUpdated": 10000,
   "cellPositionForDepartment": "E14",
   "cellPositionForSBU": "E13",
-  "cellPositionForChannel": "E12"
+  "cellPositionForChannel": "E12",
+  "allocations": {
+    "aurConstant": [
+      { "position": "E14", "value": 10000 },
+      { "position":  "E13", "value":  10000 },
+      { "position": "E12", "value": 10000 }
+    ],
+    "convertedSales": [
+      { "position": "E13", "value": 10000 },
+      { "position":  "E12", "value":  10000 },
+      { "position": "E11", "value": 10000 }
+    ]
+  }
 }

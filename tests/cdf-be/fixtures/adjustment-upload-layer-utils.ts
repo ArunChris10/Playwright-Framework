@@ -10,6 +10,8 @@ import { DemandBaseClass } from "./demand-common-utils";
 import { expect, test } from "../../common/fixtures/test-hook";
 import { LockUnlockUtility } from "./lock-unlock-utils";
 import { ManageRebaseUtility } from "./manage-rebase-utils";
+import { Utility } from "../../common/fixtures/utils";
+
 import type { Department, GetDemandScenarioForecastResponse } from "../types/get-demand-scenario-forecast-response";
 
 export class AdjustmentUploadLayer{
@@ -138,20 +140,21 @@ export class AdjustmentUploadLayer{
     // Huge generalization of Adjustment Layer - Upload tests. Can be extended to include similar use-cases (noted below).
     static async testExcelUploadAndAssertResponse(
         request: APIRequestContext,
-        timeFilter: 'year' | 'quarter' | 'month' = 'month'
-    ) {
+        timeFilter: 'year' | 'quarter' | 'month' = 'month',
+        metricType: 'GMV Shipped' | 'AUR' | 'Scanned Units' | 'Net Merch Sales' = 'GMV Shipped',
+    ){
         const excelFileName = `download_${new Date().getTime()}_data.xlsx`
-        const cellsToUpdate = [
-            { position : testDataFile.cellPositionForDepartment, value: testDataFile.valueToBeUpdated },
-            { position: testDataFile.cellPositionForSBU, value: testDataFile.valueToBeUpdated },
-            { position: testDataFile.cellPositionForChannel, value: testDataFile.valueToBeUpdated },
-        ]
+        const cellsToUpdate =
+            metricType === 'Net Merch Sales'
+                ? testDataFile.allocations.convertedSales
+                : testDataFile.allocations.aurConstant
 
         let demandId: string,
             forecastVersion: string,
             forecastLayerId: string,
             layerIdOfUpload: string,
-            uploadLayerResponse: APIResponse
+            uploadLayerResponse: APIResponse,
+            demandScenarioForecast: GetDemandScenarioForecastResponse<Department>
 
         demandId = await CdfUtility.createScenario(request)
 
@@ -170,7 +173,7 @@ export class AdjustmentUploadLayer{
                 forecastVersion,
                 forecastLayerId,
                 excelFileName,
-                undefined, // Edit to generalize a different metricType
+                metricType,
                 undefined, // Edit to generalize a different metricUnit
                 timeFilter
             )
@@ -199,7 +202,7 @@ export class AdjustmentUploadLayer{
                 { ...testDataFile.payloadForGetDemandScenarioForecast, timeFilter: testDataFile.timeFilters[timeFilter] }
             )
 
-            const demandScenarioForecast =
+            demandScenarioForecast =
                 await demandScenarioForecastResponse.json() as GetDemandScenarioForecastResponse<Department>
 
             const modifiedDepartment = await AdjustmentUploadLayer.getDepartmentFromExcelCell(
@@ -220,14 +223,51 @@ export class AdjustmentUploadLayer{
                 default: forecastKey = 'forecast'
             }
 
-            for (const department of demandScenarioForecast[forecastKey]) {
-                if (department.departmentIdAndNameConcat.replace(/\s/g, '') === modifiedDepartment) {
-                    const departmentAmountInApiUploadLayer = department.forecast[0].amount
+            let department: Department
+            for (department of demandScenarioForecast[forecastKey]) {
+                const currentDepartmentFormattedName = `${department.departmentId}-${department.departmentDisplayName}`
+                if (currentDepartmentFormattedName === modifiedDepartment) {
+                    const uploadLayerForecast = department.forecast[0]
+
+                    const gmvAmountInUploadLayer: number = uploadLayerForecast.amount,
+                        scannedUnitsInUploadLayer: number = uploadLayerForecast.units,
+                        netMerchSalesInUploadLayer: number = uploadLayerForecast.sales,
+                        aurValueInUploadLayer: number = uploadLayerForecast.aur
+
+                    let modifiedValueInUploadLayer: number
+                    switch (metricType) {
+                        case 'Net Merch Sales': {
+                            modifiedValueInUploadLayer = netMerchSalesInUploadLayer
+                            break;
+                        }
+                        case 'Scanned Units': {
+                            modifiedValueInUploadLayer = scannedUnitsInUploadLayer
+                            break;
+                        }
+                        case 'AUR': {
+                            modifiedValueInUploadLayer = aurValueInUploadLayer
+                            break;
+                        }
+                        default: modifiedValueInUploadLayer = gmvAmountInUploadLayer
+                    }
+
                     console.log(
-                        `${department.departmentDisplayName} amount in upload layer (${layerIdOfUpload}): `,
-                        departmentAmountInApiUploadLayer
+                        `${department.departmentDisplayName} ${metricType} amount in upload layer (${layerIdOfUpload}): `,
+                        modifiedValueInUploadLayer
                     )
-                    expect(departmentAmountInApiUploadLayer).toEqual(testDataFile.valueToBeUpdated)
+                    expect(modifiedValueInUploadLayer).toEqual(testDataFile.valueToBeUpdated)
+
+                    if (metricType) {
+                        await test.step("Assert that the modified metric ratios are correct", () => {
+                            // Validate the ratio i.e. gmv/units = aur
+                            expect(Utility.roundToDecimals(gmvAmountInUploadLayer / scannedUnitsInUploadLayer))
+                                .toEqual(aurValueInUploadLayer);
+
+                            // Validate the ratio i.e. netMerchSales/units = aur
+                            expect(Utility.roundToDecimals(netMerchSalesInUploadLayer / scannedUnitsInUploadLayer))
+                                .toEqual(aurValueInUploadLayer);
+                        })
+                    }
                 }
             }
         })
