@@ -1,6 +1,6 @@
 tools:
   sonarscanner: "4.8.0.2856"
-  nodejs: 22.8.0
+  nodejs: 16.18.0
   npm: 8.19.2
 
 useSecretStore: true
@@ -44,7 +44,7 @@ triggers:
       name: Run UFM UI Smoke
       call: runUFMUISmokeTest
   - manual:
-      name: Run CDF SmokeTest
+      name: Run CDF Test
       call: runCDFSMokeTest
   - manual:
       name: Run CDF Custom Test
@@ -170,7 +170,7 @@ flows:
     try:
       - echo "Running CDF Smoke testcases "
       - call: setup
-      - APP_NAME=CDF RUN_ID=$testrunid ENV=qa TEST=custom_tag npm run tests:cdf-tests-be
+      - APP_NAME=CDF RUN_ID=$testrunid ENV=qa TEST=custom_tag npm run tests:cdf-tests
     finally:
       - call: reporter
 
