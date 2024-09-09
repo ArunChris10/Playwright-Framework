@@ -1,0 +1,11 @@
+{
+    "endpoint": "/api/visualizer/views/",
+    "pinned_view_payload": {
+        "visualizerViewName": "",
+        "isPinned": true
+    },
+    "unpinned_view_payload": {
+        "visualizerViewName": "",
+        "isPinned": false
+    }
+}

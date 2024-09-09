@@ -2,6 +2,9 @@ import debug from "debug";
 import { expect } from "@playwright/test";
 import commonEndpoints from '../testdata/common-demand-endpoints.json'
 import getVisualizerTableFilterData from '../testdata/get-visualizer-table-filters.json';
+import pinnedVisualiserView from '../testdata/pinned-view.json';
+import updateVisualiserViewOrder from '../testdata/update-views-order.json';
+import listallView from '../testdata/list-all-view.json'
 import visualizerSaveData from '../testdata/visualizer-create-view-scenarios-list.json';
 import visualizerSaveCurrentDemandData from '../testdata/publish-to-current-demand.json';
 import visualizerTableDataCustomMetrics from '../testdata/visualizer-table-data-custom-metrics.json';
@@ -263,6 +266,76 @@ export class VisualizerUtility {
         return response;
     }
 
+    static async pinnedView(request) {
+        const saveViewResponse = await VisualizerUtility.visualizerSave(request);
+        let visualizerSaveDataResponseBody = await saveViewResponse.json();
+        const visualizerviewId = visualizerSaveDataResponseBody.visualizerViewDto.visualizerViewId;
+        const visualizerviewName = visualizerSaveDataResponseBody.visualizerViewDto.visualizerViewName;
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${pinnedVisualiserView.endpoint}${visualizerviewId}`;
+        debug.log(endpointURL);
+        let payload =  pinnedVisualiserView.pinned_view_payload;
+        payload.visualizerViewName = visualizerviewName;
+        const response = await request.patch(
+            endpointURL,
+            { data: payload }
+        )
+        return response;
+    }
+
+    static async unpinnedView(request) {
+        const saveViewResponse = await VisualizerUtility.visualizerSave(request);
+        let visualizerSaveDataResponseBody = await saveViewResponse.json();
+        const visualizerviewId = visualizerSaveDataResponseBody.visualizerViewDto.visualizerViewId;
+        const visualizerviewName = visualizerSaveDataResponseBody.visualizerViewDto.visualizerViewName;
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${pinnedVisualiserView.endpoint}${visualizerviewId}`;
+        debug.log(endpointURL);
+        let payload =  pinnedVisualiserView.unpinned_view_payload;
+        payload.visualizerViewName = visualizerviewName;
+        const response = await request.patch(
+            endpointURL,
+            { data: payload }
+        )
+        return response;
+    }
+
+    static async updateViewsOrder(request) {
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${updateVisualiserViewOrder.endpoint}`;
+        const saveViewResponsefirst = await VisualizerUtility.visualizerSave(request);
+        let visualizerSaveDataResponseBody = await saveViewResponsefirst.json();
+    
+        // Ensure visualizerViewDto and visualizerViewId exist in the response
+        if (!visualizerSaveDataResponseBody.visualizerViewDto || !visualizerSaveDataResponseBody.visualizerViewDto.visualizerViewId) {
+            throw new Error('Visualizer View ID not found in response');
+        }
+    
+        const visualizerviewIdfirst = visualizerSaveDataResponseBody.visualizerViewDto.visualizerViewId;
+        let payloadone = {
+            "order": 1,
+            "visualizerViewId": visualizerviewIdfirst
+        };
+    
+        // Make a deep copy of the payload to avoid mutating the original object
+        let payload = JSON.parse(JSON.stringify(updateVisualiserViewOrder.payload));
+    
+        // Ensure visualizerViewOrderList is an array before pushing the new entry
+        if (!Array.isArray(payload.visualizerViewOrderList)) {
+            payload.visualizerViewOrderList = [];
+        }
+    
+        payload.visualizerViewOrderList.push(payloadone);
+    
+        debug.log(endpointURL);
+        const response = await request.post(endpointURL, { data: payload });
+        return response;
+    }
+    
+    static async listallViews(request) {
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${listallView.endpoint}`;
+        const listallViews = await VisualizerUtility.visualizerSave(request);
+        debug.log(endpointURL);
+        const response = await request.get(endpointURL);
+        return response;
+    }
     static async getVisualizerData(request, demandScenarioId, type){
         let suffix;
         if (type === visualizerDownloadData.excel)
@@ -342,5 +415,26 @@ export class VisualizerUtility {
         expect(response).toBeOK();
         const responseBody = await response.json();
         return responseBody;
+      }
+
+      static  createScenarioObject( scenario) {
+        const displayLabelInList =
+        scenario.scenarioIdentification.forecastVersion +
+        "_" +
+        scenario.scenarioIdentification.activeStartDate;
+      const id =
+        "***" +
+        scenario.scenarioIdentification.forecastVersion +
+        "***" +
+        scenario.scenarioIdentification.activeStartDate;
+        return {
+        label: scenario.scenarioDisplayName,
+        value: scenario.scenarioDisplayName,
+        displayLabelInList: displayLabelInList,
+        scenarioDisplayName: scenario.scenarioDisplayName,
+        scenarioIdentification: scenario.scenarioIdentification,
+        checked: true,
+        id: id,
+      };
       }
 }

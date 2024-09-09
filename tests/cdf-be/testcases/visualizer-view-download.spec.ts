@@ -17,7 +17,7 @@ test.describe("Verify that the user should be able to download csv and excel fro
         let visualizerDataResponse = await VisualizerUtility.getVisualizerData(request, demandId, testdatafile.data);
         expect(visualizerDataResponse).toBeOK();
         visualizerData = await visualizerDataResponse.json();
-        visualizerData = visualizerData[0].data[0].data[0].data[0].kpiValue;
+        visualizerData = visualizerData.filter(c => c.channelGroup == 'DELIVERY')[0].data[0].data[0].data[0].kpiValue;
     });
 
 
@@ -33,7 +33,7 @@ test.describe("Verify that the user should be able to download csv and excel fro
     test("Download excel, save the excel and validate data", async ({ request }) => {
         let excelDownloadResponse = await VisualizerUtility.getVisualizerData(request, demandId, testdatafile.excel);
         expect(excelDownloadResponse).toBeOK();
-        let excelData = DemandBaseClass.getCellValueFromExcel(excelDownloadResponse, 'C9');
+        let excelData = await DemandBaseClass.getCellValueFromExcel(excelDownloadResponse, 'C10');
         expect(excelData).toEqual(visualizerData);
     });
 
