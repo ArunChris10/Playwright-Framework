@@ -202,5 +202,45 @@
         "checked": true
       }
     ]
+  },
+  "sbuMerchChannelExtendedPayload": {
+    "dimensionFilter": { "channelGroupId": [901, 902, 903, 904] },
+    "selectionFilter": {
+      "dimensions": ["SBU.DISP_NM", "CHNL_GRP.DISP_NM"],
+      "customDimensions": [],
+      "excelDimension": ["CHNL_GRP.DISP_NM", "SBU.DISP_NM"],
+      "kpis": ["FCST_SALES_AMT"],
+      "timeDimensions": ["YR_ID"]
+    },
+    "rows": [
+      {
+        "displayName": "SBU",
+        "attributeName": "sbuName",
+        "columnName": "SBU.DISP_NM",
+        "key": "SBU",
+        "identification": [
+          {
+            "attributeName": "sbuId",
+            "columnName": "SBU_ID",
+            "tableName": "LAYR_DATA"
+          }
+        ],
+        "checked": true
+      },
+      {
+        "displayName": "Merch Channel",
+        "attributeName": "channelGroup",
+        "columnName": "CHNL_GRP.DISP_NM",
+        "key": "CHANNEL_GROUP",
+        "identification": [
+          {
+            "attributeName": "channelGroupId",
+            "columnName": "CHNL_GRP_ID",
+            "tableName": "CHNL_GRP_TO_CHNL_MAP"
+          }
+        ],
+        "checked": true
+      }
+    ]
   }
 }

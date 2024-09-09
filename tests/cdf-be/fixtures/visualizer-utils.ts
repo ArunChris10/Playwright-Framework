@@ -18,6 +18,18 @@ export class VisualizerUtility {
         "WM_SVC.NAME": process.env.WM_SVC_NAME,
         "WM_SVC.ENV": process.env.envName
       }
+    
+    static async visualizerViews(request, appId = 1, userId = process.env.cdfNormalUser, limit = 1000) {
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/views?appId=${appId}&userId=${userId}&limit=${limit}`;
+        debug.log(endpointURL);
+        const response = await request.get(
+            endpointURL,
+            { headers: VisualizerUtility.headers }
+        )
+        expect(response).toBeOK();
+        const responseBody = await response.json();
+        return responseBody;
+    }  
 
     // Method to call the get-visualizer-table-filters api
     static async getVisualizerTableFilters(request) {

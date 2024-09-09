@@ -91,22 +91,23 @@ test.describe(
           id: id,
         };
 
-        visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload.applicationSrcTemplateId =
-          templateId;
-        visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload.walmartUserId =
-          process.env.cdfNormalUser as string;
-        visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload.viewData.scenarioIdentification[0] =
+        const payloadExtension =
+          visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload;
+        payloadExtension.applicationSrcTemplateId = templateId;
+        payloadExtension.walmartUserId = process.env.cdfNormalUser as string;
+        payloadExtension.viewData.scenarioIdentification[0] =
           scenario.scenarioIdentification;
-        visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload.viewData.scenarioOrderList[0].scenarioIdentification =
+        payloadExtension.viewData.scenarioOrderList[0].scenarioIdentification =
           scenario.scenarioIdentification;
-        visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload.allScenarios[0] =
-          scenarioObject;
-        visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload.visualizerMetaDataDto.scenarioDtoList[0] =
-          { ...scenarioObject, order: 0 };
+        payloadExtension.allScenarios[0] = scenarioObject;
+        payloadExtension.visualizerMetaDataDto.scenarioDtoList[0] = {
+          ...scenarioObject,
+          order: 0,
+        };
 
         const view = await VisualizerUtility.visualizerSave(
           request,
-          visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload
+          payloadExtension
         );
         viewId = view.visualizerViewDto.visualizerViewId;
         expect(viewId).toBeTruthy();

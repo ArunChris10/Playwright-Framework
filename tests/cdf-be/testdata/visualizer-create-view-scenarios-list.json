@@ -1,6 +1,1108 @@
 {
   "endpoint": "/api/visualizer",
+  "expectedResponse": null,
   "payload": {
+    "panelOpen": true,
+    "panelConfig": {
+      "view": {
+        "expand": true,
+        "viewName": "",
+        "template": {
+          "dimensions": [],
+          "kpis": [],
+          "timeDimensions": [],
+          "templateId": "",
+          "templateName": ""
+        },
+        "scenarios": [],
+        "nonRepeatedDerivedColumnList": [],
+        "derivedScenariosList": [],
+        "derivedMetricList": [],
+        "metricOrderList": [],
+        "viewType": "TABLE",
+        "viewFootNotes": { "on": false, "message": "" },
+        "rows": [],
+        "columns": []
+      },
+      "dateRange": {
+        "expand": true,
+        "startDate": "",
+        "endDate": "",
+        "intervalType": "MONTH"
+      },
+      "viewLayout": {
+        "expand": true,
+        "hierarchy": [],
+        "metrics": [],
+        "time": []
+      },
+      "pivot": { "expand": true },
+      "newScenarioCreationInfo": {
+        "creating": false,
+        "editing": false,
+        "checked": false,
+        "identificationId": "",
+        "panelTitle": "Add a calculation",
+        "newScenarioName": "",
+        "operations": [
+          { "id": "SUM", "title": "Sum", "value": "Sum" },
+          {
+            "id": "ABSOLUTE_DIFFERENCE",
+            "title": "Difference",
+            "value": "Absolute Difference"
+          },
+          {
+            "id": "PERCENTAGE_DIFFERENCE",
+            "title": "% difference",
+            "value": "Percentage Difference"
+          },
+          {
+            "id": "LAST_YEAR_VALUE",
+            "title": "Last Year Value",
+            "value": "Last Year Value"
+          }
+        ],
+        "selectedOperation": null,
+        "selectedScenario": []
+      },
+      "newMetricCreationInfo": {
+        "creating": false,
+        "editing": false,
+        "checked": false,
+        "panelTitle": "Add a calculation",
+        "identificationId": "",
+        "newMetricName": "",
+        "operations": [
+          { "id": "SUM", "title": "Sum", "value": "Sum" },
+          {
+            "id": "ABSOLUTE_DIFFERENCE",
+            "title": "Difference",
+            "value": "Absolute Difference"
+          },
+          {
+            "id": "PERCENTAGE_DIFFERENCE",
+            "title": "% difference",
+            "value": "Percentage Difference"
+          },
+          {
+            "id": "YOY_PERCENTAGE_GROWTH",
+            "title": "Year over year %",
+            "value": "YOY Percentage Growth"
+          },
+          {
+            "id": "PERCENTAGE_SALES",
+            "title": "% of sales",
+            "value": "Percentage Of Sales"
+          },
+          {
+            "id": "YOY_ABSOLUTE_DIFFERENCE",
+            "title": "YoY Difference",
+            "value": "YoY Absolute Difference"
+          },
+          {
+            "id": "LAST_YEAR_VALUE",
+            "title": "Last Year Value",
+            "value": "Last Year Value"
+          }
+        ],
+        "selectedOperation": null,
+        "selectedMetrics": []
+      },
+      "newHierarchyCreationInfo": {
+        "panelTitle": "Add a new hiearchy",
+        "newHierarchyName": "",
+        "newHierarchyType": "",
+        "operations": [
+          {
+            "id": "channel_group_nm",
+            "title": "Channel Group",
+            "value": "Channel Group"
+          },
+          { "id": "channel_nm", "title": "Channel", "value": "Channel" },
+          { "id": "sbu_nm", "title": "SBU", "value": "SBU" },
+          {
+            "id": "department_nm",
+            "title": "Department",
+            "value": "Department"
+          }
+        ]
+      },
+      "subsidiaryPanel": { "creating": false, "editing": false },
+      "isPublish": false
+    },
+    "disabledFields": false,
+    "visualizerViewName": "test",
+    "applicationSrcTemplateId": "4af19248-6a90-4e4d-a47d-e2f932035f53",
+    "applicationId": 1,
+    "walmartUserId": "",
+    "isPinned": true,
+    "isPublish": false,
+    "langType": 100,
+    "footNotes": "",
+    "type": "create",
+    "pauseViewRefresh": false,
+    "allTemplateData": [
+      {
+        "templateId": "4af19248-6a90-4e4d-a47d-e2f932035e42",
+        "templateName": "Template for Launchpad Forecast",
+        "dimensions": [
+          {
+            "displayName": "Channel Group",
+            "attributeName": "channelGroup",
+            "columnName": "CHNL_GRP.DISP_NM",
+            "key": "CHANNEL_GROUP",
+            "children": [
+              {
+                "displayName": "Base Channel",
+                "attributeName": "baseChannelName",
+                "columnName": "BASE_CHNL.DISP_NM",
+                "key": "BASE_CHANNEL",
+                "identification": [
+                  {
+                    "attributeName": "baseChannelId",
+                    "columnName": "BASE_CHNL_ID",
+                    "tableName": "LAYR_DATA"
+                  }
+                ]
+              }
+            ],
+            "identification": [
+              {
+                "attributeName": "channelGroupId",
+                "columnName": "CHNL_GRP_ID",
+                "tableName": "CHNL_GRP_TO_CHNL_MAP"
+              }
+            ]
+          },
+          {
+            "displayName": "SBU",
+            "attributeName": "sbuName",
+            "columnName": "SBU.DISP_NM",
+            "key": "SBU",
+            "children": [
+              {
+                "displayName": "Department",
+                "attributeName": "departmentName",
+                "columnName": "DEPT.DISP_NM",
+                "key": "DEPARTMENT",
+                "identification": [
+                  {
+                    "attributeName": "departmentId",
+                    "columnName": "DEPT_ID",
+                    "tableName": "LAYR_DATA"
+                  }
+                ]
+              }
+            ],
+            "identification": [
+              {
+                "attributeName": "sbuId",
+                "columnName": "SBU_ID",
+                "tableName": "LAYR_DATA"
+              }
+            ]
+          }
+        ],
+        "kpis": [
+          {
+            "displayName": "GMV",
+            "attributeName": "forecastGmv",
+            "columnName": "FCST_SALES_AMT",
+            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT),0),2)",
+            "displayType": "DOLLAR",
+            "precisionAfterDecimal": 0
+          },
+          {
+            "displayName": "Units",
+            "attributeName": "forecastUnit",
+            "columnName": "FCST_UNIT",
+            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_UNIT),0),2)",
+            "displayType": "NUMBER",
+            "precisionAfterDecimal": 0
+          },
+          {
+            "displayName": "AUR",
+            "attributeName": "forecastAur",
+            "columnName": "FCST_AUR",
+            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT)/NULLIF(SUM(FCST_UNIT),0),0),2)",
+            "displayType": "DOLLAR",
+            "precisionAfterDecimal": 2
+          }
+        ],
+        "timeDimensions": [
+          {
+            "displayName": "Fiscal Month",
+            "attributeName": "fiscalMonth",
+            "columnName": "FISCAL_PERIOD_KEY"
+          },
+          {
+            "displayName": "Quarter",
+            "attributeName": "fiscalQuarter",
+            "columnName": "QTR_ID",
+            "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
+          },
+          {
+            "displayName": "Year",
+            "attributeName": "fiscalYear",
+            "columnName": "YR_ID"
+          }
+        ],
+        "dateIntervalTimeDimensions": [
+          {
+            "intervalType": "MONTH",
+            "intervalDisplayName": "Month",
+            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( MTH_ID )),2 ))",
+            "yearColumn": "FISCAL_PERIOD_KEY",
+            "yearColumnFormat": "YYYYMM",
+            "timeDimensions": [
+              {
+                "displayName": "Fiscal Month",
+                "attributeName": "fiscalMonth",
+                "columnName": "FISCAL_PERIOD_KEY"
+              }
+            ]
+          },
+          {
+            "intervalType": "QUARTER",
+            "intervalDisplayName": "Quarter",
+            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( QTR_ID )),2 ))",
+            "yearColumn": "QTR_ID",
+            "yearColumnFormat": "YYYYQQ",
+            "timeDimensions": [
+              {
+                "displayName": "Quarter",
+                "attributeName": "fiscalQuarter",
+                "columnName": "QTR_ID",
+                "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
+              }
+            ]
+          },
+          {
+            "intervalType": "YEAR",
+            "intervalDisplayName": "Year",
+            "filterColumnExpression": "YR_ID",
+            "yearColumn": "YR_ID",
+            "yearColumnFormat": "YYYY",
+            "timeDimensions": [
+              {
+                "displayName": "Year",
+                "attributeName": "fiscalYear",
+                "columnName": "YR_ID"
+              }
+            ]
+          }
+        ],
+        "dimensionFilters": [
+          {
+            "key": "CHANNEL_GROUP",
+            "displayName": "Channel Group",
+            "attributeName": "channelGroups",
+            "dependentFilters": ["BASE_CHANNEL"]
+          },
+          {
+            "key": "BASE_CHANNEL",
+            "displayName": "Base Channel",
+            "attributeName": "baseChannels"
+          },
+          {
+            "key": "SBU",
+            "displayName": "SBU",
+            "attributeName": "sbus",
+            "dependentFilters": ["DEPARTMENT"]
+          },
+          {
+            "key": "DEPARTMENT",
+            "displayName": "Department",
+            "attributeName": "departments"
+          }
+        ],
+        "isMergedTemplate": false
+      },
+      {
+        "templateId": "4af19248-6a90-4e4d-a47d-e2f932035f53",
+        "templateName": "Template for all scenarios",
+        "dimensions": [
+          {
+            "displayName": "Merch Channel",
+            "attributeName": "channelGroup",
+            "columnName": "CHNL_GRP.DISP_NM",
+            "key": "CHANNEL_GROUP",
+            "identification": [
+              {
+                "attributeName": "channelGroupId",
+                "columnName": "CHNL_GRP_ID",
+                "tableName": "CHNL_GRP_TO_CHNL_MAP"
+              }
+            ]
+          },
+          {
+            "displayName": "Channel Group",
+            "attributeName": "channelGroup",
+            "columnName": "CHNL_GRP.DISP_NM",
+            "key": "CHANNEL_GROUP",
+            "identification": [
+              {
+                "attributeName": "channelGroupId",
+                "columnName": "CHNL_GRP_ID",
+                "tableName": "CHNL_GRP_TO_CHNL_MAP"
+              }
+            ]
+          },
+          {
+            "displayName": "Base Channel",
+            "attributeName": "baseChannelName",
+            "columnName": "BASE_CHNL.DISP_NM",
+            "key": "BASE_CHANNEL",
+            "identification": [
+              {
+                "attributeName": "baseChannelId",
+                "columnName": "BASE_CHNL_ID",
+                "tableName": "LAYR_DATA"
+              }
+            ]
+          },
+          {
+            "displayName": "SBU",
+            "attributeName": "sbuName",
+            "columnName": "SBU.DISP_NM",
+            "key": "SBU",
+            "identification": [
+              {
+                "attributeName": "sbuId",
+                "columnName": "SBU_ID",
+                "tableName": "LAYR_DATA"
+              }
+            ]
+          },
+          {
+            "displayName": "Department",
+            "attributeName": "departmentName",
+            "columnName": "DEPT.DISP_NM",
+            "key": "DEPARTMENT",
+            "identification": [
+              {
+                "attributeName": "departmentId",
+                "columnName": "DEPT_ID",
+                "tableName": "LAYR_DATA"
+              }
+            ]
+          }
+        ],
+        "kpis": [
+          {
+            "displayName": "GMV",
+            "attributeName": "forecastGmv",
+            "columnName": "FCST_SALES_AMT",
+            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT),0),2)",
+            "displayType": "DOLLAR",
+            "precisionAfterDecimal": 0
+          },
+          {
+            "displayName": "Units",
+            "attributeName": "forecastUnit",
+            "columnName": "FCST_UNIT",
+            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_UNIT),0),2)",
+            "displayType": "NUMBER",
+            "precisionAfterDecimal": 0
+          },
+          {
+            "displayName": "AUR",
+            "attributeName": "forecastAur",
+            "columnName": "FCST_AUR",
+            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT)/NULLIF(SUM(FCST_UNIT),0),0),2)",
+            "displayType": "DOLLAR",
+            "precisionAfterDecimal": 2
+          },
+          {
+            "displayName": "UOM",
+            "attributeName": "forecastUom",
+            "columnName": "UOM_QTY",
+            "kpiDefinition": "ROUND(COALESCE(SUM(UOM_QTY),0),2)",
+            "displayType": "NUMBER",
+            "precisionAfterDecimal": 0
+          },
+          {
+            "displayName": "Net Merch Sales",
+            "attributeName": "forecastNetMerchSales",
+            "columnName": "SALES",
+            "kpiDefinition": "ROUND(COALESCE(SUM(SALES),0),2)",
+            "displayType": "DOLLAR",
+            "precisionAfterDecimal": 0
+          }
+        ],
+        "timeDimensions": [
+          {
+            "displayName": "Fiscal Month",
+            "attributeName": "fiscalMonth",
+            "columnName": "FISCAL_PERIOD_KEY"
+          },
+          {
+            "displayName": "Quarter",
+            "attributeName": "fiscalQuarter",
+            "columnName": "QTR_ID",
+            "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
+          },
+          {
+            "displayName": "Year",
+            "attributeName": "fiscalYear",
+            "columnName": "YR_ID"
+          }
+        ],
+        "dateIntervalTimeDimensions": [
+          {
+            "intervalType": "MONTH",
+            "intervalDisplayName": "Month",
+            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( MTH_ID )),2 ))",
+            "yearColumn": "FISCAL_PERIOD_KEY",
+            "yearColumnFormat": "YYYYMM",
+            "timeDimensions": [
+              {
+                "displayName": "Fiscal Month",
+                "attributeName": "fiscalMonth",
+                "columnName": "FISCAL_PERIOD_KEY"
+              }
+            ]
+          },
+          {
+            "intervalType": "QUARTER",
+            "intervalDisplayName": "Quarter",
+            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( QTR_ID )),2 ))",
+            "yearColumn": "QTR_ID",
+            "yearColumnFormat": "YYYYQQ",
+            "timeDimensions": [
+              {
+                "displayName": "Quarter",
+                "attributeName": "fiscalQuarter",
+                "columnName": "QTR_ID",
+                "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
+              }
+            ]
+          },
+          {
+            "intervalType": "YEAR",
+            "intervalDisplayName": "Year",
+            "filterColumnExpression": "YR_ID",
+            "yearColumn": "YR_ID",
+            "yearColumnFormat": "YYYY",
+            "timeDimensions": [
+              {
+                "displayName": "Year",
+                "attributeName": "fiscalYear",
+                "columnName": "YR_ID"
+              }
+            ]
+          }
+        ],
+        "dimensionFilters": [
+          {
+            "key": "CHANNEL_GROUP",
+            "displayName": "Channel Group",
+            "attributeName": "channelGroups",
+            "dependentFilters": ["BASE_CHANNEL"]
+          },
+          {
+            "key": "BASE_CHANNEL",
+            "displayName": "Base Channel",
+            "attributeName": "baseChannels"
+          },
+          {
+            "key": "SBU",
+            "displayName": "SBU",
+            "attributeName": "sbus",
+            "dependentFilters": ["DEPARTMENT"]
+          },
+          {
+            "key": "DEPARTMENT",
+            "displayName": "Department",
+            "attributeName": "departments"
+          }
+        ],
+        "isMergedTemplate": true
+      },
+      {
+        "templateId": "5af89228-6a90-4e4d-a47d-e2f933035e42",
+        "templateName": "Template for Demand Stack Scenarios on Latest forecast",
+        "dimensions": [
+          {
+            "displayName": "Channel Group",
+            "attributeName": "channelGroup",
+            "columnName": "CHNL_GRP.DISP_NM",
+            "key": "CHANNEL_GROUP",
+            "children": [
+              {
+                "displayName": "Base Channel",
+                "attributeName": "baseChannelName",
+                "columnName": "BASE_CHNL.DISP_NM",
+                "key": "BASE_CHANNEL",
+                "identification": [
+                  {
+                    "attributeName": "baseChannelId",
+                    "columnName": "BASE_CHNL_ID",
+                    "tableName": "LAYR_DATA"
+                  }
+                ]
+              }
+            ],
+            "identification": [
+              {
+                "attributeName": "channelGroupId",
+                "columnName": "CHNL_GRP_ID",
+                "tableName": "CHNL_GRP_TO_CHNL_MAP"
+              }
+            ]
+          },
+          {
+            "displayName": "SBU",
+            "attributeName": "sbuName",
+            "columnName": "SBU.DISP_NM",
+            "key": "SBU",
+            "children": [
+              {
+                "displayName": "Department",
+                "attributeName": "departmentName",
+                "columnName": "DEPT.DISP_NM",
+                "key": "DEPARTMENT",
+                "identification": [
+                  {
+                    "attributeName": "departmentId",
+                    "columnName": "DEPT_ID",
+                    "tableName": "LAYR_DATA"
+                  }
+                ]
+              }
+            ],
+            "identification": [
+              {
+                "attributeName": "sbuId",
+                "columnName": "SBU_ID",
+                "tableName": "LAYR_DATA"
+              }
+            ]
+          }
+        ],
+        "kpis": [
+          {
+            "displayName": "GMV",
+            "attributeName": "forecastGmv",
+            "columnName": "FCST_SALES_AMT",
+            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT),0),2)",
+            "displayType": "DOLLAR",
+            "precisionAfterDecimal": 0
+          },
+          {
+            "displayName": "Units",
+            "attributeName": "forecastUnit",
+            "columnName": "FCST_UNIT",
+            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_UNIT),0),2)",
+            "displayType": "NUMBER",
+            "precisionAfterDecimal": 0
+          },
+          {
+            "displayName": "AUR",
+            "attributeName": "forecastAur",
+            "columnName": "FCST_AUR",
+            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT)/NULLIF(SUM(FCST_UNIT),0),0),2)",
+            "displayType": "DOLLAR",
+            "precisionAfterDecimal": 2
+          }
+        ],
+        "timeDimensions": [
+          {
+            "displayName": "Fiscal Month",
+            "attributeName": "fiscalMonth",
+            "columnName": "FISCAL_PERIOD_KEY"
+          },
+          {
+            "displayName": "Quarter",
+            "attributeName": "fiscalQuarter",
+            "columnName": "QTR_ID",
+            "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
+          },
+          {
+            "displayName": "Year",
+            "attributeName": "fiscalYear",
+            "columnName": "YR_ID"
+          }
+        ],
+        "dateIntervalTimeDimensions": [
+          {
+            "intervalType": "MONTH",
+            "intervalDisplayName": "Month",
+            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( MTH_ID )),2 ))",
+            "yearColumn": "FISCAL_PERIOD_KEY",
+            "yearColumnFormat": "YYYYMM",
+            "timeDimensions": [
+              {
+                "displayName": "Fiscal Month",
+                "attributeName": "fiscalMonth",
+                "columnName": "FISCAL_PERIOD_KEY"
+              }
+            ]
+          },
+          {
+            "intervalType": "QUARTER",
+            "intervalDisplayName": "Quarter",
+            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( QTR_ID )),2 ))",
+            "yearColumn": "YR_ID",
+            "yearColumnFormat": "YYYYQQ",
+            "timeDimensions": [
+              {
+                "displayName": "Quarter",
+                "attributeName": "fiscalQuarter",
+                "columnName": "QTR_ID",
+                "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
+              }
+            ]
+          },
+          {
+            "intervalType": "YEAR",
+            "intervalDisplayName": "Year",
+            "filterColumnExpression": "YR_ID",
+            "yearColumn": "YR_ID",
+            "yearColumnFormat": "YYYY",
+            "timeDimensions": [
+              {
+                "displayName": "Year",
+                "attributeName": "fiscalYear",
+                "columnName": "YR_ID"
+              }
+            ]
+          }
+        ],
+        "dimensionFilters": [
+          {
+            "key": "CHANNEL_GROUP",
+            "displayName": "Channel Group",
+            "attributeName": "channelGroups",
+            "dependentFilters": ["BASE_CHANNEL"]
+          },
+          {
+            "key": "BASE_CHANNEL",
+            "displayName": "Base Channel",
+            "attributeName": "baseChannels"
+          },
+          {
+            "key": "SBU",
+            "displayName": "SBU",
+            "attributeName": "sbus",
+            "dependentFilters": ["DEPARTMENT"]
+          },
+          {
+            "key": "DEPARTMENT",
+            "displayName": "Department",
+            "attributeName": "departments"
+          }
+        ],
+        "isMergedTemplate": false
+      },
+      {
+        "templateId": "5af19241-6a90-4e4d-a47d-e2f933035e42",
+        "templateName": "Template for all Layers created on system generated demand stack scenario on latest forecast.",
+        "dimensions": [
+          {
+            "displayName": "Channel Group",
+            "attributeName": "channelGroup",
+            "columnName": "CHNL_GRP.DISP_NM",
+            "key": "CHANNEL_GROUP",
+            "children": [
+              {
+                "displayName": "Base Channel",
+                "attributeName": "baseChannelName",
+                "columnName": "BASE_CHNL.DISP_NM",
+                "key": "BASE_CHANNEL",
+                "identification": [
+                  {
+                    "attributeName": "baseChannelId",
+                    "columnName": "BASE_CHNL_ID",
+                    "tableName": "LAYR_DATA"
+                  }
+                ]
+              }
+            ],
+            "identification": [
+              {
+                "attributeName": "channelGroupId",
+                "columnName": "CHNL_GRP_ID",
+                "tableName": "CHNL_GRP_TO_CHNL_MAP"
+              }
+            ]
+          },
+          {
+            "displayName": "SBU",
+            "attributeName": "sbuName",
+            "columnName": "SBU.DISP_NM",
+            "key": "SBU",
+            "children": [
+              {
+                "displayName": "Department",
+                "attributeName": "departmentName",
+                "columnName": "DEPT.DISP_NM",
+                "key": "DEPARTMENT",
+                "identification": [
+                  {
+                    "attributeName": "departmentId",
+                    "columnName": "DEPT_ID",
+                    "tableName": "LAYR_DATA"
+                  }
+                ]
+              }
+            ],
+            "identification": [
+              {
+                "attributeName": "sbuId",
+                "columnName": "SBU_ID",
+                "tableName": "LAYR_DATA"
+              }
+            ]
+          }
+        ],
+        "kpis": [
+          {
+            "displayName": "GMV",
+            "attributeName": "forecastGmv",
+            "columnName": "FCST_SALES_AMT",
+            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT),0),2)",
+            "displayType": "DOLLAR",
+            "precisionAfterDecimal": 0
+          },
+          {
+            "displayName": "Units",
+            "attributeName": "forecastUnit",
+            "columnName": "FCST_UNIT",
+            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_UNIT),0),2)",
+            "displayType": "NUMBER",
+            "precisionAfterDecimal": 0
+          },
+          {
+            "displayName": "AUR",
+            "attributeName": "forecastAur",
+            "columnName": "FCST_AUR",
+            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT)/NULLIF(SUM(FCST_UNIT),0),0),2)",
+            "displayType": "DOLLAR",
+            "precisionAfterDecimal": 2
+          }
+        ],
+        "timeDimensions": [
+          {
+            "displayName": "Fiscal Month",
+            "attributeName": "fiscalMonth",
+            "columnName": "FISCAL_PERIOD_KEY"
+          },
+          {
+            "displayName": "Quarter",
+            "attributeName": "fiscalQuarter",
+            "columnName": "QTR_ID",
+            "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
+          },
+          {
+            "displayName": "Year",
+            "attributeName": "fiscalYear",
+            "columnName": "YR_ID"
+          }
+        ],
+        "dateIntervalTimeDimensions": [
+          {
+            "intervalType": "MONTH",
+            "intervalDisplayName": "Month",
+            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( MTH_ID )),2 ))",
+            "yearColumn": "FISCAL_PERIOD_KEY",
+            "yearColumnFormat": "YYYYMM",
+            "timeDimensions": [
+              {
+                "displayName": "Fiscal Month",
+                "attributeName": "fiscalMonth",
+                "columnName": "FISCAL_PERIOD_KEY"
+              }
+            ]
+          },
+          {
+            "intervalType": "QUARTER",
+            "intervalDisplayName": "Quarter",
+            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( QTR_ID )),2 ))",
+            "yearColumn": "YR_ID",
+            "yearColumnFormat": "YYYYQQ",
+            "timeDimensions": [
+              {
+                "displayName": "Quarter",
+                "attributeName": "fiscalQuarter",
+                "columnName": "QTR_ID",
+                "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
+              }
+            ]
+          },
+          {
+            "intervalType": "YEAR",
+            "intervalDisplayName": "Year",
+            "filterColumnExpression": "YR_ID",
+            "yearColumn": "YR_ID",
+            "yearColumnFormat": "YYYY",
+            "timeDimensions": [
+              {
+                "displayName": "Year",
+                "attributeName": "fiscalYear",
+                "columnName": "YR_ID"
+              }
+            ]
+          }
+        ],
+        "dimensionFilters": [
+          {
+            "key": "CHANNEL_GROUP",
+            "displayName": "Channel Group",
+            "attributeName": "channelGroups",
+            "dependentFilters": ["BASE_CHANNEL"]
+          },
+          {
+            "key": "BASE_CHANNEL",
+            "displayName": "Base Channel",
+            "attributeName": "baseChannels"
+          },
+          {
+            "key": "SBU",
+            "displayName": "SBU",
+            "attributeName": "sbus",
+            "dependentFilters": ["DEPARTMENT"]
+          },
+          {
+            "key": "DEPARTMENT",
+            "displayName": "Department",
+            "attributeName": "departments"
+          }
+        ],
+        "isMergedTemplate": false
+      }
+    ],
+    "isViewLoading": false,
+    "visualizerMetaDataDto": {
+      "scenarioDtoList": [
+        {
+          "label": "DS-2023-03-01",
+          "value": "DS-2023-03-01",
+          "displayLabelInList": "1677700783102_2023-03-01",
+          "scenarioDisplayName": "DS-2023-03-01",
+          "scenarioIdentification": {
+            "forecastVersion": "1677700783102",
+            "activeStartDate": "2023-03-01"
+          },
+          "checked": true,
+          "id": "***1677700783102***2023-03-01",
+          "order": 0
+        }
+      ],
+      "viewTypeEnum": "TABLE",
+      "startInterval": "2027",
+      "endInterval": "2027",
+      "intervalType": "YEAR",
+      "dimensionDtoList": [
+        {
+          "displayName": "Merch Channel",
+          "attributeName": "channelGroup",
+          "columnName": "CHNL_GRP.DISP_NM",
+          "key": "CHANNEL_GROUP",
+          "identification": [
+            {
+              "attributeName": "channelGroupId",
+              "columnName": "CHNL_GRP_ID",
+              "tableName": "CHNL_GRP_TO_CHNL_MAP"
+            }
+          ]
+        },
+        {
+          "displayName": "Channel Group",
+          "attributeName": "channelGroup",
+          "columnName": "CHNL_GRP.DISP_NM",
+          "key": "CHANNEL_GROUP",
+          "identification": [
+            {
+              "attributeName": "channelGroupId",
+              "columnName": "CHNL_GRP_ID",
+              "tableName": "CHNL_GRP_TO_CHNL_MAP"
+            }
+          ]
+        },
+        {
+          "displayName": "Base Channel",
+          "attributeName": "baseChannelName",
+          "columnName": "BASE_CHNL.DISP_NM",
+          "key": "BASE_CHANNEL",
+          "identification": [
+            {
+              "attributeName": "baseChannelId",
+              "columnName": "BASE_CHNL_ID",
+              "tableName": "LAYR_DATA"
+            }
+          ]
+        },
+        {
+          "displayName": "SBU",
+          "attributeName": "sbuName",
+          "columnName": "SBU.DISP_NM",
+          "key": "SBU",
+          "identification": [
+            {
+              "attributeName": "sbuId",
+              "columnName": "SBU_ID",
+              "tableName": "LAYR_DATA"
+            }
+          ]
+        },
+        {
+          "displayName": "Department",
+          "attributeName": "departmentName",
+          "columnName": "DEPT.DISP_NM",
+          "key": "DEPARTMENT",
+          "identification": [
+            {
+              "attributeName": "departmentId",
+              "columnName": "DEPT_ID",
+              "tableName": "LAYR_DATA"
+            }
+          ]
+        }
+      ],
+      "kpiDtoList": [
+        {
+          "displayName": "GMV",
+          "attributeName": "forecastGmv",
+          "columnName": "FCST_SALES_AMT",
+          "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT),0),2)",
+          "displayType": "DOLLAR",
+          "precisionAfterDecimal": 0,
+          "checked": true
+        }
+      ],
+      "columns": [
+        {
+          "attributeName": "scenarios",
+          "columnName": "SCENARIOS",
+          "displayName": "Scenarios",
+          "checked": true
+        },
+        {
+          "displayName": "Year",
+          "attributeName": "fiscalYear",
+          "columnName": "YR_ID",
+          "checked": true
+        },
+        {
+          "attributeName": "metrics",
+          "columnName": "METRICS",
+          "displayName": "Metrics",
+          "checked": true
+        }
+      ],
+      "timeDimensionDtoList": [],
+      "headerDimensionFilters": {},
+      "nonRepeatedDerivedColumnList": [],
+      "nonRepeatedDerivedRowList": [],
+      "minMaxDateRange": { "minDate": "202212", "maxDate": "202911" },
+      "derivedScenariosList": [],
+      "derivedMetricList": [],
+      "metricIdentityDtoList": [
+        { "columnName": "FCST_SALES_AMT", "displayName": "GMV" },
+        { "columnName": "FCST_UNIT", "displayName": "Units" },
+        { "columnName": "FCST_AUR", "displayName": "AUR" },
+        { "columnName": "UOM_QTY", "displayName": "UOM" },
+        { "columnName": "SALES", "displayName": "Net Merch Sales" }
+      ],
+      "rows": [
+        {
+          "displayName": "Total",
+          "attributeName": "total",
+          "columnName": "total",
+          "key": "total",
+          "checked": true
+        }
+      ],
+      "customHierarchyList": []
+    },
+    "viewData": {
+      "scenarioIdentification": [
+        { "forecastVersion": "1677700783102", "activeStartDate": "2023-03-01" }
+      ],
+      "selectionFilter": {
+        "dimensions": [],
+        "customDimensions": [],
+        "excelDimension": [],
+        "kpis": ["FCST_SALES_AMT"],
+        "timeDimensions": ["YR_ID"]
+      },
+      "dimensionFilter": { "channelGroupId": [1, 2, 3, 4] },
+      "customDimensionFilter": [],
+      "dateIntervalFilter": {
+        "intervalType": "YEAR",
+        "startInterval": "2027",
+        "endInterval": "2027"
+      },
+      "headerDimensionFilters": {},
+      "derivedScenariosList": [],
+      "derivedMetricList": [],
+      "metricOrderList": [
+        { "columnName": "FCST_SALES_AMT", "displayName": "GMV" },
+        { "columnName": "FCST_UNIT", "displayName": "Units" },
+        { "columnName": "FCST_AUR", "displayName": "AUR" },
+        { "columnName": "UOM_QTY", "displayName": "UOM" },
+        { "columnName": "SALES", "displayName": "Net Merch Sales" }
+      ],
+      "rows": [],
+      "columns": [
+        {
+          "attributeName": "scenarios",
+          "columnName": "SCENARIOS",
+          "displayName": "Scenarios",
+          "checked": true
+        },
+        {
+          "displayName": "Year",
+          "attributeName": "fiscalYear",
+          "columnName": "YR_ID",
+          "checked": true
+        },
+        {
+          "attributeName": "metrics",
+          "columnName": "METRICS",
+          "displayName": "Metrics",
+          "checked": true
+        }
+      ],
+      "pivotEnabled": true,
+      "scenarioOrderList": [
+        {
+          "scenarioIdentification": {
+            "forecastVersion": "1677700783102",
+            "activeStartDate": "2023-03-01"
+          },
+          "isDerivedScenario": false
+        }
+      ],
+      "scenarioIdentificationFilter": [],
+      "kpiIdentificationFilter": [],
+      "customHierarchyList": [],
+      "expanded": false
+    },
+    "viewLayout": { "metrics": ["FCST_SALES_AMT"] },
+    "derivedMetricsSelection": { "update": false },
+    "allScenarios": [
+      {
+        "label": "DS-2023-03-01",
+        "value": "DS-2023-03-01",
+        "displayLabelInList": "1677700783102_2023-03-01",
+        "scenarioDisplayName": "DS-2023-03-01",
+        "scenarioIdentification": {
+          "forecastVersion": "1677700783102",
+          "activeStartDate": "2023-03-01"
+        },
+        "checked": true,
+        "id": "***1677700783102***2023-03-01"
+      }
+    ],
+    "refreshData": false,
+    "copyFromSavedview": false,
+    "displayOption": "absolute",
+    "hostAppTabs": null,
+    "orderNumber": 1
+  },
+  "customPayload": {
     "panelOpen": true,
     "panelConfig": {
       "view": {
@@ -1415,882 +2517,23 @@
     "hostAppTabs": null,
     "orderNumber": 1
   },
-  "expectedResponse": null,
   "sbuColumnDateMetricsRowExtendedPayload": {
-    "panelOpen": true,
-    "panelConfig": {
-      "view": {
-        "expand": true,
-        "viewName": "",
-        "template": {
-          "dimensions": [],
-          "kpis": [],
-          "timeDimensions": [],
-          "templateId": "",
-          "templateName": ""
-        },
-        "scenarios": [],
-        "nonRepeatedDerivedColumnList": [],
-        "derivedScenariosList": [],
-        "derivedMetricList": [],
-        "metricOrderList": [],
-        "viewType": "TABLE",
-        "viewFootNotes": { "on": false, "message": "" },
-        "rows": [],
-        "columns": []
-      },
-      "dateRange": {
-        "expand": true,
-        "startDate": "",
-        "endDate": "",
-        "intervalType": "MONTH"
-      },
-      "viewLayout": {
-        "expand": true,
-        "hierarchy": [],
-        "metrics": [],
-        "time": []
-      },
-      "pivot": { "expand": true },
-      "newScenarioCreationInfo": {
-        "creating": false,
-        "editing": false,
-        "checked": false,
-        "identificationId": "",
-        "panelTitle": "Add a calculation",
-        "newScenarioName": "",
-        "operations": [
-          { "id": "SUM", "title": "Sum", "value": "Sum" },
-          {
-            "id": "ABSOLUTE_DIFFERENCE",
-            "title": "Difference",
-            "value": "Absolute Difference"
-          },
-          {
-            "id": "PERCENTAGE_DIFFERENCE",
-            "title": "% difference",
-            "value": "Percentage Difference"
-          },
-          {
-            "id": "LAST_YEAR_VALUE",
-            "title": "Last Year Value",
-            "value": "Last Year Value"
-          }
-        ],
-        "selectedOperation": null,
-        "selectedScenario": []
-      },
-      "newMetricCreationInfo": {
-        "creating": false,
-        "editing": false,
-        "checked": false,
-        "panelTitle": "Add a calculation",
-        "identificationId": "",
-        "newMetricName": "",
-        "operations": [
-          { "id": "SUM", "title": "Sum", "value": "Sum" },
-          {
-            "id": "ABSOLUTE_DIFFERENCE",
-            "title": "Difference",
-            "value": "Absolute Difference"
-          },
-          {
-            "id": "PERCENTAGE_DIFFERENCE",
-            "title": "% difference",
-            "value": "Percentage Difference"
-          },
-          {
-            "id": "YOY_PERCENTAGE_GROWTH",
-            "title": "Year over year %",
-            "value": "YOY Percentage Growth"
-          },
-          {
-            "id": "PERCENTAGE_SALES",
-            "title": "% of sales",
-            "value": "Percentage Of Sales"
-          },
-          {
-            "id": "YOY_ABSOLUTE_DIFFERENCE",
-            "title": "YoY Difference",
-            "value": "YoY Absolute Difference"
-          },
-          {
-            "id": "LAST_YEAR_VALUE",
-            "title": "Last Year Value",
-            "value": "Last Year Value"
-          }
-        ],
-        "selectedOperation": null,
-        "selectedMetrics": []
-      },
-      "newHierarchyCreationInfo": {
-        "panelTitle": "Add a new hiearchy",
-        "newHierarchyName": "",
-        "newHierarchyType": "",
-        "operations": [
-          {
-            "id": "channel_group_nm",
-            "title": "Channel Group",
-            "value": "Channel Group"
-          },
-          { "id": "channel_nm", "title": "Channel", "value": "Channel" },
-          { "id": "sbu_nm", "title": "SBU", "value": "SBU" },
-          {
-            "id": "department_nm",
-            "title": "Department",
-            "value": "Department"
-          }
-        ]
-      },
-      "subsidiaryPanel": { "creating": false, "editing": false },
-      "isPublish": false
-    },
-    "disabledFields": false,
-    "visualizerViewName": "test",
     "applicationSrcTemplateId": "",
-    "applicationId": 1,
     "walmartUserId": "",
-    "isPinned": true,
-    "isPublish": false,
-    "langType": 100,
-    "footNotes": "",
-    "type": "create",
-    "pauseViewRefresh": false,
-    "allTemplateData": [
+    "allScenarios": [
       {
-        "templateId": "4af19248-6a90-4e4d-a47d-e2f932035e42",
-        "templateName": "Template for Launchpad Forecast",
-        "dimensions": [
-          {
-            "displayName": "Channel Group",
-            "attributeName": "channelGroup",
-            "columnName": "CHNL_GRP.DISP_NM",
-            "key": "CHANNEL_GROUP",
-            "children": [
-              {
-                "displayName": "Base Channel",
-                "attributeName": "baseChannelName",
-                "columnName": "BASE_CHNL.DISP_NM",
-                "key": "BASE_CHANNEL",
-                "identification": [
-                  {
-                    "attributeName": "baseChannelId",
-                    "columnName": "BASE_CHNL_ID",
-                    "tableName": "LAYR_DATA"
-                  }
-                ]
-              }
-            ],
-            "identification": [
-              {
-                "attributeName": "channelGroupId",
-                "columnName": "CHNL_GRP_ID",
-                "tableName": "CHNL_GRP_TO_CHNL_MAP"
-              }
-            ]
-          },
-          {
-            "displayName": "SBU",
-            "attributeName": "sbuName",
-            "columnName": "SBU.DISP_NM",
-            "key": "SBU",
-            "children": [
-              {
-                "displayName": "Department",
-                "attributeName": "departmentName",
-                "columnName": "DEPT.DISP_NM",
-                "key": "DEPARTMENT",
-                "identification": [
-                  {
-                    "attributeName": "departmentId",
-                    "columnName": "DEPT_ID",
-                    "tableName": "LAYR_DATA"
-                  }
-                ]
-              }
-            ],
-            "identification": [
-              {
-                "attributeName": "sbuId",
-                "columnName": "SBU_ID",
-                "tableName": "LAYR_DATA"
-              }
-            ]
-          }
-        ],
-        "kpis": [
-          {
-            "displayName": "GMV",
-            "attributeName": "forecastGmv",
-            "columnName": "FCST_SALES_AMT",
-            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT),0),2)",
-            "displayType": "DOLLAR",
-            "precisionAfterDecimal": 0
-          },
-          {
-            "displayName": "Units",
-            "attributeName": "forecastUnit",
-            "columnName": "FCST_UNIT",
-            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_UNIT),0),2)",
-            "displayType": "NUMBER",
-            "precisionAfterDecimal": 0
-          },
-          {
-            "displayName": "AUR",
-            "attributeName": "forecastAur",
-            "columnName": "FCST_AUR",
-            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT)/NULLIF(SUM(FCST_UNIT),0),0),2)",
-            "displayType": "DOLLAR",
-            "precisionAfterDecimal": 2
-          }
-        ],
-        "timeDimensions": [
-          {
-            "displayName": "Fiscal Month",
-            "attributeName": "fiscalMonth",
-            "columnName": "FISCAL_PERIOD_KEY"
-          },
-          {
-            "displayName": "Quarter",
-            "attributeName": "fiscalQuarter",
-            "columnName": "QTR_ID",
-            "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
-          },
-          {
-            "displayName": "Year",
-            "attributeName": "fiscalYear",
-            "columnName": "YR_ID"
-          }
-        ],
-        "dateIntervalTimeDimensions": [
-          {
-            "intervalType": "MONTH",
-            "intervalDisplayName": "Month",
-            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( MTH_ID )),2 ))",
-            "yearColumn": "FISCAL_PERIOD_KEY",
-            "yearColumnFormat": "YYYYMM",
-            "timeDimensions": [
-              {
-                "displayName": "Fiscal Month",
-                "attributeName": "fiscalMonth",
-                "columnName": "FISCAL_PERIOD_KEY"
-              }
-            ]
-          },
-          {
-            "intervalType": "QUARTER",
-            "intervalDisplayName": "Quarter",
-            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( QTR_ID )),2 ))",
-            "yearColumn": "QTR_ID",
-            "yearColumnFormat": "YYYYQQ",
-            "timeDimensions": [
-              {
-                "displayName": "Quarter",
-                "attributeName": "fiscalQuarter",
-                "columnName": "QTR_ID",
-                "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
-              }
-            ]
-          },
-          {
-            "intervalType": "YEAR",
-            "intervalDisplayName": "Year",
-            "filterColumnExpression": "YR_ID",
-            "yearColumn": "YR_ID",
-            "yearColumnFormat": "YYYY",
-            "timeDimensions": [
-              {
-                "displayName": "Year",
-                "attributeName": "fiscalYear",
-                "columnName": "YR_ID"
-              }
-            ]
-          }
-        ],
-        "dimensionFilters": [
-          {
-            "key": "CHANNEL_GROUP",
-            "displayName": "Channel Group",
-            "attributeName": "channelGroups",
-            "dependentFilters": ["BASE_CHANNEL"]
-          },
-          {
-            "key": "BASE_CHANNEL",
-            "displayName": "Base Channel",
-            "attributeName": "baseChannels"
-          },
-          {
-            "key": "SBU",
-            "displayName": "SBU",
-            "attributeName": "sbus",
-            "dependentFilters": ["DEPARTMENT"]
-          },
-          {
-            "key": "DEPARTMENT",
-            "displayName": "Department",
-            "attributeName": "departments"
-          }
-        ],
-        "isMergedTemplate": false
-      },
-      {
-        "templateId": "4af19248-6a90-4e4d-a47d-e2f932035f53",
-        "templateName": "Template for all scenarios",
-        "dimensions": [
-          {
-            "displayName": "Merch Channel",
-            "attributeName": "channelGroup",
-            "columnName": "CHNL_GRP.DISP_NM",
-            "key": "CHANNEL_GROUP",
-            "identification": [
-              {
-                "attributeName": "channelGroupId",
-                "columnName": "CHNL_GRP_ID",
-                "tableName": "CHNL_GRP_TO_CHNL_MAP"
-              }
-            ]
-          },
-          {
-            "displayName": "Channel Group",
-            "attributeName": "channelGroup",
-            "columnName": "CHNL_GRP.DISP_NM",
-            "key": "CHANNEL_GROUP",
-            "identification": [
-              {
-                "attributeName": "channelGroupId",
-                "columnName": "CHNL_GRP_ID",
-                "tableName": "CHNL_GRP_TO_CHNL_MAP"
-              }
-            ]
-          },
-          {
-            "displayName": "Base Channel",
-            "attributeName": "baseChannelName",
-            "columnName": "BASE_CHNL.DISP_NM",
-            "key": "BASE_CHANNEL",
-            "identification": [
-              {
-                "attributeName": "baseChannelId",
-                "columnName": "BASE_CHNL_ID",
-                "tableName": "LAYR_DATA"
-              }
-            ]
-          },
-          {
-            "displayName": "SBU",
-            "attributeName": "sbuName",
-            "columnName": "SBU.DISP_NM",
-            "key": "SBU",
-            "identification": [
-              {
-                "attributeName": "sbuId",
-                "columnName": "SBU_ID",
-                "tableName": "LAYR_DATA"
-              }
-            ]
-          },
-          {
-            "displayName": "Department",
-            "attributeName": "departmentName",
-            "columnName": "DEPT.DISP_NM",
-            "key": "DEPARTMENT",
-            "identification": [
-              {
-                "attributeName": "departmentId",
-                "columnName": "DEPT_ID",
-                "tableName": "LAYR_DATA"
-              }
-            ]
-          }
-        ],
-        "kpis": [
-          {
-            "displayName": "GMV",
-            "attributeName": "forecastGmv",
-            "columnName": "FCST_SALES_AMT",
-            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT),0),2)",
-            "displayType": "DOLLAR",
-            "precisionAfterDecimal": 0
-          },
-          {
-            "displayName": "Units",
-            "attributeName": "forecastUnit",
-            "columnName": "FCST_UNIT",
-            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_UNIT),0),2)",
-            "displayType": "NUMBER",
-            "precisionAfterDecimal": 0
-          },
-          {
-            "displayName": "AUR",
-            "attributeName": "forecastAur",
-            "columnName": "FCST_AUR",
-            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT)/NULLIF(SUM(FCST_UNIT),0),0),2)",
-            "displayType": "DOLLAR",
-            "precisionAfterDecimal": 2
-          },
-          {
-            "displayName": "UOM",
-            "attributeName": "forecastUom",
-            "columnName": "UOM_QTY",
-            "kpiDefinition": "ROUND(COALESCE(SUM(UOM_QTY),0),2)",
-            "displayType": "NUMBER",
-            "precisionAfterDecimal": 0
-          },
-          {
-            "displayName": "Net Merch Sales",
-            "attributeName": "forecastNetMerchSales",
-            "columnName": "SALES",
-            "kpiDefinition": "ROUND(COALESCE(SUM(SALES),0),2)",
-            "displayType": "DOLLAR",
-            "precisionAfterDecimal": 0
-          }
-        ],
-        "timeDimensions": [
-          {
-            "displayName": "Fiscal Month",
-            "attributeName": "fiscalMonth",
-            "columnName": "FISCAL_PERIOD_KEY",
-            "checked": true
-          },
-          {
-            "displayName": "Quarter",
-            "attributeName": "fiscalQuarter",
-            "columnName": "QTR_ID",
-            "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))",
-            "checked": false
-          },
-          {
-            "displayName": "Year",
-            "attributeName": "fiscalYear",
-            "columnName": "YR_ID",
-            "checked": false
-          }
-        ],
-        "dateIntervalTimeDimensions": [
-          {
-            "intervalType": "MONTH",
-            "intervalDisplayName": "Month",
-            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( MTH_ID )),2 ))",
-            "yearColumn": "FISCAL_PERIOD_KEY",
-            "yearColumnFormat": "YYYYMM",
-            "timeDimensions": [
-              {
-                "displayName": "Fiscal Month",
-                "attributeName": "fiscalMonth",
-                "columnName": "FISCAL_PERIOD_KEY"
-              }
-            ]
-          },
-          {
-            "intervalType": "QUARTER",
-            "intervalDisplayName": "Quarter",
-            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( QTR_ID )),2 ))",
-            "yearColumn": "QTR_ID",
-            "yearColumnFormat": "YYYYQQ",
-            "timeDimensions": [
-              {
-                "displayName": "Quarter",
-                "attributeName": "fiscalQuarter",
-                "columnName": "QTR_ID",
-                "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
-              }
-            ]
-          },
-          {
-            "intervalType": "YEAR",
-            "intervalDisplayName": "Year",
-            "filterColumnExpression": "YR_ID",
-            "yearColumn": "YR_ID",
-            "yearColumnFormat": "YYYY",
-            "timeDimensions": [
-              {
-                "displayName": "Year",
-                "attributeName": "fiscalYear",
-                "columnName": "YR_ID"
-              }
-            ]
-          }
-        ],
-        "dimensionFilters": [
-          {
-            "key": "CHANNEL_GROUP",
-            "displayName": "Channel Group",
-            "attributeName": "channelGroups",
-            "dependentFilters": ["BASE_CHANNEL"]
-          },
-          {
-            "key": "BASE_CHANNEL",
-            "displayName": "Base Channel",
-            "attributeName": "baseChannels"
-          },
-          {
-            "key": "SBU",
-            "displayName": "SBU",
-            "attributeName": "sbus",
-            "dependentFilters": ["DEPARTMENT"]
-          },
-          {
-            "key": "DEPARTMENT",
-            "displayName": "Department",
-            "attributeName": "departments"
-          }
-        ],
-        "isMergedTemplate": true
-      },
-      {
-        "templateId": "5af89228-6a90-4e4d-a47d-e2f933035e42",
-        "templateName": "Template for Demand Stack Scenarios on Latest forecast",
-        "dimensions": [
-          {
-            "displayName": "Channel Group",
-            "attributeName": "channelGroup",
-            "columnName": "CHNL_GRP.DISP_NM",
-            "key": "CHANNEL_GROUP",
-            "children": [
-              {
-                "displayName": "Base Channel",
-                "attributeName": "baseChannelName",
-                "columnName": "BASE_CHNL.DISP_NM",
-                "key": "BASE_CHANNEL",
-                "identification": [
-                  {
-                    "attributeName": "baseChannelId",
-                    "columnName": "BASE_CHNL_ID",
-                    "tableName": "LAYR_DATA"
-                  }
-                ]
-              }
-            ],
-            "identification": [
-              {
-                "attributeName": "channelGroupId",
-                "columnName": "CHNL_GRP_ID",
-                "tableName": "CHNL_GRP_TO_CHNL_MAP"
-              }
-            ]
-          },
-          {
-            "displayName": "SBU",
-            "attributeName": "sbuName",
-            "columnName": "SBU.DISP_NM",
-            "key": "SBU",
-            "children": [
-              {
-                "displayName": "Department",
-                "attributeName": "departmentName",
-                "columnName": "DEPT.DISP_NM",
-                "key": "DEPARTMENT",
-                "identification": [
-                  {
-                    "attributeName": "departmentId",
-                    "columnName": "DEPT_ID",
-                    "tableName": "LAYR_DATA"
-                  }
-                ]
-              }
-            ],
-            "identification": [
-              {
-                "attributeName": "sbuId",
-                "columnName": "SBU_ID",
-                "tableName": "LAYR_DATA"
-              }
-            ]
-          }
-        ],
-        "kpis": [
-          {
-            "displayName": "GMV",
-            "attributeName": "forecastGmv",
-            "columnName": "FCST_SALES_AMT",
-            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT),0),2)",
-            "displayType": "DOLLAR",
-            "precisionAfterDecimal": 0
-          },
-          {
-            "displayName": "Units",
-            "attributeName": "forecastUnit",
-            "columnName": "FCST_UNIT",
-            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_UNIT),0),2)",
-            "displayType": "NUMBER",
-            "precisionAfterDecimal": 0
-          },
-          {
-            "displayName": "AUR",
-            "attributeName": "forecastAur",
-            "columnName": "FCST_AUR",
-            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT)/NULLIF(SUM(FCST_UNIT),0),0),2)",
-            "displayType": "DOLLAR",
-            "precisionAfterDecimal": 2
-          }
-        ],
-        "timeDimensions": [
-          {
-            "displayName": "Fiscal Month",
-            "attributeName": "fiscalMonth",
-            "columnName": "FISCAL_PERIOD_KEY"
-          },
-          {
-            "displayName": "Quarter",
-            "attributeName": "fiscalQuarter",
-            "columnName": "QTR_ID",
-            "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
-          },
-          {
-            "displayName": "Year",
-            "attributeName": "fiscalYear",
-            "columnName": "YR_ID"
-          }
-        ],
-        "dateIntervalTimeDimensions": [
-          {
-            "intervalType": "MONTH",
-            "intervalDisplayName": "Month",
-            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( MTH_ID )),2 ))",
-            "yearColumn": "FISCAL_PERIOD_KEY",
-            "yearColumnFormat": "YYYYMM",
-            "timeDimensions": [
-              {
-                "displayName": "Fiscal Month",
-                "attributeName": "fiscalMonth",
-                "columnName": "FISCAL_PERIOD_KEY"
-              }
-            ]
-          },
-          {
-            "intervalType": "QUARTER",
-            "intervalDisplayName": "Quarter",
-            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( QTR_ID )),2 ))",
-            "yearColumn": "YR_ID",
-            "yearColumnFormat": "YYYYQQ",
-            "timeDimensions": [
-              {
-                "displayName": "Quarter",
-                "attributeName": "fiscalQuarter",
-                "columnName": "QTR_ID",
-                "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
-              }
-            ]
-          },
-          {
-            "intervalType": "YEAR",
-            "intervalDisplayName": "Year",
-            "filterColumnExpression": "YR_ID",
-            "yearColumn": "YR_ID",
-            "yearColumnFormat": "YYYY",
-            "timeDimensions": [
-              {
-                "displayName": "Year",
-                "attributeName": "fiscalYear",
-                "columnName": "YR_ID"
-              }
-            ]
-          }
-        ],
-        "dimensionFilters": [
-          {
-            "key": "CHANNEL_GROUP",
-            "displayName": "Channel Group",
-            "attributeName": "channelGroups",
-            "dependentFilters": ["BASE_CHANNEL"]
-          },
-          {
-            "key": "BASE_CHANNEL",
-            "displayName": "Base Channel",
-            "attributeName": "baseChannels"
-          },
-          {
-            "key": "SBU",
-            "displayName": "SBU",
-            "attributeName": "sbus",
-            "dependentFilters": ["DEPARTMENT"]
-          },
-          {
-            "key": "DEPARTMENT",
-            "displayName": "Department",
-            "attributeName": "departments"
-          }
-        ],
-        "isMergedTemplate": false
-      },
-      {
-        "templateId": "5af19241-6a90-4e4d-a47d-e2f933035e42",
-        "templateName": "Template for all Layers created on system generated demand stack scenario on latest forecast.",
-        "dimensions": [
-          {
-            "displayName": "Channel Group",
-            "attributeName": "channelGroup",
-            "columnName": "CHNL_GRP.DISP_NM",
-            "key": "CHANNEL_GROUP",
-            "children": [
-              {
-                "displayName": "Base Channel",
-                "attributeName": "baseChannelName",
-                "columnName": "BASE_CHNL.DISP_NM",
-                "key": "BASE_CHANNEL",
-                "identification": [
-                  {
-                    "attributeName": "baseChannelId",
-                    "columnName": "BASE_CHNL_ID",
-                    "tableName": "LAYR_DATA"
-                  }
-                ]
-              }
-            ],
-            "identification": [
-              {
-                "attributeName": "channelGroupId",
-                "columnName": "CHNL_GRP_ID",
-                "tableName": "CHNL_GRP_TO_CHNL_MAP"
-              }
-            ]
-          },
-          {
-            "displayName": "SBU",
-            "attributeName": "sbuName",
-            "columnName": "SBU.DISP_NM",
-            "key": "SBU",
-            "children": [
-              {
-                "displayName": "Department",
-                "attributeName": "departmentName",
-                "columnName": "DEPT.DISP_NM",
-                "key": "DEPARTMENT",
-                "identification": [
-                  {
-                    "attributeName": "departmentId",
-                    "columnName": "DEPT_ID",
-                    "tableName": "LAYR_DATA"
-                  }
-                ]
-              }
-            ],
-            "identification": [
-              {
-                "attributeName": "sbuId",
-                "columnName": "SBU_ID",
-                "tableName": "LAYR_DATA"
-              }
-            ]
-          }
-        ],
-        "kpis": [
-          {
-            "displayName": "GMV",
-            "attributeName": "forecastGmv",
-            "columnName": "FCST_SALES_AMT",
-            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT),0),2)",
-            "displayType": "DOLLAR",
-            "precisionAfterDecimal": 0
-          },
-          {
-            "displayName": "Units",
-            "attributeName": "forecastUnit",
-            "columnName": "FCST_UNIT",
-            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_UNIT),0),2)",
-            "displayType": "NUMBER",
-            "precisionAfterDecimal": 0
-          },
-          {
-            "displayName": "AUR",
-            "attributeName": "forecastAur",
-            "columnName": "FCST_AUR",
-            "kpiDefinition": "ROUND(COALESCE(SUM(FCST_SALES_AMT)/NULLIF(SUM(FCST_UNIT),0),0),2)",
-            "displayType": "DOLLAR",
-            "precisionAfterDecimal": 2
-          }
-        ],
-        "timeDimensions": [
-          {
-            "displayName": "Fiscal Month",
-            "attributeName": "fiscalMonth",
-            "columnName": "FISCAL_PERIOD_KEY"
-          },
-          {
-            "displayName": "Quarter",
-            "attributeName": "fiscalQuarter",
-            "columnName": "QTR_ID",
-            "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
-          },
-          {
-            "displayName": "Year",
-            "attributeName": "fiscalYear",
-            "columnName": "YR_ID"
-          }
-        ],
-        "dateIntervalTimeDimensions": [
-          {
-            "intervalType": "MONTH",
-            "intervalDisplayName": "Month",
-            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( MTH_ID )),2 ))",
-            "yearColumn": "FISCAL_PERIOD_KEY",
-            "yearColumnFormat": "YYYYMM",
-            "timeDimensions": [
-              {
-                "displayName": "Fiscal Month",
-                "attributeName": "fiscalMonth",
-                "columnName": "FISCAL_PERIOD_KEY"
-              }
-            ]
-          },
-          {
-            "intervalType": "QUARTER",
-            "intervalDisplayName": "Quarter",
-            "filterColumnExpression": "concat(YR_ID, '-',  right ('00'+ltrim(str( QTR_ID )),2 ))",
-            "yearColumn": "YR_ID",
-            "yearColumnFormat": "YYYYQQ",
-            "timeDimensions": [
-              {
-                "displayName": "Quarter",
-                "attributeName": "fiscalQuarter",
-                "columnName": "QTR_ID",
-                "columnExpression": "concat(YR_ID,  right ('00'+ltrim(str( QTR_ID )),2 ))"
-              }
-            ]
-          },
-          {
-            "intervalType": "YEAR",
-            "intervalDisplayName": "Year",
-            "filterColumnExpression": "YR_ID",
-            "yearColumn": "YR_ID",
-            "yearColumnFormat": "YYYY",
-            "timeDimensions": [
-              {
-                "displayName": "Year",
-                "attributeName": "fiscalYear",
-                "columnName": "YR_ID"
-              }
-            ]
-          }
-        ],
-        "dimensionFilters": [
-          {
-            "key": "CHANNEL_GROUP",
-            "displayName": "Channel Group",
-            "attributeName": "channelGroups",
-            "dependentFilters": ["BASE_CHANNEL"]
-          },
-          {
-            "key": "BASE_CHANNEL",
-            "displayName": "Base Channel",
-            "attributeName": "baseChannels"
-          },
-          {
-            "key": "SBU",
-            "displayName": "SBU",
-            "attributeName": "sbus",
-            "dependentFilters": ["DEPARTMENT"]
-          },
-          {
-            "key": "DEPARTMENT",
-            "displayName": "Department",
-            "attributeName": "departments"
-          }
-        ],
-        "isMergedTemplate": false
+        "label": "DS-2023-03-01",
+        "value": "DS-2023-03-01",
+        "displayLabelInList": "1677700783102_2023-03-01",
+        "scenarioDisplayName": "DS-2023-03-01",
+        "scenarioIdentification": {
+          "forecastVersion": "1677700783102",
+          "activeStartDate": "2023-03-01"
+        },
+        "checked": true,
+        "id": "***1677700783102***2023-03-01"
       }
     ],
-    "isViewLoading": false,
     "visualizerMetaDataDto": {
       "scenarioDtoList": [
         {
@@ -2527,27 +2770,6 @@
       "kpiIdentificationFilter": [],
       "customHierarchyList": [],
       "expanded": false
-    },
-    "viewLayout": { "metrics": ["FCST_SALES_AMT"] },
-    "derivedMetricsSelection": { "update": false },
-    "allScenarios": [
-      {
-        "label": "DS-2023-03-01",
-        "value": "DS-2023-03-01",
-        "displayLabelInList": "1677700783102_2023-03-01",
-        "scenarioDisplayName": "DS-2023-03-01",
-        "scenarioIdentification": {
-          "forecastVersion": "1677700783102",
-          "activeStartDate": "2023-03-01"
-        },
-        "checked": true,
-        "id": "***1677700783102***2023-03-01"
-      }
-    ],
-    "refreshData": false,
-    "copyFromSavedview": false,
-    "displayOption": "absolute",
-    "hostAppTabs": null,
-    "orderNumber": 1
+    }
   }
 }

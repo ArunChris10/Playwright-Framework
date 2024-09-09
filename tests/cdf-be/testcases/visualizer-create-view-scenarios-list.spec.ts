@@ -1,5 +1,6 @@
 import { expect, test } from '../../common/fixtures/test-hook';
 import { VisualizerUtility } from '../fixtures/visualizer-utils';
+import visualizerSaveData from "../testdata/visualizer-create-view-scenarios-list.json";
 import debug from 'debug';
 
 test.describe("Verify user should be able to create a new view and scenarios should be displayed ", { tag: "@Smoke @createNewView @ibg-service-visualizer @Regression" }, () => {
@@ -7,7 +8,7 @@ test.describe("Verify user should be able to create a new view and scenarios sho
     let visualizerSaveDataResponse;
 
     test("Verify visualizer-save api is working", async ({ request }) => {
-        let visualizerSaveDataResponseBody = await VisualizerUtility.visualizerSave(request);
+        let visualizerSaveDataResponseBody = await VisualizerUtility.visualizerSave(request, visualizerSaveData.customPayload);
         debug.log(JSON.stringify(visualizerSaveDataResponseBody));
 
         expect(visualizerSaveDataResponseBody.visualizerViewDto.visualizerViewId).not.toBeNull();
@@ -40,7 +41,7 @@ test.describe("Verify user should be able to create a new view and scenarios sho
     })
 
      test("Verify visualizer clone api is working", async ({ request }) => {
-            let visualizerSaveDataResponseBody = await VisualizerUtility.visualizerSave(request);
+            let visualizerSaveDataResponseBody = await VisualizerUtility.visualizerSave(request, visualizerSaveData.customPayload);
 
             debug.log(JSON.stringify(visualizerSaveDataResponseBody));
             expect(visualizerSaveDataResponseBody.visualizerViewDto.visualizerViewId).not.toBeNull();
