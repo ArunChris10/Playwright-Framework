@@ -552,7 +552,7 @@ export class CdfUtility {
 
 
   // Method to get the current demand data on the basis of slot id
-  static async currentDemand(request, slotId) {
+  static async currentDemand(request, slotId:number) {
     const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.currentDemandMultipleDSSEndpoint}${slotId}`;
     debug.log(endpointURL);
 
@@ -589,7 +589,7 @@ export class CdfUtility {
   }
 
   // Method to get the current demand data
-  static async currentDemand(request) {
+  static async currentDemandWithoutSlotId(request) {
     const endpointURL = `${process.env.apiBaseURLCDF}${commonDemandEndpoints.currentDemandEndpoint}`;
     debug.log(endpointURL);
 

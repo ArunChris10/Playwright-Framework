@@ -11,7 +11,7 @@
   "sbuToTest": "CONSUMABLES",
   "slotId" :2,
   "payload": {
-    "interplanSyncInd": false,
+    "interplanSyncInd": true,
     "ufmSyncInd": true
   },
   "demandStackScnearioPayload" : {
