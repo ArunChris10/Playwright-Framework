@@ -69,6 +69,22 @@ export class VisualizerUtility {
         return responseBody;
     }
 
+    static async VisualizerFootNotes(request, footnote, payloadExtension={}){
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerSaveData.endpoint}`;
+        debug.log(endpointURL);
+        let payload =  visualizerSaveData.payload;
+        payload.footNotes =  footnote;
+        payload.panelConfig.view.viewFootNotes.message = footnote; 
+        payload.panelConfig.view.viewFootNotes.on = true;
+        const response = await request.put(
+            endpointURL,
+            { data: {...payload, ...payloadExtension}, headers: VisualizerUtility.headers }
+        )
+        expect(response).toBeOK();
+        const responseBody = await response.json();
+        return responseBody;
+    }
+
    static async visualizerSaveCurrentDemand(request) {
         const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerSaveCurrentDemandData.endpoint}`;
         debug.log(endpointURL);
