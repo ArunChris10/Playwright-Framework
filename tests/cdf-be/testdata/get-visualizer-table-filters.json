@@ -1,5 +1,4 @@
 {
-    "endpoint": "/api/visualizer/templates/1/filters/4af19248-6a90-4e4d-a47d-e2f932035f53",
     "expected_response": {
         "baseChannels": [
             {
@@ -272,6 +271,66 @@
                         "baseChannelId:31"
                     ]
                 }
+            },
+            {
+                "id": "channelGroupId:901",
+                "filterDisplayName": "Core",
+                "filterIdentification": {
+                    "channelGroupId": "901"
+                },
+                "dependentFilters": {
+                    "baseChannels": [
+                        "baseChannelId:22",
+                        "baseChannelId:23",
+                        "baseChannelId:26",
+                        "baseChannelId:27"
+                    ]
+                }
+            },
+            {
+                "id": "channelGroupId:902",
+                "filterDisplayName": "Stores",
+                "filterIdentification": {
+                    "channelGroupId": "902"
+                },
+                "dependentFilters": {
+                    "baseChannels": [
+                        "baseChannelId:1",
+                        "baseChannelId:3",
+                        "baseChannelId:4",
+                        "baseChannelId:5",
+                        "baseChannelId:6",
+                        "baseChannelId:10",
+                        "baseChannelId:12",
+                        "baseChannelId:13",
+                        "baseChannelId:14",
+                        "baseChannelId:17"
+                    ]
+                }
+            },
+            {
+                "id": "channelGroupId:903",
+                "filterDisplayName": "Seller Fulfilled",
+                "filterIdentification": {
+                    "channelGroupId": "903"
+                },
+                "dependentFilters": {
+                    "baseChannels": [
+                        "baseChannelId:32"
+                    ]
+                }
+            },
+            {
+                "id": "channelGroupId:904",
+                "filterDisplayName": "Walmart Fulfillment Services",
+                "filterIdentification": {
+                    "channelGroupId": "904"
+                },
+                "dependentFilters": {
+                    "baseChannels": [
+                        "baseChannelId:33"
+                    ]
+                }
             }
         ],
         "sbus": [
@@ -407,7 +466,7 @@
         "departments": [
             {
                 "id": "departmentId:1",
-                "filterDisplayName": "CANDY",
+                "filterDisplayName": "1 - CANDY",
                 "filterIdentification": {
                     "departmentId": "1"
                 },
@@ -415,7 +474,7 @@
             },
             {
                 "id": "departmentId:2",
-                "filterDisplayName": "PERSONAL CARE",
+                "filterDisplayName": "2 - PERSONAL CARE",
                 "filterIdentification": {
                     "departmentId": "2"
                 },
@@ -423,7 +482,7 @@
             },
             {
                 "id": "departmentId:3",
-                "filterDisplayName": "STATIONERY",
+                "filterDisplayName": "3 - STATIONERY",
                 "filterIdentification": {
                     "departmentId": "3"
                 },
@@ -431,7 +490,7 @@
             },
             {
                 "id": "departmentId:4",
-                "filterDisplayName": "HOUSEHOLD PAPER",
+                "filterDisplayName": "4 - HOUSEHOLD PAPER",
                 "filterIdentification": {
                     "departmentId": "4"
                 },
@@ -439,7 +498,7 @@
             },
             {
                 "id": "departmentId:5",
-                "filterDisplayName": "MEDIA AND GAMING",
+                "filterDisplayName": "5 - MEDIA AND GAMING",
                 "filterIdentification": {
                     "departmentId": "5"
                 },
@@ -447,7 +506,7 @@
             },
             {
                 "id": "departmentId:6",
-                "filterDisplayName": "CAMERAS & SUPPLIES",
+                "filterDisplayName": "6 - CAMERAS & SUPPLIES",
                 "filterIdentification": {
                     "departmentId": "6"
                 },
@@ -455,7 +514,7 @@
             },
             {
                 "id": "departmentId:7",
-                "filterDisplayName": "TOYS",
+                "filterDisplayName": "7 - TOYS",
                 "filterIdentification": {
                     "departmentId": "7"
                 },
@@ -463,7 +522,7 @@
             },
             {
                 "id": "departmentId:8",
-                "filterDisplayName": "PETS & SUPPLIES",
+                "filterDisplayName": "8 - PETS & SUPPLIES",
                 "filterIdentification": {
                     "departmentId": "8"
                 },
@@ -471,7 +530,7 @@
             },
             {
                 "id": "departmentId:9",
-                "filterDisplayName": "SPORTING GOODS",
+                "filterDisplayName": "9 - SPORTING GOODS",
                 "filterIdentification": {
                     "departmentId": "9"
                 },
@@ -479,7 +538,7 @@
             },
             {
                 "id": "departmentId:10",
-                "filterDisplayName": "AUTOMOTIVE",
+                "filterDisplayName": "10 - AUTOMOTIVE",
                 "filterIdentification": {
                     "departmentId": "10"
                 },
@@ -487,7 +546,7 @@
             },
             {
                 "id": "departmentId:11",
-                "filterDisplayName": "HARDWARE",
+                "filterDisplayName": "11 - HARDWARE",
                 "filterIdentification": {
                     "departmentId": "11"
                 },
@@ -495,7 +554,7 @@
             },
             {
                 "id": "departmentId:12",
-                "filterDisplayName": "PAINT & ACCESSORIES",
+                "filterDisplayName": "12 - PAINT & ACCESSORIES",
                 "filterIdentification": {
                     "departmentId": "12"
                 },
@@ -503,7 +562,7 @@
             },
             {
                 "id": "departmentId:13",
-                "filterDisplayName": "CLEANING",
+                "filterDisplayName": "13 - CLEANING",
                 "filterIdentification": {
                     "departmentId": "13"
                 },
@@ -511,7 +570,7 @@
             },
             {
                 "id": "departmentId:14",
-                "filterDisplayName": "COOK AND DINE",
+                "filterDisplayName": "14 - COOK AND DINE",
                 "filterIdentification": {
                     "departmentId": "14"
                 },
@@ -519,7 +578,7 @@
             },
             {
                 "id": "departmentId:16",
-                "filterDisplayName": "LAWN AND GARDEN",
+                "filterDisplayName": "16 - LAWN AND GARDEN",
                 "filterIdentification": {
                     "departmentId": "16"
                 },
@@ -527,7 +586,7 @@
             },
             {
                 "id": "departmentId:17",
-                "filterDisplayName": "HOME DECOR",
+                "filterDisplayName": "17 - HOME DECOR",
                 "filterIdentification": {
                     "departmentId": "17"
                 },
@@ -535,7 +594,7 @@
             },
             {
                 "id": "departmentId:18",
-                "filterDisplayName": "SEASONAL",
+                "filterDisplayName": "18 - SEASONAL",
                 "filterIdentification": {
                     "departmentId": "18"
                 },
@@ -543,7 +602,7 @@
             },
             {
                 "id": "departmentId:19",
-                "filterDisplayName": "ARTS, CRAFTS, SEWING & FABRICS",
+                "filterDisplayName": "19 - ARTS, CRAFTS, SEWING & FABRICS",
                 "filterIdentification": {
                     "departmentId": "19"
                 },
@@ -551,7 +610,7 @@
             },
             {
                 "id": "departmentId:20",
-                "filterDisplayName": "BATH AND SHOWER",
+                "filterDisplayName": "20 - BATH AND SHOWER",
                 "filterIdentification": {
                     "departmentId": "20"
                 },
@@ -559,7 +618,7 @@
             },
             {
                 "id": "departmentId:21",
-                "filterDisplayName": "BOOKS AND MAGAZINES",
+                "filterDisplayName": "21 - BOOKS AND MAGAZINES",
                 "filterIdentification": {
                     "departmentId": "21"
                 },
@@ -567,7 +626,7 @@
             },
             {
                 "id": "departmentId:22",
-                "filterDisplayName": "BEDDING",
+                "filterDisplayName": "22 - BEDDING",
                 "filterIdentification": {
                     "departmentId": "22"
                 },
@@ -575,7 +634,7 @@
             },
             {
                 "id": "departmentId:23",
-                "filterDisplayName": "MENS APPAREL",
+                "filterDisplayName": "23 - MENS APPAREL",
                 "filterIdentification": {
                     "departmentId": "23"
                 },
@@ -583,7 +642,7 @@
             },
             {
                 "id": "departmentId:24",
-                "filterDisplayName": "BOYS APPAREL",
+                "filterDisplayName": "24 - BOYS APPAREL",
                 "filterIdentification": {
                     "departmentId": "24"
                 },
@@ -591,7 +650,7 @@
             },
             {
                 "id": "departmentId:25",
-                "filterDisplayName": "SHOES",
+                "filterDisplayName": "25 - SHOES",
                 "filterIdentification": {
                     "departmentId": "25"
                 },
@@ -599,7 +658,7 @@
             },
             {
                 "id": "departmentId:26",
-                "filterDisplayName": "BABY AND TODDLER APPAREL",
+                "filterDisplayName": "26 - BABY AND TODDLER APPAREL",
                 "filterIdentification": {
                     "departmentId": "26"
                 },
@@ -607,7 +666,7 @@
             },
             {
                 "id": "departmentId:27",
-                "filterDisplayName": "FAMILY SOCKS",
+                "filterDisplayName": "27 - FAMILY SOCKS",
                 "filterIdentification": {
                     "departmentId": "27"
                 },
@@ -615,7 +674,7 @@
             },
             {
                 "id": "departmentId:28",
-                "filterDisplayName": "HOSIERY",
+                "filterDisplayName": "28 - HOSIERY",
                 "filterIdentification": {
                     "departmentId": "28"
                 },
@@ -623,7 +682,7 @@
             },
             {
                 "id": "departmentId:29",
-                "filterDisplayName": "INTIMATE APPAREL",
+                "filterDisplayName": "29 - INTIMATE APPAREL",
                 "filterIdentification": {
                     "departmentId": "29"
                 },
@@ -631,7 +690,7 @@
             },
             {
                 "id": "departmentId:30",
-                "filterDisplayName": "FOUNDATIONS",
+                "filterDisplayName": "30 - FOUNDATIONS",
                 "filterIdentification": {
                     "departmentId": "30"
                 },
@@ -639,7 +698,7 @@
             },
             {
                 "id": "departmentId:31",
-                "filterDisplayName": "ACCESSORIES",
+                "filterDisplayName": "31 - ACCESSORIES",
                 "filterIdentification": {
                     "departmentId": "31"
                 },
@@ -647,7 +706,7 @@
             },
             {
                 "id": "departmentId:32",
-                "filterDisplayName": "JEWELRY",
+                "filterDisplayName": "32 - JEWELRY",
                 "filterIdentification": {
                     "departmentId": "32"
                 },
@@ -655,7 +714,7 @@
             },
             {
                 "id": "departmentId:33",
-                "filterDisplayName": "GIRLS APPAREL",
+                "filterDisplayName": "33 - GIRLS APPAREL",
                 "filterIdentification": {
                     "departmentId": "33"
                 },
@@ -663,7 +722,7 @@
             },
             {
                 "id": "departmentId:34",
-                "filterDisplayName": "WOMENS APPAREL",
+                "filterDisplayName": "34 - WOMENS APPAREL",
                 "filterIdentification": {
                     "departmentId": "34"
                 },
@@ -671,7 +730,7 @@
             },
             {
                 "id": "departmentId:35",
-                "filterDisplayName": "PLUS SIZES/MATERNITY",
+                "filterDisplayName": "35 - PLUS SIZES/MATERNITY",
                 "filterIdentification": {
                     "departmentId": "35"
                 },
@@ -679,7 +738,7 @@
             },
             {
                 "id": "departmentId:36",
-                "filterDisplayName": "WOMENS OUTERWEAR",
+                "filterDisplayName": "36 - WOMENS OUTERWEAR",
                 "filterIdentification": {
                     "departmentId": "36"
                 },
@@ -687,7 +746,7 @@
             },
             {
                 "id": "departmentId:37",
-                "filterDisplayName": "AUTO SERVICE",
+                "filterDisplayName": "37 - AUTO SERVICE",
                 "filterIdentification": {
                     "departmentId": "37"
                 },
@@ -695,7 +754,7 @@
             },
             {
                 "id": "departmentId:40",
-                "filterDisplayName": "OTC PHARMACY",
+                "filterDisplayName": "40 - OTC PHARMACY",
                 "filterIdentification": {
                     "departmentId": "40"
                 },
@@ -703,7 +762,7 @@
             },
             {
                 "id": "departmentId:46",
-                "filterDisplayName": "BEAUTY",
+                "filterDisplayName": "46 - BEAUTY",
                 "filterIdentification": {
                     "departmentId": "46"
                 },
@@ -711,7 +770,7 @@
             },
             {
                 "id": "departmentId:56",
-                "filterDisplayName": "HORTICULTURE",
+                "filterDisplayName": "56 - HORTICULTURE",
                 "filterIdentification": {
                     "departmentId": "56"
                 },
@@ -719,7 +778,7 @@
             },
             {
                 "id": "departmentId:58",
-                "filterDisplayName": "WIRELESS SERVICE INCOME",
+                "filterDisplayName": "58 - WIRELESS SERVICE INCOME",
                 "filterIdentification": {
                     "departmentId": "58"
                 },
@@ -727,7 +786,7 @@
             },
             {
                 "id": "departmentId:67",
-                "filterDisplayName": "CELEBRATION",
+                "filterDisplayName": "67 - CELEBRATION",
                 "filterIdentification": {
                     "departmentId": "67"
                 },
@@ -735,7 +794,7 @@
             },
             {
                 "id": "departmentId:71",
-                "filterDisplayName": "FURNITURE",
+                "filterDisplayName": "71 - FURNITURE",
                 "filterIdentification": {
                     "departmentId": "71"
                 },
@@ -743,7 +802,7 @@
             },
             {
                 "id": "departmentId:72",
-                "filterDisplayName": "ELECTRONICS",
+                "filterDisplayName": "72 - ELECTRONICS",
                 "filterIdentification": {
                     "departmentId": "72"
                 },
@@ -751,7 +810,7 @@
             },
             {
                 "id": "departmentId:74",
-                "filterDisplayName": "HOME MANAGEMENT",
+                "filterDisplayName": "74 - HOME MANAGEMENT",
                 "filterIdentification": {
                     "departmentId": "74"
                 },
@@ -759,7 +818,7 @@
             },
             {
                 "id": "departmentId:77",
-                "filterDisplayName": "LARGE HOUSEHOLD GOODS",
+                "filterDisplayName": "77 - LARGE HOUSEHOLD GOODS",
                 "filterIdentification": {
                     "departmentId": "77"
                 },
@@ -767,7 +826,7 @@
             },
             {
                 "id": "departmentId:79",
-                "filterDisplayName": "INFANT CONSUMABLE HARDLINES",
+                "filterDisplayName": "79 - INFANT CONSUMABLE HARDLINES",
                 "filterIdentification": {
                     "departmentId": "79"
                 },
@@ -775,7 +834,7 @@
             },
             {
                 "id": "departmentId:80",
-                "filterDisplayName": "SERVICE DELI",
+                "filterDisplayName": "80 - SERVICE DELI",
                 "filterIdentification": {
                     "departmentId": "80"
                 },
@@ -783,7 +842,7 @@
             },
             {
                 "id": "departmentId:81",
-                "filterDisplayName": "COM BREAD",
+                "filterDisplayName": "81 - COM BREAD",
                 "filterIdentification": {
                     "departmentId": "81"
                 },
@@ -791,7 +850,7 @@
             },
             {
                 "id": "departmentId:82",
-                "filterDisplayName": "IMPULSE MERCHANDISE",
+                "filterDisplayName": "82 - IMPULSE MERCHANDISE",
                 "filterIdentification": {
                     "departmentId": "82"
                 },
@@ -799,7 +858,7 @@
             },
             {
                 "id": "departmentId:83",
-                "filterDisplayName": "SEAFOOD",
+                "filterDisplayName": "83 - SEAFOOD",
                 "filterIdentification": {
                     "departmentId": "83"
                 },
@@ -807,7 +866,7 @@
             },
             {
                 "id": "departmentId:84",
-                "filterDisplayName": "BALLOONS & FLOWERS",
+                "filterDisplayName": "84 - BALLOONS & FLOWERS",
                 "filterIdentification": {
                     "departmentId": "84"
                 },
@@ -815,7 +874,7 @@
             },
             {
                 "id": "departmentId:85",
-                "filterDisplayName": "Photo",
+                "filterDisplayName": "85 - PHOTO",
                 "filterIdentification": {
                     "departmentId": "85"
                 },
@@ -823,7 +882,7 @@
             },
             {
                 "id": "departmentId:87",
-                "filterDisplayName": "WIRELESS",
+                "filterDisplayName": "87 - WIRELESS",
                 "filterIdentification": {
                     "departmentId": "87"
                 },
@@ -831,7 +890,7 @@
             },
             {
                 "id": "departmentId:90",
-                "filterDisplayName": "DAIRY",
+                "filterDisplayName": "90 - DAIRY",
                 "filterIdentification": {
                     "departmentId": "90"
                 },
@@ -839,7 +898,7 @@
             },
             {
                 "id": "departmentId:91",
-                "filterDisplayName": "FROZEN",
+                "filterDisplayName": "91 - FROZEN",
                 "filterIdentification": {
                     "departmentId": "91"
                 },
@@ -847,7 +906,7 @@
             },
             {
                 "id": "departmentId:92",
-                "filterDisplayName": "GROCERY",
+                "filterDisplayName": "92 - GROCERY",
                 "filterIdentification": {
                     "departmentId": "92"
                 },
@@ -855,7 +914,7 @@
             },
             {
                 "id": "departmentId:93",
-                "filterDisplayName": "MEAT",
+                "filterDisplayName": "93 - MEAT",
                 "filterIdentification": {
                     "departmentId": "93"
                 },
@@ -863,7 +922,7 @@
             },
             {
                 "id": "departmentId:94",
-                "filterDisplayName": "PRODUCE",
+                "filterDisplayName": "94 - PRODUCE",
                 "filterIdentification": {
                     "departmentId": "94"
                 },
@@ -871,7 +930,7 @@
             },
             {
                 "id": "departmentId:95",
-                "filterDisplayName": "DSD GROCERY",
+                "filterDisplayName": "95 - DSD GROCERY",
                 "filterIdentification": {
                     "departmentId": "95"
                 },
@@ -879,7 +938,7 @@
             },
             {
                 "id": "departmentId:96",
-                "filterDisplayName": "LIQUOR",
+                "filterDisplayName": "96 - LIQUOR",
                 "filterIdentification": {
                     "departmentId": "96"
                 },
@@ -887,7 +946,7 @@
             },
             {
                 "id": "departmentId:97",
-                "filterDisplayName": "WALL DELI",
+                "filterDisplayName": "97 - WALL DELI",
                 "filterIdentification": {
                     "departmentId": "97"
                 },
@@ -895,7 +954,7 @@
             },
             {
                 "id": "departmentId:98",
-                "filterDisplayName": "BAKERY",
+                "filterDisplayName": "98 - BAKERY",
                 "filterIdentification": {
                     "departmentId": "98"
                 },

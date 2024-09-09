@@ -5,7 +5,7 @@ import { ManageRebaseUtility } from '../fixtures/manage-rebase-utils';
 import { CdfUtility } from '../fixtures/cdf-utils';
 import debug from 'debug';
 
-test.describe("Verify if the rebase of the base forecast is happening without recalculation", { tag: "@Regression @rebaseBaseForecast @ibg-service-scenario-financials @DSS"} , () => {
+test.describe("Verify if the rebase of the base forecast is happening without recalculation", { tag: "@Smoke @Regression @rebaseBaseForecast @ibg-service-scenario-financials @DSS"} , () => {
 
     let demandId;
 

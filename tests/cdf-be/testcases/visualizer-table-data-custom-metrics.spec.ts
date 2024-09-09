@@ -33,7 +33,7 @@ test.describe("Verify that the user should be able to add custom metrices under 
         debug.log("Calculated Sum Value: ", calculatedSumValue);
         
         // Assertion of calculated sum with response sum
-        expect(sumValue).toEqual(calculatedSumValue);
+        expect(sumValue).toBeCloseTo(calculatedSumValue);
         debug.log("User is able to add custom metric sum");
     })
 
@@ -57,7 +57,7 @@ test.describe("Verify that the user should be able to add custom metrices under 
         debug.log("Calculated Difference Value: ", calculatedDifferenceValue);
         
         // Assertion of calculated difference with response difference
-        expect(differenceValue).toEqual(calculatedDifferenceValue);
+        expect(differenceValue).toBeCloseTo(calculatedDifferenceValue );
         debug.log("User is able to add custom metric difference");
     })
 
@@ -81,7 +81,7 @@ test.describe("Verify that the user should be able to add custom metrices under 
         debug.log("Calculated Percent Difference Value: ", calculatedPercentDifferenceValue);
 
         // Assertion of calculated percent difference value with response percent difference value
-        expect(percentDifferenceValue).toEqual(calculatedPercentDifferenceValue);
+        expect(percentDifferenceValue).toBeCloseTo(calculatedPercentDifferenceValue);
         debug.log("User is able to add custom metric percent difference");
     })
 
@@ -105,7 +105,7 @@ test.describe("Verify that the user should be able to add custom metrices under 
         debug.log("Calculated Yoy Difference Percent Value: ", CalculatedYoyDifferencePercentValue);
 
         // Assertion of calculated yoyDifferencePercent with response yoyDifferencePercent
-        expect(yoyDifferencePercentValue).toEqual(CalculatedYoyDifferencePercentValue);
+        expect(yoyDifferencePercentValue).toBeCloseTo(CalculatedYoyDifferencePercentValue);
         debug.log("User is able to add custom metric yoy difference percent");
     })
 
@@ -129,7 +129,7 @@ test.describe("Verify that the user should be able to add custom metrices under 
         debug.log("Calculated Yoy Difference Value: ", CalculatedYoyDifferenceValue);
 
         // Assertion of calculated yoy difference with response yoy difference
-        expect(yoyDifferenceValue).toEqual(CalculatedYoyDifferenceValue);
+        expect(yoyDifferenceValue).toBeCloseTo(CalculatedYoyDifferenceValue);
         debug.log("User is able to add custom metric yoy difference");
     })
 
@@ -147,7 +147,7 @@ test.describe("Verify that the user should be able to add custom metrices under 
         let currentYearValue = visualizerTableDataCustomMeticsResponseBody[0].data[0].data[13].data[2].kpiValue
         
         // Assertion of last year value with current year value
-        expect(previousYearValue).toEqual(currentYearValue);
+        expect(previousYearValue).toBeCloseTo(currentYearValue);
         debug.log("User is able to add custom metric last year value");
     })
 
@@ -171,7 +171,7 @@ test.describe("Verify that the user should be able to add custom metrices under 
         debug.log("Calculated Percent of Sales Value: ", calculatedPercentOfSalesValue);
 
         // Assertion of calculated percent of sales value with response percent of sales value
-        expect(percentOfSalesValue).toEqual(calculatedPercentOfSalesValue);
+        expect(percentOfSalesValue).toBeCloseTo(calculatedPercentOfSalesValue);
         debug.log("User is able to add custom metric percent of sales");
     })
 

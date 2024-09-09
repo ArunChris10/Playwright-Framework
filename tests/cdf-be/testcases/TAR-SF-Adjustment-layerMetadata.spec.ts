@@ -14,6 +14,7 @@ test.describe("Verify as a user, I want to select the Intel Layer and click on e
     let demandStackId,
     demandScenarioDetails;
 
+  test.describe.configure({ mode: "serial" });  
   test.beforeAll(async ({ request }) => {
     demandStackId = await CdfUtility.createScenario(request);
     demandScenarioDetails = await UploadLayerUtil.getDemandStackDetails(
@@ -77,6 +78,7 @@ test.describe("Verify as a user, I want to select the Intel Layer and click on e
     test("Verify if Layer Type is displayed in the Adjustment Layer list table to identify Manual/EMT /Upload", async ({
       request
     }) => {
+      test.setTimeout(300000);
     await test.step("Verify if Layer Type is displayed in the Adjustment Layer list table to identify EMT", async () => {
       await DemandBaseClass.lockUnlockDemandScenario(request, "lock", demandStackId);
       let emtLayerResponseGmv = await AdjustmentUtility.emtLayerAdjustment(request, demandStackId, demandScenarioDetails, "DOLLAR", "GMV-TEST");

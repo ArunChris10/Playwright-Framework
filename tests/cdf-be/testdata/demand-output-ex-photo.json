@@ -19,9 +19,9 @@
   "photoDepartment": {
     "id": 85,
     "sbuDisplayName": "ETS",
-    "departmentDisplayName": "Photo"
+    "departmentDisplayName": "PHOTO"
   },
-  "etsExPhotoSbu": "ETS Ex Photo",
-  "totalExPhotoSbu": "Total Ex Photo",
+  "etsExPhotoSbu": "ETS Ex PHOTO",
+  "totalExPhotoSbu": "Total Ex PHOTO",
   "metricToTest": "amount"
 }

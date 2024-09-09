@@ -9,18 +9,18 @@ import testdatafileNetMoveNonZeroEMT from '../testdata/emt-net-move-nonzero-vali
 test.describe("Verify user can decallocate in EMT layer", { tag: "@netMove @Regression @ibg-service-scenario-financials"}, () => {
     let layerId;
     let demandId;
-    let demandStackId,
-    demandScenarioDetails;
+    let demandScenarioDetails;
 
+    test.describe.configure({ mode: "serial" });
     test.beforeAll(async ({ request }) => {
-        demandStackId = await CdfUtility.createScenario(request);
+        demandId = await CdfUtility.createScenario(request);
         demandScenarioDetails = await UploadLayerUtil.getDemandStackDetails(
           request,
-          demandStackId
+          demandId
         );
       });
 
-    test.beforeAll(async ({ request }) => { demandId = await CdfUtility.createScenario(request); });
+   // test.beforeAll(async ({ request }) => { demandId = await CdfUtility.createScenario(request); });
 
     test.afterAll(async ({ request }) => { await CdfUtility.deleteScenario(request, demandId); });
 
@@ -31,7 +31,7 @@ test.describe("Verify user can decallocate in EMT layer", { tag: "@netMove @Regr
 
         let emtLayerCreationResponse;
         let forecastVersion = demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version;
-        testdatafileNetMoveNonZeroEMT.payload.layers[0].forecastVersion = forecastVersion;
+        testdatafileNetMoveEMT.payload.layers[0].forecastVersion = forecastVersion;
         emtLayerCreationResponse = await AdjustmentUtility.createEMTLayer(request, demandId, testdatafileNetMoveEMT);
 
             expect(emtLayerCreationResponse).toBeOK();

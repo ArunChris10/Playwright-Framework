@@ -2,7 +2,7 @@ import debug from 'debug';
 import { test, expect } from '../../common/fixtures/test-hook'
 import { Home } from '../../common/pages/home.page';
 
-test.describe('Navigation @Smoke', () => {
+test.describe('Navigation ',{tag: "@Smoke @Regression @ibg-centrifuge-ui"}, () => {
   test('Verify if the User is able Navigate to @DemandWorkspace', async ({ page }) => {
 
     await test.step('Open the hamburger menu and navigate to demand workspace', async () => {

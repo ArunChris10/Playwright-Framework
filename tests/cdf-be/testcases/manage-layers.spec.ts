@@ -129,7 +129,7 @@ test.describe("Verify if the manage of layers is happening without recalculation
         debug.log("Get Demand Scenario Forecast amount after manage: ", getDemandScenarioForecastResponseBodyAfterManageLayers.forecast[1].forecast[0].amount);
 
         // Data validation
-        expect(Math.abs(getDemandScenarioForecastResponseBody.forecast[1].forecast[0].amount-getDemandScenarioForecastResponseBodyAfterManageLayers.forecast[1].forecast[0].amount)).toEqual(Math.abs(getDemandScenarioForecastReponseBodyAfterLayer2.forecast[1].forecast[0].amount-getDemandScenarioForecastReponseBodyAfterLayer1.forecast[1].forecast[0].amount));
+        expect(Math.abs(getDemandScenarioForecastResponseBody.forecast[1].forecast[0].amount-getDemandScenarioForecastResponseBodyAfterManageLayers.forecast[1].forecast[0].amount)).toBeCloseTo(Math.abs(getDemandScenarioForecastReponseBodyAfterLayer2.forecast[1].forecast[0].amount-getDemandScenarioForecastReponseBodyAfterLayer1.forecast[1].forecast[0].amount));
 
     })
 

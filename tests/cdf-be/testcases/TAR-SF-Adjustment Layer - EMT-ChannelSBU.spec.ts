@@ -123,7 +123,7 @@ test.describe("Verify user is able to edit adjustment manual metrics", { tag: "@
 
             let afterEditDataformonth1  = getDemandScenarioForecastResponseBody.forecast.filter(c => c.baseChannel == 'DSV_S2S')[0].forecast.filter(c => c.year == 2026 && c.month == 8).map(c => c.amount)[0];
             let afterEditDataformonth2= getDemandScenarioForecastResponseBody.forecast.filter(c => c.baseChannel == 'DSV_S2S')[0].forecast.filter(c => c.year == 2026 && c.month == 9).map(c => c.amount)[0];
-            expect((afterEditDataformonth2/beforeEditDataforMonthChannel2).toFixed(2)).toEqual((afterEditDataformonth1/beforeEditDataforMonthChannel1).toFixed(2));
+            expect(afterEditDataformonth2/beforeEditDataforMonthChannel2).toBeCloseTo(afterEditDataformonth1/beforeEditDataforMonthChannel1);
         });
 
         await test.step("delete the layer", async () => {

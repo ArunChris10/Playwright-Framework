@@ -23,7 +23,7 @@ test.describe("Verify if adding all type of adjustment layer for Scanned Units d
 
   test.afterAll(async ({ request }) => { await CdfUtility.deleteScenario(request, demandStackId); });
 
-  test("Verify if adding all type of adjustment layer for GMV data automatically updates the GMV shipped data and other derived metrics", async ({
+  test("Verify if adding emt layer for GMV data automatically updates the GMV shipped data and other derived metrics", async ({
     request
   }) => {
     await test.step("Verify if adding emt layer for GMV data automatically updates the GMV shipped data and other derived metrics ", async () => {
@@ -46,7 +46,11 @@ test.describe("Verify if adding all type of adjustment layer for Scanned Units d
       }    
       expect(Math.floor(postYearAmount/postYearUnits).toFixed(6)).toEqual(Math.floor(postYearAur).toFixed(6)); 
   })
+});
 
+test("Verify if adding Manual adjustment layer for GMV data automatically updates the GMV shipped data and other derived metrics", async ({
+  request
+}) => {
   await test.step("Verify if adding manual layer for GMV data automatically updates the GMV shipped data and other derived metrics ", async () => {
     let getdemandforecastbeforeAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [], null, null);  
     await DemandBaseClass.lockUnlockDemandScenario(request, "lock", demandStackId);
@@ -68,7 +72,11 @@ test.describe("Verify if adding all type of adjustment layer for Scanned Units d
     }    
     expect(Math.floor(postYearAmount/postYearUnits).toFixed(6)).toEqual(Math.floor(postYearAur).toFixed(6)); 
 })
+});
 
+test("Verify if adding upload layer for GMV data automatically updates the GMV shipped data and other derived metrics", async ({
+  request
+}) => {
 await test.step("Verify if uploading file for GMV data automatically updates the GMV shipped data and other derived metrics ", async () => {
     let getdemandforecastbeforeAdjustmentYear = await DemandBaseClass.getdemandStackForecast(request, demandStackId, demandScenarioDetails, "YEAR", [], null, null);  
     await DemandBaseClass.lockUnlockDemandScenario(request, "lock", demandStackId);

@@ -1,3 +1,4 @@
+import { debug } from "debug";
 import { test, expect } from "../../common/fixtures/test-hook";
 import { CdfUtility } from "../fixtures/cdf-utils";
 import { DemandBaseClass } from "../fixtures/demand-common-utils";
@@ -12,7 +13,7 @@ test.describe(
     let demandStackId,
       demandScenarioDetails,
       startYear;
-
+    test.describe.configure({ mode: "serial" });
     test.beforeAll(async ({ request }) => {
       demandStackId = await CdfUtility.createScenario(request);
       demandScenarioDetails = await DemandBaseClass.getDemandStackDetails(
@@ -28,6 +29,7 @@ test.describe(
             demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version,
             "YEAR"
           );
+        debug.log(response);
         startYear = parseInt(response.cutOffDate.split("-")[0]) - 5;
         expect(response.yearlyForecast[0].forecast.find((forecast) => forecast.year == startYear).forecastGrowth).toBeUndefined()
         expect(response.yearlyForecast[0].forecast.find((forecast) => forecast.year == startYear+1).forecastGrowth).toBeDefined()
@@ -40,6 +42,7 @@ test.describe(
             demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version,
             "QUARTER"
           );
+          debug.log(response);
         expect(response.quarterlyForecast[0].forecast.find((forecast) => forecast.year == startYear).forecastGrowth).toBeUndefined()
         expect(response.quarterlyForecast[0].forecast.find((forecast) => forecast.year == startYear+1).forecastGrowth).toBeDefined()
       });
@@ -51,6 +54,7 @@ test.describe(
             demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version,
             "MONTH"
           );
+          debug.log(response);
         expect(response.forecast[0].forecast.find((forecast) => forecast.year == startYear).forecastGrowth).toBeUndefined()
         expect(response.forecast[0].forecast.find((forecast) => forecast.year == startYear+1 && forecast.month == 3).forecastGrowth).toBeDefined()
       });

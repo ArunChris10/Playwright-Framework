@@ -19,9 +19,10 @@ test.describe("Verify scenario ", { tag: "@Smoke @scenario @ibg-service-scenario
   test("Verify if the user is able to create  @scenario", async ({
     request
   }) => {
-    let scenarioNew = await CdfUtility.createNewScenario(request);
-    scenarioID = scenarioNew.demandStackScenarioId
-    debug.log("Scenario is created  : ", scenarioNew);
+    scenarioID = await CdfUtility.createScenario(request);
+    //let scenarioNew = await CdfUtility.createNewScenario(request);
+    //scenarioID = scenarioNew.demandStackScenarioId
+    debug.log("Scenario is created  : ", scenarioID);
   });
 
   test("Verify if the user is able to clone to new @scenario", async ({

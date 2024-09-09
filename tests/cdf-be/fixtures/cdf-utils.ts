@@ -299,9 +299,9 @@ export class CdfUtility {
   }
 
   static async freezeScenario(request,scenarioId) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${scenarioId}${scenario.cloneScenarioPayload.endpoint}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${scenarioId}`;
     debug.log(endpointURL);
-    const response = await request.post(
+    const response = await request.patch(
       endpointURL,
       { data: scenario.freezeScenarioPayload , headers: CdfUtility.headers }
     );
@@ -315,9 +315,9 @@ export class CdfUtility {
   }
 
   static async UnFreezeScenario(request,scenarioId) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${scenarioId}${scenario.cloneScenarioPayload.endpoint}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${scenario.endpoint}${scenarioId}`;
     debug.log(endpointURL);
-    const response = await request.post(
+    const response = await request.patch(
       endpointURL,
       { data: scenario.UnfreezeScenarioPayload , headers: CdfUtility.headers }
     );
@@ -552,7 +552,7 @@ export class CdfUtility {
 
 
   // Method to get the current demand data on the basis of slot id
-  static async currentDemand(request, slotId) {
+  static async currentDemand(request, slotId:number) {
     const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.currentDemandMultipleDSSEndpoint}${slotId}`;
     debug.log(endpointURL);
 
@@ -589,8 +589,8 @@ export class CdfUtility {
   }
 
   // Method to get the current demand data
-  static async currentDemand(request) {
-    const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandData.currentDemandEndpoint}`;
+  static async currentDemandWithoutSlotId(request) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonDemandEndpoints.currentDemandEndpoint}`;
     debug.log(endpointURL);
 
     const response = await request.get(
@@ -778,7 +778,7 @@ export class CdfUtility {
             suffix = "";
             currentDemandExcelData.currentDemandPayload.metricType = "";
         }
-    const endpointURL = `${process.env.apiBaseURLCDF}${currentDemandExcelData.currentDemandEndpoint}${slotId}${suffix}`;
+    const endpointURL = `${process.env.apiBaseURLCDF}${commonDemandEndpoints.currentDemandEndpoint}${slotId}${suffix}`;
     debug.log(endpointURL);
     currentDemandExcelData.currentDemandPayload.organizationalLevel = organizationalLevel;
     let response;
@@ -828,7 +828,7 @@ export class CdfUtility {
     CdfUtility.validateYearlyAndMerticData(currentDemandScenario);
   }
   static async validatePublishCurrentDemandChannelData(currentDemandScenario) {
-    expect(await currentDemandScenario.yearlyForecast).toHaveLength(14);
+    expect(await currentDemandScenario.yearlyForecast).toHaveLength(16);
     CdfUtility.validateYearlyAndMerticData(currentDemandScenario);
   }
 
@@ -925,8 +925,12 @@ export class CdfUtility {
       activityLogsResponse = await CdfUtility.getActivityLogs(request, demandId);
       debug.log("Activity Logs Response: ", activityLogsResponse);
       if(activityLogsResponse.length != 0) {
-        
-        if(activityLogsResponse[0].action === message) {
+        let sortedActivityLogsResponseDesc = activityLogsResponse.sort((a, b) => {
+          const dateA = new Date(a.lastModified);
+          const dateB = new Date(b.lastModified);
+          return dateB.getTime() - dateA.getTime();
+        });
+        if(sortedActivityLogsResponseDesc[0].action === message) {
           return activityLogsResponse;
         }
       }
@@ -1109,4 +1113,32 @@ export class CdfUtility {
 
       return monthlyForecast || null
     }
+
+    /**
+ * Compares the values from an Excel download with the corresponding values from an API response.
+ *
+ * @param {number[]} excelValues - The values downloaded from the Excel file.
+ * @param {number[]} currentDemandData - The corresponding values from the API response.
+ * @param {number} allowedTolerance - The allowed tolerance for the comparison.
+ */
+static async compareExcelDownloadedValuesWithAPIResponse(
+  excelValues,
+  currentDemandData: number[],
+  allowedTolerance: number = 0.5
+) {
+  for(let i=0 ,j=0; i<excelValues.length;i++){
+    if(excelValues[i] != 0){
+        expect(excelValues[i]).toBeGreaterThan(currentDemandData[j]-allowedTolerance);
+        expect(excelValues[i]).toBeLessThan(currentDemandData[j]+allowedTolerance);
+        j++
+    }
+    else{
+        if(currentDemandData[j] == 0){
+            expect(excelValues[i]).toEqual(currentDemandData[j])
+            j++;
+        }
+    }
+    
+}
+}
 }

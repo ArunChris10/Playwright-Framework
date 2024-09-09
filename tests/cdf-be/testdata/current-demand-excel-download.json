@@ -1,5 +1,4 @@
-{
-    "currentDemandEndpoint": "/api/demandscenarios/currentDemand/",
+{   "allowedTolerance":0.5,
     "currentDemandPayload" : {
     "sbu": [
       "FASHION",

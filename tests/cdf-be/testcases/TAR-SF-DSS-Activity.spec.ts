@@ -5,6 +5,7 @@ import commonDemandEndpoints from '../testdata/common-demand-endpoints.json';
 
 test.describe("Verify activity of archive/unarchive DSS", { tag: "@Regression @archiveScenarioActivity @ibg-service-scenario-financials @DSS" }, () => {
 
+    test.describe.configure({mode:"serial"})
     let demandId;
 
     const demandStackArchived = 'Demand Stack Archived';
