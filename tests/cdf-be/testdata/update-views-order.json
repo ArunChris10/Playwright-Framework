@@ -1,0 +1,8 @@
+{
+    "endpoint": "/api/visualizer/views/order",
+    "payload": {
+        "applicationId": 1,
+        "walmartUserId": "LB-cdf-super-user",
+        "visualizerViewOrderList": []
+    }
+}
