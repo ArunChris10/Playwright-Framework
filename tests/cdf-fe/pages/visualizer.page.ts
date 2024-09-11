@@ -196,6 +196,10 @@ export class Visualizer {
     await this.publishToCurrentDemandButton.check();
   }
 
+  async assertPublishCheckboxDoesNotExist() {
+    await this.publishToCurrentDemandButton.isHidden()
+  }
+
   async openSettings() {
       await this.settingsButton.click();
   }

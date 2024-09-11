@@ -67,7 +67,6 @@ export default defineConfig({
       grep: [new RegExp(process.env.APP_NAME + "")],
       use: {
         ...devices["Desktop Chrome"],
-        storageState: "secrets/ibg-user-storagestate.json",
         launchOptions: {
           args: ["--ignore-certificate-errors", "--start-fullscreen"],
         },

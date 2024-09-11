@@ -32,6 +32,7 @@ For any help in playwright please refer the playwright documentation below
           echo '{}' > secrets/ibg-users-token.json
           echo '{}' > secrets/ufm-secrets.json
           echo '{}' > secrets/ibg-user-storagestate.json
+          echo '{}' > secrets/ibg-normal-user-storagestate.json 
           echo '{}' > secrets/nexus-user-storagestate.json
 
 - For the token files we don't have to add anything , this will be used during the runtime

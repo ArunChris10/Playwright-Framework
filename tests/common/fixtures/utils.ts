@@ -1,10 +1,12 @@
-import { Page, TestInfo } from "@playwright/test";
+import { APIRequestContext, Page, TestInfo } from "@playwright/test";
 import debug from "debug";
 import fs from "fs";
 import { Forecast } from "../../cdf-be/types/get-demand-scenario-forecast-response";
 import { expect } from "../fixtures/test-hook";
 import usersNexusFormat from "../testdata/users-nexus-format.json";
 import usersIBGFormat from "../testdata/users.json";
+import { Home } from "../pages/home.page";
+import { LoginPage } from "../pages/login.page";
 
 export class Utility {
   private static readonly dir: string = "./test-results/logs/";
@@ -187,15 +189,40 @@ export class Utility {
     const url = appBaseURL + "";
     await page.goto(url);
   }
+
+  public static async loginToCdf(
+      page: Page,
+      request: APIRequestContext,
+      username: string,
+      storageFilePath: string,
+  ) {
+    await this.loginToIBGUsingToken(page, request);
+    const homePage: Home = new Home(page);
+    await homePage.checkIfHomepageIsVisible();
+    await homePage.open("Demand");
+
+    const cdfAppBaseURL = process.env.cdfAppBaseURL;
+    const user = process.env[username]
+
+    const loginPage = new LoginPage(page);
+    await loginPage.login(user);
+    await page.waitForURL(cdfAppBaseURL + "");
+    await homePage.checkIfHomepageIsVisible();
+
+    await page.context().storageState({ path: storageFilePath })
+  }
+
   public static async randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+
   public static async getMonthYear() {
     let m = ("0" + (new Date().getMonth() + 1)).slice(-2);
     let y = new Date().getFullYear() + 1;
     let year = y.toString();
     return year + m;
   }
+
 
   public static async waitForLoaderToBeInvisible(page) {
     await page
