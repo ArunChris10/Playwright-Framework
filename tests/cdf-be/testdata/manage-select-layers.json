@@ -1,0 +1,96 @@
+{
+    "payload_base_forecast": {
+        "endpoint": "/api/demandscenarios/demand/",
+        "sbu": [
+            "FASHION",
+            "CONSUMABLES",
+            "ENTERTAINMENT TOYS AND SEASONAL",
+            "FOOD",
+            "HARDLINES",
+            "HOME"
+        ],
+        "sbuIds": [
+            4,
+            29,
+            196,
+            27,
+            60,
+            47
+        ],
+        "department": [],
+        "departmentIds": [],
+        "baseChannel": [],
+        "baseChannelIds": [],
+        "channelGroup": [],
+        "channelGroupIds": [],
+        "demandChannel": [],
+        "layerIds": [],
+        "clearAll": false,
+        "includeDerivedMetrics": false,
+        "includeTotals": true,
+        "organizationalLevel": "BASE_CHANNEL",
+        "loadHeirarchyParams": null,
+        "timeFilter": {
+            "filterLevel": "MONTH",
+            "isYearSelected": false,
+            "isMonthSelected": false,
+            "isQuarterSelected": false,
+            "yearMonths": [],
+            "yearQuarters": [],
+            "years": [],
+            "yearList": []
+        },
+        "version": "",
+        "forceRefresh": true,
+        "filtersChanged": true,
+        "departmentName": [],
+        "filterLoadComplete": true,
+        "isUfmSyncCache": false,
+        "latestSyncScenario": false
+    },
+    "payload_create_layer": {
+        "endpoint": "/api/demandscenarios/stacks/",
+        "layers": [
+            {
+                "allocationType": "DOLLAR",
+                "layerType": "CHANNEL_SPLIT",
+                "isConfirmed": true,
+                "isPreview": false,
+                "layerName": "Unscheduled 1P Delivery",
+                "layerDescription": "",
+                "forecastVersion": "1712604073000",
+                "demandChannel": "Unscheduled 1P Delivery",
+                "demandChannelId": 1007,
+                "lastUpdated": "2024-07-17T05:37:47.996Z",
+                "monthlySplitsRequest": {
+                    "2026-11": [
+                        {
+                            "amount": 202127656.98,
+                            "baseChannelId": 22,
+                            "baseChannel": "DSV_S2H"
+                        },
+                        {
+                            "amount": 421212245.73,
+                            "baseChannelId": 23,
+                            "baseChannel": "OWNED_S2H"
+                        },
+                        {
+                            "amount": "185613545.28",
+                            "baseChannelId": 10,
+                            "baseChannel": "SHIP_FROM_STORE"
+                        },
+                        {
+                            "amount": 209456021.06,
+                            "baseChannelId": 6,
+                            "baseChannel": "UNSCHEDULED_DELIVERY"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "baseChannelNames": ["DSV_S2H", "OWNED_S2H", "SHIP_FROM_STORE", "UNSCHEDULED_DELIVERY"],
+    "year": 2026,
+    "month": 11,
+    "amount": 1000
+}
