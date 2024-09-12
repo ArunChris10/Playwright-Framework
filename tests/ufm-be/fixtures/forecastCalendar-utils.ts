@@ -9,7 +9,7 @@ export class ForecastCalendarUtil {
     const response = await request.post(endpointURL, {
       data: forecastCalendarData.createForecastCalendarPayload,
     });
-    let responseBody = await Utility.assertAndLog(response);
+
     expect(responseBody.status_code).toEqual(
       forecastCalendarData.createSuccessResponseCode
     );
@@ -73,7 +73,7 @@ export class ForecastCalendarUtil {
   }
 
   // This method will get the forecast cycle and assert the response
-  static async getForecastCalendar(request, fcst_id) {
+  static async getForecastCalendar(request, fcst_id, validate = true) {
     Utility.logIt(fcst_id);
     const params = new URLSearchParams({
       dim_id: forecastCalendarData.getForecastCalendarPayload.dim_id,
@@ -82,16 +82,38 @@ export class ForecastCalendarUtil {
         forecastCalendarData.getForecastCalendarPayload.classification_id,
       fiscal_year: forecastCalendarData.getForecastCalendarPayload.fiscal_year,
     });
-    const endpointURL = `${process.env.apiBaseURLUFM}${
-      forecastCalendarData.endpoint
-    }?${params.toString()}`;
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint
+      }?${params.toString()}`;
     const response = await request.get(endpointURL, { params: null });
 
     let responseBody = await Utility.assertAndLog(response);
 
-    expect(responseBody.calendar_id).toEqual(fcst_id);
+
+    if (validate == true) {
+      expect(responseBody.calendar_id).toEqual(fcst_id);
+    }
+    return responseBody
   }
 
+  static async deleteAllForecastCycles(request) {
+    Utility.logIt("Deleting all acctive forecast cycles for the year " + forecastCalendarData.getForecastCalendarPayload.fiscal_year);
+
+    let responseBody = await ForecastCalendarUtil.getForecastCalendar(request, "", false)
+
+
+
+    for (let i = 0; i < responseBody.submission_cycles.length; i++) {
+      await ForecastCalendarUtil.deleteForecastCalendarCycle(
+        responseBody.calendar_id,
+        responseBody.submission_cycles[i].cycle_id,
+        request
+      );
+
+      console.log("Cycle deleted ", responseBody.submission_cycles[i].cycle_id)
+    }
+
+
+  }
   // This method will get a nonexistent forecast cycle and assert the response
   static async getInvalidForecastCalendar(request) {
     const params = new URLSearchParams({
@@ -101,9 +123,8 @@ export class ForecastCalendarUtil {
         forecastCalendarData.getForecastCalendarPayload.classification_id,
       fiscal_year: forecastCalendarData.getForecastCalendarPayload.fiscal_year,
     });
-    const endpointURL = `${process.env.apiBaseURLUFM}${
-      forecastCalendarData.endpoint
-    }?${params.toString()}`;
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint
+      }?${params.toString()}`;
     const response = await request.get(endpointURL, { params: null });
     expect(response.status === 403);
     let responseBody = await response.json();
@@ -176,6 +197,8 @@ export class ForecastCalendarUtil {
     const response = await request.patch(endpointURL, { data: payload });
     let responseBody = await Utility.assertAndLog(response);
     expect(responseBody.calendar_id).not.toEqual(null);
+
+    return responseBody.calendar_id
   }
 
   // This method will publish a duplicate forecast and assert the response
@@ -190,26 +213,43 @@ export class ForecastCalendarUtil {
     expect(responseBody.message).toEqual(
       forecastCalendarData.publishForecastCalendarErrorAlreadyExists
     );
+    return responseBody.message
   }
 
   // This method will get the forecast deadlines and assert the response
   static async getForecastDeadlines(request) {
-    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}/deadlines}`;
-    const response = await request.patch(endpointURL);
+
+    const params = new URLSearchParams({
+      dim_id: forecastCalendarData.getForecastCalendarPayload.dim_id,
+      dim_val_id: forecastCalendarData.getForecastCalendarPayload.dim_val_id,
+      classification_id:
+        forecastCalendarData.getForecastCalendarPayload.classification_id,
+      children: "true",
+      published: "true"
+    });
+
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}deadlines?${params.toString()}`;
+
+    // const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}/deadlines?dim_id=${forecastCalendarData.}&dim_val_id=130001&classification_id=12&children=true&published=true}`;
+
+    console.log(endpointURL, params)
+    const response = await request.get(endpointURL);
     let responseBody = await response.json();
     expect(responseBody.calendar_id).not.toEqual(null);
+
+    return responseBody
   }
 
   // This method will delete the forecast cycle and assert the response to be ok
   static async deleteForecastCalendarCycle(fcst_id, cycle_id, request) {
-    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}/${fcst_id}/cycles/${cycle_id}`;
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}${fcst_id}/cycles/${cycle_id}`;
     const response = await request.delete(endpointURL);
     expect(response).toBeOK();
   }
 
   // This method will delete a nonexistent forecast cycle and assert the response
   static async deleteMissingForecastCalendarCycle(fcst_id, cycle_id, request) {
-    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}/${fcst_id}/cycles/${cycle_id}`;
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}${fcst_id}/cycles/${cycle_id}`;
     const response = await request.delete(endpointURL);
     expect(response === 404);
   }
