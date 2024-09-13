@@ -1,6 +1,6 @@
 import debug from "debug";
 import { expect } from "@playwright/test";
-import commonEndpoints from '../testdata/common-demand-endpoints.json'
+import commonEndpoints from '../testdata/common-demand-endpoints.json';
 import getVisualizerTableFilterData from '../testdata/get-visualizer-table-filters.json';
 import pinnedVisualiserView from '../testdata/pinned-view.json';
 import updateVisualiserViewOrder from '../testdata/update-views-order.json';
@@ -124,7 +124,9 @@ export class VisualizerUtility {
 
     // Method to call visualizer-table-data api to fetch the visualizer data for custom metric Sum
     static async visualizerTableDataCustomMetricsForSum(request, demandId) {
-        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerTableDataCustomMetrics.endpoint}`;
+        let endpointURL = `${process.env.apiBaseURLVISUALIZER}${commonEndpoints.visualizerTableDataCustomMetricsEndpoint}`;
+        endpointURL = endpointURL.replace("applicationId", process.env.applicationId);
+
         debug.log(endpointURL);
 
         visualizerTableDataCustomMetrics.payload_for_sum.scenarioIdentification[0].demandStackScenarioId = visualizerTableDataCustomMetrics.payload_for_sum.scenarioIdentification[0].demandStackScenarioId.replace("demandStackId", demandId);
@@ -151,8 +153,10 @@ export class VisualizerUtility {
 
     // Method to call visualizer-table-data api to fetch the visualizer data for custom metric Difference
     static async visualizerTableDataCustomMetricsForDifference(request, demandId) {
-        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerTableDataCustomMetrics.endpoint}`;
+        let endpointURL = `${process.env.apiBaseURLVISUALIZER}${commonEndpoints.visualizerTableDataCustomMetricsEndpoint}`;
+        endpointURL = endpointURL.replace("applicationId", process.env.applicationId);
         debug.log(endpointURL);
+
 
         visualizerTableDataCustomMetrics.payload_for_difference.scenarioIdentification[0].demandStackScenarioId = demandId
         visualizerTableDataCustomMetrics.payload_for_difference.scenarioOrderList[0].scenarioIdentification.demandStackScenarioId = demandId
@@ -175,7 +179,8 @@ export class VisualizerUtility {
 
     // Method to call visualizer-table-data api to fetch the visualizer data for custom metric Percent Difference
     static async visualizerTableDataCustomMetricsForPercentDifference(request, demandId) {
-        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerTableDataCustomMetrics.endpoint}`;
+        let endpointURL = `${process.env.apiBaseURLVISUALIZER}${commonEndpoints.visualizerTableDataCustomMetricsEndpoint}`;
+        endpointURL = endpointURL.replace("applicationId", process.env.applicationId);
         debug.log(endpointURL);
 
         visualizerTableDataCustomMetrics.payload_for_percent_difference.scenarioIdentification[0].demandStackScenarioId = demandId
@@ -199,7 +204,8 @@ export class VisualizerUtility {
 
     // Method to call visualizer-table-data api to fetch the visualizer data for custom metric Year on Year Percent
     static async visualizerTableDataCustomMetricsForYearOverYearPercent(request, demandId) {
-        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerTableDataCustomMetrics.endpoint}`;
+        let endpointURL = `${process.env.apiBaseURLVISUALIZER}${commonEndpoints.visualizerTableDataCustomMetricsEndpoint}`;
+        endpointURL = endpointURL.replace("applicationId", process.env.applicationId);
         debug.log(endpointURL);
 
         visualizerTableDataCustomMetrics.payload_for_yoy.scenarioIdentification[0].demandStackScenarioId = demandId
@@ -223,7 +229,8 @@ export class VisualizerUtility {
 
     // Method to call visualizer-table-data api to fetch the visualizer data for custom metric Yoy difference
     static async visualizerTableDataCustomMetricsForYoyDifference(request, demandId) {
-        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerTableDataCustomMetrics.endpoint}`;
+        let endpointURL = `${process.env.apiBaseURLVISUALIZER}${commonEndpoints.visualizerTableDataCustomMetricsEndpoint}`;
+        endpointURL = endpointURL.replace("applicationId", process.env.applicationId);
         debug.log(endpointURL);
 
         visualizerTableDataCustomMetrics.payload_for_yoy_difference.scenarioIdentification[0].demandStackScenarioId = demandId
@@ -247,7 +254,8 @@ export class VisualizerUtility {
 
     // Method to call visualizer-table-data api to fetch the visualizer data for custom metric Last Year Value
     static async visualizerTableDataCustomMetricsForLastYearValue(request, demandId) {
-        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerTableDataCustomMetrics.endpoint}`;
+        let endpointURL = `${process.env.apiBaseURLVISUALIZER}${commonEndpoints.visualizerTableDataCustomMetricsEndpoint}`;
+        endpointURL = endpointURL.replace("applicationId", process.env.applicationId);
         debug.log(endpointURL);
 
         visualizerTableDataCustomMetrics.payload_for_last_year_value.scenarioIdentification[0].demandStackScenarioId = demandId
@@ -271,7 +279,8 @@ export class VisualizerUtility {
 
     // Method to call visualizer-table-data api to fetch the visualizer data for custom metric Percent of Sales
     static async visualizerTableDataCustomMetricsForPercentOfSales(request, demandId) {
-        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerTableDataCustomMetrics.endpoint}`;
+        let endpointURL = `${process.env.apiBaseURLVISUALIZER}${commonEndpoints.visualizerTableDataCustomMetricsEndpoint}`;
+        endpointURL = endpointURL.replace("applicationId", process.env.applicationId);
         debug.log(endpointURL);
 
         visualizerTableDataCustomMetrics.payload_for_percent_of_sales.scenarioIdentification[0].demandStackScenarioId = demandId

@@ -13,7 +13,9 @@ test.describe("Verify that the user should be able to download excel from curren
 
     Object.keys(testdatafile.metrics).forEach(key => {
         let currentDemandDataResponseBodySBU, currentDemandDataResponseBodyBaseChannel;
+
         test(`Download excel, save the excel and validate data for SBU view and metric ${testdatafile.metrics[key]}`, async ({ request }) => {
+
             // get current demand data
             if (currentDemandDataResponseBodySBU == undefined){
                 debug.log("Fetching current demand data for SBU view");
