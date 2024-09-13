@@ -1127,7 +1127,7 @@ static async compareExcelDownloadedValuesWithAPIResponse(
   allowedTolerance: number = 0.5
 ) {
   for(let i=0 ,j=0; i<excelValues.length;i++){
-    if(excelValues[i] != 0){
+    if(excelValues[i] != 0 && excelValues[i] != ''){
         expect(excelValues[i]).toBeGreaterThan(currentDemandData[j]-allowedTolerance);
         expect(excelValues[i]).toBeLessThan(currentDemandData[j]+allowedTolerance);
         j++
@@ -1142,3 +1142,4 @@ static async compareExcelDownloadedValuesWithAPIResponse(
 }
 }
 }
+

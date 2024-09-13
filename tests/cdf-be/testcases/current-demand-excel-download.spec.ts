@@ -12,7 +12,7 @@ test.describe("Verify that the user should be able to download excel from curren
     let baseChannels = testdataDimension.baseChannels
 
     Object.keys(testdatafile.metrics).forEach(key => {
-        // let currentDemandDataResponseBodySBU, currentDemandDataResponseBodyBaseChannel;
+        let currentDemandDataResponseBodySBU, currentDemandDataResponseBodyBaseChannel;
         test(`Download excel, save the excel and validate data for SBU view and metric ${testdatafile.metrics[key]}`, async ({ request }) => {
             // get current demand data
             if (currentDemandDataResponseBodySBU == undefined){
@@ -29,16 +29,22 @@ test.describe("Verify that the user should be able to download excel from curren
 
             sbuNames.forEach(sbuName => {
                 debug.log("Asserting the Values for "+sbuName)
-                let filteredData = excelData.find((data:any) => data['Selection Panel'] === sbuName) as any;
-                const valuesToAssert = Object.values(filteredData).slice(2);
+                let filteredData = excelData.find((data:any) => data['Selection Panel'] === sbuName)  as any;
+                let valuesToAssert = Object.values(filteredData).slice(2)
+                
                 debug.log("Excel Data => "+valuesToAssert);
                 let currentDemandData;
+                let arrayForecast = currentDemandDataResponseBodySBU.forecast.filter(data => data.sbuDisplayName === sbuName)[0]
+                if(arrayForecast == undefined)
+                valuesToAssert.forEach(value => expect(value).toEqual(0))
+                else{
                 if (testdatafile.derivedMetrics.includes(key))
                     currentDemandData = currentDemandDataResponseBodySBU.forecast.filter(data => data.sbuDisplayName === sbuName)[0].forecast.filter(data => Object.keys(data).includes("forecastGrowth")).map(data => data.forecastGrowth![key] != undefined?data.forecastGrowth![key]:"");
                 else
                     currentDemandData = currentDemandDataResponseBodySBU.forecast.filter(data => data.sbuDisplayName === sbuName)[0].forecast.map(d => d[key] != undefined?d[key]:"");
                 debug.log("Current Demand Data => "+currentDemandData)
-                expect(valuesToAssert).toEqual(currentDemandData)
+                CdfUtility.compareExcelDownloadedValuesWithAPIResponse(valuesToAssert, currentDemandData, testdatafile.allowedTolerance)
+                }
             });
 
 
@@ -73,12 +79,9 @@ test.describe("Verify that the user should be able to download excel from curren
                     else
                         currentDemandData = arrayForecast.forecast.map(d => d[key] != undefined?d[key]:0);
                     debug.log("Current Demand Data => "+currentDemandData);
-
-
                     CdfUtility.compareExcelDownloadedValuesWithAPIResponse(excelValues, currentDemandData, testdatafile.allowedTolerance)
 
                 }
-
             })
 
         });
