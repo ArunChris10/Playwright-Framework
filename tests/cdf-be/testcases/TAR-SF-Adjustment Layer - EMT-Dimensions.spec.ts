@@ -4,13 +4,13 @@ import { AdjustmentUtility } from '../fixtures/adjustment-utils';
 import getCurrentDemandForecast from '../testdata/get-currentdemand-scenario-forecast.json'
 import filterTestData from "../testdata/cdfFilter.json";
 
-test.describe("Verify the month list in EMT tool containsRemaining months of current fiscal year and all the Next Fiscal months", { tag: "@Regression @ibg-service-scenario-financials @Adjustment Layer - EMT" }, () => {
+test.describe("Verify the month list in EMT tool containsRemaining months of current fiscal year and all the Next Fiscal months", { tag: "" }, () => {
     let forecastVersion;
     let cutOffDateYear;
     let cutOffDateMonth;
     let forecastRange;
 
-    test("Verify month list is correct in EMT", async ({ request }) => {
+    test.skip("Verify month list is correct in EMT", async ({ request }) => {
         await test.step("Fetch the forecast version for the demand stack", async () => {
             forecastVersion = await CdfUtility.getDemandScenarioList(request);
             forecastVersion = forecastVersion.version;

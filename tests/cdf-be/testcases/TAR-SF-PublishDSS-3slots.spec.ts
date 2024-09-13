@@ -32,9 +32,8 @@ test.describe("Verify user can publish multiple (upto 3) DSS onto Current Demand
                 expect(currentDemandResponse).toBeOK();
                 const currentDemandResponseBody = await currentDemandResponse.json();
                 debug.log(JSON.stringify(currentDemandResponseBody));
-                currentDemandName = currentDemandResponseBody.demandStackScenarioName;
-                currentDemandDescription = currentDemandResponseBody.demandStackScenarioDescription;
-                debug.log("Current demand scenario name is %s and description is %s", currentDemandName, currentDemandDescription);
+                currentDemandName = currentDemandResponseBody[slotId-1].demandScenarioName;
+                debug.log("Current demand scenario name is %s", currentDemandName);
             });
 
             await test.step("Publish newly created demand scenario on the given slot id", async () => {
@@ -58,14 +57,11 @@ test.describe("Verify user can publish multiple (upto 3) DSS onto Current Demand
                 expect(currentDemandResponse).toBeOK();
                 const currentDemandResponseBody = await currentDemandResponse.json();
                 debug.log(JSON.stringify(currentDemandResponseBody));
-                const currentDemandNameAfterPublish = currentDemandResponseBody.demandStackScenarioName;
-                const currentDemandDescriptionAfterPublish = currentDemandResponseBody.demandStackScenarioDescription;
-                debug.log("Previous current demand scenario name and description are %s and %s", currentDemandName, currentDemandDescription);
-                debug.log("After publish current demand scenario name and description are %s and %s", currentDemandNameAfterPublish, currentDemandDescriptionAfterPublish);
+                const currentDemandNameAfterPublish = currentDemandResponseBody[slotId-1].demandScenarioName;
+                debug.log("Previous current demand scenario name and description are %s", currentDemandName);
+                debug.log("After publish current demand scenario name and description are %s", currentDemandNameAfterPublish);
                 expect(currentDemandName).not.toEqual(currentDemandNameAfterPublish);
-                expect(currentDemandDescription).not.toEqual(currentDemandDescriptionAfterPublish);
                 currentDemandName = currentDemandNameAfterPublish;
-                currentDemandDescription = currentDemandDescriptionAfterPublish;
             });
 
             await test.step("Fetch all slots data", async () => {

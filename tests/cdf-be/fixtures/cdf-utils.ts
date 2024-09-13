@@ -21,7 +21,8 @@ import getDemandScenarioCSV from '../testdata/get-demand-scenario-forecast-csv.j
 import { APIRequestContext, APIResponse } from "@playwright/test";
 import type { PostArchiveDemandScenarioResponse } from "../types/post-archive-demand-scenario-response";
 import { Forecast } from "../types/get-demand-scenario-forecast-response";
-
+import { ManageRebaseUtility } from '../fixtures/manage-rebase-utils';
+import testDataFileManageRebase from '../testdata/manage-rebase.json';
 
 export class CdfUtility {   
   
@@ -65,7 +66,7 @@ export class CdfUtility {
         { data: this.createScenarioPayload, headers: CdfUtility.headers }
       );
       let responseBody = await response.json();
-      debug.log(JSON.stringify(responseBody));
+      console.log(JSON.stringify(responseBody));
       return responseBody.demandStackScenarioId as string;
   }
 
@@ -363,7 +364,30 @@ export class CdfUtility {
   
   static async getDemandScenarioById(request, demandId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenario.endpoint}${demandId}`;
-    debug.log(endpointURL);
+    console.log(endpointURL);
+
+    let forecastVersion = await CdfUtility.getDemandScenarioList(request);
+    forecastVersion = forecastVersion.version;
+    console.log("Forecast Version: ", forecastVersion);
+
+    let forecastInfoResponse;
+    forecastInfoResponse = await ManageRebaseUtility.getForecastInfoList(request, demandId, testDataFileManageRebase.endpointForForecastInfoList, testDataFileManageRebase.payloadForForecastInfoList);
+
+    let forecastInfoResponseBody;
+    forecastInfoResponseBody = await forecastInfoResponse.json();
+
+    // Fetch the layerId for the forecast version of the DSS created 
+    let forecastLayerId;
+    forecastInfoResponseBody.forEach(function(forecastInfo) {
+        if(forecastInfo.version == forecastVersion) {
+            forecastLayerId = forecastInfo.forecastLayerId;
+        }
+    });
+
+    // Get the demand scenario details before creating the layers using `get-demand-scenario-forecast` api
+    getDemandScenario.payload.version = forecastVersion;
+    getDemandScenario.payload.layerIds[0] = forecastLayerId;
+
     const response = await request.post(
       endpointURL,
 
@@ -372,7 +396,6 @@ export class CdfUtility {
     //asserting the response
     expect(response).toBeOK();
     let responseBody = await response.json();
-    // debug.log(JSON.stringify(responseBody));
 
     //returning the scenario Id of the created forecast
     return responseBody;

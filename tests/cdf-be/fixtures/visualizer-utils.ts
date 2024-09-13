@@ -372,7 +372,7 @@ export class VisualizerUtility {
             suffix = visualizerDownloadData.csvEndpointSuffix;
         else if (type === visualizerDownloadData.data)
             suffix = visualizerDownloadData.dataEndpointSuffix;
-        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerDownloadData.endpointPrefix}${suffix}`;
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${commonEndpoints.visualizerEndpointPrefix1}${process.env.applicationId}${commonEndpoints.visualizerEndpointPrefix2}${suffix}`;
         debug.log(endpointURL);
 
         visualizerDownloadData.dataPayload.scenarioIdentification[0].demandStackScenarioId = demandScenarioId;

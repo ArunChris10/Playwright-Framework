@@ -1,127 +1,120 @@
 {
-    "dataPayload": {
-        "scenarioIdentification": [
+  "dataPayload": {
+    "scenarioIdentification": [
+      {
+        "demandStackScenarioId": "demandStackScenarioId"
+      }
+    ],
+    "selectionFilter": {
+      "dimensions": ["CHNL_GRP.DISP_NM"],
+      "excelDimension": ["CHNL_GRP.DISP_NM"],
+      "kpis": ["FCST_SALES_AMT"],
+      "timeDimensions": ["FISCAL_PERIOD_KEY"]
+    },
+    "dimensionFilter": {},
+    "dateIntervalFilter": {
+      "intervalType": "MONTH",
+      "startInterval": "2026-02",
+      "endInterval": "2026-03"
+    },
+    "headerDimensionFilters": {},
+    "derivedScenariosList": [],
+    "derivedMetricList": [],
+    "metricOrderList": [
+      {
+        "columnName": "FCST_SALES_AMT",
+        "displayName": "GMV"
+      },
+      {
+        "columnName": "FCST_UNIT",
+        "displayName": "Units"
+      },
+      {
+        "columnName": "FCST_AUR",
+        "displayName": "AUR"
+      },
+      {
+        "columnName": "UOM_QTY",
+        "displayName": "UOM"
+      },
+      {
+        "columnName": "SALES",
+        "displayName": "Net Merch Sales"
+      }
+    ],
+    "rows": [
+      {
+        "displayName": "Channel Group",
+        "attributeName": "channelGroup",
+        "columnName": "CHNL_GRP.DISP_NM",
+        "key": "CHANNEL_GROUP",
+        "children": [
           {
-            "demandStackScenarioId": "demandStackScenarioId"
-          }
-        ],
-        "selectionFilter": {
-          "dimensions": [
-            "CHNL_GRP.DISP_NM"
-          ],
-          "excelDimension": [
-            "CHNL_GRP.DISP_NM"
-          ],
-          "kpis": [
-            "FCST_SALES_AMT"
-          ],
-          "timeDimensions": [
-            "FISCAL_PERIOD_KEY"
-          ]
-        },
-        "dimensionFilter": {},
-        "dateIntervalFilter": {
-          "intervalType": "MONTH",
-          "startInterval": "2026-02",
-          "endInterval": "2026-03"
-        },
-        "headerDimensionFilters": {},
-        "derivedScenariosList": [],
-        "derivedMetricList": [],
-        "metricOrderList": [
-          {
-            "columnName": "FCST_SALES_AMT",
-            "displayName": "GMV"
-          },
-          {
-            "columnName": "FCST_UNIT",
-            "displayName": "Units"
-          },
-          {
-            "columnName": "FCST_AUR",
-            "displayName": "AUR"
-          },
-          {
-            "columnName": "UOM_QTY",
-            "displayName": "UOM"
-          },
-          {
-            "columnName": "SALES",
-            "displayName": "Net Merch Sales"
-          }
-        ],
-        "rows": [
-          {
-            "displayName": "Channel Group",
-            "attributeName": "channelGroup",
-            "columnName": "CHNL_GRP.DISP_NM",
-            "key": "CHANNEL_GROUP",
-            "children": [
-              {
-                "displayName": "Base Channel",
-                "attributeName": "baseChannelName",
-                "columnName": "BASE_CHNL.DISP_NM",
-                "key": "BASE_CHANNEL",
-                "identification": [
-                  {
-                    "attributeName": "baseChannelId",
-                    "columnName": "BASE_CHNL_ID",
-                    "tableName": "LAYR_DATA"
-                  }
-                ]
-              }
-            ],
+            "displayName": "Base Channel",
+            "attributeName": "baseChannelName",
+            "columnName": "BASE_CHNL.DISP_NM",
+            "key": "BASE_CHANNEL",
             "identification": [
               {
-                "attributeName": "channelGroupId",
-                "columnName": "CHNL_GRP_ID",
-                "tableName": "CHNL_GRP_TO_CHNL_MAP"
+                "attributeName": "baseChannelId",
+                "columnName": "BASE_CHNL_ID",
+                "tableName": "LAYR_DATA"
               }
-            ],
-            "checked": true
+            ]
           }
         ],
-        "columns": [
+        "identification": [
           {
-            "attributeName": "scenarios",
-            "columnName": "SCENARIOS",
-            "displayName": "Scenarios",
-            "checked": true
-          },
-          {
-            "displayName": "Fiscal Month",
-            "attributeName": "fiscalMonth",
-            "columnName": "FISCAL_PERIOD_KEY",
-            "checked": true
-          },
-          {
-            "attributeName": "metrics",
-            "columnName": "METRICS",
-            "displayName": "Metrics",
-            "checked": true
+            "attributeName": "channelGroupId",
+            "columnName": "CHNL_GRP_ID",
+            "tableName": "CHNL_GRP_TO_CHNL_MAP"
           }
         ],
-        "pivotEnabled": true,
-        "scenarioOrderList": [
-          {
-            "scenarioIdentification": {
-              "demandStackScenarioId": "demandStackScenarioId"
-            },
-            "isDerivedScenario": false
-          }
-        ],
-        "scenarioIdentificationFilter": [],
-        "kpiIdentificationFilter": [],
-        "expanded": false
+        "checked": true
+      }
+    ],
+    "columns": [
+      {
+        "attributeName": "scenarios",
+        "columnName": "SCENARIOS",
+        "displayName": "Scenarios",
+        "checked": true
       },
-    "endpointPrefix": "/api/visualizer/templates/1/scenarios/4af19248-6a90-4e4d-a47d-e2f932035f53",
-    "excelEndpointSuffix": "/data/excel",
-    "csvEndpointSuffix": "/data/csv",
-    "dataEndpointSuffix": "/data",
-    "excel": "excel",
-    "csv": "csv",
-    "data": "data",
-    "filePath": "./testdata/",
-    "excelPath":"download.xlsx",
-    "csvPath": "download.csv"
+      {
+        "displayName": "Fiscal Month",
+        "attributeName": "fiscalMonth",
+        "columnName": "FISCAL_PERIOD_KEY",
+        "checked": true
+      },
+      {
+        "attributeName": "metrics",
+        "columnName": "METRICS",
+        "displayName": "Metrics",
+        "checked": true
+      }
+    ],
+    "pivotEnabled": true,
+    "scenarioOrderList": [
+      {
+        "scenarioIdentification": {
+          "demandStackScenarioId": "demandStackScenarioId"
+        },
+        "isDerivedScenario": false
+      }
+    ],
+    "scenarioIdentificationFilter": [],
+    "kpiIdentificationFilter": [],
+    "expanded": false
+  },
+  "endpointPrefix": "/api/visualizer/templates/",
+  "endpointPrefix2":"/scenarios/4af19248-6a90-4e4d-a47d-e2f932035f53",
+  "excelEndpointSuffix": "/data/excel",
+  "csvEndpointSuffix": "/data/csv",
+  "dataEndpointSuffix": "/data",
+  "excel": "excel",
+  "csv": "csv",
+  "data": "data",
+  "filePath": "./testdata/",
+  "excelPath": "download.xlsx",
+  "csvPath": "download.csv"
 }

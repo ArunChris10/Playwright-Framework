@@ -159,7 +159,7 @@ test.describe("Verify user is able to download excel, update the values and uplo
         });
     });
 
-    test("Verify if the edited department values in the excel file is matching in demand output table after upload", async ({ request }) => {
+    test("Verify if the edited department values in the excel file is matching in demand output table after upload", { tag: "@Smoke" }, async ({ request }) => {
         await test.step("Download the excel", async () => {
             let downloadExcelResponse;
             downloadExcelResponse = await AdjustmentUploadLayer.downloadExcel(request, demandId, forecastVersion, forecastLayerId, excelFileName, "GMV Shipped", null);
