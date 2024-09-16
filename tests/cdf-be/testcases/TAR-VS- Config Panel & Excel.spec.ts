@@ -85,16 +85,16 @@ test.describe("Verify scenario is archived", { tag: "@Smoke @visualizerConfigPan
       scenarios.map((c) => {
         if (c.scenarioDisplayName.includes("Current Demand")) {
             isCurrentDemand = true
-            if(isActual && isDSForecasts && isTotal) {
+            if(isActual || isDSForecasts || isTotal) {
                 debug.log("order for current demand Scenario is not correct");
-                expect(false).toBe(true)
+                expect(false, "order for current demand Scenario is not correct").toBe(true)
             }
         }
         if(c.scenarioDisplayName.includes("Actual") && c?.scenarioIdentification?.forecastVersion === "NO_VERSION") {
             isActual = true
-            if(isDSForecasts && isTotal) {
+            if(isDSForecasts || isTotal) {
                 debug.log("order for Actual Scenario is not correct");
-                expect(false).toBe(true)
+                expect(false, "order for Actual Scenario is not correct").toBe(true)
             }
             
         }
@@ -102,7 +102,7 @@ test.describe("Verify scenario is archived", { tag: "@Smoke @visualizerConfigPan
             isDSForecasts = true
             if(isTotal) {
                 debug.log("order for DS Scenario is not correct");
-                expect(false).toBe(true)
+                expect(false, "order for DS Scenario is not correct").toBe(true)
             }
         }
         if(c.scenarioDisplayName.includes("Total") && c?.scenarioIdentification?.demandStackScenarioId && !c?.scenarioSyncDate) {

@@ -8,8 +8,7 @@
     "demandScenarioListArchived": "/api/demandscenarios?isArchive=true",
     "currentDemandEndpoint": "/api/demandscenarios/currentDemand/",
     "visualiserFilterEndpoint": "/api/visualizer/templates/1/filters/",
-    "visualizerTableDataCustomMetricsEndpoint": "/api/visualizer/templates/applicationId/scenarios/4af19248-6a90-4e4d-a47d-e2f932035f53/data"
+    "visualizerTableDataCustomMetricsEndpoint": "/api/visualizer/templates/applicationId/scenarios/4af19248-6a90-4e4d-a47d-e2f932035f53/data",
     "visualizerEndpointPrefix1": "/api/visualizer/templates/",
     "visualizerEndpointPrefix2":"/scenarios/4af19248-6a90-4e4d-a47d-e2f932035f53"
-
 }
