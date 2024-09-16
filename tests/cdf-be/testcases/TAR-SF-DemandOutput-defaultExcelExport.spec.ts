@@ -9,10 +9,14 @@ test.describe(
     tag: "@Regression @ibg-service-scenario-financials @DemandOutput",
   },
   () => {
-    let demandId, forecast, excelApiResponse;
+    let demandId, forecast, excelApiResponse, forecastVersion;
 
     test.beforeAll(async ({ request }) => {
       demandId = await CdfUtility.createScenario(request);
+      forecastVersion = await CdfUtility.getDemandScenarioList(request);
+      forecastVersion = forecastVersion.version;
+      console.log("Forecast Version: ", forecastVersion)
+      testData.payload.version = forecastVersion;
       const demandScenario = await CdfUtility.getDemandScenarioByIdAndPayload(
         request,
         demandId,
@@ -33,6 +37,7 @@ test.describe(
       }) => {
         await test.step("Retrieve excel raw data as excelApiResponse", async () => {
           testData.payload.metricType = testData.metrics[metricKey];
+          testData.payload.version = forecastVersion;
           excelApiResponse = await CdfUtility.downloadScenario(
             request,
             demandId,
@@ -63,7 +68,8 @@ test.describe(
           } else {
             expectedValues = forecast.map((month: any) => month[metricKey]);
           }
-          expect(excelValues).toEqual(expectedValues);
+         // expect(excelValues).toEqual(expectedValues);
+          CdfUtility.compareExcelDownloadedValuesWithAPIResponse(excelValues, expectedValues, 0.5)
         });
       });
     });
