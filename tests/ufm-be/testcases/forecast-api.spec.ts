@@ -2,7 +2,7 @@ import { expect, test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import commonData from "../constants/common.json";
 import { UfmUtility } from "../fixtures/ufm-utils";
-import forecastData from "../testdata/forecast-api.json"
+import forecastData from "../testdata/forecast-api.json";
 
 const lobName = ["e2e_delivery"];
 for (let i = 0; i < lobName.length; i++) {
@@ -31,7 +31,7 @@ for (let i = 0; i < lobName.length; i++) {
         request,
       }) => {
         scenarioId = await UfmUtility.createForecast(lobName[i], request);
-      })
+      });
 
       test(`Verify the user get duplicate message while creating forecast with same name for the same timeperiod - ${lobName[i]}`, async ({
         request,
@@ -41,7 +41,6 @@ for (let i = 0; i < lobName.length; i++) {
           request
         );
 
-
         //Get scenario version from scenario id from forecast list
         scenario_details = await UfmUtility.getScenarioDetails(
           currentForecast,
@@ -50,14 +49,19 @@ for (let i = 0; i < lobName.length; i++) {
 
         // Create forecast with duplicate / same name as previously created forecast
 
-        let responseMessage = await UfmUtility.createForecast(lobName[i], request, scenario_details["name"], true);
+        let responseMessage = await UfmUtility.createForecast(
+          lobName[i],
+          request,
+          scenario_details["name"],
+          true
+        );
 
         let message = forecastData.createAlreadyMessage.replace(
-       "scenarioName",
-        scenario_details["name"]
-       );
+          "scenarioName",
+          scenario_details["name"]
+        );
 
-expect(responseMessage).toEqual(message)
+        expect(responseMessage).toEqual(message);
       });
 
       test(`Verify if the user is able to delete created forecast for LOB ${lobName[i]}`, async ({
@@ -72,7 +76,7 @@ expect(responseMessage).toEqual(message)
 
         await UfmUtility.deleteForecast(
           scenarioId,
-          scenario_details['scenarioVersion'],
+          scenario_details["scenarioVersion"],
           dimId,
           dimValId,
           request
@@ -82,16 +86,15 @@ expect(responseMessage).toEqual(message)
       test(`Verify the message while deleting already deleted scenario ${lobName[i]}`, async ({
         request,
       }) => {
-
         let deleteResponse = await UfmUtility.deleteForecast(
           scenarioId,
-          scenario_details['scenarioVersion'],
+          scenario_details["scenarioVersion"],
           dimId,
           dimValId,
           request,
           true
         );
-        expect(deleteResponse.message).toEqual("No scenario id found")
+        expect(deleteResponse.message).toEqual("No scenario id found");
       });
     }
   );

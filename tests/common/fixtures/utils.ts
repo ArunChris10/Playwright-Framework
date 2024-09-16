@@ -191,10 +191,10 @@ export class Utility {
   }
 
   public static async loginToCdf(
-      page: Page,
-      request: APIRequestContext,
-      username: string,
-      storageFilePath: string,
+    page: Page,
+    request: APIRequestContext,
+    username: string,
+    storageFilePath: string
   ) {
     await this.loginToIBGUsingToken(page, request);
     const homePage: Home = new Home(page);
@@ -202,14 +202,14 @@ export class Utility {
     await homePage.open("Demand");
 
     const cdfAppBaseURL = process.env.cdfAppBaseURL;
-    const user = process.env[username]
+    const user = process.env[username];
 
     const loginPage = new LoginPage(page);
     await loginPage.login(user);
     await page.waitForURL(cdfAppBaseURL + "");
     await homePage.checkIfHomepageIsVisible();
 
-    await page.context().storageState({ path: storageFilePath })
+    await page.context().storageState({ path: storageFilePath });
   }
 
   public static async randomInt(min, max) {
@@ -222,7 +222,6 @@ export class Utility {
     let year = y.toString();
     return year + m;
   }
-
 
   public static async waitForLoaderToBeInvisible(page) {
     await page
@@ -267,7 +266,13 @@ export class Utility {
     return `${month}-${quarter}-${year}`;
   }
 
-  //This method checks for status 200 of response and converts response to json and logs it on console and debug logs
+  /**
+   * Asserts that the response status is OK (200) and logs the response body to the console and the debug log.
+   *
+   * @param {Response} response - The response object.
+   * @param {boolean} [isError=false] - Whether the response is an error.
+   * @return {Promise<object>} The response body.
+   */
   static async assertAndLog(response, isError = false) {
     if (!isError) await expect.soft(response).toBeOK();
     let responseBody = await response.json();
@@ -276,7 +281,12 @@ export class Utility {
     return responseBody;
   }
 
-  //This method logs on console and debugger file
+  /**
+   * Logs the given text to the console and on the debug log.
+   *
+   * @param {any} text - The text to be logged.
+   * @return {Promise<void>} A Promise that resolves when the logging is complete.
+   */
   static async logIt(text) {
     console.log(JSON.stringify(text));
     debug.log(JSON.stringify(text));

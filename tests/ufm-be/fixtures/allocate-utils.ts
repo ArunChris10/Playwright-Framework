@@ -2,6 +2,19 @@ import { Utility } from "../../common/fixtures/utils";
 import commonData from "../constants/common.json";
 import { UfmUtility } from "./ufm-utils";
 
+/**
+ * Represents the root object for an allocation.
+ *
+ * @typedef {Object} Root
+ * @property {Array} display_nodes - An array of display nodes.
+ * @property {number} scenario_id - The scenario ID.
+ * @property {number} dim_val_id - The dimension value ID.
+ * @property {number} dim_id - The dimension ID.
+ * @property {boolean} preview - Whether or not this is a preview.
+ * @property {Array} edits - An array of edit objects.
+ * @property {Array} filters - An array of filters.
+ * @property {string} period_view - The period view.
+ */
 export interface Root {
   display_nodes: any[];
   scenario_id: number;
@@ -13,6 +26,15 @@ export interface Root {
   period_view: string;
 }
 
+/**
+ * Represents an edit object.
+ *
+ * @typedef {Object} Edit
+ * @property {string} node_var_name - The node variable name.
+ * @property {NodeDimension} node_dimension - The node dimension.
+ * @property {Object} data - The data.
+ * @property {Allocation} allocation - The allocation.
+ */
 export interface Edit {
   node_var_name: string;
   node_dimension: NodeDimension;
@@ -20,15 +42,40 @@ export interface Edit {
   allocation: Allocation;
 }
 
+/**
+ * Represents a node dimension.
+ *
+ * @typedef {Object} NodeDimension
+ */
 export interface NodeDimension {}
 
+/**
+ * Represents an allocation.
+ *
+ * @typedef {Object} Allocation
+ * @property {number} method - The allocation method.
+ * @property {any} interval - The interval.
+ * @property {any} offset - The offset.
+ */
 export interface Allocation {
   method: number;
   interval: any;
   offset: any;
 }
 
+/**
+ * Represents an allocation utility.
+ */
 export class AllocationUtility {
+  /**
+   * Allocates a scenario.
+   *
+   * @param {string} lobName - The line of business name.
+   * @param {number} scenarioId - The scenario ID.
+   * @param {number} allocation_method - The allocation method.
+   * @param {Object} request - The request object.
+   * @returns {Promise<Root>} A promise that resolves to the root object.
+   */
   public static async allocation(
     lobName: string,
     scenarioId: number,

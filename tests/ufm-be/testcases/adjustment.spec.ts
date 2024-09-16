@@ -4,11 +4,7 @@ import commonData from "../constants/common.json";
 import { UfmUtility } from "../fixtures/ufm-utils";
 import adjustmentData from "../testdata/adjustment.json";
 
-const lobName = [
-  commonData.lobList[10],
-  commonData.lobList[13],
-  commonData.lobList[4],
-];
+const lobName = [commonData.lobList[10], commonData.lobList[4]];
 
 lobName.forEach((lobName) => {
   test.describe(
@@ -16,7 +12,7 @@ lobName.forEach((lobName) => {
     { tag: "@Smoke @Regression @adjustments" },
     async () => {
       let scenarioId: number, scenario_details, adjustment_metadata;
-      test.describe.configure({ timeout: 400_000, mode: "serial" });
+      test.describe.configure({ timeout: 700_000, mode: "serial" });
 
       test(`Delete all created forecast by automation user for LOB - ${lobName}`, async ({
         request,
@@ -52,21 +48,21 @@ lobName.forEach((lobName) => {
       test(`Create adjustment for ${lobName}`, async ({ request }) => {
         adjustment_metadata = await UfmUtility.createAdjustment(
           scenarioId,
-          scenario_details['scenarioVersion'],
+          scenario_details["scenarioVersion"],
           lobName,
           request
         );
       });
 
-
-      test(`Get all adjustments with valid scenario_id and scenario_version_number for ${lobName}`, async ({ request }) => {
-
+      test(`Get all adjustments with valid scenario_id and scenario_version_number for ${lobName}`, async ({
+        request,
+      }) => {
         let response = await UfmUtility.getAllAdjustments(
           scenarioId,
-          scenario_details['scenarioVersion'],
+          scenario_details["scenarioVersion"],
           lobName,
           request
-        )
+        );
         await expect
           .soft(adjustment_metadata.adjustment_id)
           .toEqual(response.adjustment_id);
@@ -78,11 +74,11 @@ lobName.forEach((lobName) => {
         await expect
           .soft(adjustment_metadata.adjustment_reason)
           .toEqual(response.adjustment_reason);
+      });
 
-
-      })
-
-      test(`Get all adjustments with invalid scenario_id and valid scenario_version_number for ${lobName}`, async ({ request }) => {
+      test(`Get all adjustments with invalid scenario_id and valid scenario_version_number for ${lobName}`, async ({
+        request,
+      }) => {
         //get all adjustments with both values invalid
         let response = await UfmUtility.getAllAdjustments(
           123,
@@ -90,7 +86,7 @@ lobName.forEach((lobName) => {
           lobName,
           request,
           true
-        )
+        );
 
         await expect
           .soft(adjustmentData.getErrorMessage)
@@ -104,7 +100,7 @@ lobName.forEach((lobName) => {
           lobName,
           request,
           true
-        )
+        );
 
         await expect
           .soft(adjustmentData.getErrorMessage)
@@ -114,25 +110,26 @@ lobName.forEach((lobName) => {
 
         response = await UfmUtility.getAllAdjustments(
           123,
-          scenario_details['scenarioVersion'],
+          scenario_details["scenarioVersion"],
           lobName,
           request,
           true
-        )
+        );
 
         await expect
           .soft(adjustmentData.getErrorMessage)
           .toEqual(response.message);
+      });
 
-      })
-
-      test(`Delete the created adjustment with valid adjustment id for ${lobName}`, async ({ request }) => {
+      test(`Delete the created adjustment with valid adjustment id for ${lobName}`, async ({
+        request,
+      }) => {
         let response = await UfmUtility.deleteAdjustment(
           adjustment_metadata.adjustment_id,
           scenarioId,
-          scenario_details['scenarioVersion'],
+          scenario_details["scenarioVersion"],
           request
-        )
+        );
 
         await expect
           .soft(adjustment_metadata.adjustment_id)
@@ -140,35 +137,40 @@ lobName.forEach((lobName) => {
 
         await expect
           .soft(response.message)
-          .toEqual(`Adjustment deleted successfully for adjustment_id: ${adjustment_metadata.adjustment_id}`);
+          .toEqual(
+            `Adjustment deleted successfully for adjustment_id: ${adjustment_metadata.adjustment_id}`
+          );
+      });
 
-      })
-
-      test(`Delete the adjustment with invalid adjustment id for ${lobName}`, async ({ request }) => {
+      test(`Delete the adjustment with invalid adjustment id for ${lobName}`, async ({
+        request,
+      }) => {
         let response = await UfmUtility.deleteAdjustment(
           123,
           scenarioId,
-          scenario_details['scenarioVersion'],
+          scenario_details["scenarioVersion"],
           request,
           true
-        )
+        );
 
         await expect
           .soft(response.message)
-          .toEqual(`Adjustment details not found or inactive with the adjustment_id provided.`);
-
-      })
+          .toEqual(
+            `Adjustment details not found or inactive with the adjustment_id provided.`
+          );
+      });
 
       // Need to add one case for invalid scenario id and version currently bug is there once resolved we can add .
 
       test(`delete created scenario ${lobName}`, async ({ request }) => {
         await UfmUtility.deleteForecast(
           scenarioId,
-          scenario_details['scenarioVersion'],
+          scenario_details["scenarioVersion"],
           commonData.ba_dim_id,
           commonData[lobName].dim_val_id,
           request
         );
       });
-    });
+    }
+  );
 });

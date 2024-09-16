@@ -12,9 +12,21 @@ import endpoints from "../testdata/statusendpoints.json";
 import { AllocationUtility } from "./allocate-utils";
 
 export class UfmUtility {
-  // This method will create the forecast and assert the response
-  static async createForecast(lobName, request, forecastName = "", isError = false) {
-
+  /**
+   * Creates a forecast for a given line of business (LOB) and asserts the response.
+   *
+   * @param {string} lobName - The name of the line of business.
+   * @param {Request} request - The request object.
+   * @param {string} [forecastName=""] - The name of the forecast. If not provided, it will be generated.
+   * @param {boolean} [isError=false] - Whether the request is expected to fail.
+   * @return {Promise<number | string>} - The scenario ID of the created forecast or the error message.
+   */
+  static async createForecast(
+    lobName,
+    request,
+    forecastName = "",
+    isError = false
+  ) {
     //Making the get call to create forecast
     Utility.logIt(`Creating Scenario for ${lobName}`);
     const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}`;
@@ -34,7 +46,10 @@ export class UfmUtility {
       dim_val_id: commonData[lobName].dim_val_id,
     };
 
-    payload.name = forecastName !== "" ? forecastName : payload.name + new Date().toLocaleString();
+    payload.name =
+      forecastName !== ""
+        ? forecastName
+        : payload.name + new Date().toLocaleString();
     const response = await request.post(
       endpointURL,
 
@@ -54,10 +69,18 @@ export class UfmUtility {
       );
     }
     //returning the scenario Id of the created forecast
-    return responseBody.scenario?.scenario_id ? responseBody.scenario.scenario_id : responseBody.message
+    return responseBody.scenario?.scenario_id
+      ? responseBody.scenario.scenario_id
+      : responseBody.message;
   }
 
-  // This method will get all the current forecast for BA and assert the response
+  /**
+   * This method will get all the current forecast for BA and assert the response
+   *
+   * @param {string} lobName - the name of the line of business
+   * @param {Request} request - the request object
+   * @returns {Promise<Array<object>>} - the current forecast list
+   */
   static async getCurrentForecastList(lobName, request) {
     //Making the get call to create forecast
     Utility.logIt(`Getting current forecast list for lob : ${lobName}`);
@@ -93,7 +116,13 @@ export class UfmUtility {
     return responseBody.rowData;
   }
 
-  //This method will create filter
+  /**
+   * This method will create filter
+   *
+   * @param {object} payload - the payload for creating the filter
+   * @param {Request} request - the request object
+   * @returns {Promise<object>} - the response body
+   */
   static async createFilter(payload, request) {
     //Making the get call to create filter
     const endpointURL = `${process.env.apiBaseURLUFM}${filterData.endpoint}`;
@@ -118,14 +147,24 @@ export class UfmUtility {
     return responseBody;
   }
 
-  // This method will delete the forecast
+  /**
+   * Deletes a forecast.
+   *
+   * @param {number} scenario_id - The ID of the scenario.
+   * @param {number} scenario_version - The version of the scenario.
+   * @param {number} dimId - The ID of the dimension.
+   * @param {number} dimValId - The ID of the dimension value.
+   * @param {Request} request - The request object.
+   * @param {boolean} isError - Whether the request is expected to fail.
+   * @returns {Promise<object>} - The response body.
+   */
   static async deleteForecast(
     scenario_id,
     scenario_version,
     dimId,
     dimValId,
-    request
-    , isError = false
+    request,
+    isError = false
   ) {
     const param = scenario_id + "/" + scenario_version;
     const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}${param}`;
@@ -137,7 +176,9 @@ export class UfmUtility {
     let forecastDeleted = await Utility.assertAndLog(response, isError);
 
     if (!isError) {
-      Utility.logIt(`Forecast is deleted  : ${JSON.stringify(forecastDeleted)}`);
+      Utility.logIt(
+        `Forecast is deleted  : ${JSON.stringify(forecastDeleted)}`
+      );
       let message = forecastData.deleteMessage.replace(
         "scenario_id",
         scenario_id
@@ -148,7 +189,13 @@ export class UfmUtility {
     return forecastDeleted;
   }
 
-  //This method will fetch historical forecast based on the particular forecast name
+  /**
+   * This method will fetch historical forecast based on the particular forecast name
+   *
+   * @param {string} forecastname - the name of the forecast
+   * @param {Request} request - the request object
+   * @returns {Promise<object>} - the response body
+   */
   static async GetHistorical(forecastname: string, request) {
     let responseData, responseBody;
 
@@ -166,8 +213,14 @@ export class UfmUtility {
     return responseBody;
   }
 
-  //This method will list the progress tracker and give you status of LOB or BA based on which screen is passed in argument
-  //Technically screen is BA screen or Segment finance screen
+  /**
+   * This method will list the progress tracker and give you status of LOB or BA based on which screen is passed in argument
+   * Technically screen is BA screen or Segment finance screen
+   *
+   * @param {string} screen - the screen to get the progress tracker for
+   * @param {Request} request - the request object
+   * @returns {Promise<object>} - the response body
+   */
   static async getProgresstracker(screen, request) {
     let template_id, dim_id;
     Utility.logIt(`Getting progress tracker for screen : ${screen}`);
@@ -191,7 +244,13 @@ export class UfmUtility {
     return await Utility.assertAndLog(response);
   }
 
-  //This method will give details of BA from canned report screen
+  /**
+   * This method will give details of BA from canned report screen
+   *
+   * @param {string} orgName - the name of the organization
+   * @param {Request} request - the request object
+   * @returns {Promise<object>} - the response body
+   */
   static async getIndividualstatus(orgName, request) {
     Utility.logIt(`Getting Individual status for org : ${orgName}`);
     const endpointURL = `${process.env.apiBaseURLUFM}${endpoints.individual_status_endpoint}`;
@@ -206,21 +265,31 @@ export class UfmUtility {
     return await Utility.assertAndLog(response);
   }
 
-  //This method will give you the scenario details if you pass the scenario id and current forecast list
-  // Previously this method was called "getScenarioVersion" which returned only scenario version not it is modified as getScenarioDetails to provide all scenario parameter which user can extract and use in testcase
-
+  /**
+   * This method will give you the scenario details if you pass the scenario id and current forecast list
+   *
+   * @param {Array<object>} forecast_list - the list of forecasts
+   * @param {number} scenario_id - the id of the scenario
+   * @returns {Promise<number>} - the scenario version
+   */
   static async getScenarioDetails(forecast_list, scenario_id) {
     let scenarioDetails;
     Utility.logIt(`Getting Scenario version`);
     forecast_list.filter(function (i) {
       if (i["scenarioId"] == scenario_id) {
-        scenarioDetails = i
-        return
+        scenarioDetails = i;
+        return;
       }
     });
     return scenarioDetails;
   }
-  //This method will give you the last locked scenario
+
+  /**
+   * This method will give you the last locked scenario
+   *
+   * @param {Request} request - the request object
+   * @returns {Promise<object>} - the response body
+   */
   static async getLastLockedScenario(request) {
     Utility.logIt(`Getting last locked scenario`);
     const endpointURL = `${process.env.apiBaseURLUFM}${endpoints.last_locked_scenario_endpoint}`;
@@ -231,7 +300,17 @@ export class UfmUtility {
     return responseBody;
   }
 
-  //This method will send LOB to BA review and BA to Segment review based on scenario id , dim val id and status paased
+  /**
+   * This method will send LOB to BA review and BA to Segment review based on scenario id, dim val id and status passed
+   *
+   * @param {number} scenario_id - the id of the scenario
+   * @param {number} scenario_version - the version of the scenario
+   * @param {string} status - the status to send the scenario to
+   * @param {number} dim_id - the id of the dimension
+   * @param {number} dim_val_id - the id of the dimension value
+   * @param {Request} request - the request object
+   * @returns {Promise<object>} - the response body
+   */
   static async sendToReview(
     scenario_id,
     scenario_version,
@@ -261,7 +340,17 @@ export class UfmUtility {
     await expect(responseBody).toEqual(endpoints.sendToReviewSuccessful);
   }
 
-  // This method creates adjustment
+  /**
+   * This method will create the adjustment and assert the response
+   *
+   * @param {number} scenario_id - the id of the scenario
+   * @param {number} scenario_version - the version of the scenario
+   * @param {string} lobName - the name of the line of business
+   * @param {object} payload - the payload for creating the adjustment
+   * @param {Request} request - the request object
+   * @param {boolean} isError - whether the request is expected to fail
+   * @returns {Promise<object>} - the response body
+   */
   static async createAdjustment(
     scenario_id,
     scenario_version,
@@ -308,8 +397,16 @@ export class UfmUtility {
     return responseBody.adjustment_metadata;
   }
 
-
-  // This method will fetch available adjustments for the particular LOB scenario
+  /**
+   * This method will fetch available adjustments for the particular LOB scenario
+   *
+   * @param {number} scenario_id - the id of the scenario
+   * @param {number} scenario_version - the version of the scenario
+   * @param {string} lobName - the name of the line of business
+   * @param {Request} request - the request object
+   * @param {boolean} isError - whether the request is expected to fail
+   * @returns {Promise<object>} - the response body
+   */
   static async getAllAdjustments(
     scenario_id,
     scenario_version,
@@ -320,11 +417,21 @@ export class UfmUtility {
     const endpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}?scenario_id=${scenario_id}&scenario_version_timestamp=${scenario_version}`;
     Utility.logIt(`Get adjustments for ${lobName}`);
 
-    const response = await request.get(endpointURL)
+    const response = await request.get(endpointURL);
     let responseBody = await Utility.assertAndLog(response, isError);
-    return responseBody[0] ? responseBody[0] : responseBody
+    return responseBody[0] ? responseBody[0] : responseBody;
   }
 
+  /**
+   * This method will delete the adjustment and assert the response
+   *
+   * @param {number} adjustment_id - the id of the adjustment
+   * @param {number} scenario_id - the id of the scenario
+   * @param {number} scenario_version - the version of the scenario
+   * @param {Request} request - the request object
+   * @param {boolean} isError - whether the request is expected to fail
+   * @returns {Promise<object>} - the response body
+   */
   static async deleteAdjustment(
     adjustment_id,
     scenario_id,
@@ -336,14 +443,20 @@ export class UfmUtility {
 
     Utility.logIt(`Deleting adjustment with adjustment id ${adjustment_id}`);
 
-    const response = await request.delete(endpointURL)
+    const response = await request.delete(endpointURL);
 
     let responseBody = await Utility.assertAndLog(response, isError);
 
-    return responseBody[0] ? responseBody[0] : responseBody
+    return responseBody[0] ? responseBody[0] : responseBody;
   }
 
-  //This method gets the list of all input nodes for a particular lob
+  /**
+   * Retrieves the list of input nodes for a given line of business.
+   *
+   * @param {string} lobName - The name of the line of business.
+   * @param {Request} request - The request object.
+   * @returns {Promise<string[]>} - A promise that resolves to an array of input node names.
+   */
   static async getInputNodelist(lobName, request) {
     let inputnodes: string[] = [];
     const endpointURL = `${process.env.apiBaseURLUFM}${inputNodes.endpoint}`;
@@ -365,7 +478,14 @@ export class UfmUtility {
     return inputnodes;
   }
 
-  //This method will delete all forecast for a particular LOB created by user based on user id and Lob passed
+  /**
+   * This method will delete all forecast for a particular LOB created by user based on user id and Lob passed
+   *
+   * @param {Request} request - the request object
+   * @param {string} lobName - the name of the line of business
+   * @param {string} userId - the id of the user
+   * @returns {Promise<void>}
+   */
   static async deleteAllforecastofUser(request, lobName, userId) {
     const forecastList = new Map();
     let dimId = commonData.ba_dim_id;
