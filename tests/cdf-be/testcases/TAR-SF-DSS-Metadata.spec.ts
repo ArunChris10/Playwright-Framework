@@ -38,7 +38,7 @@ test.describe(
       expect(dssTitle).toContain("Reg - AutoTest - ");
 
       const dateCreated = new Date(
-        demandScenarioDetails.forecastInfoDTO.forecastInfo.dateCreated
+        demandScenarioDetails.dateCreated
       ).getDate();
       expect(dateCreated).toBeLessThanOrEqual(currDate);
 

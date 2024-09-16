@@ -1,6 +1,5 @@
 import { test, expect } from '../../common/fixtures/test-hook';
 import { CdfUtility } from '../fixtures/cdf-utils';
-import usersNexusFormat from "../../common/testdata/users-nexus-format.json";
 import commonDemandEndpoints from '../testdata/common-demand-endpoints.json';
 
 test.describe("Verify activity of archive/unarchive DSS", { tag: "@Regression @archiveScenarioActivity @ibg-service-scenario-financials @DSS" }, () => {
@@ -25,11 +24,11 @@ test.describe("Verify activity of archive/unarchive DSS", { tag: "@Regression @a
             activityLogs = await CdfUtility.getActivityLogsStatus(request, demandId, demandStackArchived);
 
             let actionOfActivityLogs = activityLogs[0].action;
-            let createdBy = activityLogs[0].createdByUserName;
+            let createdBy = activityLogs[0].createdBy;
 
             // Assertion
             expect(actionOfActivityLogs).toEqual(demandStackArchived);
-            expect(createdBy).toEqual(usersNexusFormat.filter((user) => user.userId === process.env.ibgUser)[0].displayName);
+            expect(createdBy).toEqual(process.env.ibgUser);
         });
 
         let unarchiveScenario;
@@ -41,11 +40,11 @@ test.describe("Verify activity of archive/unarchive DSS", { tag: "@Regression @a
             activityLogs = await CdfUtility.getActivityLogsStatus(request, demandId, demandStackUnarchived);
             
             let actionOfActivityLogs = activityLogs[0].action;
-            let createdBy = activityLogs[0].createdByUserName;
+            let createdBy = activityLogs[0].createdBy;
 
             // Assertion
             expect(actionOfActivityLogs).toEqual(demandStackUnarchived);
-            expect(createdBy).toEqual(usersNexusFormat.filter((user) => user.userId === process.env.ibgUser)[0].displayName);
+            expect(createdBy).toEqual(process.env.ibgUser);
 
         });
     });

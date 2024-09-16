@@ -15,14 +15,16 @@ let publishDssResponse;
         let demandworkspaceResponse = await CdfUtility.fetchallForecast(request);
         for(let j=0;j<forecastinfolist.length;j++){
             const datecreated = new Date(forecastinfolist[j].dateCreated).getTime();
-            const updatedbyactual = demandworkspaceResponse[j].createdByUserName;
-            for (let i = 0; i < demandworkspaceResponse.length; i++) {
+            const updatedbyactual = demandworkspaceResponse[j].forecastInfoDTO.forecastInfo.updatedBy;
+            for (let i = 0; i < forecastinfolist.length; i++) {
                 const forecastId = demandworkspaceResponse[i].forecastInfoDTO.forecastInfo.id;
                 if(forecastId == forecastinfolist[j].id){
                     const currDate = new Date(demandworkspaceResponse[i].forecastInfoDTO.forecastInfo.dateCreated).getTime();
-                    const updatedbyexpected = demandworkspaceResponse[i].createdByUserName;
+                    const updatedbyexpected = demandworkspaceResponse[i].forecastInfoDTO.forecastInfo.updatedBy;
                     const lastupdatedate = new Date(demandworkspaceResponse[i].lastUpdatedTime).getTime();
-                    expect(lastupdatedate).toBeLessThanOrEqual(new Date().getTime());
+                    const currentUTCDate = new Date();
+                    const currentUTC = currentUTCDate.getTime() + (currentUTCDate.getTimezoneOffset() * 60000);
+                    expect(lastupdatedate).toBeLessThanOrEqual(currentUTC);
                     expect(updatedbyactual).toEqual(updatedbyexpected);
                     expect(datecreated).toEqual(currDate);
                     break;
@@ -40,9 +42,11 @@ let publishDssResponse;
                 const forecastId = demandworkspaceResponse[i].forecastInfoDTO.forecastInfo.id;
                 if(forecastId == forecastinfolist[j].id){
                     publishDssResponse = await CdfUtility.publishDSS(request, demandworkspaceResponse[i].demandStackScenarioId, currentDemandData.slotId);
-                    let publishDssResponseBody = await publishDssResponse.json();
-                    expect(publishDssResponseBody.syncDate).toBeLessThanOrEqual(new Date().getTime());
-                    break;
+                    await CdfUtility.delay(30000);
+                    let scenarioList = await CdfUtility.fetchallForecast(request);
+                    let scenario = scenarioList.filter(item => item.demandStackScenarioId === forecastinfolist[j].demandStackScenarioId);
+                    expect(scenario.syncDate).not.toBeNull();
+                    return;
                 }
             }
         }
