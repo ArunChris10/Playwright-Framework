@@ -13,7 +13,7 @@ for (let i = 0; i < lobName.length; i++) {
       test.describe.configure({ timeout: 300_000, mode: "serial" });
 
       let scenarioId: number;
-      let scenario_version: number;
+      let scenario_details;
       let dimId = commonData.ba_dim_id;
       let dimValId = commonData[lobName[i]].dim_val_id;
       let payloadbody, response, responseBody;
@@ -44,12 +44,12 @@ for (let i = 0; i < lobName.length; i++) {
         Utility.logIt(`No of scenarios present: ${currentForecast.length}`);
 
         //Get scenario version from scenario id from forecast list
-        scenario_version = await UfmUtility.getScenarioVersion(
+        scenario_details = await UfmUtility.getScenarioDetails(
           currentForecast,
           scenarioId
         );
 
-        Utility.logIt(scenario_version);
+        Utility.logIt(scenario_details['scenarioVersion']);
       });
 
       test(`Verify if the user is able to allocate and save baseline for LOB - ${lobName[i]}`, async ({
@@ -87,7 +87,7 @@ for (let i = 0; i < lobName.length; i++) {
       }) => {
         await UfmUtility.deleteForecast(
           scenarioId,
-          scenario_version,
+          scenario_details['scenarioVersion'],
           dimId,
           dimValId,
           request

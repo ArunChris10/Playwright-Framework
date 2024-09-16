@@ -16,7 +16,7 @@ const orgName2 = [
 ];
 const orgName3 = [commonData.orgList[6]];
 
-let scenarioId, scenario_version;
+let scenarioId, scenario_details;
 let response;
 let lobName: string;
 
@@ -144,7 +144,7 @@ export async function createAndSendToBAReview(request, orgName) {
       );
 
       //Getting scenario version of created forecast
-      scenario_version = await UfmUtility.getScenarioVersion(
+      scenario_details = await UfmUtility.getScenarioDetails(
         currentForecastList,
         scenarioId
       );
@@ -152,7 +152,7 @@ export async function createAndSendToBAReview(request, orgName) {
       //Sending created forecast to BA review
       await UfmUtility.sendToReview(
         scenarioId,
-        scenario_version,
+        scenario_details['scenarioVersion'],
         commonData.BA_Review,
         commonData.lob_dim_id,
         commonData[lobName].dim_val_id,

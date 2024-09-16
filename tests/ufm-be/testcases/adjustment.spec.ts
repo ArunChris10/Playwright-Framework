@@ -15,7 +15,7 @@ lobName.forEach((lobName) => {
     "Create and edit adjustment",
     { tag: "@Smoke @Regression @adjustments" },
     async () => {
-      let scenarioId: number, scenarioVersion: number, adjustment_metadata;
+      let scenarioId: number, scenario_details, adjustment_metadata;
       test.describe.configure({ timeout: 400_000, mode: "serial" });
 
       test(`Delete all created forecast by automation user for LOB - ${lobName}`, async ({
@@ -43,7 +43,7 @@ lobName.forEach((lobName) => {
         Utility.logIt(`No of scenarios present: ${currentForecast.length}`);
 
         //Get scenario version from scenario id from forecast list
-        scenarioVersion = await UfmUtility.getScenarioVersion(
+        scenario_details = await UfmUtility.getScenarioDetails(
           currentForecast,
           scenarioId
         );
@@ -52,7 +52,7 @@ lobName.forEach((lobName) => {
       test(`Create adjustment for ${lobName}`, async ({ request }) => {
         adjustment_metadata = await UfmUtility.createAdjustment(
           scenarioId,
-          scenarioVersion,
+          scenario_details['scenarioVersion'],
           lobName,
           request
         );
@@ -63,7 +63,7 @@ lobName.forEach((lobName) => {
 
         let response = await UfmUtility.getAllAdjustments(
           scenarioId,
-          scenarioVersion,
+          scenario_details['scenarioVersion'],
           lobName,
           request
         )
@@ -114,7 +114,7 @@ lobName.forEach((lobName) => {
 
         response = await UfmUtility.getAllAdjustments(
           123,
-          scenarioVersion,
+          scenario_details['scenarioVersion'],
           lobName,
           request,
           true
@@ -130,7 +130,7 @@ lobName.forEach((lobName) => {
         let response = await UfmUtility.deleteAdjustment(
           adjustment_metadata.adjustment_id,
           scenarioId,
-          scenarioVersion,
+          scenario_details['scenarioVersion'],
           request
         )
 
@@ -148,7 +148,7 @@ lobName.forEach((lobName) => {
         let response = await UfmUtility.deleteAdjustment(
           123,
           scenarioId,
-          scenarioVersion,
+          scenario_details['scenarioVersion'],
           request,
           true
         )
@@ -164,7 +164,7 @@ lobName.forEach((lobName) => {
       test(`delete created scenario ${lobName}`, async ({ request }) => {
         await UfmUtility.deleteForecast(
           scenarioId,
-          scenarioVersion,
+          scenario_details['scenarioVersion'],
           commonData.ba_dim_id,
           commonData[lobName].dim_val_id,
           request

@@ -13,7 +13,8 @@ import { AllocationUtility } from "./allocate-utils";
 
 export class UfmUtility {
   // This method will create the forecast and assert the response
-  static async createForecast(lobName, request) {
+  static async createForecast(lobName, request, forecastName = "", isError = false) {
+
     //Making the get call to create forecast
     Utility.logIt(`Creating Scenario for ${lobName}`);
     const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}`;
@@ -33,24 +34,27 @@ export class UfmUtility {
       dim_val_id: commonData[lobName].dim_val_id,
     };
 
-    payload.name = payload.name + new Date().toLocaleString();
+    payload.name = forecastName !== "" ? forecastName : payload.name + new Date().toLocaleString();
     const response = await request.post(
       endpointURL,
 
       { data: payload }
     );
-    //asserting the response
-    let responseBody = await Utility.assertAndLog(response);
-    expect
-      .soft(responseBody.message)
-      .toEqual(forecastData.createSuccessMessage);
-    Utility.logIt(
-      `Forecast is created for ${lobName}  : 
-      ${responseBody.scenario.scenario_id}`
-    );
 
+    //asserting the response
+    let responseBody = await Utility.assertAndLog(response, isError);
+
+    if (!isError) {
+      expect
+        .soft(responseBody.message)
+        .toEqual(forecastData.createSuccessMessage);
+      Utility.logIt(
+        `Forecast is created for ${lobName}  : 
+      ${responseBody.scenario.scenario_id}`
+      );
+    }
     //returning the scenario Id of the created forecast
-    return responseBody.scenario.scenario_id;
+    return responseBody.scenario?.scenario_id ? responseBody.scenario.scenario_id : responseBody.message
   }
 
   // This method will get all the current forecast for BA and assert the response
@@ -121,6 +125,7 @@ export class UfmUtility {
     dimId,
     dimValId,
     request
+    , isError = false
   ) {
     const param = scenario_id + "/" + scenario_version;
     const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}${param}`;
@@ -129,13 +134,17 @@ export class UfmUtility {
       dim_val_id: dimValId,
     };
     const response = await request.delete(endpointURL, { data: payload });
-    let forecastDeleted = await Utility.assertAndLog(response);
-    Utility.logIt(`Forecast is deleted  : ${JSON.stringify(forecastDeleted)}`);
-    let message = forecastData.deleteMessage.replace(
-      "scenario_id",
-      scenario_id
-    );
-    expect(forecastDeleted.message).toEqual(message);
+    let forecastDeleted = await Utility.assertAndLog(response, isError);
+
+    if (!isError) {
+      Utility.logIt(`Forecast is deleted  : ${JSON.stringify(forecastDeleted)}`);
+      let message = forecastData.deleteMessage.replace(
+        "scenario_id",
+        scenario_id
+      );
+      expect(forecastDeleted.message).toEqual(message);
+    }
+
     return forecastDeleted;
   }
 
@@ -197,19 +206,20 @@ export class UfmUtility {
     return await Utility.assertAndLog(response);
   }
 
-  //This method will give you the scenario version if you pass the scenario id and current forecast list
-  static async getScenarioVersion(forecast_list, scenario_id) {
-    let scenarioVersion;
+  //This method will give you the scenario details if you pass the scenario id and current forecast list
+  // Previously this method was called "getScenarioVersion" which returned only scenario version not it is modified as getScenarioDetails to provide all scenario parameter which user can extract and use in testcase
+
+  static async getScenarioDetails(forecast_list, scenario_id) {
+    let scenarioDetails;
     Utility.logIt(`Getting Scenario version`);
     forecast_list.filter(function (i) {
       if (i["scenarioId"] == scenario_id) {
-        Utility.logIt(i["scenarioVersion"]);
-        scenarioVersion = i["scenarioVersion"];
+        scenarioDetails = i
+        return
       }
     });
-    return scenarioVersion;
+    return scenarioDetails;
   }
-
   //This method will give you the last locked scenario
   static async getLastLockedScenario(request) {
     Utility.logIt(`Getting last locked scenario`);
@@ -272,6 +282,7 @@ export class UfmUtility {
       lobName,
       scenario_id,
       commonData["Constant value"],
+      // "save",
       request
     );
     adjustmentData.payloads.dim_val_id = commonData[lobName].dim_val_id;
