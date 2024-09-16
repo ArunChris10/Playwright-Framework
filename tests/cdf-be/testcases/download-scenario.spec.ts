@@ -7,13 +7,22 @@ import { CdfUtility } from "../fixtures/cdf-utils";
 test.describe("Verify default unit is GMV while downloaded", { tag: "@Smoke @downloadScenario @ibg-service-scenario-financials @Regression" }, () => {
 
     let demandId;
-    test.beforeAll(async ({ request }) => { demandId = await CdfUtility.createScenario(request);});
+    let forecastVersion
+    test.beforeAll(async ({ request }) => { 
+        demandId = await CdfUtility.createScenario(request);
+        forecastVersion = await CdfUtility.getDemandScenarioList(request);
+        forecastVersion = forecastVersion.version;
+        console.log("Forecast Version: ", forecastVersion);
+
+    
+    });
     test.afterAll(async ({ request }) => { await CdfUtility.deleteScenario(request, demandId);});
 
 
     test("Default unit is GMV when downloaded", async ({ request }) => {
         let downloadedExcelScenarioBody;
         await test.step("Download", async () => {
+            downloadScenarioData.payload.version = forecastVersion;
             downloadedExcelScenarioBody = await CdfUtility.downloadScenario(request, demandId, downloadScenarioData);
             expect(downloadedExcelScenarioBody).toBeOK();
 
