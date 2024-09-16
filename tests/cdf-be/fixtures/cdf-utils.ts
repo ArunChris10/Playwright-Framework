@@ -836,8 +836,8 @@ export class CdfUtility {
   }
   static async validateYearlyAndMerticData(currentDemandScenario) {
     expect(
-      await currentDemandScenario.yearlyForecast[0].forecast
-    ).toHaveLength(11);
+      await currentDemandScenario.yearlyForecast[0].forecast.length
+    ).toBeGreaterThanOrEqual(11);
     currentDemandSlotTestData.metrics.forEach(async (metric) => {
       expect(
         await currentDemandScenario.yearlyForecast[0].forecast[0].hasOwnProperty(

@@ -15,6 +15,7 @@ test.describe("Verify user sees options to filter the view based upon dimensions
         // Extracting the response body
         let getVisualizerTableFilterDataResponseBody = await getVisualizerTableFilterDataResponse.json();
         debug.log(JSON.stringify(getVisualizerTableFilterDataResponseBody));
+        //NOTE : data is different in qa and stage , for channel group id for delivery and like  OTHER PHYSICAL, instamart are not in stage
         expect(getVisualizerTableFilterDataResponseBody).toEqual(testdatafile.expected_response);
         debug.log("User is able to filter based on dimensions");
     })

@@ -9,10 +9,17 @@ test.describe("Verify scenario is archived", { tag: "@Smoke @getDemandScenario @
   test.describe.configure({ timeout: 120_000, mode: 'serial' });
   let demandScenario;
   let payload;
-
+  let forecastVersion 
+  test.beforeAll(async ({ request }) => {
+    forecastVersion = await CdfUtility.getDemandScenarioList(request);
+    forecastVersion = forecastVersion.version;
+    console.log("Forecast Version: ", forecastVersion);
+  });
+ 
   test("Verify if the data is shown as per selected filters @getdemandscenario", async ({
     request
   }) => {
+    getCurrentDemandForecast.payload.version = forecastVersion
     demandScenario = await CdfUtility.getDemandScenario(request, getCurrentDemandForecast.payload);
     debug.log("Demand Scenario  : ", demandScenario);
   });

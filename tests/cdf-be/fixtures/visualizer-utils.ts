@@ -34,7 +34,8 @@ export class VisualizerUtility {
 
     // Method to call the get-visualizer-table-filters api
     static async getVisualizerTableFilters(request) {
-        const endpointURL = `${process.env.apiBaseURLVISUALIZER}${commonEndpoints.visualiserFilterEndpoint}${process.env.visualiserId}`;
+        let endpointURL = `${process.env.apiBaseURLVISUALIZER}${commonEndpoints.visualiserFilterEndpoint}${process.env.visualiserId}`;
+        endpointURL = endpointURL.replace('applicationId', process.env.applicationId);
         debug.log(endpointURL);
 
         // API Request

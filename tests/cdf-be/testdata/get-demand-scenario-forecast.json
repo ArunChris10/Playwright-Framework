@@ -149,7 +149,6 @@
     "channelGroupIds": [],
     "demandChannel": [],
     "layerIds": [
-      "419bb884-17f0-4229-9810-c4dbf3ca7d0c"
     ],
     "clearAll": false,
     "includeDerivedMetrics": false,
@@ -166,7 +165,7 @@
       "years": [],
       "yearList": []
     },
-    "version": "1712604073000",
+    "version": "",
     "filtersChanged": true,
     "departmentName": [
       "2 - PERSONAL CARE",
