@@ -8,7 +8,7 @@
                 "layerType": "HIGHLIGHTER",
                 "layerName": "Test Automation New Manual Adjustment Layer Edited Name",
                 "layerDescription": "Test Automation New Manual Adjustment Layer Edited Description",
-                "forecastVersion": "1712604073000",
+                "forecastVersion": "",
                 "isConfirmed": true
             }
         ]
@@ -22,23 +22,18 @@
                 "layerDescription": "Test Automation New Manual Adjustment Layer Description",
                 "userId": "LB-cdf-super-user",
                 "isConfirmed": true,
-                "version": "1712604073000",
+                "version": "",
                 "projectionMethod": "YoY Projection",
                 "createdBy": "LB-cdf-super-user",
-                "createdByUserName": "",
                 "updatedBy": "LB-cdf-super-user",
-                "updatedByUserName": "",
                 "isPreview": false
             },
             {
-                "layerId": "419bb884-17f0-4229-9810-c4dbf3ca7d0c",
                 "layerName": "DS Forecast",
                 "layerType": "FORECAST",
-                "layerCreationDateTime": "2024-04-09T22:24:56",
                 "userId": "System",
                 "isConfirmed": true,
-                "layerUpdateDateTime": "2024-04-09T22:24:56",
-                "version": "1712604073000",
+                "version": "",
                 "projectionMethod": "YoY Projection",
                 "createdBy": "System",
                 "createdByUserName": "",
