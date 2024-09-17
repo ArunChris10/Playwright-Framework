@@ -13,9 +13,13 @@ lobName.forEach((lob) => {
       test.describe.configure({ timeout: 600_000, mode: "parallel" });
 
       test(`Find input nodes for ${lob} scenario`, async ({ request }) => {
-        let inputnodes: string[] = [];
+        let inputnodes = new Map();
         inputnodes = await UfmUtility.getInputNodelist(lob, request);
-        Utility.logIt(inputnodes);
+        for (let [node_var_name, node_grain] of inputnodes) {
+          Utility.logIt(
+            "Node name - " + node_var_name + " Node grains - " + node_grain
+          );
+        }
       });
     }
   );

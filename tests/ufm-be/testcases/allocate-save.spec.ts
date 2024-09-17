@@ -49,7 +49,7 @@ for (let i = 0; i < lobName.length; i++) {
           scenarioId
         );
 
-        Utility.logIt(scenario_details['scenarioVersion']);
+        Utility.logIt(scenario_details["scenarioVersion"]);
       });
 
       test(`Verify if the user is able to allocate and save baseline for LOB - ${lobName[i]}`, async ({
@@ -61,7 +61,7 @@ for (let i = 0; i < lobName.length; i++) {
         payloadbody = await AllocationUtility.allocation(
           lobName[i],
           scenarioId,
-          commonData["Constant value"],
+          commonData["Maintain Ratio"],
           request
         );
 
@@ -87,7 +87,7 @@ for (let i = 0; i < lobName.length; i++) {
       }) => {
         await UfmUtility.deleteForecast(
           scenarioId,
-          scenario_details['scenarioVersion'],
+          scenario_details["scenarioVersion"],
           dimId,
           dimValId,
           request

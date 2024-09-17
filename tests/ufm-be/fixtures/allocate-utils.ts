@@ -82,12 +82,12 @@ export class AllocationUtility {
     allocation_method: number,
     request
   ) {
-    let inputNodes: string[] = [];
+    let inputNodes = new Map();
     let obj = {} as Root;
     let edit: Edit[] = [];
     let data = {};
 
-    let allocation = {} as Allocation;
+    // let allocation = {} as Allocation;
     let node_dimension: NodeDimension = {};
 
     //Get current month and year
@@ -98,11 +98,15 @@ export class AllocationUtility {
     //Get all input node of LOB
     inputNodes = await UfmUtility.getInputNodelist(lobName, request);
 
-    allocation.method = allocation_method;
-
-    for (let i = 0; i < inputNodes.length; i++) {
+    for (let [node_var_name, node_grain] of inputNodes) {
+      let allocation = {} as Allocation;
+      allocation.method = allocation_method;
+      console.log(node_var_name, node_grain[0], node_grain.length);
+      if (node_grain[0] == "month" && node_grain.length == 1) {
+        allocation.method = commonData["Constant value"];
+      }
       edit.push({
-        node_var_name: `${inputNodes[i]}`,
+        node_var_name: `${node_var_name}`,
         node_dimension: node_dimension,
         data: data,
         allocation: allocation,

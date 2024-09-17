@@ -458,7 +458,7 @@ export class UfmUtility {
    * @returns {Promise<string[]>} - A promise that resolves to an array of input node names.
    */
   static async getInputNodelist(lobName, request) {
-    let inputnodes: string[] = [];
+    let inputnodes = new Map();
     const endpointURL = `${process.env.apiBaseURLUFM}${inputNodes.endpoint}`;
 
     Utility.logIt(`Find input nodes for ${lobName} scenario`);
@@ -471,10 +471,10 @@ export class UfmUtility {
     let responseBody = await response.json();
     responseBody.nodes.filter(function (i) {
       if (i["is_editable"] == true) {
-        inputnodes.push(i["node_var_name"]);
+        inputnodes.set(i["node_var_name"], i["node_grain"]);
       }
     });
-    Utility.logIt(`No of input nodes for ${lobName} - ${inputnodes.length}`);
+    Utility.logIt(`No of input nodes for ${lobName} - ${inputnodes.size}`);
     return inputnodes;
   }
 
