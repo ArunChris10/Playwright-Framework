@@ -148,8 +148,7 @@
     "channelGroup": [],
     "channelGroupIds": [],
     "demandChannel": [],
-    "layerIds": [
-    ],
+    "layerIds": [],
     "clearAll": false,
     "includeDerivedMetrics": false,
     "includeTotals": true,

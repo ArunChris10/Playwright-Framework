@@ -258,13 +258,16 @@ test.describe("Create an EMT adjustment layer and verify the prorated distributi
 
         let proratedDistributionForChannel;
         let valueAtStartYearAndStartMonthBeforeLayer;
-        let startYear;
-        let startMonth;
+        let startYear = parseInt(getDemandScenarioForecastResponseBodyBeforeLayerCreation?.cutOffDate.substring(0,4));
+        let startMonth = parseInt(getDemandScenarioForecastResponseBodyBeforeLayerCreation?.cutOffDate.substring(5, 7))+1;
+        const startDate = new Date(startYear, startMonth-1);
+        const endDate = new Date(startDate.getFullYear() + 5, startDate.getMonth() + 9);
+        const yearMonthList = [];
+        for (let date = startDate; date <= endDate; date.setMonth(date.getMonth() + 1)) {
+            yearMonthList.push(`${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`);
+        }
         let totalSumForChannel = 0;
         await test.step("Calculate the ratio in which allocation and deallocation is happening", async () => {
-            let allocationMonths = testDataFile.payloadForEMTLayerCreationChannel.layers[0].allocationYearMonths[0];
-            startYear = parseInt(allocationMonths.substring(0,4));
-            startMonth = parseInt(allocationMonths.substring(5, 7));
 
             let forecastList;
             getDemandScenarioForecastResponseBodyBeforeLayerCreation.forecast.forEach(function(forecast) {
@@ -295,7 +298,7 @@ test.describe("Create an EMT adjustment layer and verify the prorated distributi
 
             let emtLayerCreationResponse;
             testDataFile.payloadForEMTLayerCreationChannel.layers[0].forecastVersion = forecastVersion;
-            emtLayerCreationResponse = await ManageRebaseUtility.createManualAdjustmentLayer(request, demandId, testDataFileManageRebase.endpointForCreateManualAdjustmentLayer, testDataFile.payloadForEMTLayerCreationChannel);
+            emtLayerCreationResponse = await ManageRebaseUtility.createManualAdjustmentLayer(request, demandId, testDataFileManageRebase.endpointForCreateManualAdjustmentLayer, testDataFile.payloadForEMTLayerCreationChannel, yearMonthList);
 
             let emtLayerCreationResponseBody;
             emtLayerCreationResponseBody = await emtLayerCreationResponse.json();

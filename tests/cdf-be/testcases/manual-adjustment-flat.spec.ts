@@ -23,6 +23,30 @@ test.describe(
         request,
         demandStackId
       );
+      const getResponse = await AdjustmentUtility.getAllDemandScenarioForecastData(
+        request,
+        demandStackId,
+        demandScenarioDetails
+      );
+      let startDate = String(
+        parseInt(getResponse.cutOffDate.split("-").join("")) + 1
+      );
+      yearMonths = [startDate];
+      yearMonthsFormatted = startDate.substring(0, 4) + "-" + startDate.substring(4);
+      const response = await AdjustmentUtility.getAllDemandScenarioForecastData(
+        request,
+        demandStackId,
+        demandScenarioDetails,
+        sbuFilter.sbuName,
+        sbuFilter.sbuIds,
+        deptartmentFilter.deptName,
+        deptartmentFilter.deptIds,
+        channelFilter.channelName,
+        channelFilter.channelIds,
+        yearMonths
+      );
+      baseForecastData =
+        response.forecast[0].childForecast[0].departmentForecast[0].forecast[0];
     });
 
     test("Verify: get actuals and forecast data all years without filter", async ({
@@ -115,7 +139,7 @@ test.describe(
       );
       let updatedForecast = response.forecast[0].childForecast[0].departmentForecast[0].forecast[0];
       let expectedUnits = baseForecastData.units + adjustmentData.forecastUpdatePayload.units;
-      let expectedGMV = Math.floor(baseForecastData.amount + (baseForecastData.aur * adjustmentData.forecastUpdatePayload.units));
+      let expectedGMV = Math.floor(expectedUnits * baseForecastData.aur);
       expect(updatedForecast.aur == baseForecastData.aur).toBe(true);
       expect(updatedForecast.units == expectedUnits).toBe(true);
       expect(Math.floor(updatedForecast.amount) == expectedGMV).toBe(true);
@@ -204,7 +228,7 @@ test.describe(
           [layerId]
         );
         let updatedForecast = response.forecast[0].childForecast[0].departmentForecast[0].forecast[0];
-        let expectedGMV = Math.floor(baseForecastData.amount + adjustmentData.forecastUpdatePayload.gmv);
+        let expectedGMV = Math.floor(baseForecastData.amount);
         let expectedUnits = Math.floor(baseForecastData.units + adjustmentData.forecastUpdatePayload.units);
         let expectedAUR = Math.floor(
             (baseForecastData.amount + 100)/(baseForecastData.units + 10)

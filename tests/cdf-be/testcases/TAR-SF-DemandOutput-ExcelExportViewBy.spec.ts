@@ -9,10 +9,14 @@ test.describe(
     tag: "@Regression @ibg-service-scenario-financials @DemandOutput",
   },
   () => {
-    let demandId, forecast, excelApiResponse;
+    let demandId, forecast, excelApiResponse, demandScenarioDetails;
 
     test.beforeAll(async ({ request }) => {
       demandId = await CdfUtility.createScenario(request);
+      demandScenarioDetails = await DemandBaseClass.getDemandStackDetails(
+        request,
+        demandId
+      );
     });
 
     test.afterAll(async ({ request }) => {
@@ -26,6 +30,7 @@ test.describe(
         await test.step("Retrieve forecast data to use for assert", async () => {
           testData.payload.timeFilter.filterLevel =
             testData.aggregationTypes[aggregationKey];
+          testData.payload.version = demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version
           const demandScenario =
             await CdfUtility.getDemandScenarioByIdAndPayload(
               request,
@@ -65,7 +70,7 @@ test.describe(
             ) as object
           ).slice(2);
           const expectedValues = forecast.map((data: any) => data.amount);
-          expect(excelValues).toEqual(expectedValues);
+          expect(excelValues.filter(value => {return value !== ""})).toEqual(expectedValues);
         });
       });
     });

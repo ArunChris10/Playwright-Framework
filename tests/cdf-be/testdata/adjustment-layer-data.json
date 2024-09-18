@@ -1,12 +1,12 @@
 {
     "filterLevel": "MONTH",
     "sbuFilter": {
-      "sbuName": ["FOOD"],
-      "sbuIds": [27]
+      "sbuName": ["FASHION"],
+      "sbuIds": [4]
     },
     "deptartmentFilter": {
-      "deptName": ["CANDY"],
-      "deptIds": [1]
+      "deptName": ["SHOES"],
+      "deptIds": [25]
     },
     "channelFilter": {
       "channelName": ["DSV_S2H"],

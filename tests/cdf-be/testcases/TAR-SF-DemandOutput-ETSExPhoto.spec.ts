@@ -45,7 +45,7 @@ test.describe(
                     )
                     return {
                         photoForecasts: departments.forecast.filter((department) => department.departmentId === testData.photoDepartment.id),
-                        etsTotals: departments.forecastTotals.grandTotal.forecast,
+                        etsTotals: departments?.forecastTotals?.grandTotal?.forecast,
                     }
                 }))
             })
@@ -112,7 +112,7 @@ test.describe(
             })
 
             await test.step("Compare calculated Total Ex Photo values to actuals in the Demand Output response", () => {
-                const totalsExPhoto = forecastWithExPhoto.forecastTotals.totalAfterExcludingDepartments
+                const totalsExPhoto = forecastWithExPhoto.forecastTotals?.totalAfterExcludingDepartments
 
                 expect(totalsExPhoto).toBeDefined()
 

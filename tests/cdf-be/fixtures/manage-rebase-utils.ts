@@ -31,10 +31,13 @@ export class ManageRebaseUtility {
         return response;
     }
 
-    static async createManualAdjustmentLayer(request, demandId, endpoint, payload) {
+    static async createManualAdjustmentLayer(request, demandId, endpoint, payload, yearMonthList=null) {
         const endpointURL = `${process.env.apiBaseURLCDF}${endpoint}${demandId}`;
         console.log(endpointURL);
-
+        if (yearMonthList) {
+            payload.layers[0].yearMonths = yearMonthList;
+            payload.layers[0].allocationYearMonths = yearMonthList;
+        }
         // API Request
         const response = await request.put(
             endpointURL,

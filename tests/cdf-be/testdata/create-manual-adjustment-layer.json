@@ -12,16 +12,16 @@
                 "isPreview": false,
                 "highlighterAllocationsList": [
                     {
-                        "sbu": "FOOD",
-                        "sbuId": 27,
+                        "sbu": "FASHION",
+                        "sbuId": 4,
                         "channels": [],
                         "amount": -20728035094.36,
                         "yearMonth": "2030-12",
                         "channelIds": []
                     },
                     {
-                        "sbu": "FOOD",
-                        "sbuId": 27,
+                        "sbu": "FASHION",
+                        "sbuId": 4,
                         "channels": [],
                         "amount": -22794286023.18,
                         "yearMonth": "2030-11",

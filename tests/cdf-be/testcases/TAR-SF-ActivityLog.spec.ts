@@ -59,6 +59,7 @@ test.describe(
         await test.step("Create adjustment layer", async () => {
           
         await LockUnlockUtility.lockDSSData(request, demandId);
+        testdatafileCreateManualAdjustment.payload.layers[0].forecastVersion = demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version
             createAdjustmentLayerDataResponse =
             await AdjustmentUtility.createManualAdjustmentLayer(
                 request,

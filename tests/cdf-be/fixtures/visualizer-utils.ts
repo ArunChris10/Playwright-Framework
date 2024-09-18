@@ -47,8 +47,8 @@ export class VisualizerUtility {
         return response;
     }
 
-    static async getTemplate(request, appId = 1) {
-        const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/templates/${appId}`;
+    static async getTemplate(request) {
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/templates/${process.env.applicationId}`;
         debug.log(endpointURL);
         const response = await request.get(
             endpointURL,
@@ -60,7 +60,7 @@ export class VisualizerUtility {
     }
 
     static async searchScenario(request, templateId: string, appId = 1, size = 50) {
-        const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/templates/${appId}/scenarios/${templateId}/search?filterValue=&size=${size}`;
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/templates/${process.env.applicationId}/scenarios/${templateId}/search?filterValue=&size=${size}`;
         debug.log(endpointURL);
         const response = await request.get(
             endpointURL,
@@ -99,10 +99,12 @@ export class VisualizerUtility {
         return responseBody;
     }
 
-   static async visualizerSaveCurrentDemand(request) {
+   static async visualizerSaveCurrentDemand(request, templateId) {
         const endpointURL = `${process.env.apiBaseURLVISUALIZER}${visualizerSaveCurrentDemandData.endpoint}`;
         debug.log(endpointURL);
-
+        visualizerSaveCurrentDemandData.payload.applicationId = process.env.applicationId;
+        visualizerSaveCurrentDemandData.payload.applicationSrcTemplateId = templateId;
+        visualizerSaveCurrentDemandData.payload.allTemplateData.map(template => ({...template, templateId: templateId}));
         const response = await request.put(
             endpointURL,
             { data: visualizerSaveCurrentDemandData.payload, headers: VisualizerUtility.headers }
@@ -112,7 +114,7 @@ export class VisualizerUtility {
     }
 
     static async getVisualizerTableData(request, templateId: string, payloadExtension = {}, appId = 1) {
-        const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/templates/${appId}/scenarios/${templateId}/data`;
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/templates/${process.env.applicationId}/scenarios/${templateId}/data`;
         debug.log(endpointURL);
         const response = await request.post(
             endpointURL,

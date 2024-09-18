@@ -4,10 +4,17 @@ import debug from 'debug';
 
 test.describe("Verify if super user can publish a view to current demand", { tag: "@Smoke @publishToCurrentDemand @ibg-service-scenario-financials @Regression" }, () => {
     
-    let visualizerSaveDataResponse;
+    let visualizerSaveDataResponse, templateId;
+
+    test.beforeAll(async ({ request }) => {
+        const templates = await VisualizerUtility.getTemplate(request);
+        templateId = templates.find(
+          (t) => t.isMergedTemplate === true
+        )?.templateId;
+      });
 
     test("Verify visualizer-save api is working", async ({ request }) => {
-        visualizerSaveDataResponse = await VisualizerUtility.visualizerSaveCurrentDemand(request);
+        visualizerSaveDataResponse = await VisualizerUtility.visualizerSaveCurrentDemand(request, templateId);
 
         // Assertion
         expect(visualizerSaveDataResponse).toBeOK();

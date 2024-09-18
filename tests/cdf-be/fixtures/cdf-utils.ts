@@ -362,8 +362,12 @@ export class CdfUtility {
       }
   }
   
-  static async getDemandScenarioById(request, demandId) {
+  static async getDemandScenarioById(request, demandId, demandScenarioDetails=null) {
     const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenario.endpoint}${demandId}`;
+    debug.log(endpointURL);
+    if (demandScenarioDetails) {
+      getDemandScenario.payload.version = demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version
+    }
     console.log(endpointURL);
 
     let forecastVersion = await CdfUtility.getDemandScenarioList(request);
