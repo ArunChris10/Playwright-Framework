@@ -26,7 +26,18 @@ export class Visualizer {
   private readonly noRows: Locator;
   private readonly gridCell: Locator;
   private readonly channelGroupDropdown: Locator;
+  private readonly configurationPanelTitle: Locator;
+  private readonly leftConfigurationPanel: Locator;
+  private readonly configurationPanelTextArea: Locator
+  private readonly copyVisualizerDataIcon: Locator;
+  private readonly agRows: Locator;
 
+  private readonly deleteDialog: Locator;
+  private readonly dialogCancelButton: Locator;
+  private readonly dialogDeleteButton: Locator;
+
+  private readonly THREE_DOTS_SELECTOR = 'svg[test-data="ellipses-menu"]'
+  private readonly LIST_ITEM_DELETE_SELECTOR = 'li[test-data="delete-click"]'
 
   constructor(page: Page) {
     this.page = page;
@@ -50,6 +61,16 @@ export class Visualizer {
     this.noRows = this.page.getByText("No Rows To Show");
     this.gridCell = this.page.getByRole('gridcell', {name : '$', exact:false});
     this.channelGroupDropdown = this.page.getByRole('button', { name: 'All Channel Group' })
+    this.configurationPanelTitle = this.page.getByText('Configure Panel')
+    this.leftConfigurationPanel = this.page
+        .locator('.MuiDrawer-paperAnchorLeft')
+        .filter({ has: this.configurationPanelTitle })
+    this.configurationPanelTextArea = this.page.locator('textarea[placeholder="Write a View Name"]')
+    this.copyVisualizerDataIcon = this.page.locator('[test-data="copyVisualizerData"]')
+    this.deleteDialog = this.page.getByRole('dialog', { name: 'Delete View' })
+    this.dialogCancelButton = this.page.getByRole('button', { name: 'Cancel' })
+    this.dialogDeleteButton = this.page.getByRole('button', { name: 'Yes, Delete' })
+    this.agRows = this.page.locator('.ag-row')
   }
 
   async openCreateNewVisualizerModal() {
@@ -82,7 +103,7 @@ export class Visualizer {
   
   async chooseNewMetrics(metrics) {
     for (let metric of metrics) {
-      await this.page.getByLabel(metric).check();
+      await this.page.getByLabel(metric).click();
     }
   }
 
@@ -202,5 +223,43 @@ export class Visualizer {
 
   async openSettings() {
       await this.settingsButton.click();
+  }
+
+  async assertLeftConfigurationPanelIsOpen() {
+    await expect(this.leftConfigurationPanel).toBeVisible();
+  }
+
+  async assertViewExists(name: string) {
+    const agRowWithView = this.agRows.filter({ has: this.page.getByText(name)})
+
+    await this.openSavedViews()
+    await expect(agRowWithView).toBeVisible()
+  }
+
+  async getConfigurationPanelViewName(name: string): Promise<string | null> {
+    await this.page.getByText(name.slice(0, 10)).first().click()
+    await this.copyVisualizerDataIcon.click()
+
+    return this.configurationPanelTextArea.textContent()
+  }
+
+  async deleteViewFromList(name: string) {
+    const agRowWithView = this.agRows.filter({ has: this.page.getByText(name)})
+
+    const threeDotsMenuForView = agRowWithView.locator(this.THREE_DOTS_SELECTOR)
+
+    await threeDotsMenuForView.click()
+
+    const menuButton = this.page.locator(this.LIST_ITEM_DELETE_SELECTOR)
+    await menuButton.click({ force: true })
+
+    await expect(this.deleteDialog).toBeVisible()
+    await expect(this.dialogCancelButton).toBeVisible()
+    await expect(this.dialogDeleteButton).toBeVisible()
+
+    await this.dialogDeleteButton.click()
+    await Utility.waitForDataLoadingMessageToBeInvisible(this.page)
+
+    await expect(agRowWithView).toBeHidden()
   }
 }
