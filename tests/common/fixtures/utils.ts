@@ -309,4 +309,8 @@ export class Utility {
   static roundToDecimals(num: number, decimals: number = 2) {
     return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
   }
+
+  public static async verifyPageDoesNotHaveText(page, text) {
+    await expect(page.getByText(text)).not.toBeVisible();
+  }
 }

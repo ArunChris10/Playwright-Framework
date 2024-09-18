@@ -16,5 +16,6 @@
     "customMetricName":"Test Automation Custom Metric Name",
     "merchChannelHierarchy": ["Merch Channel"],
     "merchChannelGroupsDropdown": ["Core", "Stores", "Seller Fulfilled", "Walmart Fulfillment Services"],
-    "defaultChannelGroupsDropdown": ["INSTORE INCLUB", "DELIVERY", "PICKUP", "OTHER"]
+    "defaultChannelGroupsDropdown": ["INSTORE INCLUB", "DELIVERY", "PICKUP", "OTHER"],
+    "customUnaryOperation": "Year over year %"
 }

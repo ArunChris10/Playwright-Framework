@@ -3,7 +3,6 @@ import testdata from "../testdata/create-visualizerview.json";
 import { Utility } from "../../common/fixtures/utils";
 
 export class Visualizer {
-
   private readonly page: Page;
   private readonly urlEndpoint = process.env.cdfAppBaseURL + "";
   private readonly viewNameTextField: Locator;
@@ -26,51 +25,110 @@ export class Visualizer {
   private readonly noRows: Locator;
   private readonly gridCell: Locator;
   private readonly channelGroupDropdown: Locator;
+  private readonly scenarios: Locator;
+  private readonly metrics: Locator;
+  private readonly editMenuButton: Function;
+  private readonly editMenuItemButton: Locator;
+  private readonly deleteMenuItemButton: Locator;
+  private readonly editCalculationTitle: Locator;
+  private readonly cancelButton: Locator;
+  private readonly deleteConfirmationButton: Locator;
   private readonly configurationPanelTitle: Locator;
   private readonly leftConfigurationPanel: Locator;
-  private readonly configurationPanelTextArea: Locator
+  private readonly configurationPanelTextArea: Locator;
   private readonly copyVisualizerDataIcon: Locator;
   private readonly agRows: Locator;
-
   private readonly deleteDialog: Locator;
   private readonly dialogCancelButton: Locator;
   private readonly dialogDeleteButton: Locator;
-
-  private readonly THREE_DOTS_SELECTOR = 'svg[test-data="ellipses-menu"]'
-  private readonly LIST_ITEM_DELETE_SELECTOR = 'li[test-data="delete-click"]'
+  private readonly THREE_DOTS_SELECTOR = 'svg[test-data="ellipses-menu"]';
+  private readonly LIST_ITEM_DELETE_SELECTOR = 'li[test-data="delete-click"]';
 
   constructor(page: Page) {
     this.page = page;
-    this.viewNameTextField = this.page.getByPlaceholder('Write a View Name');
-    this.createViewButton = this.page.getByRole('button', { name: 'Create View' });
-    this.searchScenarioField = this.page.getByPlaceholder('Search');
-    this.dateRange = this.page.getByTestId('date-range-component').locator('div');
-    this.saveDateRange = this.page.getByRole('button', { name: 'Apply' });
-    this.openMoreSavedViews = this.page.getByLabel('more');
-    this.savedViewsButton = this.page.getByRole('menuitem', { name: 'Saved Views' });
-    this.saveNewView = this.page.getByRole('button', { name: 'Create View' });
-    this.visualizerName = this.page.locator('a').filter({ hasText: testdata.viewName });
-    this.settingsButton = this.page.getByLabel('icon').nth(1);
-    this.publishToCurrentDemandButton = this.page.getByLabel('Publish');
-    this.addCustomScenarioButton = this.page.getByRole('button', { name: 'Add new scenario' });
-    this.customScenarioNameTextField = this.page.getByPlaceholder('Enter new scenario name');
-    this.addCalculationButton = this.page.getByRole('button', { name: 'Add calculation' });
-    this.addCustomMetricButton = this.page.getByRole('button', {name: 'Add new metric'});
-    this.customMetricNameTextField = this.page.getByPlaceholder('Enter new metric name');
-    this.pauseRefreshToggle = this.page.getByRole('switch', { name: 'Pause refresh' })
+    this.viewNameTextField = this.page.getByPlaceholder("Write a View Name");
+    this.createViewButton = this.page.getByRole("button", {
+      name: "Create View",
+    });
+    this.searchScenarioField = this.page.getByPlaceholder("Search");
+    this.dateRange = this.page
+      .getByTestId("date-range-component")
+      .locator("div");
+    this.saveDateRange = this.page.getByRole("button", { name: "Apply" });
+    this.openMoreSavedViews = this.page.getByLabel("more");
+    this.savedViewsButton = this.page.getByRole("menuitem", {
+      name: "Saved Views",
+    });
+    this.saveNewView = this.page.getByRole("button", { name: "Create View" });
+    this.visualizerName = this.page
+      .locator("a")
+      .filter({ hasText: testdata.viewName });
+    this.settingsButton = this.page.getByLabel("icon").nth(1);
+    this.publishToCurrentDemandButton = this.page.getByLabel("Publish");
+    this.addCustomScenarioButton = this.page.getByRole("button", {
+      name: "Add new scenario",
+    });
+    this.customScenarioNameTextField = this.page.getByPlaceholder(
+      "Enter new scenario name"
+    );
+    this.addCalculationButton = this.page.getByRole("button", {
+      name: "Add calculation",
+    });
+    this.addCustomMetricButton = this.page.getByRole("button", {
+      name: "Add new metric",
+    });
+    this.customMetricNameTextField = this.page.getByPlaceholder(
+      "Enter new metric name"
+    );
+    this.pauseRefreshToggle = this.page.getByRole("switch", {
+      name: "Pause refresh",
+    });
     this.noRows = this.page.getByText("No Rows To Show");
-    this.gridCell = this.page.getByRole('gridcell', {name : '$', exact:false});
-    this.channelGroupDropdown = this.page.getByRole('button', { name: 'All Channel Group' })
-    this.configurationPanelTitle = this.page.getByText('Configure Panel')
+    this.gridCell = this.page.getByRole("gridcell", {
+      name: "$",
+      exact: false,
+    });
+    this.channelGroupDropdown = this.page.getByRole("button", {
+      name: "All Channel Group",
+    });
+    this.scenarios = this.page.locator(
+      'div[class*="CustomVisualizerPanel_renderScenariosList_"]'
+    );
+    this.metrics = this.page.locator(
+      'div[class*="CustomVisualizerPanel_renderMetrics_"]'
+    );
+    this.editMenuButton = function (customScenarioOrMetricName) {
+      return this.page
+        .getByRole("button", {
+          name: `${customScenarioOrMetricName} edit-metric`,
+        })
+        .getByLabel("edit-metric");
+    };
+    this.editMenuItemButton = this.page.getByRole("menuitem", { name: "Edit" });
+    this.deleteMenuItemButton = this.page.getByRole("menuitem", {
+      name: "Delete",
+    });
+    this.editCalculationTitle = this.page.getByText("Edit calculation");
+    this.cancelButton = this.page.getByRole("button", { name: "Cancel" });
+    this.deleteConfirmationButton = page.getByRole("button", {
+      name: "Yes, Delete",
+    });
+    this.configurationPanelTitle = this.page.getByText("Configure Panel");
     this.leftConfigurationPanel = this.page
-        .locator('.MuiDrawer-paperAnchorLeft')
-        .filter({ has: this.configurationPanelTitle })
-    this.configurationPanelTextArea = this.page.locator('textarea[placeholder="Write a View Name"]')
-    this.copyVisualizerDataIcon = this.page.locator('[test-data="copyVisualizerData"]')
-    this.deleteDialog = this.page.getByRole('dialog', { name: 'Delete View' })
-    this.dialogCancelButton = this.page.getByRole('button', { name: 'Cancel' })
-    this.dialogDeleteButton = this.page.getByRole('button', { name: 'Yes, Delete' })
-    this.agRows = this.page.locator('.ag-row')
+      .locator(".MuiDrawer-paperAnchorLeft")
+      .filter({ has: this.configurationPanelTitle });
+    this.configurationPanelTextArea = this.page.locator(
+      'textarea[placeholder="Write a View Name"]'
+    );
+    this.copyVisualizerDataIcon = this.page.locator(
+      '[test-data="copyVisualizerData"]'
+    );
+    this.deleteDialog = this.page.getByRole("dialog", { name: "Delete View" });
+    this.dialogCancelButton = this.page.getByRole("button", { name: "Cancel" });
+    this.dialogDeleteButton = this.page.getByRole("button", {
+      name: "Yes, Delete",
+    });
+    this.agRows = this.page.locator(".ag-row");
   }
 
   async openCreateNewVisualizerModal() {
@@ -87,69 +145,144 @@ export class Visualizer {
     await this.page.getByText(name).click();
   }
 
+  async removeScenario(name, customScenariosFromScenario: string[] = []) {
+    await this.page
+      .locator("span")
+      .filter({ hasText: name })
+      .first()
+      .locator("svg")
+      .click();
+    if (await this.deleteConfirmationButton.isVisible()) {
+      await this.deleteConfirmationButton.click();
+    }
+    // assert child custom scenarios are deleted
+    await this.page.waitForSelector(`span:has-text("${name}")`, {
+      state: "detached",
+    });
+    for (let scenario of customScenariosFromScenario) {
+      await Utility.verifyPageDoesNotHaveText(this.page, scenario);
+    }
+  }
+
   async chooseNewDateRange(dateType, startDate, endDate) {
     await this.dateRange.first().click();
     await this.page.getByLabel(dateType).check();
-    await this.page.getByRole('button', { name: startDate }).click();
-    await this.page.getByRole('button', { name: endDate }).click();
+    await this.page.getByRole("button", { name: startDate }).click();
+    await this.page.getByRole("button", { name: endDate }).click();
     await this.saveDateRange.click();
   }
 
   async chooseNewHierarchys(hierarchys) {
     for (let hierarchy of hierarchys) {
-        await this.page.getByLabel(hierarchy).check();
+      await this.page.getByLabel(hierarchy).check();
     }
   }
-  
+
   async chooseNewMetrics(metrics) {
     for (let metric of metrics) {
       await this.page.getByLabel(metric).click();
     }
   }
 
-  async createScenario(customScenarioName, customScenariosCreatedFrom, customScenarioOperation) {
-      await this.addCustomScenarioButton.click();
-      await this.customScenarioNameTextField.fill(customScenarioName);
-      await this.page.getByRole('button', { name: customScenarioOperation }).click();
-      for (let scenario of customScenariosCreatedFrom) {
-        await this.page.getByLabel(scenario).check();
-      }
-      await this.addCalculationButton.click();
+  async createScenario(
+    customScenarioName,
+    customScenariosCreatedFrom,
+    customScenarioOperation
+  ) {
+    await this.addCustomScenarioButton.click();
+    await this.customScenarioNameTextField.fill(customScenarioName);
+    await this.page
+      .getByRole("button", { name: customScenarioOperation })
+      .click();
+    for (let scenario of customScenariosCreatedFrom) {
+      await this.page.getByLabel(scenario).check();
+    }
+    await this.addCalculationButton.click();
+  }
+
+  async verifyScenarioInPosition(scenarioName, position = -1) {
+    let scenario;
+    if (position === -1) {
+      scenario = await this.scenarios.last();
+    } else {
+      scenario = await this.scenarios.nth(position);
+    }
+    await expect(scenario).toHaveText(scenarioName);
   }
 
   async verifyCustomScenarioView(scenarioNames, operation) {
     let operationNum = -1;
-    if (operation === 'sum') {
-      operationNum = parseInt(await this.gridCell.nth(1).innerText()) + parseInt(await this.gridCell.nth(2).innerText());
+    if (operation === "sum") {
+      operationNum =
+        parseInt(await this.gridCell.nth(1).innerText()) +
+        parseInt(await this.gridCell.nth(2).innerText());
     }
-    if (operation === 'difference') {
-      operationNum = parseInt(await this.gridCell.nth(1).innerText()) - parseInt(await this.gridCell.nth(2).innerText());
+    if (operation === "difference") {
+      operationNum =
+        parseInt(await this.gridCell.nth(1).innerText()) -
+        parseInt(await this.gridCell.nth(2).innerText());
     }
     const value = parseInt(await this.gridCell.nth(3).innerText());
     await expect(value).toBe(operationNum);
   }
 
-  async createMetric(customMetricName, customMetricCreatedFrom, customMetricOperation) {
-      await this.addCustomMetricButton.click();
-      await this.customMetricNameTextField.fill(customMetricName);
-      await this.page.getByRole('button', { name: customMetricOperation }).click();
-      for (let metric of customMetricCreatedFrom) {
-        await this.page.getByLabel(metric).check();
-      }
-      await this.addCalculationButton.click();
+  async createMetric(
+    customMetricName,
+    customMetricCreatedFrom,
+    customMetricOperation
+  ) {
+    await this.addCustomMetricButton.click();
+    await this.customMetricNameTextField.fill(customMetricName);
+    await this.page
+      .getByRole("button", { name: customMetricOperation })
+      .click();
+    for (let metric of customMetricCreatedFrom) {
+      await this.page.getByLabel(metric).check();
+    }
+    await this.addCalculationButton.click();
+  }
+
+  async verifyMetricInPosition(metricName, position = -1) {
+    let metric;
+    if (position === -1) {
+      metric = await this.metrics.last();
+    } else {
+      metric = await this.metrics.nth(position);
+    }
+    await expect(metric).toHaveText(metricName);
   }
 
   async verifyCustomMetric(metricName, operation) {
     await expect(this.page.getByText(metricName).first()).toBeVisible();
     let operationNum = -1;
-    if (operation === 'sum') {
-      operationNum = parseInt(await this.gridCell.nth(1).innerText()) + parseInt(await this.gridCell.nth(2).innerText());
+    if (operation === "sum") {
+      operationNum =
+        parseInt(await this.gridCell.nth(1).innerText()) +
+        parseInt(await this.gridCell.nth(2).innerText());
     }
-    if (operation === 'difference') {
-      operationNum = parseInt(await this.gridCell.nth(1).innerText()) - parseInt(await this.gridCell.nth(2).innerText());
+    if (operation === "difference") {
+      operationNum =
+        parseInt(await this.gridCell.nth(1).innerText()) -
+        parseInt(await this.gridCell.nth(2).innerText());
     }
     const value = parseInt(await this.gridCell.nth(3).innerText());
     await expect(operationNum).toBe(value);
+  }
+
+  async verifyCanEditCalculation(customScenarioOrMetricName) {
+    await this.editMenuButton(customScenarioOrMetricName).click();
+    await this.editMenuItemButton.click();
+    await expect(this.editCalculationTitle).toBeVisible();
+    await this.cancelButton.click();
+  }
+
+  async deleteCalculation(customScenarioOrMetricName) {
+    await this.editMenuButton(customScenarioOrMetricName).click();
+    await this.deleteMenuItemButton.click();
+    await Utility.verifyPageDoesNotHaveText(
+      this.page,
+      customScenarioOrMetricName
+    );
   }
 
   async pauseRefreshToggleButton() {
@@ -167,17 +300,43 @@ export class Visualizer {
   }
 
   async unpinSavedView(name) {
-    const pinned = this.page.getByRole('row', {name: name, exact: false}).first().getByRole('button').nth(1);
-    await this.page.getByRole('row', {name: name, exact: false}).first().getByRole('button').nth(1).click();
-    const unpinned = this.page.getByRole('row', {name: name, exact: false}).last().getByRole('button').nth(1)
+    const pinned = this.page
+      .getByRole("row", { name: name, exact: false })
+      .first()
+      .getByRole("button")
+      .nth(1);
+    await this.page
+      .getByRole("row", { name: name, exact: false })
+      .first()
+      .getByRole("button")
+      .nth(1)
+      .click();
+    const unpinned = this.page
+      .getByRole("row", { name: name, exact: false })
+      .last()
+      .getByRole("button")
+      .nth(1);
     await expect(pinned).not.toBe(unpinned);
   }
 
   async pinSavedView(name) {
-    const unpinned = this.page.getByRole('row', {name: name, exact: false}).last().getByRole('button').nth(1);
-    await this.page.getByRole('row', {name: name, exact: false}).first().getByRole('button').nth(1).click();
+    const unpinned = this.page
+      .getByRole("row", { name: name, exact: false })
+      .last()
+      .getByRole("button")
+      .nth(1);
+    await this.page
+      .getByRole("row", { name: name, exact: false })
+      .first()
+      .getByRole("button")
+      .nth(1)
+      .click();
     await Utility.waitForDataLoadingMessageToBeInvisible(this.page);
-    const pinned = this.page.getByRole('row', {name: name, exact: false}).first().getByRole('button').nth(1)
+    const pinned = this.page
+      .getByRole("row", { name: name, exact: false })
+      .first()
+      .getByRole("button")
+      .nth(1);
     await expect(pinned).not.toBe(unpinned);
   }
 
@@ -187,17 +346,23 @@ export class Visualizer {
   }
 
   async verifyView(hierarchys) {
-    await expect(await this.visualizerName.allTextContents()).toContain(testdata.viewName);
-    await expect(this.page.getByRole('columnheader', { name: 'Actual' })).toBeVisible();
+    await expect(await this.visualizerName.allTextContents()).toContain(
+      testdata.viewName
+    );
+    await expect(
+      this.page.getByRole("columnheader", { name: "Actual" })
+    ).toBeVisible();
     for (let hierarchy of hierarchys) {
-      await expect(this.page.getByRole('columnheader', { name: hierarchy })).toBeVisible();
+      await expect(
+        this.page.getByRole("columnheader", { name: hierarchy })
+      ).toBeVisible();
     }
   }
 
   async verifyChannelDropdowns(channelGroupFilters) {
-      await this.channelGroupDropdown.click();
-      for (let filter of channelGroupFilters) {
-        await expect(this.page.getByText(filter).first()).toBeVisible();
+    await this.channelGroupDropdown.click();
+    for (let filter of channelGroupFilters) {
+      await expect(this.page.getByText(filter).first()).toBeVisible();
     }
   }
 
@@ -218,11 +383,11 @@ export class Visualizer {
   }
 
   async assertPublishCheckboxDoesNotExist() {
-    await this.publishToCurrentDemandButton.isHidden()
+    await this.publishToCurrentDemandButton.isHidden();
   }
 
   async openSettings() {
-      await this.settingsButton.click();
+    await this.settingsButton.click();
   }
 
   async assertLeftConfigurationPanelIsOpen() {
@@ -230,36 +395,42 @@ export class Visualizer {
   }
 
   async assertViewExists(name: string) {
-    const agRowWithView = this.agRows.filter({ has: this.page.getByText(name)})
+    const agRowWithView = this.agRows.filter({
+      has: this.page.getByText(name),
+    });
 
-    await this.openSavedViews()
-    await expect(agRowWithView).toBeVisible()
+    await this.openSavedViews();
+    await expect(agRowWithView).toBeVisible();
   }
 
   async getConfigurationPanelViewName(name: string): Promise<string | null> {
-    await this.page.getByText(name.slice(0, 10)).first().click()
-    await this.copyVisualizerDataIcon.click()
+    await this.page.getByText(name.slice(0, 10)).first().click();
+    await this.copyVisualizerDataIcon.click();
 
-    return this.configurationPanelTextArea.textContent()
+    return this.configurationPanelTextArea.textContent();
   }
 
   async deleteViewFromList(name: string) {
-    const agRowWithView = this.agRows.filter({ has: this.page.getByText(name)})
+    const agRowWithView = this.agRows.filter({
+      has: this.page.getByText(name),
+    });
 
-    const threeDotsMenuForView = agRowWithView.locator(this.THREE_DOTS_SELECTOR)
+    const threeDotsMenuForView = agRowWithView.locator(
+      this.THREE_DOTS_SELECTOR
+    );
 
-    await threeDotsMenuForView.click()
+    await threeDotsMenuForView.click();
 
-    const menuButton = this.page.locator(this.LIST_ITEM_DELETE_SELECTOR)
-    await menuButton.click({ force: true })
+    const menuButton = this.page.locator(this.LIST_ITEM_DELETE_SELECTOR);
+    await menuButton.click({ force: true });
 
-    await expect(this.deleteDialog).toBeVisible()
-    await expect(this.dialogCancelButton).toBeVisible()
-    await expect(this.dialogDeleteButton).toBeVisible()
+    await expect(this.deleteDialog).toBeVisible();
+    await expect(this.dialogCancelButton).toBeVisible();
+    await expect(this.dialogDeleteButton).toBeVisible();
 
-    await this.dialogDeleteButton.click()
-    await Utility.waitForDataLoadingMessageToBeInvisible(this.page)
+    await this.dialogDeleteButton.click();
+    await Utility.waitForDataLoadingMessageToBeInvisible(this.page);
 
-    await expect(agRowWithView).toBeHidden()
+    await expect(agRowWithView).toBeHidden();
   }
 }
