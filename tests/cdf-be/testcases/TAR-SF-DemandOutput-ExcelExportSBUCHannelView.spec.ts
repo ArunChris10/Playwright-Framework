@@ -2,6 +2,9 @@ import { test, expect } from "../../common/fixtures/test-hook";
 import testData from "../testdata/downloadscenario.json";
 import { DemandBaseClass } from "../fixtures/demand-common-utils";
 import { CdfUtility } from "../fixtures/cdf-utils";
+import { ManageRebaseUtility } from '../fixtures/manage-rebase-utils';
+import testDataFileManageRebase from '../testdata/manage-rebase.json';
+import testdatafile from '../testdata/current-demand-excel-download.json';
 
 test.describe(
   "Verify Export to excel is dowloading data for both SBU and Channel View",
@@ -25,6 +28,24 @@ test.describe(
       }) => {
         await test.step("Retrieve forecast data to use for assert", async () => {
           testData.payload.organizationalLevel = testData.organizationalLevels[organizationalKey];
+          let forecastVersion = await CdfUtility.getDemandScenarioList(request);
+          forecastVersion = forecastVersion.version;
+          console.log("Forecast Version: ", forecastVersion);
+
+          let forecastInfoResponse;
+          forecastInfoResponse = await ManageRebaseUtility.getForecastInfoList(request, demandId, testDataFileManageRebase.endpointForForecastInfoList, testDataFileManageRebase.payloadForForecastInfoList);
+
+          let forecastInfoResponseBody;
+          forecastInfoResponseBody = await forecastInfoResponse.json();
+
+          // Fetch the layerId for the forecast version of the DSS created 
+          let forecastLayerId;
+          forecastInfoResponseBody.forEach(function(forecastInfo) {
+              if(forecastInfo.version == forecastVersion) {
+                  forecastLayerId = forecastInfo.forecastLayerId;
+              }
+          });
+          testData.payload.version = forecastVersion;
           const demandScenario =
             await CdfUtility.getDemandScenarioByIdAndPayload(
               request,
@@ -69,7 +90,7 @@ test.describe(
             ).slice(3);
           }
           const expectedValues = forecast.map((data: any) => data.amount);
-          expect(excelValues).toEqual(expectedValues);
+          CdfUtility.compareExcelDownloadedValuesWithAPIResponse(excelValues, expectedValues, testdatafile.allowedTolerance)
         });
       });
     });

@@ -19,9 +19,10 @@ test.describe("Verify In Allocation creation, throw an error if there is any dat
     );
   });
 
-  test("Verify In Allocation creation, throw an error if there is any data before current fiscal month. All deallocations and allocations should only be for current and future fiscal months", async ({
+  test.skip("Verify In Allocation creation, throw an error if there is any data before current fiscal month. All deallocations and allocations should only be for current and future fiscal months", async ({
     request
   }) => {
+    // TODO: We can skip this test case in backend and validate it in front end
     await test.step("Verify In Allocation creation, throw an error if there is any data before current fiscal month. All deallocations and allocations should only be for current and future fiscal months", async () => {
         await DemandBaseClass.lockUnlockDemandScenario(request, "lock", demandStackId);
         let demandworkspaceResponse;

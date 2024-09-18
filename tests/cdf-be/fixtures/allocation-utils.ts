@@ -263,7 +263,7 @@ export class AllocationUtils extends DemandBaseClass {
     const payload = {
       layers: [
         {
-          layerType: "HIGHLIGHTER",
+          layerType: "CHANNEL_SPLIT",
           forecastVersion:
             demandScenarioDetails?.forecastInfoDTO?.forecastInfo?.version,
           isConfirmed: true,
@@ -280,8 +280,7 @@ export class AllocationUtils extends DemandBaseClass {
       data: payload,
       headers: this.headers,
     });
-    console.log(await response.json());
-    return await response.json();
+    return response;
   }
 
   static async getDemandScenarioStack(request, demandStackId) {

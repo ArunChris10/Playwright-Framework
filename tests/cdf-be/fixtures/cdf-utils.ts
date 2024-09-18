@@ -96,7 +96,6 @@ export class CdfUtility {
 
     const response = await request.post(
         endpointURL,
-  
         { data: this.createScenarioPayload, headers: CDFUpdatedHeaders }
       );
       let responseBody = await response.json();

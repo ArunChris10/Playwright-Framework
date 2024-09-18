@@ -33,7 +33,7 @@
       "years": [],
       "yearList": []
     },
-    "version": "",
+    "version": "forecastVersion",
     "departmentName": [],
     "filtersChanged": true,
     "filterLoadComplete": true,
