@@ -4,7 +4,7 @@ import commonData from "../constants/common.json";
 import { UfmUtility } from "../fixtures/ufm-utils";
 import adjustmentData from "../testdata/adjustment.json";
 
-const lobName = [commonData.lobList[10], commonData.lobList[4]];
+const lobName = ["fuel", "lmd"];
 
 lobName.forEach((lobName) => {
   test.describe(

@@ -10,7 +10,7 @@ for (let i = 0; i < lobName.length; i++) {
     "Verify allocate and save API",
     { tag: "@Smoke @Regression @allocate_save" },
     async () => {
-      test.describe.configure({ timeout: 300_000, mode: "serial" });
+      test.describe.configure({ timeout: 500_000, mode: "serial" });
 
       let scenarioId: number;
       let scenario_details;

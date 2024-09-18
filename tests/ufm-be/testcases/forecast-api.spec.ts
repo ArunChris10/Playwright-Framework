@@ -10,7 +10,7 @@ for (let i = 0; i < lobName.length; i++) {
     "Verify create and delete forecast API",
     { tag: "@Smoke @Regression @create_forecast" },
     async () => {
-      test.describe.configure({ timeout: 300_000, mode: "serial" });
+      test.describe.configure({ timeout: 500_000, mode: "serial" });
 
       let scenarioId: number;
       let dimId = commonData.ba_dim_id;

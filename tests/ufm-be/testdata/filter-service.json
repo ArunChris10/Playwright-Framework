@@ -127,7 +127,8 @@
     "status_code": 400,
     "detail": null,
     "exception_code": "unexpected_error",
-    "message": "Filter name is already taken"
+    "message": "Filter name is already taken",
+    "severity": "Low"
   },
   "delete_message": "filter deleted successfully"
 }
