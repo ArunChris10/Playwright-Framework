@@ -91,10 +91,12 @@ test.describe(
           id: id,
         };
 
-        const payloadExtension =
-          visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload;
+        const payloadExtension = {
+          ...visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload,
+          applicationId: process.env.applicationId,
+        };
         payloadExtension.applicationSrcTemplateId = templateId;
-        payloadExtension.walmartUserId = process.env.cdfNormalUser as string;
+        payloadExtension.walmartUserId = process.env.cdfUser as string;
         payloadExtension.viewData.scenarioIdentification[0] =
           scenario.scenarioIdentification;
         payloadExtension.viewData.scenarioOrderList[0].scenarioIdentification =

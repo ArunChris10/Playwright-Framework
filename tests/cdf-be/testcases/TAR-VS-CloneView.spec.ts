@@ -58,9 +58,10 @@ test.describe(
           id: id,
         };
 
-        payloadExtension = visualizerSaveData.payload;
+        payloadExtension = {...visualizerSaveData.payload};
         payloadExtension.applicationSrcTemplateId = templateId;
-        payloadExtension.walmartUserId = process.env.cdfNormalUser as string;
+        payloadExtension.walmartUserId = process.env.cdfUser as string;
+        payloadExtension.applicationId = process.env.applicationId as unknown as number;
         payloadExtension.viewData.scenarioIdentification[0] =
           scenario.scenarioIdentification;
         payloadExtension.viewData.scenarioOrderList[0].scenarioIdentification =
@@ -86,11 +87,13 @@ test.describe(
         expect(clonedView.visualizerViewId).not.toEqual(view.visualizerViewId);
 
         // clear out different values so we can assert
+        const temp = clonedView.visualizerViewId;
         clonedView.visualizerViewId = view.visualizerViewId;
         clonedView.visualizerViewName = view.visualizerViewName;
         clonedView.dateCreated = view.dateCreated;
         clonedView.lastModified = view.lastModified;
         expect(clonedView).toEqual(view);
+        clonedView.visualizerViewId = temp;
       });
     });
   }

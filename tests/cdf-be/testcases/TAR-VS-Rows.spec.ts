@@ -9,7 +9,7 @@ test.describe(
     let templateId;
     let scenarioIdentification;
     let tableData;
-    let extendedPayload = visualizerTableData.sbuMerchChannelExtendedPayload;
+    let extendedPayload = {...visualizerTableData.sbuMerchChannelExtendedPayload};
 
     test.beforeAll(async ({ request }) => {
       const templates = await VisualizerUtility.getTemplate(request);

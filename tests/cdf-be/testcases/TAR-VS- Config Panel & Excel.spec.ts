@@ -120,32 +120,28 @@ test.describe("Verify scenario is archived", { tag: "@Smoke @visualizerConfigPan
 
     let scenarioObject1 =  VisualizerUtility.createScenarioObject(scenario[0])
     let scenarioObject2 =  VisualizerUtility.createScenarioObject(scenario[1])
-
-    visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload.applicationSrcTemplateId =
-      templateId;
-    visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload.walmartUserId =
-      process.env.cdfNormalUser as string;
-    visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload.viewData.scenarioIdentification[0] =
-      scenario.scenarioIdentification;
-    visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload.viewData.scenarioOrderList[0].scenarioIdentification =
-      scenario.scenarioIdentification;
-    visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload.allScenarios[0] =
-    scenarioObject1;
-    visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload.allScenarios[1] =
-    scenarioObject2;
-    visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload.visualizerMetaDataDto.scenarioDtoList[0] =
-      { ...scenarioObject1, order: 0 };
-      visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload.visualizerMetaDataDto.scenarioDtoList[1] =
-      { ...scenarioObject2, order: 1 };  
+    
+    const payloadExtension = {
+        ...visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload,
+        applicationId: process.env.applicationId,
+    };
+    payloadExtension.applicationSrcTemplateId = templateId;
+    payloadExtension.walmartUserId = process.env.cdfUser as string;
+    payloadExtension.viewData.scenarioIdentification[0] = scenario.scenarioIdentification;
+    payloadExtension.viewData.scenarioOrderList[0].scenarioIdentification = scenario.scenarioIdentification;
+    payloadExtension.allScenarios[0] = scenarioObject1;
+    payloadExtension.allScenarios[1] = scenarioObject2;
+    payloadExtension.visualizerMetaDataDto.scenarioDtoList[0] = { ...scenarioObject1, order: 0 };
+    payloadExtension.visualizerMetaDataDto.scenarioDtoList[1] = { ...scenarioObject2, order: 1 };  
 
     const view = await VisualizerUtility.visualizerSave(
       request,
-      visualizerSaveData.sbuColumnDateMetricsRowExtendedPayload
+      payloadExtension
     );
     viewId = view.visualizerViewDto.visualizerViewId;
     expect(viewId).toBeTruthy();
     debug.log("Create the view with mutiple scenarios completed ");
   });
 
-  
+
 });

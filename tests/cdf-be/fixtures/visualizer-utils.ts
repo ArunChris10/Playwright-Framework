@@ -20,8 +20,8 @@ export class VisualizerUtility {
         "WM_SVC.ENV": process.env.envName
       }
     
-    static async visualizerViews(request, appId = 1, userId = process.env.cdfNormalUser, limit = 1000) {
-        const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/views?appId=${appId}&userId=${userId}&limit=${limit}`;
+    static async visualizerViews(request, userId = process.env.cdfUser, limit = 1000) {
+        const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/views?appId=${process.env.applicationId}&userId=${userId}&limit=${limit}`;
         debug.log(endpointURL);
         const response = await request.get(
             endpointURL,
@@ -59,7 +59,7 @@ export class VisualizerUtility {
         return responseBody;
     }
 
-    static async searchScenario(request, templateId: string, appId = 1, size = 50) {
+    static async searchScenario(request, templateId: string, size = 50) {
         const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/templates/${process.env.applicationId}/scenarios/${templateId}/search?filterValue=&size=${size}`;
         debug.log(endpointURL);
         const response = await request.get(
@@ -113,7 +113,7 @@ export class VisualizerUtility {
         return response;
     }
 
-    static async getVisualizerTableData(request, templateId: string, payloadExtension = {}, appId = 1) {
+    static async getVisualizerTableData(request, templateId: string, payloadExtension = {}) {
         const endpointURL = `${process.env.apiBaseURLVISUALIZER}/api/visualizer/templates/${process.env.applicationId}/scenarios/${templateId}/data`;
         debug.log(endpointURL);
         const response = await request.post(

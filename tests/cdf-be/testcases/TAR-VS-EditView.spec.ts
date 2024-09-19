@@ -57,9 +57,10 @@ test.describe(
           id: id,
         };
 
-        payloadExtension = visualizerSaveData.payload;
+        payloadExtension = {...visualizerSaveData.payload};
         payloadExtension.applicationSrcTemplateId = templateId;
-        payloadExtension.walmartUserId = process.env.cdfNormalUser as string;
+        payloadExtension.applicationId = process.env.applicationId as unknown as number;
+        payloadExtension.walmartUserId = process.env.cdfUser as string;
         payloadExtension.viewData.scenarioIdentification[0] =
           scenario.scenarioIdentification;
         payloadExtension.viewData.scenarioOrderList[0].scenarioIdentification =

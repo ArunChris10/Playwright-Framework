@@ -60,9 +60,10 @@ test.describe(
           id: id,
         };
 
-        const payloadExtension = visualizerSaveData.payload;
+        const payloadExtension = {...visualizerSaveData.payload};
         payloadExtension.applicationSrcTemplateId = templateId;
-        payloadExtension.walmartUserId = process.env.cdfNormalUser as string;
+        payloadExtension.applicationId = process.env.applicationId as unknown as number;
+        payloadExtension.walmartUserId = process.env.cdfUser as string;
         payloadExtension.viewData.scenarioIdentification[0] =
           scenario.scenarioIdentification;
         payloadExtension.viewData.scenarioOrderList[0].scenarioIdentification =
@@ -72,7 +73,6 @@ test.describe(
           ...scenarioObject,
           order: 0,
         };
-
         view = await VisualizerUtility.visualizerSave(
           request,
           payloadExtension
