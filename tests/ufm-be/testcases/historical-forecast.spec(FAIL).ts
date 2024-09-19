@@ -4,8 +4,8 @@ import testdatafile from "../testdata/historical-forecast.json";
 
 testdatafile.sba_datas.forEach((sba_date) => {
   test.describe(
-    "Validation of @Historical_Forecast @Regression",
-    { tag: "@Regression @Smoke @Historical_Forecas" },
+    "Validation of Historical Forecast",
+    { tag: "@Regression @Smoke @Historical_Forecast" },
     () => {
       //declaring test data
       let testdata = testdatafile;

@@ -25,12 +25,24 @@ export class Utility {
   constructor(page: Page) {
     this.page = page;
   }
+  /**
+   * Creates a directory for log files if it does not already exist.
+   *
+   * @return {void}
+   */
   private static createLogFileDir() {
     if (!fs.existsSync(this.dir)) {
       fs.mkdirSync(this.dir);
     }
   }
 
+  /**
+   * Adds logs to a file and attaches it to the test info.
+   *
+   * @param {TestInfo} testInfo - The test info.
+   * @param {String[]} logs - The logs to be added.
+   * @return {Promise<void>} A promise that resolves when the logs are added.
+   */
   static async addLogs(testInfo: TestInfo, logs: String[]) {
     // After the test we can check whether the test passed or failed.
     this.createLogFileDir();
@@ -44,7 +56,12 @@ export class Utility {
     });
   }
 
-  // The function returns next upcoming date given the array of date strings
+  /**
+   * Returns the upcoming forecast submission date from the given array of date strings.
+   *
+   * @param {string[]} strdates - An array of date strings in the format "YYYY-MM-DD".
+   * @return {Promise<string>} A promise that resolves to the upcoming forecast submission date in the format "MMM D, YYYY".
+   */
   static async getUpcomingForecastSubmissionDate(strdates: string[]) {
     //convert string to Date type
     let dates = strdates.map((dateString) => new Date(dateString));
@@ -67,6 +84,13 @@ export class Utility {
     });
   }
 
+  /**
+   * Fetches the fake token for the given user ID from the ibgAuthTokenURL.
+   *
+   * @param {string} userId - The user ID.
+   * @param {Request} request - The request object.
+   * @return {Promise<string>} The token.
+   */
   static async fetchIBGFakeToken(userId: string, request) {
     const authURL = process.env.ibgAuthTokenURL;
     const body = usersIBGFormat.filter((user) => user.userId === userId);
@@ -78,6 +102,13 @@ export class Utility {
     return token;
   }
 
+  /**
+   * Fetches a Nexus fake token for a given user ID.
+   *
+   * @param {String} userId - The user ID.
+   * @param {Request} request - The request object.
+   * @return {Promise<String>} A promise that resolves to the token.
+   */
   static async fetchNexusFakeTokens(userId: String, request) {
     const user = usersNexusFormat.filter((user) => user.userId === userId)[0];
 
@@ -97,6 +128,13 @@ export class Utility {
     const token = (await responseBody.json()).token;
     return token;
   }
+  /**
+   * Retrieves a Nexus fake token for a given user ID.
+   *
+   * @param {string} userId - The user ID.
+   * @param {Request} request - The request object.
+   * @return {Promise<string>} A promise that resolves to the token.
+   */
   static async getNexusFakeToken(userId: string, request) {
     const rawdata = fs.existsSync(this.nexusTokenFilePath)
       ? fs.readFileSync(this.nexusTokenFilePath, "utf-8")
@@ -110,6 +148,13 @@ export class Utility {
     return JSON.stringify(parsedData[userId]);
   }
 
+  /**
+   * Retrieves the fake token for the given user ID from the ibgTokenFilePath.
+   *
+   * @param {string} userId - The user ID.
+   * @param {Request} request - The request object.
+   * @return {Promise<string>} The token.
+   */
   static async getIBGFakeToken(userId: string, request) {
     const rawdata = fs.existsSync(this.ibgTokenFilePath)
       ? fs.readFileSync(this.ibgTokenFilePath, "utf-8")
@@ -123,7 +168,11 @@ export class Utility {
     return JSON.stringify(parsedData[userId]);
   }
 
-  //Method reads the secret file content
+  /**
+   * Retrieves the secret from the environment variable or the file system.
+   *
+   * @return {Promise<object>} The parsed JSON object containing the secrets.
+   */
   private static async getSecret() {
     let raw_ufm_secrets;
     if (!process.env.CI) {
@@ -135,6 +184,12 @@ export class Utility {
     return ufm_secrets;
   }
 
+  /**
+   * Sets the mappings by making a GET request to the API endpoint and saving the response body to a file.
+   *
+   * @param {Request} request - The request object.
+   * @return {Promise<void>} A promise that resolves when the mappings are set.
+   */
   static async setmappings(request) {
     const endpointURL = `${process.env.apiBaseURLUFM}/metadata/dimensions/mappings`;
     this.logIt(endpointURL);
@@ -142,7 +197,6 @@ export class Utility {
       process.env.ufmUser + "",
       request
     );
-    //this.logIt(nexusTokens);
     nexusTokens = nexusTokens.replace('"', "");
     nexusTokens = nexusTokens.replace('"', "");
     //API Request
@@ -166,11 +220,23 @@ export class Utility {
     fs.writeFileSync(this.mappingFilePath, parsedData);
   }
 
-  //this method gets the password for userIds from the secret file
+  /**
+   * Retrieves the login password for a given user ID.
+   *
+   * @param {string} userId - The ID of the user.
+   * @return {Promise<string>} The login password for the user.
+   */
   public static async getLoginPassword(userId) {
     return (await this.getSecret())[userId];
   }
 
+  /**
+   * Logs in to the IBG application using a fake token.
+   *
+   * @param {Page} page - The Playwright Page object.
+   * @param {Request} request - The Playwright Request object.
+   * @return {Promise<void>} A promise that resolves when the login is complete.
+   */
   public static async loginToIBGUsingToken(page, request) {
     const { appBaseURL } = process.env;
 
@@ -190,6 +256,15 @@ export class Utility {
     await page.goto(url);
   }
 
+  /**
+   * Logs in to the CDF application using a fake token.
+   *
+   * @param {Page} page - The Playwright Page object.
+   * @param {APIRequestContext} request - The Playwright Request object.
+   * @param {string} username - The username of the user.
+   * @param {string} storageFilePath - The path to the storage file.
+   * @return {Promise<void>} A promise that resolves when the login is complete.
+   */
   public static async loginToCdf(
     page: Page,
     request: APIRequestContext,
@@ -212,10 +287,22 @@ export class Utility {
     await page.context().storageState({ path: storageFilePath });
   }
 
+  /**
+   * Generates a random integer between the specified minimum and maximum values (inclusive).
+   *
+   * @param {number} min - The minimum value for the generated integer.
+   * @param {number} max - The maximum value for the generated integer.
+   * @return {Promise<number>} A Promise that resolves with a random integer.
+   */
   public static async randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  /**
+   * Returns the current month and year in the format 'YYYYMM'.
+   *
+   * @return {Promise<string>} The current month and year.
+   */
   public static async getMonthYear() {
     let m = ("0" + (new Date().getMonth() + 1)).slice(-2);
     let y = new Date().getFullYear() + 1;
@@ -223,6 +310,12 @@ export class Utility {
     return year + m;
   }
 
+  /**
+   * Waits for the loader to be invisible.
+   *
+   * @param {Page} page - The Playwright Page object.
+   * @return {Promise<void>} A promise that resolves when the loader is invisible.
+   */
   public static async waitForLoaderToBeInvisible(page) {
     await page
       .getByRole("img", { name: "loading" })
@@ -230,18 +323,36 @@ export class Utility {
       .waitFor({ state: "detached", timeout: 420000 });
   }
 
+  /**
+   * Waits for the spinner to be visible on the page.
+   *
+   * @param {Page} page - The Playwright Page object.
+   * @return {Promise<void>} A promise that resolves when the spinner is visible.
+   */
   public static async waitForSpinnerToBeVisible(page) {
     await page
       .locator(this.spinner)
       .waitFor({ state: "visible", timeout: 480000 });
   }
 
+  /**
+   * Waits for the spinner to be invisible.
+   *
+   * @param {Page} page - The Playwright Page object.
+   * @return {Promise<void>} A promise that resolves when the spinner is invisible.
+   */
   public static async waitForSpinnerToBeInvisible(page) {
     await page
       .getByRole("status", { name: "Spinner" })
       .waitFor({ state: "detached", timeout: 480000 });
   }
 
+  /**
+   * Waits for the data loading message to be visible on the page.
+   *
+   * @param {Page} page - The Playwright Page object.
+   * @return {Promise<void>} A promise that resolves when the data loading message is visible.
+   */
   public static async waitForDataLoadingMessageToBeVisible(page) {
     await page
       .locator(this.dataLoading)
@@ -249,12 +360,25 @@ export class Utility {
       .waitFor({ state: "visible", timeout: 480000 });
   }
 
+  /**
+   * Waits for the data loading message to be invisible.
+   *
+   * @param {Page} page - The Playwright Page object.
+   * @return {Promise<void>} A promise that resolves when the data loading message is invisible.
+   */
   public static async waitForDataLoadingMessageToBeInvisible(page) {
     await page
       .locator(this.dataLoading)
       .first()
       .waitFor({ state: "hidden", timeout: 480000 });
   }
+  /**
+   * Validates if data is available in the grid.
+   *
+   * @param {Page} page - The Playwright Page object.
+   * @param {string} dataLoading - The selector for the data loading element.
+   * @return {Promise<void>} A promise that resolves when the data is available.
+   */
   public static async validateDataInGridAvailable(page, dataLoading) {
     await page
       .locator(dataLoading)
@@ -262,6 +386,12 @@ export class Utility {
       .waitFor({ state: "visible", timeout: 480000 });
   }
 
+  /**
+   * Generates a unique key for a forecast based on the month, quarter, and year.
+   *
+   * @param {Forecast} forecast - The forecast object containing the month, quarter, and year.
+   * @return {string} The generated key in the format "month-quarter-year".
+   */
   public static getDateKey({ month, quarter, year }: Forecast) {
     return `${month}-${quarter}-${year}`;
   }
@@ -276,8 +406,7 @@ export class Utility {
   static async assertAndLog(response, isError = false) {
     if (!isError) await expect.soft(response).toBeOK();
     let responseBody = await response.json();
-    console.log(JSON.stringify(responseBody));
-    debug.log(JSON.stringify(responseBody));
+    this.logIt(responseBody);
     return responseBody;
   }
 
@@ -292,6 +421,12 @@ export class Utility {
     debug.log(JSON.stringify(text));
   }
 
+  /**
+   * Presses a key on the keyboard.
+   *
+   * @param {string} key - The key to press.
+   * @return {Promise<void>} A Promise that resolves when the key is pressed.
+   */
   async keyPress(key) {
     await this.page.keyboard.press(key);
   }
@@ -306,6 +441,13 @@ export class Utility {
     await this.page.evaluate(() => window.scrollTo(0, 0));
   }
 
+  /**
+   * Rounds a number to a specified number of decimal places.
+   *
+   * @param {number} num - The number to round.
+   * @param {number} [decimals=2] - The number of decimal places to round to.
+   * @return {number} The rounded number.
+   */
   static roundToDecimals(num: number, decimals: number = 2) {
     return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
   }

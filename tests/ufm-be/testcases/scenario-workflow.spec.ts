@@ -2,6 +2,7 @@ import { test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import commonData from "../constants/common.json";
 import { UfmUtility } from "../fixtures/ufm-utils";
+import { ForecastUtility } from "../fixtures/forecast-utils";
 
 const orgName = commonData.orgList;
 const orgName1 = [
@@ -129,13 +130,13 @@ export async function createAndSendToBAReview(request, orgName) {
       response.rowData[j].forecastStatus != commonData.BA_Review
     ) {
       //Deleting forecast created by logged in user
-      await UfmUtility.deleteAllforecastofUser(
+      await ForecastUtility.deleteAllforecastofUser(
         request,
         lobName,
         process.env.ufmUser
       );
       //Creating forecast
-      scenarioId = await UfmUtility.createForecast(lobName, request);
+      scenarioId = await ForecastUtility.createForecast(lobName, request);
 
       //Getting current list of forecast
       let currentForecastList = await UfmUtility.getCurrentForecastList(
@@ -152,7 +153,7 @@ export async function createAndSendToBAReview(request, orgName) {
       //Sending created forecast to BA review
       await UfmUtility.sendToReview(
         scenarioId,
-        scenario_details['scenarioVersion'],
+        scenario_details["scenarioVersion"],
         commonData.BA_Review,
         commonData.lob_dim_id,
         commonData[lobName].dim_val_id,

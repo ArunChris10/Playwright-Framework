@@ -1,8 +1,7 @@
-import { test, expect } from "../../common/fixtures/test-hook";
 import debug from "debug";
-import { ForecastCalendarUtil } from "../fixtures/forecastCalendar-utils";
+import { expect, test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
-import { request } from "@playwright/test";
+import { ForecastCalendarUtil } from "../fixtures/forecastCalendar-utils";
 import forecastCalendarData from "../testdata/forecast-calendar-api.json";
 
 test.describe(
@@ -14,18 +13,16 @@ test.describe(
     // let fcst_id
     let cycle_id: string;
 
-    test('Delete all existing cycles', async ({ request }) => {
-      await ForecastCalendarUtil.deleteAllForecastCycles(request)
-    })
+    test("Delete all existing cycles", async ({ request }) => {
+      await ForecastCalendarUtil.deleteAllForecastCycles(request);
+    });
 
-
-    //Skipping below No need to create forecast calendar as we cannot delete a calendar it is easy to delete the cycles within the calendar 
+    //Skipping below No need to create forecast calendar as we cannot delete a calendar it is easy to delete the cycles within the calendar
     test.skip("Verify if the user is able to @addNewForecastCalendar", async ({
       request,
     }) => {
-      let forecastCalendarCreated = await ForecastCalendarUtil.createForecastCalendar(
-        request
-      );
+      let forecastCalendarCreated =
+        await ForecastCalendarUtil.createForecastCalendar(request);
       fcst_id = forecastCalendarCreated.calendar_id;
       debug.log("Forecast is created  : ", forecastCalendarCreated);
     });
@@ -73,7 +70,7 @@ test.describe(
         );
       Utility.logIt(
         "Forecast calendar cycle already exists : " +
-        JSON.stringify(createDuplicateForecastCalendarCycles, null, 2)
+          JSON.stringify(createDuplicateForecastCalendarCycles, null, 2)
       );
     });
 
@@ -84,7 +81,7 @@ test.describe(
         await ForecastCalendarUtil.createForecastCalendarDuplicate(request);
       Utility.logIt(
         "Forecast calendar cycle already exists : " +
-        JSON.stringify(createForecastCalendarDuplicate, null, 2)
+          JSON.stringify(createForecastCalendarDuplicate, null, 2)
       );
     });
 
@@ -95,7 +92,7 @@ test.describe(
         await ForecastCalendarUtil.createForecastCalendarInvalidDimId(request);
       Utility.logIt(
         "Forecast calendar cycle invalid dim id : " +
-        JSON.stringify(createForecastCalendarInvalidDimId, null, 2)
+          JSON.stringify(createForecastCalendarInvalidDimId, null, 2)
       );
     });
 
@@ -106,7 +103,7 @@ test.describe(
         await ForecastCalendarUtil.createForecastCalendarInvalidDimVal(request);
       Utility.logIt(
         "Forecast calendar cycle invalid dim id : " +
-        JSON.stringify(createForecastCalendarInvalidDimVal, null, 2)
+          JSON.stringify(createForecastCalendarInvalidDimVal, null, 2)
       );
     });
 
@@ -117,7 +114,7 @@ test.describe(
         await ForecastCalendarUtil.createForecastCalendarInvalidYear(request);
       Utility.logIt(
         "Forecast calendar cycle invalid year : " +
-        JSON.stringify(createForecastCalendarInvalidYear, null, 2)
+          JSON.stringify(createForecastCalendarInvalidYear, null, 2)
       );
     });
 
@@ -132,7 +129,7 @@ test.describe(
         );
       Utility.logIt(
         "Forecast calendar cycle is not edited : " +
-        JSON.stringify(editForecastCalendarCycleNoChange, null, 2)
+          JSON.stringify(editForecastCalendarCycleNoChange, null, 2)
       );
     });
 
@@ -147,7 +144,7 @@ test.describe(
         );
       Utility.logIt(
         "Forecast calendar cycle is edited : " +
-        JSON.stringify(editForecastCalendarCycle, null, 2)
+          JSON.stringify(editForecastCalendarCycle, null, 2)
       );
     });
 
@@ -179,12 +176,12 @@ test.describe(
         await ForecastCalendarUtil.getForecastDeadlines(request);
 
       expect(getForecastDeadlines).toMatchObject({
-        "dim_id": forecastCalendarData.getForecastCalendarPayload.dim_id,
-        "dim_val_id": forecastCalendarData.getForecastCalendarPayload.dim_val_id,
-        "forecast_cal_id": fcst_id,
-        "cycle_id": cycle_id,
-        "event_id": 28,
-      })
+        dim_id: forecastCalendarData.getForecastCalendarPayload.dim_id,
+        dim_val_id: forecastCalendarData.getForecastCalendarPayload.dim_val_id,
+        forecast_cal_id: fcst_id,
+        cycle_id: cycle_id,
+        event_id: 28,
+      });
       Utility.logIt(`Forecast calendar deadlines  : ${getForecastDeadlines}`);
     });
 
@@ -197,9 +194,7 @@ test.describe(
           cycle_id,
           request
         );
-      Utility.logIt(
-        `Forecast cycle is deleted  : ${cycle_id}`
-      );
+      Utility.logIt(`Forecast cycle is deleted  : ${cycle_id}`);
     });
 
     test("Verify if the user is able to @deleteMissingForecastCalendarCycle", async ({

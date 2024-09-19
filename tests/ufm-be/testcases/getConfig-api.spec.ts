@@ -1,4 +1,4 @@
-import { expect, test } from "../../common/fixtures/test-hook";
+import { test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import testdatafile from "../testdata/getConfig.json";
 

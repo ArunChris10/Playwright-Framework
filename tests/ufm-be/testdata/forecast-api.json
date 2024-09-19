@@ -1,8 +1,10 @@
 {
   "endpoint": "/scenario/",
+  "editNameendpoint": "/scenario/forecast-name",
   "createSuccessMessage": "Scenario created successfully",
   "createAlreadyMessage": "Forecast scenario with name 'scenarioName' already exist for current period! Please try with different name.",
   "deleteMessage": "Scenario scenario_id deleted successfully",
   "cannotDeleteMessage": "Only scenario with status draft, not started and BA review can be deleted",
-  "deletedAlreadyMessage": "No scenario id found"
+  "deletedAlreadyMessage": "No scenario id found",
+  "editNameSuccessMessage": "Forecast scenario name updated successfully"
 }

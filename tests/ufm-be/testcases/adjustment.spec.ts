@@ -2,6 +2,8 @@ import { expect, test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import commonData from "../constants/common.json";
 import { UfmUtility } from "../fixtures/ufm-utils";
+import { ForecastUtility } from "../fixtures/forecast-utils";
+import { AdjustmentUtility } from "../fixtures/adjustment-utils";
 import adjustmentData from "../testdata/adjustment.json";
 
 const lobName = ["fuel", "lmd"];
@@ -17,7 +19,7 @@ lobName.forEach((lobName) => {
       test(`Delete all created forecast by automation user for LOB - ${lobName}`, async ({
         request,
       }) => {
-        await UfmUtility.deleteAllforecastofUser(
+        await ForecastUtility.deleteAllforecastofUser(
           request,
           lobName,
           process.env.ufmUser
@@ -26,7 +28,7 @@ lobName.forEach((lobName) => {
       test(`Verify if the user is able to createforecast for LOB - ${lobName}`, async ({
         request,
       }) => {
-        scenarioId = await UfmUtility.createForecast(lobName, request);
+        scenarioId = await ForecastUtility.createForecast(lobName, request);
       });
 
       test(`Get Scenario version for created forecast ${lobName}`, async ({
@@ -46,7 +48,7 @@ lobName.forEach((lobName) => {
       });
 
       test(`Create adjustment for ${lobName}`, async ({ request }) => {
-        adjustment_metadata = await UfmUtility.createAdjustment(
+        adjustment_metadata = await AdjustmentUtility.createAdjustment(
           scenarioId,
           scenario_details["scenarioVersion"],
           lobName,
@@ -57,7 +59,7 @@ lobName.forEach((lobName) => {
       test(`Get all adjustments with valid scenario_id and scenario_version_number for ${lobName}`, async ({
         request,
       }) => {
-        let response = await UfmUtility.getAllAdjustments(
+        let response = await AdjustmentUtility.getAllAdjustments(
           scenarioId,
           scenario_details["scenarioVersion"],
           lobName,
@@ -80,7 +82,7 @@ lobName.forEach((lobName) => {
         request,
       }) => {
         //get all adjustments with both values invalid
-        let response = await UfmUtility.getAllAdjustments(
+        let response = await AdjustmentUtility.getAllAdjustments(
           123,
           123,
           lobName,
@@ -94,7 +96,7 @@ lobName.forEach((lobName) => {
 
         //get all adjustments with scenario id invalid
 
-        response = await UfmUtility.getAllAdjustments(
+        response = await AdjustmentUtility.getAllAdjustments(
           scenarioId,
           123,
           lobName,
@@ -108,7 +110,7 @@ lobName.forEach((lobName) => {
 
         //get all adjustments with scenario version invalid
 
-        response = await UfmUtility.getAllAdjustments(
+        response = await AdjustmentUtility.getAllAdjustments(
           123,
           scenario_details["scenarioVersion"],
           lobName,
@@ -124,7 +126,7 @@ lobName.forEach((lobName) => {
       test(`Delete the created adjustment with valid adjustment id for ${lobName}`, async ({
         request,
       }) => {
-        let response = await UfmUtility.deleteAdjustment(
+        let response = await AdjustmentUtility.deleteAdjustment(
           adjustment_metadata.adjustment_id,
           scenarioId,
           scenario_details["scenarioVersion"],
@@ -145,7 +147,7 @@ lobName.forEach((lobName) => {
       test(`Delete the adjustment with invalid adjustment id for ${lobName}`, async ({
         request,
       }) => {
-        let response = await UfmUtility.deleteAdjustment(
+        let response = await AdjustmentUtility.deleteAdjustment(
           123,
           scenarioId,
           scenario_details["scenarioVersion"],
@@ -163,7 +165,7 @@ lobName.forEach((lobName) => {
       // Need to add one case for invalid scenario id and version currently bug is there once resolved we can add .
 
       test(`delete created scenario ${lobName}`, async ({ request }) => {
-        await UfmUtility.deleteForecast(
+        await ForecastUtility.deleteForecast(
           scenarioId,
           scenario_details["scenarioVersion"],
           commonData.ba_dim_id,

@@ -19,6 +19,14 @@ export const test = base.extend<{ saveLogs: void; pageFactory: PageFactory }>({
     { auto: true },
   ],
 
+  /**
+   * Creates a new instance of the PageFactory class using the provided browser and page.
+   *
+   * @param {Object} options - The options object.
+   * @param {Browser} options.browser - The browser instance.
+   * @param {Function} use - The callback function to use the created PageFactory.
+   * @return {Promise<void>} A promise that resolves when the PageFactory is created.
+   */
   pageFactory: async ({ browser }, use) => {
     await use(new PageFactory(await browser.newPage()));
   },

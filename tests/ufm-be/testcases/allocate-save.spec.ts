@@ -2,6 +2,7 @@ import { expect, test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import commonData from "../constants/common.json";
 import { AllocationUtility } from "../fixtures/allocate-utils";
+import { ForecastUtility } from "../fixtures/forecast-utils";
 import { UfmUtility } from "../fixtures/ufm-utils";
 
 const lobName = ["marketing"];
@@ -21,7 +22,7 @@ for (let i = 0; i < lobName.length; i++) {
       test(`Delete all created forecast by automation user for LOB - ${lobName[i]}`, async ({
         request,
       }) => {
-        await UfmUtility.deleteAllforecastofUser(
+        await ForecastUtility.deleteAllforecastofUser(
           request,
           lobName[i],
           process.env.ufmUser
@@ -31,7 +32,7 @@ for (let i = 0; i < lobName.length; i++) {
       test(`Verify if the user is able to create forecast for LOB - ${lobName[i]}`, async ({
         request,
       }) => {
-        scenarioId = await UfmUtility.createForecast(lobName[i], request);
+        scenarioId = await ForecastUtility.createForecast(lobName[i], request);
       });
 
       test(`Verify if the user is able to get list of scenarios and scenario version for the LOB - ${lobName[i]}`, async ({
@@ -85,7 +86,7 @@ for (let i = 0; i < lobName.length; i++) {
       test(`Verify if the user is able to delete created forecast for LOB ${lobName[i]}`, async ({
         request,
       }) => {
-        await UfmUtility.deleteForecast(
+        await ForecastUtility.deleteForecast(
           scenarioId,
           scenario_details["scenarioVersion"],
           dimId,
