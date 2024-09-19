@@ -96,6 +96,9 @@ export class DemandBaseClass {
     let workbook = xlsx.readFile(excelFilePath);
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
+    if (!sheet[cellId]) {
+      return null;
+    }
     const excelData = sheet[cellId].v;
     fs.unlinkSync(excelFilePath);
     return excelData;

@@ -486,6 +486,22 @@ export class CdfUtility {
     expect(response).toBeOK();
     return response;
   }
+
+  static async getDemandScenarioByIdCustomCSV(request, demandId, payload) {
+    const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenarioCSV.endpoint}${demandId}${"/csv"}`;
+    payload.version = this.createScenarioPayload.forecastInfoDTO.forecastInfo.version;
+    const response = await request.post(
+      endpointURL,
+
+      { data: payload, headers: CdfUtility.headers }
+    );
+
+    //asserting the response
+    expect(response).toBeOK();
+    return response;
+  }
+
+
   static async getDemandScenarioByIdChannelCSV(request, demandId) {
     const endpointURL = `${process.env.apiBaseURLCDF}${getDemandScenarioCSV.endpoint}${demandId}${"/csv"}`;
     let payload = getDemandScenarioCSV.payloadChannelCSV

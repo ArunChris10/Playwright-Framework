@@ -1025,6 +1025,90 @@
     "isUfmSyncCache": false,
     "latestSyncScenario": false
 
-  }
-  }
+  },
+  "payloadTwoFilters" : {
+    "sbu": [
+        "FOOD",
+        "CONSUMABLES"
+    ],
+    "sbuIds": [
+        27,
+        29
+    ],
+    "department": [
+        "CANDY",
+        "PERSONAL CARE"
+    ],
+    "departmentIds": [
+        1,
+        2
+    ],
+    "baseChannel": [
+        "DSV_S2H",
+        "INSTORE_INCLUB"
+    ],
+    "baseChannelIds": [
+        22,
+        1
+    ],
+    "channelGroup": [
+        "DELIVERY",
+        "INSTORE_INCLUB"
+    ],
+    "channelGroupIds": [
+        2,
+        1
+    ],
+    "demandChannel": [],
+    "layerIds": [""],
+    "clearAll": false,
+    "includeDerivedMetrics": false,
+    "includeTotals": true,
+    "organizationalLevel": "SBU",
+    "loadHeirarchyParams": null,
+    "timeFilter": {
+        "filterLevel": "MONTH",
+        "isYearSelected": true,
+        "isMonthSelected": true,
+        "isQuarterSelected": false,
+        "yearMonths": [
+            "202203",
+            "202207",
+            "202903",
+            "202907"
+        ],
+        "yearQuarters": [],
+        "years": [
+            "2022",
+            "2029"
+        ],
+        "yearList": [
+            "FY 2022",
+            "FY 2029"
+        ]
+    },
+    "forceRefresh": false,
+    "version": "",
+    "filtersChanged": true,
+    "departmentName": [
+        "1 - CANDY",
+        "2 - PERSONAL CARE"
+    ],
+    "filterLoadComplete": true,
+    "metricType": "GMV Shipped"
+    },
+    "expectedMetrics" : [
+        "GMV Shipped",
+        "Scanned Units",
+        "ForecastAur",
+        "Net Merch Sales",
+        "GMV YoY%",
+        "Growth % Mix",
+        "Scanned Units YoY%",
+        "AUR YoY%",
+        "UOM YoY%",
+        "Net Merch Sales YOY%",
+        "UOM"
+    ]
+}
 
