@@ -12,6 +12,7 @@
     "Merch": {
         "forecastName": "New MERCHANDISING",
         "forecastPreparationName": "MERCHANDISING",
+        "LOB": "MERCHANDISING",
         "baseForecastName": "PRIMARY",
         "nameOfTheSBA": "Merchandising",
         "nameOfTheForecastInCreateForecastWindow": "New MERCHANDISING",

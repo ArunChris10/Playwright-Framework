@@ -19,6 +19,8 @@ export class OpenCurrentForecast {
   readonly allocateErrorMessage: string;
   readonly forecastTable: Locator;
   readonly somethingWentWrong: Locator;
+  readonly undoButton: Locator
+  readonly redoButton: Locator
 
   constructor(page: Page) {
     this.page = page;
@@ -50,10 +52,13 @@ export class OpenCurrentForecast {
       '//div[@data-testid="forecast-table"]'
     );
     this.somethingWentWrong = this.page.getByText("Something Went Wrong");
+    this.undoButton = this.page.locator("//button[@type='undo']")
+    this.redoButton = this.page.locator("//button[@type='redo']")
+
   }
 
   async clickOnOpenButton() {
-    await this.btnOpenCurrentForecast.click();
+    await this.btnOpenCurrentForecast.first().click();
   }
 
   async clickOnBreadcrum(sbaName: string) {
@@ -103,8 +108,7 @@ export class OpenCurrentForecast {
 
         let currentValue: string | number = await this.page
           .locator(
-            `//div[contains(@col-id,"${
-              parseInt(col_id || "SelectorError") + count
+            `//div[contains(@col-id,"${parseInt(col_id || "SelectorError") + count
             }.forecast")]//div[contains(@class,"tableCell")]/span`
           )
           .innerText();
@@ -116,14 +120,14 @@ export class OpenCurrentForecast {
 
         await this.page
           .locator(
-            `//div[contains(@col-id,"${
-              parseInt(col_id || "SelectorError") + count
+            `//div[contains(@col-id,"${parseInt(col_id || "SelectorError") + count
             }.forecast")]//div[contains(@class,"tableCell")]/span`
           )
           .dblclick()
           .then(async () => {
             await this.page.keyboard.type(incrementedValue.toString());
-            await this.page.keyboard.press("Shift+Tab");
+            // await this.page.keyboard.press("Shift+Tab+Tab");
+            await this.page.getByText('Allocation Method', { exact: true }).click()
           });
       } else {
         Utility.logIt("Unable to convert the col-id");
@@ -154,8 +158,7 @@ export class OpenCurrentForecast {
 
         let currentValue: string | number = await this.page
           .locator(
-            `//div[contains(@col-id,"${
-              parseInt(col_id || "SelectorError") + count
+            `//div[contains(@col-id,"${parseInt(col_id || "SelectorError") + count
             }Q4.forecast")]//div[contains(@class,"tableCell")]/span`
           )
           .innerText();
@@ -167,8 +170,7 @@ export class OpenCurrentForecast {
 
         await this.page
           .locator(
-            `//div[contains(@col-id,"${
-              parseInt(col_id || "SelectorError") + count
+            `//div[contains(@col-id,"${parseInt(col_id || "SelectorError") + count
             }Q4.forecast")]//div[contains(@class,"tableCell")]/span`
           )
           .dblclick()
@@ -263,5 +265,14 @@ export class OpenCurrentForecast {
 
   async isSomethingWentWrongError() {
     return this.somethingWentWrong.isVisible();
+  }
+
+  async clickOnUndo() {
+    await this.undoButton.click()
+  }
+
+  async clickOnRedo() {
+    await this.page.waitForTimeout(1000)
+    await this.redoButton.click()
   }
 }

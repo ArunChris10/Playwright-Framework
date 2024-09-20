@@ -3,14 +3,22 @@ import { OrganisationSelection } from "../pages/organisation-selection.page";
 import { CurrentForecast } from "../pages/current-forecast.page";
 import { CreateForecastPopup } from '../pages/create-forecast.-popup.page';
 import forecastdata from '../testdata/forecast.json'
-import { UfmUtility } from "../../ufm-be/fixtures/ufm-utils";
+import { ForecastUtility } from '../../ufm-be/fixtures/forecast-utils';
 
 test.describe('Create Forecast Feature Test', { tag: "@Smoke @createForecast" }, () => {
 
   const forecast = "Fulfillment";
   const lob = forecastdata[forecast];
 
-  test.beforeAll(async ({ request }) => { await UfmUtility.deleteForecast(lob.scenario_id, lob.dim_id, lob.dim_val_id, request) });
+  test.beforeAll(async ({ request }) => {
+    await ForecastUtility.deleteAllforecastofUser(
+      request,
+      forecast.toLowerCase(),
+      process.env.ufmUser
+    );
+  });
+
+  let forecastName
 
   test('Check if the user is able to createForecast', { tag: "@createForecast" }, async ({ page }) => {
     test.setTimeout(480000);
@@ -34,7 +42,7 @@ test.describe('Create Forecast Feature Test', { tag: "@Smoke @createForecast" },
 
     await test.step('Click on Prepare the forecast for Particular drivers', async () => {
 
-      await currentForecastPopup.clickOnPrepareTheForecastForParticularDrivers(lob.forecastPreparationName);
+      await currentForecastPopup.selectForecastInModal(lob.forecastName);
 
     });
 
@@ -44,7 +52,7 @@ test.describe('Create Forecast Feature Test', { tag: "@Smoke @createForecast" },
     });
 
     await test.step('Fill input field with forecast name' + lob.nameOfTheForecastInCreateForecastWindow, async () => {
-      await currentForecastPopup.fillTheInputField(lob.nameOfTheForecastInCreateForecastWindow);
+      forecastName = await currentForecastPopup.fillTheInputField(lob.forecastName);
 
     });
 
@@ -59,9 +67,9 @@ test.describe('Create Forecast Feature Test', { tag: "@Smoke @createForecast" },
 
     });
 
-    await test.step('Verify forecast name', async () => {
-
-      await currentForecastPopup.verifyForecastHasBeenCreatedSuccessfully(lob.forecastName);
+    await test.step('Verify forecast name after successful creation', async () => {
+      await currentForecastPopup.waitforRecallForecastToComplete();
+      await currentForecastPopup.verifyForecastHasBeenCreatedSuccessfully(forecastName)
     });
   });
 }); 

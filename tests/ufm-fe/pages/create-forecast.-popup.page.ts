@@ -9,6 +9,7 @@ export class CreateForecastPopup {
   readonly drpBaseForecastOption: Locator;
   readonly btnForecastCreateFinalOption: Locator;
   readonly spinner: Locator;
+  readonly createForecastHeader: Locator
 
   constructor(page: Page) {
 
@@ -18,6 +19,7 @@ export class CreateForecastPopup {
     this.drpBaseForecastOption = page.locator('select');
     this.spinner = page.locator("//span[contains(@class, 'Spinner')]");
     this.btnForecastCreateFinalOption = page.getByTestId("create-forecast-id");
+    this.createForecastHeader = page.getByRole('heading', { name: 'Create forecast' })
   }
 
   async clickOnCreateForecast() {
@@ -28,12 +30,20 @@ export class CreateForecastPopup {
     await this.page.getByText(`Prepare the forecast for ${forecastPreparationName} drivers.`).click();
   }
 
+  async selectForecastInModal(lobName) {
+    await this.page.getByText(`${lobName.toUpperCase()} forecast`).click()
+  }
   async clickOnContinueButton() {
     await this.btnContinue.click();
   }
 
   async fillTheInputField(forecastName: string) {
-    await this.page.getByPlaceholder(`${forecastName}`).fill(forecastName);
+
+    let customName = forecastName + " Automation - " + new Date().toLocaleString();
+
+    await this.page.getByPlaceholder(`${forecastName}`).fill(customName);
+
+    return customName
   }
 
   async selectBaseForecastPrimaryOption(baseForecastsPrimary: string) {
@@ -45,9 +55,10 @@ export class CreateForecastPopup {
   }
 
   async verifyForecastHasBeenCreatedSuccessfully(finalForecastCreated: string) {
-    await Utility.waitForSpinnerToBeVisible(this.page);
-    await Utility.waitForSpinnerToBeInvisible(this.page);
-    await expect(this.page.getByText(`${finalForecastCreated}`)).toBeVisible();
+    await expect(this.page.getByText(`${finalForecastCreated}`)).toBeVisible({ timeout: 300000 });
   }
 
+  async waitforRecallForecastToComplete() {
+    await this.createForecastHeader.waitFor({ state: "detached" })
+  }
 }

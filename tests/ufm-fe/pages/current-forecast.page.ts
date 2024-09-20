@@ -1,7 +1,6 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { CreateForecastPopup } from "./create-forecast.-popup.page";
 import { OpenCurrentForecast } from "../pages/open-forecast.page";
-import { ScenarioStatus } from "../pages/scenario-status.page";
 import forecast from "../testdata/forecast.json";
 import debug from "debug";
 import { Utility } from "../../common/fixtures/utils";
@@ -32,6 +31,11 @@ export class CurrentForecast {
   readonly rollingForecastCalendarTab: Locator;
   readonly forecastCycleContainer: Locator;
   readonly nudgeMessageForCreateDueDate: Locator;
+  readonly ellipses: Locator;
+  readonly sendButton: Locator
+  readonly recallButton: Locator
+  readonly recallForecast: Locator
+  readonly recallForecastHeader: Locator
 
   constructor(page: Page) {
     this.page = page;
@@ -72,6 +76,7 @@ export class CurrentForecast {
     );
     this.saveFilterSet = page.getByText("Save");
     this.open = page.getByText("Open");
+    this.ellipses = page.locator('//button[@aria-label="More options"]')
     this.forecastHeader = page.locator(
       '//div[contains(@class,"title-forecast")]'
     );
@@ -84,6 +89,11 @@ export class CurrentForecast {
     this.nudgeMessageForCreateDueDate = page.getByText(
       "A new fiscal year is approaching. Set rolling forecast due dates for FY"
     );
+
+    this.sendButton = page.getByText('Send', { exact: true })
+    this.recallButton = page.getByText('Recall', { exact: true })
+    this.recallForecast = page.getByText('Recall forecast', { exact: true })
+    this.recallForecastHeader = page.locator("//h2[contains(text(),'Recall forecast')]")
   }
 
   async gotoOrganisationSelection() {
@@ -91,8 +101,45 @@ export class CurrentForecast {
   }
 
   async clickOnCreateForecast() {
-    await this.createForecastButton.click();
+    await this.createForecastButton.first().click();
     return new CreateForecastPopup(this.page);
+  }
+
+  async clickOnSendToReview(sbaName) {
+    await this.page.getByText(`Send to ${sbaName} review`).click()
+  }
+
+  async clickOnRecallForecast() {
+    await this.recallForecast.click()
+  }
+
+  async validateSendToReviewModal(sbaName) {
+    await this.page.getByText(`Send to ${sbaName.toUpperCase()}`, { exact: true }).isVisible()
+    await this.page.getByText(`Your forecast will be sent to the ${sbaName.toUpperCase()} reviewer`).isVisible()
+  }
+
+  async validateRecallForecastModal(sbaName) {
+    await this.recallForecastHeader.isVisible()
+    await this.page.getByText(`After recalling your forecast, you'll be able to make changes to your forecast. Then you can send it back to your ${sbaName} reviewer.`).isVisible()
+  }
+
+  async clickOnSendButton() {
+    await this.sendButton.click()
+  }
+
+  async clickOnRecallButton() {
+    await this.recallButton.click()
+  }
+  async waitforSendToReviewToComplete(sbaName) {
+    await this.page.getByText(`Your forecast will be sent to the ${sbaName.toUpperCase()} reviewer`).waitFor({ state: "detached", timeout: 480000 })
+  }
+
+  async waitforRecallForecastToComplete(sbaName) {
+    await this.page.getByText(`After recalling your forecast, you'll be able to make changes to your forecast. Then you can send it back to your ${sbaName} reviewer.`).waitFor({ state: "detached", timeout: 480000 })
+  }
+
+  async getScenarioStatus(scenarioName) {
+    return await this.page.locator(`//div[contains(text(),'${scenarioName}')]//following-sibling::div[@col-id='forecastStatus']//span`).innerText()
   }
 
   async verifySBAName(breadCrumName: string) {
@@ -102,14 +149,6 @@ export class CurrentForecast {
     Utility.logIt(sbaNameText);
     expect(sbaNameText).toBe(forecast.Merch.sbaBreadCrumName);
     return new OpenCurrentForecast(this.page);
-  }
-
-  async isForecastStatusDraftOrChangesRequested() {
-    const scenariosStatus = await this.forecastStatus.innerText();
-    Utility.logIt(scenariosStatus);
-    const statuses: string[] = ["Draft", "Change requested"];
-    expect(statuses.includes(scenariosStatus)).toBeTruthy();
-    return new ScenarioStatus(this.page);
   }
 
   async clickOnFilterSetsDropdown() {
@@ -187,6 +226,7 @@ export class CurrentForecast {
     const actualDate = stringToTrim
       .substring(stringToTrim.indexOf("on") + 3)
       .trim();
+
     let strExpdate = await Utility.getUpcomingForecastSubmissionDate(
       testdata.expected_reponse
     );
@@ -222,6 +262,7 @@ export class CurrentForecast {
 
   async clickOnSaveFilterSet() {
     await this.saveFilterSet.click();
+    await this.page.waitForTimeout(500)
   }
 
   async deleteFilterSet(filterSetName: string) {
@@ -246,15 +287,38 @@ export class CurrentForecast {
       .locator('//div[@col-id="name"]')
       .innerText();
 
-    let LOBForecast = await this.page.locator(
-      `//div[contains(@class,'CurrentForecast_card-container')]//div[@row-id=${forecastRowID}]`
+    let LOBForecast = await this.page.locator(`//div[contains(@class,'CurrentForecast_card-container')]//div[@row-id=${forecastRowID}]`
     );
+
+
 
     await LOBForecast.locator(this.open).click();
 
     let foreCastHeader = await this.forecastHeader.innerText();
 
     expect(foreCastHeader).toEqual(forecastName);
+  }
+
+
+  async clickOnParticularForecastEllipses(LOB: string) {
+    let forecastParentElement = this.page
+      .locator(
+        `//div[contains(@class,'CurrentForecast_card-container')]//div[contains(text(),"${LOB}")]/parent::div`
+      )
+      .first();
+
+    let forecastRowID = await forecastParentElement.getAttribute("row-id");
+
+    let forecastName = await forecastParentElement
+      .locator('//div[@col-id="name"]')
+      .innerText();
+
+    let LOBForecast = await this.page.locator(`//div[contains(@class,'CurrentForecast_card-container')]//div[@row-id=${forecastRowID}]`
+    );
+
+    await LOBForecast.locator(this.ellipses).click();
+
+    return forecastName
   }
 
   async clickOnRollingForecastCalendarTab() {

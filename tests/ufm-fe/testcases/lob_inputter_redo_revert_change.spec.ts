@@ -12,7 +12,7 @@ testData.forEach(forecastNodeDetail => {
             objpageFactory = pageFactory;
         })
 
-        test('Verify when LoB Inputter press Redo button, it revert changes back to the what was Undone', { tag: "@revertLOBInput" }, async () => {
+        test('Verify when LoB Inputter press undo button, it revert changes back to the previous value', { tag: "@undoLOBInput" }, async () => {
             test.setTimeout(300000);
 
             await test.step('Go To UFM Page', async () => {
@@ -27,12 +27,8 @@ testData.forEach(forecastNodeDetail => {
                 await objpageFactory.ufmPageFactory().currentForecast().clickOnOpenParticularForecast(data.LOB)
             })
 
-            await test.step('Click on Actions', async () => {
-                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnActionButton()
-            })
-
             await test.step('Click on Add driver', async () => {
-                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnAddDriver()
+                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnChooseDifferentDriver()
             })
 
             await test.step(`Search for input driver: ${data.driver.inputDriver}`, async () => {
@@ -58,17 +54,38 @@ testData.forEach(forecastNodeDetail => {
 
             await test.step('Revertting inputted changes by pressing keyboard undo', async () => {
                 for (let i = 0; i <= data.driver.noOfMonth; i++) {
-                    await objpageFactory.utilities().keyPress('Meta+Z')
+                    await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnUndo()
                 }
             })
 
 
-            await test.step('Validate the inputted value persist after clicking on save', async () => {
+            await test.step('Validate the old value persist after clicking on undo', async () => {
                 let revertedInputNodeValues = await objpageFactory.ufmPageFactory().openCurrentForecast().getDriverMonthForecastValue(inputNodeValues.updated_col_ids)
 
                 expect(inputNodeValues["old_col_ids"].size).toBe(revertedInputNodeValues.size);
 
                 for (const [key, value] of inputNodeValues["old_col_ids"]) {
+                    expect(revertedInputNodeValues.has(key)).toBeTruthy();
+                    expect(revertedInputNodeValues.get(key)).toBe(value);
+                }
+            })
+
+        })
+
+        test('Verify when LoB Inputter press redo button, it redoes the updated value', { tag: "@redoLOBInput" }, async () => {
+            await test.step('Click on Redo', async () => {
+                for (let i = 0; i <= data.driver.noOfMonth; i++) {
+                    await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnRedo()
+                }
+            })
+
+
+            await test.step('Validate the inputted value persist after clicking on redo', async () => {
+                let revertedInputNodeValues = await objpageFactory.ufmPageFactory().openCurrentForecast().getDriverMonthForecastValue(inputNodeValues.updated_col_ids)
+
+                expect(inputNodeValues["updated_col_ids"].size).toBe(revertedInputNodeValues.size);
+
+                for (const [key, value] of inputNodeValues["updated_col_ids"]) {
                     expect(revertedInputNodeValues.has(key)).toBeTruthy();
                     expect(revertedInputNodeValues.get(key)).toBe(value);
                 }
