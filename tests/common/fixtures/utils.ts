@@ -1,6 +1,8 @@
-import { APIRequestContext, Page, TestInfo } from "@playwright/test";
+import { APIRequestContext, Download, Page, TestInfo } from "@playwright/test";
 import debug from "debug";
 import fs from "fs";
+import path from "path";
+import xlsx from "xlsx";
 import { Forecast } from "../../cdf-be/types/get-demand-scenario-forecast-response";
 import { expect } from "../fixtures/test-hook";
 import usersNexusFormat from "../testdata/users-nexus-format.json";
@@ -301,9 +303,9 @@ export class Utility {
   /**
    * Returns the current month and year in the format 'YYYYMM'.
    *
-   * @return {Promise<string>} The current month and year.
+   * @return {string} The current month and year.
    */
-  public static async getMonthYear() {
+  public static getMonthYear() {
     let m = ("0" + (new Date().getMonth() + 1)).slice(-2);
     let y = new Date().getFullYear() + 1;
     let year = y.toString();
@@ -311,11 +313,30 @@ export class Utility {
   }
 
   /**
-   * Waits for the loader to be invisible.
+   * Converts a month number to its corresponding short name.
    *
-   * @param {Page} page - The Playwright Page object.
-   * @return {Promise<void>} A promise that resolves when the loader is invisible.
+   * @param {string} month - The month number to convert (i.e. "01", "12").
+   * @return {string} The corresponding month name.
    */
+  public static convertFYMonthNumberToName(month: string) {
+    const monthNames = [
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+      "Jan",
+    ];
+    const index = parseInt(month, 10) - 1;
+    return monthNames[index];
+  }
+
   public static async waitForLoaderToBeInvisible(page) {
     await page
       .getByRole("img", { name: "loading" })
@@ -454,5 +475,30 @@ export class Utility {
 
   public static async verifyPageDoesNotHaveText(page, text) {
     await expect(page.getByText(text)).not.toBeVisible();
+  }
+
+  public static async downloadCSV(download: Download) {
+    const downloadPath = path.join(__dirname, "download.csv");
+    await download.saveAs(downloadPath);
+    const csvFileData = fs.readFileSync(downloadPath, "utf8");
+    fs.unlinkSync(downloadPath);
+    const csvArray = csvFileData.split(/\r\n/).map((row) =>
+      // Matches commas with no space after them. The lookahead regex is needed to parse the
+      // file correctly because sometimes cell values can contain commas, i.e. ARTS, CRAFTS, SEWING & FABRICS
+      row.split(/,(?=\S)/)
+    );
+    // The CSV ends with a comma, and as expected, this matches the regex and creates a final entry with [''] as a value.
+    // So, discard this. Unfortunately, there is no better way to match/remove all commas without generating this entry.
+    csvArray.splice(csvArray.length - 1);
+    return csvArray;
+  }
+
+  public static async downloadExcel(download: Download) {
+    const downloadPath = path.join(__dirname, "download.xlsx");
+    await download.saveAs(downloadPath);
+    const workbook = xlsx.readFile(downloadPath);
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    fs.unlinkSync(downloadPath);
+    return xlsx.utils.sheet_to_json(sheet);
   }
 }
