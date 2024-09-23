@@ -11,9 +11,7 @@ test.describe(
       const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
       Utility.logIt(endpointURL);
       const responseData = await request.get(endpointURL, {});
-      const responseBody = JSON.parse(await responseData.text());
-      Utility.logIt(responseBody);
-      expect(responseBody).toMatchObject(testdata.expected_response);
+      Utility.assertAndLog(responseData);
     });
   }
 );
