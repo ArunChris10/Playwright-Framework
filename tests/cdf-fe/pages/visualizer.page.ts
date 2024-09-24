@@ -41,8 +41,11 @@ export class Visualizer {
   private readonly deleteDialog: Locator;
   private readonly dialogCancelButton: Locator;
   private readonly dialogDeleteButton: Locator;
-  private readonly THREE_DOTS_SELECTOR = 'svg[test-data="ellipses-menu"]';
-  private readonly LIST_ITEM_DELETE_SELECTOR = 'li[test-data="delete-click"]';
+  private readonly scenarioSelector;
+  private readonly THREE_DOTS_SELECTOR = 'svg[test-data="ellipses-menu"]'
+  private readonly LIST_ITEM_DELETE_SELECTOR = 'li[test-data="delete-click"]'
+  private readonly SCENARIO_SELECTOR_FROM_LIST = '//ul[contains(@class,\'CustomVisualizerPanel_listingBoxStyle\')]/li['
+  private readonly SCENARIO_SELECTION_SUFFIX_FROM_LIST = ']/span/div/span['
 
   constructor(page: Page) {
     this.page = page;
@@ -129,6 +132,11 @@ export class Visualizer {
       name: "Yes, Delete",
     });
     this.agRows = this.page.locator(".ag-row");
+    this.scenarioSelector = function (positionInList, spanPosition) {
+      return this.page.locator(
+        this.SCENARIO_SELECTOR_FROM_LIST + positionInList + this.SCENARIO_SELECTION_SUFFIX_FROM_LIST + spanPosition + "]"
+      )
+    }
   }
 
   async openCreateNewVisualizerModal() {
@@ -144,6 +152,15 @@ export class Visualizer {
     await this.searchScenarioField.first().click();
     await this.page.getByText(name).click();
   }
+
+
+  async searchScenarioNameByPassingThePosition(positionInList, spanPosition) {
+    await this.searchScenarioField.first().click();
+    const searchField = await this.scenarioSelector(positionInList, spanPosition);
+    const scenarioName = await searchField.innerText();
+    await searchField.click()
+    return scenarioName;
+}
 
   async removeScenario(name, customScenariosFromScenario: string[] = []) {
     await this.page
@@ -432,5 +449,62 @@ export class Visualizer {
     await Utility.waitForDataLoadingMessageToBeInvisible(this.page);
 
     await expect(agRowWithView).toBeHidden();
+  }
+
+  async verifyAddCustomScenarioButtonIsDisabled() {
+    await expect(this.addCustomScenarioButton).toBeDisabled();
+  }
+
+  async createScenarioWithValidationForChecking(customScenarioName, customScenariosCreatedFrom, customScenarioOperation) {
+    await this.addCustomScenarioButton.click();
+    await this.customScenarioNameTextField.fill(customScenarioName);
+    await this.page.getByRole('button', { name: customScenarioOperation }).first().click();
+    if(customScenarioOperation == "Sum" || customScenarioOperation == "Difference" || customScenarioOperation == "% difference") {
+      for(let scenario of customScenariosCreatedFrom) {
+        await expect(this.page.getByLabel(scenario)).not.toBeDisabled();
+        await this.page.getByLabel(scenario).check();
+      }
+      await this.cancelButton.click();
+    } else if(customScenarioOperation == "Year over year %" || customScenarioOperation == "YoY Difference") {
+      let flag = 0;
+      for(let scenario of customScenariosCreatedFrom) {
+        if(flag == 0) {
+          await expect(this.page.getByLabel(scenario)).not.toBeDisabled();
+          await this.page.getByLabel(scenario).check();
+          flag = 1;
+        } else {
+          await expect(this.page.getByLabel(scenario)).toBeDisabled();
+        }
+      }
+      await this.cancelButton.click();
+    }
+  }
+
+  async verifyMetricsDisablingForMultipleScenarioSelection(customScenarioName, customScenariosCreatedFrom, customScenarioOperations) {
+    await this.addCustomScenarioButton.click();
+    await this.customScenarioNameTextField.fill(customScenarioName);
+    
+    // Check all the scenarios
+    for(let scenario of customScenariosCreatedFrom) {
+      await this.page.getByLabel(scenario).check();
+    }
+
+    // Validate the disabling of the operations
+    for(let operation of customScenarioOperations) {
+      await expect(this.page.getByRole('button', { name: operation })).toBeDisabled();
+    }
+
+    await this.cancelButton.click();
+  }
+
+  async verifyCalculatedScenarioIsNotPresent(customScenarioName) {
+    await this.addCustomScenarioButton.click();
+    await this.customScenarioNameTextField.fill(customScenarioName);
+
+    await expect(this.page.getByLabel(customScenarioName)).not.toBeVisible();
+  }
+
+  async verifyIfConfigurePanelIsClosed() {
+    await expect(this.viewNameTextField).not.toBeVisible(); 
   }
 }
