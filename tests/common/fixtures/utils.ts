@@ -364,7 +364,7 @@ export class Utility {
    */
   public static async waitForSpinnerToBeInvisible(page) {
     await page
-      .getByRole("status", { name: "Spinner" })
+      .locator(this.spinner)
       .waitFor({ state: "detached", timeout: 480000 });
   }
 

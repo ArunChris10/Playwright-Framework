@@ -4,6 +4,8 @@ import { PageFactory } from "../../common/pages/page-factory";
 import testdata from "../testdata/create-demandstackscenario.json";
 import testDataFlattened from "../testdata/create-manualadjustment-flattened.json";
 
+import type { Locator } from "@playwright/test";
+
 test.describe(
   "Manual Adjustment Flattened Layer Page Features",
   {
@@ -167,3 +169,134 @@ test.describe(
     });
   }
 );
+
+
+test.describe(
+    "Adjustment - Manual Flattened - Filters",
+    { tag: '@ManualAdjustmentFlattened @ibg-service-scenario-financials @ManualAdjustmentFlattenedFilters'},
+    async () => {
+        const { columns, metrics } = testDataFlattened
+
+        test.describe.configure({ mode: "parallel" });
+        test.beforeEach("Navigate to a DSS and prepare an adjustment layer", async ({ pageFactory }) => {
+            await pageFactory.cdfPageFactory().demandWorkspace().navigate()
+            await pageFactory.cdfPageFactory().demandWorkspace().openFirstDSS()
+            await pageFactory
+                .cdfPageFactory()
+                .flattenedManualAdjustmentLayer()
+                .createAndSave();
+        })
+
+        test("Verify the table has options to split the data by channel, SBU, and department combinations", async ({ pageFactory }) => {
+            await test.step("Verify that filtering by department shows only its column in the table", async () => {
+                await pageFactory
+                    .cdfPageFactory()
+                    .flattenedManualAdjustmentLayer()
+                    .applyColumnFiltersAndAssertVisibility(columns.filterLabels.department)
+            })
+
+            await test.step("Verify that filtering SBU shows only its column in the table", async () => {
+                await pageFactory
+                    .cdfPageFactory()
+                    .flattenedManualAdjustmentLayer()
+                    .applyColumnFiltersAndAssertVisibility(columns.filterLabels.sbu)
+            })
+
+            await test.step("Verify that filtering by channel shows only its column in the table", async () => {
+                await pageFactory
+                    .cdfPageFactory()
+                    .flattenedManualAdjustmentLayer()
+                    .applyColumnFiltersAndAssertVisibility(columns.filterLabels.channel)
+            })
+
+            await test.step("Verify that filtering by department and SBU shows only their columns in the table", async () => {
+                await pageFactory
+                    .cdfPageFactory()
+                    .flattenedManualAdjustmentLayer()
+                    .applyColumnFiltersAndAssertVisibility(
+                        [ columns.filterLabels.department, columns.filterLabels.sbu ]
+                    )
+            })
+
+            await test.step("Verify that filtering by department and channel shows only their columns in the table", async () => {
+                await pageFactory
+                    .cdfPageFactory()
+                    .flattenedManualAdjustmentLayer()
+                    .applyColumnFiltersAndAssertVisibility(
+                        [ columns.filterLabels.department, columns.filterLabels.channel ]
+                    )
+            })
+
+            await test.step("Verify that filtering by SBU and channel shows only their columns in the table", async () => {
+                await pageFactory
+                    .cdfPageFactory()
+                    .flattenedManualAdjustmentLayer()
+                    .applyColumnFiltersAndAssertVisibility(
+                        [ columns.filterLabels.sbu, columns.filterLabels.channel ]
+                    )
+            })
+
+            await test.step("Verify that all column filters can be applied and are shown in the table", async () => {
+                await pageFactory
+                    .cdfPageFactory()
+                    .flattenedManualAdjustmentLayer()
+                    .applyColumnFiltersAndAssertVisibility(Object.values(columns.filterLabels))
+            })
+        })
+
+        test("Verify the user can filter by up to 2 input and calculated metrics", async ({ pageFactory }) => {
+            let inputMetricCheckboxes: Locator[]
+
+            await test.step("Open the metric filter modal", async () => {
+                await pageFactory
+                    .cdfPageFactory()
+                    .flattenedManualAdjustmentLayer()
+                    .openFilterDropdown(metrics.filterName)
+            })
+
+            await test.step(`Verify input metrics are contained in '${metrics.inputMetricsDropdownSection}' section`, async () => {
+                inputMetricCheckboxes = await pageFactory
+                    .cdfPageFactory()
+                    .flattenedManualAdjustmentLayer()
+                    .assertOptionsVisibleInOpenFilterDropdown(metrics.inputMetrics, metrics.inputMetricsSection)
+            })
+
+            await test.step('Verify input metrics are selected by default', async () => {
+                for (const inputMetricCheckbox of inputMetricCheckboxes) {
+                    await expect(inputMetricCheckbox).toBeChecked()
+                }
+            })
+
+            await test.step(`Verify calculated metrics are contained in '${metrics.calculatedMetricsSection}`, async () => {
+                await pageFactory
+                    .cdfPageFactory()
+                    .flattenedManualAdjustmentLayer()
+                    .assertOptionsVisibleInOpenFilterDropdown(
+                        metrics.calculatedMetrics,
+                        metrics.calculatedMetricsSection
+                    )
+            })
+
+            await test.step("Verify another metric can be selected if less than two are selected", async () => {
+                await pageFactory.cdfPageFactory().flattenedManualAdjustmentLayer().uncheckFilterOption(metrics.inputMetrics[0])
+
+                const calculatedMetricCheckStatus = pageFactory
+                    .cdfPageFactory()
+                    .flattenedManualAdjustmentLayer()
+                    .checkFilterOption(metrics.calculatedMetrics[0])
+
+                // Falsy because the promise returns void, but we just want to check that it resolves without throwing
+                await expect(calculatedMetricCheckStatus).resolves.toBeFalsy()
+            })
+
+            await test.step(`Verify only two metrics can be selected`, async () => {
+                const calculatedMetricCheckStatus = pageFactory
+                    .cdfPageFactory()
+                    .flattenedManualAdjustmentLayer()
+                    .checkFilterOption(metrics.calculatedMetrics[1])
+
+                await expect(calculatedMetricCheckStatus).rejects.toThrow()
+            })
+
+        })
+})
