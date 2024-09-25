@@ -24,7 +24,6 @@
   },
   "dependencies": {
     "@opentelemetry/api": "^1.9.0",
-    "@opentelemetry/resources": "^1.26.0",
     "@opentelemetry/sdk-trace-node": "^1.26.0",
     "debug": "^4.3.4",
     "env-cmd": "^10.1.0",
