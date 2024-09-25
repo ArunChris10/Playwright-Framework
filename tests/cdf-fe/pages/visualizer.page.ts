@@ -8,6 +8,7 @@ export class Visualizer {
   private readonly viewNameTextField: Locator;
   private readonly createViewButton: Locator;
   private readonly searchScenarioField: Locator;
+  private readonly searchMetricField: Locator;
   private readonly dateRange: Locator;
   private readonly saveDateRange: Locator;
   private readonly openMoreSavedViews: Locator;
@@ -43,6 +44,12 @@ export class Visualizer {
   private readonly dialogDeleteButton: Locator;
   private readonly THREE_DOTS_SELECTOR = 'svg[test-data="ellipses-menu"]';
   private readonly LIST_ITEM_DELETE_SELECTOR = 'li[test-data="delete-click"]';
+  private readonly agTable: Locator;
+  private readonly viewMore: Locator;
+  private readonly deleteButton: Locator;
+  private readonly scenarioSelector;
+  private readonly SCENARIO_SELECTOR_FROM_LIST = '//ul[contains(@class,\'CustomVisualizerPanel_listingBoxStyle\')]/li['
+  private readonly SCENARIO_SELECTION_SUFFIX_FROM_LIST = ']/span/div/span['
 
   constructor(page: Page) {
     this.page = page;
@@ -123,12 +130,20 @@ export class Visualizer {
     this.copyVisualizerDataIcon = this.page.locator(
       '[test-data="copyVisualizerData"]'
     );
+    this.deleteButton = this.page.getByText("Delete View");
     this.deleteDialog = this.page.getByRole("dialog", { name: "Delete View" });
     this.dialogCancelButton = this.page.getByRole("button", { name: "Cancel" });
     this.dialogDeleteButton = this.page.getByRole("button", {
       name: "Yes, Delete",
     });
     this.agRows = this.page.locator(".ag-row");
+    this.agTable = this.page.locator('div[class*="PivotTable"]');
+    this.viewMore = this.page.getByText("View More");
+    this.scenarioSelector = function (positionInList, spanPosition) {
+      return this.page.locator(
+        this.SCENARIO_SELECTOR_FROM_LIST + positionInList + this.SCENARIO_SELECTION_SUFFIX_FROM_LIST + spanPosition + "]"
+      )
+    }
   }
 
   async openCreateNewVisualizerModal() {
@@ -144,6 +159,15 @@ export class Visualizer {
     await this.searchScenarioField.first().click();
     await this.page.getByText(name).click();
   }
+
+
+  async searchScenarioNameByPassingThePosition(positionInList, spanPosition) {
+    await this.searchScenarioField.first().click();
+    const searchField = await this.scenarioSelector(positionInList, spanPosition);
+    const scenarioName = await searchField.innerText();
+    await searchField.click()
+    return scenarioName;
+}
 
   async removeScenario(name, customScenariosFromScenario: string[] = []) {
     await this.page
@@ -182,6 +206,16 @@ export class Visualizer {
     for (let metric of metrics) {
       await this.page.getByLabel(metric).click();
     }
+  }
+
+  async searchForMetric(metric) {
+    await this.page.getByPlaceholder("Search").nth(1).fill(metric);
+  }
+
+  async verifyMetricInTable(metrics) {
+      for (let metric of metrics) {
+        await expect(this.agTable.getByText(metric).first()).toBeVisible();
+      }
   }
 
   async createScenario(
@@ -250,6 +284,26 @@ export class Visualizer {
       metric = await this.metrics.nth(position);
     }
     await expect(metric).toHaveText(metricName);
+  }
+
+  async viewMoreMetrics(metrics) {
+    let count = 0;
+    for (let i = 0; i < 5; i++) {
+      if (metrics.includes(await this.metrics.nth(i).textContent())) {
+        count++;
+      }
+    }
+    expect (count).toBe(5);
+    expect (await this.metrics.count()).toBe(5);
+    await this.viewMore.click();
+    count = 0;
+    for (let i = 0; i < await this.metrics.count(); i++) {
+      if (metrics.includes(await this.metrics.nth(i).textContent())) {
+        count++;
+      }
+    }
+    expect (await this.metrics.count()).toBe(metrics.length);
+    expect(count).toBe(metrics.length);
   }
 
   async verifyCustomMetric(metricName, operation) {
@@ -342,7 +396,14 @@ export class Visualizer {
 
   async saveView() {
     await this.saveNewView.first().click();
+    await expect(await this.pauseRefreshToggle.getAttribute("aria-checked")).toBe("false");
     await Utility.waitForDataLoadingMessageToBeInvisible(this.page);
+  }
+
+  async deleteView() {
+    await this.settingsButton.click();
+    await this.deleteButton.click();
+    await this.deleteDialog.click();
   }
 
   async verifyView(hierarchys) {
@@ -432,5 +493,62 @@ export class Visualizer {
     await Utility.waitForDataLoadingMessageToBeInvisible(this.page);
 
     await expect(agRowWithView).toBeHidden();
+  }
+
+  async verifyAddCustomScenarioButtonIsDisabled() {
+    await expect(this.addCustomScenarioButton).toBeDisabled();
+  }
+
+  async createScenarioWithValidationForChecking(customScenarioName, customScenariosCreatedFrom, customScenarioOperation) {
+    await this.addCustomScenarioButton.click();
+    await this.customScenarioNameTextField.fill(customScenarioName);
+    await this.page.getByRole('button', { name: customScenarioOperation }).first().click();
+    if(customScenarioOperation == "Sum" || customScenarioOperation == "Difference" || customScenarioOperation == "% difference") {
+      for(let scenario of customScenariosCreatedFrom) {
+        await expect(this.page.getByLabel(scenario)).not.toBeDisabled();
+        await this.page.getByLabel(scenario).check();
+      }
+      await this.cancelButton.click();
+    } else if(customScenarioOperation == "Year over year %" || customScenarioOperation == "YoY Difference") {
+      let flag = 0;
+      for(let scenario of customScenariosCreatedFrom) {
+        if(flag == 0) {
+          await expect(this.page.getByLabel(scenario)).not.toBeDisabled();
+          await this.page.getByLabel(scenario).check();
+          flag = 1;
+        } else {
+          await expect(this.page.getByLabel(scenario)).toBeDisabled();
+        }
+      }
+      await this.cancelButton.click();
+    }
+  }
+
+  async verifyMetricsDisablingForMultipleScenarioSelection(customScenarioName, customScenariosCreatedFrom, customScenarioOperations) {
+    await this.addCustomScenarioButton.click();
+    await this.customScenarioNameTextField.fill(customScenarioName);
+    
+    // Check all the scenarios
+    for(let scenario of customScenariosCreatedFrom) {
+      await this.page.getByLabel(scenario).check();
+    }
+
+    // Validate the disabling of the operations
+    for(let operation of customScenarioOperations) {
+      await expect(this.page.getByRole('button', { name: operation })).toBeDisabled();
+    }
+
+    await this.cancelButton.click();
+  }
+
+  async verifyCalculatedScenarioIsNotPresent(customScenarioName) {
+    await this.addCustomScenarioButton.click();
+    await this.customScenarioNameTextField.fill(customScenarioName);
+
+    await expect(this.page.getByLabel(customScenarioName)).not.toBeVisible();
+  }
+
+  async verifyIfConfigurePanelIsClosed() {
+    await expect(this.viewNameTextField).not.toBeVisible(); 
   }
 }

@@ -15,6 +15,7 @@ export class DemandOutput {
   private readonly exportMenu: Locator;
   private readonly downloadExcelBtn: Locator;
   private readonly aurRadioBtn: Locator;
+  private readonly forecastProjectionBtn;
 
   constructor(page: Page) {
     this.page = page;
@@ -34,6 +35,11 @@ export class DemandOutput {
       name: "Excel Export",
     });
     this.aurRadioBtn = this.page.getByLabel("AUR", { exact: true });
+    this.forecastProjectionBtn = function(forecastProjectionName) {
+      return this.page.locator('a').filter(
+        {hasText: forecastProjectionName}
+      );
+    }
   }
   async applyFilters() {
     await this.page.getByLabel(testdata.sbuLabel[0]).check();
@@ -79,5 +85,9 @@ export class DemandOutput {
     await this.aurRadioBtn.check();
     await this.exportMenu.click();
     await this.downloadExcelBtn.click();
+  }
+
+  async clickForecastProjectionTab(forecastProjectionName) {
+    await this.forecastProjectionBtn(forecastProjectionName).click();
   }
 }
