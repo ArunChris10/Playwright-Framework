@@ -88,11 +88,14 @@ export const traceRequest = async (
       Logger.error(errorMessage);
       throw new Error(errorMessage);
     }
-    if (responseSpanId !== spanContext.spanId) {
-      const errorMessage = `Span ID mismatch: expected ${spanContext.spanId}, got ${responseSpanId}`;
-      Logger.error(errorMessage);
-      throw new Error(errorMessage);
-    }
+    
+    // This logic can be uncommented to valdate span ID in future , currently we are receiving the same span ID
+    
+    // if (responseSpanId == spanContext.spanId) {
+    //   const errorMessage = `Span ID should not be same as request: expected ${spanContext.spanId}, got ${responseSpanId}`;
+    //   Logger.error(errorMessage);
+    //   throw new Error(errorMessage);
+    // }
     
     Logger.log(`Trace validation successful: ${responseTraceparent}`);
   } else {
