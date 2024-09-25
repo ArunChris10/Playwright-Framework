@@ -17,5 +17,9 @@
     "merchChannelHierarchy": ["Merch Channel"],
     "merchChannelGroupsDropdown": ["Core", "Stores", "Seller Fulfilled", "Walmart Fulfillment Services"],
     "defaultChannelGroupsDropdown": ["INSTORE INCLUB", "DELIVERY", "PICKUP", "OTHER"],
+    "allMetrics" : ["GMV", "Units", "AUR", "UOM", "Net Merch Sales"],
+    "customOperation": "Year over year %",
+    "customOperationMetricsForScenariosSelectable": ["Sum", "Difference", "% difference"],
+    "customOperationMetricsForScenariosDisabled": ["Year over year %", "YoY Difference"],
     "customUnaryOperation": "Year over year %"
 }

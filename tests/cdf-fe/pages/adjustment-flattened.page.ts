@@ -25,6 +25,10 @@ export class ManualAdjustmentFlattened {
   private readonly downloadMenuItem: Function;
   private readonly resetButton: Locator;
 
+  // Filter related elements
+  private readonly filterModal: Locator;
+  private readonly filterModalConfirmButton: Locator;
+
   constructor(page: Page) {
     this.page = page;
     this.intelLayer =
@@ -73,15 +77,18 @@ export class ManualAdjustmentFlattened {
       name: "Reset",
       exact: true,
     });
+
+    this.filterModal = this.page.locator('div[class*="BasePopover-module_content"]')
+    this.filterModalConfirmButton = this
+        .filterModal
+        .getByRole("button", { name: "Confirm" })
   }
 
-  async addNameAndDesc({ name, desc }) {
+  async addNameAndDesc({ name, desc }: { name: string; desc: string }) {
     await this.adjustmentTab.click();
     await this.createLayer.click();
     await this.flattenedMenu.click();
-    await this.flattenedNameInput.click();
     await this.flattenedNameInput.fill(name);
-    await this.flattenedDescInput.click();
     await this.flattenedDescInput.fill(desc);
     await this.flattenedCreateButton.click();
   }
@@ -184,5 +191,72 @@ export class ManualAdjustmentFlattened {
     return type == "CSV"
       ? await Utility.downloadCSV(download)
       : await Utility.downloadExcel(download);
+  }
+
+  async openFilterDropdown(filterType: string) {
+    const filterDropdownButton = this.page.getByRole('button', { name: filterType })
+    await filterDropdownButton.click();
+  }
+
+  async applyFilterOptions(labels: string[] | string) {
+    const labelArray = [ labels ].flat()
+
+    for (const label of labelArray) {
+      await this.filterModal.getByLabel(label).check()
+    }
+
+    await this.filterModalConfirmButton.click()
+    await Utility.waitForSpinnerToBeInvisible(this.page)
+  }
+
+  async checkFilterOption(label: string) {
+    const option = this.filterModal.getByLabel(label, { exact: true })
+    return await option.check()
+  }
+
+  async uncheckFilterOption(label: string) {
+    const option = this.filterModal.getByLabel(label, { exact: true })
+    return await option.uncheck()
+  }
+
+  async clearFilterOptions()   {
+    const checkboxes = this.filterModal.getByRole('checkbox')
+    for (const checkbox of await checkboxes.all()) {
+      await checkbox.uncheck()
+    }
+  }
+
+  async isColumnHeaderVisible(name: string) {
+    return this.page.getByRole(
+        'columnheader', { name: name.toUpperCase() }
+    ).isVisible()
+  }
+
+  async applyColumnFiltersAndAssertVisibility(labels: string | string[]) {
+    const labelArray = [ labels ].flat()
+
+    await this.openFilterDropdown(testdata.columns.filterName);
+    await this.clearFilterOptions()
+    await this.applyFilterOptions(labelArray)
+
+    for (const columnName of Object.values<string>(testdata.columns.filterLabels)) {
+      const isColumnNameVisible = await this.isColumnHeaderVisible(columnName)
+      expect(isColumnNameVisible).toBe(labels.includes(columnName))
+    }
+  }
+
+  async assertOptionsVisibleInOpenFilterDropdown(labels: string[], groupName?: string): Promise<Locator[]> {
+    const parentElement = groupName
+        ? this.filterModal.getByRole('group', { name: groupName })
+        : this.filterModal
+
+    const optionLocators: Locator[] = []
+    for (const label of labels) {
+      const option = parentElement.getByLabel(label, { exact: true })
+      await expect(option).toBeVisible()
+      optionLocators.push(option)
+    }
+
+    return optionLocators
   }
 }

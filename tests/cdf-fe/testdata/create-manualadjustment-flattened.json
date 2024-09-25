@@ -3,5 +3,30 @@
   "desc": "create manual adjustment flattened layer Description",
   "metricGMV": "GMV Shipped",
   "metricUnits": "Scanned Units",
-  "defaultMetricValue": "100"
+  "defaultMetricValue": "100",
+  "columns": {
+    "filterLabels": {
+      "department": "Department",
+      "sbu": "SBU",
+      "channel": "Channel"
+    },
+    "filterName": "Columns"
+  },
+  "metrics": {
+    "inputMetrics": [ "GMV Shipped", "Scanned Units" ],
+    "inputMetricsSection": "Input metrics",
+    "calculatedMetricsSection": "Calculated metrics",
+    "calculatedMetrics": [
+      "Net Merch Sales",
+      "AUR",
+      "UOM",
+      "GMV YoY Growth %",
+      "Net Merch Sales YoY Growth %",
+      "Scanned Units YoY Growth %",
+      "AUR YoY Growth %",
+      "UOM YoY Growth %",
+      "GMV Mix %"
+    ],
+    "filterName": "Metrics"
+  }
 }
