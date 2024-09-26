@@ -44,12 +44,20 @@ export class Visualizer {
   private readonly dialogDeleteButton: Locator;
   private readonly THREE_DOTS_SELECTOR = 'svg[test-data="ellipses-menu"]';
   private readonly LIST_ITEM_DELETE_SELECTOR = 'li[test-data="delete-click"]';
+  private readonly SCENARIO_LIST_SELECTOR =
+    "//ul[contains(@class,'List-module_list')]";
   private readonly agTable: Locator;
   private readonly viewMore: Locator;
   private readonly deleteButton: Locator;
   private readonly scenarioSelector;
   private readonly SCENARIO_SELECTOR_FROM_LIST = '//ul[contains(@class,\'CustomVisualizerPanel_listingBoxStyle\')]/li['
   private readonly SCENARIO_SELECTION_SUFFIX_FROM_LIST = ']/span/div/span['
+  private readonly optionsSumLocator: Locator;
+  private readonly optionsDiffLocator: Locator;
+  private readonly pctDiffLocator: Locator;
+  private readonly yoyDiffLocator: Locator;
+  private readonly LastYrValueLocator: Locator;
+  private readonly yoyPctLocator: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -144,6 +152,12 @@ export class Visualizer {
         this.SCENARIO_SELECTOR_FROM_LIST + positionInList + this.SCENARIO_SELECTION_SUFFIX_FROM_LIST + spanPosition + "]"
       )
     }
+    this.optionsSumLocator = this.page.getByRole("button", { name: "Sum" });
+    this.optionsDiffLocator = this.page.getByRole("button", { name: "Difference", exact: true });
+    this.pctDiffLocator = this.page.getByRole("button", { name: "% difference" });
+    this.yoyDiffLocator = this.page.getByRole("button", { name: "YoY Difference" });
+    this.LastYrValueLocator = this.page.getByRole("button", { name: "Last Year Value" });
+    this.yoyPctLocator = this.page.getByRole("button", { name: "Year over year %" });
   }
 
   async openCreateNewVisualizerModal() {
@@ -493,6 +507,79 @@ export class Visualizer {
     await Utility.waitForDataLoadingMessageToBeInvisible(this.page);
 
     await expect(agRowWithView).toBeHidden();
+  }
+
+  async getPivotColumns() {
+    return this.page
+      .locator("//div[@data-rbd-droppable-id='renderPivotColumns']")
+      .innerText();
+  }
+
+  async getPivotRows() {
+    return this.page
+      .locator("//div[@data-rbd-droppable-id='renderPivotRows']")
+      .innerText();
+  }
+
+  async verifydefaultRowsVisible() {
+    const columns = await this.getPivotColumns();
+    const rows = await this.getPivotRows();
+    console.log(columns);
+    console.log(rows);
+    testdata.defaultColumns.forEach((column) => {
+      expect(columns.includes(column)).toBeTruthy();
+    });
+    testdata.merchChannelHierarchy.forEach((row) => {
+      expect(rows.includes(row)).toBeTruthy();
+    });
+  }
+
+  async searchAndSelectScenario(scenarioCount) {
+    await this.searchScenarioField.first().click();
+    let data;
+    const ul = this.page.locator(this.SCENARIO_LIST_SELECTOR);
+    for (let i = 1; i <= scenarioCount; i++) {
+      await this.searchScenarioField.first().click();
+      const li: Locator = ul.locator(`li:nth-child(${i + 1})`);
+      const text = await li.textContent();
+      console.log(text);
+      await li.click();
+    }
+  }
+
+  async verifyTwoSelectedScenarioOptions() {
+    expect(this.optionsSumLocator).toBeVisible();
+    expect(this.optionsDiffLocator).toBeVisible();
+    expect(this.pctDiffLocator).toBeVisible();
+    expect(this.yoyDiffLocator).toBeDisabled();
+    expect(this.LastYrValueLocator).toBeDisabled();
+    expect(this.yoyPctLocator).toBeDisabled();
+  }
+
+  async verifyThreeSelectedScenarioOptions() {
+    expect(this.optionsSumLocator).toBeVisible();
+    expect(this.optionsDiffLocator).toBeDisabled();
+    expect(this.pctDiffLocator).toBeDisabled();
+    expect(this.yoyDiffLocator).toBeDisabled();
+    expect(this.LastYrValueLocator).toBeDisabled();
+    expect(this.yoyPctLocator).toBeDisabled();
+  }
+
+  async verifyCustomMetricSelectionOptions() {
+    await this.addCustomScenarioButton.click();
+    const divElements = await this.page.$$(
+      'div[class*="CustomVisualizerPanel_renderScenarios"]'
+    );
+
+    // select first two metric
+    for (let i = 0; i < 2; i++) {
+      const inputElement = await divElements[i].$("label > input");
+      await inputElement.click();
+    }
+    await this.verifyTwoSelectedScenarioOptions();
+    const inputElement = await divElements[2].$("label > input");
+    await inputElement.click();
+    await this.verifyThreeSelectedScenarioOptions();
   }
 
   async verifyAddCustomScenarioButtonIsDisabled() {

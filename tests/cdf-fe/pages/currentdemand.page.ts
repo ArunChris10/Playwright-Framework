@@ -1,6 +1,7 @@
 import { Page, Locator, expect } from "@playwright/test";
 import { Utility } from "../../common/fixtures/utils";
 import { test } from "../../common/fixtures/test-hook";
+import testdata from "../testdata/create-visualizerview.json";
 
 export class CurrentDemand {
 
@@ -106,5 +107,16 @@ export class CurrentDemand {
     await test.step("Verify that the copy option is not visible", async () => {
       await this.verifyCopyIconIsHidden()
     })
+  }
+
+  async verifyCurrentDemandConfigurePannel() {
+    await Utility.waitForSpinnerToBeInvisible(this.page)
+    await this.page.getByLabel('icon').nth(1).click();
+    await Utility.waitForSpinnerToBeInvisible(this.page)
+    testdata.metrics.forEach((metric) => {
+      expect(this.page.getByText(metric)).toBeVisible();
+    })
+    await this.page.getByRole('button', { name: 'Delete view' }).click();
+    await this.page.getByRole('button', { name: 'Yes, Delete' }).click();
   }
 }
