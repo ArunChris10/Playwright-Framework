@@ -1,0 +1,266 @@
+{
+    "payload": {
+        "sbu": [
+            "APPAREL",
+            "CONSUMABLES",
+            "ENTERTAINMENT TOYS AND SEASONAL",
+            "FOOD",
+            "FUEL",
+            "HARDLINES",
+            "HEALTH AND WELLNESS",
+            "HOME",
+            "OTHER"
+        ],
+        "sbuIds": [
+            26,
+            29,
+            196,
+            27,
+            65,
+            60,
+            30,
+            47,
+            99
+        ],
+        "department": [],
+        "departmentIds": [],
+        "baseChannel": [
+            "DSV_S2H",
+            "DSV_S2S"
+        ],
+        "baseChannelIds": [
+            22,
+            26
+        ],
+        "channelGroup": [],
+        "channelGroupIds": [],
+        "demandChannel": [],
+        "layerIds": [],
+        "clearAll": false,
+        "includeDerivedMetrics": true,
+        "includeTotals": false,
+        "loadHeirarchyParams": null,
+        "timeFilter": {
+            "filterLevel": "MONTH",
+            "isYearSelected": false,
+            "isMonthSelected": false,
+            "isQuarterSelected": false,
+            "yearMonths": [],
+            "yearQuarters": [],
+            "years": [],
+            "yearList": []
+        },
+        "version": "1710774999924",
+        "departmentName": [],
+        "filtersChanged": true,
+        "filterLoadComplete": true,
+        "selectedMetrics": [
+            "GMV Shipped",
+            "Net Merch Sales"
+        ],
+        "flattenHierarchy": false,
+        "organizationalLevel": "DEPARTMENT",
+        "selectedColumns": [
+            "SBU",
+            "DEPARTMENT"
+        ],
+        "metricType": "Net Merch Sales"
+    },
+    "allColumnsSelected": {
+        "sbu": [
+            "APPAREL",
+            "CONSUMABLES",
+            "ENTERTAINMENT TOYS AND SEASONAL",
+            "FOOD",
+            "FUEL",
+            "HARDLINES",
+            "HEALTH AND WELLNESS",
+            "HOME",
+            "OTHER"
+        ],
+        "sbuIds": [
+            26,
+            29,
+            196,
+            27,
+            65,
+            60,
+            30,
+            47,
+            99
+        ],
+        "department": [],
+        "departmentIds": [],
+        "baseChannel": [
+            "DSV_S2H",
+            "DSV_S2S"
+        ],
+        "baseChannelIds": [
+            22,
+            26
+        ],
+        "channelGroup": [],
+        "channelGroupIds": [],
+        "demandChannel": [],
+        "layerIds": [],
+        "clearAll": false,
+        "includeDerivedMetrics": true,
+        "includeTotals": false,
+        "loadHeirarchyParams": null,
+        "timeFilter": {
+            "filterLevel": "MONTH",
+            "isYearSelected": false,
+            "isMonthSelected": false,
+            "isQuarterSelected": false,
+            "yearMonths": [],
+            "yearQuarters": [],
+            "years": [],
+            "yearList": []
+        },
+        "version": "1710774999924",
+        "departmentName": [],
+        "filtersChanged": true,
+        "filterLoadComplete": true,
+        "selectedMetrics": [
+            "GMV Shipped",
+            "Net Merch Sales"
+        ],
+        "flattenHierarchy": true,
+        "organizationalLevel": null,
+        "selectedColumns": [
+            "BASE_CHANNEL",
+            "SBU",
+            "DEPARTMENT"
+        ],
+        "metricType": "Net Merch Sales"
+    },
+    "onlyDepartmentSelected": {
+        "sbu": [
+            "APPAREL",
+            "CONSUMABLES",
+            "ENTERTAINMENT TOYS AND SEASONAL",
+            "FOOD",
+            "FUEL",
+            "HARDLINES",
+            "HEALTH AND WELLNESS",
+            "HOME",
+            "OTHER"
+        ],
+        "sbuIds": [
+            26,
+            29,
+            196,
+            27,
+            65,
+            60,
+            30,
+            47,
+            99
+        ],
+        "department": [],
+        "departmentIds": [],
+        "baseChannel": [
+            "DSV_S2H",
+            "DSV_S2S"
+        ],
+        "baseChannelIds": [
+            22,
+            26
+        ],
+        "channelGroup": [],
+        "channelGroupIds": [],
+        "demandChannel": [],
+        "layerIds": [],
+        "clearAll": false,
+        "includeDerivedMetrics": true,
+        "includeTotals": false,
+        "loadHeirarchyParams": null,
+        "timeFilter": {
+            "filterLevel": "MONTH",
+            "isYearSelected": false,
+            "isMonthSelected": false,
+            "isQuarterSelected": false,
+            "yearMonths": [],
+            "yearQuarters": [],
+            "years": [],
+            "yearList": []
+        },
+        "version": "1710774999924",
+        "departmentName": [],
+        "filtersChanged": true,
+        "filterLoadComplete": true,
+        "selectedMetrics": [
+            "GMV Shipped",
+            "Net Merch Sales"
+        ],
+        "flattenHierarchy": false,
+        "organizationalLevel": "DEPARTMENT",
+        "selectedColumns": [
+            "DEPARTMENT"
+        ],
+        "metricType": "Net Merch Sales"
+    },
+    "onlySbuSelected": {
+        "sbu": [
+            "CONSUMABLES",
+            "ETS",
+            "FOOD",
+            "HARDLINES",
+            "HOME"
+        ],
+        "sbuIds": [
+            29,
+            196,
+            27,
+            60,
+            47
+        ],
+        "department": [],
+        "departmentIds": [],
+        "baseChannel": [
+            "DSV_S2H",
+            "DSV_S2S"
+        ],
+        "baseChannelIds": [
+            22,
+            26
+        ],
+        "channelGroup": [],
+        "channelGroupIds": [],
+        "demandChannel": [],
+        "layerIds": [],
+        "clearAll": false,
+        "includeDerivedMetrics": true,
+        "includeTotals": false,
+        "loadHeirarchyParams": null,
+        "timeFilter": {
+            "filterLevel": "MONTH",
+            "isYearSelected": false,
+            "isMonthSelected": false,
+            "isQuarterSelected": false,
+            "yearMonths": [],
+            "yearQuarters": [],
+            "years": [],
+            "yearList": []
+        },
+        "version": "1710774999924",
+        "departmentName": [],
+        "filtersChanged": true,
+        "filterLoadComplete": true,
+        "selectedMetrics": [
+            "GMV Shipped"
+        ],
+        "flattenHierarchy": false,
+        "organizationalLevel": "SBU",
+        "selectedColumns": [
+            "SBU"
+        ],
+        "metricType": "Net Merch Sales"
+    },
+    "yearList": ["FY 2025", "FY 2026"],
+    "yearMonths": ["202509", "202510", "202609", "202610"],
+    "monthNames": ["Oct", "Nov", "Oct", "Nov"],
+    "years": ["2025", "2026"],
+    "endpointForGetDemandScenarioForecast": "/api/demandscenarios/demand/",
+    "excelColumns": ["D", "E", "F", "G"]
+}
