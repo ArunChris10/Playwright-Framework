@@ -33,6 +33,7 @@ export const traceRequest = async (
     },
   });
 
+  options.headers = options.headers?options.headers:{}
   // Set the span in the current context
   propagation.inject(trace.setSpan(context.active(), span),options.headers);
 
