@@ -11,8 +11,10 @@ export class Visualizer {
   private readonly searchMetricField: Locator;
   private readonly dateRange: Locator;
   private readonly saveDateRange: Locator;
+  private readonly savedViewsHeader: Locator;
   private readonly openMoreSavedViews: Locator;
   private readonly savedViewsButton: Locator;
+  private readonly closeSavedViewsButton: Locator;
   private readonly saveNewView: Locator;
   private readonly visualizerName: Locator;
   private readonly settingsButton: Locator;
@@ -42,8 +44,12 @@ export class Visualizer {
   private readonly deleteDialog: Locator;
   private readonly dialogCancelButton: Locator;
   private readonly dialogDeleteButton: Locator;
+  private readonly COPY_SAVED_VIEW_BUTTON_SELECTOR = 'button[test-data="copy-click"]';
+  private readonly PIN_SAVED_VIEW_BUTTON_SELECTOR = 'button[test-data="pin-click"]';
   private readonly THREE_DOTS_SELECTOR = 'svg[test-data="ellipses-menu"]';
   private readonly LIST_ITEM_DELETE_SELECTOR = 'li[test-data="delete-click"]';
+  private readonly LIST_ITEM_RENAME_SELECTOR = 'li[test-data="rename-click"]';
+  private readonly ellipsesMenuBackdrop: Locator;
   private readonly SCENARIO_LIST_SELECTOR =
     "//ul[contains(@class,'List-module_list')]";
   private readonly agTable: Locator;
@@ -58,6 +64,7 @@ export class Visualizer {
   private readonly yoyDiffLocator: Locator;
   private readonly LastYrValueLocator: Locator;
   private readonly yoyPctLocator: Locator;
+  private readonly demandTabTitles: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -70,10 +77,12 @@ export class Visualizer {
       .getByTestId("date-range-component")
       .locator("div");
     this.saveDateRange = this.page.getByRole("button", { name: "Apply" });
+    this.savedViewsHeader = this.page.locator('a').filter({ hasText: 'Saved View' });
     this.openMoreSavedViews = this.page.getByLabel("more");
     this.savedViewsButton = this.page.getByRole("menuitem", {
       name: "Saved Views",
     });
+    this.closeSavedViewsButton = this.page.locator("//button[@a11ylabel='close']");
     this.saveNewView = this.page.getByRole("button", { name: "Create View" });
     this.visualizerName = this.page
       .locator("a")
@@ -144,7 +153,7 @@ export class Visualizer {
     this.dialogDeleteButton = this.page.getByRole("button", {
       name: "Yes, Delete",
     });
-    this.agRows = this.page.locator(".ag-row");
+    this.agRows = this.page.getByRole("row");
     this.agTable = this.page.locator('div[class*="PivotTable"]');
     this.viewMore = this.page.getByText("View More");
     this.scenarioSelector = function (positionInList, spanPosition) {
@@ -158,6 +167,10 @@ export class Visualizer {
     this.yoyDiffLocator = this.page.getByRole("button", { name: "YoY Difference" });
     this.LastYrValueLocator = this.page.getByRole("button", { name: "Last Year Value" });
     this.yoyPctLocator = this.page.getByRole("button", { name: "Year over year %" });
+    this.ellipsesMenuBackdrop = this.page.locator('div[test-data="menu-close"]')
+      .locator('div[class*="MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop"]');
+    this.demandTabTitles = this.page.locator('div[class*="DemandProjectionTabs_tabsCont_"]').
+      locator('span[class*="StyledTabNavigation_tabTitle_"]');
   }
 
   async openCreateNewVisualizerModal() {
@@ -362,9 +375,18 @@ export class Visualizer {
   }
 
   async openSavedViews() {
-    await this.openMoreSavedViews.click();
-    await this.savedViewsButton.click();
-    await Utility.waitForLoaderToBeInvisible(this.page);
+    if (!(await this.savedViewsHeader.isVisible())) {
+      await this.openMoreSavedViews.click();
+      await this.savedViewsButton.click();
+      await Utility.waitForLoaderToBeInvisible(this.page);
+    }
+  }
+
+  async closeSavedViews() {
+    if (await this.savedViewsHeader.isVisible()) {
+      await this.closeSavedViewsButton.click();
+      await Utility.waitForLoaderToBeInvisible(this.page);
+    }
   }
 
   async unpinSavedView(name) {
@@ -406,6 +428,30 @@ export class Visualizer {
       .getByRole("button")
       .nth(1);
     await expect(pinned).not.toBe(unpinned);
+  }
+
+  async isSavedViewPinned(name: string) {
+    const row = this.agRows.filter({hasText: name}).first();
+    return await row.locator('//div[@col-id="pin"]').locator('svg').count() === 2;
+  }
+
+  async unpinAllSavedViews() {
+    const firstRow = this.page.locator(`//div[@row-index='0']`);
+    while (await firstRow.locator('//div[@col-id="pin"]').locator('svg').count() === 2) {
+        await firstRow.locator(this.PIN_SAVED_VIEW_BUTTON_SELECTOR).click();
+        await Utility.waitForDataLoadingMessageToBeInvisible(this.page);
+    }
+  }
+
+  async getSavedViewAtRowIndex(index: number) {
+    return await this.page.locator(`//div[@row-index='${index}']/div[@col-id="name"]`).innerText()
+  }
+
+  async copySavedView(name: string, copyName: string) {
+    const savedViewRow = this.agRows.filter({hasText: name}).first();
+    await savedViewRow.locator(this.COPY_SAVED_VIEW_BUTTON_SELECTOR).click();
+    await this.populateNewVisualizerName(copyName);
+    await this.saveView();
   }
 
   async saveView() {
@@ -637,5 +683,22 @@ export class Visualizer {
 
   async verifyIfConfigurePanelIsClosed() {
     await expect(this.viewNameTextField).not.toBeVisible(); 
+  }
+
+  async verifySavedViewsEllipsisMenu(name: string) {
+    const savedViewRow = this.agRows.filter({hasText: name}).first();
+    const ellipsesMenu = savedViewRow.locator(this.THREE_DOTS_SELECTOR);
+    await ellipsesMenu.click();
+    await expect(this.page.locator(this.LIST_ITEM_RENAME_SELECTOR)).toBeVisible();
+    await expect(this.page.locator(this.LIST_ITEM_DELETE_SELECTOR)).toBeVisible();
+    await this.ellipsesMenuBackdrop.click();
+  }
+
+  async verifyViewTabs(firstView?: string, secondView?: string) {
+    const tabs = await this.demandTabTitles.allInnerTexts();
+    expect(tabs).toContain(firstView);
+    if(secondView) {
+      expect(tabs).toContain(secondView);
+    }
   }
 }
