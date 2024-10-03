@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 import { test } from "../../common/fixtures/test-hook";
-import td from "../testData/create-visualizerview.json";
+import td from "../testdata/create-visualizerview.json";
 
 const date = (new Date()).toLocaleString();
 const testData = { ...td, viewName: `(${date}): Test Automation Clone Visualizer View` }

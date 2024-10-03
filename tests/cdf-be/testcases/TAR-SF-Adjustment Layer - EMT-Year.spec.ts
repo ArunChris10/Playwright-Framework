@@ -137,7 +137,7 @@ test.describe("Create an EMT adjustment layer and verify the prorated distributi
             });
 
             // Validation
-            expect(Math.round(Math.round(dsvS2hValueForDeductedYear)+Math.round(proratedDistributionRatioForDeductedYear))).toEqual(Math.round(dsvS2hValueForDeductedYearAfterLayer));
+            expect(dsvS2hValueForDeductedYear+proratedDistributionRatioForDeductedYear).toBeCloseTo(dsvS2hValueForDeductedYearAfterLayer,0);
         });
 
         await test.step("Delete the layer created before the next test runs", async () => {

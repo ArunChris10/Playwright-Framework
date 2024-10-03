@@ -1,5 +1,5 @@
 import { test } from "../../common/fixtures/test-hook";
-import td from "../testData/create-visualizerview.json";
+import td from "../testdata/create-visualizerview.json";
 
 const ibgNormalUserAuth = "secrets/ibg-normal-user-storagestate.json";
 const testData = { ...td, viewName: 'Copy Test Automation Visualizer View' }
