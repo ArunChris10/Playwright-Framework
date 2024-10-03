@@ -4,148 +4,22 @@
   "ba_dim_id": 12,
   "ba_template_id": 2,
   "type": 3,
-  "lobList": [
-    "optical",
-    "rx",
-    "merch",
-    "ecommerce",
-    "lmd",
-    "e2e_delivery",
-    "core_service",
-    "fulfillment",
-    "i&a",
-    "connect",
-    "marketing",
-    "data_ventures",
-    "operations",
-    "real_estate",
-    "fuel",
-    "segment",
-    "home_office"
-  ],
-  "orgList": [
-    "BA_Merch",
-    "H&W",
-    "BA_Segment",
-    "BA_Ecomm",
-    "CUSTOMER & REVENUE",
-    "BA_Operations",
-    "Supply Chain"
-  ],
 
   "Segment_Finance": {
     "dim_val_id": 130001,
     "dim_id": 13,
     "template_id": 4
   },
-  "CUSTOMER & REVENUE": {
-    "dim_val_id": 120001
+  "CannedReportMappingList": {
+    "SEGMENT": "segment_summary",
+    "HEALTH & WELLNESS": "health_and_wellness",
+    "ECOMMERCE": "ecommerce",
+    "SUPPLY CHAIN": "supply_chain_summary_view",
+    "CUSTOMER & REVENUE": "customer_and_revenue",
+    "OPERATIONS": "Operations",
+    "MERCHANDISING FINANCE": "merchandising_finance",
+    "MERCHANDISING OPERATIONS": "merchandising_operations"
   },
-  "BA_Ecomm": {
-    "dim_val_id": 120002
-  },
-  "H&W": {
-    "dim_val_id": 120003
-  },
-  "BA_Merch": {
-    "dim_val_id": 120004
-  },
-  "BA_Operations": {
-    "dim_val_id": 120005
-  },
-  "BA_Segment": {
-    "dim_val_id": 120006
-  },
-  "Supply Chain": {
-    "dim_val_id": 120007
-  },
-
-  "optical": {
-    "dim_val_id": 110016,
-    "org_dim_val_id": 120003
-  },
-  "rx": {
-    "dim_val_id": 110019,
-    "org_dim_val_id": 120003
-  },
-  "merch": {
-    "dim_val_id": 110014,
-    "org_dim_val_id": 120004
-  },
-  "ecommerce": {
-    "dim_val_id": 110006,
-    "org_dim_val_id": 120002
-  },
-  "lmd": {
-    "dim_val_id": 110011,
-    "org_dim_val_id": 120007
-  },
-  "e2e_delivery": {
-    "dim_val_id": 110005,
-    "org_dim_val_id": 120007
-  },
-  "core_service": {
-    "dim_val_id": 110003,
-    "org_dim_val_id": 120007
-  },
-  "fulfillment": {
-    "dim_val_id": 110008,
-    "org_dim_val_id": 120007
-  },
-  "i&a": {
-    "dim_val_id": 110010,
-    "org_dim_val_id": 120007
-  },
-  "connect": {
-    "dim_val_id": 110002,
-    "org_dim_val_id": 120001
-  },
-  "marketing": {
-    "dim_val_id": 110012,
-    "org_dim_val_id": 120001
-  },
-  "data_ventures": {
-    "dim_val_id": 110004,
-    "org_dim_val_id": 120001
-  },
-  "operations": {
-    "dim_val_id": 110015,
-    "org_dim_val_id": 120005
-  },
-  "real_estate": {
-    "dim_val_id": 110018,
-    "org_dim_val_id": 120005
-  },
-  "fuel": {
-    "dim_val_id": 110007,
-    "org_dim_val_id": 120005
-  },
-  "segment": {
-    "dim_val_id": 110021,
-    "org_dim_val_id": 120006
-  },
-  "home_office": {
-    "dim_val_id": 110009,
-    "org_dim_val_id": 120006
-  },
-
-  "110016": "Optical",
-  "110019": "RX",
-  "110014": "Merch",
-  "110005": "E2E_Delivery",
-  "110003": "Core_Service",
-  "110008": "Fulfillment",
-  "110010": "I&A",
-  "110011": "LMD",
-  "110002": "Connect",
-  "110012": "Marketing",
-  "110004": "Data_Ventures",
-  "110006": "Ecommerce",
-  "110015": "Operations",
-  "110018": "Real_Estate",
-  "110007": "Fuel",
-  "110021": "Segment",
-  "110009": "Home_Office",
 
   "Not_Started": 20,
   "Draft": 21,

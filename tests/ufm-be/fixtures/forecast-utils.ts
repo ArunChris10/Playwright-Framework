@@ -38,7 +38,7 @@ export class ForecastUtility {
       name: lobName + " Automation - ",
       classification_id: commonData.classification_id,
       dim_id: commonData.lob_dim_id,
-      dim_val_id: commonData[lobName].dim_val_id,
+      dim_val_id: await UfmUtility.getMapping(lobName, "dim_val_id"),
     };
 
     payload.name =
@@ -85,7 +85,7 @@ export class ForecastUtility {
       data: {
         unit: "Millions",
         dim_id: commonData.ba_dim_id,
-        dim_val_id: commonData[lobName].org_dim_val_id,
+        dim_val_id: await UfmUtility.getMapping(lobName, "org_id"),
         classification_id: commonData.classification_id,
         template_id: 1,
         filters: [],
@@ -164,18 +164,19 @@ export class ForecastUtility {
   static async deleteAllforecastofUser(request, lobName, userId) {
     const forecastList = new Map();
     let dimId = commonData.ba_dim_id;
-    let dimValId = commonData[lobName].dim_val_id;
+    let dimValId = await UfmUtility.getMapping(lobName, "dim_val_id");
     let currentForecast = await UfmUtility.getCurrentForecastList(
       lobName,
       request
     );
     Utility.logIt(`Getting Scenario version and Scenario Id`);
+    let lobId = await UfmUtility.getMapping(lobName, "dim_val_id");
     await currentForecast.filter(function (i) {
       if (
         i["owner"] == userId &&
         (i["forecastStatus"] == commonData.Draft ||
           i["forecastStatus"] == commonData.Change_Requested) &&
-        i["lineOfBusiness"] == commonData[lobName].dim_val_id
+        i["lineOfBusiness"] == lobId
       ) {
         Utility.logIt(i["scenarioVersion"]);
         Utility.logIt(i["scenarioId"]);
@@ -219,7 +220,7 @@ export class ForecastUtility {
     const response = await request.put(endpointURL, {
       data: {
         dim_id: commonData.lob_dim_id,
-        dim_val_id: commonData[lobName].dim_val_id,
+        dim_val_id: await UfmUtility.getMapping(lobName, "dim_val_id"),
         forecast_name: scenarioName,
         scenario_id: scenario_id,
         scenario_ver_ts: scenario_version,

@@ -6,7 +6,7 @@ import { ForecastUtility } from "../fixtures/forecast-utils";
 import { AdjustmentUtility } from "../fixtures/adjustment-utils";
 import adjustmentData from "../testdata/adjustment.json";
 
-const lobName = ["fuel", "lmd"];
+const lobName = ["FUEL", "LAST MILE DELIVERY"];
 
 lobName.forEach((lobName) => {
   test.describe(
@@ -169,7 +169,7 @@ lobName.forEach((lobName) => {
           scenarioId,
           scenario_details["scenarioVersion"],
           commonData.ba_dim_id,
-          commonData[lobName].dim_val_id,
+          await UfmUtility.getMapping(lobName, "dim_val_id"),
           request
         );
       });

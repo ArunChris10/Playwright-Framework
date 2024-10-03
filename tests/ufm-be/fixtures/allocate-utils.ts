@@ -115,7 +115,7 @@ export class AllocationUtility {
 
     obj.display_nodes = [];
     obj.scenario_id = scenarioId;
-    obj.dim_val_id = commonData[lobName].dim_val_id;
+    obj.dim_val_id = await UfmUtility.getMapping(lobName, "dim_val_id");
     obj.dim_id = 11;
     obj.edits = edit;
     obj.filters = [];

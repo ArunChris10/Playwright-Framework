@@ -3,6 +3,7 @@ import { Utility } from "../../common/fixtures/utils";
 import commonData from "../constants/common.json";
 import adjustmentData from "../testdata/adjustment.json";
 import { AllocationUtility } from "./allocate-utils";
+import { UfmUtility } from "./ufm-utils";
 
 export class AdjustmentUtility {
   /**
@@ -37,7 +38,10 @@ export class AdjustmentUtility {
       commonData["Maintain Ratio"],
       request
     );
-    adjustmentData.payloads.dim_val_id = commonData[lobName].dim_val_id;
+    adjustmentData.payloads.dim_val_id = await UfmUtility.getMapping(
+      lobName,
+      "dim_val_id"
+    );
     adjustmentData.payloads.allocation_request = allocationJson;
     console.log(adjustmentData.payloads.allocation_request);
     const response = await request.patch(endpointURL, {

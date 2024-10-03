@@ -1,0 +1,18 @@
+{
+  "endpoint": "/api/canned-reports/get-report/",
+  "payload": {
+    "filters": [
+      {
+        "dim_id": 34,
+        "dim_val_ids": [33001],
+        "children": []
+      }
+    ],
+    "month": ["202507", "202508", "202509"],
+    "quarter": [],
+    "year": [],
+    "isChoice": false,
+    "isRAndO": false
+  },
+  "errormessage": "No Rows To Show"
+}

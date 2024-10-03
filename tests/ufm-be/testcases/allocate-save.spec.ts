@@ -5,7 +5,7 @@ import { AllocationUtility } from "../fixtures/allocate-utils";
 import { ForecastUtility } from "../fixtures/forecast-utils";
 import { UfmUtility } from "../fixtures/ufm-utils";
 
-const lobName = ["marketing"];
+const lobName = ["MARKETING"];
 for (let i = 0; i < lobName.length; i++) {
   test.describe(
     "Verify allocate and save API",
@@ -16,7 +16,6 @@ for (let i = 0; i < lobName.length; i++) {
       let scenarioId: number;
       let scenario_details;
       let dimId = commonData.ba_dim_id;
-      let dimValId = commonData[lobName[i]].dim_val_id;
       let payloadbody, response, responseBody;
 
       test(`Delete all created forecast by automation user for LOB - ${lobName[i]}`, async ({
@@ -90,7 +89,7 @@ for (let i = 0; i < lobName.length; i++) {
           scenarioId,
           scenario_details["scenarioVersion"],
           dimId,
-          dimValId,
+          await UfmUtility.getMapping(lobName[i], "dim_val_id"),
           request
         );
       });

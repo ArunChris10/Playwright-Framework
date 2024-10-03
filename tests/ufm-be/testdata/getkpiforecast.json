@@ -1,7 +1,7 @@
 {
   "endpoint": "/reports/get-mykpi",
   "dim_id": 11,
-  "dim_val_id": 110014,
+  "dim_val_id": 110026,
   "classification_id": 12,
   "template_id": 3,
   "filters": [

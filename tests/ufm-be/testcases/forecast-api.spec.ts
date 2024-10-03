@@ -5,7 +5,7 @@ import { UfmUtility } from "../fixtures/ufm-utils";
 import { ForecastUtility } from "../fixtures/forecast-utils";
 import forecastData from "../testdata/forecast-api.json";
 
-const lobName = ["e2e_delivery"];
+const lobName = ["E2E DELIVERY"];
 for (let i = 0; i < lobName.length; i++) {
   test.describe(
     "Verify create, edit and delete forecast API",
@@ -15,7 +15,6 @@ for (let i = 0; i < lobName.length; i++) {
 
       let scenarioId: number;
       let dimId = commonData.ba_dim_id;
-      let dimValId = commonData[lobName[i]].dim_val_id;
       let scenario_details: number;
 
       test(`Delete all created forecast by automation user for LOB - ${lobName[i]}`, async ({
@@ -109,7 +108,7 @@ for (let i = 0; i < lobName.length; i++) {
           scenarioId,
           scenario_details["scenarioVersion"],
           dimId,
-          dimValId,
+          await UfmUtility.getMapping(lobName[i], "dim_val_id"),
           request
         );
       });
@@ -121,7 +120,7 @@ for (let i = 0; i < lobName.length; i++) {
           scenarioId,
           scenario_details["scenarioVersion"],
           dimId,
-          dimValId,
+          await UfmUtility.getMapping(lobName[i], "dim_val_id"),
           request,
           true
         );

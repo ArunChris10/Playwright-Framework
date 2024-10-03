@@ -1,9 +1,9 @@
 import { test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
-import commonData from "../constants/common.json";
+import dataList from "../constants/PBA_SBA_List.json";
 import { UfmUtility } from "../fixtures/ufm-utils";
 
-const lobName = commonData.lobList;
+const lobName = dataList.SBAList;
 
 lobName.forEach((lob) => {
   test.describe(

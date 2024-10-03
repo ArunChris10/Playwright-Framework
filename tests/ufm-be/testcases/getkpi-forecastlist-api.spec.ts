@@ -48,8 +48,8 @@ test.describe(
 
         // check if the rowdata is not empty
         await test.step("Check if the response body has the forecast data", async () => {
-          console.log(apiResponseBody.rowData);
-          //expect(apiResponseBody.rowData).not.toEqual([]);
+          Utility.logIt(apiResponseBody.rowData);
+          expect(apiResponseBody.rowData).not.toEqual([]);
         });
       });
     });

@@ -1,5 +1,18 @@
 [
   {
+    "parent_id": null,
+    "child_id": 130001,
+    "dimension_group_id": 7,
+    "parent_dim_id": null,
+    "parent_name": null,
+    "parent_dim_name": null,
+    "parent_display_flag": null,
+    "child_dim_id": 13,
+    "child_name": "WMT_US_SEGMENT_FINANCE",
+    "child_dim_name": "SEGMENT",
+    "child_display_flag": true
+  },
+  {
     "parent_id": 130001,
     "child_id": 120006,
     "dimension_group_id": 7,
@@ -9,19 +22,6 @@
     "parent_display_flag": true,
     "child_dim_id": 12,
     "child_name": "SEGMENT",
-    "child_dim_name": "PBA",
-    "child_display_flag": true
-  },
-  {
-    "parent_id": 130001,
-    "child_id": 120004,
-    "dimension_group_id": 7,
-    "parent_dim_id": 13,
-    "parent_name": "WMT_US_SEGMENT_FINANCE",
-    "parent_dim_name": "SEGMENT",
-    "parent_display_flag": true,
-    "child_dim_id": 12,
-    "child_name": "MERCHANDISING",
     "child_dim_name": "PBA",
     "child_display_flag": true
   },
@@ -88,6 +88,84 @@
     "child_dim_id": 12,
     "child_name": "OPERATIONS",
     "child_dim_name": "PBA",
+    "child_display_flag": true
+  },
+  {
+    "parent_id": 130001,
+    "child_id": 120009,
+    "dimension_group_id": 7,
+    "parent_dim_id": 13,
+    "parent_name": "WMT_US_SEGMENT_FINANCE",
+    "parent_dim_name": "SEGMENT",
+    "parent_display_flag": true,
+    "child_dim_id": 12,
+    "child_name": "MERCHANDISING FINANCE",
+    "child_dim_name": "PBA",
+    "child_display_flag": true
+  },
+  {
+    "parent_id": 130001,
+    "child_id": 120010,
+    "dimension_group_id": 7,
+    "parent_dim_id": 13,
+    "parent_name": "WMT_US_SEGMENT_FINANCE",
+    "parent_dim_name": "SEGMENT",
+    "parent_display_flag": true,
+    "child_dim_id": 12,
+    "child_name": "MERCHANDISING OPERATIONS",
+    "child_dim_name": "PBA",
+    "child_display_flag": true
+  },
+  {
+    "parent_id": 120010,
+    "child_id": 110029,
+    "dimension_group_id": 7,
+    "parent_dim_id": 12,
+    "parent_name": "MERCHANDISING OPERATIONS",
+    "parent_dim_name": "PBA",
+    "parent_display_flag": true,
+    "child_dim_id": 11,
+    "child_name": "MERCHOPS",
+    "child_dim_name": "SBA",
+    "child_display_flag": true
+  },
+  {
+    "parent_id": 120009,
+    "child_id": 110026,
+    "dimension_group_id": 7,
+    "parent_dim_id": 12,
+    "parent_name": "MERCHANDISING FINANCE",
+    "parent_dim_name": "PBA",
+    "parent_display_flag": true,
+    "child_dim_id": 11,
+    "child_name": "INSTORE AND OTHER",
+    "child_dim_name": "SBA",
+    "child_display_flag": true
+  },
+  {
+    "parent_id": 120009,
+    "child_id": 110027,
+    "dimension_group_id": 7,
+    "parent_dim_id": 12,
+    "parent_name": "MERCHANDISING FINANCE",
+    "parent_dim_name": "PBA",
+    "parent_display_flag": true,
+    "child_dim_id": 11,
+    "child_name": "SCHEDULED",
+    "child_dim_name": "SBA",
+    "child_display_flag": true
+  },
+  {
+    "parent_id": 120009,
+    "child_id": 110028,
+    "dimension_group_id": 7,
+    "parent_dim_id": 12,
+    "parent_name": "MERCHANDISING FINANCE",
+    "parent_dim_name": "PBA",
+    "parent_display_flag": true,
+    "child_dim_id": 11,
+    "child_name": "UNSCHEDULED AND CORE",
+    "child_dim_name": "SBA",
     "child_display_flag": true
   },
   {
@@ -217,19 +295,6 @@
     "parent_display_flag": true,
     "child_dim_id": 11,
     "child_name": "FUEL",
-    "child_dim_name": "SBA",
-    "child_display_flag": true
-  },
-  {
-    "parent_id": 120004,
-    "child_id": 110014,
-    "dimension_group_id": 7,
-    "parent_dim_id": 12,
-    "parent_name": "MERCHANDISING",
-    "parent_dim_name": "PBA",
-    "parent_display_flag": true,
-    "child_dim_id": 11,
-    "child_name": "MERCHANDISING",
     "child_dim_name": "SBA",
     "child_display_flag": true
   },

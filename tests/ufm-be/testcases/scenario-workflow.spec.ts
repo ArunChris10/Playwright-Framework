@@ -1,21 +1,15 @@
 import { test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import commonData from "../constants/common.json";
-import { UfmUtility } from "../fixtures/ufm-utils";
+import BAList from "../constants/PBA_SBA_List.json";
 import { ForecastUtility } from "../fixtures/forecast-utils";
+import { UfmUtility } from "../fixtures/ufm-utils";
 
-const orgName = commonData.orgList;
-const orgName1 = [
-  commonData.orgList[0],
-  commonData.orgList[1],
-  commonData.orgList[2],
-];
-const orgName2 = [
-  commonData.orgList[3],
-  commonData.orgList[4],
-  commonData.orgList[5],
-];
-const orgName3 = [commonData.orgList[6]];
+const orgName = BAList.PBAList;
+const orgName1 = [BAList.PBAList[7], BAList.PBAList[1], BAList.PBAList[0]];
+const orgName2 = [BAList.PBAList[2], BAList.PBAList[4], BAList.PBAList[5]];
+const orgName3 = [BAList.PBAList[3]];
+const orgName4 = [BAList.PBAList[6]];
 
 let scenarioId, scenario_details;
 let response;
@@ -44,6 +38,13 @@ test.describe("Send BA", { tag: "@send_to_review" }, async () => {
       });
     }
   });
+  test.describe.serial("Send to BA Review", async () => {
+    for (let i = 0; i < orgName4.length; i++) {
+      test(`Submit ${orgName4[i]} BA to BA Review`, async ({ request }) => {
+        await createAndSendToBAReview(request, orgName4[i]);
+      });
+    }
+  });
 });
 
 // Sending To Segment review
@@ -65,7 +66,7 @@ test.describe.serial(
             response.scenarioVersion,
             commonData.Segment_Review,
             commonData.ba_dim_id,
-            commonData[org].dim_val_id,
+            await UfmUtility.getMapping(org, "dim_val_id", "PBA"),
             request
           );
           Utility.logIt(`Sent ${orgName[i]} to Segment Review`);
@@ -120,8 +121,7 @@ export async function createAndSendToBAReview(request, orgName) {
   Utility.logIt(response.rowData.length);
   for (let j = 0; j < response.rowData.length; j++) {
     let dim_val_id = response.rowData[j].lineOfBusiness;
-    lobName = commonData[dim_val_id];
-    lobName = lobName.toLowerCase();
+    lobName = await UfmUtility.getMapping(dim_val_id, "childName");
     Utility.logIt(lobName);
 
     //checking if status is Not started or draft , then deleting all other and creating new forecast
@@ -156,7 +156,7 @@ export async function createAndSendToBAReview(request, orgName) {
         scenario_details["scenarioVersion"],
         commonData.BA_Review,
         commonData.lob_dim_id,
-        commonData[lobName].dim_val_id,
+        await UfmUtility.getMapping(lobName, "dim_val_id"),
         request
       );
       Utility.logIt(`Sent ${lobName} to BA Review`);

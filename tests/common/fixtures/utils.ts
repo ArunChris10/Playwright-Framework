@@ -18,6 +18,8 @@ export class Utility {
     "./secrets/ibg-users-token.json";
   private static readonly mappingFilePath: string =
     "./tests/ufm-be/constants/mapping.json";
+  private static readonly pba_sba_listFilePath: string =
+    "./tests/ufm-be/constants/PBA_SBA_List.json";
   private static readonly secretFilePath: string = "./secrets/ufm-secrets.json";
   private static spinner = "//span[contains(@class, 'Spinner')]";
   private static dataLoading =
@@ -187,7 +189,8 @@ export class Utility {
   }
 
   /**
-   * Sets the mappings by making a GET request to the API endpoint and saving the response body to a file.
+   * Sets the mappings by making a GET request to the API endpoint.
+   * Also creates the list of all PBA and SBA List based on mapping api response.
    *
    * @param {Request} request - The request object.
    * @return {Promise<void>} A promise that resolves when the mappings are set.
@@ -201,7 +204,6 @@ export class Utility {
     );
     nexusTokens = nexusTokens.replace('"', "");
     nexusTokens = nexusTokens.replace('"', "");
-    //API Request
     const responseData = await request.get(endpointURL, {
       headers: {
         Authorization: `Bearer ` + nexusTokens,
@@ -211,15 +213,26 @@ export class Utility {
       },
     });
     expect(responseData).toBeOK();
-    //Extracting the response body
-    const responseBody = JSON.parse(await responseData.text());
-    let parsedData = JSON.stringify(responseBody, null, 2);
-
-    const rawdata = fs.existsSync(this.mappingFilePath)
-      ? fs.readFileSync(this.mappingFilePath)
-      : "";
-
-    fs.writeFileSync(this.mappingFilePath, parsedData);
+    if ((await responseData.status()) == 200) {
+      const responseBody = await responseData.json();
+      const { SBAList, PBAList } = responseBody.reduce(
+        (acc, i) => {
+          if (i.child_dim_name === "SBA") {
+            acc.SBAList.push(i.child_name);
+          } else if (i.child_dim_name === "PBA") {
+            acc.PBAList.push(i.child_name);
+          }
+          return acc;
+        },
+        { SBAList: [], PBAList: [] }
+      );
+      const finalString = JSON.stringify({ SBAList, PBAList });
+      fs.promises.writeFile(
+        this.mappingFilePath,
+        JSON.stringify(responseBody, null, 2)
+      );
+      fs.promises.writeFile(this.pba_sba_listFilePath, finalString);
+    }
   }
 
   /**
@@ -500,5 +513,29 @@ export class Utility {
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
     fs.unlinkSync(downloadPath);
     return xlsx.utils.sheet_to_json(sheet);
+  }
+
+  /**
+   * Returns an array of strings representing the current quarter in the format "YYYYMM".
+   *
+   * @return {Promise<string[]>} An array of strings representing the current quarter in the format "YYYYMM".
+   */
+  public static async getQuarter() {
+    const today = new Date();
+    // Get the month of the year
+    const month = today.getMonth() + 1;
+    let y = new Date().getFullYear() + 1;
+    let year = y.toString();
+    let quarter;
+    if (month >= 2 && month < 5)
+      quarter = year + "01," + year + "02," + year + "03";
+    if (month >= 5 && month < 8)
+      quarter = year + "04," + year + "05," + year + "06";
+    if (month >= 8 && month < 11)
+      quarter = year + "07," + year + "08," + year + "09";
+    if (month >= 11 || month < 2)
+      quarter = year + "10," + year + "11," + year + "12";
+    // Print the quarter months
+    return quarter.split(",");
   }
 }

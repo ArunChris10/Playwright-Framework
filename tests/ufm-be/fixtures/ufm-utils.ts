@@ -1,4 +1,5 @@
 import debug from "debug";
+import fs from "fs";
 import { expect } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import commonData from "../constants/common.json";
@@ -8,6 +9,8 @@ import inputNodes from "../testdata/inputnodes.json";
 import endpoints from "../testdata/statusendpoints.json";
 
 export class UfmUtility {
+  private static readonly mappingfilepath: string =
+    "./tests/ufm-be/constants/mapping.json";
   /**
    * This method will get all the current forecast for BA and assert the response
    *
@@ -24,7 +27,7 @@ export class UfmUtility {
       data: {
         unit: "Millions",
         dim_id: commonData.ba_dim_id,
-        dim_val_id: commonData[lobName].org_dim_val_id,
+        dim_val_id: await UfmUtility.getMapping(lobName, "org_id"),
         classification_id: commonData.classification_id,
         template_id: 1,
         filters: [],
@@ -114,20 +117,22 @@ export class UfmUtility {
    * @returns {Promise<object>} - the response body
    */
   static async getProgresstracker(screen, request) {
-    let template_id, dim_id;
+    let template_id, dim_id, dim_val_id;
     Utility.logIt(`Getting progress tracker for screen : ${screen}`);
     if (screen == "Segment_Finance") {
       template_id = commonData.Segment_Finance.template_id;
       dim_id = commonData.Segment_Finance.dim_id;
+      dim_val_id = commonData.Segment_Finance.dim_val_id;
     } else {
       template_id = commonData.ba_template_id;
       dim_id = commonData.ba_dim_id;
+      dim_val_id = await UfmUtility.getMapping(screen, "dim_val_id", "PBA");
     }
     const endpointURL = `${process.env.apiBaseURLUFM}${endpoints.get_report_endpoint}`;
     const response = await request.post(endpointURL, {
       data: {
         dim_id: dim_id,
-        dim_val_id: commonData[screen].dim_val_id,
+        dim_val_id: dim_val_id,
         template_id: template_id,
         classification_id: commonData.classification_id,
       },
@@ -149,7 +154,7 @@ export class UfmUtility {
     const response = await request.post(endpointURL, {
       data: {
         dim_id: commonData.ba_dim_id,
-        dim_val_id: commonData[orgName].dim_val_id,
+        dim_val_id: await UfmUtility.getMapping(orgName, "dim_val_id", "PBA"),
         classification_id: commonData.classification_id,
       },
     });
@@ -244,7 +249,10 @@ export class UfmUtility {
     const endpointURL = `${process.env.apiBaseURLUFM}${inputNodes.endpoint}`;
 
     Utility.logIt(`Find input nodes for ${lobName} scenario`);
-    inputNodes.payloads.dim_val_id = commonData[lobName].dim_val_id;
+    inputNodes.payloads.dim_val_id = await UfmUtility.getMapping(
+      lobName,
+      "dim_val_id"
+    );
     const response = await request.post(endpointURL, {
       data: inputNodes.payloads,
     });
@@ -258,5 +266,44 @@ export class UfmUtility {
     });
     Utility.logIt(`No of input nodes for ${lobName} - ${inputnodes.size}`);
     return inputnodes;
+  }
+
+  /**
+   * Retrieves the required data based on the given base data, text, and BA type.
+   * text can be - childName , dim_val_id , org_id
+   *
+   * @param {string} base_data - The base data to search for.
+   * @param {string} text - The text to search for.
+   * @param {string} [BAtype="SBA"] - The BA type to search for.
+   * @return {Promise<any>} The required data.
+   */
+  static async getMapping(base_data, text: string, BAtype = "SBA") {
+    let required_data;
+    let body = JSON.parse(fs.readFileSync(this.mappingfilepath, "utf8"));
+
+    switch (text) {
+      case "childName":
+        body.filter(function (i) {
+          if (i["child_id"] == base_data) {
+            required_data = i["child_name"];
+          }
+        });
+        break;
+      case "dim_val_id":
+        body.filter(function (i) {
+          if (i["child_name"] == base_data && i["child_dim_name"] == BAtype) {
+            required_data = i["child_id"];
+          }
+        });
+        break;
+      case "org_id":
+        body.filter(function (i) {
+          if (i["child_name"] == base_data && i["child_dim_name"] == BAtype) {
+            required_data = i["parent_id"];
+          }
+        });
+    }
+
+    return required_data;
   }
 }

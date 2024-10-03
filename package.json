@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "1.42",
+    "@playwright/test": "^1.47.2",
     "@types/debug": "^4.1.12",
     "@types/node": "^20.8.4",
     "@walmartlabs/testburst-playwright-js-reporter": "1.0.0",
