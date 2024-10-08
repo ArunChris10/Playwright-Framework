@@ -18,11 +18,11 @@ envs:
         - ibg-ufm2-ui
         - ibg-ufm-canned-reports
         - ibg-ufm-canned-reports-backend
+      COMMON_REPOS:
         - ibg-shared-ui
         - ibg-shared-pages
-      COMMON_REPOS:
-        - ibg-service-visualizer
       CDF_REPOS:
+        - ibg-service-visualizer
         - ibg-centrifuge-ui
         - ibg-visualizer-ui
         - ibg-service-scenario-financials
@@ -118,7 +118,7 @@ flows:
         %{app =~ CDF_REPOS}
       then:
         - var(APP_NAME = 'CDF')
-        - call: runCDFSMokeTest
+        - call: runCDFRegressionTest
     - if: |
         %{APP_NAME == 'BLANK'}
       then:
@@ -179,6 +179,14 @@ flows:
       - echo "Running CDF Smoke testcases "
       - call: setup
       - RUN_ID=$testrunid ENV=$envr TEST=smoke npm run tests:cdf-tests
+    finally:
+      - call: reporter
+
+  runCDFRegressionTest:
+    try:
+      - echo "Running CDF Smoke testcases "
+      - call: setup
+      - RUN_ID=$testrunid ENV=$envr TEST=regression npm run tests:cdf-tests
     finally:
       - call: reporter
 

@@ -8,6 +8,11 @@ import ibgTokens from "./secrets/ibg-users-token.json";
  */
 // require('dotenv').config();
 
+// Check if the tag is not empty
+if (!process.env.tag) {
+  throw new Error('Environment variable "tag" is not set. Please set the "tag" variable to filter tests.');
+}
+const grepPattern = process.env.REPO_NAME ? new RegExp('(?=.*'+process.env.tag+')(?=.*@'+process.env.REPO_NAME+')'): new RegExp(''+process.env.tag)
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -116,7 +121,7 @@ export default defineConfig({
       name: "cdf-be",
       dependencies: ["api-setup"],
       testMatch: /cdf-be.*.spec.ts/,
-      grep: [new RegExp(process.env.tag + "")],
+      grep : grepPattern,
       use: {
         extraHTTPHeaders: {
           Authorization: `Bearer ${nexusTokens[process.env.cdfUser + ""]}`,
@@ -128,7 +133,7 @@ export default defineConfig({
       name: "cdf-fe",
       dependencies: ["ui-setup"],
       testMatch: /cdf-fe.*.spec.ts/,
-      grep: [new RegExp(process.env.tag + "")],
+      grep: grepPattern,
       use: {
         ...devices["Desktop Chrome"],
         storageState: "secrets/ibg-user-storagestate.json",
