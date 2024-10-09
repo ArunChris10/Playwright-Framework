@@ -1747,7 +1747,7 @@
         "id": "104",
         "name": "IBG_UFM_BA_USER",
         "blackoutListEnabled": true,
-        "description": "Role Name :IBG_UFM_BA_USER",
+        "description": "As a Oraganization Reviewer",
         "permissions": [
           {
             "id": 95,
@@ -2082,14 +2082,81 @@
             "permission_attribute": []
           }
         ]
+      },
+      {
+        "id": "138",
+        "name": "MerchOpsLob",
+        "description": "This role will be used to get Merch Ops LOB access",
+        "permissions": [
+          {
+            "id": 110,
+            "name": "U_DELETE_FORECAST_RW",
+            "description": "User should have this permission to delete a forecast",
+            "permission_attribute": []
+          },
+          {
+            "id": 112,
+            "name": "U_SBA_INPUTTER",
+            "description": "Access landing page for SBA inputter, User with this role will be able to open Inputter landing page.\n",
+            "permission_attribute": ["sba"]
+          },
+          {
+            "id": 167,
+            "name": "U_MERCH_OPS_DEPT_RW",
+            "description": "This permission will provide department level access. ",
+            "permission_attribute": ["Department"]
+          }
+        ]
       }
     ],
     "alignments": [],
     "attributes": [
       {
         "type": "ba",
-        "valueId": "120004",
-        "valueName": "MERCHANDISING",
+        "valueId": "120007",
+        "valueName": "SUPPLY CHAIN",
+        "accessType": "READ"
+      },
+      {
+        "type": "ba",
+        "valueId": "120003",
+        "valueName": "HEALTH & WELLNESS",
+        "accessType": "READ"
+      },
+      {
+        "type": "ba",
+        "valueId": "120001",
+        "valueName": "CUSTOMER & REVENUE",
+        "accessType": "READ"
+      },
+      {
+        "type": "ba",
+        "valueId": "120002",
+        "valueName": "ECOMMERCE",
+        "accessType": "READ"
+      },
+      {
+        "type": "ba",
+        "valueId": "120005",
+        "valueName": "OPERATIONS",
+        "accessType": "READ"
+      },
+      {
+        "type": "ba",
+        "valueId": "120006",
+        "valueName": "SEGMENT",
+        "accessType": "READ"
+      },
+      {
+        "type": "ba",
+        "valueId": "120009",
+        "valueName": "MERCHANDISING FINANCE",
+        "accessType": "READ"
+      },
+      {
+        "type": "ba",
+        "valueId": "120010",
+        "valueName": "MERCHANDISING OPERATIONS",
         "accessType": "READ"
       },
       {
@@ -2103,18 +2170,6 @@
         "valueId": "110011",
         "valueName": "LAST MILE DELIVERY",
         "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110014",
-        "valueName": "MERCHANDISING",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "ba",
-        "valueId": "120007",
-        "valueName": "SUPPLY CHAIN",
-        "accessType": "READ"
       },
       {
         "type": "sba",
@@ -2147,12 +2202,6 @@
         "accessType": "WRITE"
       },
       {
-        "type": "ba",
-        "valueId": "120003",
-        "valueName": "HEALTH & WELLNESS",
-        "accessType": "READ"
-      },
-      {
         "type": "sba",
         "valueId": "110004",
         "valueName": "DATA VENTURES",
@@ -2163,24 +2212,6 @@
         "valueId": "110006",
         "valueName": "ECOMMERCE",
         "accessType": "WRITE"
-      },
-      {
-        "type": "ba",
-        "valueId": "120001",
-        "valueName": "CUSTOMER & REVENUE",
-        "accessType": "READ"
-      },
-      {
-        "type": "ba",
-        "valueId": "120002",
-        "valueName": "ECOMMERCE",
-        "accessType": "READ"
-      },
-      {
-        "type": "segment",
-        "valueId": "130001",
-        "valueName": "WMT US SEGMENT FINANCE",
-        "accessType": "READ"
       },
       {
         "type": "sba",
@@ -2225,21 +2256,39 @@
         "accessType": "WRITE"
       },
       {
-        "type": "ba",
-        "valueId": "120005",
-        "valueName": "OPERATIONS",
-        "accessType": "READ"
-      },
-      {
-        "type": "ba",
-        "valueId": "120006",
-        "valueName": "SEGMENT",
-        "accessType": "READ"
-      },
-      {
         "type": "sba",
         "valueId": "110002",
         "valueName": "CONNECT",
+        "accessType": "WRITE"
+      },
+      {
+        "type": "sba",
+        "valueId": "110026",
+        "valueName": "INSTORE AND OTHER",
+        "accessType": "WRITE"
+      },
+      {
+        "type": "sba",
+        "valueId": "110028",
+        "valueName": "UNSCHEDULED AND CORE",
+        "accessType": "WRITE"
+      },
+      {
+        "type": "sba",
+        "valueId": "110027",
+        "valueName": "SCHEDULED",
+        "accessType": "WRITE"
+      },
+      {
+        "type": "sba",
+        "valueId": "110029",
+        "valueName": "MERCHOPS",
+        "accessType": "WRITE"
+      },
+      {
+        "type": "sba",
+        "valueId": "110013",
+        "valueName": "MARKETPLACE",
         "accessType": "WRITE"
       },
       {

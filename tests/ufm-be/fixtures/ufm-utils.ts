@@ -2,6 +2,7 @@ import debug from "debug";
 import fs from "fs";
 import { expect } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
+import { ForecastUtility } from "./forecast-utils";
 import commonData from "../constants/common.json";
 import filterData from "../testdata/filter-service.json";
 import hisTestdatafile from "../testdata/historical-forecast.json";
@@ -208,7 +209,7 @@ export class UfmUtility {
    * @param {Request} request - the request object
    * @returns {Promise<object>} - the response body
    */
-  static async sendToReview(
+  static async changeToStatus(
     scenario_id,
     scenario_version,
     status,
@@ -306,4 +307,104 @@ export class UfmUtility {
 
     return required_data;
   }
+
+  /**
+   * Creates and sends a forecast to BA review for each line of business (LOB)
+   * of a given organization.
+   *
+   * @param {object} request - The request object.
+   * @param {string} orgName - The name of the organization.
+   * @return {Promise<void>} A Promise that resolves when the function is complete.
+   */
+  static async createAndSendToBAReview(request, orgName) {
+    let response, lobName, scenarioId, scenario_details;
+    //Getting Status of all LOB of an Org by progress tracker
+    response = await UfmUtility.getProgresstracker(orgName, request);
+    Utility.logIt(response.rowData.length);
+    for (let j = 0; j < response.rowData.length; j++) {
+      let dim_val_id = response.rowData[j].lineOfBusiness;
+      lobName = await UfmUtility.getMapping(dim_val_id, "childName");
+      Utility.logIt(lobName);
+
+      //checking if status is Not started or draft , then deleting all other and creating new forecast
+      if (
+        response.rowData[j].forecastStatus != commonData.Segment_Review &&
+        response.rowData[j].forecastStatus != commonData.BA_Review
+      ) {
+        //Deleting forecast created by logged in user
+        await ForecastUtility.deleteAllforecastofUser(
+          request,
+          lobName,
+          process.env.ufmUser
+        );
+        //Creating forecast
+        scenarioId = await ForecastUtility.createForecast(lobName, request);
+
+        //Getting current list of forecast
+        let currentForecastList = await UfmUtility.getCurrentForecastList(
+          lobName,
+          request
+        );
+
+        //Getting scenario version of created forecast
+        scenario_details = await UfmUtility.getScenarioDetails(
+          currentForecastList,
+          scenarioId
+        );
+
+        //Sending created forecast to BA review
+        await UfmUtility.changeToStatus(
+          scenarioId,
+          scenario_details["scenarioVersion"],
+          commonData.BA_Review,
+          commonData.lob_dim_id,
+          await UfmUtility.getMapping(lobName, "dim_val_id"),
+          request
+        );
+        Utility.logIt(`Sent ${lobName} to BA Review`);
+      }
+    }
+  }
+
+  /**
+   * Sends forcast to change request status for scenarios in the review status.
+   *
+   * @param {object} request - The request object.
+   * @param {string} screen - The screen to get the progress tracker for.
+   * @return {Promise<void>} A Promise that resolves when the function is complete.
+   */
+  static async changeRequest(request, screen) {
+    let response, status, dim_id, dim_val_id;
+    response = await UfmUtility.getProgresstracker(screen, request);
+    if (screen == "Segment_Finance") {
+      status = commonData.Segment_Review;
+      dim_id = commonData.Segment_Finance.dim_id;
+      dim_val_id = commonData.Segment_Finance.dim_val_id;
+    } else {
+      status = commonData.BA_Review;
+      dim_id = commonData.ba_dim_id;
+      dim_val_id = UfmUtility.getMapping(screen, "dim_val_id", "PBA");
+    }
+    Utility.logIt(response.rowData.length);
+    for (let i = 0; i < response.rowData.length; i++) {
+      if (response.rowData[i].forecastStatus == status) {
+        console.log(
+          response.rowData[i].organization,
+          response.rowData[i].forecastStatus
+        );
+        await UfmUtility.changeToStatus(
+          response.rowData[i].scenarioId,
+          response.rowData[i].scenarioVersion,
+          commonData.Change_Requested,
+          dim_id,
+          dim_val_id,
+          request
+        );
+        Utility.logIt(
+          `Change request Successful for Org Id - ${response.rowData[i].organization}`
+        );
+      }
+    }
+  }
+  static async recallForecast(request, screen) {}
 }
