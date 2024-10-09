@@ -101,7 +101,7 @@ export default defineConfig({
       use: {
         ...devices["Desktop Chrome"],
 
-        headless: true,
+        headless: false,
         viewport: {
           width: 1920,
           height: 1080,
@@ -115,6 +115,32 @@ export default defineConfig({
           args: ["--ignore-certificate-errors", "--start-fullscreen"],
         },
       },
+    },
+    {
+
+      name: "ssdm-fe",
+      dependencies: ["ui-setup"],
+      testMatch: /ssdm-fe.*.spec.ts/,
+      grep: [new RegExp(process.env.tag + "")],
+      use: {
+
+        ...devices['Desktop Chrome'],
+
+        headless: false,
+        viewport: {
+          width: 1920, height: 1080,
+        },
+
+        storageState: 'secrets/nexus-user-storagestate.json',
+        extraHTTPHeaders: {
+          "Authorization": `Bearer ${nexusTokens[process.env.ufmUser + ""]}`
+        },
+        launchOptions: {
+          args: ['--ignore-certificate-errors',
+            "--start-fullscreen"]
+        },
+
+      }
     },
 
     {

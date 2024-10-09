@@ -1,0 +1,22 @@
+import { Page } from "@playwright/test";
+import { UploadFunctionality } from './upload-button.page';
+import { ValidateFunctionality } from './validate-functionality.page';
+
+
+export class SSDMPageFactory {
+    
+
+    private readonly page: Page;
+    constructor(page: Page) {
+      this.page = page;
+    }
+  
+    uploadFile() {
+        return new UploadFunctionality(this.page);
+    }
+
+    validateFile() {
+      return new ValidateFunctionality(this.page);
+  }
+
+}

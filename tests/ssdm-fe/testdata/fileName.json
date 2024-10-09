@@ -1,0 +1,11 @@
+{
+    "testData": {
+        
+            "expectedUploadedFileName": "newNode Document.csv",
+            "filePath": "../testData/newNode Document.csv",
+            "fileFormat":"csv",
+            "pathOfIncorrectFile": "../testData/IncorrectNewNodeEdge.csv",
+            "missingColumns": ["metric_var_name", "metric_Name"],
+            "expectedValidationMessage": "Validation successful"
+    }
+}

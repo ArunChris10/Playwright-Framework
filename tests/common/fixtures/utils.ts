@@ -10,6 +10,7 @@ import usersIBGFormat from "../testdata/users.json";
 import { Home } from "../pages/home.page";
 import { LoginPage } from "../pages/login.page";
 
+
 export class Utility {
   private static readonly dir: string = "./test-results/logs/";
   private static readonly nexusTokenFilePath: string =
@@ -507,12 +508,14 @@ export class Utility {
   }
 
   public static async downloadExcel(download: Download) {
+    
     const downloadPath = path.join(__dirname, "download.xlsx");
     await download.saveAs(downloadPath);
     const workbook = xlsx.readFile(downloadPath);
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
     fs.unlinkSync(downloadPath);
     return xlsx.utils.sheet_to_json(sheet);
+
   }
 
   /**
@@ -538,4 +541,5 @@ export class Utility {
     // Print the quarter months
     return quarter.split(",");
   }
+
 }
