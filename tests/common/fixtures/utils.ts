@@ -542,4 +542,26 @@ export class Utility {
     return quarter.split(",");
   }
 
+  public static getFileDownloadedPath() {
+    return path.join(__dirname, "download.xlsx");
+}
+
+public static async downloadAndSaveValidatedExcelFile(download: Download) {
+    const downloadPath = this.getFileDownloadedPath();
+    await download.saveAs(downloadPath);
+}
+
+public static fileGettingDownloaded() {
+    const downloadPath = this.getFileDownloadedPath();
+    return fs.existsSync(downloadPath);
+}
+
+public static fileNotGettingDownloaded() {
+    const downloadPath = this.getFileDownloadedPath();
+    if (fs.existsSync(downloadPath)) {
+        fs.unlinkSync(downloadPath);
+    }
+    return !fs.existsSync(downloadPath);
+  }
+
 }

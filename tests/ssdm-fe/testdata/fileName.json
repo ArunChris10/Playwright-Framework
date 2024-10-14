@@ -2,10 +2,13 @@
     "testData": {
         
             "expectedUploadedFileName": "newNode Document.csv",
-            "filePath": "../testData/newNode Document.csv",
+            "filePath": "../testData/CorrectNE.csv",
             "fileFormat":"csv",
             "pathOfIncorrectFile": "../testData/IncorrectNewNodeEdge.csv",
-            "missingColumns": ["metric_var_name", "metric_Name"],
-            "expectedValidationMessage": "Validation successful"
+            "computeFailingFile": "../testData/ComputeFailingNE.csv",
+            "missingColumns": ["metric_Name", "metric_var_name"],
+            "expectedValidationMessage": "Validation successful",
+            "expectedComputationSuccessfulMessage": "Recompute successful",
+            "expectedComputationFailureMessage": "The driver tree failed to recompute. If you have any questions, please reach out to SSDM Support at ssdm_engineering_support@walmart.onmicrosoft.com for more information."
     }
 }

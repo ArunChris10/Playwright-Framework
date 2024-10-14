@@ -1,6 +1,7 @@
 import { Page } from "@playwright/test";
 import { UploadFunctionality } from './upload-button.page';
 import { ValidateFunctionality } from './validate-functionality.page';
+import { ComputeFunctionality } from './compute-functionality.page';
 
 
 export class SSDMPageFactory {
@@ -18,5 +19,9 @@ export class SSDMPageFactory {
     validateFile() {
       return new ValidateFunctionality(this.page);
   }
+
+    computeFile(){
+      return new ComputeFunctionality(this.page);
+    }
 
 }

@@ -1,4 +1,4 @@
-metric_ID,Input vs Calc,Month,Channel,Department,Entity,Reporting,Business_area,Calculation,causal_function,Tags,6 Line?,value_type,GL_Account,aggregation_type,SBA Code,SBA,SBA Read-only,
+﻿metric_ID,Input vs Calc,Month,Channel,Department,Entity,Reporting,Business_area,Calculation,causal_function,Tags,6 Line?,value_type,GL_Account,aggregation_type,SBA Code,SBA,SBA Read-only,
 101_MEMO,calculated,*,*,*,*,,,grossProfit/netSales,,Good,,%,,grossProfit/netSales,,,,
 102_MEMO,calculated,*,*,*,*,,,sGandANetworks/netSales,,Bad,,%,,sGandANetworks/netSales,,,,
 103_MEMO,calculated,*,*,*,*,,,segmentoperatingIncome/netSales,,Good,,%,,operatingIncome/netSales,,,,

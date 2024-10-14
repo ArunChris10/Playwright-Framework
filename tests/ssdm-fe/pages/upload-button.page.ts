@@ -26,7 +26,6 @@ export class UploadFunctionality {
   async clickOnSSDM() {
     await this.ssdmTab.waitFor({ state: "visible" })
     await this.ssdmTab.click();
-    await this.page.reload();
   }
 
   async visibilityOfUploadButton() {
