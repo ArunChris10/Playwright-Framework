@@ -28,7 +28,7 @@ export class UfmUtility {
       data: {
         unit: "Millions",
         dim_id: commonData.ba_dim_id,
-        dim_val_id: await UfmUtility.getMapping(lobName, "org_id"),
+        dim_val_id: await UfmUtility.getMapping(lobName, "parent_id"),
         classification_id: commonData.classification_id,
         template_id: 1,
         filters: [],
@@ -246,7 +246,6 @@ export class UfmUtility {
    * @returns {Promise<string[]>} - A promise that resolves to an array of input node names.
    */
   static async getInputNodelist(lobName, request) {
-    let inputnodes = new Map();
     const endpointURL = `${process.env.apiBaseURLUFM}${inputNodes.endpoint}`;
 
     Utility.logIt(`Find input nodes for ${lobName} scenario`);
@@ -260,18 +259,16 @@ export class UfmUtility {
     // asserting the response
     await expect.soft(response).toBeOK();
     let responseBody = await response.json();
-    responseBody.nodes.filter(function (i) {
-      if (i["is_editable"] == true) {
-        inputnodes.set(i["node_var_name"], i["node_grain"]);
-      }
-    });
-    Utility.logIt(`No of input nodes for ${lobName} - ${inputnodes.size}`);
+
+    let inputnodes = responseBody.nodes.filter((i) => i["is_editable"] == true);
+
+    Utility.logIt(`No of input nodes for ${lobName} - ${inputnodes.length}`);
     return inputnodes;
   }
 
   /**
    * Retrieves the required data based on the given base data, text, and BA type.
-   * text can be - childName , dim_val_id , org_id
+   * text can be - childName , dim_val_id , parent_id
    *
    * @param {string} base_data - The base data to search for.
    * @param {string} text - The text to search for.
@@ -297,7 +294,7 @@ export class UfmUtility {
           }
         });
         break;
-      case "org_id":
+      case "parent_id":
         body.filter(function (i) {
           if (i["child_name"] == base_data && i["child_dim_name"] == BAtype) {
             required_data = i["parent_id"];
@@ -373,7 +370,7 @@ export class UfmUtility {
    * @param {string} screen - The screen to get the progress tracker for.
    * @return {Promise<void>} A Promise that resolves when the function is complete.
    */
-  static async changeRequest(request, screen) {
+  static async changeRequest(request, screen, count) {
     let response, status, dim_id, dim_val_id;
     response = await UfmUtility.getProgresstracker(screen, request);
     if (screen == "Segment_Finance") {
@@ -383,9 +380,16 @@ export class UfmUtility {
     } else {
       status = commonData.BA_Review;
       dim_id = commonData.ba_dim_id;
-      dim_val_id = UfmUtility.getMapping(screen, "dim_val_id", "PBA");
+      dim_val_id = await UfmUtility.getMapping(screen, "dim_val_id", "PBA");
     }
     Utility.logIt(response.rowData.length);
+    if (count != "ALL")
+      response = response.rowData.filter(
+        (item) =>
+          item.organization ==
+          UfmUtility.getMapping(screen, "dim_val_id", "PBA")
+      );
+    console.log(response.rowData);
     for (let i = 0; i < response.rowData.length; i++) {
       if (response.rowData[i].forecastStatus == status) {
         console.log(
@@ -406,5 +410,4 @@ export class UfmUtility {
       }
     }
   }
-  static async recallForecast(request, screen) {}
 }

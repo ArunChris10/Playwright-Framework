@@ -13,11 +13,17 @@ lobName.forEach((lob) => {
       test.describe.configure({ timeout: 600_000, mode: "parallel" });
 
       test(`Find input nodes for ${lob} scenario`, async ({ request }) => {
-        let inputnodes = new Map();
-        inputnodes = await UfmUtility.getInputNodelist(lob, request);
-        for (let [node_var_name, node_grain] of inputnodes) {
+        let inputnodes = await UfmUtility.getInputNodelist(lob, request);
+        for (const inputNode of inputnodes) {
+          const { node_var_name, node_name, node_grain } = inputNode;
+
           Utility.logIt(
-            "Node name - " + node_var_name + " Node grains - " + node_grain
+            "Node name - " +
+              node_name +
+              " Node var name - " +
+              node_var_name +
+              " Node grains - " +
+              node_grain
           );
         }
       });

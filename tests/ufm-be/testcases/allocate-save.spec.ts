@@ -5,8 +5,8 @@ import { AllocationUtility } from "../fixtures/allocate-utils";
 import { ForecastUtility } from "../fixtures/forecast-utils";
 import { UfmUtility } from "../fixtures/ufm-utils";
 
-const lobName = ["MARKETING"];
-for (let i = 0; i < lobName.length; i++) {
+const lobName = ["MARKETING", "MERCHOPS", "SCHEDULED", "LAST MILE DELIVERY"];
+lobName.forEach((lobName) => {
   test.describe(
     "Verify allocate and save API",
     { tag: "@Smoke @Regression @allocate_save" },
@@ -17,28 +17,45 @@ for (let i = 0; i < lobName.length; i++) {
       let scenario_details;
       let dimId = commonData.ba_dim_id;
       let payloadbody, response, responseBody;
+      let newCreated = false;
 
-      test(`Delete all created forecast by automation user for LOB - ${lobName[i]}`, async ({
+      test(`Delete all created forecast by automation user for LOB - ${lobName}`, async ({
         request,
       }) => {
-        await ForecastUtility.deleteAllforecastofUser(
-          request,
-          lobName[i],
-          process.env.ufmUser
-        );
+        if (
+          (await ForecastUtility.countOfScenario(lobName, request)) ==
+          commonData.MAX_SCENARIO_COUNT
+        ) {
+          await ForecastUtility.deleteAllforecastofUser(
+            request,
+            lobName,
+            process.env.ufmUser
+          );
+        }
       });
 
-      test(`Verify if the user is able to create forecast for LOB - ${lobName[i]}`, async ({
+      test(`Verify if the user is able to create forecast for LOB - ${lobName}`, async ({
         request,
       }) => {
-        scenarioId = await ForecastUtility.createForecast(lobName[i], request);
+        //Getting current list of forecast
+        scenario_details =
+          await ForecastUtility.getDraftorChangeRequestforecast(
+            lobName,
+            request
+          );
+
+        //Creating forecast if not present
+        if (scenario_details == 0 || scenario_details == undefined) {
+          scenarioId = await ForecastUtility.createForecast(lobName, request);
+          newCreated = true;
+        } else scenarioId = scenario_details["scenarioId"];
       });
 
-      test(`Verify if the user is able to get list of scenarios and scenario version for the LOB - ${lobName[i]}`, async ({
+      test(`Verify if the user is able to get list of scenarios and scenario version for the LOB - ${lobName}`, async ({
         request,
       }) => {
         let currentForecast = await UfmUtility.getCurrentForecastList(
-          lobName[i],
+          lobName,
           request
         );
         Utility.logIt(`No of scenarios present: ${currentForecast.length}`);
@@ -52,14 +69,14 @@ for (let i = 0; i < lobName.length; i++) {
         Utility.logIt(scenario_details["scenarioVersion"]);
       });
 
-      test(`Verify if the user is able to allocate and save baseline for LOB - ${lobName[i]}`, async ({
+      test(`Verify if the user is able to allocate and save baseline for LOB - ${lobName}`, async ({
         request,
       }) => {
         const endpointURL = `${process.env.apiBaseURLUFM}/allocate-data`;
 
         //Creating allocation request payload
         payloadbody = await AllocationUtility.allocation(
-          lobName[i],
+          lobName,
           scenarioId,
           commonData["Maintain Ratio"],
           request
@@ -82,17 +99,18 @@ for (let i = 0; i < lobName.length; i++) {
         expect.soft(responseBody).toEqual("Saved successfully");
       });
 
-      test(`Verify if the user is able to delete created forecast for LOB ${lobName[i]}`, async ({
+      test(`Verify if the user is able to delete created forecast for LOB ${lobName}`, async ({
         request,
       }) => {
-        await ForecastUtility.deleteForecast(
-          scenarioId,
-          scenario_details["scenarioVersion"],
-          dimId,
-          await UfmUtility.getMapping(lobName[i], "dim_val_id"),
-          request
-        );
+        if (newCreated)
+          await ForecastUtility.deleteForecast(
+            scenarioId,
+            scenario_details["scenarioVersion"],
+            dimId,
+            await UfmUtility.getMapping(lobName, "dim_val_id"),
+            request
+          );
       });
     }
   );
-}
+});

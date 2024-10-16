@@ -31,5 +31,7 @@
   "Maintain Ratio": 29,
   "Constant value": 30,
   "Equal Distribution": 31,
-  "Percent time rolling": 32
+  "Percent time rolling": 32,
+
+  "MAX_SCENARIO_COUNT": 5
 }

@@ -18,14 +18,14 @@ test.describe(
     });
 
     //Skipping below No need to create forecast calendar as we cannot delete a calendar it is easy to delete the cycles within the calendar
-    test.skip("Verify if the user is able to @addNewForecastCalendar", async ({
-      request,
-    }) => {
-      let forecastCalendarCreated =
-        await ForecastCalendarUtil.createForecastCalendar(request);
-      fcst_id = forecastCalendarCreated.calendar_id;
-      debug.log("Forecast is created  : ", forecastCalendarCreated);
-    });
+    // test.skip("Verify if the user is able to @addNewForecastCalendar", async ({
+    //   request,
+    // }) => {
+    //   let forecastCalendarCreated =
+    //     await ForecastCalendarUtil.createForecastCalendar(request);
+    //   fcst_id = forecastCalendarCreated.calendar_id;
+    //   debug.log("Forecast is created  : ", forecastCalendarCreated);
+    // });
 
     test("Verify if the user is able to @getForecastCalendar", async ({
       request,
@@ -169,21 +169,22 @@ test.describe(
       );
     });
 
-    test.skip("Verify if the user is able to @getForecastDeadlines", async ({
-      request,
-    }) => {
-      let getForecastDeadlines =
-        await ForecastCalendarUtil.getForecastDeadlines(request);
+    //Skipping due to issue
+    // test.skip("Verify if the user is able to @getForecastDeadlines", async ({
+    //   request,
+    // }) => {
+    //   let getForecastDeadlines =
+    //     await ForecastCalendarUtil.getForecastDeadlines(request);
 
-      expect(getForecastDeadlines).toMatchObject({
-        dim_id: forecastCalendarData.getForecastCalendarPayload.dim_id,
-        dim_val_id: forecastCalendarData.getForecastCalendarPayload.dim_val_id,
-        forecast_cal_id: fcst_id,
-        cycle_id: cycle_id,
-        event_id: 28,
-      });
-      Utility.logIt(`Forecast calendar deadlines  : ${getForecastDeadlines}`);
-    });
+    //   expect(getForecastDeadlines).toMatchObject({
+    //     dim_id: forecastCalendarData.getForecastCalendarPayload.dim_id,
+    //     dim_val_id: forecastCalendarData.getForecastCalendarPayload.dim_val_id,
+    //     forecast_cal_id: fcst_id,
+    //     cycle_id: cycle_id,
+    //     event_id: 28,
+    //   });
+    //   Utility.logIt(`Forecast calendar deadlines  : ${getForecastDeadlines}`);
+    // });
 
     test("Verify if the user is able to @deleteForecastCalendarCycle", async ({
       request,

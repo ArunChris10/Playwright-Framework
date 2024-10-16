@@ -20,11 +20,16 @@ for (let i = 0; i < lobName.length; i++) {
       test(`Delete all created forecast by automation user for LOB - ${lobName[i]}`, async ({
         request,
       }) => {
-        await ForecastUtility.deleteAllforecastofUser(
-          request,
-          lobName[i],
-          process.env.ufmUser
-        );
+        if (
+          (await ForecastUtility.countOfScenario(lobName[i], request)) ==
+          commonData.MAX_SCENARIO_COUNT
+        ) {
+          await ForecastUtility.deleteAllforecastofUser(
+            request,
+            lobName[i],
+            process.env.ufmUser
+          );
+        }
       });
 
       test(`Verify if the user is able to create forecast for LOB - ${lobName[i]}`, async ({

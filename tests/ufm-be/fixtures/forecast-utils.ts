@@ -85,7 +85,7 @@ export class ForecastUtility {
       data: {
         unit: "Millions",
         dim_id: commonData.ba_dim_id,
-        dim_val_id: await UfmUtility.getMapping(lobName, "org_id"),
+        dim_val_id: await UfmUtility.getMapping(lobName, "parent_id"),
         classification_id: commonData.classification_id,
         template_id: 1,
         filters: [],
@@ -228,5 +228,51 @@ export class ForecastUtility {
     });
     let responseBody = await Utility.assertAndLog(response, isError);
     return responseBody.message;
+  }
+
+  /**
+   * Retrieves the draft or change request forecast for a given line of business.
+   *
+   * @param {string} lob - The name of the line of business.
+   * @param {Request} request - The request object.
+   * @return {Promise<object>} A promise that resolves to the scenario details.
+   */
+  static async getDraftorChangeRequestforecast(lob, request) {
+    const currentForecastList = await UfmUtility.getCurrentForecastList(
+      lob,
+      request
+    );
+    const dim_val_id = await UfmUtility.getMapping(lob, "dim_val_id");
+
+    // Find the first forecast that matches the criteria
+    const scenario_details = currentForecastList.find(
+      (i) =>
+        i["lineOfBusiness"] === dim_val_id &&
+        (i["forecastStatus"] === commonData.Draft ||
+          i["forecastStatus"] === commonData.Change_Requested)
+    );
+
+    Utility.logIt(scenario_details);
+    return scenario_details;
+  }
+
+  /**
+   * Retrieves the count of forecast scenarios for a given line of business of logged in user.
+   *
+   * @param {string} lob - The name of the line of business.
+   * @param {Request} request - The request object.
+   * @return {Promise<number>} A promise that resolves to the count of forecast scenarios.
+   */
+  static async countOfScenario(lob, request) {
+    const currentForecastList = await UfmUtility.getCurrentForecastList(
+      lob,
+      request
+    );
+    const dim_val_id = await UfmUtility.getMapping(lob, "dim_val_id");
+    const lobForecastlist = currentForecastList.filter(
+      (i) =>
+        i["lineOfBusiness"] === dim_val_id && i["owner"] == process.env.ufmUser
+    );
+    return lobForecastlist.length;
   }
 }

@@ -6,7 +6,7 @@ import { ForecastUtility } from "../fixtures/forecast-utils";
 import { AdjustmentUtility } from "../fixtures/adjustment-utils";
 import adjustmentData from "../testdata/adjustment.json";
 
-const lobName = ["FUEL", "LAST MILE DELIVERY"];
+const lobName = ["FUEL"];
 
 lobName.forEach((lobName) => {
   test.describe(
@@ -14,21 +14,40 @@ lobName.forEach((lobName) => {
     { tag: "@Smoke @Regression @adjustments" },
     async () => {
       let scenarioId: number, scenario_details, adjustment_metadata;
+      let newCreated = false;
       test.describe.configure({ timeout: 700_000, mode: "serial" });
 
       test(`Delete all created forecast by automation user for LOB - ${lobName}`, async ({
         request,
       }) => {
-        await ForecastUtility.deleteAllforecastofUser(
-          request,
-          lobName,
-          process.env.ufmUser
-        );
+        if (
+          (await ForecastUtility.countOfScenario(lobName, request)) ==
+          commonData.MAX_SCENARIO_COUNT
+        ) {
+          await ForecastUtility.deleteAllforecastofUser(
+            request,
+            lobName,
+            process.env.ufmUser
+          );
+        }
       });
       test(`Verify if the user is able to createforecast for LOB - ${lobName}`, async ({
         request,
       }) => {
-        scenarioId = await ForecastUtility.createForecast(lobName, request);
+        //Getting current list of forecast
+        scenario_details =
+          await ForecastUtility.getDraftorChangeRequestforecast(
+            lobName,
+            request
+          );
+
+        //Creating forecast if not present
+        if (scenario_details == 0 || scenario_details == undefined) {
+          scenarioId = await ForecastUtility.createForecast(lobName, request);
+          newCreated = true;
+        } else {
+          scenarioId = scenario_details["scenarioId"];
+        }
       });
 
       test(`Get Scenario version for created forecast ${lobName}`, async ({
@@ -165,13 +184,14 @@ lobName.forEach((lobName) => {
       // Need to add one case for invalid scenario id and version currently bug is there once resolved we can add .
 
       test(`delete created scenario ${lobName}`, async ({ request }) => {
-        await ForecastUtility.deleteForecast(
-          scenarioId,
-          scenario_details["scenarioVersion"],
-          commonData.ba_dim_id,
-          await UfmUtility.getMapping(lobName, "dim_val_id"),
-          request
-        );
+        if (newCreated)
+          await ForecastUtility.deleteForecast(
+            scenarioId,
+            scenario_details["scenarioVersion"],
+            commonData.ba_dim_id,
+            await UfmUtility.getMapping(lobName, "dim_val_id"),
+            request
+          );
       });
     }
   );

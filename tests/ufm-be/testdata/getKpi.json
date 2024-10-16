@@ -1,0 +1,45 @@
+{
+  "endpoint": "/reports/get-mykpi",
+  "payloads": {
+    "scenario_id": 33,
+    "scenario_version": 33,
+    "dim_id": 11,
+    "dim_val_id": 23,
+    "classification_id": 12,
+    "template_id": 3,
+    "filters": [],
+    "additional_filters": {
+      "pivot_cols": ["month"],
+      "pivot_index": ["node_id"],
+      "period_view": ["month"],
+      "nodes": [""],
+      "template_include_headers": [
+        {
+          "name": "Driver"
+        },
+        {
+          "name": "202509",
+          "columnsMenuParams": "middleColumns"
+        },
+        {
+          "name": "",
+          "columnsMenuParams": "fixedColumns"
+        },
+        {
+          "name": "Allocation Method",
+          "columnsMenuParams": "action"
+        },
+        {
+          "name": "Forecast",
+          "editable": true
+        },
+        {
+          "name": "Value",
+          "editable": true
+        }
+      ],
+      "month": ["202509"]
+    },
+    "isApplied": true
+  }
+}

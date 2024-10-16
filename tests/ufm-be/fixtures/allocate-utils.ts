@@ -82,7 +82,6 @@ export class AllocationUtility {
     allocation_method: number,
     request
   ) {
-    let inputNodes = new Map();
     let obj = {} as Root;
     let edit: Edit[] = [];
     let data = {};
@@ -96,13 +95,17 @@ export class AllocationUtility {
     data[monthYear] = cellValue;
 
     //Get all input node of LOB
-    inputNodes = await UfmUtility.getInputNodelist(lobName, request);
+    let inputNodes = await UfmUtility.getInputNodelist(lobName, request);
 
-    for (let [node_var_name, node_grain] of inputNodes) {
+    for (const inputNode of inputNodes) {
+      const { node_var_name, node_grain } = inputNode;
+
       let allocation = {} as Allocation;
       allocation.method = allocation_method;
-      console.log(node_var_name, node_grain[0], node_grain.length);
-      if (node_grain[0] == "month" && node_grain.length == 1) {
+
+      console.log(node_var_name, node_grain, node_grain.length);
+
+      if (node_grain[0] === "month" && node_grain.length === 1) {
         allocation.method = commonData["Constant value"];
       }
       edit.push({
