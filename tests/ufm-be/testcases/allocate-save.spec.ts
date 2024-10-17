@@ -86,7 +86,9 @@ lobList.forEach((lobName) => {
         expect.soft(responseBody).toEqual("Saved successfully");
       });
 
-      test(`Teardown for lob - ${lobName}`, async ({ request }) => {
+      test(`Teardown for deleting forecast for lob - ${lobName}`, async ({
+        request,
+      }) => {
         if (isNewCreated)
           await ForecastUtility.deleteForecast(
             scenario_details["scenarioId"],

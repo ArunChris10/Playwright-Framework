@@ -93,16 +93,17 @@ lobList.forEach((lobName) => {
             );
           }
         });
-      });
-      test("Teardown", async ({ request }) => {
-        if (isNewCreated)
-          await ForecastUtility.deleteForecast(
-            scenario_details["scenarioId"],
-            scenario_details["scenarioVersion"],
-            commonData.ba_dim_id,
-            await UfmUtility.getMapping(lobName, "dim_val_id"),
-            request
-          );
+
+        await test.step(`Teardown Deleting forecast for "${lobName}`, async () => {
+          if (isNewCreated)
+            await ForecastUtility.deleteForecast(
+              scenario_details["scenarioId"],
+              scenario_details["scenarioVersion"],
+              commonData.ba_dim_id,
+              await UfmUtility.getMapping(lobName, "dim_val_id"),
+              request
+            );
+        });
       });
     }
   );
