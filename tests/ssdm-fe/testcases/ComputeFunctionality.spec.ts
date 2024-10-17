@@ -2,6 +2,7 @@ import path from "path";
 import { test, expect } from "../../common/fixtures/test-hook";
 import { PageFactory } from '../../common/pages/page-factory';
 import { testData } from '../testdata/fileName.json';
+import { TIMEOUT } from '../constants/timeout.json';
 
 
 test.describe('Compute Feature Test', { tag: "@computeFunctionality" }, async () => {
@@ -9,25 +10,18 @@ test.describe('Compute Feature Test', { tag: "@computeFunctionality" }, async ()
 
     test.beforeAll(async ({ pageFactory }) => {
         objpageFactory = pageFactory;
+        await objpageFactory.ufmPageFactory().organisationSelection().navigate();
     })
 
     test('Verify compute is done successfully for user', { tag: "@computeFunctionality" }, async () => {
 
-        test.setTimeout(540000);
+        test.setTimeout(TIMEOUT);
         const expectedFilePath = path.join(__dirname, testData.filePath);
-        const expectedValidationMessage = testData.expectedValidationMessage;
         const expectedComputationSuccessfulMessage = testData.expectedComputationSuccessfulMessage;
 
 
         await test.step('Compute button is enabled for the User , if validation of file is successful', async () => {
-            await objpageFactory.ufmPageFactory().organisationSelection().navigate();
-            await objpageFactory.ufmPageFactory().organisationSelection().navigate();
-            await objpageFactory.ssdmPageFactory().uploadFile().clickOnAdminTab();
-            await objpageFactory.ssdmPageFactory().uploadFile().clickOnSSDM();
-            await objpageFactory.ssdmPageFactory().uploadFile().selectFileToBeUploaded(expectedFilePath);
-            await objpageFactory.ssdmPageFactory().validateFile().clickOnValidateButton();
-            const validationMessage = await objpageFactory.ssdmPageFactory().validateFile().verifyValidationIsSuccessful();
-            await expect(validationMessage).toBe(expectedValidationMessage);
+            await objpageFactory.ssdmPageFactory().validateFile().verifyValidation(expectedFilePath);
             const computeButtonEnabled = await objpageFactory.ssdmPageFactory().computeFile().isComputeButtonEnabled();
             await expect(computeButtonEnabled).toBeEnabled();
 
@@ -46,20 +40,15 @@ test.describe('Compute Feature Test', { tag: "@computeFunctionality" }, async ()
 
     })
 
-    test('Verify compute is not done successfully for user', { tag: "@computeFunctionality" }, async () => {
 
-        test.setTimeout(540000);
+    test('Verify compute button remains disabled if validation is unsuccessful for user', { tag: "@computeFunctionality" }, async () => {
+
+        test.setTimeout(TIMEOUT);
         const expectedFilePath = path.join(__dirname, testData.pathOfIncorrectFile);
         const nameOfTheMissingColumn = testData.missingColumns;
 
         await test.step('Compute button remains disabled for the User , if validation of file is unsuccessful', async () => {
-            await objpageFactory.ufmPageFactory().organisationSelection().navigate();
-            await objpageFactory.ufmPageFactory().organisationSelection().navigate();
-            await objpageFactory.ssdmPageFactory().uploadFile().clickOnAdminTab();
-            await objpageFactory.ssdmPageFactory().uploadFile().clickOnSSDM();
-            await objpageFactory.ssdmPageFactory().uploadFile().selectFileToBeUploaded(expectedFilePath);
-            await objpageFactory.ssdmPageFactory().validateFile().clickOnValidateButton();
-            await objpageFactory.ssdmPageFactory().validateFile().verifyIncorrectFileErrorMessageIsVisible(nameOfTheMissingColumn);
+            await objpageFactory.ssdmPageFactory().validateFile().verifyValidation(expectedFilePath, nameOfTheMissingColumn);
             await objpageFactory.ssdmPageFactory().computeFile().verifyComputeButtonIsDisabled();
 
         });
@@ -67,20 +56,12 @@ test.describe('Compute Feature Test', { tag: "@computeFunctionality" }, async ()
 
     test('Verify compute showing error message even if validation is successful for user', { tag: "@computeFunctionality" }, async () => {
 
-        test.setTimeout(540000);
+        test.setTimeout(TIMEOUT);
         const expectedFilePath = path.join(__dirname, testData.computeFailingFile);
-        const expectedValidationMessage = testData.expectedValidationMessage;
         const expectedComputationFailureMessage = testData.expectedComputationFailureMessage;
 
-        await test.step('Computation button is enabled for the User ,if validation of file is successful', async () => {
-            await objpageFactory.ufmPageFactory().organisationSelection().navigate();
-            await objpageFactory.ufmPageFactory().organisationSelection().navigate();
-            await objpageFactory.ssdmPageFactory().uploadFile().clickOnAdminTab();
-            await objpageFactory.ssdmPageFactory().uploadFile().clickOnSSDM();
-            await objpageFactory.ssdmPageFactory().uploadFile().selectFileToBeUploaded(expectedFilePath);
-            await objpageFactory.ssdmPageFactory().validateFile().clickOnValidateButton();
-            const validationMessage = await objpageFactory.ssdmPageFactory().validateFile().verifyValidationIsSuccessful();
-            await expect(validationMessage).toBe(expectedValidationMessage);
+        await test.step('Computation button gets enabled for the User once validation of file is successful', async () => {
+            await objpageFactory.ssdmPageFactory().validateFile().verifyValidation(expectedFilePath);
             const computeButtonEnabled = await objpageFactory.ssdmPageFactory().computeFile().isComputeButtonEnabled();
             await expect(computeButtonEnabled).toBeEnabled();
             

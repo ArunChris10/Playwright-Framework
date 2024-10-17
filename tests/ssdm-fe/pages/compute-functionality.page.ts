@@ -6,6 +6,8 @@ export class ComputeFunctionality {
     readonly computeSuccessMessage: Locator;
     readonly computeFailureMessage: Locator;
     readonly computeSnackbarMessage: Locator;
+    readonly btnClose:Locator;
+    readonly computeMessageWindow:Locator;
 
     
     constructor(page: Page) {
@@ -29,8 +31,6 @@ export class ComputeFunctionality {
     }
 
     async verifyComputeIsSuccessful() {
-        await this.page.waitForTimeout(240000);
-        await expect(this.computeSnackbarMessage).toBeHidden();
         const compute = await this.computeSuccessMessage.innerText();
         return compute;
 
@@ -46,4 +46,5 @@ export class ComputeFunctionality {
         const computefailureMessage = await this.computeFailureMessage.innerText();
         return computefailureMessage;
     }
+
 }

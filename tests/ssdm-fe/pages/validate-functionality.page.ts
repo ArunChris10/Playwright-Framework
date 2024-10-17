@@ -1,5 +1,7 @@
 import {expect, Locator, Page } from "@playwright/test";
 import { Utility } from "../../common/fixtures/utils";
+import { PageFactory } from "../../common/pages/page-factory";
+import { testData } from '../testdata/fileName.json';
 
 export class ValidateFunctionality {
     readonly page: Page;
@@ -54,5 +56,25 @@ export class ValidateFunctionality {
         await expect(this.page.getByText(`The following columns are missing in the uploaded node document: ${missingColumnsString}.`)).toBeVisible({
             timeout: 180000
         });
+    }
+
+    async verifyValidation(filepath: string, nameOfTheMissingColumn?: string[], fileShouldBeDownloaded?: boolean){
+        let objpageFactory = new PageFactory(this.page);
+        await objpageFactory.ssdmPageFactory().uploadFile().clickOnAdminTab();
+        await objpageFactory.ssdmPageFactory().uploadFile().clickOnSSDM();
+        await objpageFactory.ssdmPageFactory().uploadFile().selectFileToBeUploaded(filepath);
+        
+        if(fileShouldBeDownloaded){
+            await objpageFactory.ssdmPageFactory().validateFile().fileGettingValidatedAndDownloaded();
+        } else {
+            await objpageFactory.ssdmPageFactory().validateFile().clickOnValidateButton();
+        }
+    
+        if(nameOfTheMissingColumn){
+            await objpageFactory.ssdmPageFactory().validateFile().verifyIncorrectFileErrorMessageIsVisible(nameOfTheMissingColumn);
+        } else {
+            const validationMessage = await objpageFactory.ssdmPageFactory().validateFile().verifyValidationIsSuccessful();
+            await expect(validationMessage).toBe(testData.expectedValidationMessage);
+        }
     }
 }

@@ -1,6 +1,8 @@
 import { Locator, Page } from "@playwright/test";
 
 export class AddDriverPage {
+    
+    
 
     readonly page: Page;
     readonly searchDriverField: string;

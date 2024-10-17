@@ -2,22 +2,23 @@ import path from "path";
 import { test, expect } from "../../common/fixtures/test-hook";
 import { PageFactory } from '../../common/pages/page-factory';
 import { testData } from '../testdata/fileName.json';
+import { TIMEOUT } from '../constants/timeout.json';
 
 test.describe('Validate Feature Test', { tag: "@validateFunctionality" }, async () => {
     let objpageFactory: PageFactory;
 
     test.beforeAll(async ({ pageFactory }) => {
         objpageFactory = pageFactory;
+        await objpageFactory.ufmPageFactory().organisationSelection().navigate();
     })
 
     test('Check if the validate functionality is working fine', async () => {
 
-        test.setTimeout(600000);
+        test.setTimeout(TIMEOUT);
         const expectedFilePath = path.join(__dirname, testData.filePath);
         const expectedValidationMessage = testData.expectedValidationMessage;
 
         await test.step('Upload the node edge file', async () => {
-            await objpageFactory.ufmPageFactory().organisationSelection().navigate();
             await objpageFactory.ssdmPageFactory().uploadFile().clickOnAdminTab();
             await objpageFactory.ssdmPageFactory().uploadFile().clickOnSSDM();
             await objpageFactory.ssdmPageFactory().uploadFile().selectFileToBeUploaded(expectedFilePath);
@@ -37,7 +38,7 @@ test.describe('Validate Feature Test', { tag: "@validateFunctionality" }, async 
 
     test('Check if error message is visible when data is found missing in file validation', async () => {
 
-        test.setTimeout(540000);
+        test.setTimeout(TIMEOUT);
         const expectedPathOfIncorrectFile = path.join(__dirname, testData.pathOfIncorrectFile);
         const nameOfTheMissingColumn = testData.missingColumns;
 
