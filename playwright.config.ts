@@ -10,9 +10,15 @@ import ibgTokens from "./secrets/ibg-users-token.json";
 
 // Check if the tag is not empty
 if (!process.env.tag) {
-  throw new Error('Environment variable "tag" is not set. Please set the "tag" variable to filter tests.');
+  throw new Error(
+    'Environment variable "tag" is not set. Please set the "tag" variable to filter tests.'
+  );
 }
-const grepPattern = process.env.REPO_NAME ? new RegExp('(?=.*'+process.env.tag+')(?=.*@'+process.env.REPO_NAME+')'): new RegExp(''+process.env.tag)
+const grepPattern = process.env.REPO_NAME
+  ? new RegExp(
+      "(?=.*" + process.env.tag + ")(?=.*@" + process.env.REPO_NAME + ")"
+    )
+  : new RegExp("" + process.env.tag);
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -117,41 +123,38 @@ export default defineConfig({
       },
     },
     {
-
       name: "ssdm-fe",
       dependencies: ["ui-setup"],
       testMatch: /ssdm-fe.*.spec.ts/,
       grep: [new RegExp(process.env.tag + "")],
       use: {
-
-        ...devices['Desktop Chrome'],
+        ...devices["Desktop Chrome"],
 
         headless: false,
         viewport: {
-          width: 1920, height: 1080,
+          width: 1920,
+          height: 1080,
         },
 
-        storageState: 'secrets/nexus-user-storagestate.json',
+        storageState: "secrets/nexus-user-storagestate.json",
         extraHTTPHeaders: {
-          "Authorization": `Bearer ${nexusTokens[process.env.ufmUser + ""]}`
+          Authorization: `Bearer ${nexusTokens[process.env.ufmUser + ""]}`,
         },
         launchOptions: {
-          args: ['--ignore-certificate-errors',
-            "--start-fullscreen"]
+          args: ["--ignore-certificate-errors", "--start-fullscreen"],
         },
-
-      }
+      },
     },
 
     {
       name: "cdf-be",
       dependencies: ["api-setup"],
       testMatch: /cdf-be.*.spec.ts/,
-      grep : grepPattern,
+      grep: grepPattern,
       use: {
         extraHTTPHeaders: {
           Authorization: `Bearer ${nexusTokens[process.env.cdfUser + ""]}`,
-          isAutomationTest: "true"
+          isAutomationTest: "true",
         },
       },
     },

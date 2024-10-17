@@ -2,7 +2,6 @@ import debug from "debug";
 import { expect, test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import { ForecastCalendarUtil } from "../fixtures/forecastCalendar-utils";
-import forecastCalendarData from "../testdata/forecast-calendar-api.json";
 
 test.describe(
   "Verify forecast calendar APIs",

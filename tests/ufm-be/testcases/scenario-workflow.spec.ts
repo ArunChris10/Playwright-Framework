@@ -5,10 +5,10 @@ import BAList from "../constants/PBA_SBA_List.json";
 import { UfmUtility } from "../fixtures/ufm-utils";
 
 const orgName = BAList.PBAList;
-const orgName1 = [BAList.PBAList[7], BAList.PBAList[1], BAList.PBAList[0]];
-const orgName2 = [BAList.PBAList[2], BAList.PBAList[4], BAList.PBAList[5]];
-const orgName3 = [BAList.PBAList[3]];
-const orgName4 = [BAList.PBAList[6]];
+const orgName1 = ["SEGMENT", "HEALTH & WELLNESS", "ECOMMERCE"];
+const orgName2 = ["CUSTOMER & REVENUE", "OPERATIONS"];
+const orgName3 = ["MERCHANDISING FINANCE", "MERCHANDISING OPERATIONS"];
+const orgName4 = ["SUPPLY CHAIN"];
 
 let response;
 
@@ -28,14 +28,14 @@ test.describe("Send BA", { tag: "@send_to_review" }, async () => {
       });
     }
   });
-  test.describe.serial("Send to BA Review", async () => {
+  test.describe("Send to BA Review", async () => {
     for (let i = 0; i < orgName3.length; i++) {
       test(`Submit ${orgName3[i]} BA to BA Review`, async ({ request }) => {
         await UfmUtility.createAndSendToBAReview(request, orgName3[i]);
       });
     }
   });
-  test.describe.serial("Send to BA Review", async () => {
+  test.describe("Send to BA Review", async () => {
     for (let i = 0; i < orgName4.length; i++) {
       test(`Submit ${orgName4[i]} BA to BA Review`, async ({ request }) => {
         await UfmUtility.createAndSendToBAReview(request, orgName4[i]);

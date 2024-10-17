@@ -1,7 +1,7 @@
-import testdata from "../testdata/filter-service.json";
-import { test, expect } from "../../common/fixtures/test-hook";
 import debug from "debug";
+import { expect, test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
+import testdata from "../testdata/filter-service.json";
 
 testdata.payloads.forEach((payload) => {
   test.describe(

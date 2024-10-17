@@ -32,7 +32,7 @@ For any help in playwright please refer the playwright documentation below
           echo '{}' > secrets/ibg-users-token.json
           echo '{}' > secrets/ufm-secrets.json
           echo '{}' > secrets/ibg-user-storagestate.json
-          echo '{}' > secrets/ibg-normal-user-storagestate.json 
+          echo '{}' > secrets/ibg-normal-user-storagestate.json
           echo '{}' > secrets/nexus-user-storagestate.json
 
 - For the token files we don't have to add anything , this will be used during the runtime
@@ -71,9 +71,10 @@ For any help in playwright please refer the playwright documentation below
     │   │   ├── fixtures        # playwright fixture files
     │   │   ├── testcases
     │   │   ├── testdata
-    │   │   └── ...             # etc.
+    │   │   └── constants       #some common constants and data used in UFM test cases along with mapping file
+    │   │       ├── mapping
+    |   │       ├── ...
     │   ├── ufm-fe              # workstream folders for FE testcases
-    │   │   ├── globalsetup     # global files to run
     │   │   ├── pages           # folder containing all pages based on POM
     │   │   ├── testcases
     │   │   ├── testdata
@@ -81,12 +82,17 @@ For any help in playwright please refer the playwright documentation below
     │   │   └── ...
     │   ├── cdf-fe              # other workstream folder for FE testcases
     │   │   └── ...
+    │   ├── common              # common folder conating common utilities across project
+    │   │   └──
 
     ├── .env-cmdrc.json         # Environmental Variables
     ├── .looper.yml             # looper build steps
     ├── plawright.config.ts     # Config file
     ├── package.json            # dependencies and scripts to run
     └── ...
+
+- To view report generated use command -> npx playwright show-report
+- For error of port already in use , kill port using command -> npx kill-port portNumber
 
 ### Self signed Certificate issue
 

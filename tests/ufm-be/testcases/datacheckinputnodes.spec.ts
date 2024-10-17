@@ -1,55 +1,54 @@
 import { fail } from "assert";
 import { test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
+import commonData from "../constants/common.json";
 import orgList from "../constants/PBA_SBA_List.json";
 import { ForecastUtility } from "../fixtures/forecast-utils";
 import { UfmUtility } from "../fixtures/ufm-utils";
 import getKpiData from "../testdata/getKpi.json";
 
-const lobName = orgList.SBAList;
+const lobList = orgList.SBAList;
 
-lobName.forEach((lob) => {
+lobList.forEach((lobName) => {
+  let responseBody, scenario_details;
+  let isNewCreated = false;
+
   test.describe(
-    `Verify if data is present for all input nodes for ${lob} lob`,
-    { tag: "@Smoke @Regression @dataCheck" },
+    `Verify if data is present for all input nodes for ${lobName} lobName`,
+    { tag: "@dataCheck" },
     () => {
       test.describe.configure({ timeout: 600_000, mode: "parallel" });
-      let responseBody, scenario_details, currentForecastList;
 
-      test(`Verify input nodes data for ${lob} scenario`, async ({
+      test(`Verify input nodes data for ${lobName} scenario`, async ({
         request,
       }) => {
         let monthYear = (parseInt(await Utility.getMonthYear()) - 1).toString();
         let input_nodes = new Map();
 
-        await test.step(`Get Scenario details for ${lob} forecast if present or create new`, async () => {
-          //Getting current list of forecast
-          scenario_details =
-            await ForecastUtility.getDraftorChangeRequestforecast(lob, request);
-
-          //Creating forecast if not present
-          if (scenario_details == 0 || scenario_details == undefined) {
-            const scenarioId = await ForecastUtility.createForecast(
-              lob,
-              request
-            );
-
-            //Getting current list of forecast
-            currentForecastList = await UfmUtility.getCurrentForecastList(
-              lob,
-              request
-            );
-
-            //Fetching scenario details for newly created forecast
-            scenario_details = await UfmUtility.getScenarioDetails(
-              currentForecastList,
-              scenarioId
+        await test.step(`Get Scenario details for ${lobName} forecast if present or create new`, async () => {
+          if (
+            (await ForecastUtility.countOfScenario(lobName, request)) ==
+            commonData.MAX_SCENARIO_COUNT
+          ) {
+            await ForecastUtility.deleteAllforecastofUser(
+              request,
+              lobName,
+              process.env.ufmUser
             );
           }
+          //Getting forecast details
+          [scenario_details, isNewCreated] =
+            await ForecastUtility.getOrCreateForecastIfNotExists(
+              lobName,
+              request
+            );
         });
 
-        await test.step(`Call get kpi and get result for ${lob} lob`, async () => {
-          const inputNodes = await UfmUtility.getInputNodelist(lob, request);
+        await test.step(`Call get kpi and get result for ${lobName} lobName`, async () => {
+          const inputNodes = await UfmUtility.getInputNodelist(
+            lobName,
+            request
+          );
 
           input_nodes = new Map(
             inputNodes.map((node) => [node.node_name, node.node_var_name])
@@ -62,7 +61,7 @@ lobName.forEach((lob) => {
           getKpiData.payloads.scenario_version =
             scenario_details["scenarioVersion"];
           getKpiData.payloads.dim_val_id = await UfmUtility.getMapping(
-            lob,
+            lobName,
             "dim_val_id"
           );
           getKpiData.payloads.additional_filters.nodes = nodes;
@@ -77,7 +76,7 @@ lobName.forEach((lob) => {
           responseBody = await response.json();
         });
 
-        await test.step(`Get list of input nodes having Empty cell for ${lob} lob`, async () => {
+        await test.step(`Get list of input nodes having Empty cell for ${lobName} lobName`, async () => {
           let monthAlias;
           responseBody.rowData.forEach((item) => {
             monthAlias = item[monthYear].month_alias;
@@ -94,6 +93,16 @@ lobName.forEach((lob) => {
             );
           }
         });
+      });
+      test("Teardown", async ({ request }) => {
+        if (isNewCreated)
+          await ForecastUtility.deleteForecast(
+            scenario_details["scenarioId"],
+            scenario_details["scenarioVersion"],
+            commonData.ba_dim_id,
+            await UfmUtility.getMapping(lobName, "dim_val_id"),
+            request
+          );
       });
     }
   );

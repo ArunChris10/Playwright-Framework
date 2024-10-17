@@ -70,48 +70,6 @@ export class ForecastUtility {
   }
 
   /**
-   * This method will get all the current forecast for BA and assert the response
-   *
-   * @param {string} lobName - the name of the line of business
-   * @param {Request} request - the request object
-   * @returns {Promise<Array<object>>} - the current forecast list
-   */
-  static async getCurrentForecastList(lobName, request) {
-    //Making the get call to create forecast
-    Utility.logIt(`Getting current forecast list for lob : ${lobName}`);
-    const endpointURL = `${process.env.apiBaseURLUFM}${endpoints.get_report_endpoint}`;
-    Utility.logIt(endpointURL);
-    const response = await request.post(endpointURL, {
-      data: {
-        unit: "Millions",
-        dim_id: commonData.ba_dim_id,
-        dim_val_id: await UfmUtility.getMapping(lobName, "parent_id"),
-        classification_id: commonData.classification_id,
-        template_id: 1,
-        filters: [],
-        additional_filters: {
-          template_include_headers: [
-            {
-              name: "vs LY",
-              format: "percent",
-            },
-            {
-              name: "vs Plan",
-              format: "absolute",
-            },
-          ],
-        },
-      },
-    });
-
-    //asserting the response
-    let responseBody = await Utility.assertAndLog(response);
-
-    //returning the current forecast list
-    return responseBody.rowData;
-  }
-
-  /**
    * Deletes a forecast.
    *
    * @param {number} scenario_id - The ID of the scenario.
@@ -274,5 +232,37 @@ export class ForecastUtility {
         i["lineOfBusiness"] === dim_val_id && i["owner"] == process.env.ufmUser
     );
     return lobForecastlist.length;
+  }
+
+  /**
+   * Retrieves or creates a forecast for a given line of business.
+   *
+   * @param {string} lobName - The name of the line of business.
+   * @param {Request} request - The request object.
+   * @return {Promise<[object, boolean]>} A promise that resolves to an array containing the scenario details and a boolean indicating if a new forecast was created.
+   */
+  static async getOrCreateForecastIfNotExists(lobName, request) {
+    let scenario_details,
+      isNewForecast = false;
+
+    scenario_details = await ForecastUtility.getDraftorChangeRequestforecast(
+      lobName,
+      request
+    );
+
+    if (scenario_details == 0 || scenario_details == undefined) {
+      const scenarioId = await ForecastUtility.createForecast(lobName, request);
+      isNewForecast = true;
+      let currentForecast = await UfmUtility.getCurrentForecastList(
+        lobName,
+        request
+      );
+
+      scenario_details = await UfmUtility.getScenarioDetails(
+        currentForecast,
+        scenarioId
+      );
+    }
+    return [scenario_details, isNewForecast];
   }
 }

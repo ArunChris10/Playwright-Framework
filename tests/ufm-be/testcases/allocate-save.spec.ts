@@ -5,21 +5,19 @@ import { AllocationUtility } from "../fixtures/allocate-utils";
 import { ForecastUtility } from "../fixtures/forecast-utils";
 import { UfmUtility } from "../fixtures/ufm-utils";
 
-const lobName = ["MARKETING", "MERCHOPS", "SCHEDULED", "LAST MILE DELIVERY"];
-lobName.forEach((lobName) => {
+const lobList = ["MARKETING", "MERCHOPS", "SCHEDULED", "LAST MILE DELIVERY"];
+lobList.forEach((lobName) => {
+  let scenario_details;
+  let payloadbody, response, responseBody;
+  let isNewCreated = false;
+
   test.describe(
     "Verify allocate and save API",
     { tag: "@Smoke @Regression @allocate_save" },
     async () => {
       test.describe.configure({ timeout: 500_000, mode: "serial" });
 
-      let scenarioId: number;
-      let scenario_details;
-      let dimId = commonData.ba_dim_id;
-      let payloadbody, response, responseBody;
-      let newCreated = false;
-
-      test(`Delete all created forecast by automation user for LOB - ${lobName}`, async ({
+      test(`Getting or creating forecast for LOB - ${lobName}`, async ({
         request,
       }) => {
         if (
@@ -32,23 +30,12 @@ lobName.forEach((lobName) => {
             process.env.ufmUser
           );
         }
-      });
-
-      test(`Verify if the user is able to create forecast for LOB - ${lobName}`, async ({
-        request,
-      }) => {
-        //Getting current list of forecast
-        scenario_details =
-          await ForecastUtility.getDraftorChangeRequestforecast(
+        //Getting forecast details
+        [scenario_details, isNewCreated] =
+          await ForecastUtility.getOrCreateForecastIfNotExists(
             lobName,
             request
           );
-
-        //Creating forecast if not present
-        if (scenario_details == 0 || scenario_details == undefined) {
-          scenarioId = await ForecastUtility.createForecast(lobName, request);
-          newCreated = true;
-        } else scenarioId = scenario_details["scenarioId"];
       });
 
       test(`Verify if the user is able to get list of scenarios and scenario version for the LOB - ${lobName}`, async ({
@@ -63,7 +50,7 @@ lobName.forEach((lobName) => {
         //Get scenario version from scenario id from forecast list
         scenario_details = await UfmUtility.getScenarioDetails(
           currentForecast,
-          scenarioId
+          scenario_details["scenarioId"]
         );
 
         Utility.logIt(scenario_details["scenarioVersion"]);
@@ -77,7 +64,7 @@ lobName.forEach((lobName) => {
         //Creating allocation request payload
         payloadbody = await AllocationUtility.allocation(
           lobName,
-          scenarioId,
+          scenario_details["scenarioId"],
           commonData["Maintain Ratio"],
           request
         );
@@ -99,14 +86,12 @@ lobName.forEach((lobName) => {
         expect.soft(responseBody).toEqual("Saved successfully");
       });
 
-      test(`Verify if the user is able to delete created forecast for LOB ${lobName}`, async ({
-        request,
-      }) => {
-        if (newCreated)
+      test(`Teardown for lob - ${lobName}`, async ({ request }) => {
+        if (isNewCreated)
           await ForecastUtility.deleteForecast(
-            scenarioId,
+            scenario_details["scenarioId"],
             scenario_details["scenarioVersion"],
-            dimId,
+            commonData.ba_dim_id,
             await UfmUtility.getMapping(lobName, "dim_val_id"),
             request
           );

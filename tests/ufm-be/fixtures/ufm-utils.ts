@@ -226,14 +226,18 @@ export class UfmUtility {
       scenario_version: scenario_version,
       status: status,
     };
-    const response = await request.put(endpointURL, {
-      params: queryParams,
-      data: {
-        dim_id: dim_id,
-        dim_val_id: dim_val_id,
-      },
-    });
-    //asserting the responseawait expect(response).toBeOK();
+    let response;
+    await expect(async () => {
+      response = await request.put(endpointURL, {
+        params: queryParams,
+        data: {
+          dim_id: dim_id,
+          dim_val_id: dim_val_id,
+        },
+      });
+      expect(response.status()).toBe(200);
+    }).toPass({ intervals: [30_000, 30_000], timeout: 480_000 });
+
     let responseBody = await Utility.assertAndLog(response);
     await expect(responseBody).toEqual(endpoints.sendToReviewSuccessful);
   }
@@ -314,7 +318,7 @@ export class UfmUtility {
    * @return {Promise<void>} A Promise that resolves when the function is complete.
    */
   static async createAndSendToBAReview(request, orgName) {
-    let response, lobName, scenarioId, scenario_details;
+    let response, lobName, scenario_details, isNewCreated;
     //Getting Status of all LOB of an Org by progress tracker
     response = await UfmUtility.getProgresstracker(orgName, request);
     Utility.logIt(response.rowData.length);
@@ -328,30 +332,27 @@ export class UfmUtility {
         response.rowData[j].forecastStatus != commonData.Segment_Review &&
         response.rowData[j].forecastStatus != commonData.BA_Review
       ) {
-        //Deleting forecast created by logged in user
-        await ForecastUtility.deleteAllforecastofUser(
-          request,
-          lobName,
-          process.env.ufmUser
-        );
-        //Creating forecast
-        scenarioId = await ForecastUtility.createForecast(lobName, request);
+        if (
+          (await ForecastUtility.countOfScenario(lobName, request)) ==
+          commonData.MAX_SCENARIO_COUNT
+        ) {
+          //Deleting forecast created by logged in user
+          await ForecastUtility.deleteAllforecastofUser(
+            request,
+            lobName,
+            process.env.ufmUser
+          );
+        }
 
-        //Getting current list of forecast
-        let currentForecastList = await UfmUtility.getCurrentForecastList(
-          lobName,
-          request
-        );
-
-        //Getting scenario version of created forecast
-        scenario_details = await UfmUtility.getScenarioDetails(
-          currentForecastList,
-          scenarioId
-        );
+        [scenario_details, isNewCreated] =
+          await ForecastUtility.getOrCreateForecastIfNotExists(
+            lobName,
+            request
+          );
 
         //Sending created forecast to BA review
         await UfmUtility.changeToStatus(
-          scenarioId,
+          scenario_details["scenarioId"],
           scenario_details["scenarioVersion"],
           commonData.BA_Review,
           commonData.lob_dim_id,

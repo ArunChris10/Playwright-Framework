@@ -4,9 +4,9 @@ import commonData from "../constants/common.json";
 import BAList from "../constants/PBA_SBA_List.json";
 import { UfmUtility } from "../fixtures/ufm-utils";
 
-const orgName = BAList.PBAList[0];
+const orgName = BAList.PBAList[7];
 
-let response;
+let response, scenario_details;
 
 test.describe.configure({ timeout: 3_600_000, mode: "serial" });
 test.describe(
@@ -21,11 +21,22 @@ test.describe(
     test(`Submit ${orgName} LOB to Change Request from BA screen`, async ({
       request,
     }) => {
-      await UfmUtility.changeRequest(request, orgName);
+      await UfmUtility.changeRequest(request, orgName, 1);
     });
-    //Sending to BA review
+    // //Sending to BA review
     test(`Submit ${orgName} LOB to BA Review`, async ({ request }) => {
-      await UfmUtility.createAndSendToBAReview(request, orgName);
+      let currentForecastList = await UfmUtility.getCurrentForecastList(
+        orgName,
+        request
+      );
+      await UfmUtility.changeToStatus(
+        scenario_details["scenarioId"],
+        scenario_details["scenarioVersion"],
+        commonData.BA_Review,
+        commonData.lob_dim_id,
+        await UfmUtility.getMapping(orgName, "dim_val_id"),
+        request
+      );
     });
 
     //Recall LOB from BA Review
@@ -35,7 +46,7 @@ test.describe(
         response.scenarioVersion,
         commonData.Draft,
         commonData.lob_dim_id,
-        await UfmUtility.getMapping(lobName, "dim_val_id"),
+        await UfmUtility.getMapping(orgName, "dim_val_id"),
         request
       );
     });
@@ -60,13 +71,15 @@ test.describe(
           request
         );
         Utility.logIt(`Sent ${orgName} to Segment Review`);
+      } else {
+        Utility.logIt(`${orgName} is not in BA Review`);
       }
     });
     //Change Request from Segment review
     test(`Submit ${orgName} LOB to Change Request from segment screen`, async ({
       request,
     }) => {
-      await UfmUtility.changeRequest(request, orgName);
+      await UfmUtility.changeRequest(request, orgName, 1);
     });
   }
 );

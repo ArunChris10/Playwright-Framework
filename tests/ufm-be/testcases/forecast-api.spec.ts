@@ -1,8 +1,8 @@
 import { expect, test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import commonData from "../constants/common.json";
-import { UfmUtility } from "../fixtures/ufm-utils";
 import { ForecastUtility } from "../fixtures/forecast-utils";
+import { UfmUtility } from "../fixtures/ufm-utils";
 import forecastData from "../testdata/forecast-api.json";
 
 const lobName = ["E2E DELIVERY"];
@@ -110,7 +110,7 @@ for (let i = 0; i < lobName.length; i++) {
         Utility.logIt(`No of scenarios present: ${currentForecast.length}`);
 
         await ForecastUtility.deleteForecast(
-          scenarioId,
+          scenario_details["scenarioId"],
           scenario_details["scenarioVersion"],
           dimId,
           await UfmUtility.getMapping(lobName[i], "dim_val_id"),
@@ -122,7 +122,7 @@ for (let i = 0; i < lobName.length; i++) {
         request,
       }) => {
         let deleteResponse = await ForecastUtility.deleteForecast(
-          scenarioId,
+          scenario_details["scenarioId"],
           scenario_details["scenarioVersion"],
           dimId,
           await UfmUtility.getMapping(lobName[i], "dim_val_id"),
