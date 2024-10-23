@@ -10,7 +10,6 @@ import usersIBGFormat from "../testdata/users.json";
 import { Home } from "../pages/home.page";
 import { LoginPage } from "../pages/login.page";
 
-
 export class Utility {
   private static readonly dir: string = "./test-results/logs/";
   private static readonly nexusTokenFilePath: string =
@@ -150,7 +149,11 @@ export class Utility {
       const updatedDate = JSON.stringify(parsedData, null, 2);
       fs.writeFileSync(this.nexusTokenFilePath, updatedDate);
     }
-    return JSON.stringify(parsedData[userId]);
+    let nexusTokens = JSON.stringify(parsedData[userId]);
+    nexusTokens = nexusTokens.replace('"', "");
+    nexusTokens = nexusTokens.replace('"', "");
+    nexusTokens = `Bearer ` + nexusTokens;
+    return nexusTokens;
   }
 
   /**
@@ -203,11 +206,9 @@ export class Utility {
       process.env.ufmUser + "",
       request
     );
-    nexusTokens = nexusTokens.replace('"', "");
-    nexusTokens = nexusTokens.replace('"', "");
     const responseData = await request.get(endpointURL, {
       headers: {
-        Authorization: `Bearer ` + nexusTokens,
+        Authorization: nexusTokens,
       },
       params: {
         dimension_group_id: 7,
@@ -508,14 +509,12 @@ export class Utility {
   }
 
   public static async downloadExcel(download: Download) {
-    
     const downloadPath = path.join(__dirname, "download.xlsx");
     await download.saveAs(downloadPath);
     const workbook = xlsx.readFile(downloadPath);
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
     fs.unlinkSync(downloadPath);
     return xlsx.utils.sheet_to_json(sheet);
-
   }
 
   /**
@@ -544,24 +543,23 @@ export class Utility {
 
   public static getFileDownloadedPath() {
     return path.join(__dirname, "download.xlsx");
-}
+  }
 
-public static async downloadAndSaveValidatedExcelFile(download: Download) {
+  public static async downloadAndSaveValidatedExcelFile(download: Download) {
     const downloadPath = this.getFileDownloadedPath();
     await download.saveAs(downloadPath);
-}
+  }
 
-public static fileGettingDownloaded() {
+  public static fileGettingDownloaded() {
     const downloadPath = this.getFileDownloadedPath();
     return fs.existsSync(downloadPath);
-}
+  }
 
-public static fileNotGettingDownloaded() {
+  public static fileNotGettingDownloaded() {
     const downloadPath = this.getFileDownloadedPath();
     if (fs.existsSync(downloadPath)) {
-        fs.unlinkSync(downloadPath);
+      fs.unlinkSync(downloadPath);
     }
     return !fs.existsSync(downloadPath);
   }
-
 }
