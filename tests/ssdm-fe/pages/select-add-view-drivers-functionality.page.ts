@@ -1,6 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { PageFactory } from "../../common/pages/page-factory";
-import { testData } from '../testdata/fileName.json';
 
 export class DriversFunctionality {
     
@@ -37,7 +36,9 @@ export class DriversFunctionality {
         for (const cellValues of await this.cellsData.elementHandles()) {
             const actualAndForecastData = await cellValues.innerText();
             expect(actualAndForecastData).not.toBeNull();
+            return actualAndForecastData;
           }
+          
     }
 
     async navigateToMyKpiPage(filepath: string){
