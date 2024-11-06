@@ -21,15 +21,10 @@ test.describe('View Table Data In Billions And Millions Feature Test', { tag: "@
         let actualAndForecastDataInBillion: string | undefined;
         let actualAndForecastDataInMillion: string | undefined;
         
+
         await test.step('User is able to see driver and driver data in my kpi table', async () => {
             await objpageFactory.ssdmPageFactory().drivers().navigateToMyKpiPage(expectedFilePath);
-            await objpageFactory.ssdmPageFactory().drivers().clickOnAddDriverButton();
-            await objpageFactory.ssdmPageFactory().drivers().isAddDriverWindowVisible();
-            await objpageFactory.ufmPageFactory().addDriverPage().waitForPageLoad();
-            await objpageFactory.ufmPageFactory().addDriverPage().inputDriverName(testData.inputDriverName);
-            await objpageFactory.ufmPageFactory().addDriverPage().selectDriver(testData.inputDriverName);
-            await objpageFactory.ufmPageFactory().addDriverPage().clickOnApplyDrivers();
-            await objpageFactory.ufmPageFactory().openCurrentForecast().validateDriverPresence(testData.inputDriverName);
+            await objpageFactory.ssdmPageFactory().drivers().selectAndViewDriver(testData.inputDriverFirst, testData.inputDriverSecond);
 
         });
 

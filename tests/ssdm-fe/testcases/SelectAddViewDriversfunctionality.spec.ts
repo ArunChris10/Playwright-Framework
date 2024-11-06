@@ -34,14 +34,14 @@ test.describe('Select,Add And View Driver Feature Test', { tag: "@driverFunction
 
         });
 
-        await test.step(`Search for input driver ${testData.inputDriverName}`, async () => {
+        await test.step(`Search for input driver ${testData.inputDriverSecond}`, async () => {
             await objpageFactory.ufmPageFactory().addDriverPage().waitForPageLoad();
-            await objpageFactory.ufmPageFactory().addDriverPage().inputDriverName(testData.inputDriverName);
+            await objpageFactory.ufmPageFactory().addDriverPage().inputDriverName(testData.inputDriverSecond);
     
         });
 
-        await test.step(`Select input driver ${testData.inputDriverName}`, async () => {
-            await objpageFactory.ufmPageFactory().addDriverPage().selectDriver(testData.inputDriverName);
+        await test.step(`Select input driver ${testData.inputDriverSecond}`, async () => {
+            await objpageFactory.ufmPageFactory().addDriverPage().selectDriver(testData.inputDriverSecond);
             
         });
 
@@ -51,7 +51,7 @@ test.describe('Select,Add And View Driver Feature Test', { tag: "@driverFunction
         });
 
         await test.step('Validate added driver is visible on KPI table', async () => {
-            expect(await objpageFactory.ufmPageFactory().openCurrentForecast().validateDriverPresence(testData.inputDriverName)).toBeTruthy()
+            expect(await objpageFactory.ufmPageFactory().openCurrentForecast().validateDriverPresence(testData.inputDriverSecond)).toBeTruthy()
             
         });
 

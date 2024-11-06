@@ -4,6 +4,7 @@ import { ValidateFunctionality } from './validate-functionality.page';
 import { ComputeFunctionality } from './compute-functionality.page';
 import { ReviewFunctionality } from './review-functionality.page';
 import { DriversFunctionality } from './select-add-view-drivers-functionality.page';
+import { RemoveFunctionality } from './remove-driver-functionality.page';
 
 
 export class SSDMPageFactory {
@@ -32,6 +33,10 @@ export class SSDMPageFactory {
 
     drivers(){
       return new DriversFunctionality(this.page);
+    }
+
+    removeDrivers(){
+      return new RemoveFunctionality(this.page);
     }
 
 }

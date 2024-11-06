@@ -3,7 +3,7 @@
         {
         
             "expectedUploadedFileName": "newNode Document.csv",
-            "filePath": "../testData/CorrectNE.csv",
+            "filePath": "../testData/10-14-2- OTHER (1).csv",
             "fileFormat":"csv",
             "pathOfIncorrectFile": "../testData/IncorrectNewNodeEdge.csv",
             "computeFailingFile": "../testData/ComputeFailingNE.csv",
@@ -11,7 +11,8 @@
             "expectedValidationMessage": "Validation successful",
             "expectedComputationSuccessfulMessage": "Recompute successful",
             "expectedComputationFailureMessage": "The driver tree failed to recompute. If you have any questions, please reach out to SSDM Support at ssdm_engineering_support@walmart.onmicrosoft.com for more information.",
-            "inputDriverName": "Optical Payroll Tax"
+            "inputDriverFirst": "CS Refunds",
+            "inputDriverSecond": "Optical Payroll Tax"
         }
     
 }
