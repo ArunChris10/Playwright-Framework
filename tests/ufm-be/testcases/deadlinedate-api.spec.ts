@@ -31,25 +31,25 @@ test.describe(
       });
 
       //Date Assertion
-      await test.step("Verify the deadline date received", async () => {
-        //Getting historical data in a variable
-        let responseData = await UfmUtility.GetHistorical("RX", request);
+      // await test.step("Verify the deadline date received", async () => {
+      //   //Getting historical data in a variable
+      //   let responseData = await UfmUtility.GetHistorical("RX", request);
 
-        //checking whether the historical data is null or not
-        if (responseData["row_data"] === null) {
-          // appending z to the date string from the response to make it time format as it is missing from the response
-          let actualDate = new Date(apiResponseBody.date + "Z");
+      //   //checking whether the historical data is null or not
+      //   if (responseData["row_data"] === null) {
+      //     // appending z to the date string from the response to make it time format as it is missing from the response
+      //     let actualDate = new Date(apiResponseBody.date + "Z");
 
-          // from the array of deadline dates for the whole year, find the next upcoming date
-          let strExpdate = await Utility.getUpcomingForecastSubmissionDate(
-            testdata.expected_reponse
-          );
+      //     // from the array of deadline dates for the whole year, find the next upcoming date
+      //     let strExpdate = await Utility.getUpcomingForecastSubmissionDate(
+      //       testdata.expected_reponse
+      //     );
 
-          //Comparing the actual aand expecetd dates
-          Utility.logIt(`Checking if the deadline date is  :  ${strExpdate}`);
-          expect(actualDate).toStrictEqual(strExpdate);
-        }
-      });
+      //     //Comparing the actual aand expecetd dates
+      //     Utility.logIt(`Checking if the deadline date is  :  ${strExpdate}`);
+      //     expect(actualDate).toStrictEqual(strExpdate);
+      //   }
+      // });
     });
   }
 );

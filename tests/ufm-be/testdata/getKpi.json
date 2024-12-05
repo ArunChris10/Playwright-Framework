@@ -17,10 +17,7 @@
         {
           "name": "Driver"
         },
-        {
-          "name": "202509",
-          "columnsMenuParams": "middleColumns"
-        },
+        { "templateIncludeeaders": "fixedRows" },
         {
           "name": "",
           "columnsMenuParams": "fixedColumns"

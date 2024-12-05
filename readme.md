@@ -19,8 +19,8 @@ For any help in playwright please refer the playwright documentation below
 
 - Install the required dependencies
 
-        npm install
-        npx playwright install     ----------version to be installed 1.42.0-------
+        npm install (with VPN ON)
+        npx playwright install  (with VPN OFF)  ----------version to be installed 1.42.0-------
 
 - To update playwright version use command -> npm install @playwright/test@versionnumber
 
@@ -48,7 +48,7 @@ For any help in playwright please refer the playwright documentation below
 - For Mac Run the below command after replacing the script name
 
           APP_NAME=UFM ENV=qa TEST=tag_name npm run <script-name-from-package-json>
-          Example- APP_NAME=UFM ENV=qa TEST=custom_tag npm run tests:ufm-tests
+          Example- APP_NAME=UFM ENV=qa TEST=custom_tag npm run tests:ufm-tests-be
 
 - For Windows if that above steps didn't work we need to provide the absolute path for playwright and env-cmd, Hence Run the below command after replacing the config file and project
 
@@ -90,6 +90,16 @@ For any help in playwright please refer the playwright documentation below
     ├── plawright.config.ts     # Config file
     ├── package.json            # dependencies and scripts to run
     └── ...
+
+### For SOT VALIDATION -
+
+        Two folder are created - validation-files , validation-output
+                - validation-files - Validation Files should be kept in this folder
+                                   - File should be in xlsx format and in defined format
+                                   - File name should be same as LOB Name we see on UI
+                                   - File should have Sheet 2 which should have all data
+
+                - validation-output - This will get the validation output which will be similar to validation file but will conatin IBG Value and Variance along with Diff %
 
 - To view report generated use command -> npx playwright show-report
 - For error of port already in use , kill port using command -> npx kill-port portNumber

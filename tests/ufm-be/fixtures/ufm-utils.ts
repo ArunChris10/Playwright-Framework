@@ -2,12 +2,13 @@ import debug from "debug";
 import fs from "fs";
 import { expect } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
-import { ForecastUtility } from "./forecast-utils";
 import commonData from "../constants/common.json";
 import filterData from "../testdata/filter-service.json";
-import hisTestdatafile from "../testdata/historical-forecast.json";
+import getKpiData from "../testdata/getKpi.json";
 import inputNodes from "../testdata/inputnodes.json";
 import endpoints from "../testdata/statusendpoints.json";
+import { ForecastUtility } from "./forecast-utils";
+import { SOTUtility } from "./SOTUtility";
 
 export class UfmUtility {
   private static readonly mappingfilepath: string =
@@ -92,22 +93,22 @@ export class UfmUtility {
    * @param {Request} request - the request object
    * @returns {Promise<object>} - the response body
    */
-  static async GetHistorical(forecastname: string, request) {
-    let responseData, responseBody;
+  // static async GetHistorical(forecastname: string, request) {
+  //   let responseData, responseBody;
 
-    const historicalEndpointURL = `${process.env.apiBaseURLUFM}${hisTestdatafile.endpoint}`;
-    const body = hisTestdatafile.sba_datas.filter(
-      (forecast) => forecast.forecastname === forecastname
-    );
+  //   const historicalEndpointURL = `${process.env.apiBaseURLUFM}${hisTestdatafile.endpoint}`;
+  //   const body = hisTestdatafile.sba_datas.filter(
+  //     (forecast) => forecast.forecastname === forecastname
+  //   );
 
-    responseData = await request.get(historicalEndpointURL, {
-      params: {
-        ...body["queryParams"],
-      },
-    });
-    responseBody = await responseData.json();
-    return responseBody;
-  }
+  //   responseData = await request.get(historicalEndpointURL, {
+  //     params: {
+  //       ...body["queryParams"],
+  //     },
+  //   });
+  //   responseBody = await responseData.json();
+  //   return responseBody;
+  // }
 
   /**
    * This method will list the progress tracker and give you status of LOB or BA based on which screen is passed in argument
@@ -249,17 +250,30 @@ export class UfmUtility {
    * @param {Request} request - The request object.
    * @returns {Promise<string[]>} - A promise that resolves to an array of input node names.
    */
-  static async getInputNodelist(lobName, request) {
+  static async getDriverList(lobName, driverType, request, nexusTokens = "") {
     const endpointURL = `${process.env.apiBaseURLUFM}${inputNodes.endpoint}`;
+    let response;
 
     Utility.logIt(`Find input nodes for ${lobName} scenario`);
     inputNodes.payloads.dim_val_id = await UfmUtility.getMapping(
       lobName,
       "dim_val_id"
     );
-    const response = await request.post(endpointURL, {
-      data: inputNodes.payloads,
-    });
+    if (driverType == "Input")
+      inputNodes.payloads.driver_type = commonData.Input_Driver_Type;
+    else inputNodes.payloads.driver_type = commonData.All_Driver_Type;
+    if (nexusTokens == "") {
+      response = await request.post(endpointURL, {
+        data: inputNodes.payloads,
+      });
+    } else {
+      response = await request.post(endpointURL, {
+        headers: {
+          Authorization: nexusTokens,
+        },
+        data: inputNodes.payloads,
+      });
+    }
     // asserting the response
     await expect.soft(response).toBeOK();
     let responseBody = await response.json();
@@ -333,8 +347,11 @@ export class UfmUtility {
         response.rowData[j].forecastStatus != commonData.BA_Review
       ) {
         if (
-          (await ForecastUtility.countOfScenario(lobName, request)) ==
-          commonData.MAX_SCENARIO_COUNT
+          (await ForecastUtility.countOfScenario(
+            lobName,
+            process.env.ufmUser,
+            request
+          )) == commonData.MAX_SCENARIO_COUNT
         ) {
           //Deleting forecast created by logged in user
           await ForecastUtility.deleteAllforecastofUser(
@@ -410,5 +427,90 @@ export class UfmUtility {
         );
       }
     }
+  }
+  static async filterPayload(filtersSelectedArr: any) {
+    const filterParentIdMappings = [
+      {
+        dimId: commonData.CHANNEL,
+        parentDimId: commonData["CHANNEL GROUP"], // Channel Group and Channel
+      },
+      {
+        dimId: commonData.DEPARTMENT,
+        parentDimId: commonData.SBU, // SBU and Department
+      },
+    ];
+
+    const getFilteredParams = (filtersSelectedArr = []) => {
+      if (filtersSelectedArr.length === 0) return [];
+
+      const filterParams: any = [];
+      const filterSelectionObj = filtersSelectedArr.map((filterObj) =>
+        Object.assign({}, filterObj)
+      ) as { dim_id: number; dim_val_ids: number[]; selectedIds: any[] }[];
+
+      filterSelectionObj.sort((first, second) => second.dim_id - first.dim_id);
+      filterSelectionObj.forEach((selectedFilter) => {
+        const mappedRecord = filterParentIdMappings.find(
+          (item) => item.dimId === selectedFilter.dim_id
+        );
+        if (mappedRecord) {
+          const parentRecord = filterParams.find(
+            (item) => item.dim_id === mappedRecord.parentDimId
+          );
+          if (parentRecord) {
+            parentRecord.children.push({
+              dim_id: selectedFilter.dim_id,
+              dim_val_ids: selectedFilter.selectedIds.map((v) => v.id),
+              children: [],
+            });
+          } else {
+            filterParams.push({
+              dim_id: selectedFilter.dim_id,
+              dim_val_ids: selectedFilter.selectedIds.map((v) => v.id),
+              children: [],
+            });
+          }
+        } else {
+          filterParams.push({
+            dim_id: selectedFilter.dim_id,
+            dim_val_ids: selectedFilter.selectedIds.map((v) => v.id),
+            children: [],
+          });
+        }
+      });
+      // console.log("filterParams", filterParams);
+      return filterParams;
+    };
+
+    return getFilteredParams(filtersSelectedArr);
+  }
+
+  static async kpiPayload(
+    lobName,
+    scenario_details,
+    filter = [],
+    monthYear,
+    inputNodes
+  ) {
+    let input_nodes = new Map(
+      inputNodes.map((node) => [node.node_name, node.node_var_name])
+    );
+
+    const nodes: any = Array.from(input_nodes.values());
+
+    getKpiData.payloads.scenario_id = scenario_details["scenarioId"];
+    getKpiData.payloads.scenario_version = scenario_details["scenarioVersion"];
+
+    getKpiData.payloads.dim_val_id = await UfmUtility.getMapping(
+      lobName,
+      "dim_val_id"
+    );
+    getKpiData.payloads.additional_filters.template_include_headers[1] =
+      await SOTUtility.templateIncludeHeaders(monthYear);
+    getKpiData.payloads.additional_filters.month = monthYear;
+
+    getKpiData.payloads.additional_filters.nodes = nodes;
+    getKpiData.payloads.filters = filter;
+    return getKpiData.payloads;
   }
 }

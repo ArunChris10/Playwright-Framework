@@ -21,8 +21,11 @@ lobList.forEach((lobName) => {
       }) => {
         //Delete all created forecast by automation user if count is === MAX_SCENARIO_COUNT
         if (
-          (await ForecastUtility.countOfScenario(lobName, request)) ==
-          commonData.MAX_SCENARIO_COUNT
+          (await ForecastUtility.countOfScenario(
+            lobName,
+            process.env.ufmUser,
+            request
+          )) == commonData.MAX_SCENARIO_COUNT
         ) {
           await ForecastUtility.deleteAllforecastofUser(
             request,

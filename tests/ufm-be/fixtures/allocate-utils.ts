@@ -95,7 +95,7 @@ export class AllocationUtility {
     data[monthYear] = cellValue;
 
     //Get all input node of LOB
-    let inputNodes = await UfmUtility.getInputNodelist(lobName, request);
+    let inputNodes = await UfmUtility.getDriverList(lobName, "Input", request);
 
     for (const inputNode of inputNodes) {
       const { node_var_name, node_grain } = inputNode;

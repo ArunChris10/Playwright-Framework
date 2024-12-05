@@ -15,7 +15,8 @@ setup(
   "Getting token authenticate UFM Apis",
   { tag: "@UFM , @IBG " },
   async ({ request }) => {
+    await Utility.logIt("Logging in with user -> " + process.env.ufmUser);
     await Utility.getNexusFakeToken(process.env.ufmUser + "", request);
-    await Utility.setmappings(request);
+    //await Utility.setmappings(request);
   }
 );

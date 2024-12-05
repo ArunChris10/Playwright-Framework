@@ -1,16 +1,20 @@
 import { test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import testdatafile from "../testdata/mapping-api.json";
+import usersData from "../constants/ufm_users.json";
 
 test.describe(
   "Validating the dimension mapping details",
-  { tag: "@Smoke @Regression @mapping" },
+  { tag: "@Smoke @Regression @mapping @perf" },
   () => {
     // API endpoint URL
     const endpointURL = `${process.env.apiBaseURLUFM}${testdatafile.endpoint}`;
     Utility.logIt(endpointURL);
+    let userList = usersData.users;
+      userList.forEach(async (user) => 
+  {
 
-    test("Checking the dimension mapping API for All dim grp ids", async ({
+    test(`Checking the dimension mapping API for All dim grp ids for ${user}`, async ({
       request,
     }) => {
       //get request for the dimension mapping details includes all dim group ids
@@ -18,10 +22,14 @@ test.describe(
         Utility.logIt(
           "Make a Get Request for dimension mapping Details for all dim group ids"
         );
+        let nexusTokens = await Utility.getNexusFakeToken(user, request);
         //API Request
         const responseData = await request.get(endpointURL, {
           params: {
-            dimension_group_id: testdatafile.dimension_group_id,
+            dimension_group_id: testdatafile.dimension_group_id
+          },
+          headers: {
+            Authorization: nexusTokens,
           },
         });
         //Extracting the response body
@@ -47,4 +55,7 @@ test.describe(
     //   });
     // });
   }
+)
+}
+
 );

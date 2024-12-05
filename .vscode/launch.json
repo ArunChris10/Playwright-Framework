@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node-terminal",
+            "request": "launch",
+            "name": "runTest",
+            "command": "npm run tests:ufm-tests-be",
+            "env": {
+                "APP_NAME": "UFM",
+                "ENV": "stg",
+                "TEST": "custom_tag"
+            }
+        }
+    ]
+}

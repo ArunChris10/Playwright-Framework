@@ -9,6 +9,7 @@ import usersNexusFormat from "../testdata/users-nexus-format.json";
 import usersIBGFormat from "../testdata/users.json";
 import { Home } from "../pages/home.page";
 import { LoginPage } from "../pages/login.page";
+import excelToJson from "convert-excel-to-json";
 
 export class Utility {
   private static readonly dir: string = "./test-results/logs/";
@@ -140,9 +141,10 @@ export class Utility {
    * @return {Promise<string>} A promise that resolves to the token.
    */
   static async getNexusFakeToken(userId: string, request) {
-    const rawdata = fs.existsSync(this.nexusTokenFilePath)
-      ? fs.readFileSync(this.nexusTokenFilePath, "utf-8")
-      : "{}";
+    // const rawdata = fs.existsSync(this.nexusTokenFilePath)
+    //   ? fs.readFileSync(this.nexusTokenFilePath, "utf-8")
+    //   : "{}";
+    const rawdata = "{}";
     const parsedData: Object = JSON.parse(rawdata);
     if (!parsedData.hasOwnProperty(userId)) {
       parsedData[userId] = await this.fetchNexusFakeTokens(userId, request);
@@ -155,7 +157,6 @@ export class Utility {
     nexusTokens = `Bearer ` + nexusTokens;
     return nexusTokens;
   }
-
   /**
    * Retrieves the fake token for the given user ID from the ibgTokenFilePath.
    *
@@ -561,5 +562,52 @@ export class Utility {
       fs.unlinkSync(downloadPath);
     }
     return !fs.existsSync(downloadPath);
+  }
+
+  /**
+   * Reads a sheet from an Excel file and returns the result as a JSON file.
+   *
+   * @param {string} filepath - The path of the Excel file.
+   * @param {string} sheetName - The name of the sheet to read.
+   * @return {Promise<object>} A Promise that resolves with the JSON object.
+   */
+  public static async readExcelreturnJson(filepath: string, sheetName: string) {
+    const result = excelToJson({
+      sourceFile: filepath,
+      header: {
+        rows: 2,
+      },
+      //range: "B:K",
+      columnToKey: {
+        // B: "Node ID",
+        // C: "Node Name",
+        // D: "Calc/Input",
+        // E: "Granularity",
+        // G: "Entity",
+        // H: "Channel",
+        // I: "SBU",
+        // J: "Department",
+        // K: "FY25 M1",
+        "*": "{{columnHeader}}",
+      },
+      sheets: [sheetName],
+    });
+
+    //await fs.promises.writeFile(writepath, JSON.stringify(result));
+    return JSON.parse(JSON.stringify(result));
+  }
+
+  /**
+   * Returns an array of fiscal year-month combinations starting from the next year.
+   *
+   * @return {Promise<string[]>} An array of strings representing fiscal year-month combinations.
+   */
+  static async getFiscalYearMonthList() {
+    const currentYear = new Date().getFullYear() + 1;
+    const monthArray = Array.from(
+      { length: 12 },
+      (_, i) => `${currentYear}${(i + 1).toString().padStart(2, "0")}`
+    );
+    return monthArray;
   }
 }

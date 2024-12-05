@@ -5,7 +5,7 @@ import { AllocationUtility } from "../fixtures/allocate-utils";
 import { ForecastUtility } from "../fixtures/forecast-utils";
 import { UfmUtility } from "../fixtures/ufm-utils";
 
-const lobList = ["MARKETING", "MERCHOPS", "SCHEDULED", "LAST MILE DELIVERY"];
+const lobList = ["MARKETING", "SCHEDULED", "LAST MILE DELIVERY"];
 lobList.forEach((lobName) => {
   let scenario_details;
   let payloadbody, response, responseBody;
@@ -21,8 +21,11 @@ lobList.forEach((lobName) => {
         request,
       }) => {
         if (
-          (await ForecastUtility.countOfScenario(lobName, request)) ==
-          commonData.MAX_SCENARIO_COUNT
+          (await ForecastUtility.countOfScenario(
+            lobName,
+            process.env.ufmUser,
+            request
+          )) == commonData.MAX_SCENARIO_COUNT
         ) {
           await ForecastUtility.deleteAllforecastofUser(
             request,

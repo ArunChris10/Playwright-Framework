@@ -8,7 +8,8 @@ node_modules/
 /allure-results/
 /allure-report/
 package-lock.json
-.DS_Store
 /secrets/*
-.vscode/launch.json
 /reports
+.DS_Store
+.vscode
+.vscode/launch.json

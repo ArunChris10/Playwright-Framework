@@ -5,7 +5,7 @@ import { ForecastCalendarUtil } from "../fixtures/forecastCalendar-utils";
 
 test.describe(
   "Verify forecast calendar APIs",
-  { tag: "@Smoke @Regression @forecastCalendar" },
+  { tag: "@Regression @forecastCalendar" },
   () => {
     test.describe.configure({ timeout: 120_000, mode: "serial" });
     let fcst_id = "BCB4590C-1DD7-4B08-BD76-ABA5B13015F6";

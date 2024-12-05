@@ -14,6 +14,32 @@
   },
   {
     "parent_id": 130001,
+    "child_id": 120009,
+    "dimension_group_id": 7,
+    "parent_dim_id": 13,
+    "parent_name": "WMT_US_SEGMENT_FINANCE",
+    "parent_dim_name": "SEGMENT",
+    "parent_display_flag": true,
+    "child_dim_id": 12,
+    "child_name": "MERCHANDISING FINANCE",
+    "child_dim_name": "PBA",
+    "child_display_flag": true
+  },
+  {
+    "parent_id": 130001,
+    "child_id": 120010,
+    "dimension_group_id": 7,
+    "parent_dim_id": 13,
+    "parent_name": "WMT_US_SEGMENT_FINANCE",
+    "parent_dim_name": "SEGMENT",
+    "parent_display_flag": true,
+    "child_dim_id": 12,
+    "child_name": "MERCHANDISING OPERATIONS",
+    "child_dim_name": "PBA",
+    "child_display_flag": true
+  },
+  {
+    "parent_id": 130001,
     "child_id": 120006,
     "dimension_group_id": 7,
     "parent_dim_id": 13,
@@ -91,32 +117,6 @@
     "child_display_flag": true
   },
   {
-    "parent_id": 130001,
-    "child_id": 120009,
-    "dimension_group_id": 7,
-    "parent_dim_id": 13,
-    "parent_name": "WMT_US_SEGMENT_FINANCE",
-    "parent_dim_name": "SEGMENT",
-    "parent_display_flag": true,
-    "child_dim_id": 12,
-    "child_name": "MERCHANDISING FINANCE",
-    "child_dim_name": "PBA",
-    "child_display_flag": true
-  },
-  {
-    "parent_id": 130001,
-    "child_id": 120010,
-    "dimension_group_id": 7,
-    "parent_dim_id": 13,
-    "parent_name": "WMT_US_SEGMENT_FINANCE",
-    "parent_dim_name": "SEGMENT",
-    "parent_display_flag": true,
-    "child_dim_id": 12,
-    "child_name": "MERCHANDISING OPERATIONS",
-    "child_dim_name": "PBA",
-    "child_display_flag": true
-  },
-  {
     "parent_id": 120010,
     "child_id": 110029,
     "dimension_group_id": 7,
@@ -165,6 +165,32 @@
     "parent_display_flag": true,
     "child_dim_id": 11,
     "child_name": "UNSCHEDULED AND CORE",
+    "child_dim_name": "SBA",
+    "child_display_flag": true
+  },
+  {
+    "parent_id": 120007,
+    "child_id": 110033,
+    "dimension_group_id": 7,
+    "parent_dim_id": 12,
+    "parent_name": "SUPPLY CHAIN",
+    "parent_dim_name": "PBA",
+    "parent_display_flag": true,
+    "child_dim_id": 11,
+    "child_name": "IB TRANSPORTATION",
+    "child_dim_name": "SBA",
+    "child_display_flag": true
+  },
+  {
+    "parent_id": 120007,
+    "child_id": 110034,
+    "dimension_group_id": 7,
+    "parent_dim_id": 12,
+    "parent_name": "SUPPLY CHAIN",
+    "parent_dim_name": "PBA",
+    "parent_display_flag": true,
+    "child_dim_id": 11,
+    "child_name": "OB TRANSPORTATION",
     "child_dim_name": "SBA",
     "child_display_flag": true
   },

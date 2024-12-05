@@ -1,8 +1,14 @@
 {
   "users": [
-    "LB-ibg-seg-cmn",
+    "LB-ibg-ufm-auto",
+    "LB-ibg-user1-auto",
+    "LB-ibg-user2-auto",
+    "l0p07dx",
     "LB-ibg-lob-cmn",
-    "LB-ibg-ba-cmn",
-    "LB-ibg-ufm-auto"
+    "LB-ibg-user3-auto",
+    "LB-ibg-user4-auto",
+    "LB-ibg-user5-auto",
+    "LB-ibg-user6-auto",
+    "LB-ibg-user7-auto"
   ]
 }

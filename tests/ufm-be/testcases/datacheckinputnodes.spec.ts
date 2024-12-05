@@ -27,8 +27,11 @@ lobList.forEach((lobName) => {
 
         await test.step(`Get Scenario details for ${lobName} forecast if present or create new`, async () => {
           if (
-            (await ForecastUtility.countOfScenario(lobName, request)) ==
-            commonData.MAX_SCENARIO_COUNT
+            (await ForecastUtility.countOfScenario(
+              lobName,
+              process.env.ufmUser,
+              request
+            )) == commonData.MAX_SCENARIO_COUNT
           ) {
             await ForecastUtility.deleteAllforecastofUser(
               request,
@@ -45,8 +48,9 @@ lobList.forEach((lobName) => {
         });
 
         await test.step(`Call get kpi and get result for ${lobName} lobName`, async () => {
-          const inputNodes = await UfmUtility.getInputNodelist(
+          const inputNodes = await UfmUtility.getDriverList(
             lobName,
+            "Input",
             request
           );
 

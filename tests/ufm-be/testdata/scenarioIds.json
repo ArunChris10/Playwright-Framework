@@ -1,9 +1,10 @@
 {
   "endpoint": "/scenario/compute",
   "payloads": {
-    "Primary": { "scenario_id": 12911706193644 },
-    "StagePrimary": { "scenario_id": 12621706600235 },
-    "DevPrimary": { "scenario_id": 13461708672531 },
+    "qaPrimary": { "scenario_id": 12911706193644 },
+    "perfPrimary": { "scenario_id": 12621706600235 },
+    "stgPrimary": { "scenario_id": 12621706600235 },
+    "devPrimary": { "scenario_id": 13461708672531 },
     "Segment_Finance": { "scenario_id": 12921706193757 },
     "H&W": { "scenario_id": 12981706197393 },
     "BA_Merch": { "scenario_id": 12931706193776 },

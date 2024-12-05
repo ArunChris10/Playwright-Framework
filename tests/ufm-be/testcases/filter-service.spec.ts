@@ -2,11 +2,12 @@ import debug from "debug";
 import { expect, test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import testdata from "../testdata/filter-service.json";
+import usersData from "../constants/ufm_users.json";
 
 testdata.payloads.forEach((payload) => {
   test.describe(
     "Verify the Filter API for " + payload.filter_name,
-    { tag: "@Smoke @filter @Regression" },
+    { tag: "@Smoke @filters @Regression" },
     () => {
       test.describe.configure({ mode: "serial" });
 
@@ -16,24 +17,32 @@ testdata.payloads.forEach((payload) => {
       // API endpoint URL
       const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
       Utility.logIt(endpointURL);
+ 
       const queryParams = {
         screen_id: payload.screen_id,
         type_id: payload.filter_type,
         dim_id: payload.dim_id,
         dim_val_id: payload.dim_val_id,
       };
+      let userList = usersData.users;
+      userList.forEach(async (user) => 
+  {
 
       test(
-        "Verify if the user is able to @saveFilter with " + payload.filter_name,
-        async ({ context }) => {
+        `Verify if the user is able to @saveFilter with for ${user}` + payload.filter_name,
+        async ({ request, }) => {
           //post request for saving the filter
           await test.step("Make a Post Request for Saving the Filter", async () => {
             Utility.logIt("Make a Post Request for Saving the Filter");
+            let nexusTokens = await Utility.getNexusFakeToken(user, request);
             payload.filter_name =
               payload.filter_name + new Date().toLocaleString();
             Utility.logIt(payload);
-            apiResponse = await context.request.post(endpointURL, {
+            apiResponse = await request.post(endpointURL, {
               data: payload,
+              headers: {
+                Authorization: nexusTokens,
+              },
             });
             apiResponseBody = await apiResponse.json();
             Utility.logIt(JSON.stringify(apiResponseBody));
@@ -48,13 +57,17 @@ testdata.payloads.forEach((payload) => {
       );
 
       test(
-        "Verify if the user is not able to save a @duplicateFilter with " +
+        `Verify if the user is not able to save a @duplicateFilter with ${user}` +
           payload.filter_name,
-        async ({ context }) => {
+        async ({ request }) => {
           //post request for saving the filter
           await test.step("Make a Post Request for Saving the Filter", async () => {
-            apiResponse = await context.request.post(endpointURL, {
+            let nexusTokens = await Utility.getNexusFakeToken(user, request);
+            apiResponse = await request.post(endpointURL, {
               data: payload,
+              headers: {
+                Authorization: nexusTokens,
+              },
             });
             apiResponseBody = await apiResponse.json();
             Utility.logIt(JSON.stringify(apiResponseBody));
@@ -71,13 +84,17 @@ testdata.payloads.forEach((payload) => {
       );
 
       test(
-        "Verify if the user is able to see the saved filter from @getFilter with " +
+        `Verify if the user is able to see the saved filter from @getFilter with ${user}` +
           payload.filter_name,
         async ({ request }) => {
           //get request to fetch the available filters
           await test.step("Fetch the filters available for the screen", async () => {
+            let nexusTokens = await Utility.getNexusFakeToken(user, request);
             apiResponse = await request.get(endpointURL, {
               params: queryParams,
+              headers: {
+                Authorization: nexusTokens,
+              },
             });
             apiResponseBody = await apiResponse.json();
             Utility.logIt(
@@ -107,7 +124,7 @@ testdata.payloads.forEach((payload) => {
         }
       );
       test(
-        "Verify if the user is able to see the saved filter by filterid @getFilterbyfilterid with " +
+        `Verify if the user is able to see the saved filter by filterid @getFilterbyfilterid with ${user}` +
           payload.filter_name,
         async ({ request }) => {
           //get request to fetch the filter by filter id
@@ -116,8 +133,12 @@ testdata.payloads.forEach((payload) => {
           Utility.logIt(endpointURL);
 
           await test.step("Fetch the filter by filter id for the screen", async () => {
+            let nexusTokens = await Utility.getNexusFakeToken(user, request);
             apiResponse = await request.get(`${endpointURL}`, {
               params: queryParams,
+              headers: {
+                Authorization: nexusTokens,
+              },
             });
             apiResponseBody = await apiResponse.json();
             Utility.logIt(
@@ -137,15 +158,19 @@ testdata.payloads.forEach((payload) => {
       );
 
       test(
-        "Verify if the user is able to @deleteFilter with " +
+        `Verify if the user is able to @deleteFilter with ${user}` +
           payload.filter_name,
         async ({ request }) => {
           // delete request to delete the filter
           await test.step("Delete the created filter", async () => {
+            let nexusTokens = await Utility.getNexusFakeToken(user, request);
             apiResponse = await request.delete(endpointURL, {
               params: { filter_id: filter_id },
               data: {
                 ...payload,
+                headers: {
+                  Authorization: nexusTokens,
+                },
               },
             });
             apiResponseBody = await apiResponse.json();
@@ -192,4 +217,5 @@ testdata.payloads.forEach((payload) => {
       });
     }
   );
+});
 });

@@ -26,12 +26,13 @@ export class ForecastUtility {
     Utility.logIt(`Creating Scenario for ${lobName}`);
     const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}`;
     Utility.logIt(endpointURL);
+    let PrimaryId = process.env.envName + "Primary";
     let payload = {
       type: commonData.type,
       source: {
         scenarios: [
           {
-            scenario_id: scenarioIds.payloads.Primary.scenario_id,
+            scenario_id: scenarioIds.payloads[PrimaryId].scenario_id,
           },
         ],
       },
@@ -221,15 +222,14 @@ export class ForecastUtility {
    * @param {Request} request - The request object.
    * @return {Promise<number>} A promise that resolves to the count of forecast scenarios.
    */
-  static async countOfScenario(lob, request) {
+  static async countOfScenario(lob, user, request) {
     const currentForecastList = await UfmUtility.getCurrentForecastList(
       lob,
       request
     );
     const dim_val_id = await UfmUtility.getMapping(lob, "dim_val_id");
     const lobForecastlist = currentForecastList.filter(
-      (i) =>
-        i["lineOfBusiness"] === dim_val_id && i["owner"] == process.env.ufmUser
+      (i) => i["lineOfBusiness"] === dim_val_id && i["owner"] == user
     );
     return lobForecastlist.length;
   }

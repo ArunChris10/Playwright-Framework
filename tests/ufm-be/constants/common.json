@@ -33,5 +33,27 @@
   "Equal Distribution": 31,
   "Percent time rolling": 32,
 
-  "MAX_SCENARIO_COUNT": 5
+  "MAX_SCENARIO_COUNT": 5,
+
+  "DIMENSIONS": [
+    "Channel Group",
+    "Channel",
+    "SBU",
+    "Department",
+    "Entity",
+    "Location",
+    "REPORTING",
+    "BUSINESS AREA"
+  ],
+  "CHANNEL GROUP": 7,
+  "CHANNEL": 6,
+  "SBU": 2,
+  "DEPARTMENT": 1,
+  "REPORTING": 14,
+  "BUSINESS AREA": 15,
+  "LOCATION": 16,
+  "ENTITY": 17,
+
+  "Input_Driver_Type": 49,
+  "All_Driver_Type": 48
 }
