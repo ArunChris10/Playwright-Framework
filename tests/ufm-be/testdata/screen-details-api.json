@@ -45,6 +45,12 @@
         "screen_sect_id": 204,
         "screen_id": 2,
         "screen_sec_name": "Segment"
+      },
+      {
+        "screen_sect_id": 301,
+        "screen_name": "DS_Admin",
+        "screen_id": 3,
+        "screen_sec_name": "DS_Forecast"
       }
     ]
   }

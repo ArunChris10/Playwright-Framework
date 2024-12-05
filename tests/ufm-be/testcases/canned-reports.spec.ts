@@ -10,7 +10,7 @@ const BAName = BAList.PBAList;
 BAName.forEach((BA) => {
   test.describe(
     "Verify the canned reports API for " + BA,
-    { tag: "@Regression @canned_reports" },
+    { tag: "@Smoke @Regression @canned_reports" },
     () => {
       test.describe.configure({ timeout: 240_000, mode: "parallel" });
       let responseBody;

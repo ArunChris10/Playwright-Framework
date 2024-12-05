@@ -17,7 +17,7 @@ testdata.payloads.forEach((payload) => {
       // API endpoint URL
       const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
       Utility.logIt(endpointURL);
- 
+
       const queryParams = {
         screen_id: payload.screen_id,
         type_id: payload.filter_type,
@@ -25,197 +25,198 @@ testdata.payloads.forEach((payload) => {
         dim_val_id: payload.dim_val_id,
       };
       let userList = usersData.users;
-      userList.forEach(async (user) => 
-  {
-
-      test(
-        `Verify if the user is able to @saveFilter with for ${user}` + payload.filter_name,
-        async ({ request, }) => {
-          //post request for saving the filter
-          await test.step("Make a Post Request for Saving the Filter", async () => {
-            Utility.logIt("Make a Post Request for Saving the Filter");
-            let nexusTokens = await Utility.getNexusFakeToken(user, request);
-            payload.filter_name =
-              payload.filter_name + new Date().toLocaleString();
-            Utility.logIt(payload);
-            apiResponse = await request.post(endpointURL, {
-              data: payload,
-              headers: {
-                Authorization: nexusTokens,
-              },
-            });
-            apiResponseBody = await apiResponse.json();
-            Utility.logIt(JSON.stringify(apiResponseBody));
-          });
-
-          //Assertion
-          await test.step("Check if the response message is success", async () => {
-            expect(apiResponse).toBeOK();
-            expect(apiResponseBody).toEqual(testdata.success_message);
-          });
-        }
-      );
-
-      test(
-        `Verify if the user is not able to save a @duplicateFilter with ${user}` +
-          payload.filter_name,
-        async ({ request }) => {
-          //post request for saving the filter
-          await test.step("Make a Post Request for Saving the Filter", async () => {
-            let nexusTokens = await Utility.getNexusFakeToken(user, request);
-            apiResponse = await request.post(endpointURL, {
-              data: payload,
-              headers: {
-                Authorization: nexusTokens,
-              },
-            });
-            apiResponseBody = await apiResponse.json();
-            Utility.logIt(JSON.stringify(apiResponseBody));
-          });
-
-          //Assertion
-          await test.step("Check the response message for duplicate filter", async () => {
-            expect(apiResponse).toBeOK();
-            expect(apiResponseBody).toEqual(
-              testdata.duplicate_filter_name_response
-            );
-          });
-        }
-      );
-
-      test(
-        `Verify if the user is able to see the saved filter from @getFilter with ${user}` +
-          payload.filter_name,
-        async ({ request }) => {
-          //get request to fetch the available filters
-          await test.step("Fetch the filters available for the screen", async () => {
-            let nexusTokens = await Utility.getNexusFakeToken(user, request);
-            apiResponse = await request.get(endpointURL, {
-              params: queryParams,
-              headers: {
-                Authorization: nexusTokens,
-              },
-            });
-            apiResponseBody = await apiResponse.json();
-            Utility.logIt(
-              `Filter Response : ${JSON.stringify(apiResponseBody)}`
-            );
-            expect(apiResponse).toBeOK();
-          });
-
-          await test.step("Check if the created Filter is available in the results", async () => {
-            //extracting the filter names from the response into an Array
-            const filterNames: String[] = apiResponseBody.map(
-              (obj: any) => obj.filter_name
-            );
-            //Assertion
-            expect(filterNames).toContain(payload.filter_name);
-          });
-
-          //Extracting the Filter ID that has been created and storing it in the filter_id to use it in other testcases
-          await test.step("Save the Filter ID of the created filter", async () => {
-            apiResponseBody.forEach((filterJson) => {
-              if (filterJson.filter_name === payload.filter_name) {
-                filter_id = filterJson.filter_id;
-              }
-            });
-            Utility.logIt(`Filter Id : ${filter_id}`);
-          });
-        }
-      );
-      test(
-        `Verify if the user is able to see the saved filter by filterid @getFilterbyfilterid with ${user}` +
-          payload.filter_name,
-        async ({ request }) => {
-          //get request to fetch the filter by filter id
-
-          const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}${filter_id}`;
-          Utility.logIt(endpointURL);
-
-          await test.step("Fetch the filter by filter id for the screen", async () => {
-            let nexusTokens = await Utility.getNexusFakeToken(user, request);
-            apiResponse = await request.get(`${endpointURL}`, {
-              params: queryParams,
-              headers: {
-                Authorization: nexusTokens,
-              },
-            });
-            apiResponseBody = await apiResponse.json();
-            Utility.logIt(
-              `Filter Response : ${JSON.stringify(apiResponseBody)}`
-            );
-            expect(apiResponse).toBeOK();
-          });
-
-          await test.step("Check if the searched Filter is available in the results", async () => {
-            //Assertion
-            expect(apiResponseBody.filter_name).toContain(payload.filter_name);
-            expect(apiResponseBody.filter_id.toLowerCase()).toEqual(
-              `${filter_id.toLowerCase()}`
-            ); // check there is only 1 record in results
-          });
-        }
-      );
-
-      test(
-        `Verify if the user is able to @deleteFilter with ${user}` +
-          payload.filter_name,
-        async ({ request }) => {
-          // delete request to delete the filter
-          await test.step("Delete the created filter", async () => {
-            let nexusTokens = await Utility.getNexusFakeToken(user, request);
-            apiResponse = await request.delete(endpointURL, {
-              params: { filter_id: filter_id },
-              data: {
-                ...payload,
+      userList.forEach(async (user) => {
+        test(
+          `Verify if the user is able to @saveFilter with for ${user}` +
+            payload.filter_name,
+          async ({ request }) => {
+            //post request for saving the filter
+            await test.step("Make a Post Request for Saving the Filter", async () => {
+              Utility.logIt("Make a Post Request for Saving the Filter");
+              let nexusTokens = await Utility.getNexusFakeToken(user, request);
+              payload.filter_name =
+                payload.filter_name + new Date().toLocaleString();
+              Utility.logIt(payload);
+              apiResponse = await request.post(endpointURL, {
+                data: payload,
                 headers: {
                   Authorization: nexusTokens,
                 },
-              },
+              });
+              apiResponseBody = await apiResponse.json();
+              Utility.logIt(JSON.stringify(apiResponseBody));
             });
-            apiResponseBody = await apiResponse.json();
-            debug.log(JSON.stringify(apiResponseBody));
-          });
-          // request assertion
-          await test.step("Check the response message for delete filter", async () => {
-            expect(apiResponse).toBeOK();
-            apiResponseBody = await apiResponse.json();
-            expect(apiResponseBody).toEqual(testdata.delete_message);
-          });
 
-          // Make sure the filter deleted successfully by checking the get filters call
-          await test.step("Get the Filters available for the screen", async () => {
-            apiResponse = await request.get(endpointURL, {
-              params: queryParams,
+            //Assertion
+            await test.step("Check if the response message is success", async () => {
+              expect(apiResponse).toBeOK();
+              expect(apiResponseBody).toEqual(testdata.success_message);
             });
-            apiResponseBody = await apiResponse.json();
-            Utility.logIt(
-              `Available Filters after delete : ${JSON.stringify(
-                apiResponseBody
-              )}`
-            );
-          });
-          // Checking the filterId is not present in the filters
-          await test.step("Check if the deleted filter is not available", async () => {
-            const filter_ids: String[] = apiResponseBody.map((obj: any) =>
-              obj.filter_id.toLowerCase()
-            );
-            expect(filter_ids).not.toContain(filter_id.toLowerCase());
-          });
-        }
-      );
+          }
+        );
 
-      test.afterAll("Remove the filters created", async ({ request }) => {
-        apiResponse = await request.delete(endpointURL, {
-          params: { filter_id: filter_id },
-          data: {
-            ...payload,
-          },
+        test(
+          `Verify if the user is not able to save a @duplicateFilter with ${user}` +
+            payload.filter_name,
+          async ({ request }) => {
+            //post request for saving the filter
+            await test.step("Make a Post Request for Saving the Filter", async () => {
+              let nexusTokens = await Utility.getNexusFakeToken(user, request);
+              apiResponse = await request.post(endpointURL, {
+                data: payload,
+                headers: {
+                  Authorization: nexusTokens,
+                },
+              });
+              apiResponseBody = await apiResponse.json();
+              Utility.logIt(JSON.stringify(apiResponseBody));
+            });
+
+            //Assertion
+            await test.step("Check the response message for duplicate filter", async () => {
+              expect(apiResponse).toBeOK();
+              expect(apiResponseBody).toEqual(
+                testdata.duplicate_filter_name_response
+              );
+            });
+          }
+        );
+
+        test(
+          `Verify if the user is able to see the saved filter from @getFilter with ${user}` +
+            payload.filter_name,
+          async ({ request }) => {
+            //get request to fetch the available filters
+            await test.step("Fetch the filters available for the screen", async () => {
+              let nexusTokens = await Utility.getNexusFakeToken(user, request);
+              apiResponse = await request.get(endpointURL, {
+                params: queryParams,
+                headers: {
+                  Authorization: nexusTokens,
+                },
+              });
+              apiResponseBody = await apiResponse.json();
+              Utility.logIt(
+                `Filter Response : ${JSON.stringify(apiResponseBody)}`
+              );
+              expect(apiResponse).toBeOK();
+            });
+
+            await test.step("Check if the created Filter is available in the results", async () => {
+              //extracting the filter names from the response into an Array
+              const filterNames: String[] = apiResponseBody.map(
+                (obj: any) => obj.filter_name
+              );
+              //Assertion
+              expect(filterNames).toContain(payload.filter_name);
+            });
+
+            //Extracting the Filter ID that has been created and storing it in the filter_id to use it in other testcases
+            await test.step("Save the Filter ID of the created filter", async () => {
+              apiResponseBody.forEach((filterJson) => {
+                if (filterJson.filter_name === payload.filter_name) {
+                  filter_id = filterJson.filter_id;
+                }
+              });
+              Utility.logIt(`Filter Id : ${filter_id}`);
+            });
+          }
+        );
+        test(
+          `Verify if the user is able to see the saved filter by filterid @getFilterbyfilterid with ${user}` +
+            payload.filter_name,
+          async ({ request }) => {
+            //get request to fetch the filter by filter id
+
+            const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}${filter_id}`;
+            Utility.logIt(endpointURL);
+
+            await test.step("Fetch the filter by filter id for the screen", async () => {
+              let nexusTokens = await Utility.getNexusFakeToken(user, request);
+              apiResponse = await request.get(`${endpointURL}`, {
+                params: queryParams,
+                headers: {
+                  Authorization: nexusTokens,
+                },
+              });
+              apiResponseBody = await apiResponse.json();
+              Utility.logIt(
+                `Filter Response : ${JSON.stringify(apiResponseBody)}`
+              );
+              expect(apiResponse).toBeOK();
+            });
+
+            await test.step("Check if the searched Filter is available in the results", async () => {
+              //Assertion
+              expect(apiResponseBody.filter_name).toContain(
+                payload.filter_name
+              );
+              expect(apiResponseBody.filter_id.toLowerCase()).toEqual(
+                `${filter_id.toLowerCase()}`
+              ); // check there is only 1 record in results
+            });
+          }
+        );
+
+        test(
+          `Verify if the user is able to @deleteFilter with ${user}` +
+            payload.filter_name,
+          async ({ request }) => {
+            // delete request to delete the filter
+            await test.step("Delete the created filter", async () => {
+              let nexusTokens = await Utility.getNexusFakeToken(user, request);
+              apiResponse = await request.delete(endpointURL, {
+                params: { filter_id: filter_id },
+                data: {
+                  ...payload,
+                  headers: {
+                    Authorization: nexusTokens,
+                  },
+                },
+              });
+              apiResponseBody = await apiResponse.json();
+              debug.log(JSON.stringify(apiResponseBody));
+            });
+            // request assertion
+            await test.step("Check the response message for delete filter", async () => {
+              expect(apiResponse).toBeOK();
+              apiResponseBody = await apiResponse.json();
+              expect(apiResponseBody).toEqual(testdata.delete_message);
+            });
+
+            // Make sure the filter deleted successfully by checking the get filters call
+            await test.step("Get the Filters available for the screen", async () => {
+              apiResponse = await request.get(endpointURL, {
+                params: queryParams,
+              });
+              apiResponseBody = await apiResponse.json();
+              Utility.logIt(
+                `Available Filters after delete : ${JSON.stringify(
+                  apiResponseBody
+                )}`
+              );
+            });
+            // Checking the filterId is not present in the filters
+            await test.step("Check if the deleted filter is not available", async () => {
+              const filter_ids: String[] = apiResponseBody.map((obj: any) =>
+                obj.filter_id.toLowerCase()
+              );
+              expect(filter_ids).not.toContain(filter_id.toLowerCase());
+            });
+          }
+        );
+
+        test.afterAll("Remove the filters created", async ({ request }) => {
+          apiResponse = await request.delete(endpointURL, {
+            params: { filter_id: filter_id },
+            data: {
+              ...payload,
+            },
+          });
+          apiResponseBody = await apiResponse.json();
+          debug.log(JSON.stringify(apiResponseBody));
         });
-        apiResponseBody = await apiResponse.json();
-        debug.log(JSON.stringify(apiResponseBody));
       });
     }
   );
-});
 });

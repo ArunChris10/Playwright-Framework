@@ -351,7 +351,7 @@ export class UfmUtility {
             lobName,
             process.env.ufmUser,
             request
-          )) == commonData.MAX_SCENARIO_COUNT
+          )) >= commonData.MAX_SCENARIO_COUNT
         ) {
           //Deleting forecast created by logged in user
           await ForecastUtility.deleteAllforecastofUser(

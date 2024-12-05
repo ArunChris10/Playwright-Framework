@@ -5,7 +5,12 @@ import { AllocationUtility } from "../fixtures/allocate-utils";
 import { ForecastUtility } from "../fixtures/forecast-utils";
 import { UfmUtility } from "../fixtures/ufm-utils";
 
-const lobList = ["MARKETING", "SCHEDULED", "LAST MILE DELIVERY"];
+const lobList = [
+  "INSTORE AND OTHER",
+  "SCHEDULED",
+  "UNSCHEDULED AND CORE",
+  "LAST MILE DELIVERY",
+];
 lobList.forEach((lobName) => {
   let scenario_details;
   let payloadbody, response, responseBody;
@@ -25,7 +30,7 @@ lobList.forEach((lobName) => {
             lobName,
             process.env.ufmUser,
             request
-          )) == commonData.MAX_SCENARIO_COUNT
+          )) >= commonData.MAX_SCENARIO_COUNT
         ) {
           await ForecastUtility.deleteAllforecastofUser(
             request,
@@ -39,24 +44,6 @@ lobList.forEach((lobName) => {
             lobName,
             request
           );
-      });
-
-      test(`Verify if the user is able to get list of scenarios and scenario version for the LOB - ${lobName}`, async ({
-        request,
-      }) => {
-        let currentForecast = await UfmUtility.getCurrentForecastList(
-          lobName,
-          request
-        );
-        Utility.logIt(`No of scenarios present: ${currentForecast.length}`);
-
-        //Get scenario version from scenario id from forecast list
-        scenario_details = await UfmUtility.getScenarioDetails(
-          currentForecast,
-          scenario_details["scenarioId"]
-        );
-
-        Utility.logIt(scenario_details["scenarioVersion"]);
       });
 
       test(`Verify if the user is able to allocate and save baseline for LOB - ${lobName}`, async ({

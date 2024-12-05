@@ -1,9 +1,9 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import commonData from "../constants/common.json";
-import { AdjustmentUtility } from "../fixtures/adjustment-utils";
-import { ForecastUtility } from "../fixtures/forecast-utils";
-import { UfmUtility } from "../fixtures/ufm-utils";
-import adjustmentData from "../testdata/adjustment.json";
+import { expect, test } from "../tests/common/fixtures/test-hook";
+import commonData from "../tests/ufm-be/constants/common.json";
+import { AdjustmentUtility } from "../tests/ufm-be/fixtures/adjustment-utils";
+import { ForecastUtility } from "../tests/ufm-be/fixtures/forecast-utils";
+import { UfmUtility } from "../tests/ufm-be/fixtures/ufm-utils";
+import adjustmentData from "../tests/ufm-be/testdata/adjustment.json";
 
 const lobList = ["FUEL"];
 
@@ -25,7 +25,7 @@ lobList.forEach((lobName) => {
             lobName,
             process.env.ufmUser,
             request
-          )) == commonData.MAX_SCENARIO_COUNT
+          )) >= commonData.MAX_SCENARIO_COUNT
         ) {
           await ForecastUtility.deleteAllforecastofUser(
             request,

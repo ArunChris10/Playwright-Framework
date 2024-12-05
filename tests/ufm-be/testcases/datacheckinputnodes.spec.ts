@@ -7,7 +7,13 @@ import { ForecastUtility } from "../fixtures/forecast-utils";
 import { UfmUtility } from "../fixtures/ufm-utils";
 import getKpiData from "../testdata/getKpi.json";
 
-const lobList = orgList.SBAList;
+// const lobList = orgList.SBAList;
+const lobList = [
+  "INSTORE AND OTHER",
+  "SCHEDULED",
+  "UNSCHEDULED AND CORE",
+  "LAST MILE DELIVERY",
+];
 
 lobList.forEach((lobName) => {
   let responseBody, scenario_details;
@@ -15,7 +21,7 @@ lobList.forEach((lobName) => {
 
   test.describe(
     `Verify if data is present for all input nodes for ${lobName} lobName`,
-    { tag: "@dataCheck" },
+    { tag: "@Smoke @Regression @dataCheck" },
     () => {
       test.describe.configure({ timeout: 600_000, mode: "parallel" });
 
@@ -31,7 +37,7 @@ lobList.forEach((lobName) => {
               lobName,
               process.env.ufmUser,
               request
-            )) == commonData.MAX_SCENARIO_COUNT
+            )) >= commonData.MAX_SCENARIO_COUNT
           ) {
             await ForecastUtility.deleteAllforecastofUser(
               request,

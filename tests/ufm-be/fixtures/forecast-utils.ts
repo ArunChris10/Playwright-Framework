@@ -133,8 +133,8 @@ export class ForecastUtility {
     await currentForecast.filter(function (i) {
       if (
         i["owner"] == userId &&
-        (i["forecastStatus"] == commonData.Draft ||
-          i["forecastStatus"] == commonData.Change_Requested) &&
+        (i["forecastStatus"]["statusCode"] == commonData.Draft ||
+          i["forecastStatus"]["statusCode"] == commonData.Change_Requested) &&
         i["lineOfBusiness"] == lobId
       ) {
         Utility.logIt(i["scenarioVersion"]);
@@ -207,8 +207,8 @@ export class ForecastUtility {
     const scenario_details = currentForecastList.find(
       (i) =>
         i["lineOfBusiness"] === dim_val_id &&
-        (i["forecastStatus"] === commonData.Draft ||
-          i["forecastStatus"] === commonData.Change_Requested)
+        (i["forecastStatus"]["statusCode"] === commonData.Draft ||
+          i["forecastStatus"]["statusCode"] === commonData.Change_Requested)
     );
 
     Utility.logIt(scenario_details);

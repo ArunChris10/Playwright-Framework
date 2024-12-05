@@ -3,7 +3,7 @@ import { Utility } from "../../common/fixtures/utils";
 
 test.describe(
   "Validating the user preference service api",
-  { tag: "@Regression @user_preference" },
+  { tag: "@Smoke @Regression @user_preference" },
   () => {
     test("Checking the user preference response and status to be 200", async ({
       request,

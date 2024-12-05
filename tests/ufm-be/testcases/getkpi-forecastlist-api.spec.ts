@@ -29,7 +29,7 @@ lobList.forEach((lobName) => {
           let scenario_details, isNewCreated;
           monthYear = await Utility.getFiscalYearMonthList();
           if (
-            (await ForecastUtility.countOfScenario(lobName, user, request)) ==
+            (await ForecastUtility.countOfScenario(lobName, user, request)) >=
             commonData.MAX_SCENARIO_COUNT
           ) {
             await ForecastUtility.deleteAllforecastofUser(

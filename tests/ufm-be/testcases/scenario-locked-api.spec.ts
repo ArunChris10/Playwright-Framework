@@ -4,7 +4,7 @@ import { UfmUtility } from "../fixtures/ufm-utils";
 
 test.describe(
   "Verify getting last locked scenario",
-  { tag: "@Smoke @Regression" },
+  { tag: "@Smoke @Regression @lockedScenario" },
   () => {
     test.describe.configure({ timeout: 120_000, mode: "serial" });
 

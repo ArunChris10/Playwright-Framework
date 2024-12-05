@@ -25,7 +25,7 @@ for (let i = 0; i < lobName.length; i++) {
             lobName[i],
             process.env.ufmUser,
             request
-          )) == commonData.MAX_SCENARIO_COUNT
+          )) >= commonData.MAX_SCENARIO_COUNT
         ) {
           await ForecastUtility.deleteAllforecastofUser(
             request,

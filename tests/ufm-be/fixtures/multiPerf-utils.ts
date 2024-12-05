@@ -14,18 +14,26 @@ import forecastData from "../testdata/forecast-api.json";
 import scenarioIds from "../testdata/scenarioIds.json";
 import inputNodes from "../testdata/inputnodes.json";
 import kpiData from "../testdata/getkpiforecast.json";
+import baseForecastTestData from "../testdata/historical-forecast.json";
 
 export class UfmPerfUtility {
-
-  static async makeRequest(request, nexusTokens: string, method: 'GET' | 'POST', endpoint: string, data: any = {}, params: any = {}, isDeadline = false) {
+  static async makeRequest(
+    request,
+    nexusTokens: string,
+    method: "GET" | "POST",
+    endpoint: string,
+    data: any = {},
+    params: any = {},
+    isDeadline = false
+  ) {
     const url = `${process.env.apiBaseURLUFM}${endpoint}`;
     const headers = { Authorization: nexusTokens };
     Utility.logIt(`Calling ${method} endpoint: ${url}`);
 
     let response;
-    if (method === 'GET') {
+    if (method === "GET") {
       response = await request.get(url, { headers, params });
-    } else if (method === 'POST') {
+    } else if (method === "POST") {
       response = await request.post(url, { headers, data });
     }
 
@@ -39,7 +47,11 @@ export class UfmPerfUtility {
   }
 
   // Method to get API data for metadata or home dimension
-  static async getApiData(request, nexusTokens: string, apiType: "metadata" | "homedimension") {
+  static async getApiData(
+    request,
+    nexusTokens: string,
+    apiType: "metadata" | "homedimension"
+  ) {
     let endpoint: string;
     let params: any = {};
 
@@ -55,28 +67,48 @@ export class UfmPerfUtility {
       params = { dimension_group_id: 7 };
     }
 
-    return await this.makeRequest(request, nexusTokens, 'GET', endpoint, {}, params);
+    return await this.makeRequest(
+      request,
+      nexusTokens,
+      "GET",
+      endpoint,
+      {},
+      params
+    );
   }
 
   // Method to get configuration data
   static async getConfig(request, nexusTokens: string) {
     const endpoint = configTestDataFile.endpoint;
     for (const config_payload of configTestDataFile.config) {
-      await this.makeRequest(request, nexusTokens, 'POST', endpoint, config_payload.query);
+      await this.makeRequest(
+        request,
+        nexusTokens,
+        "POST",
+        endpoint,
+        config_payload.query
+      );
     }
   }
 
   // Method to get the last locked scenario
   static async getLastLocked(request, nexusTokens: string) {
     const endpoint = endpoints.last_locked_scenario_endpoint;
-    return await this.makeRequest(request, nexusTokens, 'GET', endpoint);
+    return await this.makeRequest(request, nexusTokens, "GET", endpoint);
   }
 
   // Method to get visual indicator data
   static async getVisualIndicator(request, nexusTokens: string) {
     const endpoint = visualIndicator.endpoint;
     const params = { classification_id: visualIndicator.classification_id };
-    return await this.makeRequest(request, nexusTokens, 'GET', endpoint, {}, params);
+    return await this.makeRequest(
+      request,
+      nexusTokens,
+      "GET",
+      endpoint,
+      {},
+      params
+    );
   }
 
   // Method to get screen details
@@ -86,7 +118,14 @@ export class UfmPerfUtility {
       dim_id: screenDetailConfig.configEndpoint.dim_id,
       dim_val_id: screenDetailConfig.configEndpoint.dim_val_id,
     };
-    return await this.makeRequest(request, nexusTokens, 'GET', endpoint, {}, params);
+    return await this.makeRequest(
+      request,
+      nexusTokens,
+      "GET",
+      endpoint,
+      {},
+      params
+    );
   }
 
   // Method to get the deadline date
@@ -94,19 +133,34 @@ export class UfmPerfUtility {
     const params = new URLSearchParams({
       dim_id: forecastCalendarData.getForecastCalendarPayload.dim_id,
       dim_val_id: forecastCalendarData.getForecastCalendarPayload.dim_val_id,
-      classification_id: forecastCalendarData.getForecastCalendarPayload.classification_id,
+      classification_id:
+        forecastCalendarData.getForecastCalendarPayload.classification_id,
       children: "true",
       published: "true",
     });
 
-    const endpoint = `${forecastCalendarData.endpoint}deadlines?${params.toString()}`;
-    const response = await this.makeRequest(request, nexusTokens, 'GET', endpoint, {}, {}, true);
+    const endpoint = `${
+      forecastCalendarData.endpoint
+    }deadlines?${params.toString()}`;
+    const response = await this.makeRequest(
+      request,
+      nexusTokens,
+      "GET",
+      endpoint,
+      {},
+      {},
+      true
+    );
     const responseBody = await response.json();
     expect(responseBody.calendar_id).not.toEqual(null);
   }
 
   // Method to get the current forecast
-  static async getCurrentForecast(request, nexusTokens: string, lobName: string) {
+  static async getCurrentForecast(
+    request,
+    nexusTokens: string,
+    lobName: string
+  ) {
     const endpoint = endpoints.get_report_endpoint;
     const data = {
       unit: "Millions",
@@ -123,18 +177,31 @@ export class UfmPerfUtility {
       },
     };
 
-    return await this.makeRequest(request, nexusTokens, 'POST', endpoint, data);
+    return await this.makeRequest(request, nexusTokens, "POST", endpoint, data);
   }
 
   // Method to get mapping details
   static async getMappingDetails(request, nexusTokens: string) {
     const endpoint = mappingDetailsEndpoint.endpoint;
-    const params = { dimension_group_id: mappingDetailsEndpoint.dimension_group_id };
-    return await this.makeRequest(request, nexusTokens, 'GET', endpoint, {}, params);
+    const params = {
+      dimension_group_id: mappingDetailsEndpoint.dimension_group_id,
+    };
+    return await this.makeRequest(
+      request,
+      nexusTokens,
+      "GET",
+      endpoint,
+      {},
+      params
+    );
   }
 
   // Method to get progress status tracker
-  static async getProgressStatusTracker(screen: string, request, nexusTokens: string) {
+  static async getProgressStatusTracker(
+    screen: string,
+    request,
+    nexusTokens: string
+  ) {
     const { template_id, dim_id, dim_val_id } = this.getProgressParams(screen);
     const endpoint = endpoints.get_report_endpoint;
     const data = {
@@ -144,7 +211,7 @@ export class UfmPerfUtility {
       classification_id: commonData.classification_id,
     };
 
-    return await this.makeRequest(request, nexusTokens, 'POST', endpoint, data);
+    return await this.makeRequest(request, nexusTokens, "POST", endpoint, data);
   }
 
   // Helper method to get parameters for progress status tracker
@@ -163,20 +230,37 @@ export class UfmPerfUtility {
   }
 
   // Method to create a forecast
-  static async getCreateForecast(request, nexusTokens: string, lobName: string, forecastName = "", isError = false) {
+  static async getCreateForecast(
+    request,
+    nexusTokens: string,
+    lobName: string,
+    forecastName = "",
+    isError = false
+  ) {
     const endpoint = forecastData.endpoint;
     const PrimaryId = process.env.envName + "Primary";
     let payload = {
       type: commonData.type,
-      source: { scenarios: [{ scenario_id: scenarioIds.payloads[PrimaryId].scenario_id }] },
+      source: {
+        scenarios: [
+          { scenario_id: scenarioIds.payloads[PrimaryId].scenario_id },
+        ],
+      },
       name: `${lobName} Automation - `,
       classification_id: commonData.classification_id,
       dim_id: commonData.lob_dim_id,
       dim_val_id: await UfmUtility.getMapping(lobName, "dim_val_id"),
     };
 
-    payload.name = forecastName || `${payload.name} ${new Date().toLocaleString()}`;
-    return await this.makeRequest(request, nexusTokens, 'POST', endpoint, payload);
+    payload.name =
+      forecastName || `${payload.name} ${new Date().toLocaleString()}`;
+    return await this.makeRequest(
+      request,
+      nexusTokens,
+      "POST",
+      endpoint,
+      payload
+    );
   }
 
   // Method to get filter mapping details
@@ -187,23 +271,50 @@ export class UfmPerfUtility {
       dim_val_id: filterMappingDetailsEndpoint.dim_val_id,
       classification_id: filterMappingDetailsEndpoint.classification_id,
     };
-    return await this.makeRequest(request, nexusTokens, 'GET', endpoint, {}, params);
+    return await this.makeRequest(
+      request,
+      nexusTokens,
+      "GET",
+      endpoint,
+      {},
+      params
+    );
   }
 
   // Method to get input nodes
   static async getInputNodes(lobName: string, request, nexusTokens: string) {
     const endpoint = inputNodes.endpoint;
-    inputNodes.payloads.dim_val_id = await UfmUtility.getMapping(lobName, "dim_val_id");
-    return await this.makeRequest(request, nexusTokens, 'POST', endpoint, inputNodes.payloads);
+    inputNodes.payloads.dim_val_id = await UfmUtility.getMapping(
+      lobName,
+      "dim_val_id"
+    );
+    return await this.makeRequest(
+      request,
+      nexusTokens,
+      "POST",
+      endpoint,
+      inputNodes.payloads
+    );
   }
 
   // Method to get KPI forecast list
   static async getKpiForecastList(request, nexusTokens: string) {
     const endpoint = kpiData.endpoint;
-    return await this.makeRequest(request, nexusTokens, 'POST', endpoint, kpiData);
+    return await this.makeRequest(
+      request,
+      nexusTokens,
+      "POST",
+      endpoint,
+      kpiData
+    );
   }
 
-  static async deleteTheForecastForParticularLob(request, nexusTokens,lobName, userId){
+  static async deleteTheForecastForParticularLob(
+    request,
+    nexusTokens,
+    lobName,
+    userId
+  ) {
     const forecastList = new Map();
     let dimId = commonData.ba_dim_id;
     let dimValId = await UfmUtility.getMapping(lobName, "dim_val_id");
@@ -216,8 +327,8 @@ export class UfmPerfUtility {
     await currentForecast.filter(function (i) {
       if (
         i["owner"] == userId &&
-        (i["forecastStatus"] == commonData.Draft ||
-          i["forecastStatus"] == commonData.Change_Requested) &&
+        (i["forecastStatus"]["statusCode"] == commonData.Draft ||
+          i["forecastStatus"]["statusCode"] == commonData.Change_Requested) &&
         i["lineOfBusiness"] == lobId
       ) {
         Utility.logIt(i["scenarioVersion"]);
@@ -227,7 +338,8 @@ export class UfmPerfUtility {
     });
     Utility.logIt(`Retrieved Scenario version and Scenario Id`);
     for (let [scenarioId, scenarioVersion] of forecastList) {
-      await this.deleteForecasts(nexusTokens,
+      await this.deleteForecasts(
+        nexusTokens,
         scenarioId,
         scenarioVersion,
         dimId,
@@ -240,7 +352,8 @@ export class UfmPerfUtility {
     }
   }
 
-  static async deleteForecasts(nexusTokens: string,
+  static async deleteForecasts(
+    nexusTokens: string,
     scenario_id,
     scenario_version,
     dimId,
@@ -254,8 +367,9 @@ export class UfmPerfUtility {
       dim_id: dimId,
       dim_val_id: dimValId,
     };
-    const response = await request.delete(endpointURL, { data: payload ,
-      headers : { Authorization: nexusTokens },
+    const response = await request.delete(endpointURL, {
+      data: payload,
+      headers: { Authorization: nexusTokens },
     });
     let forecastDeleted = await Utility.assertAndLog(response, isError);
 
@@ -289,5 +403,21 @@ export class UfmPerfUtility {
 
     return await Utility.assertAndLog(response);
   }
-  
+
+  static async getBaseForecast(lobName, request, nexusTokens) {
+    const endpointURL = `${process.env.apiBaseURLUFM}${baseForecastTestData.endpoint}`;
+    const responseData = await request.get(endpointURL, {
+      headers: {
+        Authorization: nexusTokens,
+      },
+      params: {
+        dim_id: commonData.lob_dim_id,
+        classification_id: commonData.classification_id,
+        dim_val_id: await UfmUtility.getMapping(lobName, "dim_val_id", "SBA"),
+        data_level: commonData.lob_dim_id,
+        include_primary: true,
+      },
+    });
+    Utility.assertAndLog(responseData);
+  }
 }

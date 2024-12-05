@@ -9,8 +9,7 @@ const lobName = [
   "LAST MILE DELIVERY",
   "CORE_SERVICES",
   "CONNECT",
-  "OPERATIONS"
-
+  "OPERATIONS",
 ];
 for (let i = 0; i < lobName.length; i++) {
   test.describe(
@@ -20,42 +19,40 @@ for (let i = 0; i < lobName.length; i++) {
       let userList = usersData.users;
 
       userList.forEach(async (user) => {
-
         test(`Verify the multiple APIs are working fine for multiple user -> ${user} in LOB: ${lobName[i]}`, async ({
           request,
         }) => {
-
           let nexusTokens = await Utility.getNexusFakeToken(user, request);
           test.setTimeout(600000);
           await test.step("Get metadata ", async () => {
-
             await UfmPerfUtility.getApiData(request, nexusTokens, "metadata");
           });
           await test.step("Get homedimension ", async () => {
-
-            await UfmPerfUtility.getApiData(request, nexusTokens, "homedimension");
+            await UfmPerfUtility.getApiData(
+              request,
+              nexusTokens,
+              "homedimension"
+            );
           });
           await test.step("Get scenario configs ", async () => {
-
             await UfmPerfUtility.getConfig(request, nexusTokens);
-
           });
           await test.step("Preference api ", async () => {
-
             // await UfmPerfUtility.userPreference(request,nexusTokens);
           });
           // ------------ Current Forecast List page ------------
           await test.step("Get current Forecast ", async () => {
-            await UfmPerfUtility.getCurrentForecast(request, nexusTokens, lobName[i]);
-
+            await UfmPerfUtility.getCurrentForecast(
+              request,
+              nexusTokens,
+              lobName[i]
+            );
           });
           await test.step("Get screen id ", async () => {
             await UfmPerfUtility.getScreenDetails(request, nexusTokens);
-
           });
           await test.step("Get forecast deadline date ", async () => {
             await UfmPerfUtility.getDeadlineDate(request, nexusTokens);
-
           });
           // await test.step("List historicals ", async () => {
           //   //https://ibgworkbench2.stg.walmart.com/api/ufm/list-historicals
@@ -64,28 +61,31 @@ for (let i = 0; i < lobName.length; i++) {
           // //   //https://ibgworkbench2.stg.walmart.com/api/ufm/get-segment-submission-date
           // });
           await test.step("Visual indicator api", async () => {
-
             await UfmPerfUtility.getVisualIndicator(request, nexusTokens);
           });
           await test.step("Get last locked scenario ", async () => {
-
             await UfmPerfUtility.getLastLocked(request, nexusTokens);
-
           });
           await test.step("Progress tracker ", async () => {
-            await UfmPerfUtility.getProgressStatusTracker("Segment_Finance", request, nexusTokens);
-
+            await UfmPerfUtility.getProgressStatusTracker(
+              "Segment_Finance",
+              request,
+              nexusTokens
+            );
           });
           await test.step("Mappings ", async () => {
             await UfmPerfUtility.getMappingDetails(request, nexusTokens);
-
           });
           // await test.step("Canned Report Get Reports ", async () => {
           //   //https://ibg-ufm-canned-reports.stg.walmart.com/api/canned-reports/get-report
           // });
           await test.step("Individual status ", async () => {
             const orgName = BAList.PBAList[7];
-            await UfmPerfUtility.getTheIndividualstatus(orgName,request, nexusTokens);
+            await UfmPerfUtility.getTheIndividualstatus(
+              orgName,
+              request,
+              nexusTokens
+            );
             //https://ibg-ufm-canned-reports.stg.walmart.com/api/workflow/individual-status
           });
           // await test.step("Filter data dimension basis ", async () => {
@@ -96,13 +96,26 @@ for (let i = 0; i < lobName.length; i++) {
           // });
 
           // ------------ Create Forecast ------------
-          // await test.step("Get base Forecast ", async () => {
-          //   //https://ibgworkbench2.stg.walmart.com/api/ufm/get-base-forecast
-          // });
+          await test.step(`Get base Forecast for ${lobName[i]}`, async () => {
+            await UfmPerfUtility.getBaseForecast(
+              lobName[i],
+              request,
+              nexusTokens
+            );
+          });
           await test.step(`Create Forecast for ${lobName[i]}`, async () => {
-            await UfmPerfUtility.deleteTheForecastForParticularLob(request,nexusTokens, lobName[i],user);
+            await UfmPerfUtility.deleteTheForecastForParticularLob(
+              request,
+              nexusTokens,
+              lobName[i],
+              user
+            );
 
-            await UfmPerfUtility.getCreateForecast(request,nexusTokens, lobName[i]);
+            await UfmPerfUtility.getCreateForecast(
+              request,
+              nexusTokens,
+              lobName[i]
+            );
           });
           await test.step("Get current Forecast ", async () => {
             //https://ibgworkbench2.stg.walmart.com/api/ufm/get-current-forecast
@@ -115,17 +128,18 @@ for (let i = 0; i < lobName.length; i++) {
           // await test.step("Filter data lob basis ", async () => { });
           await test.step("Mappings ", async () => {
             await UfmPerfUtility.getFilterMappingDetails(request, nexusTokens);
-
           });
           await test.step(`Drivers ${lobName}`, async () => {
-            await UfmPerfUtility.getInputNodes(lobName[i], request, nexusTokens);
-
+            await UfmPerfUtility.getInputNodes(
+              lobName[i],
+              request,
+              nexusTokens
+            );
           });
 
           // // //   // ------------ Add drivers ------------
           await test.step("Get KPI List with driver loaded", async () => {
             await UfmPerfUtility.getKpiForecastList(request, nexusTokens);
-             
           });
 
           //   // ------------ Allocation ------------
@@ -141,6 +155,6 @@ for (let i = 0; i < lobName.length; i++) {
           // });
         });
       });
-
-    });
-};
+    }
+  );
+}

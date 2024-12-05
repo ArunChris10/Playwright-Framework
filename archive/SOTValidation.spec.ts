@@ -1,13 +1,13 @@
 import fs from "fs";
 import path from "path";
 import xlsx from "xlsx";
-import { test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import commonData from "../constants/common.json";
-import { SOTUtility } from "../fixtures/SOTUtility";
-import { ForecastUtility } from "../fixtures/forecast-utils";
-import { UfmUtility } from "../fixtures/ufm-utils";
-import mappingApi from "../testdata/mapping-api.json";
+import { test } from "../tests/common/fixtures/test-hook";
+import { Utility } from "../tests/common/fixtures/utils";
+import commonData from "../tests/ufm-be/constants/common.json";
+import { SOTUtility } from "../tests/ufm-be/fixtures/SOTUtility";
+import { ForecastUtility } from "../tests/ufm-be/fixtures/forecast-utils";
+import { UfmUtility } from "../tests/ufm-be/fixtures/ufm-utils";
+import mappingApi from "../tests/ufm-be/testdata/mapping-api.json";
 
 test.describe(
   "Validating SOT values with IBG Values",
