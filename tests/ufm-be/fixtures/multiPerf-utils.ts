@@ -44,6 +44,7 @@ export class UfmPerfUtility {
 
     // For all other methods, we can just log and assert the response
     await Utility.assertAndLog(response);
+    return response;
   }
 
   // Method to get API data for metadata or home dimension
@@ -254,13 +255,46 @@ export class UfmPerfUtility {
 
     payload.name =
       forecastName || `${payload.name} ${new Date().toLocaleString()}`;
-    return await this.makeRequest(
+
+    let responseBody = await this.makeRequest(
       request,
       nexusTokens,
       "POST",
       endpoint,
       payload
     );
+    if (!isError) {
+      expect
+        .soft(responseBody.message)
+        .toEqual(forecastData.createSuccessMessage);
+      Utility.logIt(
+        `Forecast is created for ${lobName}  : 
+      ${responseBody.scenario.scenario_id}`
+      );
+
+      //Polling to get the scenario status to accomodate async changes
+      await expect
+        .poll(
+          async () => {
+            const response = await UfmUtility.getCurrentForecastList(
+              lobName,
+              request
+            );
+            let new_scenario = response.find(
+              (i) => i["scenarioId"] == responseBody.scenario.scenario_id
+            );
+            return new_scenario["forecastStatus"]["statusCode"];
+          },
+          {
+            // Probe, wait 60s, probe, wait 60s, probe, wait 60s, probe, wait 30s, probe and so on..
+            intervals: [
+              60_000, 60_000, 60_000, 60_000, 60_000, 30_000, 30_000, 30_000,
+            ],
+            timeout: 500_000,
+          }
+        )
+        .toBe(21);
+    }
   }
 
   // Method to get filter mapping details

@@ -63,7 +63,31 @@ export class ForecastUtility {
         `Forecast is created for ${lobName}  : 
       ${responseBody.scenario.scenario_id}`
       );
+
+      //Polling to get the scenario status to accomodate async changes
+      await expect
+        .poll(
+          async () => {
+            const response = await UfmUtility.getCurrentForecastList(
+              lobName,
+              request
+            );
+            let new_scenario = response.find(
+              (i) => i["scenarioId"] == responseBody.scenario.scenario_id
+            );
+            return new_scenario["forecastStatus"]["statusCode"];
+          },
+          {
+            // Probe, wait 60s, probe, wait 60s, probe, wait 60s, probe, wait 30s, probe and so on..
+            intervals: [
+              60_000, 60_000, 60_000, 60_000, 60_000, 30_000, 30_000, 30_000,
+            ],
+            timeout: 500_000,
+          }
+        )
+        .toBe(21);
     }
+
     //returning the scenario Id of the created forecast
     return responseBody.scenario?.scenario_id
       ? responseBody.scenario.scenario_id
