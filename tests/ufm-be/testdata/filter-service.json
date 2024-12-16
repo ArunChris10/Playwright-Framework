@@ -1,6 +1,6 @@
 {
   "endpoint": "/filter/",
-  "payloads": [
+    "payloads": [
     {
       "dim_id": 11,
       "dim_val_id": 110014,
@@ -120,8 +120,67 @@
       ],
       "dim_id": 11,
       "dim_val_id": 110014
-    }
+    },
+    {
+      "filter_name": "Node Selection_MerchOps",
+      "filter_type": 9,
+      "screen_id": 201,
+      "filters": [
+          {
+              "driverset": [
+                  {
+                      "key": "mopostaudit",
+                      "title": "Post Audit (MO)",
+                      "type": "input",
+                      "nodeValType": "$",
+                      "nodeGrain": [
+                          "month",
+                          "channel",
+                          "department"
+                      ],
+                      "isEditable": true,
+                      "owner": "Unassigned"
+                  },
+                  {
+                      "key": "mobuyingallowances",
+                      "title": "Buying Allowances (MO)",
+                      "type": "input",
+                      "nodeValType": "$",
+                      "nodeGrain": [
+                          "month",
+                          "channel",
+                          "department"
+                      ],
+                      "isEditable": true,
+                      "owner": "Unassigned"
+                  },
+                  {
+                      "key": "mototalallowances",
+                      "title": "Total Allowances (MO)",
+                      "type": "calculated",
+                      "nodeValType": "$",
+                      "nodeGrain": [
+                          "month",
+                          "channel",
+                          "department"
+                      ],
+                      "isEditable": false,
+                      "owner": "MERCHANDISING OPERATIONS, MERCHOPS"
+                  }
+              ]
+          }
+      ],
+      "dim_id": 11,
+      "dim_val_id": 110029
+  }
   ],
+  "common_data":{
+    "Node_Selection":{
+      "screen_id":201,
+      "filter_type":9,
+      "dim_id":11
+    }
+  },
   "success_message": "filter created successfully",
   "duplicate_filter_name_response": {
     "status_code": 400,
@@ -130,5 +189,11 @@
     "message": "Filter name is already taken",
     "severity": "Low"
   },
-  "delete_message": "filter deleted successfully"
+  "delete_message": "filter deleted successfully",
+
+  "defaul_filter_set":{
+    "exception_message":"filter is default and cannot be deleted",
+    "error_code":400
+  }
+
 }
