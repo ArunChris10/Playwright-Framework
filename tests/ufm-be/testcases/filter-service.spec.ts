@@ -133,15 +133,11 @@ testdata.payloads.forEach((payload) => {
             //post request for saving the filter
             await test.step("Make a Post Request for Saving the Filter", async () => {
               Utility.logIt("Make a Post Request for Saving the Filter");
-              // let nexusTokens = await Utility.getNexusFakeToken(user, request);
               payload.filter_name =
                 payload.filter_name + new Date().toLocaleString();
               Utility.logIt(payload);
               apiResponse = await request.post(endpointURL, {
                 data: payload,
-                // headers: {
-                //   Authorization: nexusTokens,
-                // },
               });
               apiResponseBody = await apiResponse.json();
               Utility.logIt(JSON.stringify(apiResponseBody));
@@ -161,12 +157,8 @@ testdata.payloads.forEach((payload) => {
           async ({ request }) => {
             //post request for saving the filter
             await test.step("Make a Post Request for Saving the Filter", async () => {
-              // let nexusTokens = await Utility.getNexusFakeToken(user, request);
               apiResponse = await request.post(endpointURL, {
                 data: payload,
-                // headers: {
-                //   Authorization: nexusTokens,
-                // },
               });
               apiResponseBody = await apiResponse.json();
               Utility.logIt(JSON.stringify(apiResponseBody));
@@ -188,12 +180,8 @@ testdata.payloads.forEach((payload) => {
           async ({ request }) => {
             //get request to fetch the available filters
             await test.step("Fetch the filters available for the screen", async () => {
-              // let nexusTokens = await Utility.getNexusFakeToken(user, request);
               apiResponse = await request.get(endpointURL, {
                 params: queryParams,
-                // headers: {
-                //   Authorization: nexusTokens,
-                // },
               });
               apiResponseBody = await apiResponse.json();
               Utility.logIt(
@@ -232,12 +220,8 @@ testdata.payloads.forEach((payload) => {
             Utility.logIt(endpointURL);
 
             await test.step("Fetch the filter by filter id for the screen", async () => {
-              // let nexusTokens = await Utility.getNexusFakeToken(user, request);
               apiResponse = await request.get(`${endpointURL}`, {
                 params: queryParams,
-                // headers: {
-                //   Authorization: nexusTokens,
-                // },
               });
               apiResponseBody = await apiResponse.json();
               Utility.logIt(
@@ -264,14 +248,10 @@ testdata.payloads.forEach((payload) => {
           async ({ request }) => {
             // delete request to delete the filter
             await test.step("Delete the created filter", async () => {
-              // let nexusTokens = await Utility.getNexusFakeToken(user, request);
               apiResponse = await request.delete(endpointURL, {
                 params: { filter_id: filter_id },
                 data: {
                   ...payload,
-                  // headers: {
-                  //   Authorization: nexusTokens,
-                  // },
                 },
               });
               apiResponseBody = await apiResponse.json();
