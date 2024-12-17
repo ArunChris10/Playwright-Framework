@@ -14,23 +14,29 @@ defaultDriverSets.forEach((org) => {
     "Verify the default driver set behaviour for organization: " + org,
     { tag: "@Smoke @defaultDriverSet @Regression" },
     async () => {
-      
-      // variable used to store the filter id and use it across the tests under this describe
-      let filter_id: string;
-      let apiResponse, apiResponseBody;
-      let filter;
-      // API endpoint URL
-      const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
-      Utility.logIt(endpointURL);
-      let dim_val_id =await UfmUtility.getMapping(org,"dim_val_id")
-      const queryParams = {
+       // variable used to store the filter id and use it across the tests under this describe
+       let filter_id: string;
+       let apiResponse, apiResponseBody;
+       let filter;
+       let dim_val_id;
+       let queryParams;
+       // API endpoint URL
+       const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
+       Utility.logIt(endpointURL);
+      test.beforeAll(async ()=>{
+        dim_val_id =await UfmUtility.getMapping(org,"dim_val_id")
+        queryParams = {
         screen_id: testdata.common_data.Node_Selection.screen_id,
         type_id: testdata.common_data.Node_Selection.filter_type,
         dim_id: testdata.common_data.Node_Selection.dim_id,
         dim_val_id: dim_val_id
       };
+      })
+      
+     
+      
 
-      test(`Verify user has a default driver set readily available for ${org}`,{ tag: "@Smoke @defaultDriverSet @filters @Regression" },
+      test(`Verify user has a default driver set readily available for ${org}`,{ tag: "@Smoke @filters @Regression" },
         async ({ request }) => {
           await test.step("Fetch the driverSet available for the screen", async () => {
             apiResponse = await request.get(endpointURL, {
@@ -61,7 +67,7 @@ defaultDriverSets.forEach((org) => {
         }
       );
 
-      test(`Verify user should not be able to delete default driver set in ${org}`,{ tag: "@Smoke @defaultDriverSet @filters @Regression" },
+      test(`Verify user should not be able to delete default driver set in ${org}`,{ tag: "@Smoke @filters @Regression" },
         async ({ request }) => {
           // delete request to delete the filter
           await test.step("Delete the default filter", async () => {
@@ -108,7 +114,7 @@ testdata.payloads.forEach((payload) => {
   test.describe(
     "Verify the Filter API for " + payload.filter_name,
     { tag: "@Smoke @filters @Regression" },
-    () => {
+     () => {
       test.describe.configure({ mode: "serial" });
 
       // variable used to store the filter id and use it across the tests under this describe
