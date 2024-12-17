@@ -3,12 +3,118 @@ import { expect, test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import testdata from "../testdata/filter-service.json";
 import usersData from "../constants/ufm_users.json";
+import { UfmUtility } from "../fixtures/ufm-utils";
+import commonData from "../constants/common.json";
 
+let defaultDriverSets = ['MERCHOPS']
+
+defaultDriverSets.forEach((org) => {
+  test.describe.configure({ mode: "serial" });
+  test.describe(
+    "Verify the default driver set behaviour for organization: " + org,
+    { tag: "@Smoke @defaultDriverSet @Regression" },
+    async () => {
+       // variable used to store the filter id and use it across the tests under this describe
+       let filter_id: string;
+       let apiResponse, apiResponseBody;
+       let filter;
+       let dim_val_id;
+       let queryParams;
+       // API endpoint URL
+       const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
+       Utility.logIt(endpointURL);
+      test.beforeAll(async ()=>{
+        dim_val_id =await UfmUtility.getMapping(org,"dim_val_id")
+        queryParams = {
+        screen_id: testdata.common_data.Node_Selection.screen_id,
+        type_id: testdata.common_data.Node_Selection.filter_type,
+        dim_id: testdata.common_data.Node_Selection.dim_id,
+        dim_val_id: dim_val_id
+      };
+      })
+      
+     
+      
+
+      test(`Verify user has a default driver set readily available for ${org}`,{ tag: "@Smoke @filters @Regression" },
+        async ({ request }) => {
+          await test.step("Fetch the driverSet available for the screen", async () => {
+            apiResponse = await request.get(endpointURL, {
+              params: queryParams
+            });
+            apiResponseBody = await apiResponse.json();
+            Utility.logIt(
+              `Filter Response : ${JSON.stringify(apiResponseBody)}`
+            );
+            expect(apiResponse).toBeOK();
+          });
+
+          await test.step("Check if only one default driver set is present", async () => {
+            //extracting the filter names from the response into an Array
+            const defaultCount: number = apiResponseBody.filter(
+              (obj: any) =>obj.is_default == true).length;
+            //Assertion
+            expect(defaultCount).toEqual(1)
+          });
+
+          await test.step(`Check if default driver set name for ${org} org is ${commonData.defaultDriverSetNames[org]}`,async()=>{
+            filter = apiResponseBody.find(filter => filter.filter_name === commonData.defaultDriverSetNames[org] && filter.is_default === true);
+            expect(filter).not.toBeUndefined
+            //Extracting the Filter ID that has been created and storing it in the filter_id to use it in other testcases
+            filter_id = filter.filter_id;
+          })
+
+        }
+      );
+
+      test(`Verify user should not be able to delete default driver set in ${org}`,{ tag: "@Smoke @filters @Regression" },
+        async ({ request }) => {
+          // delete request to delete the filter
+          await test.step("Delete the default filter", async () => {
+            apiResponse = await request.delete(endpointURL, {
+              params: { filter_id: filter_id },
+              data: {
+                dim_id: testdata.common_data.Node_Selection.dim_id,
+                dim_val_id: dim_val_id
+              },
+            });
+          });
+          // Validate the delete message for default scenarios
+          await test.step("Check the response status and message for deleting default filter", async () => {
+            expect.soft(apiResponse.status()).toEqual(testdata.defaul_filter_set.error_code);
+            expect.soft(JSON.parse(await apiResponse.text()).message).toEqual(testdata.defaul_filter_set.exception_message);
+          });
+
+          // Make sure the filter deleted successfully by checking the get filters call
+          await test.step("Get the Filters available for the screen", async () => {
+            apiResponse = await request.get(endpointURL, {
+              params: queryParams,
+            });
+            apiResponseBody = await apiResponse.json();
+            Utility.logIt(
+              `Available Filters after deleting default filter : ${JSON.stringify(
+                apiResponseBody
+              )}`
+            );
+          });
+          // Checking the filterId of default filter and it is not deleted
+          await test.step("Check if the default filter is not deleted and available", async () => {
+            const filter_ids: String[] = apiResponseBody.map((obj: any) =>
+              obj.filter_id.toLowerCase()
+            );
+            expect(filter_ids).toContain(filter_id.toLowerCase());
+          }); 
+    }
+  );
+
+
+});
+})
 testdata.payloads.forEach((payload) => {
   test.describe(
     "Verify the Filter API for " + payload.filter_name,
     { tag: "@Smoke @filters @Regression" },
-    () => {
+     () => {
       test.describe.configure({ mode: "serial" });
 
       // variable used to store the filter id and use it across the tests under this describe
@@ -33,15 +139,11 @@ testdata.payloads.forEach((payload) => {
             //post request for saving the filter
             await test.step("Make a Post Request for Saving the Filter", async () => {
               Utility.logIt("Make a Post Request for Saving the Filter");
-              let nexusTokens = await Utility.getNexusFakeToken(user, request);
               payload.filter_name =
                 payload.filter_name + new Date().toLocaleString();
               Utility.logIt(payload);
               apiResponse = await request.post(endpointURL, {
                 data: payload,
-                headers: {
-                  Authorization: nexusTokens,
-                },
               });
               apiResponseBody = await apiResponse.json();
               Utility.logIt(JSON.stringify(apiResponseBody));
@@ -61,12 +163,8 @@ testdata.payloads.forEach((payload) => {
           async ({ request }) => {
             //post request for saving the filter
             await test.step("Make a Post Request for Saving the Filter", async () => {
-              let nexusTokens = await Utility.getNexusFakeToken(user, request);
               apiResponse = await request.post(endpointURL, {
                 data: payload,
-                headers: {
-                  Authorization: nexusTokens,
-                },
               });
               apiResponseBody = await apiResponse.json();
               Utility.logIt(JSON.stringify(apiResponseBody));
@@ -88,12 +186,8 @@ testdata.payloads.forEach((payload) => {
           async ({ request }) => {
             //get request to fetch the available filters
             await test.step("Fetch the filters available for the screen", async () => {
-              let nexusTokens = await Utility.getNexusFakeToken(user, request);
               apiResponse = await request.get(endpointURL, {
                 params: queryParams,
-                headers: {
-                  Authorization: nexusTokens,
-                },
               });
               apiResponseBody = await apiResponse.json();
               Utility.logIt(
@@ -116,7 +210,7 @@ testdata.payloads.forEach((payload) => {
               apiResponseBody.forEach((filterJson) => {
                 if (filterJson.filter_name === payload.filter_name) {
                   filter_id = filterJson.filter_id;
-                }
+                } 
               });
               Utility.logIt(`Filter Id : ${filter_id}`);
             });
@@ -132,12 +226,8 @@ testdata.payloads.forEach((payload) => {
             Utility.logIt(endpointURL);
 
             await test.step("Fetch the filter by filter id for the screen", async () => {
-              let nexusTokens = await Utility.getNexusFakeToken(user, request);
               apiResponse = await request.get(`${endpointURL}`, {
                 params: queryParams,
-                headers: {
-                  Authorization: nexusTokens,
-                },
               });
               apiResponseBody = await apiResponse.json();
               Utility.logIt(
@@ -164,14 +254,10 @@ testdata.payloads.forEach((payload) => {
           async ({ request }) => {
             // delete request to delete the filter
             await test.step("Delete the created filter", async () => {
-              let nexusTokens = await Utility.getNexusFakeToken(user, request);
               apiResponse = await request.delete(endpointURL, {
                 params: { filter_id: filter_id },
                 data: {
                   ...payload,
-                  headers: {
-                    Authorization: nexusTokens,
-                  },
                 },
               });
               apiResponseBody = await apiResponse.json();

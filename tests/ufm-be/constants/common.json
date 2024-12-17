@@ -55,5 +55,9 @@
   "ENTITY": 17,
 
   "Input_Driver_Type": 49,
-  "All_Driver_Type": 48
+  "All_Driver_Type": 48,
+
+  "defaultDriverSetNames" :{
+    "MERCHOPS":"Merch Ops Default Driver Set"
+  }
 }
