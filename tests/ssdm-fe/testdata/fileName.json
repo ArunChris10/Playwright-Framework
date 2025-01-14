@@ -3,7 +3,7 @@
         {
         
             "expectedUploadedFileName": "newNode Document.csv",
-            "filePath": "../testData/10-14-2- OTHER (1).csv",
+            "filePath": "../testData/12-10-1 Removed duplicate node for serviceincome calculated 1.csv",
             "fileFormat":"csv",
             "pathOfIncorrectFile": "../testData/IncorrectNewNodeEdge.csv",
             "computeFailingFile": "../testData/ComputeFailingNE.csv",
@@ -11,8 +11,44 @@
             "expectedValidationMessage": "Validation successful",
             "expectedComputationSuccessfulMessage": "Recompute successful",
             "expectedComputationFailureMessage": "The driver tree failed to recompute. If you have any questions, please reach out to SSDM Support at ssdm_engineering_support@walmart.onmicrosoft.com for more information.",
-            "inputDriverFirst": "CS Refunds",
-            "inputDriverSecond": "Optical Payroll Tax"
+            "inputDriverFirst": "Other Buying Allowances",
+            "inputDriverSecond": "Non-driver Inputs (Merchandise Income)"
+        },
+        "filterOptions": [
+        {
+            
+            "data": {
+                
+                "channel": {
+                    "dropDown": "Channel",
+                    "childDropDown": "DELIVERY",
+                    "option": "OWNED_S2H"
+                },
+                
+                "department": {
+                    "dropDown": "Department",
+                    "childDropDown": "FOOD",
+                    "option": "1_CANDY"
+                }
+            }
         }
+    ],
+    "groupByOptions": [
+        {
+            
+            "data": {
+                
+                "channel": {
+                    
+                    "option": "Channel"
+                },
+                
+                "department": {
+                    
+                    "option": "Department"
+                }
+            }
+        }
+    ]
     
 }

@@ -9,8 +9,8 @@ export class ReviewFunctionality {
     
     constructor(page: Page) {
         this.page = page;
-        this.btnReviewEnabled = page.locator("//*[local-name()='svg'and @class='iconContainer reviewIcon']");
-        this.btnAddDrivers = page.locator('//button[text()="Add Drivers"]'); 
+        this.btnReviewEnabled = page.locator('//button[text()="Review"]');
+        this.btnAddDrivers = page.locator('//button[text()="Add drivers"]'); 
         this.btnReviewDisabled = page.locator("//*[local-name()='svg'and @class='iconContainerDisabled reviewIcon']");
 
     }

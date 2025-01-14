@@ -13,7 +13,7 @@ export class DriversFunctionality {
     constructor(page: Page) {
         this.page = page;
         this.kpi = this.page.getByText("kpi");
-        this.btnAddDrivers = page.locator('//button[text()="Add Drivers"]'); 
+        this.btnAddDrivers = page.locator('//button[text()="Add drivers"]'); 
         this.addDriverWindow = page.locator('//div[contains(@class,"ModalPortal-module_modal")]');
         this.cellsData = page.locator('//div[@class = "ag-center-cols-viewport"]');
         this.pageFactory = new PageFactory(page);

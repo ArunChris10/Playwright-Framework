@@ -5,6 +5,7 @@ import { ComputeFunctionality } from './compute-functionality.page';
 import { ReviewFunctionality } from './review-functionality.page';
 import { DriversFunctionality } from './select-add-view-drivers-functionality.page';
 import { RemoveFunctionality } from './remove-driver-functionality.page';
+import { FilterFunctionality } from "./Filter.page";
 
 
 export class SSDMPageFactory {
@@ -37,6 +38,10 @@ export class SSDMPageFactory {
 
     removeDrivers(){
       return new RemoveFunctionality(this.page);
+    }
+
+    applyFilter(){
+      return new FilterFunctionality(this.page);
     }
 
 }
