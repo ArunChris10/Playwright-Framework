@@ -13,7 +13,7 @@ export class ComputeFunctionality {
     constructor(page: Page) {
         this.page = page;
         this.btnCompute = page.locator('//button[text()="Recompute"]');
-        this.computeSuccessMessage = page.getByText("Recompute successful");
+        this.computeSuccessMessage = page.getByText("Successfully computed scenario");
         this.computeFailureMessage = page.locator('//span[contains(@class,"Alert-module_contentContainer")]//child::span[contains(@class,"Alert-module_content")]');
         this.computeSnackbarMessage = page.getByText('Please wait, while it is computing..');
 

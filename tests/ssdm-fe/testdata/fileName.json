@@ -3,16 +3,20 @@
         {
         
             "expectedUploadedFileName": "newNode Document.csv",
-            "filePath": "../testData/12-10-1 Removed duplicate node for serviceincome calculated 1.csv",
+            "filePath": "../testData/12-24-1 Units plug corrected (1) (4).csv",
             "fileFormat":"csv",
             "pathOfIncorrectFile": "../testData/IncorrectNewNodeEdge.csv",
             "computeFailingFile": "../testData/ComputeFailingNE.csv",
             "missingColumns": ["metric_Name", "metric_var_name"],
             "expectedValidationMessage": "Validation successful",
-            "expectedComputationSuccessfulMessage": "Recompute successful",
+            "expectedComputationSuccessfulMessage": "Successfully computed scenario",
             "expectedComputationFailureMessage": "The driver tree failed to recompute. If you have any questions, please reach out to SSDM Support at ssdm_engineering_support@walmart.onmicrosoft.com for more information.",
             "inputDriverFirst": "Other Buying Allowances",
-            "inputDriverSecond": "Non-driver Inputs (Merchandise Income)"
+            "inputDriverSecond": "Non-driver Inputs (Merchandise Income)",
+            "latestDatasetInfo": "Latest dataset",
+            "latestDatasetMessage": "Latest datasets are the most recent datasets have been transformed and are currently being presented, however, they have not yet undergone full validation",
+            "activatedDatasetInfo": "activated dataset",
+            "activatedDatasetMessage": "Activated datasets are the most recently validated information from our sources. Please be aware that these datasets may not reflect the most recent transformation."
         },
         "filterOptions": [
         {

@@ -6,6 +6,7 @@ import { ReviewFunctionality } from './review-functionality.page';
 import { DriversFunctionality } from './select-add-view-drivers-functionality.page';
 import { RemoveFunctionality } from './remove-driver-functionality.page';
 import { FilterFunctionality } from "./Filter.page";
+import { PickDatasetFunctionality } from "./pick-Dataset-functionality-page";
 
 
 export class SSDMPageFactory {
@@ -42,6 +43,10 @@ export class SSDMPageFactory {
 
     applyFilter(){
       return new FilterFunctionality(this.page);
+    }
+
+    pickDataset(){
+      return new PickDatasetFunctionality(this.page);
     }
 
 }
