@@ -12,6 +12,9 @@ import { LoginPage } from "../pages/login.page";
 import excelToJson from "convert-excel-to-json";
 
 export class Utility {
+  static downloadAndSaveCSVFile(download: Download): any {
+    throw new Error("Method not implemented.");
+  }
   private static readonly dir: string = "./test-results/logs/";
   private static readonly nexusTokenFilePath: string =
     "./secrets/nexus-users-token.json";
@@ -609,5 +612,23 @@ export class Utility {
       (_, i) => `${currentYear}${(i + 1).toString().padStart(2, "0")}`
     );
     return monthArray;
+  }
+
+  public static async downloadAndSaveCSVNodeEdgeFile(download: Download) {
+    const downloadPath = path.join(__dirname, "download.csv");
+    await download.saveAs(downloadPath);
+    console.log(`File downloaded to ${downloadPath}`);
+    return downloadPath;
+  }
+
+  public static async checkCSVFileExistence(filePath) {
+    const doesFileExist = fs.existsSync(filePath);
+    if (doesFileExist) {
+      console.log("File exists on the specified path.");
+    } else {
+      console.log("File does not exist on the specified path.");
+    }
+
+    return doesFileExist;
   }
 }

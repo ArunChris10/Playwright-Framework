@@ -7,6 +7,7 @@ import { DriversFunctionality } from './select-add-view-drivers-functionality.pa
 import { RemoveFunctionality } from './remove-driver-functionality.page';
 import { FilterFunctionality } from "./Filter.page";
 import { PickDatasetFunctionality } from "./pick-Dataset-functionality-page";
+import { nodeEdgeGridFunctionality } from "./Node-edge-grid.page";
 
 
 export class SSDMPageFactory {
@@ -47,6 +48,10 @@ export class SSDMPageFactory {
 
     pickDataset(){
       return new PickDatasetFunctionality(this.page);
+    }
+
+    nodeEdgeGrid(){
+      return new nodeEdgeGridFunctionality(this.page);
     }
 
 }
