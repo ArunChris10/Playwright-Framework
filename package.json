@@ -19,7 +19,7 @@
   "devDependencies": {
     "@types/convert-excel-to-json": "^1.7.4",
     "@types/debug": "^4.1.12",
-    "@types/node": "^20.8.4",
+    "@types/node": "^20.17.16",
     "allure-playwright": "^2.8.1"
   },
   "dependencies": {
