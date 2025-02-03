@@ -1,34 +1,34 @@
 {
-    "testData": 
+    "testData": {
+        "expectedUploadedFileName": "12-24-1 Units plug corrected (1) (4).csv",
+        "filePath": "../testData/12-24-1 Units plug corrected (1) (4).csv",
+        "fileFormat": "csv",
+        "pathOfIncorrectFile": "../testData/IncorrectNewNodeEdge.csv",
+        "computeFailingFile": "../testData/ComputeFailingNE.csv",
+        "missingColumns": [
+            "metric_Name",
+            "metric_var_name"
+        ],
+        "expectedValidationMessage": "Validation successful",
+        "expectedComputationSuccessfulMessage": "Successfully computed scenario",
+        "expectedComputationFailureMessage": "The driver tree failed to recompute. If you have any questions, please reach out to SSDM Support at ssdm_engineering_support@walmart.onmicrosoft.com for more information.",
+        "inputDriverFirst": "Other Buying Allowances",
+        "inputDriverSecond": "Non-driver Inputs (Merchandise Income)",
+        "latestDatasetInfo": "Latest dataset",
+        "latestDatasetMessage": "Latest datasets are the most recent datasets have been transformed and are currently being presented, however, they have not yet undergone full validation",
+        "activatedDatasetInfo": "activated dataset",
+        "activatedDatasetMessage": "Activated datasets are the most recently validated information from our sources. Please be aware that these datasets may not reflect the most recent transformation.",
+        "newlyPublishedNodeEdgeStatus": "IN PROGRESS",
+        "dateTimePattern": "(January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4}, \\d{1,2}:\\d{2} (AM|PM)"
+    },
+    "filterOptions": [
         {
-        
-            "expectedUploadedFileName": "newNode Document.csv",
-            "filePath": "../testData/12-24-1 Units plug corrected (1) (4).csv",
-            "fileFormat":"csv",
-            "pathOfIncorrectFile": "../testData/IncorrectNewNodeEdge.csv",
-            "computeFailingFile": "../testData/ComputeFailingNE.csv",
-            "missingColumns": ["metric_Name", "metric_var_name"],
-            "expectedValidationMessage": "Validation successful",
-            "expectedComputationSuccessfulMessage": "Successfully computed scenario",
-            "expectedComputationFailureMessage": "The driver tree failed to recompute. If you have any questions, please reach out to SSDM Support at ssdm_engineering_support@walmart.onmicrosoft.com for more information.",
-            "inputDriverFirst": "Other Buying Allowances",
-            "inputDriverSecond": "Non-driver Inputs (Merchandise Income)",
-            "latestDatasetInfo": "Latest dataset",
-            "latestDatasetMessage": "Latest datasets are the most recent datasets have been transformed and are currently being presented, however, they have not yet undergone full validation",
-            "activatedDatasetInfo": "activated dataset",
-            "activatedDatasetMessage": "Activated datasets are the most recently validated information from our sources. Please be aware that these datasets may not reflect the most recent transformation."
-        },
-        "filterOptions": [
-        {
-            
             "data": {
-                
                 "channel": {
                     "dropDown": "Channel",
                     "childDropDown": "DELIVERY",
                     "option": "OWNED_S2H"
                 },
-                
                 "department": {
                     "dropDown": "Department",
                     "childDropDown": "FOOD",
@@ -39,20 +39,14 @@
     ],
     "groupByOptions": [
         {
-            
             "data": {
-                
                 "channel": {
-                    
                     "option": "Channel"
                 },
-                
                 "department": {
-                    
                     "option": "Department"
                 }
             }
         }
     ]
-    
 }

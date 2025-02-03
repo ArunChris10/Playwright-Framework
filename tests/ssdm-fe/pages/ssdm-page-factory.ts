@@ -9,6 +9,7 @@ import { FilterFunctionality } from "./Filter.page";
 import { PickDatasetFunctionality } from "./pick-Dataset-functionality-page";
 import { nodeEdgeGridFunctionality } from "./Node-edge-grid.page";
 import { LockPublishFunctionality } from "./lock.publish.page";
+import { NewPublishedNodeEdgeFunctionality } from "./new-published-NE-visibility.page";
 
 
 export class SSDMPageFactory {
@@ -57,6 +58,10 @@ export class SSDMPageFactory {
 
     lockPublish(){
       return new LockPublishFunctionality(this.page);    
+    }
+
+    newPublishedNE(){
+      return new NewPublishedNodeEdgeFunctionality(this.page);
     }
 
 }

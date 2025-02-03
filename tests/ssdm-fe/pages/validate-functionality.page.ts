@@ -13,7 +13,7 @@ export class ValidateFunctionality {
     constructor(page: Page) {
         this.page = page;
         this.btnValidate = page.locator('//button[text()="Validate"]');
-        this.validationSuccessMessage = page.locator("//span[contains(@class, 'module_content')]//child::span");
+        this.validationSuccessMessage = page.getByText("Validation successful");
         this.alert = page.locator(' //div[contains(@class,"Alert-module_error")]');
         this.btnClose = page.locator('//button[text()="Close"]');
        

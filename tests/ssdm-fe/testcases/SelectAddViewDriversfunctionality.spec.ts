@@ -5,7 +5,7 @@ import { testData } from '../testdata/fileName.json';
 import { TIMEOUT } from '../constants/timeout.json';
 
 
-test.describe('Select,Add And View Driver Feature Test', { tag: "@driverFunctionality" }, async () => {
+test.describe('Select,Add And View Driver Feature Test', { tag: "@Smoke @Regression @driverFunctionality" }, async () => {
     let objpageFactory: PageFactory;
 
     test.beforeAll(async ({ pageFactory }) => {

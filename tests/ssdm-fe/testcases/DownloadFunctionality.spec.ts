@@ -5,7 +5,7 @@ import { testData } from '../testdata/fileName.json';
 import { TIMEOUT } from '../constants/timeout.json';
 
 
-test.describe('Download Feature Test', { tag: "@downloadFunctionality" }, async () => {
+test.describe('Download Feature Test', { tag: "@Smoke @Regression @downloadFunctionality" }, async () => {
     let objpageFactory: PageFactory;
  
     test.beforeAll(async ({ pageFactory }) => {

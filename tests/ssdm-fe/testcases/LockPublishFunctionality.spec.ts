@@ -5,7 +5,7 @@ import { TIMEOUT } from '../constants/timeout.json';
 import path from "path";
 
 
-test.describe('Publish Lock Feature Test', { tag: "@lockPublishFunctionality" }, async () => {
+test.describe('Publish Lock Feature Test', { tag: "@Smoke @Regression @lockPublishFunctionality" }, async () => {
     let objpageFactory: PageFactory;
 
     test.beforeAll(async ({ pageFactory }) => {

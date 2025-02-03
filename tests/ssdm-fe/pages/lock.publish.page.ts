@@ -24,7 +24,6 @@ export class LockPublishFunctionality {
 
     async clickOnConfirmButton() {
         await this.btnConfirm.isVisible();
-
         await this.btnConfirm.click();
 
     }

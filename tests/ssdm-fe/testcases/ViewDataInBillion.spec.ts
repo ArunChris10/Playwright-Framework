@@ -5,7 +5,7 @@ import { testData } from '../testdata/fileName.json';
 import { TIMEOUT } from '../constants/timeout.json';
 
 
-test.describe('View Table Data In Billions And Millions Feature Test', { tag: "@BillionAndMillionsDataFunctionality" }, async () => {
+test.describe('View Table Data In Billions And Millions Feature Test', { tag: "@Smoke @BillionAndMillionsDataFunctionality" }, async () => {
     let objpageFactory: PageFactory;
 
     test.beforeAll(async ({ pageFactory }) => {
