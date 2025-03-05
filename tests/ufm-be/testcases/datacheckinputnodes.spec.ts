@@ -24,7 +24,7 @@ lobList.forEach((lobName) => {
     { tag: "@Smoke @Regression @dataCheck" },
     () => {
       test.describe.configure({ timeout: 600_000, mode: "parallel" });
-
+      
       test(`Verify input nodes data for ${lobName} scenario`, async ({
         request,
       }) => {

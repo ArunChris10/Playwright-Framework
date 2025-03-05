@@ -10,6 +10,7 @@ import { PickDatasetFunctionality } from "./pick-Dataset-functionality-page";
 import { nodeEdgeGridFunctionality } from "./Node-edge-grid.page";
 import { LockPublishFunctionality } from "./lock.publish.page";
 import { NewPublishedNodeEdgeFunctionality } from "./new-published-NE-visibility.page";
+import { ViewTimestampFunctionality } from "./actual-forecast-timestamp.page";
 
 
 export class SSDMPageFactory {
@@ -62,6 +63,10 @@ export class SSDMPageFactory {
 
     newPublishedNE(){
       return new NewPublishedNodeEdgeFunctionality(this.page);
+    }
+
+    viewTimestamp(){
+      return new ViewTimestampFunctionality(this.page);
     }
 
 }
