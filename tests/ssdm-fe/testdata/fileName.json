@@ -4,7 +4,7 @@
         "filePath": "../testData/12-24-1 Units plug corrected (1) (4).csv",
         "fileFormat": "csv",
         "pathOfIncorrectFile": "../testData/IncorrectNewNodeEdge.csv",
-        "computeFailingFile": "../testData/ComputeFailingNE.csv",
+        "computeFailingFile": "../testData/1-24-2 updating MP read visibility and overlapping slice.csv",
         "missingColumns": [
             "metric_Name",
             "metric_var_name"

@@ -22,7 +22,7 @@ test.describe('Review Feature Test', { tag: "@Smoke @Regression @reviewFunctiona
 
         await test.step('User computes and validates the NE file', async () => {
             await objpageFactory.ssdmPageFactory().validateFile().verifyValidation(expectedFilePath);
-            await objpageFactory.ssdmPageFactory().computeFile().isComputeButtonEnabled();
+            await objpageFactory.ssdmPageFactory().computeFile().verifyComputeButtonIsEnabled();
             await objpageFactory.ssdmPageFactory().computeFile().clickOnComputeButton();
  
         });
@@ -44,7 +44,7 @@ test.describe('Review Feature Test', { tag: "@Smoke @Regression @reviewFunctiona
 
         await test.step('User computes and validates the NE file', async () => {
             await objpageFactory.ssdmPageFactory().validateFile().verifyValidation(expectedFilePath);
-            await objpageFactory.ssdmPageFactory().computeFile().isComputeButtonEnabled();
+            await objpageFactory.ssdmPageFactory().computeFile().verifyComputeButtonIsEnabled();
             await objpageFactory.ssdmPageFactory().computeFile().clickOnComputeButton();
 
         });
