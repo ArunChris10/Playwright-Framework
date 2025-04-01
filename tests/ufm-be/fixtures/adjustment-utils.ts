@@ -20,11 +20,13 @@ export class AdjustmentUtility {
   static async createAdjustment(
     scenario_id,
     scenario_version,
+    adjustment_metadata,
     lobName,
     request
   ) {
     const endpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;
     Utility.logIt(`Create adjustment for ${lobName}`);
+    adjustmentData.payloads.adjustment_metadata = adjustment_metadata
     adjustmentData.payloads.adjustment_metadata.adjustment_name =
       lobName + " Auto Adjustment " + new Date().toLocaleString();
     adjustmentData.payloads.adjustment_metadata.adjustment_reason =
@@ -32,27 +34,39 @@ export class AdjustmentUtility {
     adjustmentData.payloads.adjustment_metadata.scenario_id = scenario_id;
     adjustmentData.payloads.adjustment_metadata.scenario_version_timestamp =
       scenario_version;
-    let allocationJson = await AllocationUtility.allocation(
-      lobName,
-      scenario_id,
-      commonData["Maintain Ratio"],
-      request
-    );
+
     adjustmentData.payloads.dim_val_id = await UfmUtility.getMapping(
       lobName,
       "dim_val_id"
     );
-    adjustmentData.payloads.allocation_request = allocationJson;
-    console.log(adjustmentData.payloads.allocation_request);
+
+    adjustmentData.testData[lobName].allocation_request = {
+      ...adjustmentData.testData[lobName].allocation_request, ...{ "scenario_id": scenario_id }
+    }
+    // adjustmentData.payloads.allocation_request = {
+    //   ...adjustmentData.testData[lobName].allocation_request, ...{ "scenario_id": scenario_id }
+    // }
+    adjustmentData.payloads.allocation_request = adjustmentData.testData[lobName].allocation_request
     const response = await request.patch(endpointURL, {
       data: adjustmentData.payloads,
     });
 
     // asserting the response
     let responseBody = await Utility.assertAndLog(response);
-    await expect
-      .soft(responseBody.message)
-      .toEqual(adjustmentData.successMessage);
+
+
+    if (adjustment_metadata.is_create) {
+      await expect
+        .soft(responseBody.message)
+        .toEqual(adjustmentData.successMessage);
+    }
+
+    if (adjustment_metadata.is_update) {
+      await expect
+        .soft(responseBody.message)
+        .toEqual(adjustmentData.updateMessage);
+    }
+
     await expect
       .soft(responseBody.adjustment_metadata.adjustment_name)
       .toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
@@ -60,7 +74,6 @@ export class AdjustmentUtility {
       .soft(responseBody.adjustment_metadata.adjustment_reason)
       .toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_reason);
 
-    let adjustment_id = responseBody.adjustment_metadata.adjustment_id;
     return responseBody.adjustment_metadata;
   }
 
@@ -86,7 +99,7 @@ export class AdjustmentUtility {
 
     const response = await request.get(endpointURL);
     let responseBody = await Utility.assertAndLog(response, isError);
-    return responseBody[0] ? responseBody[0] : responseBody;
+    return responseBody;
   }
 
   /**

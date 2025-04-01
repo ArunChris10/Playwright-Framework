@@ -1,16 +1,56 @@
 {
   "endpoint": "/adjustment/",
   "getErrorMessage": "Something went wrong while getting the adjustments",
+  "edits": 1,
   "payloads": {
     "adjustment_metadata": {
+      "adjustment_edits": 1,
       "adjustment_name": "",
       "adjustment_reason": "",
       "is_duplicated": false,
       "scenario_id": 18841722854230,
-      "scenario_version_timestamp": 1722832018
+      "scenario_version_timestamp": 1722832018,
+      "adjustment_type": 73,
+      "is_create": true,
+      "is_duplicated": false,
+      "is_update": false
     },
     "allocation_request": {},
     "dim_val_id": 110012
   },
-  "successMessage": "New adjustment created successfully!!"
+  "successMessage": "New adjustment created successfully!!",
+  "updateMessage": "Adjustment updated successfully",
+  "testData": {
+    "OPTICAL": {
+      "lobName": "OPTICAL",
+      "driverNameInput": [],
+      "driverNameCalculated": [],
+      "allocation_request": {
+        "display_nodes": [
+          "handwpayrolltaxes",
+          "handwsalaries"
+        ],
+        "scenario_id": 14011742195498,
+        "dim_val_id": 110016,
+        "dim_id": 11,
+        "preview": false,
+        "edits": [
+          {
+            "node_var_name": "opticalpayrolltax",
+            "node_dimension": {},
+            "data": {
+              "202604": 3000
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month"
+      }
+    }
+  }
 }
