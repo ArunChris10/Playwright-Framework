@@ -1,9 +1,9 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import commonData from "../constants/common.json";
-import { AllocationUtility } from "../fixtures/allocate-utils";
-import { ForecastUtility } from "../fixtures/forecast-utils";
-import { UfmUtility } from "../fixtures/ufm-utils";
+import { expect, test } from "../tests/common/fixtures/test-hook";
+import { Utility } from "../tests/common/fixtures/utils";
+import commonData from "../tests/ufm-be/constants/common.json";
+import { AllocationUtility } from "../tests/ufm-be/fixtures/allocate-utils";
+import { ForecastUtility } from "../tests/ufm-be/fixtures/forecast-utils";
+import { UfmUtility } from "../tests/ufm-be/fixtures/ufm-utils";
 
 const lobList = [
   "INSTORE AND OTHER",

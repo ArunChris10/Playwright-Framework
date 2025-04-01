@@ -47,10 +47,16 @@
         "screen_sec_name": "Segment"
       },
       {
-        "screen_sect_id": 301,
-        "screen_name": "DS_Admin",
+        "screen_sec_name": "Data Science",
         "screen_id": 3,
-        "screen_sec_name": "DS_Forecast"
+        "screen_name": "Data Science Admin",
+        "screen_sect_id": 301
+      },
+      {
+        "screen_sec_name": "AOP",
+        "screen_id": 3,
+        "screen_name": "Data Science Admin",
+        "screen_sect_id": 302
       }
     ]
   }

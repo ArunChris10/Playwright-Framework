@@ -52,9 +52,9 @@ For any help in playwright please refer the playwright documentation below
 
 - For Windows if that above steps didn't work we need to provide the absolute path for playwright and env-cmd, Hence Run the below command after replacing the config file and project
 
-           ./node_modules/.bin/env-cmd --environments qa ./node_modules/.bin/env-cmd --environments tag ./node_modules/.bin/playwright test --config=configs/ufm.config.ts --project=ufm-be
+           ./node_modules/.bin/env-cmd --environments qa ./node_modules/.bin/env-cmd --environments tag ./node_modules/.bin/playwright test --config=playwright.config.ts --project=ufm-be
 
-           Example-  ./node_modules/.bin/env-cmd --environments develop ./node_modules/.bin/env-cmd --environments Get_Historicals ./node_modules/.bin/playwright test --config=configs/ufm.config.ts --project=ufm-be
+           Example-  ./node_modules/.bin/env-cmd --environments qa ./node_modules/.bin/env-cmd --environments custom_tag ./node_modules/.bin/playwright test --config=playwright.config.ts --project=ufm-be
 
 ### Folder Structure
 

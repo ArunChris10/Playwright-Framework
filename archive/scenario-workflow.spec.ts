@@ -1,8 +1,8 @@
-import { test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import commonData from "../constants/common.json";
-import BAList from "../constants/PBA_SBA_List.json";
-import { UfmUtility } from "../fixtures/ufm-utils";
+import { test } from "../tests/common/fixtures/test-hook";
+import { Utility } from "../tests/common/fixtures/utils";
+import commonData from "../tests/ufm-be/constants/common.json";
+import BAList from "../tests/ufm-be/constants/PBA_SBA_List.json";
+import { UfmUtility } from "../tests/ufm-be/fixtures/ufm-utils";
 
 const orgName = BAList.PBAList;
 const orgName1 = ["SEGMENT", "HEALTH & WELLNESS", "ECOMMERCE"];
