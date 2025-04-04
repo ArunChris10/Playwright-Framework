@@ -147,8 +147,7 @@ export class CurrentForecast {
 
     return forecastStatus
   }
-
-  async waitForWorkflowToComplete(workflow: string, scenario_id) {
+  async getWorkflowStatusText(workflow: string){
     let scenarioWorkflow;
     switch (workflow) {
       case "sendToReview":
@@ -158,20 +157,17 @@ export class CurrentForecast {
         scenarioWorkflow = "Recalling forecast"
         break
     }
+
+    return scenarioWorkflow
+  }
+  async waitForWorkflowToComplete(workflow: string, scenario_id) {
+    let scenarioWorkflow = await this.getWorkflowStatusText(workflow);
     await this.page.locator(`//div[@row-id=${scenario_id}]//div[@col-id="forecastStatus"]//span[contains(text(),"${scenarioWorkflow}")]`).waitFor({ state: "detached", timeout: 4800000 })
 
   }
 
   async waitForWorkflowToStart(workflow: string, scenario_id) {
-    let scenarioWorkflow;
-    switch (workflow) {
-      case "sendToReview":
-        scenarioWorkflow = "Sending for review"
-        break;
-      case "recall":
-        scenarioWorkflow = "Recalling forecast"
-        break
-    }
+    let scenarioWorkflow = await this.getWorkflowStatusText(workflow);
     await this.page.locator(`//div[@row-id=${scenario_id}]//div[@col-id="forecastStatus"]//span[contains(text(),"${scenarioWorkflow}")]`).waitFor({ state: "visible", timeout: 4800000 })
 
   }
