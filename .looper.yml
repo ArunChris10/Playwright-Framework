@@ -10,6 +10,10 @@ envs:
       CRED_SECRET: "%{credentials.secret('ufm_secrets')}"
       REPO_NAME: ALL #default value for all apps
       APP_NAME: $app
+      SLACK_CHANNEL: "ibg-ufm-automation-report"
+      ERROR_SLACK_CHANNEL: "ibg-ufm-automation-report"
+      TEST_RESULT: false
+
       UFM_REPOS: #add app names here
         - ibg-ufm-metadata-service
         - ibg-ufm-core-service
@@ -18,7 +22,6 @@ envs:
         - ibg-ufm2-ui
         - ibg-ufm-canned-reports
         - ibg-ufm-canned-reports-backend
-      COMMON_REPOS:
         - ibg-shared-ui
         - ibg-shared-pages
       CDF_REPOS:
@@ -59,13 +62,24 @@ triggers:
               label: "Provide the project name that matches with the one in the playwright config file- EX-(ufm-be,ufm-fe,cdf-be,cdf-fe)",
             }
         - testTag:
-            { type: string, label: "Provide the unique tag to run the test" }
+            {
+              type: string,
+              label: "Provide the unique tag to run the test along with @",
+            }
   - manual:
       name: Run ConcordTriggeredFlow
       call: concord-triggered-flow
 parameters:
-  - app: { type: string }
-  - envr: { type: string }
+  - app:
+      {
+        type: string,
+        label: "Provide the app name which the test belong to - EX - (UFM, CDF)",
+      }
+  - envr:
+      {
+        type: string,
+        label: "Provide the env name in which the test needs to run - EX - (qa,dev,stg)",
+      }
   - testrunid: { type: string }
 
 flows:
@@ -128,75 +142,95 @@ flows:
       - echo "Running all the tests in the repo"
       - call: setup
       - APP_NAME=$app RUNID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests
+      - var(TEST_RESULT =true)
     finally:
       - call: reporter
+      - call: send_slack_msg
   runUFMBeTests:
     try:
       - echo "Running UFM API Regression testcases "
       - call: setup
       - RUNID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-be
+      - var(TEST_RESULT =true)
     finally:
       - call: reporter
+      - call: send_slack_msg
   runUFMBeSmokeTests:
     try:
       - echo "Running UFM API Smoke testcases "
       - call: setup
       - RUNID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests-be
+      - var(TEST_RESULT =true)
     finally:
       - call: reporter
+      - call: send_slack_msg
   runUFMUITests:
     try:
       - echo "Running UFM UI Regression testcases "
       - call: setup
       - RUNID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-fe
+      - var(TEST_RESULT =true)
     finally:
       - call: reporter
+      - call: send_slack_msg
   runUFMUISmokeTest:
     try:
       - echo "Running UFM UI Smoke testcases "
       - call: setup
       - RUNID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests-fe
+      - var(TEST_RESULT =true)
     finally:
       - call: reporter
+      - call: send_slack_msg
   runUFMSMokeTest:
     try:
       - echo "Running UFM Smoke testcases "
       - call: setup
       - RUNID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests
+      - var(TEST_RESULT =true)
     finally:
       - call: reporter
+      - call: send_slack_msg
 
   runCDFCustomTest:
     try:
       - echo "Running CDF Smoke testcases "
       - call: setup
-      - APP_NAME=CDF RUNID=$testrunid ENV=qa TEST=custom_tag npm run tests:cdf-tests
+      - APP_NAME=CDF RUNID=$testrunid ENV=$envr TEST=custom_tag npm run tests:cdf-tests
+      - var(TEST_RESULT =true)
     finally:
       - call: reporter
+      - call: send_slack_msg
 
   runCDFSMokeTest:
     try:
       - echo "Running CDF Smoke testcases "
       - call: setup
       - RUNID=$testrunid ENV=$envr TEST=smoke npm run tests:cdf-tests
+      - var(TEST_RESULT =true)
     finally:
       - call: reporter
+      - call: send_slack_msg
 
   runCDFRegressionTest:
     try:
       - echo "Running CDF Smoke testcases "
       - call: setup
       - RUNID=$testrunid ENV=$envr TEST=regression npm run tests:cdf-tests
+      - var(TEST_RESULT =true)
     finally:
       - call: reporter
+      - call: send_slack_msg
 
   runCustomTest:
     try:
       - echo "Running Custom TestCase Manual Trigger "
       - call: setup
       - APP_NAME=$app tag=$testTag PROJECT=$playwrightProject ENV=$envr npm run tests:looper-tests
+      - var(TEST_RESULT =true)
     finally:
       - call: reporter
+      - call: send_slack_msg
 
   setup:
     - npm install
@@ -211,3 +245,37 @@ flows:
         dir: playwright-report/${APP_NAME}
         index: index.html
         verbose: true
+
+  send_slack_msg:
+    - echo "$TEST_RESULT"
+    - switch($TEST_RESULT):
+        case(true):
+          - echo "Success For True Message"
+          - slack.postMessage:
+              username: "${JOB_NAME}"
+              message: "Automation Build successful on ENV `${envr}` for ${app} service on branch `${GITHUB_BRANCH_NAME}` "
+              channelId: "${SLACK_CHANNEL}"
+              iconEmoji: ":circleci-pass:"
+              attachments:
+                - fallback: "${BUILD_URL}"
+                  color: "#0bff01"
+                  actions:
+                    - type: "button"
+                      text: "View Report for Build #${BUILD_NUMBER} "
+                      url: https://cdc-obj-200.storage.cloud.wal-mart.com/swift/v1/looperpro-generic-prod/reports/${JOB_NAME}/${BUILD_NUMBER}/playwrightUFM/index.html
+                      style: "primary"
+        otherwise:
+          - echo "Failure For False Message"
+          - slack.postMessage:
+              username: "${JOB_NAME}"
+              message: "Automation Build failed on ENV `${envr}` for ${app} service on branch `${GITHUB_BRANCH_NAME}` "
+              channelId: "${SLACK_CHANNEL}"
+              iconEmoji: ":circleci-fail:"
+              attachments:
+                - fallback: "${BUILD_URL}"
+                  color: "#fe0000"
+                  actions:
+                    - type: "button"
+                      text: "View Report for Build #${BUILD_NUMBER} "
+                      url: https://cdc-obj-200.storage.cloud.wal-mart.com/swift/v1/looperpro-generic-prod/reports/${JOB_NAME}/${BUILD_NUMBER}/playwrightUFM/index.html
+                      style: "danger"
