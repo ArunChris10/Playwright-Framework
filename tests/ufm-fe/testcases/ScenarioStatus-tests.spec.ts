@@ -17,10 +17,6 @@ test.describe('Verify user is able to update forecast status', { tag: "@Smoke @F
     let scenario_details
     test.describe.configure({ timeout: 800_000, mode: "serial" })
 
-    // test.beforeAll(async ({ pageFactory }) => {
-    //     objpageFactory = pageFactory;
-    // })
-
     let testdata = forecast.Optical
 
     test.beforeAll(async ({ pageFactory, request }) => {
