@@ -225,6 +225,20 @@ export class CoreServicesUtility {
             let dim_val_id = response.rowData[j].lineOfBusiness;
             lobName = await UfmUtility.getMapping(dim_val_id, "childName");
             console.log("Current LOB underscan is- " + lobName);
+            if (
+                (await ForecastUtility.countOfScenario(
+                  lobName,
+                  process.env.ufmUser,
+                  request
+                )) >= commonData.MAX_SCENARIO_COUNT
+              ) {
+                //Deleting forecast created by logged in user
+                await ForecastUtility.deleteAllforecastofUser(
+                  request,
+                  lobName,
+                  process.env.ufmUser
+                );
+              }
             [scenario_details, isNewCreated] =
                 await ForecastUtility.getOrCreateForecastIfNotExists(
                     lobName,

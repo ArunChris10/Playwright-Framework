@@ -30,7 +30,7 @@ lob.forEach((lobName) => {
 
 org.forEach((orgName) => {
     test.describe("Verify Scenario Workflow",
-        { tag: "@Smoke @Regression @nidhi" },
+        { tag: "@Smoke @Regression" },
         async () => {
             test.describe.configure({ timeout: 3000_000, mode: "serial" });
 
@@ -43,7 +43,44 @@ org.forEach((orgName) => {
                 await CoreServicesUtility.CreateAndSendToBA(orgName, request);
                 await CoreServicesUtility.checkAndSendForSegmentReview(orgName, request);
             });
-            
+            //Validate Change Request
+            test('IBGROW-36373_Verify segment is able to do change request and all Lob is change requested ${orgName}', async ({ request }) => {
+                if (isDefaulted != true) {
+                    // Sending for CR and asserting Segment screen progress tracker to have status as Change requested
+                    await CoreServicesUtility.sendForChangeRequest(orgName, request);
+                    await CoreServicesUtility.validateBAAndForecastStatus(orgName, request, 'All', commonData.Change_Requested);
+                    console.log("Change request status validated for BA & Forecast")
+                }
+                else {
+                    expect(isDefaulted).toBe(true);
+                    console.log("CR test was already validated as part of Pre-requiiste test")
+                }
+            });
+            test('IBGROW-36375_Validate if one lob is in BA review, another same lob can be sent to ba review, and first is recalled for Org ${orgName}', async ({ request }) => {
+                // Bring back from Segment review if present                
+                //await CoreServicesUtility.stateChangePreRequisite(orgName, request);
+                [scenario_details, dim_val_id, lobName] = await CoreServicesUtility.sendBAReviewforSamelob(orgName, request);
+            });
+
+            // Given 1 record is in BA review (as accomplished in above test INGROW-36375), test recall
+            test('IBGROW-36377_Verify user is able to send LOB to recall scenario from ba reviewOrg ${orgName}', async ({ request }) => {
+                await CoreServicesUtility.changeToStatus(
+                    lobName,
+                    scenario_details["scenarioId"],
+                    scenario_details["scenarioVersion"],
+                    commonData.Draft,
+                    commonData.lob_dim_id,
+                    dim_val_id,
+                    request
+                );
+                let response = await CoreServicesUtility.getProgresstracker(orgName, request);
+                for (let i = 0; i < response.rowData.length; i++) {
+                    if (((response.rowData[i].lineOfBusiness) == dim_val_id) && (response.rowData[i].scenarioId) == scenario_details["scenarioId"]) {
+                        console.log("Found___ Recalled scenario")
+                        expect(response.rowData[i].forecastStatus.statusCode).toBe(commonData.Draft)
+                    }
+                }
+            });
 
         });
 });
