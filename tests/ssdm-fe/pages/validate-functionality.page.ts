@@ -67,7 +67,6 @@ export class ValidateFunctionality {
 
         // Click on the toggle to pick the dataset
         await objpageFactory.ssdmPageFactory().pickDataset().clickOnToggle();
-
         await objpageFactory.ssdmPageFactory().uploadFile().selectFileToBeUploaded(filepath);
 
         if (fileShouldBeDownloaded) {

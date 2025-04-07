@@ -45,7 +45,7 @@ export class DriversFunctionality {
 
     async navigateToMyKpiPage(filepath: string){
         await this.pageFactory.ssdmPageFactory().validateFile().verifyValidation(filepath);
-        await this.pageFactory.ssdmPageFactory().computeFile().isComputeButtonEnabled();
+        await this.pageFactory.ssdmPageFactory().computeFile().verifyComputeButtonIsEnabled();
         await this.pageFactory.ssdmPageFactory().computeFile().clickOnComputeButton();
         await this.pageFactory.ssdmPageFactory().computeFile().verifyComputeIsSuccessful();
         await this.pageFactory.ssdmPageFactory().review().isReviewButtonClickable();
