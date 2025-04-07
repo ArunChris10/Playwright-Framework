@@ -257,7 +257,7 @@ flows:
                   actions:
                     - type: "button"
                       text: "View Report for Build #${BUILD_NUMBER} "
-                      url: https://cdc-obj-200.storage.cloud.wal-mart.com/swift/v1/looperpro-generic-prod/reports/${JOB_NAME}/${BUILD_NUMBER}/playwrightUFM/index.html
+                      url: https://cdc-obj-200.storage.cloud.wal-mart.com/swift/v1/looperpro-generic-prod/reports/${JOB_NAME}/${BUILD_NUMBER}/playwright${APP_NAME}/index.html
                       style: "primary"
         otherwise:
           - echo "Failure For False Message"
@@ -272,5 +272,5 @@ flows:
                   actions:
                     - type: "button"
                       text: "View Report for Build #${BUILD_NUMBER} "
-                      url: https://cdc-obj-200.storage.cloud.wal-mart.com/swift/v1/looperpro-generic-prod/reports/${JOB_NAME}/${BUILD_NUMBER}/playwrightUFM/index.html
+                      url: https://cdc-obj-200.storage.cloud.wal-mart.com/swift/v1/looperpro-generic-prod/reports/${JOB_NAME}/${BUILD_NUMBER}/playwright${APP_NAME}/index.html
                       style: "danger"
