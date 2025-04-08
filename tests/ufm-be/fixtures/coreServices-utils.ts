@@ -315,7 +315,6 @@ export class CoreServicesUtility {
         }
     }
 
-
     static async sendBAReviewforSamelob(orgName, request) {
         let scenario_details, isNewCreated, currentBAReviewScenarioId, dim_val_id, lobName, existingScenarioId;
         let isExisting = false;
@@ -333,7 +332,7 @@ export class CoreServicesUtility {
         if (isExisting == true) {
             console.log("ISEXISTING BA REVIEW----" + isExisting);
             [scenario_details, isNewCreated] =
-                await ForecastUtility.getOrCreateForecastIfNotExists(lobName, request);
+            await ForecastUtility.getOrCreateForecastIfNotExists(lobName, request);
             await CoreServicesUtility.SendToBAReview(
                 request,
                 lobName,
@@ -372,6 +371,7 @@ export class CoreServicesUtility {
                 scenario_details["scenarioId"],
                 scenario_details["scenarioVersion"],
             )
+           
             let refreshResponse = await UfmUtility.getCurrentForecastList(lobName, request);
             for (let i = 0; i < refreshResponse.length; i++) {
                 if ((refreshResponse[i].scenarioId) == existingScenarioId) {
@@ -409,4 +409,89 @@ export class CoreServicesUtility {
 
         return await Utility.assertAndLog(response);
     }
+
+    static async createAndSendToBAReview(request, orgName) {
+        let response, lobName, scenario_details, isNewCreated;
+        //Getting Status of all LOB of an Org by progress tracker
+        response = await UfmUtility.getProgresstracker(orgName, request);
+        Utility.logIt(response.rowData.length);
+
+        response.rowData.forEach(async curRow => {
+            let dim_val_id = curRow.lineOfBusiness; 
+            lobName = await UfmUtility.getMapping(dim_val_id, "childName");
+
+            //checking if status is Not started or draft , then deleting all other and creating new forecast
+          if (
+            curRow.forecastStatus != commonData.Segment_Review &&
+            curRow.forecastStatus != commonData.BA_Review
+          ) {
+            if (
+              (await ForecastUtility.countOfScenario(
+                lobName,
+                process.env.ufmUser,
+                request
+              )) >= commonData.MAX_SCENARIO_COUNT
+            ) {
+              //Deleting forecast created by logged in user
+              await ForecastUtility.deleteAllforecastofUser(
+                request,
+                lobName,
+                process.env.ufmUser
+              );
+            }
+    
+            [scenario_details, isNewCreated] =
+              await ForecastUtility.getOrCreateForecastIfNotExists(
+                lobName,
+                request
+              );
+
+            
+                
+            
+        }});
+        for (let j = 0; j < response.rowData.length; j++) {
+          let dim_val_id = response.rowData[j].lineOfBusiness;
+          lobName = await UfmUtility.getMapping(dim_val_id, "childName");
+          Utility.logIt(lobName);
+    
+          //checking if status is Not started or draft , then deleting all other and creating new forecast
+          if (
+            response.rowData[j].forecastStatus != commonData.Segment_Review &&
+            response.rowData[j].forecastStatus != commonData.BA_Review
+          ) {
+            if (
+              (await ForecastUtility.countOfScenario(
+                lobName,
+                process.env.ufmUser,
+                request
+              )) >= commonData.MAX_SCENARIO_COUNT
+            ) {
+              //Deleting forecast created by logged in user
+              await ForecastUtility.deleteAllforecastofUser(
+                request,
+                lobName,
+                process.env.ufmUser
+              );
+            }
+    
+            [scenario_details, isNewCreated] =
+              await ForecastUtility.getOrCreateForecastIfNotExists(
+                lobName,
+                request
+              );
+    
+            //Sending created forecast to BA review
+            await UfmUtility.changeToStatus(
+              scenario_details["scenarioId"],
+              scenario_details["scenarioVersion"],
+              commonData.BA_Review,
+              commonData.lob_dim_id,
+              await UfmUtility.getMapping(lobName, "dim_val_id"),
+              request
+            );
+            Utility.logIt(`Sent ${lobName} to BA Review`);
+          }
+        }
+      }
 }
