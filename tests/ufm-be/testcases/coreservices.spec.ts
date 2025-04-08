@@ -61,7 +61,7 @@ org.forEach((orgName) => {
                         response = await CoreServicesUtility.getProgresstracker("Segment_Finance", request);
                         let isInSegmentReview = false;     
                         response.rowData.forEach(async curRow => {
-                            if (curRow.forecastStatus.statusCode == commonData.Segment_Review && !isInSegmentReview && curRow.organization){
+                            if (curRow.forecastStatus.statusCode == commonData.Segment_Review && !isInSegmentReview){
                             console.log("Found Segment Review, performing Change Request for org: " + orgName)
                             await CoreServicesUtility.sendForChangeRequest(orgName,request);
                             await CoreServicesUtility.validateBAAndForecastStatus(orgName, request, 'All', commonData.Change_Requested);
