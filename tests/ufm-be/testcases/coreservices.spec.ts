@@ -60,15 +60,11 @@ org.forEach((orgName) => {
                         Utility.logIt(`Checking whether the ${orgName} is in segment review or not`);
                         response = await CoreServicesUtility.getProgresstracker("Segment_Finance", request);
                         let isInSegmentReview = false;     
+                        let segmentReviewDimValId = await UfmUtility.getMapping(orgName, "parent_id");
                         response.rowData.forEach(async curRow => {
-                            if (curRow.forecastStatus.statusCode == commonData.Segment_Review && !isInSegmentReview){
+                            if (curRow.forecastStatus.statusCode == commonData.Segment_Review && !isInSegmentReview && curRow.organization == segmentReviewDimValId){
                             console.log("Found Segment Review, performing Change Request for org: " + orgName)
                             await CoreServicesUtility.sendForChangeRequest(orgName,request);
-                            await CoreServicesUtility.validateBAAndForecastStatus(orgName, request, 'All', commonData.Change_Requested);
-                            console.log("Change request status validated for Segment_Finance")
-                            await CoreServicesUtility.validateBAAndForecastStatus(orgName, request, 'All', commonData.Change_Requested);
-                            console.log("Change request status validated for BA & Forecast")
-                            Utility.logIt(`${orgName} is in segment review `);
                             isInSegmentReview = true;
                             }
                         });                        
