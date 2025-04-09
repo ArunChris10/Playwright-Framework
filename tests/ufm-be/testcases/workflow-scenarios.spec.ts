@@ -10,7 +10,7 @@ let lobName, dim_val_id, scenario_details;
 
 org.forEach((orgName) => {
     test.describe("Verify Scenario Workflow",
-        { tag: "@Smoke @Regression @nidhi" },
+        { tag: "@Smoke @Regression" },
         async () => {
             test.describe.configure({ timeout: 3000_000, mode: "serial" });
 
