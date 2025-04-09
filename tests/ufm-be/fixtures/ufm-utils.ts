@@ -319,7 +319,6 @@ export class UfmUtility {
           }
           if(i["parent_name"] == base_data){
             required_data =i["parent_id"]
-            console.log("Inside parent id -"+required_data)
           }
         });
     }

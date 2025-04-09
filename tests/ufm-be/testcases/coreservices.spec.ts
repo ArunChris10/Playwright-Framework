@@ -5,9 +5,8 @@ import { ForecastUtility } from "../fixtures/forecast-utils";
 import { UfmUtility } from "../fixtures/ufm-utils";
 import { CoreServicesUtility } from "../fixtures/coreServices-utils";
 import { request } from "http";
-import common from "mocha/lib/interfaces/common";
 
-const org = ["HEALTH & WELLNESS"];
+const org = ["MERCHANDISING OPERATIONS"];
 const lob = ["OPTICAL", "RX"];
 let lobName, dim_val_id, scenario_details;
 let isDefaulted = false;
@@ -59,8 +58,10 @@ org.forEach((orgName) => {
                 }
             });
             test('IBGROW-36375_Validate if one lob is in BA review, another same lob can be sent to ba review, and first is recalled for Org ${orgName}', async ({ request }) => {
-                // Bring back from Segment review if present                
-                //await CoreServicesUtility.stateChangePreRequisite(orgName, request);
+                // Bring back from Segment review if present   
+                if (isDefaulted != true) {
+                    await CoreServicesUtility.stateChangePreRequisite(orgName, request);
+                }
                 [scenario_details, dim_val_id, lobName] = await CoreServicesUtility.sendBAReviewforSamelob(orgName, request);
             });
 
@@ -78,37 +79,10 @@ org.forEach((orgName) => {
                 let response = await CoreServicesUtility.getProgresstracker(orgName, request);
                 for (let i = 0; i < response.rowData.length; i++) {
                     if (((response.rowData[i].lineOfBusiness) == dim_val_id) && (response.rowData[i].scenarioId) == scenario_details["scenarioId"]) {
-                        console.log("Found___ Recalled scenario")
                         expect(response.rowData[i].forecastStatus.statusCode).toBe(commonData.Draft)
                     }
                 }
             });
-
-        });
-});
-
-org.forEach((orgName) => {
-    test.describe("Verify Scenario Workflow for end to end segment submission",
-        { tag: "@Regression @rahul" },
-        async () => {
-            test.describe.configure({ timeout: 3000_000, mode: "serial" });
-
-            test(`IBGROW-36149_Verfiy segment user is able to submit to corporate ${orgName}`, async ({ request }) => {
-                        Utility.logIt(`Checking whether the ${orgName} is in segment review or not`);
-                        response = await CoreServicesUtility.getProgresstracker("Segment_Finance", request);
-                        let isInSegmentReview = false;     
-                        let segmentReviewDimValId = await UfmUtility.getMapping(orgName, "parent_id");
-                        response.rowData.forEach(async curRow => {
-                            if (curRow.forecastStatus.statusCode == commonData.Segment_Review && !isInSegmentReview && curRow.organization == segmentReviewDimValId){
-                            console.log("Found Segment Review, performing Change Request for org: " + orgName)
-                            await CoreServicesUtility.sendForChangeRequest(orgName,request);
-                            isInSegmentReview = true;
-                            }
-                        });                        
-
-                        await CoreServicesUtility.CreateAndSendToBA(orgName,request);
-                        await CoreServicesUtility.checkAndSendForSegmentReview(orgName, request);
-            });           
 
         });
 });
