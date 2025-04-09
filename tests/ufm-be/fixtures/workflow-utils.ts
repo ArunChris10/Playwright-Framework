@@ -4,55 +4,7 @@ import endpoints from "../testdata/statusendpoints.json";
 import { ForecastUtility } from "./forecast-utils";
 import { UfmUtility } from "./ufm-utils";
 import { expect } from "playwright/test";
-export class CoreServicesUtility {
-
-    /**
-     * This method submits a scenario for BA review by changing its status.
-     *
-     * @param {Request} request - The request object used for the operation.
-     * @param {string} lobName - The name of the line of business (LOB) associated with the scenario.
-     * @param {string} scenario_id - The unique identifier of the scenario to be reviewed.
-     * @param {string} scenario_version - The version of the scenario to be reviewed.
-     * @returns {Promise<void>} - A promise that resolves when the operation is complete.
-     */
-    public static async SendToBAReview(request, lobName, scenario_id, scenario_version) {
-        await this.changeToStatus(
-            lobName,
-            scenario_id,
-            scenario_version,
-            commonData.BA_Review,
-            commonData.lob_dim_id,
-            await UfmUtility.getMapping(lobName, "dim_val_id"),
-            request
-        );
-        Utility.logIt(
-            `BA review submitted for ${scenario_id}`
-        );
-    }
-
-    /**
-     * This method submits a scenario for Segment review by changing its status.
-     *
-     * @param {Request} request - The request object used for the operation.
-     * @param {string} scenario_id - The unique identifier of the scenario to be reviewed.
-     * @param {string} scenario_version - The version of the scenario to be reviewed.
-     * @param {string} dim_val_id - The dimension value ID associated with the scenario.
-     * @returns {Promise<void>} - A promise that resolves when the operation is complete.
-     */
-    public static async SendToSegmentReview(request, scenario_id, scenario_version, dim_val_id) {
-        await this.changeToStatus(
-            "Segment_Finance",
-            scenario_id,
-            scenario_version,
-            commonData.Segment_Review,
-            commonData.ba_dim_id,
-            dim_val_id,
-            request
-        );
-        Utility.logIt(
-            `Segment review submitted for ${scenario_id}`
-        );
-    }
+export class WorkflowUtility {
 
     /**
      * This method changes the status of a scenario to a specified status.
@@ -98,13 +50,13 @@ export class CoreServicesUtility {
         await expect
             .poll(
                 async () => {
-                    Utility.logIt("Polling Status update for.."+lobName);
+                    Utility.logIt("Polling Status update for.." + lobName + " for scenario "+scenario_id);
                     if (lobName == "Segment_Finance") {
                         const response = await this.getProgresstracker(
                             "Segment_Finance",
                             request
                         );
-                        statusTrackingResponse =  response.rowData;
+                        statusTrackingResponse = response.rowData;
                     } else {
                         statusTrackingResponse = await UfmUtility.getCurrentForecastList(
                             lobName,
@@ -150,9 +102,9 @@ export class CoreServicesUtility {
                 if (response[currRow].forecastStatus.statusCode === commonData.Segment_Review) {
                     Utility.logIt("Found Segment Review, performing Change Request")
                     await this.sendForChangeRequest(org, request);
-                    await CoreServicesUtility.validateBAAndForecastStatus(org, request, 'All', commonData.Change_Requested);
+                    await this.validateBAAndForecastStatus(org, request, 'All', commonData.Change_Requested);
                     Utility.logIt("Change request status validated for Segment_Finance")
-                    await CoreServicesUtility.validateBAAndForecastStatus(org, request, dim_val_id, commonData.Change_Requested);
+                    await this.validateBAAndForecastStatus(org, request, dim_val_id, commonData.Change_Requested);
                     Utility.logIt("Change request status validated for BA & Forecast")
                 }
             }
@@ -172,7 +124,7 @@ export class CoreServicesUtility {
         let segmentReviewDimValId = await UfmUtility.getMapping(orgName, "parent_id");
         for (let currRow = 0; currRow < response.rowData.length; currRow++) {
             if ((response.rowData[currRow].organization) === segmentReviewDimValId) {
-                await this.changeToStatus(
+                await this.sendToReview(
                     "Segment_Finance",
                     response.rowData[currRow].scenarioId,
                     response.rowData[currRow].scenarioVersion,
@@ -186,13 +138,14 @@ export class CoreServicesUtility {
     }
 
     /**
-     * This method creates a new scenario if not existingand sends it for BA review.
+     * Creates and sends a forecast to BA review for each line of business (LOB)
+     * of a given organization. Later performs a Org level assertion on status chnage for BA & forecast
      *
      * @param {string} orgName - The organization name.
      * @param {Request} request - The request object used for the operation.
      * @returns {Promise<void>} - A promise that resolves when the operation is complete.
      */
-    static async CreateAndSendToBA(orgName, request) {
+    static async CreateAndSendToBAReview(orgName, request) {
         let response, lobName, scenario_details, isNewCreated;
         //Getting Status of all LOB of an Org by progress tracker
         response = await this.getProgresstracker(orgName, request);
@@ -223,12 +176,15 @@ export class CoreServicesUtility {
                 );
 
             // Send to BA Review for all LOB of given Org
-            await this.SendToBAReview(
-                request,
+            await this.sendToReview(
                 lobName,
                 scenario_details["scenarioId"],
                 scenario_details["scenarioVersion"],
-            )
+                commonData.BA_Review,
+                commonData.lob_dim_id,
+                await UfmUtility.getMapping(lobName, "dim_val_id"),
+                request
+              );
             // Assert status at forecast & BA level
             await this.validateBAAndForecastStatus(orgName, request, dim_val_id, commonData.BA_Review)
         }
@@ -247,15 +203,47 @@ export class CoreServicesUtility {
         for (let currRow = 0; currRow < response.rowData.length; currRow++) {
             if ((response.rowData[currRow].organization) == (segmentReviewDimValId)) {
                 Utility.logIt("Sending to Segment Review")
-                await this.SendToSegmentReview(
-                    request,
+                await this.sendToReview(
+                    "Segment_Finance",
                     response.rowData[currRow].scenarioId,
                     response.rowData[currRow].scenarioVersion,
-                    segmentReviewDimValId
-                )
+                    commonData.Segment_Review,
+                    commonData.ba_dim_id,
+                    segmentReviewDimValId,
+                    request
+                );
+                Utility.logIt(
+                    `Segment review submitted for ${response.rowData[currRow].scenarioId}`
+                );
             }
         }
         await this.validateBAAndForecastStatus(orgName, request, 'All', commonData.Segment_Review)
+    }
+
+    
+    /**
+     * Sends a scenario to review by changing its status to the specified value.
+     * This method utilizes the `changeToStatus` function to update the scenario's status.
+     *
+     * @param screen - The screen object or context where the operation is performed.
+     * @param scenario_id - The unique identifier of the scenario to be updated.
+     * @param scenario_version - The version of the scenario to be updated.
+     * @param updateToStatus - The target status to which the scenario should be updated.
+     * @param dim_id - The dimension identifier associated with the scenario.
+     * @param dim_val_id - The dimension value identifier associated with the scenario.
+     * @param request - Additional request data or parameters required for the operation.
+     * @returns A promise that resolves when the status change operation is complete.
+     */
+    static async sendToReview(screen,scenario_id,scenario_version,updateToStatus,dim_id,dim_val_id,request){
+        await this.changeToStatus(
+            screen,
+            scenario_id,
+            scenario_version,
+            updateToStatus,
+            dim_id,
+            dim_val_id,
+            request
+        );
     }
 
     /**
@@ -269,7 +257,7 @@ export class CoreServicesUtility {
      */
     static async validateBAAndForecastStatus(orgName, request, dim_val_id, expectedStatus) {
         let scenario_id, scenario_version, lobName;
-        let baProgressTrackerResponse = await CoreServicesUtility.getProgresstracker(orgName, request);
+        let baProgressTrackerResponse = await this.getProgresstracker(orgName, request);
         for (let currRow = 0; currRow < baProgressTrackerResponse.rowData.length; currRow++) {
             if (baProgressTrackerResponse.rowData[currRow].lineOfBusiness == (dim_val_id) || (dim_val_id == 'All')) {
                 expect(baProgressTrackerResponse.rowData[currRow].forecastStatus.statusCode).toBe(expectedStatus)
@@ -289,52 +277,8 @@ export class CoreServicesUtility {
     }
 
     /**
-     * This method sends a scenario for BA review for the same line of business (LOB).
-     *
-     * @param {string} orgName - The organization name.
-     * @param {Request} request - The request object used for the operation.
-     * @returns {Promise<[object, string, string]>} - A promise that resolves to an array containing scenario details, dimension value ID, and LOB name.
-     */
-    static async sendBAReviewforSamelob(orgName, request) {
-        let scenario_details, isNewCreated, currentBAReviewScenarioId, dim_val_id, lobName, existingScenarioId;
-        let isExisting = false;
-        let responseProgTracker = await this.getProgresstracker(orgName, request);
-        let response = responseProgTracker.rowData;
-            Utility.logIt("ISEXISTING BA REVIEW in ELSE----" + isExisting);
-            dim_val_id = response[0].lineOfBusiness;
-            lobName = await UfmUtility.getMapping(dim_val_id, "childName");
-            [scenario_details, isNewCreated] =
-                await ForecastUtility.getOrCreateForecastIfNotExists(lobName, request);
-            existingScenarioId = scenario_details["scenarioId"];
-            await CoreServicesUtility.SendToBAReview(
-                request,
-                lobName,
-                scenario_details["scenarioId"],
-                scenario_details["scenarioVersion"],
-            );
-            //again create a new if not existing forecast of same Lob and send for BA review
-            [scenario_details, isNewCreated] =
-                await ForecastUtility.getOrCreateForecastIfNotExists(lobName, request);
-            await CoreServicesUtility.SendToBAReview(
-                request,
-                lobName,
-                scenario_details["scenarioId"],
-                scenario_details["scenarioVersion"],
-            )
-
-            let refreshResponse = await UfmUtility.getCurrentForecastList(lobName, request);
-            for (let refreshResponseRow = 0; refreshResponseRow < refreshResponse.length; refreshResponseRow++) {
-                if ((refreshResponse[refreshResponseRow].scenarioId) == existingScenarioId) {
-                    expect(refreshResponse[refreshResponseRow].forecastStatus.statusCode).toBe(commonData.Draft)
-                    Utility.logIt("Assertion passed for old BA review record defaulting to Draft")
-                    break;
-                }
-            }
-        return [scenario_details, dim_val_id, lobName];
-    }
-
-    /**
-     * This method retrieves the progress tracker for a specific screen.
+    * This method will list the progress tracker and give you status of LOB or BA based on which screen is passed in argument
+    * Technically screen is BA screen or Segment finance screen
      *
      * @param {string} screen - The screen name (e.g., "Segment_Finance").
      * @param {Request} request - The request object used for the operation.
@@ -361,7 +305,6 @@ export class CoreServicesUtility {
                 classification_id: commonData.classification_id,
             },
         });
-
         return await Utility.assertAndLog(response);
     }
 

@@ -137,3 +137,21 @@ for (let i = 0; i < lobName.length; i++) {
     }
   );
 }
+
+const lob = ["SEGMENT", "HOME OFFICE"];
+lob.forEach((lobName) => {
+    test.describe(
+        "Verify create forecast API for multiple LOBs",
+        { tag: "@Smoke @Regression" },
+        async () => {
+            test.describe.configure({ timeout: 600_000, mode: "parallel" });
+
+            test(`IBGROW-36379_Validate multiple LOB forecast creation ${lobName}`, async ({ request }) => {
+                await ForecastUtility.createForecast(
+                    lobName,
+                    request
+                );
+            });
+        }
+    );
+});
