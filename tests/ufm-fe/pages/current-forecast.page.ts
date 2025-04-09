@@ -33,9 +33,11 @@ export class CurrentForecast {
   readonly nudgeMessageForCreateDueDate: Locator;
   readonly ellipses: Locator;
   readonly sendButton: Locator
+  readonly yesSendButton: Locator
   readonly recallButton: Locator
   readonly recallForecast: Locator
   readonly recallForecastHeader: Locator
+  readonly sendingForReview: Locator
 
   constructor(page: Page) {
     this.page = page;
@@ -91,9 +93,11 @@ export class CurrentForecast {
     );
 
     this.sendButton = page.getByText('Send', { exact: true })
+    this.yesSendButton = page.getByText('Yes, Send', { exact: true })
     this.recallButton = page.getByText('Recall', { exact: true })
     this.recallForecast = page.getByText('Recall forecast', { exact: true })
     this.recallForecastHeader = page.locator("//h2[contains(text(),'Recall forecast')]")
+    this.sendingForReview = page.getByText('Sending for review', { exact: false });
   }
 
   async gotoOrganisationSelection() {
@@ -124,23 +128,50 @@ export class CurrentForecast {
   }
 
   async clickOnSendButton() {
-    await this.sendButton.click()
+    await this.sendButton.isVisible() ? await this.sendButton.click() : await this.yesSendButton.click()
   }
 
   async clickOnRecallButton() {
     await this.recallButton.click()
-  }
-  async waitforSendToReviewToComplete(sbaName) {
-    await this.page.getByText(`Your forecast will be sent to the ${sbaName.toUpperCase()} reviewer`).waitFor({ state: "detached", timeout: 480000 })
   }
 
   async waitforRecallForecastToComplete(sbaName) {
     await this.page.getByText(`After recalling your forecast, you'll be able to make changes to your forecast. Then you can send it back to your ${sbaName} reviewer.`).waitFor({ state: "detached", timeout: 480000 })
   }
 
-  async getScenarioStatus(scenarioName) {
-    return await this.page.locator(`//div[contains(text(),'${scenarioName}')]//following-sibling::div[@col-id='forecastStatus']//span`).innerText()
+  async getScenarioStatus(scenario_id) {
+
+    let forecastStatus = await this.page.locator(`//div[@row-id=${scenario_id}]//div[@col-id="forecastStatus"]//span`).innerText()
+
+    Utility.logIt(`Current status of ${scenario_id} scenario is ${forecastStatus}`);
+
+    return forecastStatus
   }
+  async getWorkflowStatusText(workflow: string){
+    let scenarioWorkflow;
+    switch (workflow) {
+      case "sendToReview":
+        scenarioWorkflow = "Sending for review"
+        break;
+      case "recall":
+        scenarioWorkflow = "Recalling forecast"
+        break
+    }
+
+    return scenarioWorkflow
+  }
+  async waitForWorkflowToComplete(workflow: string, scenario_id) {
+    let scenarioWorkflow = await this.getWorkflowStatusText(workflow);
+    await this.page.locator(`//div[@row-id=${scenario_id}]//div[@col-id="forecastStatus"]//span[contains(text(),"${scenarioWorkflow}")]`).waitFor({ state: "detached", timeout: 4800000 })
+
+  }
+
+  async waitForWorkflowToStart(workflow: string, scenario_id) {
+    let scenarioWorkflow = await this.getWorkflowStatusText(workflow);
+    await this.page.locator(`//div[@row-id=${scenario_id}]//div[@col-id="forecastStatus"]//span[contains(text(),"${scenarioWorkflow}")]`).waitFor({ state: "visible", timeout: 4800000 })
+
+  }
+
 
   async verifySBAName(breadCrumName: string) {
     const sbaNameText = await this.page
@@ -162,6 +193,8 @@ export class CurrentForecast {
       .first()
       .waitFor({ state: "visible", timeout: 420000 });
   }
+
+
 
   async getAvailableFilterSetsList() {
     const filterSetInnerTexts = await this.filterSetsList.allInnerTexts();
@@ -274,6 +307,10 @@ export class CurrentForecast {
     await this.page.waitForTimeout(1000);
   }
 
+  async validateWorflowAlertMessage(workflow, scenarioName) {
+    return await this.page.locator(`//span[contains(text(),"${scenarioName} was ${workflow}.")]`).isVisible()
+  }
+
   async clickOnOpenParticularForecast(LOB: string) {
     let forecastParentElement = this.page
       .locator(
@@ -299,26 +336,21 @@ export class CurrentForecast {
     expect(foreCastHeader).toEqual(forecastName);
   }
 
-
-  async clickOnParticularForecastEllipses(LOB: string) {
-    let forecastParentElement = this.page
+  async clickOnParticularForecastEllipses(scenarioName: string) {
+    let forecastRowID = await this.page
       .locator(
-        `//div[contains(@class,'CurrentForecast_card-container')]//div[contains(text(),"${LOB}")]/parent::div`
+        `//span[contains(text(), "${scenarioName}")] / ancestor::div[@role="row"]`
       )
-      .first();
+      .getAttribute("row-index")
 
-    let forecastRowID = await forecastParentElement.getAttribute("row-id");
+    let moreOptions = await this.page
+      .locator(
+        `//button[@id="basic-button" and @aria-label="More options"]//ancestor::div[@row-index="${forecastRowID}"]//button[@aria-label="More options"]`
+      )
 
-    let forecastName = await forecastParentElement
-      .locator('//div[@col-id="name"]')
-      .innerText();
+    await moreOptions.first().click();
 
-    let LOBForecast = await this.page.locator(`//div[contains(@class,'CurrentForecast_card-container')]//div[@row-id=${forecastRowID}]`
-    );
-
-    await LOBForecast.locator(this.ellipses).click();
-
-    return forecastName
+    return scenarioName
   }
 
   async clickOnRollingForecastCalendarTab() {

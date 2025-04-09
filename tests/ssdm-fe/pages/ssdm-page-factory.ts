@@ -11,6 +11,7 @@ import { nodeEdgeGridFunctionality } from "./Node-edge-grid.page";
 import { LockPublishFunctionality } from "./lock.publish.page";
 import { NewPublishedNodeEdgeFunctionality } from "./new-published-NE-visibility.page";
 import { ViewTimestampFunctionality } from "./actual-forecast-timestamp.page";
+import { AsyncPublishFunctionality } from "./publish-async-process.page";
 
 
 export class SSDMPageFactory {
@@ -67,6 +68,10 @@ export class SSDMPageFactory {
 
     viewTimestamp(){
       return new ViewTimestampFunctionality(this.page);
+    }
+
+    asyncPublishProcess(){
+      return new AsyncPublishFunctionality(this.page);
     }
 
 }
