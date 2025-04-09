@@ -300,42 +300,12 @@ export class CoreServicesUtility {
         let isExisting = false;
         let responseProgTracker = await this.getProgresstracker(orgName, request);
         let response = responseProgTracker.rowData;
-        for (let lobRecord = 0; lobRecord < response.length; lobRecord++) {
-            if ((response[lobRecord].forecastStatus.statusCode) == commonData.BA_Review) {
-                // BA review record exists
-                dim_val_id = response[lobRecord].lineOfBusiness;
-                lobName = await UfmUtility.getMapping(dim_val_id, "childName");
-                existingScenarioId = response[lobRecord].scenarioId;
-                isExisting = true;
-            }
-        }
-        if (isExisting == true) {
-            Utility.logIt("ISEXISTING BA REVIEW status is----" + isExisting);
-            [scenario_details, isNewCreated] =
-                await ForecastUtility.getOrCreateForecastIfNotExists(lobName, request);
-            await CoreServicesUtility.SendToBAReview(
-                request,
-                lobName,
-                scenario_details["scenarioId"],
-                scenario_details["scenarioVersion"],
-            )
-            Utility.logIt("Passing---same LoB sent for BA review, given already present")
-            let refreshResponse = await UfmUtility.getCurrentForecastList(lobName, request);
-            for (let refreshResponseRow = 0; refreshResponseRow < refreshResponse.length; refreshResponseRow++) {
-                if ((refreshResponse[refreshResponseRow].scenarioId) == existingScenarioId) {
-                    expect(refreshResponse[refreshResponseRow].forecastStatus.statusCode).toBe(commonData.Draft)
-                    Utility.logIt("Assertion passed for old BA review record defaulting to Draft")
-                    break;
-                }
-            }
-        }
-        else {
             Utility.logIt("ISEXISTING BA REVIEW in ELSE----" + isExisting);
             dim_val_id = response[0].lineOfBusiness;
             lobName = await UfmUtility.getMapping(dim_val_id, "childName");
             [scenario_details, isNewCreated] =
                 await ForecastUtility.getOrCreateForecastIfNotExists(lobName, request);
-            let existingScenarioId = scenario_details["scenarioId"];
+            existingScenarioId = scenario_details["scenarioId"];
             await CoreServicesUtility.SendToBAReview(
                 request,
                 lobName,
@@ -360,7 +330,6 @@ export class CoreServicesUtility {
                     break;
                 }
             }
-        }
         return [scenario_details, dim_val_id, lobName];
     }
 

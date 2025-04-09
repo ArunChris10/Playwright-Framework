@@ -36,7 +36,7 @@ org.forEach((orgName) => {
             test.describe.configure({ timeout: 3000_000, mode: "serial" });
 
             test(`IBGROW-36378_IBGROW-36374_Validate User send LOB to BA review and then to Segment Review ${orgName}`, async ({ request }) => {
-                isDefaulted = await CoreServicesUtility.stateChangePreRequisite(
+                await CoreServicesUtility.stateChangePreRequisite(
                     orgName,
                     request
                 );
@@ -46,22 +46,12 @@ org.forEach((orgName) => {
             });
             //Validate Change Request
             test('IBGROW-36373_Verify segment is able to do change request and all Lob is change requested ${orgName}', async ({ request }) => {
-                if (isDefaulted != true) {
                     // Sending for CR and asserting Segment screen progress tracker to have status as Change requested
                     await CoreServicesUtility.sendForChangeRequest(orgName, request);
                     await CoreServicesUtility.validateBAAndForecastStatus(orgName, request, 'All', commonData.Change_Requested);
                     console.log("Change request status validated for BA & Forecast")
-                }
-                else {
-                    expect(isDefaulted).toBe(true);
-                    console.log("CR test was already validated as part of Pre-requiiste test")
-                }
             });
             test('IBGROW-36375_Validate if one lob is in BA review, another same lob can be sent to ba review, and first is recalled for Org ${orgName}', async ({ request }) => {
-                // Bring back from Segment review if present   
-                if (isDefaulted != true) {
-                    await CoreServicesUtility.stateChangePreRequisite(orgName, request);
-                }
                 [scenario_details, dim_val_id, lobName] = await CoreServicesUtility.sendBAReviewforSamelob(orgName, request);
             });
 
