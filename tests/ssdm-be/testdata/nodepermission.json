@@ -1,0 +1,17 @@
+{
+    "endPoint" :"/api/driver-trees/{driverTreeKey}/versions/{driverTreeVersion}/nodes/{nodeKey}/variants/{nodeVersion}/permissions",
+    "dev":{
+        "driver_tree_key": 8,
+        "driver_tree_version": 1,
+        "node_key": 382,
+        "node_variant_key": 402,
+        "expectedResponse" : "[\r\n  {\r\n    \"nodeVariantKey\": 402,\r\n    \"nodePermissionId\": 263911,\r\n    \"lobId\": 130001,\r\n    \"lobName\": \"SEGMENT FINANCE\",\r\n    \"permissionType\": \"ReadWrite\"\r\n  },\r\n  {\r\n    \"nodeVariantKey\": 402,\r\n    \"nodePermissionId\": 263912,\r\n    \"lobId\": 130001,\r\n    \"lobName\": \"SEGMENT FINANCE\",\r\n    \"permissionType\": \"Read\"\r\n  }\r\n]"
+         },
+    "qa":{
+        "driver_tree_key": 4,
+        "driver_tree_version": 1,
+        "node_key": 6363,
+        "node_variant_key": 6753,
+        "expectedResponse" : "[{\"nodeVariantKey\":6753,\"nodePermissionId\":29734,\"lobId\":110003,\"lobName\":\"CORE_SERVICES\",\"permissionType\":\"Read\"},{\"nodeVariantKey\":6753,\"nodePermissionId\":29735,\"lobId\":110005,\"lobName\":\"E2E DELIVERY\",\"permissionType\":\"Read\"},{\"nodeVariantKey\":6753,\"nodePermissionId\":29736,\"lobId\":110006,\"lobName\":\"ECOMMERCE\",\"permissionType\":\"Read\"},{\"nodeVariantKey\":6753,\"nodePermissionId\":29737,\"lobId\":110010,\"lobName\":\"INNOVATION & AUTOMATION\",\"permissionType\":\"Read\"},{\"nodeVariantKey\":6753,\"nodePermissionId\":29738,\"lobId\":110015,\"lobName\":\"OPERATIONS\",\"permissionType\":\"Read\"},{\"nodeVariantKey\":6753,\"nodePermissionId\":29739,\"lobId\":110016,\"lobName\":\"OPTICAL\",\"permissionType\":\"Read\"},{\"nodeVariantKey\":6753,\"nodePermissionId\":29740,\"lobId\":110019,\"lobName\":\"RX\",\"permissionType\":\"Read\"},{\"nodeVariantKey\":6753,\"nodePermissionId\":29742,\"lobId\":110019,\"lobName\":\"RX\",\"permissionType\":\"Read-Write\"},{\"nodeVariantKey\":6753,\"nodePermissionId\":29741,\"lobId\":110021,\"lobName\":\"SEGMENT\",\"permissionType\":\"Read\"}]"
+         }
+}

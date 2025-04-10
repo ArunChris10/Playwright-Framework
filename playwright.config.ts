@@ -171,5 +171,12 @@ export default defineConfig({
         },
       },
     },
+    {
+      name: "ssdm-be",
+      dependencies: ["api-setup"],
+      testMatch: /ssdm-be.*.spec.ts/,
+      grep: [new RegExp(process.env.tag + "")],
+      
+    },
   ],
 });

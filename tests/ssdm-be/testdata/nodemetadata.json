@@ -1,0 +1,17 @@
+{
+    "endPoint" :"/api/driver-trees/{driverTreeKey}/versions/{driverTreeVersion}/nodes/{nodeKey}/variants/{nodeVersion}/",
+    "dev":{
+        "driver_tree_key": 8,
+        "driver_tree_version": 1,
+        "node_key": 2013,
+        "node_variant_key": 22312,
+        "expectedResponse" : "{\"nodeVariantKey\":22312,\"nodeNm\":\"eComm Off Shelf & Retail Cost\",\"metricType\":null,\"nodeType\":\"calculated\",\"calcType\":\"\",\"calcText\":\"(fCOffShelfandRetailCost + brandsOffShelfandRetailCost + othereCommOffShelfandRetailCost)\",\"aggrText\":null}"
+         },
+    "qa":{
+        "driver_tree_key": 4,
+        "driver_tree_version": 1,
+        "node_key": 7261,
+        "node_variant_key": 7697,
+        "expectedResponse" : "{\"aggrText\": \"string\", \"calcText\": \"string\", \"metricType\": null, \"nodeNm\": \"SC Usage Multiplier (Cleaning / Restroom Supplies 9.07)\", \"nodeType\": \"\", \"nodeVariantKey\": 7697}"
+         }
+}
