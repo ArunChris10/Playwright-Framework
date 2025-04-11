@@ -10,7 +10,7 @@ let dataForBAOverride = ["OPTICAL", "HEALTH & WELLNESS"]; // Give LOB & it's Org
 let dataForBARecall = ["RX", "HEALTH & WELLNESS"]; // Give LOB & it's Org Name
 
 test.describe("Verify Scenario Workflow",
-    { tag: "@Smoke @Regression @mytest" },
+    { tag: "@Smoke @Regression @scenario_workflow" },
     async () => {
         test.describe.configure({ timeout: 3000_000, mode: "parallel" });
 
