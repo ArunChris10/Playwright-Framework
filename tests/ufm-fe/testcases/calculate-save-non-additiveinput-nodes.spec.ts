@@ -36,19 +36,7 @@ testData.forEach(forecastNodeDetail => {
                 await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnChooseDriver()
             })
 
-            // await test.step(`Search for input driver: ${data.driver.inputDriver}`, async () => {
-            //     await objpageFactory.ufmPageFactory().addDriverPage().waitForPageLoad()
-            //     await objpageFactory.ufmPageFactory().addDriverPage().inputDriverName(data.driver.inputDriver)
-            // })
-
-            // await test.step(`Select the input driver : ${data.driver.inputDriver}`, async () => {
-            //     await objpageFactory.ufmPageFactory().addDriverPage().selectDriver(data.driver.inputDriver)
-            // })
-
-            // await test.step("Click on Apply Drivers", async () => {
-            //     await objpageFactory.ufmPageFactory().addDriverPage().clickOnApplyDrivers()
-            // })
-
+            
             await test.step(`Search for input driver: ${data.driver.inputDriver}`, async () => {
                 await objpageFactory.ufmPageFactory().addDriverPage().searchAndApplyDrivers(data.driver.inputNonAdditiveDrivers)
                
