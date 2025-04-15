@@ -13,22 +13,7 @@
             }
         }
     ],
-    
-    "NonAdditivetestData": [
-        {
-            "sbaName": "Merchandising finance",
-            "LOB": "SCHEDULED",
-            "driver": {
-                "inputDrivers": ["COGS (Input)", "Other Cost of Goods Sold"],
-
-                "noOfMonth": 2,
-                "allocationMethod": "Maintain ratio",
-                "forecastValue": 10000
-            }
-        }
-    ],
-
-    
+        
     "testAdditiveDataQuarter": [
         {
             "sbaName": "Health & wellness",
