@@ -1,16 +1,34 @@
 {
     "testData": [
         {
-            "sbaName": "Health & wellness",
-            "LOB": "OPTICAL",
+            
+            "sbaName": "Merchandising finance",
+            "LOB": "SCHEDULED",
             "driver": {
-                "inputDriver": "Optical Payroll Tax",
+                "inputDriver": "COGS (Input)",
+                "inputNonAdditiveDrivers": ["COGS (Input)", "Other Cost of Goods Sold"],
                 "noOfMonth": 2,
                 "allocationMethod": "Maintain ratio",
                 "forecastValue": 10000
             }
         }
     ],
+    
+    "NonAdditivetestData": [
+        {
+            "sbaName": "Merchandising finance",
+            "LOB": "SCHEDULED",
+            "driver": {
+                "inputDrivers": ["COGS (Input)", "Other Cost of Goods Sold"],
+
+                "noOfMonth": 2,
+                "allocationMethod": "Maintain ratio",
+                "forecastValue": 10000
+            }
+        }
+    ],
+
+    
     "testAdditiveDataQuarter": [
         {
             "sbaName": "Health & wellness",

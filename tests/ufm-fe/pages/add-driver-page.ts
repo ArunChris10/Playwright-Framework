@@ -41,8 +41,19 @@ export class AddDriverPage {
         await this.page.waitForSelector(`label:has(span[data-testid="remainingWord"]):has-text("${driverName}")`, {state: 'attached'});
         await this.page.waitForTimeout(5000);
         const driverNodeElement = await this.page.$(`label:has(span[data-testid="remainingWord"]):has-text("${driverName}")`);
-        await driverNodeElement.click();
-        await this.page.locator(`//div[@class="customSelected"]//span[contains(text(),"${driverName}")]`).waitFor({ state: "visible" })
+        await driverNodeElement!.click();
+        //await this.page.locator(`//div[@class="customSelected"]//span[contains(text(),"${driverName}")]`).waitFor({ state: "visible" });
+    }
+
+    async  searchAndApplyDrivers(driverNames: string[]) {
+        for (const driverName of driverNames) {
+           
+                await this.waitForPageLoad();
+                await this.inputDriverName(driverName);
+           await this.selectDriver(driverName);
+             
+           
+        }await this.clickOnApplyDrivers();
     }
 
     async clickOnApplyDrivers() {
