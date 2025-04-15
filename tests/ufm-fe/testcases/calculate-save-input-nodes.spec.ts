@@ -1,106 +1,132 @@
 import { testData } from '../testdata/inputNodeValues.json';
 import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
+import { ForecastUtility } from '../../ufm-be/fixtures/forecast-utils';
+import commonData from "../../ufm-be/constants/common.json"
+import { UfmUtility } from '../../ufm-be/fixtures/ufm-utils';
 
-testData.forEach(forecastNodeDetail => {
+let lobList = {
+    "Merchandising finance": ["SCHEDULED"]
+    // "Supply Chain": ["LAST MILE DELIVERY"]
+}
+Object.entries(lobList).forEach(([org, lob]) => {
 
-    test.describe('Calculate and Save input node', { tag: "@Smoke @calculateAndSaveInputNode" }, async () => {
-        let data = forecastNodeDetail
-        let objpageFactory: PageFactory;
-        let inputNodeValues;
-        let calculateErrorMessageExistence;
-        let saveErrorMessageExistence;
-        let allocateErrorMessageExistence;
+    for (let i = 0; i < lob.length; i++) {
+        test.describe('Calculate and Save input node', { tag: "@Smoke @calculateAndSaveInputNode" }, async () => {
+            test.describe.configure({ timeout: 800_000, mode: "serial" });
+            let objpageFactory: PageFactory;
+            let adjustmentName
 
-        test.beforeAll(async ({ pageFactory }) => {
-            objpageFactory = pageFactory;
+            let scenarioId
+            let scenario_details
+
+            test.beforeAll(async ({ pageFactory, request }) => {
+                objpageFactory = pageFactory;
+                scenarioId = await ForecastUtility.createForecast(lob[i].toUpperCase(), request);
+
+                let currentForecast = await UfmUtility.getCurrentForecastList(
+                    lob[i],
+                    request
+                );
+
+                scenario_details = await UfmUtility.getScenarioDetails(
+                    currentForecast,
+                    scenarioId
+                );
+
+            })
+
+            test.afterAll(async ({ request }) => {
+                await ForecastUtility.deleteForecast(
+                    scenario_details["scenarioId"],
+                    scenario_details["scenarioVersion"],
+                    commonData.ba_dim_id,
+                    await UfmUtility.getMapping(lob, "dim_val_id"),
+                    request
+                );
+            })
+
+            test('Verify inputter can calculate and save changes for multiple input nodes', { tag: "@calculateInputNode" }, async () => {
+                test.setTimeout(300000);
+
+                await test.step('Go To UFM Page', async () => {
+                    await objpageFactory.ufmPageFactory().organisationSelection().navigate();
+                })
+                await test.step(`Click on ${org} Organization`, async () => {
+                    await objpageFactory.ufmPageFactory().organisationSelection().selectOrganisation(org);
+                })
+
+                await test.step(`Click on Open ${org} Frecast`, async () => {
+                    await objpageFactory.ufmPageFactory().currentForecast().clickOnOpenParticularForecast(lob[i])
+                })
+
+                await test.step('Click on choose different drivers', async () => {
+                    await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnChooseDifferentDriver()
+                })
+
+                await test.step('Click on input drivers tab', async () => {
+                    await objpageFactory.ufmPageFactory().addDriverPage().toggleToInputDriversTab()
+                })
+
+                await test.step(`Select all input drivers`, async () => {
+                    await objpageFactory.ufmPageFactory().addDriverPage().waitForPageLoad()
+
+                    await objpageFactory.ufmPageFactory().addDriverPage().selectAllInputDrivers()
+
+                })
+
+
+                await test.step("Click on Apply Drivers", async () => {
+                    await objpageFactory.ufmPageFactory().addDriverPage().clickOnApplyDrivers()
+                })
+
+                await test.step("Wait for KPI table to load", async () => {
+                    await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad()
+                })
+
+                await test.step('Input number in all valid cell/non-empty cell', async () => {
+                    let map = await objpageFactory.ufmPageFactory().openCurrentForecast().inputValueInAllValidInputCell("3333")
+
+                })
+
+
+                await test.step('Click on Calculate', async () => {
+                    await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCalculateButton()
+                    expect(await objpageFactory.ufmPageFactory().openCurrentForecast().isSomethingWentWrongError()).toBeFalsy()
+                    await objpageFactory.ufmPageFactory().openCurrentForecast().waitForCalculationSuccessMessage()
+
+                })
+
+                await test.step('Click on Save as change', async () => {
+                    await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSaveAsChange()
+
+                })
+
+                await test.step('Provide name and description in save as change form', async () => {
+                    adjustmentName = "Change 2"
+                    await objpageFactory.ufmPageFactory().openCurrentForecast().fillChangeForm(adjustmentName, "Test description created through automation")
+                })
+
+                await test.step('Click on Save Changes', async () => {
+                    await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSaveChanges()
+                    expect(await objpageFactory.ufmPageFactory().openCurrentForecast().isSomethingWentWrongError()).toBeFalsy()
+                    expect(await objpageFactory.ufmPageFactory().openCurrentForecast().waitForSaveChanges())
+                })
+
+                await test.step("Wait for KPI table to load", async () => {
+                    await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad()
+                })
+
+                await test.step('Validate save is changed', async () => {
+                    let changesList = await objpageFactory.ufmPageFactory().openCurrentForecast().getAllChanges()
+
+                    expect(changesList[0]).toEqual(adjustmentName)
+                })
+
+
+            })
         })
-
-        test('Verify inputter can calculate and save changes for input nodes', { tag: "@calculateInputNode" }, async () => {
-            test.setTimeout(300000);
-
-            await test.step('Go To UFM Page', async () => {
-                await objpageFactory.ufmPageFactory().organisationSelection().navigate();
-            })
-            await test.step(`Click on ${data.sbaName} Organization`, async () => {
-                await objpageFactory.ufmPageFactory().organisationSelection().selectOrganisation(data.sbaName);
-            })
-
-            await test.step(`Click on Open ${data.LOB} Frecast`, async () => {
-                await objpageFactory.ufmPageFactory().currentForecast().waitForForecastToLoad()
-                await objpageFactory.ufmPageFactory().currentForecast().clickOnOpenParticularForecast(data.LOB)
-            })
-
-            await test.step('Click on choose different drivers', async () => {
-                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnChooseDifferentDriver()
-            })
-
-            await test.step(`Search for input driver: ${data.driver.inputDriver}`, async () => {
-                await objpageFactory.ufmPageFactory().addDriverPage().waitForPageLoad()
-                await objpageFactory.ufmPageFactory().addDriverPage().inputDriverName(data.driver.inputDriver)
-            })
-
-            await test.step(`Select the input driver : ${data.driver.inputDriver}`, async () => {
-                await objpageFactory.ufmPageFactory().addDriverPage().selectDriver(data.driver.inputDriver)
-            })
-
-            await test.step("Click on Apply Drivers", async () => {
-                await objpageFactory.ufmPageFactory().addDriverPage().clickOnApplyDrivers()
-            })
-
-            await test.step('Validate added driver is listed on the KPI forecast Page', async () => {
-                expect(await objpageFactory.ufmPageFactory().openCurrentForecast().validateDriverPresence(data.driver.inputDriver)).toBeTruthy()
-            })
-
-            await test.step('Click on Calculate before inputting value and validate the error message', async () => {
-                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCalculateButton()
-                calculateErrorMessageExistence = await objpageFactory.ufmPageFactory().openCurrentForecast().calculateErrorMessageExistence()
-                expect(calculateErrorMessageExistence).toBeTruthy()
-            })
-
-            await test.step('Click on Save before inputting value and validate the error message', async () => {
-                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSave()
-                saveErrorMessageExistence = await objpageFactory.ufmPageFactory().openCurrentForecast().saveErrorMessageExistence()
-                expect(saveErrorMessageExistence).toBeTruthy()
-            })
-            await test.step(`Enter forecast value ${data.driver.forecastValue} for first ${data.driver.noOfMonth} month/months`, async () => {
-                inputNodeValues = await objpageFactory.ufmPageFactory().openCurrentForecast().fillForecastInputCell(data.driver.noOfMonth, data.driver.forecastValue)
-            })
-
-            await test.step(`Select allocation method as ${data.driver.allocationMethod}`, async () => {
-                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCalculateButton()
-                allocateErrorMessageExistence = await objpageFactory.ufmPageFactory().openCurrentForecast().allocationErrorMessageExistence()
-                expect(allocateErrorMessageExistence).toBeTruthy()
-                await objpageFactory.ufmPageFactory().openCurrentForecast().selectAllocationMethod(data.driver.allocationMethod)
-            })
-
-            await test.step('Click on Calculate', async () => {
-                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCalculateButton()
-                expect(await objpageFactory.ufmPageFactory().openCurrentForecast().isSomethingWentWrongError()).toBeFalsy()
-                await objpageFactory.ufmPageFactory().openCurrentForecast().waitForCalculationSuccessMessage()
-
-            })
-
-            await test.step('Click on Save', async () => {
-                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSave()
-                expect(await objpageFactory.ufmPageFactory().openCurrentForecast().isSomethingWentWrongError()).toBeFalsy()
-                saveErrorMessageExistence = await objpageFactory.ufmPageFactory().openCurrentForecast().saveErrorMessageExistence()
-                await expect(saveErrorMessageExistence).toBeFalsy()
-            })
-
-            await test.step('Validate the inputted value persist after clicking on save', async () => {
-                let currentInputNodeValues = await objpageFactory.ufmPageFactory().openCurrentForecast().getDriverMonthForecastValue(inputNodeValues["updated_col_ids"])
-
-                expect(inputNodeValues["updated_col_ids"].size).toBe(currentInputNodeValues.size);
-
-                for (const [key, value] of inputNodeValues["updated_col_ids"]) {
-
-                    expect(currentInputNodeValues.has(key)).toBeTruthy();
-                    expect(currentInputNodeValues.get(key)).toBe(value);
-                }
-            })
+    }
 
 
-        })
-    })
 })
