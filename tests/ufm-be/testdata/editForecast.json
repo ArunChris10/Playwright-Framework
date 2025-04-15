@@ -1,0 +1,22 @@
+{
+    "testData": {
+        "CONSOLIDATED DEMAND": {
+            "lobName": "CONSOLIDATED DEMAND",
+            "AdditiveNodes": [
+                "shippingrevenue_input"
+            ],
+            "NonAdditiveNodes": [
+                "returnedpctofunitsgrossuom_input"
+            ],
+            "AffectingNodes": {
+                "Additive": [
+                    "gsv"
+                ],
+                "NonAdditive": ["returnedunitsuomng"]
+            },
+            "node_dimension": {
+                "department": 23
+            }
+        }
+    }
+}
