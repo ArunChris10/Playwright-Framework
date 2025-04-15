@@ -6,7 +6,7 @@ import { ForecastUtility } from "../fixtures/forecast-utils";
 import { UfmUtility } from "../fixtures/ufm-utils";
 
 const orgForSendingReview = "DEMAND";
-let dataForBAOverride = ["OPTICAL", "HEALTH & WELLNESS"]; // Give LOB & it's Org Name
+let dataForBAOverride = ["HOME OFFICE", "SEGMENT"]; // Give LOB & it's Org Name
 let dataForBARecall = ["RX", "HEALTH & WELLNESS"]; // Give LOB & it's Org Name
 
 test.describe("Verify Scenario Workflow",
@@ -41,7 +41,7 @@ test.describe("Verify Scenario Workflow",
             [scenario_details, isNewCreated] =
                 await ForecastUtility.getOrCreateForecastIfNotExists(lobName, request);
             existingScenarioId = scenario_details["scenarioId"];
-            await WorkflowUtility.sendToReview(
+            await WorkflowUtility.changeToStatus(
                 lobName,
                 scenario_details["scenarioId"],
                 scenario_details["scenarioVersion"],
@@ -56,7 +56,7 @@ test.describe("Verify Scenario Workflow",
             //again create a new if not existing forecast of same Lob and send for BA review
             [scenario_details, isNewCreated] =
                 await ForecastUtility.getOrCreateForecastIfNotExists(lobName, request);
-            await WorkflowUtility.sendToReview(
+            await WorkflowUtility.changeToStatus(
                 lobName,
                 scenario_details["scenarioId"],
                 scenario_details["scenarioVersion"],
@@ -90,7 +90,7 @@ test.describe("Verify Scenario Workflow",
             [scenario_details] =
                 await ForecastUtility.getOrCreateForecastIfNotExists(lobName, request);
             let dim_val_id = await UfmUtility.getMapping(lobName, "dim_val_id");
-            await WorkflowUtility.sendToReview(
+            await WorkflowUtility.changeToStatus(
                 lobName,
                 scenario_details["scenarioId"],
                 scenario_details["scenarioVersion"],

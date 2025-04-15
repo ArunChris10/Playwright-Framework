@@ -317,9 +317,6 @@ export class UfmUtility {
           if (i["child_name"] == base_data && i["child_dim_name"] == BAtype) {
             required_data = i["parent_id"];
           }
-          if(i["parent_name"] == base_data){
-            required_data =i["parent_id"]
-          }
         });
     }
 

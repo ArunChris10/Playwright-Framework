@@ -142,7 +142,7 @@ const lob = ["SEGMENT", "HOME OFFICE"];
 lob.forEach((lobName) => {
   test.describe(
     "Verify create forecast API for multiple LOBs",
-    { tag: "@Smoke @Regression" },
+    { tag: "@Smoke @Regression @multipleForecast" },
     async () => {
       test.describe.configure({ timeout: 600_000, mode: "parallel" });
 

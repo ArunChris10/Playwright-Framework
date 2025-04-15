@@ -121,10 +121,10 @@ export class WorkflowUtility {
      */
     static async sendForChangeRequest(orgName, request) {
         let response = await this.getProgresstracker("Segment_Finance", request);
-        let segmentReviewDimValId = await UfmUtility.getMapping(orgName, "parent_id");
+        let segmentReviewDimValId = await UfmUtility.getMapping(orgName, "parent_id", "PBA");
         for (let currRow = 0; currRow < response.rowData.length; currRow++) {
             if ((response.rowData[currRow].organization) === segmentReviewDimValId) {
-                await this.sendToReview(
+                await this.changeToStatus(
                     "Segment_Finance",
                     response.rowData[currRow].scenarioId,
                     response.rowData[currRow].scenarioVersion,
@@ -176,7 +176,7 @@ export class WorkflowUtility {
                 );
 
             // Send to BA Review for all LOB of given Org
-            await this.sendToReview(
+            await this.changeToStatus(
                 lobName,
                 scenario_details["scenarioId"],
                 scenario_details["scenarioVersion"],
@@ -199,11 +199,11 @@ export class WorkflowUtility {
      */
     static async checkAndSendForSegmentReview(orgName, request) {
         let response = await this.getProgresstracker("Segment_Finance", request);
-        let segmentReviewDimValId = await UfmUtility.getMapping(orgName, "parent_id");
+        let segmentReviewDimValId = await UfmUtility.getMapping(orgName, "parent_id", "PBA");
         for (let currRow = 0; currRow < response.rowData.length; currRow++) {
             if ((response.rowData[currRow].organization) == (segmentReviewDimValId)) {
                 Utility.logIt("Sending to Segment Review")
-                await this.sendToReview(
+                await this.changeToStatus(
                     "Segment_Finance",
                     response.rowData[currRow].scenarioId,
                     response.rowData[currRow].scenarioVersion,
@@ -221,31 +221,6 @@ export class WorkflowUtility {
     }
 
     
-    /**
-     * Sends a scenario to review by changing its status to the specified value.
-     * This method utilizes the `changeToStatus` function to update the scenario's status.
-     *
-     * @param screen - The screen object or context where the operation is performed.
-     * @param scenario_id - The unique identifier of the scenario to be updated.
-     * @param scenario_version - The version of the scenario to be updated.
-     * @param updateToStatus - The target status to which the scenario should be updated.
-     * @param dim_id - The dimension identifier associated with the scenario.
-     * @param dim_val_id - The dimension value identifier associated with the scenario.
-     * @param request - Additional request data or parameters required for the operation.
-     * @returns A promise that resolves when the status change operation is complete.
-     */
-    static async sendToReview(screen,scenario_id,scenario_version,updateToStatus,dim_id,dim_val_id,request){
-        await this.changeToStatus(
-            screen,
-            scenario_id,
-            scenario_version,
-            updateToStatus,
-            dim_id,
-            dim_val_id,
-            request
-        );
-    }
-
     /**
      * This method validates the status of BA and forecast scenarios.
      *
@@ -294,7 +269,7 @@ export class WorkflowUtility {
         } else {
             template_id = commonData.ba_template_id;
             dim_id = commonData.ba_dim_id;
-            dim_val_id = await UfmUtility.getMapping(screen, "parent_id");
+            dim_val_id = await UfmUtility.getMapping(screen, "parent_id", "PBA");
         }
         const endpointURL = `${process.env.apiBaseURLUFM}${endpoints.get_report_endpoint}`;
         const response = await request.post(endpointURL, {
