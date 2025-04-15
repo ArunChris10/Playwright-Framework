@@ -331,6 +331,25 @@ async inputValueInAllValidInputCell(value) {
     await this.calculationSuccessfulMessage.waitFor({ state: "visible" });
   }
 
+  async clickOnSaveChanges() {
+    await this.saveChangesButton.click();
+    await this.calculationSpinner.waitFor({ state: "hidden" });
+    await this.forecastTable.waitFor({ state: "visible" });
+  }
+
+  async fillChangeForm(inputName, inputDescription) {
+    await this.inputName.click()
+    await this.page.keyboard.type(inputName);
+    await this.inputDescription.click()
+    await this.page.keyboard.type(inputDescription);
+  }
+  async waitForSaveChanges() {
+    return await this.saveChangesLoader.waitFor({ state: "detached" })
+  }
+
+  async clickOnSaveAsChange() {
+    await this.saveButton.click();
+  }
   async saveErrorMessageExistence() {
     const saveErrorMessageExistence = await this.page
       .waitForSelector(`//span[contains(text(),"${this.saveErrorMessage}")]`, {

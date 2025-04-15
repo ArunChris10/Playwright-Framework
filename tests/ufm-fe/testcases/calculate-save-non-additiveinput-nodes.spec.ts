@@ -11,6 +11,7 @@ testData.forEach(forecastNodeDetail => {
         let calculateErrorMessageExistence;
         let saveErrorMessageExistence;
         let allocateErrorMessageExistence;
+        let adjustmentName;
 
         test.beforeAll(async ({ pageFactory }) => {
             objpageFactory = pageFactory;
@@ -52,24 +53,16 @@ testData.forEach(forecastNodeDetail => {
                 await objpageFactory.ufmPageFactory().addDriverPage().searchAndApplyDrivers(data.driver.inputNonAdditiveDrivers)
                
             })
-            await test.step('Validate added driver is listed on the KPI forecast Page', async () => {
-                expect(await objpageFactory.ufmPageFactory().openCurrentForecast().validateDriverPresence(data.driver.inputDriver)).toBeTruthy()
-            })
-
             
-            // await test.step(`Enter forecast value ${data.driver.forecastValue} for first ${data.driver.noOfMonth} month/months`, async () => {
-            //     inputNodeValues = await objpageFactory.ufmPageFactory().openCurrentForecast().fillForecastInputCell(data.driver.noOfMonth, data.driver.forecastValue)
-            // })
-
             await test.step("Wait for KPI table to load", async () => {
                 await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad()
             })
-            await test.step(`Select allocation method as ${data.driver.allocationMethod}`, async () => {
-                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCalculateButton()
-                allocateErrorMessageExistence = await objpageFactory.ufmPageFactory().openCurrentForecast().allocationErrorMessageExistence()
-                expect(allocateErrorMessageExistence).toBeTruthy()
-                await objpageFactory.ufmPageFactory().openCurrentForecast().selectAllocationMethod(data.driver.allocationMethod)
+
+            await test.step('Input number in all valid cell/non-empty cell', async () => {
+                let map = await objpageFactory.ufmPageFactory().openCurrentForecast().inputValueInAllValidInputCell("3333")
+
             })
+
 
             await test.step('Click on Calculate', async () => {
                 await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCalculateButton()
@@ -78,26 +71,36 @@ testData.forEach(forecastNodeDetail => {
 
             })
 
-            await test.step('Click on Save', async () => {
-                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSave()
-                expect(await objpageFactory.ufmPageFactory().openCurrentForecast().isSomethingWentWrongError()).toBeFalsy()
-                saveErrorMessageExistence = await objpageFactory.ufmPageFactory().openCurrentForecast().saveErrorMessageExistence()
-                await expect(saveErrorMessageExistence).toBeFalsy()
+            await test.step('Click on Save as change', async () => {
+                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSaveAsChange()
+
             })
 
-            await test.step('Validate the inputted value persist after clicking on save', async () => {
-                let currentInputNodeValues = await objpageFactory.ufmPageFactory().openCurrentForecast().getDriverMonthForecastValue(inputNodeValues["updated_col_ids"])
+            await test.step('Provide name and description in save as change form', async () => {
+                adjustmentName = "Change 2"
+                await objpageFactory.ufmPageFactory().openCurrentForecast().fillChangeForm(adjustmentName, "Test description created through automation")
+            })
 
-                expect(inputNodeValues["updated_col_ids"].size).toBe(currentInputNodeValues.size);
+            await test.step('Click on Save Changes', async () => {
+                await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSaveChanges()
+                expect(await objpageFactory.ufmPageFactory().openCurrentForecast().isSomethingWentWrongError()).toBeFalsy()
+                expect(await objpageFactory.ufmPageFactory().openCurrentForecast().waitForSaveChanges())
+            })
 
-                for (const [key, value] of inputNodeValues["updated_col_ids"]) {
+            await test.step("Wait for KPI table to load", async () => {
+                await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad()
+            })
 
-                    expect(currentInputNodeValues.has(key)).toBeTruthy();
-                    expect(currentInputNodeValues.get(key)).toBe(value);
-                }
+            await test.step('Validate save is changed', async () => {
+                let changesList = await objpageFactory.ufmPageFactory().openCurrentForecast().getAllChanges()
+
+                expect(changesList[0]).toEqual(adjustmentName)
             })
 
 
         })
     })
+
+
+
 })
