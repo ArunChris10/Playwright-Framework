@@ -11,16 +11,13 @@ export interface NodeDimension { };
 
 Object.entries(testData).forEach(([lobName, testData]) => {
 
-  let scenario_details;
-  //let scenrioId: number = 19211744716020; // remove after testing
-  //let scenarioVersion = 1744716020; //Remove after testing
   let scenarioId;
   let scenarioVersion;
   let allocationMethod;
   let inputNodesType;
   let node_dimension: NodeDimension = {};
 
-  test.describe("Verify Calculate & Save API", { tag: "@Smoke @Regression @adjustment" }, () => {
+  test.describe("Verify Calculate & Save API", { tag: "@Smoke @Regression @adjustment @mytest" }, () => {
 
     test.beforeAll(async ({ request }) => {
       if (
@@ -149,8 +146,6 @@ Object.entries(testData).forEach(([lobName, testData]) => {
         data: obj,
       });
       let responseBody = await Utility.assertAndLog(response);
-      //Adding Assertions for calculate
-      //await EditForecastUtility.validateForecastResponse(responseBody, obj, baselineValuesMap, months);
 
       // Save & Validate the Adjustment
       let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, obj, request);
