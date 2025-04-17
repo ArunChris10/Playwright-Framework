@@ -1,22 +1,23 @@
 {
     "testData": {
-        "CONSOLIDATED DEMAND": {
-            "lobName": "CONSOLIDATED DEMAND",
+        "INSTORE AND OTHER": {
+            "lobName": "INSTORE AND OTHER",
             "AdditiveNodes": [
-                "shippingrevenue_input"
+                "returnedunitsuom_input","instorereturns_input"
             ],
             "NonAdditiveNodes": [
-                "returnedpctofunitsgrossuom_input"
+                "allocationpctmerchandiseincome"
             ],
             "AffectingNodes": {
                 "Additive": [
-                    "gsv"
+                    "unitsgrossuom"
                 ],
-                "NonAdditive": ["returnedunitsuomng"]
+                "NonAdditive": ["merchandiseincomeallocatedtoentity"]
             },
             "node_dimension": {
                 "department": 23
-            }
+            },
+            "adjustmentId": 1744794077930
         }
     }
 }
