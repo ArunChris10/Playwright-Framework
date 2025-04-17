@@ -20,7 +20,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
   let inputNodesType;
   let node_dimension: NodeDimension = {};
 
-  test.describe("Verify Calculate & Save API", { tag: "@Smoke @Regression @adjustment @mytest" }, () => {
+  test.describe("Verify Calculate & Save API", { tag: "@Smoke @Regression @adjustment" }, () => {
 
     test.beforeAll(async ({ request }) => {
       if (
