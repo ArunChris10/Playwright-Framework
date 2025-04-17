@@ -1,0 +1,6 @@
+{
+    "upload_aop_endpoint": "/data-science/aop/upload",
+    "get_info_endpoint": "/scenario/data-science/info",
+    "classification_id": 11
+}
+  

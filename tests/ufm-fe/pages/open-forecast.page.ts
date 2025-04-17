@@ -1,37 +1,52 @@
 import { Locator, Page } from "@playwright/test";
 import { Utility } from "../../common/fixtures/utils";
-
 export class OpenCurrentForecast {
   readonly page: Page;
   readonly btnOpenCurrentForecast: Locator;
+  readonly adjustmentNamesTitle: Locator
   readonly txtCurrentForecast: Locator;
   readonly actionButton: Locator;
   readonly chooseDifferentDriverButton: Locator;
   readonly forecastInputCell: string;
   readonly allocationMethodDropDown: Locator;
   readonly maintainRatioOption: Locator;
+  readonly saveChangesLoader: Locator
   readonly calculateButton: Locator;
   readonly calculationSuccessfulMessage: Locator;
   readonly calculationSpinner: Locator;
   readonly saveButton: Locator;
+  readonly saveChangesButton: Locator;
+  readonly inputName: Locator
+  readonly inputDescription: Locator
   readonly calculateErrorMessage: string;
   readonly saveErrorMessage: string;
   readonly allocateErrorMessage: string;
+  readonly customCheckbox: string
   readonly forecastTable: Locator;
   readonly somethingWentWrong: Locator;
   readonly undoButton: Locator
   readonly redoButton: Locator
+  readonly addDriversButton: Locator
+  readonly KPITable: Locator;
+
 
   constructor(page: Page) {
     this.page = page;
+    this.inputDescription = page.getByTestId('description-input')
+    this.adjustmentNamesTitle = page.locator('//div[contains(@class,"AdjustmentPanel_boxTitle")]')
+    this.inputName = page.getByTestId('name-input')
     this.btnOpenCurrentForecast = page.locator("//button[text()='Open']");
     this.txtCurrentForecast = page.getByText("Current Forecast");
+    this.KPITable = page.getByTestId('forecast-table')
+    this.saveChangesLoader = page.locator('//div[contains(@class,"Adjustment")]//span[@role="status"]')
+    this.customCheckbox = '//div[contains(@class,"editable-cell-border")]//span'
     this.actionButton = this.page.locator(
       '//div[@class="table-container"]//button[contains(text(),"Actions")]'
     );
     this.chooseDifferentDriverButton = page.getByText(
       "Choose different drivers"
     );
+    this.addDriversButton = page.getByText("Add Drivers")
     this.forecastInputCell =
       '//div[contains(@col-id,"forecast") and @role="gridcell"]';
     this.allocationMethodDropDown = this.page.locator(
@@ -43,7 +58,8 @@ export class OpenCurrentForecast {
       "Calculation was successful, and allocation methods were applied to all dimensions"
     );
     this.calculationSpinner = this.page.getByText("Calculating your inputs");
-    this.saveButton = this.page.getByText("Save");
+    this.saveButton = this.page.getByText("Save as change");
+    this.saveChangesButton = this.page.getByText("Save Changes")
     this.calculateErrorMessage = "Please edit atleast one cell";
     this.saveErrorMessage =
       "Before saving the forecast, calculate your changes in the table.";
@@ -54,6 +70,7 @@ export class OpenCurrentForecast {
     this.somethingWentWrong = this.page.getByText("Something Went Wrong");
     this.undoButton = this.page.locator("//button[@type='undo']")
     this.redoButton = this.page.locator("//button[@type='redo']")
+    this.driverCheckBoxes = this.page.locator('/div[@class="layoutContentDriverComponent sharedPages"]')
 
   }
 
@@ -74,9 +91,92 @@ export class OpenCurrentForecast {
   }
 
   async clickOnChooseDifferentDriver() {
-    await this.chooseDifferentDriverButton.waitFor({ state: "visible" });
 
-    await this.chooseDifferentDriverButton.click();
+    await this.addDriversButton.isVisible() ? await this.addDriversButton.click() : await this.chooseDifferentDriverButton.click()
+
+  }
+
+
+  async waitForKPITableToLoad() {
+    await this.KPITable.waitFor({ state: "visible" })
+  }
+
+  async getAllChanges() {
+    const elements = await this.adjustmentNamesTitle.all();
+
+    const texts = await Promise.all(
+      elements.map(async (el) => {
+        return (await el.textContent())?.trim() || '';
+      })
+    );
+
+    return texts
+  }
+
+  async inputValueInAllValidInputCell(value) {
+    const spans = this.page.locator(this.customCheckbox);
+    const count = await spans.count();
+    let addCount = 0
+
+    let map = new Map()
+
+    for (let i = 0; i < count && addCount < 50; i++) {
+      let span = spans.nth(i);
+      // Try focusing the span manually
+      await this.page.mouse.click(0, 0);
+      await this.page.waitForTimeout(100);
+      await span.scrollIntoViewIfNeeded();
+      let text = await span.textContent();
+      try {
+        if (text && text.trim() !== '') {
+          const cleaned = text.replace(/\u200B/g, '').trim();
+          if (cleaned !== '') {
+
+            const info = await span.evaluate(el => {
+              const rowDiv = el?.closest('div[role="row"]');
+              const cellDiv = el?.closest('div[role="gridcell"]');
+              return {
+                rowIndex: rowDiv?.getAttribute('row-index') || null,
+                colId: cellDiv?.getAttribute('col-id') || null,
+              };
+            });
+
+            let nodeName = await this.page.locator(`(//div[@role="row" and @row-index="${info.rowIndex}"])[1]//div[contains(@class,"DimensionCellRenderer_cellContainer")]`).textContent()
+            let cellValue = await this.page.locator(`//div[@row-id=${info.rowIndex}]//div[@col-id="${info.colId}"]//div[contains(@class,"EditableCellRenderer_tableCell")]//span`).textContent()
+            if (!map.has(nodeName)) {
+              // Parent key doesn't exist, create it with a new Map
+              map.set(nodeName, [info.colId]);
+            } else {
+              const cell = map.get(nodeName)
+              cell.push(info.colId)
+              map.set(nodeName, cell)
+            }
+            console.log(`➡️ Editing cell in column: ${info.rowIndex} ${info.colId} ${nodeName} `);
+            await this.page.mouse.click(0, 0);
+            await this.page.waitForTimeout(50);
+
+            // Try focusing the span manually
+            await span.scrollIntoViewIfNeeded();
+            await this.page.waitForTimeout(100);
+
+            try {
+              await span.click({ force: true, timeout: 3000 });
+              await this.page.waitForTimeout(50);
+              // Send keyboard input
+              await this.page.keyboard.type(value);
+              addCount += 1
+            }
+            catch (error) {
+              console.warn(`❌ Failed to click span[${i}]:`, error);
+              continue
+            }
+          }
+        }
+      } catch (error) { console.log("In Catch Block", error); continue }
+
+    }
+
+    return map
   }
 
   async validateDriverPresence(driverName: string) {
@@ -224,23 +324,27 @@ export class OpenCurrentForecast {
     await this.calculationSuccessfulMessage.waitFor({ state: "visible" });
   }
 
-  async saveErrorMessageExistence() {
-    const saveErrorMessageExistence = await this.page
-      .waitForSelector(`//span[contains(text(),"${this.saveErrorMessage}")]`, {
-        state: "attached",
-        timeout: 3000,
-      })
-      .then(() => true)
-      .catch(() => false);
-
-    return saveErrorMessageExistence;
+  async waitForSaveChanges() {
+    return await this.saveChangesLoader.waitFor({ state: "detached" })
   }
 
-  async clickOnSave() {
+  async clickOnSaveAsChange() {
     await this.saveButton.click();
+  }
+
+  async clickOnSaveChanges() {
+    await this.saveChangesButton.click();
     await this.calculationSpinner.waitFor({ state: "hidden" });
     await this.forecastTable.waitFor({ state: "visible" });
   }
+
+  async fillChangeForm(inputName, inputDescription) {
+    await this.inputName.click()
+    await this.page.keyboard.type(inputName);
+    await this.inputDescription.click()
+    await this.page.keyboard.type(inputDescription);
+  }
+
 
   async getDriverMonthForecastValue(colIdMap) {
     for (let key of colIdMap.keys()) {

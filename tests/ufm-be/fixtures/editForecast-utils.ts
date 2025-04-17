@@ -158,7 +158,7 @@ export class EditForecastUtility {
         for (let i = 0; i < 3; i++) {
             let monthYear = (parseInt(await Utility.getMonthYear()) + i + 1).toString();
             months.push(monthYear);
-            data[monthYear] = (data[monthYear] || 0) + await Utility.randomInt(1,5000);
+            data[monthYear] = (data[monthYear] || 0) + await Utility.randomInt(1, 5000);
         }
 
         const existingEdit = edit.find(e => e.node_var_name === node);
@@ -172,7 +172,6 @@ export class EditForecastUtility {
                 allocation: allocation,
             });
         }
-        console.log("Edit", edit);
     }
 
     /**
