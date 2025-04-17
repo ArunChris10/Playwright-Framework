@@ -294,6 +294,41 @@ async inputValueInAllValidInputCell(value) {
     return { updated_col_ids: updated_col_ids, old_col_ids: old_col_ids };
   }
 
+  async fillForecastInputCellForGivenDriver(noOfCells, inputValue, DriverName, FilteredLowestGrain) {
+    
+    let DriverRow = await this.page.locator(`//*[text()='${DriverName}']//following::div[@col-id='department'][1]//*[text()='${FilteredLowestGrain}']/ancestor::*[@role='row']`);
+    let row_id = (await DriverRow.getAttribute("row-id"))?.split(".")?.[0];
+
+    console.log(`Edit the value for given driver ${DriverName}`);
+    let FirstforecastInputElement = await this.page.locator(`(//div[contains(@class,'editable-cell-border')])[1]`);
+
+    let col_id = (await FirstforecastInputElement.getAttribute("col-id"))?.split(".")?.[0];
+
+    if (!col_id) {
+      throw new Error("col_id is undefined");
+    }
+    const colIds = [`${col_id}`, `${parseInt(col_id, 10) + 1}`, `${parseInt(col_id, 10) + 2}`];
+    
+    let map = new Map();
+    for (let i = 0; i < noOfCells; i++) {
+      const xpath = `//*[@row-id="${row_id}"]/*[contains(@col-id,"${colIds[i]}")]//span`;
+      const cell = this.page.locator(xpath);
+      map.set(colIds[i],cell.textContent);
+      await cell.waitFor({ state: 'visible' });
+
+      await cell.click();
+
+      const input = this.page.locator('input');
+      await input.waitFor({ state: 'visible' });
+
+      await input.fill('');
+      await input.type(inputValue);
+
+      await input.press('Enter');
+    }
+    return map;
+  }
+
   async selectAllocationMethod(allocationMethod: string) {
     await this.allocationMethodDropDown.click();
     await this.page.getByText(allocationMethod).click();
