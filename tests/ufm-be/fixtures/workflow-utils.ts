@@ -282,6 +282,105 @@ export class WorkflowUtility {
         });
         return await Utility.assertAndLog(response);
     }
+/* This method will do change request for the given organization
+*    @param {string} org - The organization name.
+*    @param {Request} request - The request object used for the operation.
+*/
+
+static async sendToChangeRequestFromBA(orgName, request) {
+    let lobName;
+    let response = await this.getProgresstracker(orgName, request);
+
+    for (let k = 0; k < response.rowData.length; k++) {
+        let dim_val_id = await UfmUtility.getMapping(orgName, "parent_id");
+
+        lobName = await UfmUtility.getMapping(dim_val_id, "childName");
+
+        console.log(`Submit ${lobName} LOB to Change Request from BA screen`);
+            await this.changeToStatus( lobName,
+                response.rowData[k].scenarioId,
+                response.rowData[k].scenarioVersion,
+                commonData.Change_Requested,
+                commonData.ba_dim_id,
+                dim_val_id,
+                request
+              );
+
+    }
+}
+
+ /* This method performs prerequisite checks and actions to ensure LOBs are in a BA review state before change request.
+     *
+     * @param {string} org - The organization name.
+     * @param {Request} request - The request object used for the operation.
+     * 
+     */
+ static async ChangeRequestFromBAPreRequisite(orgName, request) {
+    let scenario_details,scenario_details2,lobName, isNewCreated;
+    // Array to collect results
+    let result = [];
+    let response = await this.getProgresstracker(orgName, request);
+
+    Utility.logIt("LOB number for given Org " + orgName + " are :" + response.rowData.length);
+    // Create Scenario for each LoB of the given Org
+    for (let j = 0; j < response.rowData.length; j++) {
+        let dim_val_id = response.rowData[j].lineOfBusiness;
+        lobName = await UfmUtility.getMapping(dim_val_id, "childName");
+        console.log("Current LOB underscan is- " + lobName);
+        // Above response will fetch all records for given Org eg- Demand
+
+        console.log("LOB status-" +(response.rowData[j].forecastStatus.statusCode));
+        //checking if status is Not started or draft or Change Requested; 
+        if (response.rowData[j].forecastStatus.statusCode === commonData.Not_Started 
+        ) {
+            console.log("I am inside of status" + response.rowData[j].forecastStatus.statusCode)
+            response = await UfmUtility.getCurrentForecastList(orgName, request);
+            [scenario_details, isNewCreated] =
+            await ForecastUtility.getOrCreateForecastIfNotExists(
+                lobName,
+                request
+            );
+            // Send to BA Review for all LOB of given Org
+        await this.changeToStatus(
+            lobName,
+            scenario_details["scenarioId"],
+            scenario_details["scenarioVersion"],
+            commonData.BA_Review,
+            commonData.lob_dim_id,
+            await UfmUtility.getMapping(lobName, "dim_val_id"),
+            request
+          );
+        }
+        else if (response.rowData[j].forecastStatus.statusCode === commonData.Draft ||
+            response.rowData[j].forecastStatus.statusCode === commonData.Change_Requested
+        ) 
+        {
+            console.log("I am inside of status" +response.rowData[j].forecastStatus.statusCode);
+            [scenario_details2, isNewCreated] =
+            await ForecastUtility.getOrCreateForecastIfNotExists(
+                lobName,
+                request
+            );
+            await this.changeToStatus(
+                lobName,
+                scenario_details["scenarioId"],
+                scenario_details["scenarioVersion"],
+                commonData.BA_Review,
+                commonData.lob_dim_id,
+                await UfmUtility.getMapping(lobName, "dim_val_id"),
+                request
+              );
+
+        }
+
+        // Assert status at forecast & BA level
+        await this.validateBAAndForecastStatus(orgName, request, dim_val_id, commonData.BA_Review)
+
+    }
+
+
+}
+
 
 
 }
