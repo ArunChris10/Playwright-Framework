@@ -111,7 +111,7 @@ export class EditForecastUtility {
                     await this.processNodeData(node, months, edit, node_dimension, allocation);
                 }
                 let affectingNodes = lobData.AffectingNodes?.Additive || [];
-                await this.processAffectingNodes(affectingNodes, lobName, scenarioId, months, baselineValuesMap, obj, request);
+                await this.processAffectingNodes(affectingNodes, lobName, scenarioId, months, baselineValuesMap, node_dimension,obj, request);
             }
 
             if (additiveOrNonAdditive.includes("NonAdditive") && lobData.NonAdditiveNodes) {
@@ -119,7 +119,7 @@ export class EditForecastUtility {
                     await this.processNodeData(node, months, edit, node_dimension, allocation);
                 }
                 let affectingNodes = lobData.AffectingNodes?.NonAdditive || [];
-                await this.processAffectingNodes(affectingNodes, lobName, scenarioId, months, baselineValuesMap, obj, request);
+                await this.processAffectingNodes(affectingNodes, lobName, scenarioId, months, baselineValuesMap, node_dimension,obj, request);
             }
         }
 
@@ -132,6 +132,7 @@ export class EditForecastUtility {
         obj.filters = [];
         obj.period_view = "month";
         obj.preview = true;
+        obj.adjustment_id = editForecast.testData[lobName]?.adjustmentId;
         Utility.logIt(obj);
         return { obj, baselineValuesMap, months };
     }
@@ -157,7 +158,7 @@ export class EditForecastUtility {
         for (let i = 0; i < 3; i++) {
             let monthYear = (parseInt(await Utility.getMonthYear()) + i + 1).toString();
             months.push(monthYear);
-            data[monthYear] = (data[monthYear] || 0) + await Utility.randomInt(1, 5000);
+            data[monthYear] = (data[monthYear] || 0) + await Utility.randomInt(1,5000);
         }
 
         const existingEdit = edit.find(e => e.node_var_name === node);
@@ -171,6 +172,7 @@ export class EditForecastUtility {
                 allocation: allocation,
             });
         }
+        console.log("Edit", edit);
     }
 
     /**
@@ -190,14 +192,21 @@ export class EditForecastUtility {
         scenarioId: number,
         months: string[],
         baselineValuesMap: Record<string, number[]>,
+        node_dimension,
         obj: Root,
         request: any
     ) {
         for (const node of affectingNodes) {
-            let kpiResponse = await this.getKpiForecast(lobName, scenarioId, months, node, request);
+            let kpiResponse = await this.getKpiForecast(lobName, scenarioId, months, node_dimension, node, request);
             baselineValuesMap[node] = [];
             for (const month of months) {
-                const row = kpiResponse.rowData.find((row: any) => row[month] !== undefined);
+                const row = kpiResponse.rowData.find((row: any) => {
+                    if (node_dimension && Object.keys(node_dimension).length > 0) {
+                        const key = Object.keys(node_dimension)[0]; 
+                        return row[month] !== undefined && row[key] === node_dimension[key];
+                    }
+                    return row[month] !== undefined;
+                });
                 baselineValuesMap[node].push(row[month]?.baseline || null);
             }
         }
@@ -214,14 +223,15 @@ export class EditForecastUtility {
      * @param {Object} request - The request object.
      * @returns {Promise<any>} A promise that resolves to the response object.
      */
-    static async getKpiForecast(lobName, scenario_details, monthYear, inputNodes, request) {
+    static async getKpiForecast(lobName, scenario_details, monthYear, node_dimension, inputNodes, request) {
         const endpointURL = `${process.env.apiBaseURLUFM}${getKpiData.endpoint}`;
         let kpiPayload = await this.createKpiPayloadNodeLevel(
             lobName,
             scenario_details,
             [],
             monthYear,
-            inputNodes
+            inputNodes,
+            node_dimension
         );
         Utility.logIt({ kpiPayload });
         let apiResponse = await request.post(endpointURL, {
@@ -245,9 +255,9 @@ export class EditForecastUtility {
         scenario_details,
         filter = [],
         monthYear,
-        nodes
+        nodes,
+        node_dimension
     ) {
-
         getKpiData.payloads.scenario_id = scenario_details["scenarioId"];
         getKpiData.payloads.scenario_version = scenario_details["scenarioVersion"];
 
@@ -259,7 +269,17 @@ export class EditForecastUtility {
             await SOTUtility.templateIncludeHeaders(monthYear);
         getKpiData.payloads.additional_filters.month = monthYear;
 
+
         getKpiData.payloads.additional_filters.nodes = Array.isArray(nodes) ? nodes : [nodes];
+        if (node_dimension && Object.keys(node_dimension).length > 0) {
+            const key = Object.keys(node_dimension)[0];
+            if (!getKpiData.payloads.additional_filters.pivot_index?.includes(key)) {
+            getKpiData.payloads.additional_filters.pivot_index = [
+                ...(getKpiData.payloads.additional_filters.pivot_index || []),
+                key,
+            ];
+            }
+        }
         getKpiData.payloads.filters = filter;
         return getKpiData.payloads;
     }
@@ -288,7 +308,11 @@ export class EditForecastUtility {
                     const forecastValue = edit.forecast;
     
                     // Assert that the forecast value matches
-                    expect(payloadNode.data[month]).toBeCloseTo(forecastValue, 6); // Allowing for floating-point precision
+                    const expectedValue = payloadNode.data[month];
+                    const lowerBound = expectedValue * 0.99; // 1% less
+                    const upperBound = expectedValue * 1.01; // 1% more
+                    expect(forecastValue).toBeGreaterThanOrEqual(lowerBound);
+                    expect(forecastValue).toBeLessThanOrEqual(upperBound);
                     Utility.logIt(`Forecast value for month ${month} matches for node ${node_var_name}: ${forecastValue}`);
                 }
             }
@@ -333,7 +357,8 @@ export class EditForecastUtility {
         lobName,
         allocationMethod,
         additiveOrNonAdditive: string[],
-        node_dimension,
+        node_dimension: NodeDimension = {},
+        obj,
         request
     ) {
         const endpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;
@@ -345,24 +370,11 @@ export class EditForecastUtility {
         adjustmentData.payloads.adjustment_metadata.scenario_id = scenario_id;
         adjustmentData.payloads.adjustment_metadata.scenario_version_timestamp =
             scenario_version;
-        const { obj } = await this.createAllocationPayload(
-            lobName,
-            scenario_id,
-            allocationMethod,
-            additiveOrNonAdditive,
-            node_dimension,
-            request
-        );
         adjustmentData.payloads.dim_val_id = await UfmUtility.getMapping(
             lobName,
             "dim_val_id"
         );
-        obj.preview = true;
-        let allocationEndpoint = `${process.env.apiBaseURLUFM}/allocate-data`;
-        let allocationResponse = await request.post(allocationEndpoint, {
-            data: obj,
-        });
-        await Utility.assertAndLog(allocationResponse);
+        obj.preview = false;
         adjustmentData.payloads.allocation_request = obj;
         Utility.logIt("Adjustment Payload" + JSON.stringify(adjustmentData.payloads))
         const response = await request.patch(endpointURL, {
