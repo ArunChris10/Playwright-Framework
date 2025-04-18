@@ -93,6 +93,7 @@ export class EditForecastUtility {
         allocation_method: number,
         additiveOrNonAdditive,
         node_dimension,
+        filters,
         request
     ) {
         let obj = {} as Root;
@@ -111,7 +112,7 @@ export class EditForecastUtility {
                     await this.processNodeData(node, months, edit, node_dimension, allocation);
                 }
                 let affectingNodes = lobData.AffectingNodes?.Additive || [];
-                await this.processAffectingNodes(affectingNodes, lobName, scenarioId, months, baselineValuesMap, node_dimension,obj, request);
+                await this.processAffectingNodes(affectingNodes, lobName, scenarioId, months, baselineValuesMap, node_dimension, filters, obj, request);
             }
 
             if (additiveOrNonAdditive.includes("NonAdditive") && lobData.NonAdditiveNodes) {
@@ -119,7 +120,7 @@ export class EditForecastUtility {
                     await this.processNodeData(node, months, edit, node_dimension, allocation);
                 }
                 let affectingNodes = lobData.AffectingNodes?.NonAdditive || [];
-                await this.processAffectingNodes(affectingNodes, lobName, scenarioId, months, baselineValuesMap, node_dimension,obj, request);
+                await this.processAffectingNodes(affectingNodes, lobName, scenarioId, months, baselineValuesMap, node_dimension,filters,obj, request);
             }
         }
 
@@ -192,11 +193,12 @@ export class EditForecastUtility {
         months: string[],
         baselineValuesMap: Record<string, number[]>,
         node_dimension,
+        filters: any[],
         obj: Root,
         request: any
     ) {
         for (const node of affectingNodes) {
-            let kpiResponse = await this.getKpiForecast(lobName, scenarioId, months, node_dimension, node, request);
+            let kpiResponse = await this.getKpiForecast(lobName, scenarioId, months, node_dimension, node, filters,request);
             baselineValuesMap[node] = [];
             for (const month of months) {
                 const row = kpiResponse.rowData.find((row: any) => {
@@ -222,12 +224,12 @@ export class EditForecastUtility {
      * @param {Object} request - The request object.
      * @returns {Promise<any>} A promise that resolves to the response object.
      */
-    static async getKpiForecast(lobName, scenario_details, monthYear, node_dimension, inputNodes, request) {
+    static async getKpiForecast(lobName, scenario_details, monthYear, node_dimension, inputNodes,filter,request) {
         const endpointURL = `${process.env.apiBaseURLUFM}${getKpiData.endpoint}`;
         let kpiPayload = await this.createKpiPayloadNodeLevel(
             lobName,
             scenario_details,
-            [],
+          filter,
             monthYear,
             inputNodes,
             node_dimension
@@ -252,7 +254,7 @@ export class EditForecastUtility {
     static async createKpiPayloadNodeLevel(
         lobName,
         scenario_details,
-        filter = [],
+        filter ,
         monthYear,
         nodes,
         node_dimension
