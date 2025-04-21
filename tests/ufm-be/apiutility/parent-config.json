@@ -1,0 +1,22 @@
+{
+  "baseURL": {
+    "IBG": "https://ibg-ufm2-ui.qa.walmart.com/api/",
+    "userPreference": "https://ibgworkbench2.qa.walmart.com/api/",
+    "CanedReports":"https://ibg-ufm-canned-reports.qa.walmart.com/api/"
+  },
+  "headers": {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer {{token}}"
+  },
+  "token": {
+    "appUrl": "application/json",
+    "userName": "Bearer {{token}}",
+    "password": "Bearer {{token}}"
+  },
+  "runTags": ["smoke", "login"],
+  "testFiles": [
+
+    "testCases/screen-details-api-tests.json"
+
+  ]
+}

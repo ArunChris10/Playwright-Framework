@@ -1,0 +1,24 @@
+[    
+  {
+  "testIdentifier": "get-last-locked-scenario",
+  "testName": "get-last-locked-scenario",
+  "service":"IBG",
+  "endpoint": "ufm/get-last-locked-scenario",
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer {{token}}"
+  },
+  "payload": {
+    "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/scenario/last-locked-scenario"
+  },
+  "assertions": {
+    "status": 200 
+  },
+  "extract": {
+    "locked_date": "locked_date"
+  },
+  "tags": ["smoke", "login"]
+}
+]
+  

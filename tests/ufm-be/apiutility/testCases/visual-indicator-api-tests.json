@@ -1,0 +1,28 @@
+[    
+  {
+  "testIdentifier": "1",
+  "testName": "get-visual-indicator",
+  "service":"IBG",
+  "endpoint": "ufm/get-visual-indicator",
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer {{token}}"
+  },
+  "payload": {
+    "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/scenario/scenario-composition?classification_id=12"
+  },
+  "assertions": {
+    "status": 200 
+  },
+  "extract": {
+    "dataset_type": "dataset_type"
+  },
+  "validateExtract": {
+  "dataset_type": ["Actuals updated", "IBG Demand Updated","IBG Demand Updated"]
+
+  },
+  "tags": ["smoke", "login"]
+}
+]
+  

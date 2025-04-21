@@ -1,0 +1,27 @@
+[    
+  {
+  "testIdentifier": "getscenarioconfigs",
+  "testName": "get-scenario-configs",
+  "service":"IBG",
+  "endpoint": "ufm/get-scenario-configs",
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer {{token}}"
+  },
+  "payload": {
+    "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/scenario/configs"
+  },
+  "assertions": {
+    "status": 200 
+  },
+  "extract": {
+    "UFM_SCENARIO_TYPE_ID": "UFM_SCENARIO_TYPE_ID",
+    "UFM_SCENARIO_STS_ID":"UFM_SCENARIO_STS_ID",
+    "SAVED_FILTR_TYPE_ID":"SAVED_FILTR_TYPE_ID"
+  },
+
+  "tags": ["smoke", "login"]
+}
+]
+  

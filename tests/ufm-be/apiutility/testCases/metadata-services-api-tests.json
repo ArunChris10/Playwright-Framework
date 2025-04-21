@@ -1,0 +1,28 @@
+[    
+  {
+  "testIdentifier": "getMetadata",
+  "testName": "validate getMetadata",
+  "service":"IBG",
+  "endpoint": "ufm/get-metadata",
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer {{token}}"
+  },
+  "payload": {
+    "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/metadata/dimensions/mappings?dimension_group_id=7"
+  },
+  "assertions": {
+    "status": 200 
+  },
+  "extract": {
+    "lastApiResponse": "lastApiResponse"
+  },
+  "validateExtract": {
+    "lastApiResponse": "lastApiResponse"
+  
+  },
+  "tags": ["smoke", "login"]
+}
+]
+  
