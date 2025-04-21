@@ -134,7 +134,7 @@ export class EditForecastUtility {
         obj.period_view = "month";
         obj.preview = true;
         obj.adjustment_id = editForecast.testData[lobName]?.adjustmentId;
-        Utility.logIt(obj);
+  
         return { obj, baselineValuesMap, months };
     }
 
