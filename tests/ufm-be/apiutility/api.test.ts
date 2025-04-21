@@ -8,7 +8,6 @@ import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate} from '../apiutility/utils/commonUtil'
 import * as payloads from '../apiutility/expected-payloads/payloads'
 import {pollForExpectedResponse} from '../apiutility/utils/pollingMechanism';
-import {fetchAndStoreAuthToken} from '../apiutility/hooks';
 
 interface ApiTestCase {
   testName: string;
@@ -58,7 +57,6 @@ populateGlobalStore();
 // Pre-hook: Runs before all test cases
 test.beforeAll(async () => {
   console.log('Global Setup Started');
-  fetchAndStoreAuthToken("https://ibgworkbench.qa.walmart.com/","LB-ibg-ufm-auto","f@k4p@8H");
 });
 
 // Pre-hook: Runs before each test
