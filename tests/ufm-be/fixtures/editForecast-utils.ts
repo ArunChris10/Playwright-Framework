@@ -130,7 +130,7 @@ export class EditForecastUtility {
         obj.dim_val_id = await UfmUtility.getMapping(lobName, "dim_val_id");
         obj.dim_id = 11;
         obj.edits = edit;
-        obj.filters = [];
+        obj.filters = filters;
         obj.period_view = "month";
         obj.preview = true;
         obj.adjustment_id = editForecast.testData[lobName]?.adjustmentId;

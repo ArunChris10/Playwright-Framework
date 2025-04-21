@@ -164,7 +164,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       expect(isAdjustmentIdPresent).toBeTruthy();
     }); 
 
-    test(`Verify Calculate & Save, when any filter combination is applied on non-additive node with maintain ratiofor LoB - ${lobName}`,{tag:"@Filterdata"}, async ({ request,
+    test(`Verify Calculate & Save, when any filter combination is applied on non-additive node with maintain ratio for LoB - ${lobName}`,{tag:"@Filterdata"}, async ({ request,
     }) => {
       console.log("filters Non additive Test1");
       const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Maintain Ratio"], ["NonAdditive"], node_dimension,testData.filters, request);
