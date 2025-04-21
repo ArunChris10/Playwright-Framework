@@ -8,7 +8,7 @@ import { Utility } from "../../common/fixtures/utils";
 import { ForecastUtility } from "../fixtures/forecast-utils";
 import { UfmUtility } from "../fixtures/ufm-utils";
 export interface NodeDimension { };
-export interface filters { };
+export interface filters extends Array<any> { };
 
 Object.entries(testData).forEach(([lobName, testData]) => {
 
@@ -17,7 +17,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
   let allocationMethod;
   let inputNodesType;
   let node_dimension: NodeDimension = {};
-  let node_filters: filters = {};
+  let node_filters: filters = [];
 
   test.describe("Verify Calculate & Save API", { tag: "@Smoke @Regression @adjustment @mytest" }, () => {
 
