@@ -6,12 +6,12 @@
   },
   "headers": {
     "Content-Type": "application/json",
-    "Authorization": "Bearer {{token}}"
+    "Authorization": "{{token}}"
   },
+  "user":"LB-ibg-ufm-auto",
   "runTags": ["smoke", "login"],
   "testFiles": [
 
-    "testCases/screen-details-api-tests.json"
 
   ]
 }

@@ -8,6 +8,7 @@ import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate} from '../apiutility/utils/commonUtil'
 import * as payloads from '../apiutility/expected-payloads/payloads'
 import {pollForExpectedResponse} from '../apiutility/utils/pollingMechanism';
+import nexusTokens from "../../../secrets/nexus-users-token.json";
 
 interface ApiTestCase {
   testName: string;
@@ -41,15 +42,18 @@ interface ApiTestCase {
 interface ParentConfig {
   baseURL: string;
   headers: { [key: string]: string };
+  user: string;
   runTags?: string[];
   testFiles: string[];
 }
 
 export let response;
+const parentConfig = loadJSON<ParentConfig>(path.resolve(__dirname, 'parent-config.json'));
 
 function populateGlobalStore() {
+
+  globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
   globalStore["randomNumber"] = generateRandomNumber(3);
-  globalStore["token"] = payloads.bearerToken;
 
 }
 populateGlobalStore();
@@ -84,7 +88,7 @@ function loadJSON<T>(filePath: string): T {
   return JSON.parse(data);
 }
 
-const parentConfig = loadJSON<ParentConfig>(path.resolve(__dirname, 'parent-config.json'));
+
 
 parentConfig.testFiles.forEach(testCasePath => {
 
