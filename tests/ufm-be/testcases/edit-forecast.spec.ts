@@ -16,7 +16,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
   let inputNodesType;
   let node_dimension: NodeDimension = {};
 
-  test.describe("Verify Calculate & Save API", { tag: "@Smoke @Regression @adjustment" }, () => {
+  test.describe("Verify Calculate & Save API", { tag: "@Smoke @Regression @adjustment @mytest" }, () => {
 
     test.beforeAll(async ({ request }) => {
       if (
@@ -45,7 +45,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
 
     test.describe.configure({ timeout: 500_000, mode: "parallel" });
 
-    test(`Verify calculate when allocation method with maintain ratio is applied on non-additive node for LoB - ${lobName}`, async ({
+    test(`Verify calculate & Save when allocation method with maintain ratio is applied on non-additive node for LoB - ${lobName}`, async ({
       request,
     }) => {
       const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Maintain Ratio"], ["NonAdditive"], node_dimension, request);
@@ -57,6 +57,18 @@ Object.entries(testData).forEach(([lobName, testData]) => {
 
       // Validate through assertions
       await EditForecastUtility.validateForecastResponse(responseBody, obj, baselineValuesMap, months);
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, obj, request);
+
+      await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
+      await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
+      await expect.soft(saveResponse.adjustment_metadata.adjustment_reason).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_reason);
+
+      let getAllAdjustmentsCountAfter = await AdjustmentUtility.getAllAdjustments(scenarioId, scenarioVersion, testData.lobName, request);
+      const adjustmentId = saveResponse.adjustment_metadata.adjustment_id;
+      const isAdjustmentIdPresent = getAllAdjustmentsCountAfter.some(
+        (adjustment: any) => adjustment.adjustment_id === adjustmentId
+      );
+      expect(isAdjustmentIdPresent).toBeTruthy();
     });
 
     test(`Verify calculate when allocation method with maintain ratio is applied on additive node for LoB - ${lobName}`, async ({
