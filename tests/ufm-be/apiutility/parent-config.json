@@ -8,11 +8,6 @@
     "Content-Type": "application/json",
     "Authorization": "Bearer {{token}}"
   },
-  "token": {
-    "appUrl": "application/json",
-    "userName": "Bearer {{token}}",
-    "password": "Bearer {{token}}"
-  },
   "runTags": ["smoke", "login"],
   "testFiles": [
 
