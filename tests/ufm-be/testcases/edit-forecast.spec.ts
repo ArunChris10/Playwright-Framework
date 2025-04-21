@@ -166,8 +166,9 @@ Object.entries(testData).forEach(([lobName, testData]) => {
 
     test(`Verify Calculate & Save, when any filter combination is applied on non-additive node with maintain ratio for LoB - ${lobName}`,{tag:"@Filterdata"}, async ({ request,
     }) => {
-      console.log("filters Non additive Test1");
-      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Maintain Ratio"], ["NonAdditive"], node_dimension,testData.filters, request);
+      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Maintain Ratio"], ["NonAdditive"], node_dimension, testData.filters, request);
+      
+      console.log(" allocatedata Payload object:", JSON.stringify(obj, null, 2));
       const endpointURL = `${process.env.apiBaseURLUFM}/allocate-data`;
       let response = await request.post(endpointURL, {
         data: obj,
@@ -190,6 +191,20 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       expect(isAdjustmentIdPresent).toBeTruthy();
     });
 
+    test(`Verify Calculate when any filter combination is applied on additive node with maintain ratio for LoB - ${lobName}`,{tag:"@Filterdata2"}, async ({ request,
+    }) => {
+
+      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Maintain Ratio"], ["Additive"], node_dimension, testData.filters, request);
+      
+      console.log(" allocatedata Payload object:", JSON.stringify(obj, null, 2));
+      const endpointURL = `${process.env.apiBaseURLUFM}/allocate-data`;
+      let response = await request.post(endpointURL, {
+        data: obj,
+      });
+      let responseBody = await Utility.assertAndLog(response);
+      //Adding Assertions
+      await EditForecastUtility.validateForecastResponse(responseBody, obj, baselineValuesMap, months);
+    });
 
   });
 })
