@@ -48,7 +48,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
 
     test.describe.configure({ timeout: 500_000, mode: "parallel" });
 
-    test(`Verify calculate when allocation method with maintain ratio is applied on non-additive node for LoB - ${lobName}`,{ tag: "@pallavi"} ,async ({
+    test(`Verify calculate when allocation method with maintain ratio is applied on non-additive node for LoB - ${lobName}` ,async ({
       request,
     }) => {
       const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Maintain Ratio"], ["NonAdditive"], node_dimension, node_filters, request);
