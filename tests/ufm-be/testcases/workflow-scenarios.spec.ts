@@ -8,6 +8,7 @@ import { UfmUtility } from "../fixtures/ufm-utils";
 const orgForSendingReview = "DEMAND";
 let dataForBAOverride = ["HOME OFFICE", "SEGMENT"]; // Give LOB & it's Org Name
 let dataForBARecall = ["RX", "HEALTH & WELLNESS"]; // Give LOB & it's Org Name
+const orgForChnageReq = ["MERCHANDISING OPERATIONS"];
 
 test.describe("Verify Scenario Workflow",
     { tag: "@Smoke @Regression @scenario_workflow" },
@@ -116,4 +117,22 @@ test.describe("Verify Scenario Workflow",
             }
         }); 
 
+    });
+
+    orgForChnageReq.forEach((orgName) => {
+        test.describe("Verify Change Request Scenario Workflow",
+            { tag: "@Smoke @Regression @pallavi" },
+            async () => {
+                test.describe.configure({ timeout: 3000_000, mode: "serial" });
+    
+                test(`Verify BA user is able to change request LOB scenario ${orgName}`, async ({ request }) => {
+                 await WorkflowUtility.ChangeRequestFromBAPreRequisite(orgName,request);
+    
+                 console.log(`Submit ${orgName} LOB to Change Request from BA screen`);
+                 await WorkflowUtility.sendToChangeRequestFromBA(orgName,request);
+    
+                });
+    
+    
+            });
     });
