@@ -12,7 +12,7 @@
                 "Additive": [
                     "unitsgrossuom"
                 ],
-                "NonAdditive": ["merchandiseincomeallocatedtoentity"]
+                "NonAdditive": ["merchandiseincomeallocatedtoentity","merchandiseincomeallocatedtoentity_calculated"]
             },
             "node_dimension": {
                 "department": 23

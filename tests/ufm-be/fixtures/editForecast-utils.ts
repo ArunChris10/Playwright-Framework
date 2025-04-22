@@ -295,19 +295,20 @@ export class EditForecastUtility {
         responseBody: any[],
         obj: Root,
         baselineValuesMap: Record<string, number[]>,
-        months: string[]
+        months: string[],
+        ratioMap: Record<string, number> = {} // Optional parameter for month ratios
     ) {
         for (const responseNode of responseBody) {
             const { node_var_name, edits: responseEdits } = responseNode;
-    
+
             // Validate the edits (month and forecast values) for nodes present in obj.edits
             const payloadNode = obj.edits.find(edit => edit.node_var_name === node_var_name);
             if (payloadNode) {
                 for (const [month, edit] of Object.entries(responseEdits as Record<string, { forecast: number }>)) {
                     const forecastValue = edit.forecast;
-    
-                    // Assert that the forecast value matches
-                    const expectedValue = payloadNode.data[month];
+
+                    // Adjust the expected value by multiplying with the respective month ratio
+                    const expectedValue = payloadNode.data[month] * (ratioMap[month] || 1); // Default ratio is 1 if not found
                     const lowerBound = expectedValue * 0.99; // 1% less
                     const upperBound = expectedValue * 1.01; // 1% more
                     expect(forecastValue).toBeGreaterThanOrEqual(lowerBound);
@@ -319,7 +320,7 @@ export class EditForecastUtility {
             // Handle extra nodes (nodes not present in obj.edits)
             const extraNodes = Object.keys(baselineValuesMap).filter(
                 (node) => !obj.edits.some((edit) => edit.node_var_name === node)
-            );
+                );
             expect(extraNodes.length).toBeGreaterThan(0); // Ensure there are extra nodes
             extraNodes.forEach((extraNode) => {
                 expect(responseBody.some((node) => node.node_var_name === extraNode)).toBeTruthy(); // Check if each extra node is in the response
