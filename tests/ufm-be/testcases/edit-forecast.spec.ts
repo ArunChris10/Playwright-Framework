@@ -229,7 +229,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       node_dimension = testData.node_dimension;
       allocationMethod = commonData["Constant value"];
       inputNodesType = ["NonAdditive"];
-      const { obj } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension, request);
+      const { obj } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension, node_filters,request);
       const endpointURL = `${process.env.apiBaseURLUFM}/allocate-data`;
       let response = await request.post(endpointURL, {
         data: obj,
@@ -262,7 +262,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       }
 
       //Perform another edit to validate ratio calculation matches
-      const { obj: secondEditObj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension, request);
+      const { obj: secondEditObj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension, node_filters,request);
       let response1 = await request.post(endpointURL, {
         data: secondEditObj,
       });
