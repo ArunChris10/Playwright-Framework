@@ -3,9 +3,11 @@
         "INSTORE AND OTHER": {
             "lobName": "INSTORE AND OTHER",
             "AdditiveNodes": [
-                "returnedunitsuom_input","instorereturns_input"
+                "returnedunitsuom_input", 
+                "instorereturns_input"
             ],
             "NonAdditiveNodes": [
+  
                 "allocationpctmerchandiseincome"
             ],
             "AffectingNodes": {
@@ -17,7 +19,14 @@
             "node_dimension": {
                 "department": 23
             },
-            "adjustmentId": 1744976788347
+            "filters": [
+                {
+                    "dim_id": 1,
+                    "dim_val_ids": [1],
+                    "children": []
+                }
+            ],
+            "adjustmentId": 1744794077930
         }
     }
 }
