@@ -7,6 +7,7 @@ import { EditForecastUtility } from "../fixtures/editForecast-utils";
 import { Utility } from "../../common/fixtures/utils";
 import { ForecastUtility } from "../fixtures/forecast-utils";
 export interface NodeDimension { };
+export interface filters extends Array<any> { };
 
 Object.entries(testData).forEach(([lobName, testData]) => {
 
@@ -15,6 +16,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
   let allocationMethod;
   let inputNodesType;
   let node_dimension: NodeDimension = {};
+  let node_filters: filters = [];
 
   test.describe("Verify Calculate & Save API", { tag: "@Smoke @Regression @adjustment" }, () => {
 
@@ -48,7 +50,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
     test(`Verify calculate & Save when allocation method with maintain ratio is applied on non-additive node for LoB - ${lobName}`, async ({
       request,
     }) => {
-      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Maintain Ratio"], ["NonAdditive"], node_dimension, request);
+      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Maintain Ratio"], ["NonAdditive"], node_dimension, node_filters, request);
       const endpointURL = `${process.env.apiBaseURLUFM}/allocate-data`;
       let response = await request.post(endpointURL, {
         data: obj,
@@ -74,7 +76,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
     test(`Verify calculate & Save when allocation method with maintain ratio is applied on additive node for LoB - ${lobName}`, async ({
       request,
     }) => {
-      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Maintain Ratio"], ["Additive"], node_dimension, request);
+      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Maintain Ratio"], ["Additive"], node_dimension,node_filters, request);
       const endpointURL = `${process.env.apiBaseURLUFM}/allocate-data`;
       let response = await request.post(endpointURL, {
         data: obj,
@@ -101,7 +103,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
     }) => {
       inputNodesType = ["NonAdditive", "Additive"];
       allocationMethod = commonData["Maintain Ratio"];
-      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension, request);
+      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension,node_filters, request);
       const endpointURL = `${process.env.apiBaseURLUFM}/allocate-data`;
       let response = await request.post(endpointURL, {
         data: obj,
@@ -129,7 +131,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       node_dimension = testData.node_dimension;
       allocationMethod = commonData["Constant value"];
       inputNodesType = ["Additive", "NonAdditive"];
-      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension, request);
+      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension,node_filters, request);
       const endpointURL = `${process.env.apiBaseURLUFM}/allocate-data`;
       let response = await request.post(endpointURL, {
         data: obj,
@@ -162,7 +164,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
     }) => {
       inputNodesType = ["NonAdditive", "Additive"];
       allocationMethod = commonData["Maintain Ratio"];
-      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension, request);
+      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension,node_filters, request);
       const endpointURL = `${process.env.apiBaseURLUFM}/allocate-data`;
       let response = await request.post(endpointURL, {
         data: obj,
@@ -189,7 +191,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
     }) => {
       inputNodesType = ["NonAdditive", "Additive"];
       allocationMethod = commonData["Maintain Ratio"];
-      const { obj: firstEditObj } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension, request);
+      const { obj: firstEditObj } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension,node_filters, request);
       const endpointURL = `${process.env.apiBaseURLUFM}/allocate-data`;
       let firstEditResponse = await request.post(endpointURL, {
         data: firstEditObj,
@@ -198,7 +200,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
 
       // Edit again
       Utility.logIt("Peform another edit on top of the first edit");
-      const { obj: secondEditObj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension, request);
+      const { obj: secondEditObj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension,node_filters, request);
       let response = await request.post(endpointURL, {
         data: secondEditObj,
       });
@@ -288,7 +290,48 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       expect(isAdjustmentIdPresent).toBeTruthy();
     });
 
-  }
-  );
+    test(`Verify Calculate & Save, when any filter combination is applied on non-additive node with maintain ratio for LoB - ${lobName}`,{tag:"@Filterdata"}, async ({ request,
+    }) => {
+      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Maintain Ratio"], ["NonAdditive"], node_dimension, testData.filters, request);
+      
+      console.log(" allocatedata Payload object:", JSON.stringify(obj, null, 2));
+      const endpointURL = `${process.env.apiBaseURLUFM}/allocate-data`;
+      let response = await request.post(endpointURL, {
+        data: obj,
+      });
+      let responseBody = await Utility.assertAndLog(response);
+      
+      // Save & Validate the Adjustment
+
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, obj, request);
+
+      await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
+      await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
+      await expect.soft(saveResponse.adjustment_metadata.adjustment_reason).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_reason);
+
+      let getAllAdjustmentsCountAfter = await AdjustmentUtility.getAllAdjustments(scenarioId, scenarioVersion, testData.lobName, request);
+      const adjustmentId = saveResponse.adjustment_metadata.adjustment_id;
+      const isAdjustmentIdPresent = getAllAdjustmentsCountAfter.some(
+        (adjustment: any) => adjustment.adjustment_id === adjustmentId
+      );
+      expect(isAdjustmentIdPresent).toBeTruthy();
+    });
+
+    test(`Verify Calculate when any filter combination is applied on additive node with maintain ratio for LoB - ${lobName}`,{tag:"@Filterdata2"}, async ({ request,
+    }) => {
+
+      const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Maintain Ratio"], ["Additive"], node_dimension, testData.filters, request);
+      
+      console.log(" allocatedata Payload object:", JSON.stringify(obj, null, 2));
+      const endpointURL = `${process.env.apiBaseURLUFM}/allocate-data`;
+      let response = await request.post(endpointURL, {
+        data: obj,
+      });
+      let responseBody = await Utility.assertAndLog(response);
+      //Adding Assertions
+      await EditForecastUtility.validateForecastResponse(responseBody, obj, baselineValuesMap, months);
+    });
+
+  });
 })
 
