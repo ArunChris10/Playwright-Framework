@@ -135,5 +135,26 @@
             },
             "isApplied": false
         }
+    },
+    "createDSScenarioPayload":{
+        "type": 75,
+        "source": {
+            "datasets": [
+                {
+                    "dataset_id": 10041697017824
+                },
+                {
+                    "dataset_id": 10051697018006
+                },
+                {
+                    "dataset_id": 10061697018013
+                }
+            ]
+        },
+        "name": "DS Scenario",
+        "classification_id": 12,
+        "dim_id": 13,
+        "dim_val_id": 130001,
+        "bypass_creation_limit_for_lob":"MERCHOPS"
     }
 }
