@@ -24,10 +24,10 @@ interface ApiTestCase {
   extract?: { [key: string]: string };
   validateExtract?: { [key: string]: string };
   polling?: {
-    key: string;           // e.g. 'data.status' or 'status'
-    expectedValue: any;    // e.g. 'completed'
-    intervalMs: number;    // e.g. 2000
-    timeoutMs: number;     // e.g. 30000
+    key: string;           
+    expectedValue: any;    
+    intervalMs: number;    
+    timeoutMs: number;     
   };
   extractRelative?: {
     [globalVar: string]: {
