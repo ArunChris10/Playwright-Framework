@@ -12,6 +12,7 @@
     "tests:cdf-tests-be": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=cdf-be",
     "tests:cdf-tests-fe": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=cdf-fe",
     "tests:platform-tests-fe": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=ssdm-fe --headed"
+    "tests:platform-tests-fe": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=ssdm-fe --headed",
   },
   "keywords": [],
   "author": "",
