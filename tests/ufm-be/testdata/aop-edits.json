@@ -1,0 +1,139 @@
+{
+    "year":2029,
+    "month":9,
+    "yearMonth":"202909",
+    "gmvplusservices": "gmvplusservices",
+    "gmvplusserviceslessreturns": "gmvplusserviceslessreturns",
+    "unitsgrossuomng_input": "unitsgrossuomng_input",
+    "unitsuomlessreturns": "unitsuomlessreturns",
+    "workedunits": "workedunits",
+    "adjustment_success":"New adjustment created successfully!!",
+    "allocation_payload":{
+        "adjustment_metadata": {
+            "adjustment_name": "adj",
+            "adjustment_reason": "",
+            "adjustment_type": 73,
+            "is_duplicated": false,
+            "is_update": false,
+            "is_create": true,
+            "adjustment_edits": 3,
+            "scenario_id": 10481744881162,
+            "scenario_version_timestamp": 1745336070
+        },
+        "allocation_request": {
+            "display_nodes": [
+                "gmvplusservices",
+                "gmvplusserviceslessreturns",
+                "unitsuomlessreturns",
+                "workedunits"
+            ],
+            "scenario_id": 10481744881162,
+            "dim_val_id": 130001,
+            "dim_id": 13,
+            "preview": false,
+            "edits": [
+                {
+                    "node_var_name": "grossgmv",
+                    "node_dimension": {},
+                    "data": {
+                        "202909": 70000000
+                    },
+                    "allocation": {
+                        "interval": null,
+                        "offset": null,
+                        "method": 29
+                    }
+                },
+                {
+                    "node_var_name": "unitsgrossuomng_input",
+                    "node_dimension": {},
+                    "data": {
+                        "202909": 70000000
+                    },
+                    "allocation": {
+                        "interval": null,
+                        "offset": null,
+                        "method": 29
+                    }
+                },
+                {
+                    "node_var_name": "returnedunitsopspctofopsunits_input",
+                    "node_dimension": {},
+                    "data": {
+                        "202909": 0.07
+                    },
+                    "allocation": {
+                        "interval": null,
+                        "offset": null,
+                        "method": 29
+                    }
+                }
+            ],
+            "filters": [
+                {
+                    "dim_id": 2,
+                    "dim_val_ids": [
+                        20002,
+                        20004,
+                        20010,
+                        20011,
+                        20012,
+                        20013
+                    ],
+                    "children": []
+                }
+            ],
+            "period_view": "month"
+        },
+        "dim_val_id": 130001
+    },
+    "getKpiForecast":{
+        "endpoint": "/reports/get-mykpi",
+        "payload":{
+            "scenario_id": 10481744881162,
+            "scenario_version": 1745302747,
+            "dim_id": 13,
+            "dim_val_id": 130001,
+            "classification_id": 11,
+            "template_id": 3,
+            "filters": [
+                {
+                    "dim_id": 2,
+                    "dim_val_ids": [
+                        20002,
+                        20004,
+                        20010,
+                        20011,
+                        20012,
+                        20013
+                    ],
+                    "children": []
+                }
+            ],
+            "additional_filters": {
+                "pivot_cols": [
+                    "month"
+                ],
+                "pivot_index": [
+                    "node_id"
+                ],
+                "period_view": [
+                    "month"
+                ],
+                "nodes": [
+                    "grossgmv",
+                    "gmvplusservices",
+                    "gmvplusserviceslessreturns",
+                    "unitsgrossuomng_input",
+                    "unitsuomlessreturns",
+                    "returnedunitsopspctofopsunits_input",
+                    "workedunits"
+                ],
+                "month": [
+                    "202909"
+                ]
+            },
+            "isApplied": false
+        }
+    }
+}
