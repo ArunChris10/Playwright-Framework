@@ -1,19 +1,10 @@
 {
     "testData": [
         {
-            "sbaName": "Merchandising finance",
-            "LOB": "SCHEDULED",
+            "sbaName": "Health & wellness",
+            "LOB": "OPTICAL",
             "driver": {
-                "inputDriver": "COGS (Input)",
-                "inputNonAdditiveDrivers": [
-                    "COGS (Input)",
-                    "Other Cost of Goods Sold"
-                ],
-                "inputAdditiveNonAdditiveDrivers": [
-                    "COGS (Input)",
-                    "Other Cost of Goods Sold",
-                    "Cost of Goods Sold"
-                ],
+                "inputDriver": "Optical Payroll Tax",
                 "noOfMonth": 2,
                 "allocationMethod": "Maintain ratio",
                 "forecastValue": 10000
@@ -29,31 +20,6 @@
                 "noOfQuarter": 1,
                 "allocationMethod": "Maintain ratio",
                 "forecastValue": 10000
-            }
-        }
-    ],
-    "groupByOptions": [
-        {
-            "data": {
-                "department": {
-                    "option": "Department"
-                }
-            }
-        }
-    ],
-    "filterOptions": [
-        {
-            "data": {
-                "channel": {
-                    "dropDown": "Channel",
-                    "childDropDown": "DELIVERY",
-                    "option": "OWNED_S2H"
-                },
-                "department": {
-                    "dropDown": "Department",
-                    "childDropDown": "FOOD",
-                    "option": "1_CANDY"
-                }
             }
         }
     ]
