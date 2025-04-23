@@ -157,28 +157,7 @@ testdata.payloads.forEach((payload) => {
           }
         );
 
-        test(
-          `Verify if the user is not able to save a @duplicateFilter with ${user}` +
-            payload.filter_name,
-          async ({ request }) => {
-            //post request for saving the filter
-            await test.step("Make a Post Request for Saving the Filter", async () => {
-              apiResponse = await request.post(endpointURL, {
-                data: payload,
-              });
-              apiResponseBody = await apiResponse.json();
-              Utility.logIt(JSON.stringify(apiResponseBody));
-            });
-
-            //Assertion
-            await test.step("Check the response message for duplicate filter", async () => {
-              expect(apiResponse).toBeOK();
-              expect(apiResponseBody).toEqual(
-                testdata.duplicate_filter_name_response
-              );
-            });
-          }
-        );
+       
 
         test(
           `Verify if the user is able to see the saved filter from @getFilter with ${user}` +
@@ -248,6 +227,29 @@ testdata.payloads.forEach((payload) => {
           }
         );
 
+        test(
+          `Verify if the user is not able to save a @duplicateFilter with ${user}` +
+            payload.filter_name,
+          async ({ request }) => {
+            //post request for saving the filter
+            await test.step("Make a Post Request for Saving the Filter", async () => {
+              apiResponse = await request.post(endpointURL, {
+                data: payload,
+              });
+              apiResponseBody = await apiResponse.json();
+              Utility.logIt(JSON.stringify(apiResponseBody));
+            });
+
+            //Assertion
+            await test.step("Check the response message for duplicate filter", async () => {
+              expect(apiResponse).toBeOK();
+              expect(apiResponseBody).toEqual(
+                testdata.duplicate_filter_name_response
+              );
+            });
+          }
+        );
+        
         test(
           `Verify if the user is able to @deleteFilter with ${user}` +
             payload.filter_name,
