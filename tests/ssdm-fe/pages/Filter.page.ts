@@ -73,9 +73,13 @@ export class FilterFunctionality {
     }
 
     async clickOnFilterOption(filterName: string) {
+
+        if (await this.page.locator('div').filter({ hasText: /^IBG_TOTAL$/ }).isVisible()) {
+            await this.page.locator('div').filter({ hasText: /^IBG_TOTAL$/ }).locator('svg').click();
+        }
         await this.page
             .getByText(`${filterName}`)
             .first()
-            .check();
+            .check({ force: true });
     }
 }
