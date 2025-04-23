@@ -7,7 +7,7 @@
     "tests:looper-tests": "env-cmd --environments $ENV playwright test --project=$PROJECT",
     "tests:ufm-tests": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=ufm-be --project=ufm-fe",
     "tests:ufm-tests-be": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=ufm-be",
-    "tests:ufm-tests-fe": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=ufm-fe",
+    "tests:ufm-tests-fe": "env-cmd --environments qa env-cmd --environments custom_tag playwright test --project=ufm-fe",
     "tests:cdf-tests": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=cdf-be --project=cdf-fe",
     "tests:cdf-tests-be": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=cdf-be",
     "tests:cdf-tests-fe": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=cdf-fe",
