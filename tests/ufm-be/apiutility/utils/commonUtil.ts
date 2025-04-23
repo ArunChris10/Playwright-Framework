@@ -17,7 +17,7 @@ export function generateRandomNumber(length: number): number {
     if (Array.isArray(expected)) {
       if (Array.isArray(actual)) {
         const allPresent = expected.every(exp => actual.includes(exp));
-        expect(allPresent).toBeTruthy(); // all expected items must exist in actual
+        expect(allPresent).toBeTruthy();
       } else {
         throw new Error(`Expected array from extract for key "${key}", but got a non-array.`);
       }

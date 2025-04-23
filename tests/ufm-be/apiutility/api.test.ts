@@ -1,8 +1,7 @@
 import { test, expect, request,APIRequestContext } from '@playwright/test';
-import fs from 'fs';
 import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
-import { findAllValuesByKey,findRelativeValue } from '../apiutility/utils/jsonUtils';
+import { findAllValuesByKey,findRelativeValue,loadJSON } from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate} from '../apiutility/utils/commonUtil'
@@ -82,14 +81,6 @@ test.afterAll(async () => {
 });
 
 
-
-function loadJSON<T>(filePath: string): T {
-  const data =  fs.readFileSync(path.resolve(__dirname, filePath), 'utf-8');
-  return JSON.parse(data);
-}
-
-
-
 parentConfig.testFiles.forEach(testCasePath => {
 
   const testCase = loadJSON<ApiTestCase[] | ApiTestCase>(path.resolve(__dirname, testCasePath));
@@ -159,13 +150,15 @@ parentConfig.testFiles.forEach(testCasePath => {
             const selectedPayload = getPayloadByTestCaseName(testCase.testIdentifier);
             const actual = globalStore["lastApiResponse-"+testCase.testIdentifier];
             let ismatch = deepPartialMatch(selectedPayload, actual);
-            expect(ismatch).toBeTruthy(); // all expected items must exist in actual
+            expect(ismatch).toBeTruthy();
           }
           else{
           await validateExtractedValues(actual, expected, globalKey);
           }
         }
       }
+
+      // keeping the below code for future use, if needed
 
 /*       if (testCase.method.toUpperCase() === 'POST' && testCase.polling) {
         response = await pollForExpectedResponse(requestContext, endpoint, testCase.polling);

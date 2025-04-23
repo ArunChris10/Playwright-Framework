@@ -1,4 +1,5 @@
-import { equal } from "assert";
+import fs from 'fs';
+import path from 'path';
 
 /**
  * Recursively finds all values for a given key in a deeply nested JSON object,
@@ -30,6 +31,11 @@ export function findAllValuesByKey(obj: any, targetKey: string): any[] {
 
   search(obj);
   return results;
+}
+
+export function loadJSON<T>(filePath: string): T {
+  const data =  fs.readFileSync(path.resolve(__dirname, filePath), 'utf-8');
+  return JSON.parse(data);
 }
 
 function getNestedValue(obj: any, path: string,equals:string): any {
