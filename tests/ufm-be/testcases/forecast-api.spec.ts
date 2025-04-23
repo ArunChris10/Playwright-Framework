@@ -137,3 +137,54 @@ for (let i = 0; i < lobName.length; i++) {
     }
   );
 }
+
+const lob = ["SEGMENT", "HOME OFFICE"];
+lob.forEach((lobName) => {
+  test.describe(
+    "Verify create forecast API for multiple LOBs",
+    { tag: "@Smoke @Regression @multipleForecast" },
+    async () => {
+      test.describe.configure({ timeout: 600_000, mode: "parallel" });
+
+      test(`Validate multiple LOB forecast creation ${lobName}`, async ({ request }) => {
+        if (
+          (await ForecastUtility.countOfScenario(
+            lobName,
+            process.env.ufmUser,
+            request
+          )) >= commonData.MAX_SCENARIO_COUNT
+        ) {
+          await ForecastUtility.deleteAllforecastofUser(
+            request,
+            lobName,
+            process.env.ufmUser
+          );
+        }
+
+        let scenarioId = await ForecastUtility.createForecast(
+          lobName,
+          request
+        );
+
+        let currentForecast = await UfmUtility.getCurrentForecastList(
+          lobName,
+          request
+        );
+
+        //Get scenario version from scenario id from forecast list
+        let scenario_details = await UfmUtility.getScenarioDetails(
+          currentForecast,
+          scenarioId
+        );
+
+        await ForecastUtility.deleteForecast(
+          scenario_details["scenarioId"],
+          scenario_details["scenarioVersion"],
+          commonData.ba_dim_id,
+          await UfmUtility.getMapping(lobName, "dim_val_id"),
+          request
+        );
+      });
+    }
+  );
+});

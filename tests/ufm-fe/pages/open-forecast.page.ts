@@ -1,6 +1,5 @@
 import { Locator, Page } from "@playwright/test";
 import { Utility } from "../../common/fixtures/utils";
-
 export class OpenCurrentForecast {
   readonly page: Page;
   readonly btnOpenCurrentForecast: Locator;
@@ -30,6 +29,7 @@ export class OpenCurrentForecast {
   readonly DriversButton: Locator
   readonly addDriversButton: Locator
   readonly driverCheckBoxes: Locator
+  readonly addDriversButton: Locator
   readonly KPITable: Locator;
 
 
@@ -95,7 +95,93 @@ export class OpenCurrentForecast {
   }
 
   async clickOnChooseDifferentDriver() {
+
     await this.DriversButton.isVisible() ? await this.DriversButton.click() : await this.chooseDifferentDriverButton.click()
+    await this.addDriversButton.isVisible() ? await this.addDriversButton.click() : await this.chooseDifferentDriverButton.click()
+
+  }
+
+
+  async waitForKPITableToLoad() {
+    await this.KPITable.waitFor({ state: "visible" })
+  }
+
+  async getAllChanges() {
+    const elements = await this.adjustmentNamesTitle.all();
+
+    const texts = await Promise.all(
+      elements.map(async (el) => {
+        return (await el.textContent())?.trim() || '';
+      })
+    );
+
+    return texts
+  }
+
+  async inputValueInAllValidInputCell(value) {
+    const spans = this.page.locator(this.customCheckbox);
+    const count = await spans.count();
+    let addCount = 0
+
+    let map = new Map()
+
+    for (let i = 0; i < count && addCount < 50; i++) {
+      let span = spans.nth(i);
+      // Try focusing the span manually
+      await this.page.mouse.click(0, 0);
+      await this.page.waitForTimeout(100);
+      await span.scrollIntoViewIfNeeded();
+      let text = await span.textContent();
+      try {
+        if (text && text.trim() !== '') {
+          const cleaned = text.replace(/\u200B/g, '').trim();
+          if (cleaned !== '') {
+
+            const info = await span.evaluate(el => {
+              const rowDiv = el?.closest('div[role="row"]');
+              const cellDiv = el?.closest('div[role="gridcell"]');
+              return {
+                rowIndex: rowDiv?.getAttribute('row-index') || null,
+                colId: cellDiv?.getAttribute('col-id') || null,
+              };
+            });
+
+            let nodeName = await this.page.locator(`(//div[@role="row" and @row-index="${info.rowIndex}"])[1]//div[contains(@class,"DimensionCellRenderer_cellContainer")]`).textContent()
+            let cellValue = await this.page.locator(`//div[@row-id=${info.rowIndex}]//div[@col-id="${info.colId}"]//div[contains(@class,"EditableCellRenderer_tableCell")]//span`).textContent()
+            if (!map.has(nodeName)) {
+              // Parent key doesn't exist, create it with a new Map
+              map.set(nodeName, [info.colId]);
+            } else {
+              const cell = map.get(nodeName)
+              cell.push(info.colId)
+              map.set(nodeName, cell)
+            }
+            console.log(`➡️ Editing cell in column: ${info.rowIndex} ${info.colId} ${nodeName} `);
+            await this.page.mouse.click(0, 0);
+            await this.page.waitForTimeout(50);
+
+            // Try focusing the span manually
+            await span.scrollIntoViewIfNeeded();
+            await this.page.waitForTimeout(100);
+
+            try {
+              await span.click({ force: true, timeout: 3000 });
+              await this.page.waitForTimeout(50);
+              // Send keyboard input
+              await this.page.keyboard.type(value);
+              addCount += 1
+            }
+            catch (error) {
+              console.warn(`❌ Failed to click span[${i}]:`, error);
+              continue
+            }
+          }
+        }
+      } catch (error) { console.log("In Catch Block", error); continue }
+
+    }
+
+    return map
 
   }
 
@@ -395,13 +481,28 @@ async inputValueInAllValidInputCell(value) {
       .catch(() => false);
 
     return saveErrorMessageExistence;
+
+  async waitForSaveChanges() {
+    return await this.saveChangesLoader.waitFor({ state: "detached" })
   }
 
-  async clickOnSave() {
+  async clickOnSaveAsChange() {
     await this.saveButton.click();
+  }
+
+  async clickOnSaveChanges() {
+    await this.saveChangesButton.click();
     await this.calculationSpinner.waitFor({ state: "hidden" });
     await this.forecastTable.waitFor({ state: "visible" });
   }
+
+  async fillChangeForm(inputName, inputDescription) {
+    await this.inputName.click()
+    await this.page.keyboard.type(inputName);
+    await this.inputDescription.click()
+    await this.page.keyboard.type(inputDescription);
+  }
+
 
   async getDriverMonthForecastValue(colIdMap) {
     for (let key of colIdMap.keys()) {

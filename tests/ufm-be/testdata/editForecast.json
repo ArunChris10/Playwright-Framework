@@ -1,0 +1,32 @@
+{
+    "testData": {
+        "INSTORE AND OTHER": {
+            "lobName": "INSTORE AND OTHER",
+            "AdditiveNodes": [
+                "returnedunitsuom_input", 
+                "instorereturns_input"
+            ],
+            "NonAdditiveNodes": [
+  
+                "allocationpctmerchandiseincome"
+            ],
+            "AffectingNodes": {
+                "Additive": [
+                    "unitsgrossuom"
+                ],
+                "NonAdditive": ["merchandiseincomeallocatedtoentity","merchandiseincomeallocatedtoentity_calculated"]
+            },
+            "node_dimension": {
+                "department": 23
+            },
+            "filters": [
+                {
+                    "dim_id": 1,
+                    "dim_val_ids": [1],
+                    "children": []
+                }
+            ],
+            "adjustmentId": 1744794077930
+        }
+    }
+}

@@ -1682,872 +1682,873 @@
       }
     ]
   },
-  {
-    "userId": "LB-ibg-ufm-auto",
-    "appId": "29",
-    "appIdentifier": "ibg-ufm",
-    "displayName": "ibg-ufm-user automation",
-    "givenName": "ibg-ufm-user",
-    "familyName": "automation",
-    "mail": "NOT_FOUND",
-    "pfed_down": false,
-    "memberOf": [],
-    "userInBlackoutList": false,
-    "roles": [
-      {
-        "id": "102",
-        "name": "IBG_UFM_USER_ADMIN",
-        "blackoutListEnabled": true,
-        "description": "IBG_UFM_USER_ADMIN",
-        "permissions": [
-          {
-            "id": 95,
-            "name": "U_VIEW_APPLY_FILTERS_RO",
-            "description": "view and apply filters",
-            "permission_attribute": []
-          },
-          {
-            "id": 96,
-            "name": "U_SAVE_FILTERS_RW",
-            "description": "on clicking create Filter-set",
-            "permission_attribute": []
-          },
-          {
-            "id": 99,
-            "name": "U_VIEW_CURRENT_FORECAST_RO",
-            "description": "View current forecast component.",
-            "permission_attribute": []
-          },
-          {
-            "id": 100,
-            "name": "U_OPEN_FORECAST_RW",
-            "description": "Open button access to view reports.",
-            "permission_attribute": []
-          },
-          {
-            "id": 102,
-            "name": "U_NAVIGATE_DRIVER_TREE_RO",
-            "description": "NAVIGATE_DRIVER_TREE_Read and Write",
-            "permission_attribute": []
-          },
-          {
-            "id": 103,
-            "name": "U_VIEW_FORECAST_STATUS_RO",
-            "description": "view forecast status",
-            "permission_attribute": []
-          },
-          {
-            "id": 104,
-            "name": "U_SEND_FORECAST_BACK_RW",
-            "description": "send forecast",
-            "permission_attribute": []
-          },
-          {
-            "id": 106,
-            "name": "U_UPCOMING_FORECAST_RO",
-            "description": "Deadline date read",
-            "permission_attribute": []
-          },
-          {
-            "id": 107,
-            "name": "U_VIEW_FINANCIAL_SUMMARY_RO",
-            "description": "view finanical summary",
-            "permission_attribute": []
-          },
-          {
-            "id": 108,
-            "name": "U_VIEW_HISTORICAL_FORECAST_RO",
-            "description": "Historical forecast view  ",
-            "permission_attribute": []
-          },
-          {
-            "id": 109,
-            "name": "U_ACCESS_USER_REQUEST",
-            "description": "Access to user Request",
-            "permission_attribute": ["segment"]
-          },
-          {
-            "id": 111,
-            "name": "U_ACCESS_HOME_SCREEN",
-            "description": "Able to access home screen of UFM",
-            "permission_attribute": []
-          },
-          {
-            "id": 114,
-            "name": "U_ACCESS_FORECAST_SCREEN",
-            "description": "Access FORECAST(My Kpi) screen ",
-            "permission_attribute": []
-          },
-          {
-            "id": 115,
-            "name": "U_ACCESS_ORG_LEVEL_SCREEN",
-            "description": "Access to ORG level Screen",
-            "permission_attribute": []
-          },
-          {
-            "id": 116,
-            "name": "U_DELETE_FILTERS_RW",
-            "description": "Delete filters",
-            "permission_attribute": []
-          },
-          {
-            "id": 118,
-            "name": "U_VIEW_SCENARIO_COMPOSITION",
-            "description": "Scenario Composition",
-            "permission_attribute": []
-          },
-          {
-            "id": 123,
-            "name": "U_SUBMIT_FORECAST_RW",
-            "description": "submit final forecast",
-            "permission_attribute": ["segment"]
-          },
-          {
-            "id": 125,
-            "name": "U_SCREEN_DETAILS_RO",
-            "description": "Screen details",
-            "permission_attribute": []
-          },
-          {
-            "id": 130,
-            "name": "U_CREATE_BA_SEG_SCENARIO",
-            "description": "Creating scenario for BA and Segment.",
-            "permission_attribute": []
-          },
-          {
-            "id": 131,
-            "name": "U_CREATE_PRIM_SCENARIO",
-            "description": "create primary Scenario by Segment",
-            "permission_attribute": []
-          },
-          {
-            "id": 142,
-            "name": "U_FORECAST_CALENDAR_RO",
-            "description": "Allows user to view the forecast calendar details",
-            "permission_attribute": []
-          },
-          {
-            "id": 143,
-            "name": "U_FORECAST_CALENDAR_RW",
-            "description": "allows segment user to read and write forecast calendars",
-            "permission_attribute": []
-          },
-          {
-            "id": 144,
-            "name": "U_FORECAST_DEADLINE_DATE_RO",
-            "description": "Allows users to view the next submission deadline",
-            "permission_attribute": []
-          },
-          {
-            "id": 145,
-            "name": "U_DT_CSV_VALIDATION",
-            "description": "add new permission to Admin role",
-            "permission_attribute": []
-          },
-          {
-            "id": 148,
-            "name": "C_DEMAND_SUPER_USER",
-            "description": "super user for demand workspace",
-            "permission_attribute": []
-          }
-        ]
-      },
-      {
-        "id": "103",
-        "name": "IBG_UFM_SEGMENT_USER",
-        "blackoutListEnabled": true,
-        "description": "IBG_UFM_SEGMENT_USER - This permission is for all the segment user having this role",
-        "permissions": [
-          {
-            "id": 95,
-            "name": "U_VIEW_APPLY_FILTERS_RO",
-            "description": "view and apply filters",
-            "permission_attribute": []
-          },
-          {
-            "id": 96,
-            "name": "U_SAVE_FILTERS_RW",
-            "description": "on clicking create Filter-set",
-            "permission_attribute": []
-          },
-          {
-            "id": 99,
-            "name": "U_VIEW_CURRENT_FORECAST_RO",
-            "description": "View current forecast component.",
-            "permission_attribute": []
-          },
-          {
-            "id": 100,
-            "name": "U_OPEN_FORECAST_RW",
-            "description": "Open button access to view reports.",
-            "permission_attribute": []
-          },
-          {
-            "id": 102,
-            "name": "U_NAVIGATE_DRIVER_TREE_RO",
-            "description": "NAVIGATE_DRIVER_TREE_Read and Write",
-            "permission_attribute": []
-          },
-          {
-            "id": 103,
-            "name": "U_VIEW_FORECAST_STATUS_RO",
-            "description": "view forecast status",
-            "permission_attribute": []
-          },
-          {
-            "id": 104,
-            "name": "U_SEND_FORECAST_BACK_RW",
-            "description": "send forecast",
-            "permission_attribute": []
-          },
-          {
-            "id": 106,
-            "name": "U_UPCOMING_FORECAST_RO",
-            "description": "Deadline date read",
-            "permission_attribute": []
-          },
-          {
-            "id": 107,
-            "name": "U_VIEW_FINANCIAL_SUMMARY_RO",
-            "description": "view finanical summary",
-            "permission_attribute": []
-          },
-          {
-            "id": 108,
-            "name": "U_VIEW_HISTORICAL_FORECAST_RO",
-            "description": "Historical forecast view  ",
-            "permission_attribute": []
-          },
-          {
-            "id": 111,
-            "name": "U_ACCESS_HOME_SCREEN",
-            "description": "Able to access home screen of UFM",
-            "permission_attribute": []
-          },
-          {
-            "id": 114,
-            "name": "U_ACCESS_FORECAST_SCREEN",
-            "description": "Access FORECAST(My Kpi) screen ",
-            "permission_attribute": []
-          },
-          {
-            "id": 115,
-            "name": "U_ACCESS_ORG_LEVEL_SCREEN",
-            "description": "Access to ORG level Screen",
-            "permission_attribute": []
-          },
-          {
-            "id": 116,
-            "name": "U_DELETE_FILTERS_RW",
-            "description": "Delete filters",
-            "permission_attribute": []
-          },
-          {
-            "id": 118,
-            "name": "U_VIEW_SCENARIO_COMPOSITION",
-            "description": "Scenario Composition",
-            "permission_attribute": []
-          },
-          {
-            "id": 123,
-            "name": "U_SUBMIT_FORECAST_RW",
-            "description": "submit final forecast",
-            "permission_attribute": ["segment"]
-          },
-          {
-            "id": 125,
-            "name": "U_SCREEN_DETAILS_RO",
-            "description": "Screen details",
-            "permission_attribute": []
-          },
-          {
-            "id": 130,
-            "name": "U_CREATE_BA_SEG_SCENARIO",
-            "description": "Creating scenario for BA and Segment.",
-            "permission_attribute": []
-          },
-          {
-            "id": 131,
-            "name": "U_CREATE_PRIM_SCENARIO",
-            "description": "create primary Scenario by Segment",
-            "permission_attribute": []
-          },
-          {
-            "id": 142,
-            "name": "U_FORECAST_CALENDAR_RO",
-            "description": "Allows user to view the forecast calendar details",
-            "permission_attribute": []
-          },
-          {
-            "id": 143,
-            "name": "U_FORECAST_CALENDAR_RW",
-            "description": "allows segment user to read and write forecast calendars",
-            "permission_attribute": []
-          },
-          {
-            "id": 144,
-            "name": "U_FORECAST_DEADLINE_DATE_RO",
-            "description": "Allows users to view the next submission deadline",
-            "permission_attribute": []
-          }
-        ]
-      },
-      {
-        "id": "104",
-        "name": "IBG_UFM_BA_USER",
-        "blackoutListEnabled": true,
-        "description": "As a Oraganization Reviewer",
-        "permissions": [
-          {
-            "id": 95,
-            "name": "U_VIEW_APPLY_FILTERS_RO",
-            "description": "view and apply filters",
-            "permission_attribute": []
-          },
-          {
-            "id": 96,
-            "name": "U_SAVE_FILTERS_RW",
-            "description": "on clicking create Filter-set",
-            "permission_attribute": []
-          },
-          {
-            "id": 97,
-            "name": "U_UPCOMING_FORECAST_RW",
-            "description": "View UPCOMING_FORECAST Deadline _ORG_Read and Write",
-            "permission_attribute": []
-          },
-          {
-            "id": 99,
-            "name": "U_VIEW_CURRENT_FORECAST_RO",
-            "description": "View current forecast component.",
-            "permission_attribute": []
-          },
-          {
-            "id": 100,
-            "name": "U_OPEN_FORECAST_RW",
-            "description": "Open button access to view reports.",
-            "permission_attribute": []
-          },
-          {
-            "id": 101,
-            "name": "U_DOWNLOAD_FORECAST_RW",
-            "description": "DOWNLOAD_FORECAST_Read Write",
-            "permission_attribute": []
-          },
-          {
-            "id": 102,
-            "name": "U_NAVIGATE_DRIVER_TREE_RO",
-            "description": "NAVIGATE_DRIVER_TREE_Read and Write",
-            "permission_attribute": []
-          },
-          {
-            "id": 103,
-            "name": "U_VIEW_FORECAST_STATUS_RO",
-            "description": "view forecast status",
-            "permission_attribute": []
-          },
-          {
-            "id": 104,
-            "name": "U_SEND_FORECAST_BACK_RW",
-            "description": "send forecast",
-            "permission_attribute": []
-          },
-          {
-            "id": 105,
-            "name": "U_SEND_FORECAST_REVIEW_RW",
-            "description": "SEND_FORECAST_REVIEW_RW",
-            "permission_attribute": []
-          },
-          {
-            "id": 106,
-            "name": "U_UPCOMING_FORECAST_RO",
-            "description": "Deadline date read",
-            "permission_attribute": []
-          },
-          {
-            "id": 107,
-            "name": "U_VIEW_FINANCIAL_SUMMARY_RO",
-            "description": "view finanical summary",
-            "permission_attribute": []
-          },
-          {
-            "id": 108,
-            "name": "U_VIEW_HISTORICAL_FORECAST_RO",
-            "description": "Historical forecast view  ",
-            "permission_attribute": []
-          },
-          {
-            "id": 111,
-            "name": "U_ACCESS_HOME_SCREEN",
-            "description": "Able to access home screen of UFM",
-            "permission_attribute": []
-          },
-          {
-            "id": 113,
-            "name": "U_BA_REVIEWER",
-            "description": "Access BA Reviewer Landing screen, Users with this permission will be able to open the reviewer landing page from the UI",
-            "permission_attribute": ["ba"]
-          },
-          {
-            "id": 114,
-            "name": "U_ACCESS_FORECAST_SCREEN",
-            "description": "Access FORECAST(My Kpi) screen ",
-            "permission_attribute": []
-          },
-          {
-            "id": 115,
-            "name": "U_ACCESS_ORG_LEVEL_SCREEN",
-            "description": "Access to ORG level Screen",
-            "permission_attribute": []
-          },
-          {
-            "id": 116,
-            "name": "U_DELETE_FILTERS_RW",
-            "description": "Delete filters",
-            "permission_attribute": []
-          },
-          {
-            "id": 118,
-            "name": "U_VIEW_SCENARIO_COMPOSITION",
-            "description": "Scenario Composition",
-            "permission_attribute": []
-          },
-          {
-            "id": 125,
-            "name": "U_SCREEN_DETAILS_RO",
-            "description": "Screen details",
-            "permission_attribute": []
-          },
-          {
-            "id": 130,
-            "name": "U_CREATE_BA_SEG_SCENARIO",
-            "description": "Creating scenario for BA and Segment.",
-            "permission_attribute": []
-          },
-          {
-            "id": 144,
-            "name": "U_FORECAST_DEADLINE_DATE_RO",
-            "description": "Allows users to view the next submission deadline",
-            "permission_attribute": []
-          }
-        ]
-      },
-      {
-        "id": "105",
-        "name": "IBG_UFM_SBA_USER",
-        "blackoutListEnabled": true,
-        "description": "IBG_UFM_SBA_USER for Non Prod application.",
-        "permissions": [
-          {
-            "id": 95,
-            "name": "U_VIEW_APPLY_FILTERS_RO",
-            "description": "view and apply filters",
-            "permission_attribute": []
-          },
-          {
-            "id": 96,
-            "name": "U_SAVE_FILTERS_RW",
-            "description": "on clicking create Filter-set",
-            "permission_attribute": []
-          },
-          {
-            "id": 97,
-            "name": "U_UPCOMING_FORECAST_RW",
-            "description": "View UPCOMING_FORECAST Deadline _ORG_Read and Write",
-            "permission_attribute": []
-          },
-          {
-            "id": 98,
-            "name": "U_CREATE_FORECAST_RW",
-            "description": "create forecast by LOB",
-            "permission_attribute": ["sba"]
-          },
-          {
-            "id": 99,
-            "name": "U_VIEW_CURRENT_FORECAST_RO",
-            "description": "View current forecast component.",
-            "permission_attribute": []
-          },
-          {
-            "id": 100,
-            "name": "U_OPEN_FORECAST_RW",
-            "description": "Open button access to view reports.",
-            "permission_attribute": []
-          },
-          {
-            "id": 101,
-            "name": "U_DOWNLOAD_FORECAST_RW",
-            "description": "DOWNLOAD_FORECAST_Read Write",
-            "permission_attribute": []
-          },
-          {
-            "id": 102,
-            "name": "U_NAVIGATE_DRIVER_TREE_RO",
-            "description": "NAVIGATE_DRIVER_TREE_Read and Write",
-            "permission_attribute": []
-          },
-          {
-            "id": 103,
-            "name": "U_VIEW_FORECAST_STATUS_RO",
-            "description": "view forecast status",
-            "permission_attribute": []
-          },
-          {
-            "id": 105,
-            "name": "U_SEND_FORECAST_REVIEW_RW",
-            "description": "SEND_FORECAST_REVIEW_RW",
-            "permission_attribute": []
-          },
-          {
-            "id": 106,
-            "name": "U_UPCOMING_FORECAST_RO",
-            "description": "Deadline date read",
-            "permission_attribute": []
-          },
-          {
-            "id": 108,
-            "name": "U_VIEW_HISTORICAL_FORECAST_RO",
-            "description": "Historical forecast view  ",
-            "permission_attribute": []
-          },
-          {
-            "id": 110,
-            "name": "U_DELETE_FORECAST_RW",
-            "description": "User should have this permission to delete a forecast",
-            "permission_attribute": []
-          },
-          {
-            "id": 111,
-            "name": "U_ACCESS_HOME_SCREEN",
-            "description": "Able to access home screen of UFM",
-            "permission_attribute": []
-          },
-          {
-            "id": 112,
-            "name": "U_SBA_INPUTTER",
-            "description": "Access landing page for SBA inputter, User with this role will be able to open Inputter landing page.\n",
-            "permission_attribute": ["sba"]
-          },
-          {
-            "id": 114,
-            "name": "U_ACCESS_FORECAST_SCREEN",
-            "description": "Access FORECAST(My Kpi) screen ",
-            "permission_attribute": []
-          },
-          {
-            "id": 115,
-            "name": "U_ACCESS_ORG_LEVEL_SCREEN",
-            "description": "Access to ORG level Screen",
-            "permission_attribute": []
-          },
-          {
-            "id": 116,
-            "name": "U_DELETE_FILTERS_RW",
-            "description": "Delete filters",
-            "permission_attribute": []
-          },
-          {
-            "id": 117,
-            "name": "U_KPI_DATA_RO",
-            "description": "View KPI Data",
-            "permission_attribute": []
-          },
-          {
-            "id": 118,
-            "name": "U_VIEW_SCENARIO_COMPOSITION",
-            "description": "Scenario Composition",
-            "permission_attribute": []
-          },
-          {
-            "id": 119,
-            "name": "U_UNDO_REDO_RO",
-            "description": "undo and redo",
-            "permission_attribute": []
-          },
-          {
-            "id": 120,
-            "name": "U_CALCULATE_DRIVERS_RO",
-            "description": "Calculate Driver",
-            "permission_attribute": []
-          },
-          {
-            "id": 121,
-            "name": "U_ALLOCATE_METHODS_RO",
-            "description": "allocate methods",
-            "permission_attribute": []
-          },
-          {
-            "id": 122,
-            "name": "U_CONFIG_FORECAST_RO",
-            "description": "config pannel for forecast",
-            "permission_attribute": []
-          },
-          {
-            "id": 124,
-            "name": "U_GET_NODES_RO",
-            "description": "get nodes for all, GL and input.",
-            "permission_attribute": []
-          },
-          {
-            "id": 125,
-            "name": "U_SCREEN_DETAILS_RO",
-            "description": "Screen details",
-            "permission_attribute": []
-          },
-          {
-            "id": 126,
-            "name": "U_SAVE_DRIVER_FILTERS_RW",
-            "description": "Save Driver Filters",
-            "permission_attribute": []
-          },
-          {
-            "id": 127,
-            "name": "U_SAVE_DRIVERS_RW",
-            "description": "Save Driver After perview",
-            "permission_attribute": []
-          },
-          {
-            "id": 144,
-            "name": "U_FORECAST_DEADLINE_DATE_RO",
-            "description": "Allows users to view the next submission deadline",
-            "permission_attribute": []
-          },
-          {
-            "id": 149,
-            "name": "C_VIEW_DS_OUTPUT_READ",
-            "description": "View/filter DS Output",
-            "permission_attribute": []
-          },
-          {
-            "id": 150,
-            "name": "C_ALLOCATION_MODIFIER_WRITE",
-            "description": "Edit Marketplace and Unscheduled Delivery",
-            "permission_attribute": []
-          },
-          {
-            "id": 151,
-            "name": "C_ADJUSTMENTS_MODIFIER_WRITE",
-            "description": "Upload a file, EMT, Manual Adjusment",
-            "permission_attribute": []
-          }
-        ]
-      },
-      {
-        "id": "138",
-        "name": "MerchOpsLob",
-        "description": "This role will be used to get Merch Ops LOB access",
-        "permissions": [
-          {
-            "id": 110,
-            "name": "U_DELETE_FORECAST_RW",
-            "description": "User should have this permission to delete a forecast",
-            "permission_attribute": []
-          },
-          {
-            "id": 112,
-            "name": "U_SBA_INPUTTER",
-            "description": "Access landing page for SBA inputter, User with this role will be able to open Inputter landing page.\n",
-            "permission_attribute": ["sba"]
-          },
-          {
-            "id": 167,
-            "name": "U_MERCH_OPS_DEPT_RW",
-            "description": "This permission will provide department level access. ",
-            "permission_attribute": ["Department"]
-          }
-        ]
-      }
-    ],
-    "alignments": [],
-    "attributes": [
-      {
-        "type": "ba",
-        "valueId": "120007",
-        "valueName": "SUPPLY CHAIN",
-        "accessType": "READ"
-      },
-      {
-        "type": "ba",
-        "valueId": "120003",
-        "valueName": "HEALTH & WELLNESS",
-        "accessType": "READ"
-      },
-      {
-        "type": "ba",
-        "valueId": "120001",
-        "valueName": "CUSTOMER & REVENUE",
-        "accessType": "READ"
-      },
-      {
-        "type": "ba",
-        "valueId": "120002",
-        "valueName": "ECOMMERCE",
-        "accessType": "READ"
-      },
-      {
-        "type": "ba",
-        "valueId": "120005",
-        "valueName": "OPERATIONS",
-        "accessType": "READ"
-      },
-      {
-        "type": "ba",
-        "valueId": "120006",
-        "valueName": "SEGMENT",
-        "accessType": "READ"
-      },
-      {
-        "type": "ba",
-        "valueId": "120009",
-        "valueName": "MERCHANDISING FINANCE",
-        "accessType": "READ"
-      },
-      {
-        "type": "ba",
-        "valueId": "120010",
-        "valueName": "MERCHANDISING OPERATIONS",
-        "accessType": "READ"
-      },
-      {
-        "type": "sba",
-        "valueId": "110008",
-        "valueName": "FULFILLMENT",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110011",
-        "valueName": "LAST MILE DELIVERY",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110005",
-        "valueName": "E2E DELIVERY",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110003",
-        "valueName": "CORE_SERVICES",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110010",
-        "valueName": "INNOVATION & AUTOMATION",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110016",
-        "valueName": "OPTICAL",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110019",
-        "valueName": "RX",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110004",
-        "valueName": "DATA VENTURES",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110006",
-        "valueName": "ECOMMERCE",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110017",
-        "valueName": null,
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110021",
-        "valueName": "SEGMENT",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110007",
-        "valueName": "FUEL",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110009",
-        "valueName": "HOME OFFICE",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110012",
-        "valueName": "MARKETING",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110015",
-        "valueName": "OPERATIONS",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110018",
-        "valueName": "REAL ESTATE",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110002",
-        "valueName": "CONNECT",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110026",
-        "valueName": "INSTORE AND OTHER",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110028",
-        "valueName": "UNSCHEDULED AND CORE",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110027",
-        "valueName": "SCHEDULED",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110029",
-        "valueName": "MERCHOPS",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "sba",
-        "valueId": "110013",
-        "valueName": "MARKETPLACE",
-        "accessType": "WRITE"
-      },
-      {
-        "type": "segment",
-        "valueId": "130001",
-        "valueName": "WMT US SEGMENT FINANCE",
-        "accessType": "READ"
-      }
-    ]
-  },
+ {
+  "userId": "LB-ibg-ufm-auto",
+  "appId": "29",
+  "appIdentifier": "ibg-ufm",
+  "displayName": "ibg-ufm-user automation",
+  "givenName": "ibg-ufm-user",
+  "familyName": "automation",
+  "mail": "NOT_FOUND",
+  "pfed_down": false,
+  "memberOf": [],
+  "userInBlackoutList": false,
+  "roles": [
+    {
+      "id": "102",
+      "name": "IBG_UFM_USER_ADMIN",
+      "blackoutListEnabled": true,
+      "description": "IBG_UFM_USER_ADMIN",
+      "permissions": [
+        {
+          "id": 95,
+          "name": "U_VIEW_APPLY_FILTERS_RO",
+          "description": "view and apply filters",
+          "permission_attribute": []
+        },
+        {
+          "id": 96,
+          "name": "U_SAVE_FILTERS_RW",
+          "description": "on clicking create Filter-set",
+          "permission_attribute": []
+        },
+        {
+          "id": 99,
+          "name": "U_VIEW_CURRENT_FORECAST_RO",
+          "description": "View current forecast component.",
+          "permission_attribute": []
+        },
+        {
+          "id": 100,
+          "name": "U_OPEN_FORECAST_RW",
+          "description": "Open button access to view reports.",
+          "permission_attribute": []
+        },
+        {
+          "id": 102,
+          "name": "U_NAVIGATE_DRIVER_TREE_RO",
+          "description": "NAVIGATE_DRIVER_TREE_Read and Write",
+          "permission_attribute": []
+        },
+        {
+          "id": 103,
+          "name": "U_VIEW_FORECAST_STATUS_RO",
+          "description": "view forecast status",
+          "permission_attribute": []
+        },
+        {
+          "id": 104,
+          "name": "U_SEND_FORECAST_BACK_RW",
+          "description": "send forecast",
+          "permission_attribute": []
+        },
+        {
+          "id": 106,
+          "name": "U_UPCOMING_FORECAST_RO",
+          "description": "Deadline date read",
+          "permission_attribute": []
+        },
+        {
+          "id": 107,
+          "name": "U_VIEW_FINANCIAL_SUMMARY_RO",
+          "description": "view finanical summary",
+          "permission_attribute": []
+        },
+        {
+          "id": 108,
+          "name": "U_VIEW_HISTORICAL_FORECAST_RO",
+          "description": "Historical forecast view  ",
+          "permission_attribute": []
+        },
+        {
+          "id": 109,
+          "name": "U_ACCESS_USER_REQUEST",
+          "description": "Access to user Request",
+          "permission_attribute": [
+            "segment"
+          ]
+        },
+        {
+          "id": 111,
+          "name": "U_ACCESS_HOME_SCREEN",
+          "description": "Able to access home screen of UFM",
+          "permission_attribute": []
+        },
+        {
+          "id": 114,
+          "name": "U_ACCESS_FORECAST_SCREEN",
+          "description": "Access FORECAST(My Kpi) screen ",
+          "permission_attribute": []
+        },
+        {
+          "id": 115,
+          "name": "U_ACCESS_ORG_LEVEL_SCREEN",
+          "description": "Access to ORG level Screen",
+          "permission_attribute": []
+        },
+        {
+          "id": 116,
+          "name": "U_DELETE_FILTERS_RW",
+          "description": "Delete filters",
+          "permission_attribute": []
+        },
+        {
+          "id": 117,
+          "name": "U_KPI_DATA_RO",
+          "description": "View KPI Data",
+          "permission_attribute": []
+        },
+        {
+          "id": 118,
+          "name": "U_VIEW_SCENARIO_COMPOSITION",
+          "description": "Scenario Composition",
+          "permission_attribute": []
+        },
+        {
+          "id": 120,
+          "name": "U_CALCULATE_DRIVERS_RO",
+          "description": "Calculate Driver",
+          "permission_attribute": []
+        },
+        {
+          "id": 123,
+          "name": "U_SUBMIT_FORECAST_RW",
+          "description": "submit final forecast",
+          "permission_attribute": [
+            "segment"
+          ]
+        },
+        {
+          "id": 124,
+          "name": "U_GET_NODES_RO",
+          "description": "get nodes for all, GL and input.",
+          "permission_attribute": []
+        },
+        {
+          "id": 125,
+          "name": "U_SCREEN_DETAILS_RO",
+          "description": "Screen details",
+          "permission_attribute": []
+        },
+        {
+          "id": 127,
+          "name": "U_SAVE_DRIVERS_RW",
+          "description": "Save Driver After perview",
+          "permission_attribute": []
+        },
+        {
+          "id": 130,
+          "name": "U_CREATE_BA_SEG_SCENARIO",
+          "description": "Creating scenario for BA and Segment.",
+          "permission_attribute": []
+        },
+        {
+          "id": 131,
+          "name": "U_CREATE_PRIM_SCENARIO",
+          "description": "create primary Scenario by Segment",
+          "permission_attribute": []
+        },
+        {
+          "id": 142,
+          "name": "U_FORECAST_CALENDAR_RO",
+          "description": "Allows user to view the forecast calendar details",
+          "permission_attribute": []
+        },
+        {
+          "id": 143,
+          "name": "U_FORECAST_CALENDAR_RW",
+          "description": "allows segment user to read and write forecast calendars",
+          "permission_attribute": []
+        },
+        {
+          "id": 144,
+          "name": "U_FORECAST_DEADLINE_DATE_RO",
+          "description": "Allows users to view the next submission deadline",
+          "permission_attribute": []
+        },
+        {
+          "id": 145,
+          "name": "U_DT_CSV_VALIDATION",
+          "description": "add new permission to Admin role",
+          "permission_attribute": []
+        },
+        {
+          "id": 148,
+          "name": "C_DEMAND_SUPER_USER",
+          "description": "super user for demand workspace",
+          "permission_attribute": []
+        },
+        {
+          "id": 168,
+          "name": "U_DATA_SCIENCE",
+          "description": "Viewing Data science under Admin.",
+          "permission_attribute": []
+        },
+        {
+          "id": 170,
+          "name": "U_READ_NODE_DEPENDENCY",
+          "description": "read node dependencies.",
+          "permission_attribute": []
+        },
+        {
+          "id": 171,
+          "name": "U_INSERT_NODE_DEPENDENCY",
+          "description": "insert Node dependencies by API.",
+          "permission_attribute": []
+        },
+        {
+          "id": 172,
+          "name": "U_AOP",
+          "description": "Access for AOP",
+          "permission_attribute": []
+        }
+      ]
+    },
+    {
+      "id": "104",
+      "name": "IBG_UFM_BA_USER",
+      "blackoutListEnabled": true,
+      "description": "As a Oraganization Reviewer",
+      "permissions": [
+        {
+          "id": 95,
+          "name": "U_VIEW_APPLY_FILTERS_RO",
+          "description": "view and apply filters",
+          "permission_attribute": []
+        },
+        {
+          "id": 96,
+          "name": "U_SAVE_FILTERS_RW",
+          "description": "on clicking create Filter-set",
+          "permission_attribute": []
+        },
+        {
+          "id": 97,
+          "name": "U_UPCOMING_FORECAST_RW",
+          "description": "View UPCOMING_FORECAST Deadline _ORG_Read and Write",
+          "permission_attribute": []
+        },
+        {
+          "id": 99,
+          "name": "U_VIEW_CURRENT_FORECAST_RO",
+          "description": "View current forecast component.",
+          "permission_attribute": []
+        },
+        {
+          "id": 100,
+          "name": "U_OPEN_FORECAST_RW",
+          "description": "Open button access to view reports.",
+          "permission_attribute": []
+        },
+        {
+          "id": 101,
+          "name": "U_DOWNLOAD_FORECAST_RW",
+          "description": "DOWNLOAD_FORECAST_Read Write",
+          "permission_attribute": []
+        },
+        {
+          "id": 102,
+          "name": "U_NAVIGATE_DRIVER_TREE_RO",
+          "description": "NAVIGATE_DRIVER_TREE_Read and Write",
+          "permission_attribute": []
+        },
+        {
+          "id": 103,
+          "name": "U_VIEW_FORECAST_STATUS_RO",
+          "description": "view forecast status",
+          "permission_attribute": []
+        },
+        {
+          "id": 104,
+          "name": "U_SEND_FORECAST_BACK_RW",
+          "description": "send forecast",
+          "permission_attribute": []
+        },
+        {
+          "id": 105,
+          "name": "U_SEND_FORECAST_REVIEW_RW",
+          "description": "SEND_FORECAST_REVIEW_RW",
+          "permission_attribute": []
+        },
+        {
+          "id": 106,
+          "name": "U_UPCOMING_FORECAST_RO",
+          "description": "Deadline date read",
+          "permission_attribute": []
+        },
+        {
+          "id": 107,
+          "name": "U_VIEW_FINANCIAL_SUMMARY_RO",
+          "description": "view finanical summary",
+          "permission_attribute": []
+        },
+        {
+          "id": 108,
+          "name": "U_VIEW_HISTORICAL_FORECAST_RO",
+          "description": "Historical forecast view  ",
+          "permission_attribute": []
+        },
+        {
+          "id": 111,
+          "name": "U_ACCESS_HOME_SCREEN",
+          "description": "Able to access home screen of UFM",
+          "permission_attribute": []
+        },
+        {
+          "id": 113,
+          "name": "U_BA_REVIEWER",
+          "description": "Access BA Reviewer Landing screen, Users with this permission will be able to open the reviewer landing page from the UI",
+          "permission_attribute": [
+            "ba"
+          ]
+        },
+        {
+          "id": 114,
+          "name": "U_ACCESS_FORECAST_SCREEN",
+          "description": "Access FORECAST(My Kpi) screen ",
+          "permission_attribute": []
+        },
+        {
+          "id": 115,
+          "name": "U_ACCESS_ORG_LEVEL_SCREEN",
+          "description": "Access to ORG level Screen",
+          "permission_attribute": []
+        },
+        {
+          "id": 116,
+          "name": "U_DELETE_FILTERS_RW",
+          "description": "Delete filters",
+          "permission_attribute": []
+        },
+        {
+          "id": 118,
+          "name": "U_VIEW_SCENARIO_COMPOSITION",
+          "description": "Scenario Composition",
+          "permission_attribute": []
+        },
+        {
+          "id": 125,
+          "name": "U_SCREEN_DETAILS_RO",
+          "description": "Screen details",
+          "permission_attribute": []
+        },
+        {
+          "id": 130,
+          "name": "U_CREATE_BA_SEG_SCENARIO",
+          "description": "Creating scenario for BA and Segment.",
+          "permission_attribute": []
+        },
+        {
+          "id": 144,
+          "name": "U_FORECAST_DEADLINE_DATE_RO",
+          "description": "Allows users to view the next submission deadline",
+          "permission_attribute": []
+        }
+      ]
+    },
+    {
+      "id": "105",
+      "name": "IBG_UFM_SBA_USER",
+      "blackoutListEnabled": true,
+      "description": "IBG_UFM_SBA_USER for Non Prod application.",
+      "permissions": [
+        {
+          "id": 95,
+          "name": "U_VIEW_APPLY_FILTERS_RO",
+          "description": "view and apply filters",
+          "permission_attribute": []
+        },
+        {
+          "id": 96,
+          "name": "U_SAVE_FILTERS_RW",
+          "description": "on clicking create Filter-set",
+          "permission_attribute": []
+        },
+        {
+          "id": 97,
+          "name": "U_UPCOMING_FORECAST_RW",
+          "description": "View UPCOMING_FORECAST Deadline _ORG_Read and Write",
+          "permission_attribute": []
+        },
+        {
+          "id": 98,
+          "name": "U_CREATE_FORECAST_RW",
+          "description": "create forecast by LOB",
+          "permission_attribute": [
+            "sba"
+          ]
+        },
+        {
+          "id": 99,
+          "name": "U_VIEW_CURRENT_FORECAST_RO",
+          "description": "View current forecast component.",
+          "permission_attribute": []
+        },
+        {
+          "id": 100,
+          "name": "U_OPEN_FORECAST_RW",
+          "description": "Open button access to view reports.",
+          "permission_attribute": []
+        },
+        {
+          "id": 101,
+          "name": "U_DOWNLOAD_FORECAST_RW",
+          "description": "DOWNLOAD_FORECAST_Read Write",
+          "permission_attribute": []
+        },
+        {
+          "id": 102,
+          "name": "U_NAVIGATE_DRIVER_TREE_RO",
+          "description": "NAVIGATE_DRIVER_TREE_Read and Write",
+          "permission_attribute": []
+        },
+        {
+          "id": 103,
+          "name": "U_VIEW_FORECAST_STATUS_RO",
+          "description": "view forecast status",
+          "permission_attribute": []
+        },
+        {
+          "id": 105,
+          "name": "U_SEND_FORECAST_REVIEW_RW",
+          "description": "SEND_FORECAST_REVIEW_RW",
+          "permission_attribute": []
+        },
+        {
+          "id": 106,
+          "name": "U_UPCOMING_FORECAST_RO",
+          "description": "Deadline date read",
+          "permission_attribute": []
+        },
+        {
+          "id": 108,
+          "name": "U_VIEW_HISTORICAL_FORECAST_RO",
+          "description": "Historical forecast view  ",
+          "permission_attribute": []
+        },
+        {
+          "id": 110,
+          "name": "U_DELETE_FORECAST_RW",
+          "description": "User should have this permission to delete a forecast",
+          "permission_attribute": []
+        },
+        {
+          "id": 111,
+          "name": "U_ACCESS_HOME_SCREEN",
+          "description": "Able to access home screen of UFM",
+          "permission_attribute": []
+        },
+        {
+          "id": 112,
+          "name": "U_SBA_INPUTTER",
+          "description": "Access landing page for SBA inputter, User with this role will be able to open Inputter landing page.\n",
+          "permission_attribute": [
+            "sba"
+          ]
+        },
+        {
+          "id": 114,
+          "name": "U_ACCESS_FORECAST_SCREEN",
+          "description": "Access FORECAST(My Kpi) screen ",
+          "permission_attribute": []
+        },
+        {
+          "id": 115,
+          "name": "U_ACCESS_ORG_LEVEL_SCREEN",
+          "description": "Access to ORG level Screen",
+          "permission_attribute": []
+        },
+        {
+          "id": 116,
+          "name": "U_DELETE_FILTERS_RW",
+          "description": "Delete filters",
+          "permission_attribute": []
+        },
+        {
+          "id": 117,
+          "name": "U_KPI_DATA_RO",
+          "description": "View KPI Data",
+          "permission_attribute": []
+        },
+        {
+          "id": 118,
+          "name": "U_VIEW_SCENARIO_COMPOSITION",
+          "description": "Scenario Composition",
+          "permission_attribute": []
+        },
+        {
+          "id": 119,
+          "name": "U_UNDO_REDO_RO",
+          "description": "undo and redo",
+          "permission_attribute": []
+        },
+        {
+          "id": 120,
+          "name": "U_CALCULATE_DRIVERS_RO",
+          "description": "Calculate Driver",
+          "permission_attribute": []
+        },
+        {
+          "id": 121,
+          "name": "U_ALLOCATE_METHODS_RO",
+          "description": "allocate methods",
+          "permission_attribute": []
+        },
+        {
+          "id": 122,
+          "name": "U_CONFIG_FORECAST_RO",
+          "description": "config pannel for forecast",
+          "permission_attribute": []
+        },
+        {
+          "id": 124,
+          "name": "U_GET_NODES_RO",
+          "description": "get nodes for all, GL and input.",
+          "permission_attribute": []
+        },
+        {
+          "id": 125,
+          "name": "U_SCREEN_DETAILS_RO",
+          "description": "Screen details",
+          "permission_attribute": []
+        },
+        {
+          "id": 126,
+          "name": "U_SAVE_DRIVER_FILTERS_RW",
+          "description": "Save Driver Filters",
+          "permission_attribute": []
+        },
+        {
+          "id": 127,
+          "name": "U_SAVE_DRIVERS_RW",
+          "description": "Save Driver After perview",
+          "permission_attribute": []
+        },
+        {
+          "id": 144,
+          "name": "U_FORECAST_DEADLINE_DATE_RO",
+          "description": "Allows users to view the next submission deadline",
+          "permission_attribute": []
+        },
+        {
+          "id": 149,
+          "name": "C_VIEW_DS_OUTPUT_READ",
+          "description": "View/filter DS Output",
+          "permission_attribute": []
+        },
+        {
+          "id": 150,
+          "name": "C_ALLOCATION_MODIFIER_WRITE",
+          "description": "Edit Marketplace and Unscheduled Delivery",
+          "permission_attribute": []
+        },
+        {
+          "id": 151,
+          "name": "C_ADJUSTMENTS_MODIFIER_WRITE",
+          "description": "Upload a file, EMT, Manual Adjusment",
+          "permission_attribute": []
+        },
+        {
+          "id": 169,
+          "name": "U_REFRESH_NOWN_NODES",
+          "description": "Refreshing non owned nodes.",
+          "permission_attribute": []
+        }
+      ]
+    },
+    {
+      "id": "118",
+      "name": "segment-finance",
+      "blackoutListEnabled": true,
+      "description": "segment-finance",
+      "permissions": []
+    },
+    {
+      "id": "138",
+      "name": "MerchOpsLob",
+      "description": "This role will be used to get Merch Ops LOB access",
+      "permissions": [
+        {
+          "id": 110,
+          "name": "U_DELETE_FORECAST_RW",
+          "description": "User should have this permission to delete a forecast",
+          "permission_attribute": []
+        },
+        {
+          "id": 112,
+          "name": "U_SBA_INPUTTER",
+          "description": "Access landing page for SBA inputter, User with this role will be able to open Inputter landing page.\n",
+          "permission_attribute": [
+            "sba"
+          ]
+        },
+        {
+          "id": 167,
+          "name": "U_MERCH_OPS_DEPT_RW",
+          "description": "This permission will provide department level access. ",
+          "permission_attribute": [
+            "Department"
+          ]
+        }
+      ]
+    }
+  ],
+  "alignments": [],
+  "attributes": [
+    {
+      "type": "sba",
+      "valueId": "110008",
+      "valueName": "FULFILLMENT",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110011",
+      "valueName": "LAST MILE DELIVERY",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "ba",
+      "valueId": "120007",
+      "valueName": "SUPPLY CHAIN",
+      "accessType": "READ"
+    },
+    {
+      "type": "sba",
+      "valueId": "110005",
+      "valueName": "E2E DELIVERY",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110003",
+      "valueName": "CORE_SERVICES",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110010",
+      "valueName": "INNOVATION & AUTOMATION",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110016",
+      "valueName": "OPTICAL",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110019",
+      "valueName": "RX",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "ba",
+      "valueId": "120003",
+      "valueName": "HEALTH & WELLNESS",
+      "accessType": "READ"
+    },
+    {
+      "type": "sba",
+      "valueId": "110004",
+      "valueName": "DATA VENTURES",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110006",
+      "valueName": "ECOMMERCE",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "ba",
+      "valueId": "120001",
+      "valueName": "CUSTOMER & REVENUE",
+      "accessType": "READ"
+    },
+    {
+      "type": "ba",
+      "valueId": "120002",
+      "valueName": "ECOMMERCE",
+      "accessType": "READ"
+    },
+    {
+      "type": "sba",
+      "valueId": "110017",
+      "valueName": null,
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110021",
+      "valueName": "SEGMENT",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110007",
+      "valueName": "FUEL",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110009",
+      "valueName": "HOME OFFICE",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110012",
+      "valueName": "MARKETING",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110015",
+      "valueName": "OPERATIONS",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110018",
+      "valueName": "REAL ESTATE",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "ba",
+      "valueId": "120005",
+      "valueName": "OPERATIONS",
+      "accessType": "READ"
+    },
+    {
+      "type": "ba",
+      "valueId": "120006",
+      "valueName": "SEGMENT",
+      "accessType": "READ"
+    },
+    {
+      "type": "sba",
+      "valueId": "110002",
+      "valueName": "CONNECT",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110026",
+      "valueName": "INSTORE AND OTHER",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110028",
+      "valueName": "UNSCHEDULED AND CORE",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110027",
+      "valueName": "SCHEDULED",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110029",
+      "valueName": "MERCHOPS",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "ba",
+      "valueId": "120009",
+      "valueName": "MERCHANDISING FINANCE",
+      "accessType": "READ"
+    },
+    {
+      "type": "ba",
+      "valueId": "120010",
+      "valueName": "MERCHANDISING OPERATIONS",
+      "accessType": "READ"
+    },
+    {
+      "type": "sba",
+      "valueId": "110013",
+      "valueName": "MARKETPLACE",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "Department",
+      "valueId": "80",
+      "valueName": "80_SERVICE DELI",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110029",
+      "valueName": "MERCHOPS",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "Department",
+      "valueId": "83",
+      "valueName": "83_SEAFOOD",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "Department",
+      "valueId": "93",
+      "valueName": "93_MEAT",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "Department",
+      "valueId": "94",
+      "valueName": "94_PRODUCE",
+      "accessType": "READ"
+    },
+    {
+      "type": "ba",
+      "valueId": "120011",
+      "valueName": "DEMAND",
+      "accessType": "READ"
+    },
+    {
+      "type": "sba",
+      "valueId": "110030",
+      "valueName": "CONSOLIDATED DEMAND",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110031",
+      "valueName": null,
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110032",
+      "valueName": null,
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110034",
+      "valueName": "OB TRANSPORTATION",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "sba",
+      "valueId": "110033",
+      "valueName": "IB TRANSPORTATION",
+      "accessType": "WRITE"
+    },
+    {
+      "type": "segment",
+      "valueId": "130001",
+      "valueName": "WMT US SEGMENT FINANCE",
+      "accessType": "WRITE"
+    }
+  ]
+ },
   {
     "userId": "LB-cdf-super-user",
     "appId": "29",

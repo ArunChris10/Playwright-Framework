@@ -147,7 +147,16 @@ export class CurrentForecast {
 
     return forecastStatus
   }
-  async getWorkflowStatusText(workflow: string){
+
+  async sendBackToOrg(lobName: string) {
+    let rowId = await this.page.locator(`//div[@class="reviewer-business-progress-container"]//div[contains(text(),"${lobName}")]//parent::div[@role="row"]`).getAttribute("row-id")
+
+    await this.page.locator(`//div[@class="reviewer-business-progress-container"]//div[@row-id=${rowId}]//button[@aria-label="More options"]`).click()
+
+    await this.page.getByText(`Send back to ${lobName}`).click()
+
+  }
+  async getWorkflowStatusText(workflow: string) {
     let scenarioWorkflow;
     switch (workflow) {
       case "sendToReview":
@@ -156,6 +165,8 @@ export class CurrentForecast {
       case "recall":
         scenarioWorkflow = "Recalling forecast"
         break
+      case "sendBack":
+        scenarioWorkflow = "Sending back"
     }
 
     return scenarioWorkflow
