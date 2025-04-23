@@ -298,7 +298,7 @@ export class EditForecastUtility {
         obj: Root,
         baselineValuesMap: Record<string, number[]>,
         months: string[],
-        ratioMap: Record<string, number> = {} // Optional parameter for month ratios
+        ratioMap: Record<string, Record<string, number>> = {} // Optional parameter for node and month ratios
     ) {
         for (const responseNode of responseBody) {
             const { node_var_name, edits: responseEdits } = responseNode;
@@ -310,7 +310,7 @@ export class EditForecastUtility {
                     const forecastValue = edit.forecast;
 
                     // Adjust the expected value by multiplying with the respective month ratio
-                    const expectedValue = payloadNode.data[month] * (ratioMap[month] || 1); // Default ratio is 1 if not found
+                    const expectedValue = payloadNode.data[month] * (ratioMap[node_var_name]?.[month] || 1); // Default ratio is 1 if not found
                     const lowerBound = expectedValue * 0.99; // 1% less
                     const upperBound = expectedValue * 1.01; // 1% more
                     expect(forecastValue).toBeGreaterThanOrEqual(lowerBound);

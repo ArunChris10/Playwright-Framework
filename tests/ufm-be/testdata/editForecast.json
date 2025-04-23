@@ -4,10 +4,9 @@
             "lobName": "INSTORE AND OTHER",
             "AdditiveNodes": [
                 "returnedunitsuom_input", 
-                "instorereturns_input"
+                "storereturns_input"
             ],
             "NonAdditiveNodes": [
-  
                 "allocationpctmerchandiseincome"
             ],
             "AffectingNodes": {
