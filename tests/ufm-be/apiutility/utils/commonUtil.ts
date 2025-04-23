@@ -35,7 +35,7 @@ export function generateRandomNumber(length: number): number {
   }
   
   export function deepPartialMatch(expected: any, actual: any): boolean {
-    if (typeof expected !== typeof actual) return false;
+    if (typeof expected !== typeof actual || expected == undefined) return false;
   
     if (typeof expected === 'object' && expected !== null) {
       if (Array.isArray(expected)) {

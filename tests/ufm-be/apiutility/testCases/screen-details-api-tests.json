@@ -5,10 +5,6 @@
   "baseURL":"CanedReports",
   "uri": "ufm/get-screen-details",
   "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Authorization": "Bearer {{token}}"
-  },
   "payload": {
     "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/filter/screen_details?dim_id=12&dim_val_id=120006"
   },
@@ -16,10 +12,19 @@
     "status": 200 
   },
   "extract": {
-    "lastApiResponse": "lastApiResponse"
+    "lastApiResponse": "lastApiResponse",
+    "screen_id":"screen_id"
   },
+  "extractRelative": {
+    "screen_sect_id": {
+      "whereKey": "screen_sec_name",
+      "equals": "Inputter",
+      "extractKey": "screen_sect_id" 
+    }},
   "validateExtract": {
-    "lastApiResponse": "lastApiResponse"
+    "lastApiResponse": "lastApiResponse",
+    "screen_sect_id": 101,
+    "screen_id":1
   },
   "tags": ["smoke", "login"]
 }

@@ -1,3 +1,5 @@
+import { equal } from "assert";
+
 /**
  * Recursively finds all values for a given key in a deeply nested JSON object,
  * traversing arrays and nested objects fully.
@@ -30,30 +32,80 @@ export function findAllValuesByKey(obj: any, targetKey: string): any[] {
   return results;
 }
 
+function getNestedValue(obj: any, path: string,equals:string): any {
+  const keys = path.split('.');
+  let current = obj;
+
+  for (const key of keys) {
+    if (!current) return undefined;
+
+    if (Array.isArray(current)) {
+      // Search through array of objects
+      let found = undefined;
+      let foundResponse = undefined;
+      for (const item of current) {
+        if (item && key in item) {
+          if ( item[key] == equals){
+            found = item[key];
+            foundResponse = item;
+            break;
+          }
+
+        }
+      }
+      current = foundResponse;
+    } else if (typeof current === 'object') {
+      current = current[key];
+    } else {
+      return undefined;
+    }
+  }
+
+  return current;
+}
+
 export function findRelativeValue(
-  responseBody: any,
+  data: any,
   whereKey: string,
   equals: any,
   extractKey: string
 ): any {
-  const getValueByPath = (obj: any, path: string): any =>
-    path.split('.').reduce((acc, key) => acc?.[key], obj);
+  const stack: any[] = [data];
 
-  let matchedItem: any;
+  while (stack.length) {
+    const current = stack.pop();
 
-  // Handle array of objects or a single object
-  const items = Array.isArray(responseBody)
-    ? responseBody
-    : typeof responseBody === 'object'
-    ? Object.values(responseBody)
-    : [];
+    if (typeof current === 'object' && current !== null) {
+      const whereValue = getNestedValue(current, whereKey,equals);
+      console.log(`Checking object:\n${JSON.stringify(current, null, 2)}`);
+      console.log(`whereKey: "${whereKey}", value: "${whereValue}", expected: "${equals}"`);
+      
+      const hasValue = Object.values(whereValue).includes(equals);
+      if (hasValue) {
+        const extractedValue = getNestedValue(whereValue, extractKey,equals);
+        console.log(`MATCHED. Extracting '${extractKey}': ${extractedValue}`);
+        return extractedValue;
+      }
 
-  matchedItem = items.find((item: any) => getValueByPath(item, whereKey) === equals);
-
-  if (matchedItem) {
-    return getValueByPath(matchedItem, extractKey);
+      // Traverse nested structures
+      for (const key in current) {
+        if (typeof current[key] === 'object') {
+          stack.push(current[key]);
+        }
+      }
+    }
   }
 
+  console.warn(`❌ No match found for whereKey: "${whereKey}" == "${equals}"`);
   return undefined;
 }
+
+
+
+
+
+
+
+
+
 

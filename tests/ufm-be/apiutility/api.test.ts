@@ -141,29 +141,23 @@ parentConfig.testFiles.forEach(testCasePath => {
       if (testCase.extractRelative) {
         for (const globalVar in testCase.extractRelative) {
           const { whereKey, equals, extractKey } = testCase.extractRelative[globalVar];
-
-          if (!whereKey || !extractKey) {
-            throw new Error(`Missing whereKey or extractKey in extractRelative for "${globalVar}"`);
-          }
-
           const value = findRelativeValue(responseBody, whereKey, equals, extractKey);
-
           if (value !== undefined) {
             globalStore[globalVar] = value;
           } else {
-            throw new Error(
-              `Unable to extract value using extractRelative for "${globalVar}" with condition ${whereKey} == ${equals}`
-            );
+            throw new Error(`Could not find relative value where "${whereKey}" == "${equals}" to extract "${extractKey}"`);
           }
         }
-}
+      }
+      
 
       if (testCase.validateExtract) {
         for (const globalKey in testCase.validateExtract) {
           const expected = interpolate(testCase.validateExtract[globalKey]);
           const actual = globalStore[globalKey];
           if (globalKey == "lastApiResponse"){
-            const selectedPayload = getPayloadByTestCaseName("lastApiResponse-"+testCase.testIdentifier);
+            const selectedPayload = getPayloadByTestCaseName(testCase.testIdentifier);
+            const actual = globalStore["lastApiResponse-"+testCase.testIdentifier];
             let ismatch = deepPartialMatch(selectedPayload, actual);
             expect(ismatch).toBeTruthy(); // all expected items must exist in actual
           }
@@ -177,7 +171,7 @@ parentConfig.testFiles.forEach(testCasePath => {
         response = await pollForExpectedResponse(requestContext, endpoint, testCase.polling);
       }  */    
 
-      console.log(`Global Store after ${testCase.testName}:`, globalStore);
+      // console.log(`Global Store after ${testCase.testName}:`, globalStore);
     });
   });
 });
