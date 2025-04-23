@@ -28,7 +28,7 @@ testData.forEach(forecastNodeDetail => {
             })
 
             await test.step(`Click on Open ${data.LOB} Frecast`, async () => {
-               
+
                 await objpageFactory.ufmPageFactory().currentForecast().clickOnOpenParticularForecast(data.LOB)
             })
 
@@ -36,12 +36,12 @@ testData.forEach(forecastNodeDetail => {
                 await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnChooseDriver()
             })
 
-            
+
             await test.step(`Search for input driver: ${data.driver.inputDriver}`, async () => {
                 await objpageFactory.ufmPageFactory().addDriverPage().searchAndApplyDrivers(data.driver.inputNonAdditiveDrivers)
-               
+
             })
-            
+
             await test.step("Wait for KPI table to load", async () => {
                 await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad()
             })
@@ -65,7 +65,7 @@ testData.forEach(forecastNodeDetail => {
             })
 
             await test.step('Provide name and description in save as change form', async () => {
-                adjustmentName = "Change 2"
+                adjustmentName = "Change 1"
                 await objpageFactory.ufmPageFactory().openCurrentForecast().fillChangeForm(adjustmentName, "Test description created through automation")
             })
 

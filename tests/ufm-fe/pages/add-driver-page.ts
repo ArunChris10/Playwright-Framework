@@ -1,8 +1,8 @@
 import { Locator, Page } from "@playwright/test";
 
 export class AddDriverPage {
-    
-    
+
+
 
     readonly page: Page;
     readonly searchDriverField: string;
@@ -14,7 +14,7 @@ export class AddDriverPage {
     constructor(page: Page) {
         this.page = page;
         this.searchDriverField = '//input[@placeholder="Search drivers"]'
-        this.driverNodeTree = '//div[@class="driverTreeNode"]'
+        this.driverNodeTree = '//div[contains(@class,"driverTreeNode")]'
         this.searchIcon = page.locator("//button[@aria-label='icon']")
         this.applyDrivers = page.getByText('Apply Drivers')
         this.driverSearchResult = 'span[data-testid="remainingWord"]'
@@ -32,28 +32,32 @@ export class AddDriverPage {
     }
 
     async selectDriver(driverName: string) {
-        await this.page.waitForSelector(this.driverSearchResult);
+        // await this.page.waitForSelector(this.driverSearchResult);
         await this.page.evaluate(() => {
             const elements = document.querySelectorAll('[data-testid="virtualTree"]');
             const lastElement = elements[elements.length - 1];
             lastElement.scrollIntoView();
         });
-        await this.page.waitForSelector(`label:has(span[data-testid="remainingWord"]):has-text("${driverName}")`, {state: 'attached'});
+        await this.page.waitForSelector(`//div[@class="noncalculated"]//parent::*//parent::*//strong[contains(text(),"${driverName}")] `, { state: 'attached' });
         await this.page.waitForTimeout(5000);
-        const driverNodeElement = await this.page.$(`label:has(span[data-testid="remainingWord"]):has-text("${driverName}")`);
-        await driverNodeElement!.click();
+        await this.page.getByRole('option', { name: `${driverName} input View in` }).getByLabel(`${driverName}`).check();
+
+        // await driverNodeElement!.click();
+
+        // driverNodeElement = await this.page.$(`label:has(span[data-testid="remainingWord"]):has-text("${driverName}")`);
+        // await driverNodeElement!.click();
         //await this.page.locator(`//div[@class="customSelected"]//span[contains(text(),"${driverName}")]`).waitFor({ state: "visible" });
     }
 
-    async  searchAndApplyDrivers(driverNames: string[]) {
+    async searchAndApplyDrivers(driverNames: string[]) {
         for (const driverName of driverNames) {
-           
-                await this.waitForPageLoad();
-                await this.inputDriverName(driverName);
-           await this.selectDriver(driverName);
-             
-           
-        }await this.clickOnApplyDrivers();
+
+            await this.waitForPageLoad();
+            await this.inputDriverName(driverName);
+            await this.selectDriver(driverName);
+
+
+        } await this.clickOnApplyDrivers();
     }
 
     async clickOnApplyDrivers() {

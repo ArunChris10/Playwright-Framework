@@ -1,20 +1,25 @@
 {
     "testData": [
         {
-            
             "sbaName": "Merchandising finance",
             "LOB": "SCHEDULED",
             "driver": {
                 "inputDriver": "COGS (Input)",
-                "inputNonAdditiveDrivers": ["COGS (Input)", "Other Cost of Goods Sold"],
-                "inputAdditiveNonAdditiveDrivers": ["COGS (Input)", "Other Cost of Goods Sold","Cost of Goods Sold"],
+                "inputNonAdditiveDrivers": [
+                    "COGS (Input)",
+                    "Other Cost of Goods Sold"
+                ],
+                "inputAdditiveNonAdditiveDrivers": [
+                    "COGS (Input)",
+                    "Other Cost of Goods Sold",
+                    "Cost of Goods Sold"
+                ],
                 "noOfMonth": 2,
                 "allocationMethod": "Maintain ratio",
                 "forecastValue": 10000
             }
         }
     ],
-        
     "testAdditiveDataQuarter": [
         {
             "sbaName": "Health & wellness",
@@ -27,7 +32,6 @@
             }
         }
     ],
-
     "groupByOptions": [
         {
             "data": {
@@ -37,7 +41,6 @@
             }
         }
     ],
-
     "filterOptions": [
         {
             "data": {

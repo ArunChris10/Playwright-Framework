@@ -1,4 +1,4 @@
-import { testData,groupByOptions ,filterOption} from '../testdata/inputNodeValues.json';
+import { testData, groupByOptions, filterOptions } from '../testdata/inputNodeValues.json';
 import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
 
@@ -8,10 +8,6 @@ testData.forEach(forecastNodeDetail => {
     test.describe('Calculate and Save when node is at at lowest grain', { tag: "@Smoke @calculateAndSaveLowestGrainInputNode" }, async () => {
         let data = forecastNodeDetail
         let objpageFactory: PageFactory;
-        let inputNodeValues;
-        let calculateErrorMessageExistence;
-        let saveErrorMessageExistence;
-        let allocateErrorMessageExistence;
         let adjustmentName;
 
         test.beforeAll(async ({ pageFactory }) => {
@@ -29,7 +25,7 @@ testData.forEach(forecastNodeDetail => {
             })
 
             await test.step(`Click on Open ${data.LOB} Frecast`, async () => {
-               
+
                 await objpageFactory.ufmPageFactory().currentForecast().clickOnOpenParticularForecast(data.LOB)
             })
 
@@ -37,12 +33,12 @@ testData.forEach(forecastNodeDetail => {
                 await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnChooseDriver()
             })
 
-            
+
             await test.step(`Search for input driver: ${data.driver.inputDriver}`, async () => {
                 await objpageFactory.ufmPageFactory().addDriverPage().searchAndApplyDrivers(data.driver.inputNonAdditiveDrivers)
-               
+
             })
-            
+
             await test.step("Wait for KPI table to load", async () => {
                 await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad()
             })
@@ -53,23 +49,33 @@ testData.forEach(forecastNodeDetail => {
                         await test.step(`Select ${groupBySelection["option"]} group By Options`, async () => {
                             await objpageFactory.ssdmPageFactory().applyFilter().clickOnGroupBy();
                             await objpageFactory.ssdmPageFactory().applyFilter().selectGroupByOption(groupBySelection["option"]);
-    
+
                         })
                     }
                 }
             })
 
-            for (const [, filterSelection] of Object.entries(filterOption.data)) {
-                const typedFilterSelection = filterSelection as { childDropDown: string; dropDown: string; option: string };
-                await test.step(`Select ${typedFilterSelection.childDropDown} ${typedFilterSelection.dropDown} ${typedFilterSelection.option} filter options`, async () => {
-                    await objpageFactory.ssdmPageFactory().applyFilter().clickOnFiltersButton();
-                    await objpageFactory.ufmPageFactory().currentForecast().clickOnFilterDropdown(typedFilterSelection.dropDown);
-                    await objpageFactory.ssdmPageFactory().applyFilter().clickOnFilterOption(typedFilterSelection.childDropDown);
-                    await objpageFactory.ssdmPageFactory().applyFilter().searchFilterOption(typedFilterSelection.option);
+            for (const filterSet of filterOptions) {
+                const filters = filterSet.data;
+                for (const [, filterSelection] of Object.entries(filters)) {
+                    const typedFilterSelection = filterSelection as {
+                        childDropDown: string;
+                        dropDown: string;
+                        option: string;
+                    };
 
-                })
-
+                    await test.step(
+                        `Select ${typedFilterSelection.childDropDown} ${typedFilterSelection.dropDown} ${typedFilterSelection.option} filter options`,
+                        async () => {
+                            await objpageFactory.ssdmPageFactory().applyFilter().clickOnFiltersButton();
+                            await objpageFactory.ufmPageFactory().currentForecast().clickOnFilterDropdown(typedFilterSelection.dropDown);
+                            await objpageFactory.ssdmPageFactory().applyFilter().clickOnFilterOption(typedFilterSelection.childDropDown);
+                            await objpageFactory.ssdmPageFactory().applyFilter().searchFilterOption(typedFilterSelection.option);
+                        }
+                    );
+                }
             }
+
             await test.step('Input number in all valid cell/non-empty cell', async () => {
                 let map = await objpageFactory.ufmPageFactory().openCurrentForecast().inputValueInAllValidInputCell("3333")
 
@@ -89,7 +95,7 @@ testData.forEach(forecastNodeDetail => {
             })
 
             await test.step('Provide name and description in save as change form', async () => {
-                adjustmentName = "Change 2"
+                adjustmentName = "Change 1"
                 await objpageFactory.ufmPageFactory().openCurrentForecast().fillChangeForm(adjustmentName, "Test description created through automation")
             })
 
