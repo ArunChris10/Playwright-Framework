@@ -1,0 +1,86 @@
+{
+  "configEndpoint": {
+    "endpoint": "/api/v1/apps/IBG/preferences/SavedView/entityTypes",
+    "createEndpoint": "https://nexus-wizard-preference-manager.api.qa.walmart.com/api/v1/apps/preferences/configurations",
+    "deleteEndpoint": "https://nexus-wizard-preference-manager.api.qa.walmart.com/api/v1/preferences/configs",
+    "create_payload": {
+      "baseURL": "https://nexus-wizard-preference-manager.api.qa.walmart.com/api/v1/apps/preferences/configurations",
+      "appName": "IBG",
+      "preferenceType": "SavedView",
+      "entityType": "dimValId_userId",
+      "preferenceConfigs": {
+        "preferenceConfig": {
+          "name": "testing payload",
+          "config": {
+            "groupBy": {
+              "rows": "allRows",
+              "checkbox": {},
+              "configApply": {
+                "pivot_index": [],
+                "template_include_headers": []
+              }
+            },
+            "selectionsCompare": [],
+            "drivers": ["memometrics"],
+            "filters": [
+              {
+                "dim_id": 1,
+                "dim_val_ids": [80, 83, 93],
+                "children": []
+              }
+            ],
+            "dateRange": {
+              "intervalType": "MONTH",
+              "range": {
+                "start": "1-2026",
+                "end": "12-2026"
+              }
+            },
+            "dataUnit": "Absolute",
+            "rowOrder": {
+              "mopostaudit": {
+                "i": 0,
+                "a": {
+                  "interval": null,
+                  "offset": null,
+                  "method": 29
+                }
+              },
+              "moecommmerchandisesales": {
+                "i": 1,
+                "a": {
+                  "interval": null,
+                  "offset": null,
+                  "method": 29
+                }
+              },
+              "momonthendaccrual": {
+                "i": 2,
+                "a": ""
+              },
+              "moecommreturnscogs": {
+                "i": 3,
+                "a": {
+                  "interval": null,
+                  "offset": null,
+                  "method": 29
+                }
+              },
+              "moserviceincome": {
+                "i": 4,
+                "a": {
+                  "interval": null,
+                  "offset": null,
+                  "method": 29
+                }
+              }
+            },
+            "colOrder": ["driver"]
+          }
+        },
+        "tags": [],
+        "createdBy": "LB-ibg-ufm-auto"
+      }
+    }
+  }
+}
