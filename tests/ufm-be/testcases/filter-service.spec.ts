@@ -14,29 +14,29 @@ defaultDriverSets.forEach((org) => {
     "Verify the default driver set behaviour for organization: " + org,
     { tag: "@Smoke @defaultDriverSet @Regression" },
     async () => {
-       // variable used to store the filter id and use it across the tests under this describe
-       let filter_id: string;
-       let apiResponse, apiResponseBody;
-       let filter;
-       let dim_val_id;
-       let queryParams;
-       // API endpoint URL
-       const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
-       Utility.logIt(endpointURL);
-      test.beforeAll(async ()=>{
-        dim_val_id =await UfmUtility.getMapping(org,"dim_val_id")
+      // variable used to store the filter id and use it across the tests under this describe
+      let filter_id: string;
+      let apiResponse, apiResponseBody;
+      let filter;
+      let dim_val_id;
+      let queryParams;
+      // API endpoint URL
+      const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
+      Utility.logIt(endpointURL);
+      test.beforeAll(async () => {
+        dim_val_id = await UfmUtility.getMapping(org, "dim_val_id")
         queryParams = {
-        screen_id: testdata.common_data.Node_Selection.screen_id,
-        type_id: testdata.common_data.Node_Selection.filter_type,
-        dim_id: testdata.common_data.Node_Selection.dim_id,
-        dim_val_id: dim_val_id
-      };
+          screen_id: testdata.common_data.Node_Selection.screen_id,
+          type_id: testdata.common_data.Node_Selection.filter_type,
+          dim_id: testdata.common_data.Node_Selection.dim_id,
+          dim_val_id: dim_val_id
+        };
       })
-      
-     
-      
 
-      test(`Verify user has a default driver set readily available for ${org}`,{ tag: "@Smoke @filters @Regression" },
+
+
+
+      test(`Verify user has a default driver set readily available for ${org}`, { tag: "@Smoke @filters @Regression" },
         async ({ request }) => {
           await test.step("Fetch the driverSet available for the screen", async () => {
             apiResponse = await request.get(endpointURL, {
@@ -52,12 +52,12 @@ defaultDriverSets.forEach((org) => {
           await test.step("Check if only one default driver set is present", async () => {
             //extracting the filter names from the response into an Array
             const defaultCount: number = apiResponseBody.filter(
-              (obj: any) =>obj.is_default == true).length;
+              (obj: any) => obj.is_default == true).length;
             //Assertion
             expect(defaultCount).toEqual(1)
           });
 
-          await test.step(`Check if default driver set name for ${org} org is ${commonData.defaultDriverSetNames[org]}`,async()=>{
+          await test.step(`Check if default driver set name for ${org} org is ${commonData.defaultDriverSetNames[org]}`, async () => {
             filter = apiResponseBody.find(filter => filter.filter_name === commonData.defaultDriverSetNames[org] && filter.is_default === true);
             expect(filter).not.toBeUndefined
             //Extracting the Filter ID that has been created and storing it in the filter_id to use it in other testcases
@@ -67,7 +67,7 @@ defaultDriverSets.forEach((org) => {
         }
       );
 
-      test(`Verify user should not be able to delete default driver set in ${org}`,{ tag: "@Smoke @filters @Regression" },
+      test(`Verify user should not be able to delete default driver set in ${org}`, { tag: "@Smoke @filters @Regression" },
         async ({ request }) => {
           // delete request to delete the filter
           await test.step("Delete the default filter", async () => {
@@ -103,23 +103,38 @@ defaultDriverSets.forEach((org) => {
               obj.filter_id.toLowerCase()
             );
             expect(filter_ids).toContain(filter_id.toLowerCase());
-          }); 
-    }
-  );
+          });
+        }
+      );
+    });
 
-
-});
+  test(`Verify error on invalid filter id for ${org}`, { tag: "@Smoke @filters @Regression" },
+    async ({ request }) => {
+      let apiResponse, responseBody;
+      // API endpoint URL
+      const endpointURL = `${process.env.apiBaseURLUFM}/filter/`;
+      let filter_id = testdata.invalid_filterset.filter_id
+      let dim_val_id = await UfmUtility.getMapping(org, "parent_id")
+      apiResponse = await request.delete(endpointURL, {
+        params: { filter_id: filter_id },
+        data: {
+          "dim_id": 12, "dim_val_id": 120010
+        }
+      });
+      expect.soft(apiResponse.status()).toEqual(testdata.invalid_filterset.status_code);
+      expect.soft(JSON.parse(await apiResponse.text()).message).toEqual(testdata.invalid_filterset.message);
+    })
 })
 testdata.payloads.forEach((payload) => {
   test.describe(
     "Verify the Filter API for " + payload.filter_name,
     { tag: "@Smoke @filters @Regression" },
-     () => {
+    () => {
       test.describe.configure({ mode: "serial" });
 
       // variable used to store the filter id and use it across the tests under this describe
       let filter_id: string;
-      let apiResponse, apiResponseBody;
+      let apiResponse, apiResponseBody, responseBody;
       // API endpoint URL
       const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
       Utility.logIt(endpointURL);
@@ -134,7 +149,7 @@ testdata.payloads.forEach((payload) => {
       userList.forEach(async (user) => {
         test(
           `Verify if the user is able to @saveFilter with for ${user}` +
-            payload.filter_name,
+          payload.filter_name,
           async ({ request }) => {
             //post request for saving the filter
             await test.step("Make a Post Request for Saving the Filter", async () => {
@@ -145,23 +160,22 @@ testdata.payloads.forEach((payload) => {
               apiResponse = await request.post(endpointURL, {
                 data: payload,
               });
-              apiResponseBody = await apiResponse.json();
-              Utility.logIt(JSON.stringify(apiResponseBody));
+              responseBody = await Utility.assertAndLog(apiResponse);
             });
 
             //Assertion
             await test.step("Check if the response message is success", async () => {
               expect(apiResponse).toBeOK();
-              expect(apiResponseBody).toEqual(testdata.success_message);
+              expect(responseBody).toEqual(testdata.success_message);
             });
           }
         );
 
-       
+
 
         test(
           `Verify if the user is able to see the saved filter from @getFilter with ${user}` +
-            payload.filter_name,
+          payload.filter_name,
           async ({ request }) => {
             //get request to fetch the available filters
             await test.step("Fetch the filters available for the screen", async () => {
@@ -189,7 +203,7 @@ testdata.payloads.forEach((payload) => {
               apiResponseBody.forEach((filterJson) => {
                 if (filterJson.filter_name === payload.filter_name) {
                   filter_id = filterJson.filter_id;
-                } 
+                }
               });
               Utility.logIt(`Filter Id : ${filter_id}`);
             });
@@ -197,7 +211,7 @@ testdata.payloads.forEach((payload) => {
         );
         test(
           `Verify if the user is able to see the saved filter by filterid @getFilterbyfilterid with ${user}` +
-            payload.filter_name,
+          payload.filter_name,
           async ({ request }) => {
             //get request to fetch the filter by filter id
 
@@ -229,7 +243,7 @@ testdata.payloads.forEach((payload) => {
 
         test(
           `Verify if the user is not able to save a @duplicateFilter with ${user}` +
-            payload.filter_name,
+          payload.filter_name,
           async ({ request }) => {
             //post request for saving the filter
             await test.step("Make a Post Request for Saving the Filter", async () => {
@@ -249,10 +263,10 @@ testdata.payloads.forEach((payload) => {
             });
           }
         );
-        
+
         test(
           `Verify if the user is able to @deleteFilter with ${user}` +
-            payload.filter_name,
+          payload.filter_name,
           async ({ request }) => {
             // delete request to delete the filter
             await test.step("Delete the created filter", async () => {

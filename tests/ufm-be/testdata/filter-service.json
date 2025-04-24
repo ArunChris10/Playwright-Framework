@@ -194,6 +194,12 @@
   "defaul_filter_set":{
     "exception_message":"filter is default and cannot be deleted",
     "error_code":400
+  },
+  "invalid_filterset":{
+    "dim_id": 12,
+    "filter_id":"97bec12c-ed7e-4c0b-a3d9-3921f092bf6f",
+    "status_code": 400,
+    "message": "filter_id does not exist"
   }
 
 }
