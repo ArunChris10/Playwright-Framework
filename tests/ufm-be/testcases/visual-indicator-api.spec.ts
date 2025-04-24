@@ -7,42 +7,46 @@ test.describe(
   "Verify the visualindicator API",
   { tag: "@Smoke @Regression @visualindicator @perf" },
   () => {
-    let responseBody;
     const endpointURL = `${process.env.apiBaseURLUFM}${testdatafile.endpoint}`;
     Utility.logIt(endpointURL);
-    let userList = usersData.users;
+    const userList = usersData.users;
 
-    userList.forEach(async (user) => {
-      test(`FOR USER: ${user} Verify if the api is returning Actuals, forecast and extrapolated forecast dates`, async ({
+    userList.forEach((user) => {
+      test(`FOR USER: ${user} Verify if the API is returning Actuals, forecast, and extrapolated forecast dates`, async ({
         request,
       }) => {
-        let nexusTokens = await Utility.getNexusFakeToken(user, request);
-        //get request for the visual-indicator
-        await test.step("Make a Get Request for getting updated dates", async () => {
-          Utility.logIt("Make a Get Request for getting updated dates");
-          responseBody = await request.get(endpointURL, {
-            headers: {
-              Authorization: nexusTokens,
-            },
-            params: { classification_id: testdatafile.classification_id },
+        const nexusTokens = await Utility.getNexusFakeToken(user, request);
+
+        // Make a GET request for the visual-indicator
+        const responseBody = await test.step(
+          "Make a GET request for getting updated dates",
+          async () => {
+            Utility.logIt("Make a GET request for getting updated dates");
+            const response = await request.get(endpointURL, {
+              headers: {
+                Authorization: nexusTokens,
+              },
+              params: { classification_id: testdatafile.classification_id },
+            });
+            await Utility.assertAndLog(response);
+            return JSON.parse(await response.text());
+          }
+        );
+
+        // Assertion
+        await test.step("Check if the response has all 3 dates and their IDs", async () => {
+          const datasetTypes = responseBody.map((obj: any) => obj.dataset_type);
+          const ids = responseBody.map((obj: any) => obj.id);
+
+          // Check for dataset_type
+          testdatafile.visual_indicator_response.forEach((expected) => {
+            expect(datasetTypes).toContainEqual(expected.dataset_type);
           });
-          await Utility.assertAndLog(responseBody);
-          responseBody = JSON.parse(await responseBody.text());
-        });
-        //Assertion
-        await test.step("Check if the response has all 3 dates", async () => {
-          const dataset_type: String[] = responseBody.map(
-            (obj: any) => obj.dataset_type
-          );
-          expect(dataset_type).toContainEqual(
-            testdatafile.visual_indicator_response[0].dataset_type
-          );
-          expect(dataset_type).toContainEqual(
-            testdatafile.visual_indicator_response[1].dataset_type
-          );
-          expect(dataset_type).toContainEqual(
-            testdatafile.visual_indicator_response[2].dataset_type
-          );
+
+          // Check for ids
+          testdatafile.visual_indicator_response.forEach((expected) => {
+            expect(ids).toContainEqual(expected.id);
+          });
         });
       });
     });
