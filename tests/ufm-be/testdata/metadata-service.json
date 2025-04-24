@@ -61,11 +61,19 @@
       {
         "id": 17,
         "value": "ENTITY"
-      },
-      {
+    },
+    {
         "id": 19,
         "value": "MONTH"
-      }
+    },
+    {
+        "id": 23,
+        "value": "MP_CHANNEL_LEVELS"
+    },
+    {
+        "id": 24,
+        "value": "CHANNEL_GROUP_LEVELS"
+    }
     ]
   }
 }
