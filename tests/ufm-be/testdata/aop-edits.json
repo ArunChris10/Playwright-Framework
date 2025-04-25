@@ -4,9 +4,17 @@
     "yearMonth":"202909",
     "gmvplusservices": "gmvplusservices",
     "gmvplusserviceslessreturns": "gmvplusserviceslessreturns",
-    "unitsgrossuomng_input": "unitsgrossuomng_input",
+    "unitsgrossuomng": "unitsgrossuomng",
     "unitsuomlessreturns": "unitsuomlessreturns",
     "workedunits": "workedunits",
+    "ngrossgmvtotal":"ngrossgmvtotal",
+    "nservices":"nservices",
+    "returnstotal":"returnstotal",
+    "unitsgrossuomng_input": "unitsgrossuomng_input",
+    "tempplugforuom":"tempplugforuom",
+    "unitsops":"unitsops",
+    "unitsreturnedops":"unitsreturnedops",
+    "returnedunitsuomng":"returnedunitsuomng",
     "adjustment_success":"New adjustment created successfully!!",
     "allocation_payload":{
         "adjustment_metadata": {
@@ -124,10 +132,18 @@
                     "grossgmv",
                     "gmvplusservices",
                     "gmvplusserviceslessreturns",
-                    "unitsgrossuomng_input",
+                    "unitsgrossuomng",
                     "unitsuomlessreturns",
                     "returnedunitsopspctofopsunits_input",
-                    "workedunits"
+                    "workedunits",
+                    "ngrossgmvtotal",
+                    "nservices",
+                    "returnstotal",
+                    "unitsgrossuomng_input",
+                    "tempplugforuom",
+                    "unitsops",
+                    "unitsreturnedops",
+                    "returnedunitsuomng"
                 ],
                 "month": [
                     "202909"
