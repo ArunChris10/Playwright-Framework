@@ -1,0 +1,55 @@
+[
+    {
+        "screen_sec_name": "Inputter",
+        "screen_id": 1,
+        "screen_name": "Organisation",
+        "screen_sect_id": 101
+    },
+    {
+        "screen_sec_name": "BAReviewer",
+        "screen_id": 1,
+        "screen_name": "Organisation",
+        "screen_sect_id": 102
+    },
+    {
+        "screen_sec_name": "Segment",
+        "screen_id": 1,
+        "screen_name": "Organisation",
+        "screen_sect_id": 103
+    },
+    {
+        "screen_sec_name": "Forecast",
+        "screen_id": 2,
+        "screen_name": "LOB",
+        "screen_sect_id": 201
+    },
+    {
+        "screen_sec_name": "DriverModel",
+        "screen_id": 2,
+        "screen_name": "LOB",
+        "screen_sect_id": 202
+    },
+    {
+        "screen_sec_name": "BAReviewer",
+        "screen_id": 2,
+        "screen_name": "LOB",
+        "screen_sect_id": 203
+    },
+    {
+        "screen_sec_name": "Segment",
+        "screen_id": 2,
+        "screen_name": "LOB",
+        "screen_sect_id": 204
+    },
+    {
+        "screen_sec_name": "Data Science",
+        "screen_id": 3,
+        "screen_name": "Data Science Admin",
+        "screen_sect_id": 301
+    },
+    {
+        "screen_sec_name": "AOP",
+        "screen_id": 3,
+        "screen_name": "Data Science Admin",
+        "screen_sect_id": 302
+    }]

@@ -1,0 +1,577 @@
+export const getalldimensionsmappings =[
+    {
+        "parent_id": null,
+        "child_id": 130001,
+        "dimension_group_id": 7,
+        "parent_dim_id": null,
+        "parent_name": null,
+        "parent_dim_name": null,
+        "parent_display_flag": null,
+        "child_dim_id": 13,
+        "child_name": "WMT_US_SEGMENT_FINANCE",
+        "child_dim_name": "SEGMENT",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 130001,
+        "child_id": 120011,
+        "dimension_group_id": 7,
+        "parent_dim_id": 13,
+        "parent_name": "WMT_US_SEGMENT_FINANCE",
+        "parent_dim_name": "SEGMENT",
+        "parent_display_flag": true,
+        "child_dim_id": 12,
+        "child_name": "DEMAND",
+        "child_dim_name": "PBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 130001,
+        "child_id": 120006,
+        "dimension_group_id": 7,
+        "parent_dim_id": 13,
+        "parent_name": "WMT_US_SEGMENT_FINANCE",
+        "parent_dim_name": "SEGMENT",
+        "parent_display_flag": true,
+        "child_dim_id": 12,
+        "child_name": "SEGMENT",
+        "child_dim_name": "PBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 130001,
+        "child_id": 120003,
+        "dimension_group_id": 7,
+        "parent_dim_id": 13,
+        "parent_name": "WMT_US_SEGMENT_FINANCE",
+        "parent_dim_name": "SEGMENT",
+        "parent_display_flag": true,
+        "child_dim_id": 12,
+        "child_name": "HEALTH & WELLNESS",
+        "child_dim_name": "PBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 130001,
+        "child_id": 120002,
+        "dimension_group_id": 7,
+        "parent_dim_id": 13,
+        "parent_name": "WMT_US_SEGMENT_FINANCE",
+        "parent_dim_name": "SEGMENT",
+        "parent_display_flag": true,
+        "child_dim_id": 12,
+        "child_name": "ECOMMERCE",
+        "child_dim_name": "PBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 130001,
+        "child_id": 120007,
+        "dimension_group_id": 7,
+        "parent_dim_id": 13,
+        "parent_name": "WMT_US_SEGMENT_FINANCE",
+        "parent_dim_name": "SEGMENT",
+        "parent_display_flag": true,
+        "child_dim_id": 12,
+        "child_name": "SUPPLY CHAIN",
+        "child_dim_name": "PBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 130001,
+        "child_id": 120001,
+        "dimension_group_id": 7,
+        "parent_dim_id": 13,
+        "parent_name": "WMT_US_SEGMENT_FINANCE",
+        "parent_dim_name": "SEGMENT",
+        "parent_display_flag": true,
+        "child_dim_id": 12,
+        "child_name": "CUSTOMER & REVENUE",
+        "child_dim_name": "PBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 130001,
+        "child_id": 120005,
+        "dimension_group_id": 7,
+        "parent_dim_id": 13,
+        "parent_name": "WMT_US_SEGMENT_FINANCE",
+        "parent_dim_name": "SEGMENT",
+        "parent_display_flag": true,
+        "child_dim_id": 12,
+        "child_name": "OPERATIONS",
+        "child_dim_name": "PBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 130001,
+        "child_id": 120009,
+        "dimension_group_id": 7,
+        "parent_dim_id": 13,
+        "parent_name": "WMT_US_SEGMENT_FINANCE",
+        "parent_dim_name": "SEGMENT",
+        "parent_display_flag": true,
+        "child_dim_id": 12,
+        "child_name": "MERCHANDISING FINANCE",
+        "child_dim_name": "PBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 130001,
+        "child_id": 120010,
+        "dimension_group_id": 7,
+        "parent_dim_id": 13,
+        "parent_name": "WMT_US_SEGMENT_FINANCE",
+        "parent_dim_name": "SEGMENT",
+        "parent_display_flag": true,
+        "child_dim_id": 12,
+        "child_name": "MERCHANDISING OPERATIONS",
+        "child_dim_name": "PBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120011,
+        "child_id": 110030,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "DEMAND",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "CONSOLIDATED DEMAND",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120010,
+        "child_id": 110029,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "MERCHANDISING OPERATIONS",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "MERCHOPS",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120009,
+        "child_id": 110026,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "MERCHANDISING FINANCE",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "INSTORE AND OTHER",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120009,
+        "child_id": 110027,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "MERCHANDISING FINANCE",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "SCHEDULED",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120009,
+        "child_id": 110028,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "MERCHANDISING FINANCE",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "UNSCHEDULED AND CORE",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120007,
+        "child_id": 110033,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "SUPPLY CHAIN",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "IB TRANSPORTATION",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120007,
+        "child_id": 110034,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "SUPPLY CHAIN",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "OB TRANSPORTATION",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120007,
+        "child_id": 110005,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "SUPPLY CHAIN",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "E2E DELIVERY",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120007,
+        "child_id": 110010,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "SUPPLY CHAIN",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "INNOVATION & AUTOMATION",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120007,
+        "child_id": 110003,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "SUPPLY CHAIN",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "CORE_SERVICES",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120007,
+        "child_id": 110011,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "SUPPLY CHAIN",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "LAST MILE DELIVERY",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120007,
+        "child_id": 110008,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "SUPPLY CHAIN",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "FULFILLMENT",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120006,
+        "child_id": 110021,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "SEGMENT",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "SEGMENT",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120006,
+        "child_id": 110009,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "SEGMENT",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "HOME OFFICE",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120005,
+        "child_id": 110015,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "OPERATIONS",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "OPERATIONS",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120005,
+        "child_id": 110018,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "OPERATIONS",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "REAL ESTATE",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120005,
+        "child_id": 110007,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "OPERATIONS",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "FUEL",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120003,
+        "child_id": 110019,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "HEALTH & WELLNESS",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "RX",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120003,
+        "child_id": 110016,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "HEALTH & WELLNESS",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "OPTICAL",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120002,
+        "child_id": 110006,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "ECOMMERCE",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "ECOMMERCE",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120002,
+        "child_id": 110013,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "ECOMMERCE",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "MARKETPLACE",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120001,
+        "child_id": 110002,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "CUSTOMER & REVENUE",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "CONNECT",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120001,
+        "child_id": 110012,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "CUSTOMER & REVENUE",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "MARKETING",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    },
+    {
+        "parent_id": 120001,
+        "child_id": 110004,
+        "dimension_group_id": 7,
+        "parent_dim_id": 12,
+        "parent_name": "CUSTOMER & REVENUE",
+        "parent_dim_name": "PBA",
+        "parent_display_flag": true,
+        "child_dim_id": 11,
+        "child_name": "DATA VENTURES",
+        "child_dim_name": "SBA",
+        "child_display_flag": true
+    }
+]
+export const getMetadata =[
+    {
+        "id": 1,
+        "value": "DEPARTMENT"
+    },
+    {
+        "id": 2,
+        "value": "SBU"
+    },
+    {
+        "id": 3,
+        "value": "FINANCIAL_SUBGROUP"
+    },
+    {
+        "id": 4,
+        "value": "FINANCIAL_SEGMENT"
+    },
+    {
+        "id": 6,
+        "value": "CHANNEL"
+    },
+    {
+        "id": 7,
+        "value": "CHANNEL_GROUP"
+    },
+    {
+        "id": 8,
+        "value": "CHANNEL_HIERARCHY_V1"
+    },
+    {
+        "id": 9,
+        "value": "CHANNEL_HIERARCHY_V2"
+    },
+    {
+        "id": 11,
+        "value": "SBA"
+    },
+    {
+        "id": 12,
+        "value": "PBA"
+    },
+    {
+        "id": 13,
+        "value": "SEGMENT"
+    },
+    {
+        "id": 14,
+        "value": "REPORTING"
+    },
+    {
+        "id": 15,
+        "value": "BUSINESS_AREA"
+    },
+    {
+        "id": 16,
+        "value": "LOCATION"
+    },
+    {
+        "id": 17,
+        "value": "ENTITY"
+    },
+    {
+        "id": 19,
+        "value": "MONTH"
+    },
+    {
+        "id": 23,
+        "value": "MP_CHANNEL_LEVELS"
+    },
+    {
+        "id": 24,
+        "value": "CHANNEL_GROUP_LEVELS"
+    }
+]
+export const getScreenDetails = [
+    {
+        "screen_sec_name": "Inputter",
+        "screen_id": 1,
+        "screen_name": "Organisation",
+        "screen_sect_id": 101
+    },
+    {
+        "screen_sec_name": "BAReviewer",
+        "screen_id": 1,
+        "screen_name": "Organisation",
+        "screen_sect_id": 102
+    },
+    {
+        "screen_sec_name": "Segment",
+        "screen_id": 1,
+        "screen_name": "Organisation",
+        "screen_sect_id": 103
+    },
+    {
+        "screen_sec_name": "Forecast",
+        "screen_id": 2,
+        "screen_name": "LOB",
+        "screen_sect_id": 201
+    },
+    {
+        "screen_sec_name": "DriverModel",
+        "screen_id": 2,
+        "screen_name": "LOB",
+        "screen_sect_id": 202
+    },
+    {
+        "screen_sec_name": "BAReviewer",
+        "screen_id": 2,
+        "screen_name": "LOB",
+        "screen_sect_id": 203
+    },
+    {
+        "screen_sec_name": "Segment",
+        "screen_id": 2,
+        "screen_name": "LOB",
+        "screen_sect_id": 204
+    },
+    {
+        "screen_sec_name": "Data Science",
+        "screen_id": 3,
+        "screen_name": "Data Science Admin",
+        "screen_sect_id": 301
+    },
+    {
+        "screen_sec_name": "AOP",
+        "screen_id": 3,
+        "screen_name": "Data Science Admin",
+        "screen_sect_id": 302
+    }
+]
+
+
+export const bearerToken = ""

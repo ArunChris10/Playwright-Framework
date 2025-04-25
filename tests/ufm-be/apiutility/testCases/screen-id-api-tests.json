@@ -1,0 +1,33 @@
+[    
+  {
+    "environment": "qa",
+    "labels": ["smoke", "login"],
+    "service":"coreService",
+    "uri":"getScreenId",
+    "testName": "validate screen id API",
+    "queryParams": "dim_id=12&dim_val_id=120006",
+    "method": "GET",
+    "assertion": [
+      {
+         "status": 200 
+      },
+      {
+        "assertEquals": {
+          "jsonPath": "screen_sec_name",
+          "value": "Inputter"
+        },
+        "assertNotEquals": {
+          "jsonPath": "screen_sec_name",
+          "value": "rahul"
+        },
+        "assertNotNull": {
+          "jsonPath": "screen_sec_name"
+        },
+        "assertResponse":{
+          "filePath":"examplePayload.json"
+        }        
+      }
+    ]
+  }
+]
+  
