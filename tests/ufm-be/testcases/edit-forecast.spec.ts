@@ -18,7 +18,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
   let node_dimension: NodeDimension = {};
   let node_filters: filters = [];
 
-  test.describe("Verify Calculate & Save API", { tag: "@Smoke @Regression @adjustment @mytest" }, () => {
+  test.describe("Verify Calculate & Save API", { tag: "@Smoke @Regression @adjustment" }, () => {
 
     test.beforeAll(async ({ request }) => {
       if (
