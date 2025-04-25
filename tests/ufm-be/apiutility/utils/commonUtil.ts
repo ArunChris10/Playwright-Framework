@@ -1,6 +1,11 @@
 import { expect } from '@playwright/test';
 import * as payloads from '../expected-payloads/payloads'
 import { globalStore } from '../globalStore';
+import { JSONPath } from 'jsonpath-plus';
+import {AssertionEntry,ApiTestCase} from '../api.test';
+import { findAllValuesByKey} from '../utils/jsonUtils';
+import fs from 'fs';
+import path from 'path';
 
 export function generateRandomNumber(length: number): number {
     if (length <= 0) {
@@ -30,9 +35,32 @@ export function generateRandomNumber(length: number): number {
     }
   }
 
-  export function getPayloadByTestCaseName(name: string) {
-    return (payloads as Record<string, unknown>)[name];
+  export async function getPayloadByTestCaseName(testCase: any): Promise<any> {
+let filePathOfPayload;
+    testCase.assertion.forEach(assertionArray => {
+      if (assertionArray.assertResponse) {
+       filePathOfPayload = assertionArray.assertResponse.filePath;
+      } });
+
+    if (!filePathOfPayload) {
+      throw new Error(`No payload file path specified for test case ${testCase.name}`);
+    }
+  
+    const filePath = path.resolve(__dirname, '../expected-payloads/'+filePathOfPayload);
+  
+    if (!fs.existsSync(filePath)) {
+      throw new Error(`Payload file not found at path: ${filePath}`);
+    }
+  
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+  
+    try {
+      return JSON.parse(fileContent);
+    } catch (err) {
+      throw new Error(`Failed to parse JSON in payload file ${filePath}: ${err}`);
+    }
   }
+  
   
   export function deepPartialMatch(expected: any, actual: any): boolean {
     if (typeof expected !== typeof actual || expected == undefined) return false;
@@ -71,4 +99,57 @@ export function generateRandomNumber(length: number): number {
       interpolated[key] = typeof val === 'object' ? interpolateObject(val) : interpolate(val);
     }
     return interpolated;
+  }
+
+
+
+  export function validateAssertions(response:any,responseBody: any, assertions: any[], testcase: ApiTestCase) {
+    assertions.forEach((assertion) => {
+      assertion.forEach(async arrayOfAssertion  => {
+        if ('status' in arrayOfAssertion) {
+            // Handle status assertion
+            const statusCode = arrayOfAssertion.status;
+            expect(response.status()).toEqual(statusCode); // Example: Check status code
+        }
+        else{
+          
+          for (let i =0; i <= Object.keys(arrayOfAssertion).length; i++){
+
+            if (arrayOfAssertion.assertEquals) {
+              // Handle assertEquals
+              const { jsonPath, value } = arrayOfAssertion.assertEquals;
+              const actualValue = findAllValuesByKey(responseBody, jsonPath); // A helper function to fetch value using jsonPath
+              expect(actualValue).toContain(value); // Assert the equality
+
+            } else if (arrayOfAssertion.assertNotEquals) {
+              // Handle assertNotEquals
+              const { jsonPath, value } = arrayOfAssertion.assertNotEquals;
+              const actualValue = findAllValuesByKey(responseBody, jsonPath);
+              expect(actualValue).not.toContain(value); // Assert the inequality
+
+            } else if (arrayOfAssertion.assertNull) {
+              // Handle assertNull
+              const { jsonPath, value } = arrayOfAssertion.assertNull;
+              const actualValue = findAllValuesByKey(responseBody, jsonPath);
+              expect(actualValue).toBeNull(); // Assert the value is null
+
+            } else if (arrayOfAssertion.assertNotNull) {
+              // Handle assertNotNull
+              const { jsonPath, value } = arrayOfAssertion.assertNotNull;
+              const actualValue = findAllValuesByKey(responseBody, jsonPath);
+              expect(actualValue).not.toBeNull(); // Assert the value is not null
+            
+            } else if (arrayOfAssertion.assertResponse) {
+              // Handle assertNotNull
+              const selectedPayload = await getPayloadByTestCaseName(testcase);
+              let ismatch = deepPartialMatch(selectedPayload, responseBody);
+              expect(ismatch).toBeTruthy();
+            }
+            const firstKey = Object.keys(arrayOfAssertion)[0];
+            delete arrayOfAssertion[firstKey];
+            i=0;
+          }          
+        }         
+      });     
+    });
   }

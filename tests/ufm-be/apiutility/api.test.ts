@@ -4,23 +4,20 @@ import { globalStore } from '../apiutility/globalStore';
 import { findAllValuesByKey,findRelativeValue,loadJSON } from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
-import {validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate} from '../apiutility/utils/commonUtil'
+import {validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions} from '../apiutility/utils/commonUtil'
 import * as payloads from '../apiutility/expected-payloads/payloads'
 import {pollForExpectedResponse} from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../../secrets/nexus-users-token.json";
 
-interface ApiTestCase {
+export interface ApiTestCase {
+  environment: string;
+  service: string;
   testName: string;
-  testIdentifier: string;
-  baseURL:string;
   uri: string;
+  queryParams: string;
   method: string;
-  headers: { [key: string]: string };
   payload?: any;
-  assertions: {
-    status: number;
-    bodyContains?: any;
-  };
+  assertion?: AssertionEntry;
   extract?: { [key: string]: string };
   validateExtract?: { [key: string]: string };
   polling?: {
@@ -38,12 +35,21 @@ interface ApiTestCase {
   };
 }
 
+export type AssertionEntry =
+| { status: number }
+| { assertEquals: { jsonPath: string, value: any } }
+| { assertNotEquals: { jsonPath: string, value: any } }
+| { assertNull: string }
+| { assertNotNull: string }
+| { assertResponse: { filePath: string, value: any } };
+
 interface ParentConfig {
-  baseURL: string;
   headers: { [key: string]: string };
   user: string;
-  runTags?: string[];
   testFiles: string[];
+  coreService :{ baseURL: { [key: string]: string },testCaseName : string} 
+  notificationService :{ baseURL: { [key: string]: string },testCaseName : string} 
+
 }
 
 export let response;
@@ -88,7 +94,17 @@ parentConfig.testFiles.forEach(testCasePath => {
   
   let requestContext: APIRequestContext | null = null;
   normalizedCases.forEach(testCase =>  {
-    const resolvedBaseUrl = parentConfig.baseURL[testCase.baseURL];
+    
+    
+    let baseUrl;
+    if (testCase.service == "coreService") {
+      baseUrl = parentConfig.coreService.baseURL[testCase.environment];
+    }
+    else if (testCase.service == "notificationService") {
+      baseUrl = parentConfig.notificationService.baseURL[testCase.environment];
+    } 
+
+    const resolvedBaseUrl = baseUrl + parentConfig[testCase.service][testCase.uri] +interpolate(testCase.queryParams);
     const interpolatedHeader = interpolateObject(parentConfig.headers);
     test(testCase.testName, async () =>  {
       requestContext = await request.newContext({
@@ -96,18 +112,13 @@ parentConfig.testFiles.forEach(testCasePath => {
         extraHTTPHeaders: interpolatedHeader,
         ignoreHTTPSErrors: true,
       });
-      const endpoint = interpolate(testCase.uri);
+      const endpoint = "";
       const payload = interpolateObject(testCase.payload);
-      response = await executeRequest(testCase.method, requestContext, endpoint, payload);
+      response = await executeRequest(testCase.method, requestContext, endpoint,payload);
       const responseBody = await response.json();
 
-      if (testCase.assertions.status) {
-        validateStatus(response, testCase.assertions.status);
-      }
-
-
-      if (testCase.assertions.bodyContains) {
-        validateBody(responseBody, testCase.assertions.bodyContains);
+      if (testCase.assertion) {
+        await validateAssertions(response,responseBody, [testCase.assertion],testCase);
       }
 
       if (testCase.extract) {
@@ -115,7 +126,7 @@ parentConfig.testFiles.forEach(testCasePath => {
         for (const globalVar in testCase.extract) {
 
           if (globalVar == "lastApiResponse"){
-            globalStore["lastApiResponse-"+testCase.testIdentifier] = responseBody;
+            globalStore["lastApiResponse-"+testCase.testName] = responseBody;
           }
           else
           {
@@ -147,8 +158,8 @@ parentConfig.testFiles.forEach(testCasePath => {
           const expected = interpolate(testCase.validateExtract[globalKey]);
           const actual = globalStore[globalKey];
           if (globalKey == "lastApiResponse"){
-            const selectedPayload = getPayloadByTestCaseName(testCase.testIdentifier);
-            const actual = globalStore["lastApiResponse-"+testCase.testIdentifier];
+            const selectedPayload = getPayloadByTestCaseName(testCase.testName);
+            const actual = globalStore["lastApiResponse-"+testCase.testName];
             let ismatch = deepPartialMatch(selectedPayload, actual);
             expect(ismatch).toBeTruthy();
           }

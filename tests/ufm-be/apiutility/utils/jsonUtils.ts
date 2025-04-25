@@ -9,27 +9,28 @@ import path from 'path';
  * @param targetKey - The key to search for
  * @returns An array of all matched values for the given key
  */
-export function findAllValuesByKey(obj: any, targetKey: string): any[] {
+export function findAllValuesByKey(obj: any, path: string): any[] {
   const results: any[] = [];
+  const pathSegments = path.split(".");
 
-  function search(current: any) {
-    if (current === null || typeof current !== 'object') return;
+  function traverse(current: any, remainingPath: string[]) {
+    if (remainingPath.length === 0) {
+      results.push(current);
+      return;
+    }
+
+    const [key, ...restPath] = remainingPath;
 
     if (Array.isArray(current)) {
       for (const item of current) {
-        search(item);
+        traverse(item, remainingPath); // don't consume key yet, we are still at array level
       }
-    } else {
-      for (const [key, value] of Object.entries(current)) {
-        if (key.trim() === targetKey.trim()) {
-          results.push(value);
-        }
-        search(value); // Dive deeper
-      }
+    } else if (current && typeof current === "object" && key in current) {
+      traverse(current[key], restPath);
     }
   }
 
-  search(obj);
+  traverse(obj, pathSegments);
   return results;
 }
 
@@ -38,7 +39,7 @@ export function loadJSON<T>(filePath: string): T {
   return JSON.parse(data);
 }
 
-function getNestedValue(obj: any, path: string,equals:string): any {
+export function getNestedValue(obj: any, path: string,equals:string): any {
   const keys = path.split('.');
   let current = obj;
 

@@ -35,6 +35,8 @@
     "exceljs": "^4.4.0",
     "fs": "^0.0.1-security",
     "jsonfile": "^6.1.0",
+    "jsonpath": "^1.1.1",
+    "jsonpath-plus": "^10.3.0",
     "luxon": "^3.4.4",
     "moment": "^2.30.1",
     "playwright": "^1.49.1",

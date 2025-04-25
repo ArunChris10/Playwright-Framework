@@ -1,38 +1,33 @@
 [    
   {
-  "testIdentifier": "getbase-forecast",
-  "testName": "get-base-forecast",
-  "baseURL":"IBG",
-  "uri": "ufm/get-base-forecast",
-  "method": "POST",
-  "payload": {
-    "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/scenario/list-historicals?dim_id=11&classification_id=12&dim_val_id=110021&data_level=11&include_primary=true"
-  },
-  "assertions": {
-    "status": 200 
-  },
-  "extractRelative": {
-    "dim_val_id": {
-      "whereKey": "row_data.name",
-      "equals": "PRIMARY",
-      "extractKey": "dim_val_id" 
-    }},
-
-  "tags": ["smoke", "login"]
-},
-{
-  "testIdentifier": "getscreenId",
-  "testName": "get-screenId",
-  "baseURL":"IBG",  
-  "uri": "ufm/get-screenId",
-  "method": "POST",
-  "payload": {
-    "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/filter/screen_details?dim_id=0&dim_val_id={{dim_val_id}}"
-  },
-  "assertions": {
-    "status": 200 
-  },
-  "tags": ["smoke", "login"]
-}
+    "environment": "qa",
+    "labels": ["smoke", "login"],
+    "service":"coreService",
+    "uri":"getScreenId",
+    "testName": "validate screen id API",
+    "queryParams": "dim_id=12&dim_val_id=120006",
+    "method": "GET",
+    "assertion": [
+      {
+         "status": 200 
+      },
+      {
+        "assertEquals": {
+          "jsonPath": "screen_sec_name",
+          "value": "Inputter"
+        },
+        "assertNotEquals": {
+          "jsonPath": "screen_sec_name",
+          "value": "rahul"
+        },
+        "assertNotNull": {
+          "jsonPath": "screen_sec_name"
+        },
+        "assertResponse":{
+          "filePath":"examplePayload.json"
+        }        
+      }
+    ]
+  }
 ]
   
