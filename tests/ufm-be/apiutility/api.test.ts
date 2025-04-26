@@ -5,7 +5,6 @@ import { findAllValuesByKey,findRelativeValue,loadJSON } from '../apiutility/uti
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions} from '../apiutility/utils/commonUtil'
-import * as payloads from '../apiutility/expected-payloads/payloads'
 import {pollForExpectedResponse} from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../../secrets/nexus-users-token.json";
 
@@ -37,10 +36,10 @@ export interface ApiTestCase {
 
 export type AssertionEntry =
 | { status: number }
-| { assertEquals: { jsonPath: string, value: any } }
-| { assertNotEquals: { jsonPath: string, value: any } }
-| { assertNull: string }
-| { assertNotNull: string }
+| { assertEquals: {[key: string]: string | number;  }}
+| { assertNotEquals: {[key: string]: string | number;  }}
+| { assertNull: {[key: string]: string;};}
+| { assertNotNull: {[key: string]: string;};}
 | { assertResponse: { filePath: string, value: any } };
 
 interface ParentConfig {

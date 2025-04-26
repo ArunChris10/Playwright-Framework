@@ -1,5 +1,4 @@
 import { expect } from '@playwright/test';
-import * as payloads from '../expected-payloads/payloads'
 import { globalStore } from '../globalStore';
 import { JSONPath } from 'jsonpath-plus';
 import {AssertionEntry,ApiTestCase} from '../api.test';
@@ -117,27 +116,51 @@ let filePathOfPayload;
 
             if (arrayOfAssertion.assertEquals) {
               // Handle assertEquals
-              const { jsonPath, value } = arrayOfAssertion.assertEquals;
-              const actualValue = findAllValuesByKey(responseBody, jsonPath); // A helper function to fetch value using jsonPath
-              expect(actualValue).toContain(value); // Assert the equality
+
+              const keys = Object.keys(arrayOfAssertion.assertEquals);
+              for (let index = 0; index < keys.length; index += 2) {
+                const jsonPathKey = keys[index];
+                const valueKey = keys[index + 1];
+        
+                const jsonPath = arrayOfAssertion.assertEquals[jsonPathKey];
+                const expectedValue = arrayOfAssertion.assertEquals[valueKey];
+                const actualValue = findAllValuesByKey(responseBody, jsonPath);
+                expect(actualValue).toContain(expectedValue); // Assert the equality
+              }
 
             } else if (arrayOfAssertion.assertNotEquals) {
-              // Handle assertNotEquals
-              const { jsonPath, value } = arrayOfAssertion.assertNotEquals;
-              const actualValue = findAllValuesByKey(responseBody, jsonPath);
-              expect(actualValue).not.toContain(value); // Assert the inequality
+              const keys = Object.keys(arrayOfAssertion.assertNotEquals);
+              for (let index = 0; index < keys.length; index += 2) {
+                const jsonPathKey = keys[index];
+                const valueKey = keys[index + 1];
+        
+                const jsonPath = arrayOfAssertion.assertNotEquals[jsonPathKey];
+                const expectedValue = arrayOfAssertion.assertNotEquals[valueKey];
+                const actualValue = findAllValuesByKey(responseBody, jsonPath);
+                expect(actualValue).not.toContain(expectedValue); // Assert the equality
+              }
 
             } else if (arrayOfAssertion.assertNull) {
               // Handle assertNull
-              const { jsonPath, value } = arrayOfAssertion.assertNull;
-              const actualValue = findAllValuesByKey(responseBody, jsonPath);
-              expect(actualValue).toBeNull(); // Assert the value is null
+              const keys = Object.keys(arrayOfAssertion.assertNull);
+              for (let index = 0; index < keys.length; index += 2) {
+                const jsonPathKey = keys[index];
+        
+                const jsonPath = arrayOfAssertion.assertNull[jsonPathKey];
+                const actualValue = findAllValuesByKey(responseBody, jsonPath);
+                expect(actualValue).toBeNull(); // Assert the equality
+              }
 
             } else if (arrayOfAssertion.assertNotNull) {
               // Handle assertNotNull
-              const { jsonPath, value } = arrayOfAssertion.assertNotNull;
-              const actualValue = findAllValuesByKey(responseBody, jsonPath);
-              expect(actualValue).not.toBeNull(); // Assert the value is not null
+              const keys = Object.keys(arrayOfAssertion.assertNotNull);
+              for (let index = 0; index < keys.length; index += 2) {
+                const jsonPathKey = keys[index];
+       
+                const jsonPath = arrayOfAssertion.assertNotNull[jsonPathKey];
+                const actualValue = findAllValuesByKey(responseBody, jsonPath);
+                expect(actualValue).not.toBeNull(); // Assert the equality
+              }
             
             } else if (arrayOfAssertion.assertResponse) {
               // Handle assertNotNull
