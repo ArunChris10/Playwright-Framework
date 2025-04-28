@@ -1,0 +1,29 @@
+{
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "{{token}}"
+    },
+    "user":"LB-ibg-ufm-auto",
+    "testFiles": [
+      "testCases/screen-id-api-tests.json"
+  
+    ],
+    "coreService": {
+      "baseURL":{
+        "qa":"https://ibg-ufm-core-service.qa.ibg.walmart.com",
+        "dev":"https://ibg-ufm-core-service.dev.ibg.walmart.com"
+      },
+      "getScreenId": "/filter/screen_details?",
+      "listHistoricals":"/scenario/list-historicals?"
+      
+    },
+    "notificationService": {
+      "baseURL":{
+        "qa":"https://api.notifications.qa.ibg.walmart.com/api/v3/",
+        "dev":"https://api.notifications.dev.ibg.walmart.com/api/v3/"
+      },
+      "notifications": "notifications/?"
+    }
+
+}
+
