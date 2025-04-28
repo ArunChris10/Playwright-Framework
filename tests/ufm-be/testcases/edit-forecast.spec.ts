@@ -453,8 +453,31 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       const isAdjustmentIdPresent = getAllAdjustmentsCountAfter.some(
         (adjustment: any) => adjustment.adjustment_id === adjustmentId
       );
-      expect(isAdjustmentIdPresent).toBeTruthy();  
+      expect(isAdjustmentIdPresent).toBeTruthy();
+    });
+
+    test(`Verify calculate & Save when allocation method with equal distribution is applied on non-additive node for LoB - ${lobName}`, async ({
+      request,
+    }) => {
+      const { obj } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Equal Distribution"], ["NonAdditive"], node_dimension, node_filters, request);
+      const endpointURL = `${process.env.apiBaseURLUFM}/allocate-data`;
+      let response = await request.post(endpointURL, {
+        data: obj,
+      });
+      await Utility.assertAndLog(response);
+
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, obj, request);
+
+      await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
+      await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
+      await expect.soft(saveResponse.adjustment_metadata.adjustment_reason).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_reason);
+
+      let getAllAdjustmentsCountAfter = await AdjustmentUtility.getAllAdjustments(scenarioId, scenarioVersion, testData.lobName, request);
+      const adjustmentId = saveResponse.adjustment_metadata.adjustment_id;
+      const isAdjustmentIdPresent = getAllAdjustmentsCountAfter.some(
+        (adjustment: any) => adjustment.adjustment_id === adjustmentId
+      );
+      expect(isAdjustmentIdPresent).toBeTruthy();
     });
   });
-})
-
+});
