@@ -161,8 +161,20 @@ let filePathOfPayload;
                 const actualValue = findAllValuesByKey(responseBody, jsonPath);
                 expect(actualValue).not.toBeNull(); // Assert the equality
               }
+
+            } else if (arrayOfAssertion.assertValuesAreEqual) {
+              // Handle assertValuesAreEqual
+              if (arrayOfAssertion.assertValuesAreEqual.length < 2) {
+                throw new Error('assertValuesAreEqual requires at least two values.');
+              }              
+              const firstValue = interpolate(arrayOfAssertion.assertValuesAreEqual[0]);
+              for (let i = 1; i < arrayOfAssertion.assertValuesAreEqual.length; i++) {
+                const curValue = interpolate(arrayOfAssertion.assertValuesAreEqual[i]);
+                  expect(curValue).toEqual(firstValue);
+              }
+              }
             
-            } else if (arrayOfAssertion.assertResponse) {
+            else if (arrayOfAssertion.assertResponse) {
               // Handle assertNotNull
               const selectedPayload = await getPayloadByTestCaseName(testcase);
               let ismatch = deepPartialMatch(selectedPayload, responseBody);

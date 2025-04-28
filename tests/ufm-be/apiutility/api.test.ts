@@ -40,7 +40,8 @@ export type AssertionEntry =
 | { assertNotEquals: {[key: string]: string | number;  }}
 | { assertNull: {[key: string]: string;};}
 | { assertNotNull: {[key: string]: string;};}
-| { assertResponse: { filePath: string, value: any } };
+| { assertResponse: { filePath: string, value: any } }
+| { assertValuesAreEqual: (string | number)[] };;
 
 interface ParentConfig {
   headers: { [key: string]: string };
@@ -116,9 +117,6 @@ parentConfig.testFiles.forEach(testCasePath => {
       response = await executeRequest(testCase.method, requestContext, endpoint,payload);
       const responseBody = await response.json();
 
-      if (testCase.assertion) {
-        await validateAssertions(response,responseBody, [testCase.assertion],testCase);
-      }
 
       if (testCase.extract) {
         let value;
@@ -167,6 +165,11 @@ parentConfig.testFiles.forEach(testCasePath => {
           }
         }
       }
+
+      if (testCase.assertion) {
+        await validateAssertions(response,responseBody, [testCase.assertion],testCase);
+      }
+
 
       // keeping the below code for future use, if needed
 

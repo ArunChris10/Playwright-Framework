@@ -1,0 +1,259 @@
+[    
+  {
+    "environment": "qa",
+    "labels": ["smoke", "login"],
+    "service":"coreService",
+    "uri":"getmykpi",
+    "testName": "validate getmykpi API",
+    "queryParams": "",
+    "payload":{
+      "additional_filters":{
+        "pivot_cols": [
+          "month"
+        ],
+        "pivot_index": [
+          "node_id"
+        ],
+        "period_view": [
+          "month"
+        ],
+        "nodes": [
+          "allocationpctmerchandiseincome_input"
+        ],
+        "template_include_headers": [
+          {
+            "name": "Driver"
+          },
+          {
+            "name": "202601",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202602",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202603",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202604",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202605",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202606",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202607",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202608",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202609",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202610",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202611",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202612",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "",
+            "columnsMenuParams": "fixedColumns"
+          },
+          {
+            "name": "Allocation Method",
+            "columnsMenuParams": "action"
+          },
+          {
+            "name": "Forecast",
+            "editable": true
+          },
+          {
+            "name": "Value",
+            "editable": true
+          }
+        ],
+        "month": [
+          "202601",
+          "202602",
+          "202603",
+          "202604",
+          "202605",
+          "202606",
+          "202607",
+          "202608",
+          "202609",
+          "202610",
+          "202611",
+          "202612"
+        ]
+      },
+      "classification_id":12,
+      "dim_id":11,
+      "dim_val_id":110026,
+      "filters":[],
+      "isApplied":true,
+      "scenario_id":18501744038446,
+      "scenario_version":1744038446,
+      "template_id":3
+    },
+    "method": "POST",
+    "assertion": [
+      {
+         "status": 200 
+      }      
+    ],
+    "extract":{
+      "foreCastBeforeFilter":"rowData.202602.forecast"
+    }
+  },
+  {
+    "environment": "qa",
+    "labels": ["smoke", "login"],
+    "service":"coreService",
+    "uri":"getmykpi",
+    "testName": "validate getmykpi API 2",
+    "queryParams": "",
+    "payload":{
+      "additional_filters":{
+        "pivot_cols": [
+          "month"
+        ],
+        "pivot_index": [
+          "node_id"
+        ],
+        "period_view": [
+          "month"
+        ],
+        "nodes": [
+          "allocationpctmerchandiseincome_input"
+        ],
+        "template_include_headers": [
+          {
+            "name": "202601",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202602",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202603",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202604",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202605",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202606",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202607",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202608",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202609",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202610",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202611",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "202612",
+            "columnsMenuParams": "middleColumns"
+          },
+          {
+            "name": "",
+            "columnsMenuParams": "fixedColumns"
+          },
+          {
+            "name": "Allocation Method",
+            "columnsMenuParams": "action"
+          },
+          {
+            "name": "Forecast",
+            "editable": true
+          },
+          {
+            "name": "Value",
+            "editable": true
+          }
+        ],
+        "month": [
+          "202601",
+          "202602",
+          "202603",
+          "202604",
+          "202605",
+          "202606",
+          "202607",
+          "202608",
+          "202609",
+          "202610",
+          "202611",
+          "202612"
+        ]
+      },
+      "classification_id":12,
+      "dim_id":11,
+      "dim_val_id":110026,
+      "filters":[
+        {
+          "dim_id": 24,
+          "dim_val_ids": [
+            240002
+          ],
+          "children": []
+        }
+      ],
+      "isApplied":true,
+      "scenario_id":18501744038446,
+      "scenario_version":1744038446,
+      "template_id":3
+    },
+    "method": "POST",
+    "extract":{
+      "foreCastAfterFilter":"rowData.202602.forecast"
+    },
+    "assertion": [
+      {
+         "status": 200 
+      },
+      {
+      "assertValuesAreEqual": ["{{foreCastBeforeFilter}}","{{foreCastAfterFilter}}"]              
+      }
+    ]
+  }
+]
+  
