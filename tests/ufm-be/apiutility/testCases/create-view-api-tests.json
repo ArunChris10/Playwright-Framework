@@ -1,0 +1,68 @@
+[    
+  {
+    "environment": "qa",
+    "labels": ["smoke", "login"],
+    "service":"coreService",
+    "uri":"create-nexus-preference",
+    "testName": "validate create view API",
+    "queryParams": "",
+    "method": "POST",
+    "payload": {
+    
+    "entityType":"dimValId_userId",
+    "entityTypeValue":"110026_LB-ibg-ufm-auto",
+    "appName":"IBG",
+    "preferenceType":"SavedView",
+    "preferenceConfig":{
+    "name": "ViewWithNum!123",
+    "config": {
+      "groupBy": {
+        "rows": "allRows",
+        "checkbox": {},
+        "configApply": {
+          "pivot_index": [],
+          "template_include_headers": []
+        }
+      },
+      "selectionsCompare": [],
+      "drivers": [
+        "otherservicesincome_input"
+      ],
+      "filters": [],
+      "dateRange": {
+        "intervalType": "MONTH",
+        "range": {
+          "start": "1-2026",
+          "end": "12-2026"
+        }
+      },
+      "dataUnit": "Absolute",
+      "rowOrder": {
+        "otherservicesincome_input": {
+          "i": 0,
+          "a": {
+            "interval": null,
+            "offset": null,
+            "method": 29
+          }
+        }
+      },
+      "colOrder": [
+        "driver"
+      ]
+    }
+  },
+  "tags": [],
+  "createdBy": "LB-ibg-ufm-auto"
+
+    
+  },
+    "assertion": [
+      {
+         "status": 200 
+      }
+      
+    ]
+  }
+]
+  

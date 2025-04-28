@@ -5,7 +5,7 @@
     },
     "user":"LB-ibg-ufm-auto",
     "testFiles": [
-      "testCases/screen-id-api-tests.json"
+      "testCases/create-view-tests.json"
   
     ],
     "coreService": {
@@ -14,7 +14,8 @@
         "dev":"https://ibg-ufm-core-service.dev.ibg.walmart.com"
       },
       "getScreenId": "/filter/screen_details?",
-      "listHistoricals":"/scenario/list-historicals?"
+      "listHistoricals":"/scenario/list-historicals?",
+      "create-nexus-preference":"/api/v1/apps/preferences/configurations"
       
     },
     "notificationService": {
