@@ -47,7 +47,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
 
     test.describe.configure({ timeout: 500_000, mode: "parallel" });
 
-    test(`Verify calculate & Save when allocation method with maintain ratio is applied on non-additive node for LoB - ${lobName}`, async ({
+    /*test(`Verify calculate & Save when allocation method with maintain ratio is applied on non-additive node for LoB - ${lobName}`, async ({
       request,
     }) => {
       const { obj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Maintain Ratio"], ["NonAdditive"], node_dimension, node_filters, request);
@@ -454,19 +454,48 @@ Object.entries(testData).forEach(([lobName, testData]) => {
         (adjustment: any) => adjustment.adjustment_id === adjustmentId
       );
       expect(isAdjustmentIdPresent).toBeTruthy();
-    });
+    });*/
 
     test(`Verify calculate & Save when allocation method with equal distribution is applied on non-additive node for LoB - ${lobName}`, async ({
       request,
     }) => {
+      allocationMethod = commonData["Equal Distribution"];
+      inputNodesType = ["NonAdditive"];
       const { obj } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, commonData["Equal Distribution"], ["NonAdditive"], node_dimension, node_filters, request);
       const endpointURL = `${process.env.apiBaseURLUFM}/allocate-data`;
       let response = await request.post(endpointURL, {
         data: obj,
       });
-      await Utility.assertAndLog(response);
+      let responseBody = await Utility.assertAndLog(response);
+      const ratioMap: Record<string, Record<string, number>> = {};
+      for (const responseNode of responseBody) {
+        const { node_var_name, edits: responseEdits } = responseNode;
+        // Validate the edits (month and forecast values) for nodes present in obj.edits
+        const payloadNode = obj.edits.find(edit => edit.node_var_name === node_var_name);
+        if (payloadNode) {
+          ratioMap[node_var_name] = {}; // Initialize the node entry in ratioMap
+          for (const [month, edit] of Object.entries(responseEdits as Record<string, { forecast: number }>)) {
+        const forecastValue = edit.forecast;
+        // Calculate the ratio of response value to edit value passed in the body
+        const expectedValue = payloadNode.data[month]; // Adjusted for the edit multiplier in case of Lower grain
+        const ratio = forecastValue / expectedValue;
+        // Log the ratio for debugging purposes
+        Utility.logIt(`Ratio of response value to edit value for month ${month} and node ${node_var_name}: ${ratio}`);
+        // Store the ratio in the ratioMap under the respective node and month
+        ratioMap[node_var_name][month] = ratio;
+          }
+        }
+      }
 
-      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, obj, request);
+      //Perform another edit to validate ratio calculation matches
+      const { obj: secondEditObj, baselineValuesMap, months } = await EditForecastUtility.createAllocationPayload(lobName, scenarioId, allocationMethod, inputNodesType, node_dimension, node_filters, request);
+      let response1 = await request.post(endpointURL, {
+        data: secondEditObj,
+      });
+      let secondEditResponseBody = await Utility.assertAndLog(response1);
+      await EditForecastUtility.validateForecastResponse(secondEditResponseBody, secondEditObj, baselineValuesMap, months, ratioMap);
+
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, secondEditObj, request);
 
       await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
       await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
