@@ -2,17 +2,18 @@ import debug from "debug";
 import { expect, test } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import { ForecastCalendarUtil } from "../fixtures/forecastCalendar-utils";
+import forecastCalendarData from "../testdata/forecast-calendar-api.json";
 
 test.describe(
   "Verify forecast calendar APIs",
   { tag: "@Regression @forecastCalendar" },
   () => {
     test.describe.configure({ timeout: 120_000, mode: "serial" });
-    let fcst_id = "BCB4590C-1DD7-4B08-BD76-ABA5B13015F6";
-    // let fcst_id
+     let fcst_id="3461B40C-F149-4734-8E4C-95722B1F01EA";
+  
     let cycle_id: string;
 
-    test("Delete all existing cycles", async ({ request }) => {
+    test("Delete all existing cycles",   { tag: "@Regression @test11" },async ({ request }) => {
       await ForecastCalendarUtil.deleteAllForecastCycles(request);
     });
 
@@ -26,25 +27,7 @@ test.describe(
     //   debug.log("Forecast is created  : ", forecastCalendarCreated);
     // });
 
-    test("Verify if the user is able to @getForecastCalendar", async ({
-      request,
-    }) => {
-      let getForecastCalendar = await ForecastCalendarUtil.getForecastCalendar(
-        request,
-        fcst_id
-      );
-      Utility.logIt(`Forecast is retrieved : ${getForecastCalendar}`);
-    });
-
-    test("Verify if the user is able to @getInvalidForecastCalendar", async ({
-      request,
-    }) => {
-      let getInvalidForecastCalendar =
-        await ForecastCalendarUtil.getInvalidForecastCalendar(request);
-      Utility.logIt(`Forecast is invalid : ${getInvalidForecastCalendar}`);
-    });
-
-    test("Verify if the user is able to @createForecastCalendarCycles", async ({
+    test("Verify if the user is able to @createForecastCalendarCycles", { tag: "@Regression @test11" }, async ({
       request,
     }) => {
       let createForecastCalendarCycles =
@@ -59,6 +42,91 @@ test.describe(
       );
       cycle_id = createForecastCalendarCycles.cycle_id;
     });
+
+
+    test("Verify if the user is able to @getForecastCalendar",   { tag: "@Regression @test1" },async ({
+      request,
+    }) => {
+      let getForecastCalendar = await ForecastCalendarUtil.getForecastCalendar(
+        request,
+        fcst_id
+      );
+      //get the existing forecast calender ID
+      fcst_id = getForecastCalendar.calendar_id;
+      Utility.logIt(`Forecast is retrieved : ${getForecastCalendar}`);
+    });
+
+    test("Verify if the user is able to @getInvalidForecastCalendar", async ({
+      request,
+    }) => {
+      let getInvalidForecastCalendar =
+        await ForecastCalendarUtil.getInvalidForecastCalendar(request);
+      Utility.logIt(`Forecast is invalid : ${getInvalidForecastCalendar}`);
+    });
+
+    
+    test("Verify if the user is able to @publishForecastCalendar",{tag:"@test11"}, async ({
+      request,
+    }) => {
+      let publishForecastCalendar =
+        await ForecastCalendarUtil.publishForecastCalendar(fcst_id, request);
+      Utility.logIt(`Forecast is published :  ${publishForecastCalendar}`);
+    });
+    
+    test("Verify if the user is able to @publishDuplicateForecastCalendar",{tag:"@duplct"}, async ({
+      request,
+    }) => {
+      let publishDuplicateForecastCalendar =
+        await ForecastCalendarUtil.publishDuplicateForecastCalendar(
+          fcst_id,
+          request
+        );
+      Utility.logIt(
+        `Forecast is a duplicate  : ${publishDuplicateForecastCalendar}`
+      );
+    });
+
+    test("Verify if the user is able to @getForecastDeadlines",{tag:"@test11"}, async ({
+      request,
+    }) => {
+      let getForecastDeadlines =
+        await ForecastCalendarUtil.getForecastDeadlines(request);
+      const expectedObject = {
+        dim_id: forecastCalendarData.getForecastCalendarPayload.dim_id,
+        dim_val_id: forecastCalendarData.getForecastCalendarPayload.dim_val_id,
+        forecast_cal_id: fcst_id,
+        cycle_id: cycle_id,
+        event_id: 28,
+      };
+    
+      // Normalize keys and values for case-insensitive comparison
+      const normalizedOutput = getForecastDeadlines.map((obj) => ({
+        ...obj,
+        cycle_id: obj.cycle_id.toLowerCase(),
+        dim_id: obj.dim_id.toString(),
+        dim_val_id: obj.dim_val_id.toString(),
+      }));
+      
+  const normalizedExpected = {
+    ...expectedObject,
+    cycle_id: expectedObject.cycle_id.toLowerCase(),
+    dim_id: expectedObject.dim_id.toString(),
+    dim_val_id: expectedObject.dim_val_id.toString(),
+  };
+
+  // Check if the normalized output contains the normalized expected object
+  const containsObject = normalizedOutput.some((obj) =>
+    Object.entries(normalizedExpected).every(
+      ([key, value]) => obj[key] === value
+    )
+  );
+
+  expect(containsObject).toBeTruthy();
+    
+    });
+
+
+
     test("Verify if the user is able to @createDuplicateForecastCalendarCycles", async ({
       request,
     }) => {
@@ -147,43 +215,18 @@ test.describe(
       );
     });
 
-    test("Verify if the user is able to @publishForecastCalendar", async ({
-      request,
-    }) => {
-      let publishForecastCalendar =
-        await ForecastCalendarUtil.publishForecastCalendar(fcst_id, request);
-      Utility.logIt(`Forecast is published :  ${publishForecastCalendar}`);
-    });
-
-    test("Verify if the user is able to @publishDuplicateForecastCalendar", async ({
-      request,
-    }) => {
-      let publishDuplicateForecastCalendar =
-        await ForecastCalendarUtil.publishDuplicateForecastCalendar(
-          fcst_id,
-          request
-        );
-      Utility.logIt(
-        `Forecast is a duplicate  : ${publishDuplicateForecastCalendar}`
-      );
-    });
-
-    //Skipping due to issue
-    // test.skip("Verify if the user is able to @getForecastDeadlines", async ({
+    // test("Verify if the user is able to @publishForecastCalendar", async ({
     //   request,
     // }) => {
-    //   let getForecastDeadlines =
-    //     await ForecastCalendarUtil.getForecastDeadlines(request);
-
-    //   expect(getForecastDeadlines).toMatchObject({
-    //     dim_id: forecastCalendarData.getForecastCalendarPayload.dim_id,
-    //     dim_val_id: forecastCalendarData.getForecastCalendarPayload.dim_val_id,
-    //     forecast_cal_id: fcst_id,
-    //     cycle_id: cycle_id,
-    //     event_id: 28,
-    //   });
-    //   Utility.logIt(`Forecast calendar deadlines  : ${getForecastDeadlines}`);
+    //   let publishForecastCalendar =
+    //     await ForecastCalendarUtil.publishForecastCalendar(fcst_id, request);
+    //   Utility.logIt(`Forecast is published :  ${publishForecastCalendar}`);
     // });
+
+   
+
+   
+    
 
     test("Verify if the user is able to @deleteForecastCalendarCycle", async ({
       request,
