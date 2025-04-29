@@ -7,7 +7,7 @@
                 "storereturns_input"
             ],
             "NonAdditiveNodes": [
-                "allocationpctmerchandiseincome"
+                "allocationpctmerchandiseincome_input"
             ],
             "AffectingNodes": {
                 "Additive": [
