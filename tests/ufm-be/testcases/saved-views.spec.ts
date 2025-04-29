@@ -108,13 +108,11 @@ test.describe(
           getViewsList.push(obj.preferenceConfigId);
         });
       });
-      Utility.logIt(getViewsList);
 
       // Iterating through getViewsList and call delete endpoint
       for (const id of getViewsList) {
         const deleteEndpointURL = `${testdata.deleteEndpoint}/${id}`;
         const deleteResponse = await request.delete(deleteEndpointURL);
-        Utility.logIt(deleteResponse.status() + "validating delete" + id);
         expect(deleteResponse.status()).toBe(200);
       }
 
@@ -168,13 +166,11 @@ test.describe(
           getViewsList.push(obj.preferenceConfigId);
         });
       });
-      Utility.logIt(getViewsList);
 
       // Iterating through getViewsList and call delete endpoint
       for (const id of getViewsList) {
         const deleteEndpointURL = `${testdata.deleteEndpoint}/${id}`;
         const deleteResponse = await request.delete(deleteEndpointURL);
-        Utility.logIt(deleteResponse.status() + "validating delete" + id);
         expect(deleteResponse.status()).toBe(200);
       }
     });
@@ -216,8 +212,13 @@ test.describe(
       });
 
       expect(editResponseData.ok()).toBeFalsy();
-      expect(editResponseData.status()).toBeGreaterThanOrEqual(400);
       expect(editResponseData.status()).not.toEqual(200);
+      expect(editResponseData.status()).toBeGreaterThanOrEqual(500);
+
+      await editResponseData.json().then((data) => {
+        expect(data.message).toEqual(`PreferenceConfig not found for id: ${nonExistentPrefConfigId}`);
+        expect(data.error).toEqual(`PreferenceConfig not found for id: ${nonExistentPrefConfigId}`);
+      });
     });
 
     test("Editing a view name with special chars in name", async ({
