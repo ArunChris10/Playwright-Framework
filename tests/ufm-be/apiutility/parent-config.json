@@ -14,16 +14,25 @@
         "dev":"https://ibg-ufm-core-service.dev.ibg.walmart.com"
       },
       "getScreenId": "/filter/screen_details?",
-      "listHistoricals":"/scenario/list-historicals?",
-      "create-nexus-preference":"/api/v1/apps/preferences/configurations"
+      "listHistoricals":"/scenario/list-historicals?"
+      
       
     },
     "notificationService": {
       "baseURL":{
         "qa":"https://api.notifications.qa.ibg.walmart.com/api/v3/",
         "dev":"https://api.notifications.dev.ibg.walmart.com/api/v3/"
+        
       },
       "notifications": "notifications/?"
+    },
+    "nexusService": {
+      "baseURL":{
+        "qa":"https://nexus-wizard-preference-manager.api.qa.walmart.com/api/v1",
+        "dev":"https://nexus-wizard-preference-manager.api.dev.walmart.com/api/v1"
+        
+      },
+      "create-nexus-preference":"/apps/preferences/configurations"
     }
 
 }
