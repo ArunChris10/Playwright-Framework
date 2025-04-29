@@ -28,26 +28,21 @@
     "dim_id": 13,
     "dim_val_id": 1
   },
+ 
   "getForecastCalendarPayload": {
     "dim_id": "13",
-    "dim_val_id": "1",
-    "classification_id": "1",
-    "fiscal_year": "2805",
+    "dim_val_id": "130001",
+    "classification_id": "12",
+    "fiscal_year": "2026",
     "invalid_dim_id": "12"
   },
+
   "createForecastCalendarCyclesPayload": {
     "deadlines": [
       {
         "dim_id": 13,
-        "dim_val_id": 1,
-        "deadline": "2804-10-29 20:11:46.153",
-        "timezone": "CST",
-        "event_id": "28"
-      },
-      {
-        "dim_id": 12,
-        "dim_val_id": 1,
-        "deadline": "2804-10-28 20:11:46.153",
+        "dim_val_id": 130001,
+        "deadline": "2025-05-01 00:00",
         "timezone": "CST",
         "event_id": "28"
       }
@@ -57,15 +52,8 @@
     "deadlines": [
       {
         "dim_id": 13,
-        "dim_val_id": 1,
-        "deadline": "2804-9-27 5:12:46.153",
-        "timezone": "CST",
-        "event_id": "28"
-      },
-      {
-        "dim_id": 12,
-        "dim_val_id": 1,
-        "deadline": "2804-8-26 20:11:46.153",
+        "dim_val_id": 130001,
+        "deadline": "2025-05-03 00:00",
         "timezone": "CST",
         "event_id": "28"
       }

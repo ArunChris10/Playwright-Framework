@@ -1,0 +1,77 @@
+[    
+  {
+    "environment": "qa",
+    "labels": ["smoke", "snapshots"],
+    "service":"coreService",
+    "uri":"snapshots",
+    "testName": "validate compute snapshots API - as Forecast",
+    "queryParams": "",
+    "method": "POST",
+    "payload": {
+      "scenario_org_id": "120010",
+      "snapshot_desc": "",
+      "snapshot_type_id": 77
+    },
+    "assertion": [
+      {
+         "status": 200 
+      },
+      {
+        "assertEquals": {
+          "jsonPath1": "message",
+          "value1": "Archived scenario successfully"
+        }
+      }
+    ]
+  },
+  {
+    "environment": "qa",
+    "labels": ["smoke", "snapshots"],
+    "service":"coreService",
+    "uri":"snapshots",
+    "testName": "validate compute snapshots API - as OTB",
+    "queryParams": "",
+    "method": "POST",
+    "payload": {
+      "scenario_org_id": "120010",
+      "snapshot_desc": "",
+      "snapshot_type_id": 78
+    },
+    "assertion": [
+      {
+         "status": 200
+      },
+      {
+        "assertEquals": {
+          "jsonPath1": "message",
+          "value1": "Archived scenario successfully"
+        }
+      }
+    ]
+  },
+  {
+    "environment": "qa",
+    "labels": ["smoke", "snapshots"],
+    "service":"coreService",
+    "uri":"snapshots",
+    "testName": "validate compute snapshots API - as Budget",
+    "queryParams": "",
+    "method": "POST",
+    "payload": {
+      "scenario_org_id": "120010",
+      "snapshot_desc": "",
+      "snapshot_type_id": 79
+    },
+    "assertion": [
+      {
+         "status": 200
+      },
+      {
+        "assertEquals": {
+          "jsonPath1": "message",
+          "value1": "Archived scenario successfully"
+        }
+      }
+    ]
+  }
+]
