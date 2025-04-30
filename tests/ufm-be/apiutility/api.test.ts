@@ -50,7 +50,7 @@ interface ParentConfig {
   coreService :{ baseURL: { [key: string]: string },testCaseName : string} 
   notificationService: { baseURL: { [key: string]: string }, testCaseName: string } 
   reportingService:  { baseURL: { [key: string]: string }, testCaseName: string } 
-
+  nexusService:{ baseURL: { [key: string]: string },testCaseName : string} 
 }
 
 export let response;
@@ -108,6 +108,9 @@ parentConfig.testFiles.forEach(testCasePath => {
       baseUrl = parentConfig.reportingService.baseURL[testCase.environment];
     } 
 
+    else if (testCase.service == "nexusService") {
+      baseUrl = parentConfig.nexusService.baseURL[testCase.environment];
+    } 
     const resolvedBaseUrl = baseUrl + parentConfig[testCase.service][testCase.uri] +interpolate(testCase.queryParams);
     const interpolatedHeader = interpolateObject(parentConfig.headers);
     test(testCase.testName, async () =>  {
