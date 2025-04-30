@@ -10,7 +10,7 @@
       "entityType": "dimValId_userId",
       "preferenceConfigs": {
         "preferenceConfig": {
-          "name": "testing payload",
+          "name": "Testing payload (1)",
           "config": {
             "groupBy": {
               "rows": "allRows",
@@ -81,6 +81,65 @@
         "tags": [],
         "createdBy": "LB-ibg-ufm-auto"
       }
-    }
+    },
+    "edit_payload": {
+      "baseURL": "https://nexus-wizard-preference-manager.api.qa.walmart.com/api/v1/preferences/configs/164",
+      "preferenceConfig": {
+        "config": {
+          "groupBy": {
+            "rows": "allRows",
+            "checkbox": {
+              "owner": true
+            },
+            "configApply": {
+              "pivot_index": ["owner"],
+              "template_include_headers": [
+                {
+                  "name": "Owner"
+                }
+              ],
+              "table_unit": "Absolute"
+            }
+          },
+          "selectionsCompare": [],
+          "drivers": [
+            "moinventoryshrinkadjustmentretail",
+            "mogmvshipped",
+            "modcthrows"
+          ],
+          "filters": [
+            {
+              "dim_id": 100,
+              "dim_val_ids": [66, 67],
+              "children": []
+            }
+          ],
+          "dateRange": {
+            "intervalType": "MONTH",
+            "range": {
+              "start": "1-2026",
+              "end": "12-2026"
+            }
+          },
+          "dataUnit": "Billions",
+          "rowOrder": {
+            "moinventoryshrinkadjustmentretail.MERCHANDISING OPERATIONS, MERCHOPS": {
+              "i": 0,
+              "a": ""
+            },
+            "mogmvshipped.MERCHANDISING OPERATIONS, MERCHOPS": {
+              "i": 1,
+              "a": ""
+            },
+            "modcthrows.MERCHANDISING OPERATIONS, MERCHOPS": {
+              "i": 2,
+              "a": ""
+            }
+          },
+          "colOrder": ["driver", "owner"]
+        }
+      }
+    },
+    "name": "Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name Excessively long name "
   }
 }
