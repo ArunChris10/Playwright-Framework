@@ -6,7 +6,8 @@
     "user":"LB-ibg-ufm-auto",
     "testFiles": [
       "testCases/scenario-snapshots-api-tests.json",
-      "testCases/create-view-api-tests.json"
+      "testCases/create-view-api-tests.json",
+      "testCases/snapshopt-api-test.json"
   
     ],
     "coreService": {
@@ -16,8 +17,10 @@
       },
       "getScreenId": "/filter/screen_details?",
       "listHistoricals":"/scenario/list-historicals?",
-      "snapshots":"/archive/"
-      
+      "snapshots":"/archive/",      
+      "getmykpi":"/reports/get-mykpi",
+      "downloadSnapshot":"/reports/download-active-forecast",
+      "getSnapshots":"/archive/"
       
     },
     "notificationService": {
