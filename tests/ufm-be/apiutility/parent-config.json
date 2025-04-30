@@ -7,7 +7,8 @@
     "testFiles": [
       "testCases/scenario-snapshots-api-tests.json",
       "testCases/create-view-api-tests.json",
-      "testCases/snapshopt-api-test.json"
+      "testCases/snapshopt-api-test.json",
+      "testCases/get-my-kpi-api-tests.json"
   
     ],
     "coreService": {
