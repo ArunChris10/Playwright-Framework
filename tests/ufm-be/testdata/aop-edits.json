@@ -2,6 +2,9 @@
     "year":2029,
     "month":9,
     "yearMonth":"202909",
+    "inputYearMonth":"202703",
+    "grossgmv": "grossgmv",
+    "moecommmerchandisesales": "moecommmerchandisesales",
     "gmvplusservices": "gmvplusservices",
     "gmvplusserviceslessreturns": "gmvplusserviceslessreturns",
     "unitsgrossuomng": "unitsgrossuomng",
@@ -147,6 +150,168 @@
                 ],
                 "month": [
                     "202909"
+                ]
+            },
+            "isApplied": false
+        }
+    },
+    "input_driver_allocation_payload":{
+        "adjustment_metadata": {
+            "adjustment_name": "nina 4",
+            "adjustment_reason": "9 and 999 changing",
+            "adjustment_type": 73,
+            "is_duplicated": false,
+            "is_update": false,
+            "is_create": true,
+            "adjustment_edits": 2,
+            "scenario_id": 11371745523402,
+            "scenario_version_timestamp": 1745526588
+        },
+        "allocation_request": {
+            "display_nodes": [],
+            "scenario_id": 11371745523402,
+            "dim_val_id": 130001,
+            "dim_id": 13,
+            "preview": false,
+            "edits": [
+                {
+                    "node_var_name": "grossgmv",
+                    "node_dimension": {},
+                    "data": {
+                        "202703": 9
+                    },
+                    "allocation": {
+                        "interval": null,
+                        "offset": null,
+                        "method": 29
+                    }
+                },
+                {
+                    "node_var_name": "moecommmerchandisesales",
+                    "node_dimension": {},
+                    "data": {
+                        "202703": 999
+                    },
+                    "allocation": {
+                        "interval": null,
+                        "offset": null,
+                        "method": 29
+                    }
+                }
+            ],
+            "filters": [],
+            "period_view": "month"
+        },
+        "dim_val_id": 130001,
+        "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/adjustment/"
+    },
+    "getInputDriverKpiForecast":{
+        "endpoint": "/reports/get-mykpi",
+        "payload":{
+            "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/reports/get-mykpi",
+            "scenario_id": 11371745523402,
+            "scenario_version": 1745526588,
+            "dim_id": 13,
+            "dim_val_id": 130001,
+            "classification_id": 11,
+            "template_id": 3,
+            "filters": [],
+            "additional_filters": {
+                "pivot_cols": [
+                    "month"
+                ],
+                "pivot_index": [
+                    "node_id"
+                ],
+                "period_view": [
+                    "month"
+                ],
+                "nodes": [
+                    "grossgmv",
+                    "moecommmerchandisesales"
+                ],
+                "template_include_headers": [
+                    {
+                        "name": "Driver"
+                    },
+                    {
+                        "name": "202701",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "202702",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "202703",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "202704",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "202705",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "202706",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "202707",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "202708",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "202709",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "202710",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "202711",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "202712",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "",
+                        "columnsMenuParams": "fixedColumns"
+                    },
+                    {
+                        "name": "Allocation Method",
+                        "columnsMenuParams": "action"
+                    },
+                    {
+                        "name": "Forecast",
+                        "editable": true
+                    },
+                    {
+                        "name": "Value",
+                        "editable": true
+                    }
+                ],
+                "month": [
+                    "202701",
+                    "202702",
+                    "202703",
+                    "202704",
+                    "202705",
+                    "202706",
+                    "202707",
+                    "202708",
+                    "202709",
+                    "202710",
+                    "202711",
+                    "202712"
                 ]
             },
             "isApplied": false
