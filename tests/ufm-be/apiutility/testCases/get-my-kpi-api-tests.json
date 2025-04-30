@@ -1,10 +1,10 @@
 [    
   {
     "environment": "qa",
-    "labels": ["smoke", "login"],
+    "labels": ["smoke", "rahul","IBGROW-36348"],
     "service":"coreService",
     "uri":"getmykpi",
-    "testName": "validate getmykpi API",
+    "testName": "validate getmykpi API before filter",
     "queryParams": "",
     "payload":{
       "additional_filters":{
@@ -125,10 +125,10 @@
   },
   {
     "environment": "qa",
-    "labels": ["smoke", "login"],
+    "labels": ["smoke", "rahul","IBGROW-36348"],
     "service":"coreService",
     "uri":"getmykpi",
-    "testName": "validate getmykpi API 2",
+    "testName": "validate getmykpi API after filter",
     "queryParams": "",
     "payload":{
       "additional_filters":{
