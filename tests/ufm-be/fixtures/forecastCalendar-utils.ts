@@ -117,6 +117,7 @@ export class ForecastCalendarUtil {
     const endpointURL = `${process.env.apiBaseURLUFM}${
       forecastCalendarData.endpoint
     }?${params.toString()}`;
+  console.log("Endpoint URL:", endpointURL);
     const response = await request.get(endpointURL, { params: null });
 
     let responseBody = await Utility.assertAndLog(response);
@@ -318,13 +319,14 @@ export class ForecastCalendarUtil {
       published: "true",
     });
 
-    const endpointURL = `${process.env.apiBaseURLUFM}${
-      forecastCalendarData.endpoint
-    }deadlines?${params.toString()}`;
+    // // const endpointURL = `${process.env.apiBaseURLUFM}${
+    // //   forecastCalendarData.endpoint
+    // // }deadlines?${params.toString()}`;
 
-    // const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}/deadlines?dim_id=${forecastCalendarData.}&dim_val_id=130001&classification_id=12&children=true&published=true}`;
+     const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}deadlines?dim_id=${forecastCalendarData.getForecastCalendarPayload.dim_id}&dim_val_id=130001&classification_id=12&children=${true}&published=${true}`;
 
-    console.log(endpointURL, params);
+     console.log("url is" +endpointURL);
+     console.log(endpointURL, params);
     const response = await request.get(endpointURL);
     let responseBody = await response.json();
     expect(responseBody.calendar_id).not.toEqual(null);
@@ -342,6 +344,7 @@ export class ForecastCalendarUtil {
    */
   static async deleteForecastCalendarCycle(fcst_id, cycle_id, request) {
     const endpointURL = `${process.env.apiBaseURLUFM}${forecastCalendarData.endpoint}${fcst_id}/cycles/${cycle_id}`;
+    console.log("Deleting forecast cycle :" + cycle_id);
     const response = await request.delete(endpointURL);
     expect(response).toBeOK();
   }
