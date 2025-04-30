@@ -12,5 +12,5 @@
           }
         ]
       },
-    "getNotificationEndpoint": "/api/v3/notifications/?pageNumber=0&search=&status=U&pageSize=6&sortBy=DESC"
+    "getNotificationEndpoint": "/api/v3/notifications/?pageNumber=0&search=&status=U&pageSize=6&=DESC"
 }

@@ -487,7 +487,7 @@ export class Visualizer {
     }
   }
 
-  async verifyChannelDropdownsNotPresent(channelGroupFilters) {
+  async verifyChannelsNotPresent(channelGroupFilters) {
     for (let filter of channelGroupFilters) {
       await expect(this.page.getByText(filter).first()).not.toBeVisible();
     }
