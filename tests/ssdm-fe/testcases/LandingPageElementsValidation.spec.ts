@@ -9,7 +9,7 @@ import { matchers }from 'playwright-expect';
 const ibgAuthFile = "secrets/ibg-user-storagestate.json"
 const { uiAppBaseURL, ufmUser } = process.env;
 expect.extend(matchers);
-test.describe('Landing Page UI Validation', { tag: "@walmart" }, async () => {
+test.describe('Landing Page UI Validation', { tag: "@homepage" }, async () => {
 
     test('Login to SSDM using LabCredentials', async ({ page }) => {
         // const { uiAppBaseURL } = process.env;
@@ -21,7 +21,7 @@ test.describe('Landing Page UI Validation', { tag: "@walmart" }, async () => {
 
         await page.locator('[placeholder ="User ID (e.g. wm5p4rk)"]').fill('LB-ibg-ufm-auto');
         //await loginPage.login(ufmUser);
-        await page.locator('[placeholder="Password"]').fill('');
+        await page.locator('[placeholder="Password"]').fill('f@k4p@8H');
         //   await Utility.getLoginPassword(userId)    
         await page.locator('[id="domainName"]').selectOption('Lab');
         await page.locator('[id="BU"]').selectOption('Homeoffice');

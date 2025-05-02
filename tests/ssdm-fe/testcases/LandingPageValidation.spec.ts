@@ -4,7 +4,7 @@ import { PageFactory } from '../../common/pages/page-factory';
 import { testData } from '../testdata/fileName.json';
 import { TIMEOUT } from '../constants/timeout.json';
 
-test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @landingPage" }, async () => {
+test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @walmart" }, async () => {
     let objpageFactory: PageFactory;
 
     test.beforeAll(async ({ pageFactory }) => {
@@ -16,28 +16,29 @@ test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @
         test.setTimeout(TIMEOUT);
         await objpageFactory.ssdmPageFactory().signInpage().signin();
         });
-    })
+   
 
 test('Valiadate the elements present in the landing page', async()=>{
     test.setTimeout(TIMEOUT);
 
    await test.step('Verify the search field is displayed', async () => {
-         await objpageFactory.ssdmPageFactory().landingpage().Search();
+         await objpageFactory.ssdmPageFactory().landingPage().Search();
     });
 
    await test.step('Validate the input records count & calculation count is shown', async()=>{
-        await objpageFactory.ssdmPageFactory().landingpage().Count();
+        await objpageFactory.ssdmPageFactory().landingPage().Count();
     });
 
    await test.step('Check sort/group by is present in landing page home', async()=>{
-        await objectpageFactory.ssdmPageFactory.landingpage().SortGroup();
+        await objpageFactory.ssdmPageFactory().landingPage().SortGroup();
     })
 
     await test.step('Table settings side bar is shown', async()=>{
-        await objectPageFactory.ssdmPageFactory.landingpage.Settings();
+        await objpageFactory.ssdmPageFactory().landingPage().Settings();
     })
 
     await test.step('Filter options is shown for columns except metric name & type', async()=>{
-        await objectPageFactory.ssdmPageFactory.landingpage.Filter();
+        await objpageFactory.ssdmPageFactory().landingPage().Filter();
     })
 });
+})

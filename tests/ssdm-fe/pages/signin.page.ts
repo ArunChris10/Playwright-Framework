@@ -9,7 +9,7 @@ export class signInPage {
   readonly location: Locator;
   readonly signIn: Locator;
   readonly authFile = 'secrets/user-storagestate.json';
-  private readonly urlEndpoint = process.env.ufmAppBaseURL + "";
+  private readonly urlEndpoint = process.env.uiAppBaseURL + "";
 
   constructor(page: Page) {
     this.page = page;
@@ -23,15 +23,13 @@ export class signInPage {
   async signin() {
     await this.page.goto(this.urlEndpoint, { timeout: 300000 });
     await this.userId.fill('LB-ibg-ufm-auto');
-    await this.password.fill('');
+    await this.password.fill('f@k4p@8H');
     await this.country.fill('Lab')
     await this.location.fill('Homeoffice')
     await this.signIn.click();
   }
 
 // async SignIn({ page }){
-
-   
 //     const signinPage = new signInPage(page);
 // }
 }
