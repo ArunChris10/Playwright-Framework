@@ -1,20 +1,20 @@
 import path from "path";
 import { test, expect } from "../../common/fixtures/test-hook";
 import { PageFactory } from '../../common/pages/page-factory';
-import { signinUtility } from "../fixtures/signinUtility";
+import { signinUtility } from "../fixtures/utility";
 import { TIMEOUT } from '../constants/timeout.json';
 
-test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @walmart" }, async () => {
-    // let objpageFactory: PageFactory;
+test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @walmart123" }, async () => {
+    let objpageFactory: PageFactory;
 
-    // test.beforeAll(async ({ pageFactory }) => {
-    //     objpageFactory = pageFactory;
-    //     await objpageFactory.ufmPageFactory().organisationSelection().navigate();
-    // })
+    test.beforeAll(async ({ pageFactory }) => {
+        objpageFactory = pageFactory;
+        //await objpageFactory.ufmPageFactory().organisationSelection().navigate();
+    })
 
    test('Login to SSDM using LabCredentials', async () => {
         test.setTimeout(TIMEOUT);
-        signinUtility.signin();
+        await signinUtility.SignIn(objpageFactory.page);
         //await objpageFactory.ssdmPageFactory().signInpage().signin();
         });
    

@@ -7,7 +7,7 @@ import { Utility } from "../fixtures/utils";
 import { SSDMPageFactory } from "../../ssdm-fe/pages/ssdm-page-factory";
 
 export class PageFactory {
-    private readonly page: Page;
+    public readonly page: Page;
     constructor(page: Page) {
         this.page = page;
     }

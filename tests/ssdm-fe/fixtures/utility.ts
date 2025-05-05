@@ -25,17 +25,17 @@ expect.extend(matchers);
 
     export class signinUtility {
 
-    readonly page: Page;
-    readonly password: Locator;
-    readonly userId: Locator;
-    readonly country: Locator;
-    readonly location: Locator;
-    readonly signIn: Locator;
-    readonly authFile = 'secrets/user-storagestate.json';
-    private readonly urlEndpoint = process.env.uiAppBaseURL + "";
-
+    static page: Page;
+    static password: Locator;
+    static userId: Locator;
+    static country: Locator;
+    static location: Locator;
+    static signIn: Locator;
+    //static authFile = 'secrets/user-storagestate.json';
+    static readonly urlEndpoint = process.env.uiAppBaseURL + "";
+    
   
-    constructor(page: Page) {
+    static async initialize(page: Page) {
       this.page = page;
       this.userId = page.getByPlaceholder("User ID (e.g. wm5p4rk)");
       this.password = page.getByPlaceholder("Password");
@@ -44,8 +44,9 @@ expect.extend(matchers);
       this.signIn = page.getByText("SIGN IN");
     }
   
-    async signin() {
+    static async SignIn(page1 : Page) {
       await this.page.goto(this.urlEndpoint, { timeout: 300000 });
+      this.initialize(page1);
       await this.userId.fill('LB-ibg-ufm-auto');
       await this.password.fill('f@k4p@8H');
       await this.country.fill('Lab')
