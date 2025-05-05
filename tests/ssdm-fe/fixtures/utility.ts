@@ -45,12 +45,12 @@ expect.extend(matchers);
     }
   
     static async SignIn(page1 : Page) {
-      await this.page.goto(this.urlEndpoint, { timeout: 300000 });
+      await page1.goto(this.urlEndpoint, { timeout: 300000 });
       this.initialize(page1);
       await this.userId.fill('LB-ibg-ufm-auto');
       await this.password.fill('f@k4p@8H');
-      await this.country.fill('Lab')
-      await this.location.fill('Homeoffice')
+      // await this.country.fill('Lab')
+      // await this.location.fill('Homeoffice')
       await this.signIn.click();
     }
   

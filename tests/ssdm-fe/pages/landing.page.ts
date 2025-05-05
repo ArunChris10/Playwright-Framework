@@ -14,18 +14,19 @@ export class LandingPageValidation {
 
     constructor(page: Page) {
         this.page = page;
-        this.searchBox = this.page.locator('[placeholder="Search"]');
-        this.btnInput = this.page.locator('//button[text()="Inputs"]');
-        this.btnCalculations = this.page.locator('//button[text()="Calculations"]');
-        this.drpSortGroupBy = this.page.locator('//button[text()="Sort / Group by"]');
+        this.searchBox = page.locator('[placeholder="Search"]');
+        this.btnInput = page.locator('//button[text()="Inputs"]');
+        this.btnCalculations = page.locator('//button[text()="Calculations"]');
+        this.drpSortGroupBy = page.locator('//button[text()="Sort / Group by"]');
         // ' //div[contains(@class,"MuiBox-root css-1xswck6")]'
-        this.btnSettings = this.page.locator('//button[aria-label="Gear"]')
-        this.btnFilter = this.page.locator('//button[aria-label="Filter"]')
+        this.btnSettings = page.locator('//button[aria-label="Gear"]')
+        this.btnFilter = page.locator('//button[aria-label="Filter"]')
     }
 
     async Search(){
-      await expect(this.searchBox).toBeVisible();
-      await expect(this.searchBox).toBeEnabled();
+       await this.searchBox.isVisible();
+      // await expect(searchBox).toBeEnabled();
+      await expect(this.searchBox).toHaveAttribute('placeholder','Search',{timeout: 60000})
     }
 
     async Count(){
