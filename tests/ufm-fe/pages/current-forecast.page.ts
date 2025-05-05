@@ -167,19 +167,33 @@ export class CurrentForecast {
         break
       case "sendBack":
         scenarioWorkflow = "Sending back"
+      case "createForecast":
+        scenarioWorkflow = "Creating forecast"
+
     }
 
     return scenarioWorkflow
   }
-  async waitForWorkflowToComplete(workflow: string, scenario_id) {
+  async waitForWorkflowToComplete(workflow: string, scenario_id = undefined) {
     let scenarioWorkflow = await this.getWorkflowStatusText(workflow);
-    await this.page.locator(`//div[@row-id=${scenario_id}]//div[@col-id="forecastStatus"]//span[contains(text(),"${scenarioWorkflow}")]`).waitFor({ state: "detached", timeout: 4800000 })
+    if (scenario_id) {
+      await this.page.locator(`//div[@row-id=${scenario_id}]//div[@col-id="forecastStatus"]//span[contains(text(),"${scenarioWorkflow}")]`).waitFor({ state: "detached", timeout: 4800000 })
+    }
+    else {
+      await this.page.locator(`//div[@col-id="forecastStatus"]//span[contains(text(),"${scenarioWorkflow}")]`).waitFor({ state: "detached", timeout: 4800000 })
+    }
 
   }
 
-  async waitForWorkflowToStart(workflow: string, scenario_id) {
+  async waitForWorkflowToStart(workflow: string, scenario_id = undefined) {
     let scenarioWorkflow = await this.getWorkflowStatusText(workflow);
-    await this.page.locator(`//div[@row-id=${scenario_id}]//div[@col-id="forecastStatus"]//span[contains(text(),"${scenarioWorkflow}")]`).waitFor({ state: "visible", timeout: 4800000 })
+
+    if (scenario_id) {
+      await this.page.locator(`//div[@row-id=${scenario_id}]//div[@col-id="forecastStatus"]//span[contains(text(),"${scenarioWorkflow}")]`).waitFor({ state: "visible", timeout: 4800000 })
+    }
+    else {
+      await this.page.locator(`//div[@col-id="forecastStatus"]//span[contains(text(),"${scenarioWorkflow}")]`).isVisible()
+    }
 
   }
 
@@ -318,8 +332,13 @@ export class CurrentForecast {
     await this.page.waitForTimeout(1000);
   }
 
-  async validateWorflowAlertMessage(workflow, scenarioName) {
-    return await this.page.locator(`//span[contains(text(),"${scenarioName} was ${workflow}.")]`).isVisible()
+  async validateWorflowAlertMessage(workflow, scenarioName, waitFor = false) {
+
+    if (waitFor) {
+      await this.page.locator(`//span[contains(text(),"${scenarioName} was ${workflow}")]`).waitFor({ state: "attached" })
+      return true
+    }
+    return await this.page.locator(`//span[contains(text(),"${scenarioName} was ${workflow}")]`).isVisible()
   }
 
   async clickOnOpenParticularForecast(LOB: string) {

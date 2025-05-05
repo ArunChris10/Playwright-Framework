@@ -1,23 +1,26 @@
-import { test } from "@playwright/test";
-import { ForecastUtility } from "../../ufm-be/fixtures/forecast-utils";
-import { CreateForecastPopup } from "../pages/create-forecast.-popup.page";
-import { CurrentForecast } from "../pages/current-forecast.page";
-import { OrganisationSelection } from "../pages/organisation-selection.page";
+import { expect, test } from '../../common/fixtures/test-hook';
 import forecastdata from "../testdata/forecast.json";
+import { PageFactory } from '../../common/pages/page-factory';
+import { ForecastUtility } from '../../ufm-be/fixtures/forecast-utils';
+
+let objpageFactory: PageFactory;
 
 test.describe(
   "Create Forecast Feature Test",
   { tag: "@Smoke @createForecast" },
   () => {
-    const forecast = "Fulfillment";
+    const forecast = "Optical";
+
+
     const lob = forecastdata[forecast];
 
-    test.beforeAll(async ({ request }) => {
+    test.beforeAll(async ({ pageFactory, request }) => {
       await ForecastUtility.deleteAllforecastofUser(
         request,
-        forecast.toLowerCase(),
+        lob.LobName,
         process.env.ufmUser
       );
+      objpageFactory = pageFactory;
     });
 
     let forecastName;
@@ -25,66 +28,64 @@ test.describe(
     test(
       "Check if the user is able to createForecast",
       { tag: "@createForecast" },
-      async ({ page }) => {
+      async () => {
         test.setTimeout(480000);
 
-        let currentForecast: CurrentForecast;
-        let currentForecastPopup: CreateForecastPopup;
-
         await test.step(
-          "Click on the particular BA" + lob.nameOfTheSBA,
+          "Click on the particular BA" + lob,
           async () => {
-            await page.goto("https://ibgworkbench2.qa.walmart.com/ufm", {
-              timeout: 120000,
-            });
-            await page.setViewportSize({ width: 1920, height: 1080 });
-            let organisationSelection: OrganisationSelection =
-              new OrganisationSelection(page);
-            currentForecast = await organisationSelection.selectOrganisation(
-              lob.nameOfTheSBA
+            await objpageFactory.ufmPageFactory().organisationSelection().navigate()
+            await objpageFactory.ufmPageFactory().organisationSelection().selectOrganisation(
+              lob.sbaName
             );
           }
         );
 
         await test.step("Click on Create forecast", async () => {
-          currentForecastPopup = await currentForecast.clickOnCreateForecast();
+          await objpageFactory.ufmPageFactory().currentForecast().clickOnCreateForecast();
         });
 
         await test.step("Click on Prepare the forecast for Particular drivers", async () => {
-          await currentForecastPopup.selectForecastInModal(lob.forecastName);
+          await objpageFactory.ufmPageFactory().createForecastPopup().selectForecastInModal(lob.LobName);
         });
 
         await test.step("Click on Continue", async () => {
-          await currentForecastPopup.clickOnContinueButton();
+          await objpageFactory.ufmPageFactory().createForecastPopup().clickOnContinueButton();
         });
 
         await test.step(
           "Fill input field with forecast name" +
-            lob.nameOfTheForecastInCreateForecastWindow,
+          lob.nameOfTheForecastInCreateForecastWindow,
           async () => {
-            forecastName = await currentForecastPopup.fillTheInputField(
+            forecastName = await objpageFactory.ufmPageFactory().createForecastPopup().fillTheInputField(
               lob.forecastName
             );
           }
         );
 
         await test.step("Select base forecast", async () => {
-          await currentForecastPopup.selectBaseForecastPrimaryOption(
-            lob.baseForecastName
-          );
+          await objpageFactory.ufmPageFactory().createForecastPopup().selectBaseForecastPrimaryOption();
         });
 
         await test.step("Click on Create Forecast", async () => {
-          await currentForecastPopup.clickOnCreateForecastFinalButton();
+          await objpageFactory.ufmPageFactory().createForecastPopup().clickOnCreateForecastFinalButton();
         });
 
-        await test.step("Verify forecast name after successful creation", async () => {
-          await currentForecastPopup.waitforRecallForecastToComplete();
-          await currentForecastPopup.verifyForecastHasBeenCreatedSuccessfully(
-            forecastName
-          );
-        });
-      }
-    );
+
+        await test.step("Wait until scenario status changes to sending for review %", async () => {
+          await objpageFactory.ufmPageFactory().currentForecast().waitForWorkflowToStart("createForecast")
+        })
+
+        await test.step('Waiting until the send to review process is over and modal is closed', async () => {
+          await objpageFactory.ufmPageFactory().currentForecast().waitForWorkflowToComplete("createForecast")
+        })
+        await test.step(`Validate the alert banner message reflects correct workflow status`, async () => {
+          let workflowStatus = await objpageFactory.ufmPageFactory().currentForecast().validateWorflowAlertMessage("created", forecastName, true)
+
+          expect(workflowStatus).toBeTruthy()
+
+        })
+      });
   }
 );
+
