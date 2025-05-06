@@ -12,12 +12,12 @@ export class ForecastComparisonPageFactory {
     await this.btnCompare.click();
   }
 
-  async selectComparisonCheckBox(groupByOption: string) {
-    const groupBySelection = await this.page.getByLabel(groupByOption, {
+  async selectComparisonCheckBox(checkBoxValue: string) {
+    const checkBoxValueSelection = await this.page.getByLabel(checkBoxValue, {
       exact: true,
     });
-    await groupBySelection.check();
-    await expect(groupBySelection).toBeChecked();
+    await checkBoxValueSelection.check();
+    await expect(checkBoxValueSelection).toBeChecked();
     await this.page.keyboard.press("Escape");
   }
 }

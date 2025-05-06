@@ -10,7 +10,7 @@ const driverName = testData[0].driver.inputDriver;
 Object.entries(lobList).forEach(([org, lob]) => {
     for (let i = 0; i < lob.length; i++) {
         test.describe(
-            "Varify forecast comparison functionality",
+            "Verify forecast comparison functionality",
             { tag: "@Smoke @forecastcomparison" },
             async () => {
                 test.describe.configure({ timeout: 800_000, mode: "serial" });
