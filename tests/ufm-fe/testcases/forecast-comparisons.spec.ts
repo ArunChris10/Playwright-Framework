@@ -61,6 +61,18 @@ Object.entries(lobList).forEach(([org, lob]) => {
                     await objpageFactory.forecastComparisonPageFactory().clickOnCompare();
                 })
 
+                await test.step('Click on comparison checkbox', async () => {
+                    await objpageFactory.forecastComparisonPageFactory().selectComparisonCheckBox('vs Last Year (LY)');
+                })
+
+                await test.step('User clicks on apply changes for comparison ', async () => {
+                    await objpageFactory.ssdmPageFactory().applyFilter().clickOnApplyChanges();
+                });
+
+                await test.step("Wait for KPI table to load after clicking on apply changes for comparison forecast", async () => {
+                    await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad()
+                })
+
             })
         })
     }
