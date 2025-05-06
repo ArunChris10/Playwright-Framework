@@ -12,7 +12,6 @@ import { LockPublishFunctionality } from "./lock.publish.page";
 import { NewPublishedNodeEdgeFunctionality } from "./new-published-NE-visibility.page";
 import { ViewTimestampFunctionality } from "./actual-forecast-timestamp.page";
 import { AsyncPublishFunctionality } from "./publish-async-process.page";
-import { signInPage } from "./signin.page";
 import { LandingPageValidation } from "./landing.page"
 
 
@@ -74,9 +73,6 @@ export class SSDMPageFactory {
 
     asyncPublishProcess(){
       return new AsyncPublishFunctionality(this.page);
-    }
-    signInpage(){
-      return new signInPage(this.page)
     }
     landingPage(){
       return new LandingPageValidation(this.page)

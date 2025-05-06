@@ -1,6 +1,4 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { Utility } from "../../common/fixtures/utils";
-import { PageFactory } from "../../common/pages/page-factory";
 import { testData } from '../testdata/fileName.json';
 
 export class LandingPageValidation {
@@ -11,43 +9,126 @@ export class LandingPageValidation {
     readonly drpSortGroupBy: Locator;
     readonly btnSettings: Locator;
     readonly btnFilter: Locator;
+    readonly searchFilter: Locator;
+    readonly searchResult: Locator;
+    readonly btnClearFilter: Locator;
+    readonly checkbox: Locator;
+    readonly sort_AZ: Locator;
+    readonly sort_ZA: Locator;
+    readonly recentUpdate: Locator; 
+    readonly btnClose: Locator;
+    readonly sameNode: Locator;
+    readonly owner: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.searchBox = page.locator('[placeholder="Search"]');
+        this.searchBox = page.locator('input[type="search"]');
         this.btnInput = page.locator('//button[text()="Inputs"]');
         this.btnCalculations = page.locator('//button[text()="Calculations"]');
         this.drpSortGroupBy = page.locator('//button[text()="Sort / Group by"]');
+        // '//div[text()="Sort / Group by"]'
         // ' //div[contains(@class,"MuiBox-root css-1xswck6")]'
         this.btnSettings = page.locator('//button[aria-label="Gear"]')
         this.btnFilter = page.locator('//button[aria-label="Filter"]')
+        this.searchFilter = page.locator('//input[contains(@class,"textfield")]');
+        this.searchResult = page.locator('//i[contains(@class,"ld")]');
+        this.btnClearFilter = page.locator('//button[text()="Clear Filter"]');
+        this.checkbox = page.locator('input[type="checkbox"]');
+        this.sort_AZ = page.locator('div[text()="Metric Name - A-Z"]');
+        this.sort_ZA = page.locator('div[text()="Metric Name - Z-A"]');
+        this.recentUpdate = page.locator('div[text()="Recently Updated"]');
+        this.btnClose = page.locator('//button[text()="Close"]');
+        this.sameNode = page.locator('div[text()="Same node variations"]');
+        this.owner = page.locator('div[text()="Owner"]');
     }
 
     async Search(){
        await this.searchBox.isVisible();
-      // await expect(searchBox).toBeEnabled();
-      await expect(this.searchBox).toHaveAttribute('placeholder','Search',{timeout: 60000})
     }
 
     async Count(){
-      await expect(this.btnInput).toBeVisible();
-      await expect(this.btnInput).toBeEnabled();
-      await expect(this.btnCalculations).toBeVisible();
-      await expect(this.btnCalculations).toBeEnabled();
+      await this.btnInput.isVisible();
+      await this.btnCalculations.isVisible();
     }
     
     async SortGroup(){
-      await expect(this.drpSortGroupBy).toBeVisible();
-      await expect(this.drpSortGroupBy).toBeEnabled();
+      await this.drpSortGroupBy.isVisible();
     }
 
     async Settings(){
-      await expect (this.btnSettings).toBeVisible();
-      await expect (this.btnSettings).toBeEnabled();
+      await this.btnSettings.isVisible();
     }
     async Filter(){
-      await expect (this.btnFilter).toBeVisible();
-      await expect (this.btnFilter).toBeEnabled();
+      await this.btnFilter.isVisible();
+    }
+    async completeSearch(){
+      await this.searchBox.click();
+      await this.searchBox.fill('Cost per Delivery');
+    }
+    async partialSearch(){
+      await this.searchBox.click();
+      await this.searchBox.fill('Cost per');
+    }
+    async incorrectSearch(){
+      await this.searchBox.click();
+      await this.searchBox.fill('Growth');
+    }
+    async monthFilter(){
+      await this.btnFilter.isVisible();
+      await this.btnFilter.click();
+    }
+    async channelFilter(){
+      await this.btnFilter.isVisible();
+      await this.btnFilter.click();
+    }
+    async ownerFilter(){
+      await this.btnFilter.isVisible();
+      await this.btnFilter.click();
+     }
+    async departmentFilter(){
+      await this.btnFilter.isVisible();
+      await this.btnFilter.click();
+    }
+    async entityFilter(){
+      await this.btnFilter.isVisible();
+      await this.btnFilter.click();
+    }
+    async clearAllFilter(value: string){
+      await this.btnFilter.isVisible();
+      await this.btnFilter.click();
+      await this.searchFilter.fill(value)
+      await this.page.waitForTimeout(1000);
+      await this.searchResult.isVisible();
+      await this.page
+          .getByLabel(`${value}`, { exact: true })
+          .check();
+      await this.page.keyboard.press("Escape");
+      await this.btnClearFilter.click();
+    }
+    async tableSettings(){
+      await this.checkbox.isVisible();
+      await this.checkbox.click();
+      await this.btnClose.click();
     }
 
+    async sortAZ(){
+       await this.drpSortGroupBy.click();
+       await this.sort_AZ.click();
+    }
+    async sortZA(){
+      await this.drpSortGroupBy.click();
+      await this.sort_ZA.click();
+    }
+    async recentupdate(){
+      await this.drpSortGroupBy.click();
+      await this.recentUpdate.click();
+    }
+    async groupNode(){
+      await this.drpSortGroupBy.click();
+      await this.sameNode.click();
+    }
+    async groupOwner(){
+      await this.drpSortGroupBy.click();
+      await this.owner.click();
+  }
 }
