@@ -1,7 +1,7 @@
 [    
   {
     "environment": "qa",
-    "labels": ["smoke", "snapshots"],
+    "labels":  ["smoke","BG-38035","Nidhi"],
     "service":"coreService",
     "uri":"snapshots",
     "testName": "validate compute snapshots API - as Forecast",
@@ -26,7 +26,7 @@
   },
   {
     "environment": "qa",
-    "labels": ["smoke", "snapshots"],
+    "labels":  ["smoke","BG-38034","Nidhi"],
     "service":"coreService",
     "uri":"snapshots",
     "testName": "validate compute snapshots API - as OTB",
@@ -51,7 +51,7 @@
   },
   {
     "environment": "qa",
-    "labels": ["smoke", "snapshots"],
+    "labels":  ["smoke","BG-38033","Nidhi"],
     "service":"coreService",
     "uri":"snapshots",
     "testName": "validate compute snapshots API - as Budget",
