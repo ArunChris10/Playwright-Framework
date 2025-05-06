@@ -1,7 +1,7 @@
 import { test, expect, request,APIRequestContext } from '@playwright/test';
 import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
-import { findAllValuesByKey,findRelativeValue,loadJSON } from '../apiutility/utils/jsonUtils';
+import { findAllValuesByKey,findRelativeValue,loadJSON, findFirstValuesByKey } from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions} from '../apiutility/utils/commonUtil'
@@ -18,6 +18,7 @@ export interface ApiTestCase {
   payload?: any;
   assertion?: AssertionEntry;
   extract?: { [key: string]: string };
+  extractFirst?: { [key: string]: string };
   validateExtract?: { [key: string]: string };
   polling?: {
     key: string;           
@@ -47,7 +48,8 @@ interface ParentConfig {
   user: string;
   testFiles: string[];
   coreService :{ baseURL: { [key: string]: string },testCaseName : string} 
-  notificationService :{ baseURL: { [key: string]: string },testCaseName : string} 
+  notificationService: { baseURL: { [key: string]: string }, testCaseName: string } 
+  reportingService:  { baseURL: { [key: string]: string }, testCaseName: string } 
   nexusService:{ baseURL: { [key: string]: string },testCaseName : string} 
 }
 
@@ -102,6 +104,10 @@ parentConfig.testFiles.forEach(testCasePath => {
     else if (testCase.service == "notificationService") {
       baseUrl = parentConfig.notificationService.baseURL[testCase.environment];
     } 
+    else if (testCase.service == "reportingService") {
+      baseUrl = parentConfig.reportingService.baseURL[testCase.environment];
+    } 
+
     else if (testCase.service == "nexusService") {
       baseUrl = parentConfig.nexusService.baseURL[testCase.environment];
     } 
@@ -138,6 +144,17 @@ parentConfig.testFiles.forEach(testCasePath => {
           }
           globalStore[globalVar] = value;
           }          
+        }
+      }
+      if (testCase.extractFirst) {
+        let value;
+        for (const globalVar in testCase.extractFirst) {
+          value = findFirstValuesByKey(responseBody, testCase.extractFirst[globalVar].replace(/^body\./, ''));
+
+          if (value == undefined || value.length == 0) {
+            throw new Error(`Key ${testCase.extractFirst[globalVar]} not found in response body`);
+          }
+          globalStore[globalVar] = value;       
         }
       }
 
