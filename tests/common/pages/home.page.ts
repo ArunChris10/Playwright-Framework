@@ -7,7 +7,8 @@ export class Home {
   constructor(page: Page) {
     this.page = page;
     this.pageHeading = this.page.getByText('IBG');
-    this.menu = this.page.getByLabel("menu");
+    this.menu = this.page.getByLabel("menu")
+
   }
 
   async open(menuOption: string) {

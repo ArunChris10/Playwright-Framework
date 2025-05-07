@@ -50,11 +50,7 @@ export default defineConfig({
      */
     timeout: 1 * 30 * 1000,
   },
-  // webServer: {
-  //   command: 'npx playwright test --port 8899',
-  //   port: 8899,
-  //   timeout: 120000,
-  // },
+ 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */

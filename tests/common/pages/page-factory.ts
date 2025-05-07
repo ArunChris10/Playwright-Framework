@@ -8,7 +8,7 @@ import { SSDMPageFactory } from "../../ssdm-fe/pages/ssdm-page-factory";
 import { ForecastComparisonPageFactory } from "../../ufm-fe/pages/forecast-compare.page";
 
 export class PageFactory {
-    public readonly page: Page;
+    private readonly page: Page;
     constructor(page: Page) {
         this.page = page;
     }
