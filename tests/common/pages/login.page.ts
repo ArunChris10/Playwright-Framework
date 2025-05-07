@@ -19,6 +19,8 @@ export class LoginPage {
     this.drpCountry = page.locator("#domainName");
     this.drpLocation = page.locator("#BU");
     this.btnSignIn = page.getByText("SIGN IN");
+
+
   }
 
   async login(userName) {
