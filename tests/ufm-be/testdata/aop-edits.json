@@ -338,6 +338,34 @@
         "dim_val_id": 130001,
         "bypass_creation_limit_for_lob":"MERCHOPS"
     },
+    "createAOPScenarioPayload":{
+        "type": 84,
+        "source": {
+            "scenarios": [
+                {
+                    "scenario_id": 10441744870418, 
+                    "version" : 1744870419 
+                }
+            ],
+            "datasets": [
+                {
+                    "dataset_id": 10051697018006
+                            },
+                {
+                    "dataset_id": 10041697017824
+                },
+                {
+                    "dataset_id": 10061697018013
+                }
+                   
+            ]
+        },
+        "name": "AOP Scenario",
+        "classification_id": 11,
+        "dim_id": 13,
+        "dim_val_id": 130001,
+        "bypass_creation_limit_for_lob":"AOP"
+    },
     "secondIterationEditsPayload" : [
             {
                 "node_var_name": "grossgmv",
@@ -413,5 +441,7 @@
                     "method": 29
                 }
             }
-        ]
+        ],
+    "demand_compute_endpoint":"/scenario/demand-compute",
+    "demandComputeSuccessMessage":"Successfully computed demand admin scenario"
 }
