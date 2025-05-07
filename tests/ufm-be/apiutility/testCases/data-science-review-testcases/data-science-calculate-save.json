@@ -4,7 +4,8 @@
     "labels": [
       "smoke",
       "Pre-Req",
-      "BG-35040",
+      "IBGROW-35040",
+      "IBGROW-34988",
       "Nidhi"
     ],
     "service": "coreService",
@@ -34,7 +35,8 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "BG-35040",
+      "IBGROW-35040",
+      "IBGROW-34988",
       "Nidhi"
     ],
     "service": "coreService",
@@ -82,7 +84,8 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "BG-35040",
+      "IBGROW-35040",
+      "IBGROW-34988",
       "Nidhi"
     ],
     "service": "coreService",
