@@ -3,57 +3,48 @@ import { LoginPage } from "../../common/pages/login.page";
 import { TIMEOUT } from '../constants/timeout.json';
 import { Home } from '../../common/pages/home.page';
 import { matchers } from 'playwright-expect';
+import { Utility } from "../../common/fixtures/utils";
 
+// Extend Playwright's expect with custom matchers
 expect.extend(matchers);
 
-  // export async function signinUtility(page?) {
-    //              this.page = page;
-    //             // const { uiAppBaseURL } = process.env;
-    //             // await page.waitForURL(process.env.uiAppBaseURL + "", { timeout: 300000 })
-    //             await page.goto(process.env.uiAppBaseURL + "", { timeout: 300000 })
-    //             const loginPage = new LoginPage(page);
+// Class to handle sign-in utility functions
+export class signinUtility {
 
-    //             await page.locator('[placeholder ="User ID (e.g. wm5p4rk)"]').fill('LB-ibg-ufm-auto');
-    //             //await loginPage.login(ufmUser);
-    //             await page.locator('[placeholder="Password"]').fill('f@k4p@8H');
-    //             //   await Utility.getLoginPassword(userId)    
-    //             await page.locator('[id="domainName"]').selectOption('Lab');
-    //             await page.locator('[id="BU"]').selectOption('Homeoffice');
-    //             //await page.pause()
-    //             await page.locator('[title="Sign In"]').click();
-    // }
-
-    export class signinUtility {
-
+    // Static properties to hold references to page elements and configurations
     static page: Page;
     static password: Locator;
     static userId: Locator;
     static country: Locator;
     static location: Locator;
     static signIn: Locator;
-    //static authFile = 'secrets/user-storagestate.json';
+    // URL endpoint and username are fetched from environment variables
     static readonly urlEndpoint = process.env.uiAppBaseURL + "";
-    
-  
+    static readonly userName = process.env.ufmUser;
+
+    // Method to initialize locators for the sign-in page
     static async initialize(page: Page) {
-      this.page = page;
-      this.userId = page.getByPlaceholder("User ID (e.g. wm5p4rk)");
-      this.password = page.getByPlaceholder("Password");
-      this.country = page.locator("#domainName");
-      this.location = page.locator("#BU");
-      this.signIn = page.getByText("SIGN IN");
+        this.page = page;
+        // Locate input fields and buttons using placeholders and selectors
+        this.userId = page.getByPlaceholder("User ID (e.g. wm5p4rk)");
+        this.password = page.getByPlaceholder("Password");
+        this.country = page.locator("#domainName");
+        this.location = page.locator("#BU");
+        this.signIn = page.getByText("SIGN IN");
     }
-  
-    static async SignIn(page1 : Page) {
-      await page1.goto(this.urlEndpoint, { timeout: 300000 });
-      this.initialize(page1);
-      await this.userId.fill('LB-ibg-ufm-auto');
-      await this.password.fill('f@k4p@8H');
-      // await this.country.fill('Lab')
-      // await this.location.fill('Homeoffice')
-      await this.signIn.click();
+
+    // Method to perform the sign-in operation
+    static async SignIn(page1: Page) {
+        // Navigate to the application URL with a timeout
+        await page1.goto(this.urlEndpoint, { timeout: 300000 });
+        // Initialize locators for the page
+        this.initialize(page1);
+        // Fill in the user ID and password fields
+        await this.userId.fill(String(this.userName));
+        await this.password.fill(await Utility.getLoginPassword(String(this.userName)));
+        // Click the sign-in button to log in
+        await this.signIn.click();
     }
-  
-    }
+}
 
 
