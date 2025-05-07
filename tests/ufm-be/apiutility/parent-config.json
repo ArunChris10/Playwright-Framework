@@ -1,17 +1,45 @@
 {
-  "baseURL": {
-    "IBG": "https://ibg-ufm2-ui.qa.walmart.com/api/",
-    "userPreference": "https://ibgworkbench2.qa.walmart.com/api/",
-    "CanedReports":"https://ibg-ufm-canned-reports.qa.walmart.com/api/"
-  },
   "headers": {
     "Content-Type": "application/json",
     "Authorization": "{{token}}"
   },
-  "user":"LB-ibg-ufm-auto",
-  "runTags": ["smoke", "login"],
+  "user": "LB-ibg-ufm-auto",
   "testFiles": [
-
-
-  ]
+    "testCases/excel-load-data-api-tests.json",
+    "testCases/scenario-snapshots-api-tests.json",
+      "testCases/create-view-api-tests.json"
+  ],
+  "coreService": {
+    "baseURL": {
+      "qa": "https://ibg-ufm-core-service.qa.ibg.walmart.com",
+      "dev": "https://ibg-ufm-core-service.dev.ibg.walmart.com"
+    },
+    "getScreenId": "/filter/screen_details?",
+    "listHistoricals": "/scenario/list-historicals?",
+    "snapshots": "/archive/"
+      
+  },
+  "notificationService": {
+    "baseURL": {
+      "qa": "https://api.notifications.qa.ibg.walmart.com/api/v3/",
+      "dev": "https://api.notifications.dev.ibg.walmart.com/api/v3/"
+        
+    },
+    "notifications": "notifications/?"
+    },
+    "nexusService": {
+      "baseURL":{
+        "qa":"https://nexus-wizard-preference-manager.api.qa.walmart.com/api/v1",
+        "dev":"https://nexus-wizard-preference-manager.api.dev.walmart.com/api/v1"
+        
+      },
+      "create-nexus-preference":"/apps/preferences/configurations"
+  },
+  "reportingService": {
+    "baseURL": {
+      "qa": "https://ibg-ufm-reporting-proxy.qa.ibg.walmart.com",
+      "dev": "https://ibg-ufm-reporting-proxy.dev.ibg.walmart.com"
+    },
+    "scenarios": "/scenarios"
+  }
 }

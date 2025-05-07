@@ -14,6 +14,10 @@ export class Home {
     await this.page.getByRole("tab", { name: menuOption }).click();
   }
 
+  async openMenuitem(menuOption: string) {
+    await this.page.getByRole('menuitem', { name: menuOption }).click();
+  }
+
   async checkIfHomepageIsVisible() {
     await expect(this.pageHeading.first()).toBeVisible();
   }

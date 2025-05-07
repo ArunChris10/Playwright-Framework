@@ -10,13 +10,15 @@ export class CreateForecastPopup {
   readonly btnForecastCreateFinalOption: Locator;
   readonly spinner: Locator;
   readonly createForecastHeader: Locator
+  readonly primary: Locator;
 
   constructor(page: Page) {
 
     this.page = page;
     this.btncreateForecastButton = page.getByText('Create forecast');
+    this.primary = page.getByText('PRIMARY')
     this.btnContinue = page.getByText('Continue');
-    this.drpBaseForecastOption = page.locator('select');
+    this.drpBaseForecastOption = page.getByText('Select base forecast');
     this.spinner = page.locator("//span[contains(@class, 'Spinner')]");
     this.btnForecastCreateFinalOption = page.getByTestId("create-forecast-id");
     this.createForecastHeader = page.getByRole('heading', { name: 'Create forecast' })
@@ -46,8 +48,9 @@ export class CreateForecastPopup {
     return customName
   }
 
-  async selectBaseForecastPrimaryOption(baseForecastsPrimary: string) {
-    await this.drpBaseForecastOption.selectOption({ label: baseForecastsPrimary });
+  async selectBaseForecastPrimaryOption() {
+    await this.drpBaseForecastOption.click()
+    await this.primary.click()
   }
 
   async clickOnCreateForecastFinalButton() {

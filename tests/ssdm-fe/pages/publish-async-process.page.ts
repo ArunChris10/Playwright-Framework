@@ -10,6 +10,9 @@ export class AsyncPublishFunctionality {
     readonly btnConfirm: Locator;
     readonly publishInProgressStatus: Locator;
     readonly progressbar: Locator;
+    readonly btnSsdm: Locator;
+    readonly progressPctOnNEGrid: Locator;
+    readonly publishStatus: Locator;
 
 
     constructor(page: Page) {
@@ -20,6 +23,9 @@ export class AsyncPublishFunctionality {
         this.btnConfirm = this.page.locator('//button[text()="Confirm"]');
         this.publishInProgressStatus = this.page.locator('//p[@class="publishStatusLbl"]');
         this.progressbar = this.page.locator('//span[contains(@role, "progressbar")]');
+        this.btnSsdm = this.page.locator('//span[text()="ssdm"]');
+        this.progressPctOnNEGrid = this.page.locator('//span[contains(@class,"ProgressIndicator-module_label_")]');
+        this.publishStatus = this.page.locator('(//span[contains(@class,"status-info-text")])[1]');
 
     }
     async clickOnToolTip() {
@@ -63,5 +69,48 @@ export class AsyncPublishFunctionality {
 
     async enterESCKey() {
         await this.page.keyboard.press('Escape');
+    }
+
+    async navigatesBackToHomePage() {
+        await this.btnSsdm.click();
+
+    }
+
+    async verifyProgressPctOnMyKpi() {
+        const percentageMatch = await this.publishInProgressStatus.innerText();
+        const kpiPercentage = percentageMatch?.match(/(\d+)%/)?.[1] ?? 'Percentage not found';
+        console.log(`Percentage: ${kpiPercentage}`);
+        return kpiPercentage;
+
+    }
+
+    async verifyProgressPctOnNEGrid() {
+        const percentageNoMatch = await this.progressPctOnNEGrid.innerText();
+        const homePagePercentage = percentageNoMatch?.match(/(\d+)%/)?.[1] ?? 'Percentage not found';
+        console.log(`Percentage: ${homePagePercentage}`);
+        return homePagePercentage;
+
+    }
+
+    async isPublishButtonVisible() {
+        await expect(this.btnPublish).toBeVisible();
+    }
+
+    async isToolTipHidden() {
+        await expect(this.btnToolTipPublish).toBeHidden();
+    }
+    async isPublishProgressTrackerHidden() {
+        await this.progressbar.isHidden();
+    }
+
+
+    async isToolTipAndProgressBarHiddenInNEGrid() {
+        const statusText = await this.publishStatus.innerText();
+        console.log("Status is:", statusText);
+        if (statusText.includes('success') || statusText.includes('failure')) {
+            console.log(`${statusText} status found`);
+            await expect(this.btnToolTipPublish).toBeHidden();
+            await expect(this.progressbar).toBeHidden();
+        }
     }
 }

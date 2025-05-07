@@ -1,5 +1,5 @@
 import path from "path";
-import { test } from "../../common/fixtures/test-hook";
+import { expect, test } from "../../common/fixtures/test-hook";
 import { PageFactory } from '../../common/pages/page-factory';
 import { TIMEOUT } from '../constants/timeout.json';
 import { testData } from '../testdata/fileName.json';
@@ -48,6 +48,27 @@ test.describe('Verify Visibility Of Publish Button, Publish Progress tracker, Pu
             await objpageFactory.ssdmPageFactory().asyncPublishProcess().visibilityOfContinuousPublishStatusOnClickingToolTip();
             await objpageFactory.ssdmPageFactory().asyncPublishProcess().enterESCKey();
 
+        });
+
+        await test.step('User can see the progress bar percentage for the publish process on my KPI page is the same as the NE grid', async () => {
+            const pctOnKpiPage = await objpageFactory.ssdmPageFactory().asyncPublishProcess().verifyProgressPctOnMyKpi();
+            await objpageFactory.ssdmPageFactory().asyncPublishProcess().navigatesBackToHomePage();
+            await objpageFactory.ssdmPageFactory().newPublishedNE().refresheNEGrid();
+            const pctNEGrid = await objpageFactory.ssdmPageFactory().asyncPublishProcess().verifyProgressPctOnNEGrid();
+            expect(pctOnKpiPage).toBe(pctNEGrid);
+        });
+
+        await test.step('Publish button is enabled again on publish success or failure case in on Kpi page', async () => {
+            await objpageFactory.ssdmPageFactory().asyncPublishProcess().isPublishButtonVisible();
+            
+        });
+
+        await test.step('Publish progress bar and tool tip is hidden on publish success or failure case in NE grid', async () => {
+            await objpageFactory.ssdmPageFactory().asyncPublishProcess().navigatesBackToHomePage();
+            await objpageFactory.ssdmPageFactory().newPublishedNE().refresheNEGrid();
+            await objpageFactory.ssdmPageFactory().asyncPublishProcess().isToolTipAndProgressBarHiddenInNEGrid();
+           
+            
         });
     });
 });

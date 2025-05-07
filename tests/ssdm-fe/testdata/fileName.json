@@ -5,7 +5,7 @@
         "fileFormat": "csv",
         "pathOfIncorrectFile": "../testData/IncorrectNewNodeEdge.csv",
         "computeFailingFile": "../testData/1-24-2 updating MP read visibility and overlapping slice.csv",
-        "computeSuccessFile": "../testData/3-25-1 Jesse's Legacy clean up with Conslidated demand change made.csv",
+        "computeSuccessFile": "../testData/4-18-8 Sierra Marketplace Renaming (3) (3).csv",
         "missingColumns": [
             "metric_Name",
             "metric_var_name"

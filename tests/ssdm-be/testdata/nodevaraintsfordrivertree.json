@@ -1,0 +1,6 @@
+{"getNodeVariantsbyDriverTreeandDriverTreeversionEndPoint":"/api/driver-trees/{driver_tree}/versions/{driver_tree_version}/node-variants-metadata",
+"getNodeVariantPermissionsByDriverTreeandDriverTreeversionEndPoint":"/api/driver-trees/{driver_tree}/versions/{driver_tree_version}/node-variants-permissions",
+"getNodeVariantDimensionsByDriverTreeandDriverTreeversionEndPoint":"/api/driver-trees/{driver_tree}/versions/{driver_tree_version}/node-variants-dimensions",
+"getNodeVariantCompositeDataByDriverTreeandDriverTreeversionEndPoint":"/api/driver-trees/{driver_tree}/versions/{driver_tree_version}/node-variants-composite-metadata",
+"getDriverTree":"/api/driver-trees/"
+}

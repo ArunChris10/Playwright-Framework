@@ -13,8 +13,11 @@
       },
       {
         "assertEquals": {
-          "jsonPath": "screen_sec_name",
-          "value": "Inputter"
+          "jsonPath1": "screen_sec_name",
+          "value1": "Inputter",
+          "jsonPath2": "screen_sect_id",
+          "value2": 103
+
         },
         "assertNotEquals": {
           "jsonPath": "screen_sec_name",

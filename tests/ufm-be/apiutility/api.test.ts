@@ -1,11 +1,10 @@
 import { test, expect, request,APIRequestContext } from '@playwright/test';
 import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
-import { findAllValuesByKey,findRelativeValue,loadJSON } from '../apiutility/utils/jsonUtils';
+import { findAllValuesByKey,findRelativeValue,loadJSON, findFirstValuesByKey } from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions} from '../apiutility/utils/commonUtil'
-import * as payloads from '../apiutility/expected-payloads/payloads'
 import {pollForExpectedResponse} from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../../secrets/nexus-users-token.json";
 
@@ -19,6 +18,7 @@ export interface ApiTestCase {
   payload?: any;
   assertion?: AssertionEntry;
   extract?: { [key: string]: string };
+  extractFirst?: { [key: string]: string };
   validateExtract?: { [key: string]: string };
   polling?: {
     key: string;           
@@ -37,10 +37,10 @@ export interface ApiTestCase {
 
 export type AssertionEntry =
 | { status: number }
-| { assertEquals: { jsonPath: string, value: any } }
-| { assertNotEquals: { jsonPath: string, value: any } }
-| { assertNull: string }
-| { assertNotNull: string }
+| { assertEquals: {[key: string]: string | number;  }}
+| { assertNotEquals: {[key: string]: string | number;  }}
+| { assertNull: {[key: string]: string;};}
+| { assertNotNull: {[key: string]: string;};}
 | { assertResponse: { filePath: string, value: any } };
 
 interface ParentConfig {
@@ -48,8 +48,9 @@ interface ParentConfig {
   user: string;
   testFiles: string[];
   coreService :{ baseURL: { [key: string]: string },testCaseName : string} 
-  notificationService :{ baseURL: { [key: string]: string },testCaseName : string} 
-
+  notificationService: { baseURL: { [key: string]: string }, testCaseName: string } 
+  reportingService:  { baseURL: { [key: string]: string }, testCaseName: string } 
+  nexusService:{ baseURL: { [key: string]: string },testCaseName : string} 
 }
 
 export let response;
@@ -103,7 +104,13 @@ parentConfig.testFiles.forEach(testCasePath => {
     else if (testCase.service == "notificationService") {
       baseUrl = parentConfig.notificationService.baseURL[testCase.environment];
     } 
+    else if (testCase.service == "reportingService") {
+      baseUrl = parentConfig.reportingService.baseURL[testCase.environment];
+    } 
 
+    else if (testCase.service == "nexusService") {
+      baseUrl = parentConfig.nexusService.baseURL[testCase.environment];
+    } 
     const resolvedBaseUrl = baseUrl + parentConfig[testCase.service][testCase.uri] +interpolate(testCase.queryParams);
     const interpolatedHeader = interpolateObject(parentConfig.headers);
     test(testCase.testName, async () =>  {
@@ -137,6 +144,17 @@ parentConfig.testFiles.forEach(testCasePath => {
           }
           globalStore[globalVar] = value;
           }          
+        }
+      }
+      if (testCase.extractFirst) {
+        let value;
+        for (const globalVar in testCase.extractFirst) {
+          value = findFirstValuesByKey(responseBody, testCase.extractFirst[globalVar].replace(/^body\./, ''));
+
+          if (value == undefined || value.length == 0) {
+            throw new Error(`Key ${testCase.extractFirst[globalVar]} not found in response body`);
+          }
+          globalStore[globalVar] = value;       
         }
       }
 
