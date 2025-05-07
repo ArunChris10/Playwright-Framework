@@ -34,6 +34,30 @@ export function findAllValuesByKey(obj: any, path: string): any[] {
   return results;
 }
 
+export function findFirstValuesByKey(obj: any, path: string): any[] {
+  const results: any[] = [];
+  const pathSegments = path.split(".");
+
+  function traverse(current: any, remainingPath: string[]) {
+    if (remainingPath.length === 0) {
+      results.push(current);
+      return;
+    }
+
+    const [key, ...restPath] = remainingPath;
+
+    if (Array.isArray(current)) {
+      for (const item of current) {
+        traverse(item, remainingPath); // don't consume key yet, we are still at array level
+      }
+    } else if (current && typeof current === "object" && key in current) {
+      traverse(current[key], restPath);
+    }
+  }
+
+  traverse(obj, pathSegments);
+  return results.length > 0 ? results[0] : results;
+}
 export function loadJSON<T>(filePath: string): T {
   const data =  fs.readFileSync(path.resolve(__dirname, filePath), 'utf-8');
   return JSON.parse(data);

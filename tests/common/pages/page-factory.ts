@@ -5,6 +5,7 @@ import { LoginPage } from "./login.page";
 import { UFMPageFactory } from "../../ufm-fe/pages/ufm-page-factory";
 import { Utility } from "../fixtures/utils";
 import { SSDMPageFactory } from "../../ssdm-fe/pages/ssdm-page-factory";
+import { ForecastComparisonPageFactory } from "../../ufm-fe/pages/forecast-compare.page";
 
 export class PageFactory {
     private readonly page: Page;
@@ -31,6 +32,10 @@ export class PageFactory {
 
     ssdmPageFactory() {
         return new SSDMPageFactory(this.page)
+    }
+
+    forecastComparisonPageFactory() {
+        return new ForecastComparisonPageFactory(this.page);
     }
 
     quit() {

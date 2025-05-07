@@ -337,5 +337,111 @@
         "dim_id": 13,
         "dim_val_id": 130001,
         "bypass_creation_limit_for_lob":"MERCHOPS"
-    }
+    },
+    "createAOPScenarioPayload":{
+        "type": 84,
+        "source": {
+            "scenarios": [
+                {
+                    "scenario_id": 10441744870418, 
+                    "version" : 1744870419 
+                }
+            ],
+            "datasets": [
+                {
+                    "dataset_id": 10051697018006
+                            },
+                {
+                    "dataset_id": 10041697017824
+                },
+                {
+                    "dataset_id": 10061697018013
+                }
+                   
+            ]
+        },
+        "name": "AOP Scenario",
+        "classification_id": 11,
+        "dim_id": 13,
+        "dim_val_id": 130001,
+        "bypass_creation_limit_for_lob":"AOP"
+    },
+    "secondIterationEditsPayload" : [
+            {
+                "node_var_name": "grossgmv",
+                "node_dimension": {},
+                "data": {
+                    "202909": 80000000
+                },
+                "allocation": {
+                    "interval": null,
+                    "offset": null,
+                    "method": 29
+                }
+            },
+            {
+                "node_var_name": "unitsgrossuomng_input",
+                "node_dimension": {},
+                "data": {
+                    "202909": 80000000
+                },
+                "allocation": {
+                    "interval": null,
+                    "offset": null,
+                    "method": 29
+                }
+            },
+            {
+                "node_var_name": "returnedunitsopspctofopsunits_input",
+                "node_dimension": {},
+                "data": {
+                    "202909": 0.08
+                },
+                "allocation": {
+                    "interval": null,
+                    "offset": null,
+                    "method": 29
+                }
+            }
+        ],
+    "thirdIterationEditsPayload" : [
+            {
+                "node_var_name": "grossgmv",
+                "node_dimension": {},
+                "data": {
+                    "202909": 90000000
+                },
+                "allocation": {
+                    "interval": null,
+                    "offset": null,
+                    "method": 29
+                }
+            },
+            {
+                "node_var_name": "unitsgrossuomng_input",
+                "node_dimension": {},
+                "data": {
+                    "202909": 90000000
+                },
+                "allocation": {
+                    "interval": null,
+                    "offset": null,
+                    "method": 29
+                }
+            },
+            {
+                "node_var_name": "returnedunitsopspctofopsunits_input",
+                "node_dimension": {},
+                "data": {
+                    "202909": 0.09
+                },
+                "allocation": {
+                    "interval": null,
+                    "offset": null,
+                    "method": 29
+                }
+            }
+        ],
+    "demand_compute_endpoint":"/scenario/demand-compute",
+    "demandComputeSuccessMessage":"Successfully computed demand admin scenario"
 }

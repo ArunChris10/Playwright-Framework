@@ -1,13 +1,12 @@
 [    
   {
+  "environment": "qa",
   "testIdentifier": "getScreenDetails",
   "testName": "validate get-screen-details",
-  "baseURL":"CanedReports",
-  "uri": "ufm/get-screen-details",
-  "method": "POST",
-  "payload": {
-    "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/filter/screen_details?dim_id=12&dim_val_id=120006"
-  },
+  "uri": "getScreenId",
+  "method": "GET",
+  "service": "coreService",
+  "queryParams": "dim_id=12&dim_val_id=120006",
   "assertions": {
     "status": 200 
   },

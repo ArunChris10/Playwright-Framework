@@ -5,12 +5,11 @@
     },
     "user":"LB-ibg-ufm-auto",
     "testFiles": [
-     "testCases/scenario-snapshots-api-tests.json",
+      "testCases/excel-load-data-api-tests.json",
+      "testCases/scenario-snapshots-api-tests.json",
       "testCases/create-view-api-tests.json",
       "testCases/data-science-review-testcases/data-science-calculate-save.json",
       "testCases/data-science-review-testcases/aop-calculate-save.json"
-     
-  
     ],
     "coreService": {
       "baseURL":{
@@ -24,15 +23,14 @@
       "allocateData":"/allocate-data",
       "saveAdjustment":"/adjustment/",
       "getKpi":"/reports/get-mykpi"
-      
-    },
-    "notificationService": {
-      "baseURL":{
-        "qa":"https://api.notifications.qa.ibg.walmart.com/api/v3/",
-        "dev":"https://api.notifications.dev.ibg.walmart.com/api/v3/"
+  },
+  "notificationService": {
+    "baseURL": {
+      "qa": "https://api.notifications.qa.ibg.walmart.com/api/v3/",
+      "dev": "https://api.notifications.dev.ibg.walmart.com/api/v3/"
         
-      },
-      "notifications": "notifications/?"
+    },
+    "notifications": "notifications/?"
     },
     "nexusService": {
       "baseURL":{
@@ -41,7 +39,12 @@
         
       },
       "create-nexus-preference":"/apps/preferences/configurations"
-    }
-
+  },
+  "reportingService": {
+    "baseURL": {
+      "qa": "https://ibg-ufm-reporting-proxy.qa.ibg.walmart.com",
+      "dev": "https://ibg-ufm-reporting-proxy.dev.ibg.walmart.com"
+    },
+    "scenarios": "/scenarios"
+  }
 }
-
