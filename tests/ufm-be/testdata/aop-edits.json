@@ -19,6 +19,7 @@
     "unitsreturnedops":"unitsreturnedops",
     "returnedunitsuomng":"returnedunitsuomng",
     "adjustment_success":"New adjustment created successfully!!",
+    "getVisualIndicatorEndpoint": "/scenario/scenario-composition",
     "allocation_payload":{
         "adjustment_metadata": {
             "adjustment_name": "adj",
@@ -205,6 +206,28 @@
         "dim_val_id": 130001,
         "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/adjustment/"
     },
+    "visualIndicatorActualsUpdated" : "Actuals updated",
+    "kpiTemplateIncludeHeaderArr" : [
+        {
+            "name": "Driver"
+        },
+        {
+            "name": "",
+            "columnsMenuParams": "fixedColumns"
+        },
+        {
+            "name": "Allocation Method",
+            "columnsMenuParams": "action"
+        },
+        {
+            "name": "Forecast",
+            "editable": true
+        },
+        {
+            "name": "Value",
+            "editable": true
+        }
+    ],
     "getInputDriverKpiForecast":{
         "endpoint": "/reports/get-mykpi",
         "payload":{
