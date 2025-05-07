@@ -5,10 +5,9 @@
     },
     "user":"LB-ibg-ufm-auto",
     "testFiles": [
-      "testCases/scenario-snapshots-api-tests.json",
-      "testCases/create-view-api-tests.json",
-      "testCases/data-science-review-testcases/data-science-calculate-save.json",
-      "testCases/data-science-review-testcases/aob-calculate-save.json"
+     
+      "testCases/data-science-review-testcases/data-science-calculate-save.json"
+     
   
     ],
     "coreService": {
@@ -21,7 +20,8 @@
       "snapshots":"/archive/",
       "getDataScienceInfo":"/scenario/data-science/info",
       "allocateData":"/allocate-data",
-      "saveAdjustment":"/adjustment/"      
+      "saveAdjustment":"/adjustment/",
+      "getKpi":"/reports/get-mykpi"
       
     },
     "notificationService": {
