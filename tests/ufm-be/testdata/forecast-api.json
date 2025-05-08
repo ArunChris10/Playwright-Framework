@@ -1,5 +1,6 @@
 {
   "endpoint": "/scenario/",
+  "createendpoint": "/scenario/create-user-scenario",
   "editNameendpoint": "/scenario/forecast-name",
   "createSuccessMessage": "Scenario created successfully",
   "createAlreadyMessage": "Forecast scenario with name 'scenarioName' already exist for current period! Please try with different name.",

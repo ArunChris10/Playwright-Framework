@@ -238,7 +238,7 @@ export class UfmPerfUtility {
     forecastName = "",
     isError = false
   ) {
-    const endpoint = forecastData.endpoint;
+    const endpoint = forecastData.createendpoint;
     const PrimaryId = process.env.envName + "Primary";
     let payload = {
       type: commonData.type,

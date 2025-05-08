@@ -4,7 +4,7 @@ import { globalStore } from '../apiutility/globalStore';
 import { findAllValuesByKey,findRelativeValue,loadJSON, findFirstValuesByKey } from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
-import {validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions} from '../apiutility/utils/commonUtil'
+import {validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions, getDynamicMonth} from '../apiutility/utils/commonUtil'
 import {pollForExpectedResponse} from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../../secrets/nexus-users-token.json";
 
@@ -60,6 +60,7 @@ function populateGlobalStore() {
 
   globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
   globalStore["randomNumber"] = generateRandomNumber(3);
+  globalStore["dynamicMonth"] = getDynamicMonth();
 
 }
 populateGlobalStore();
