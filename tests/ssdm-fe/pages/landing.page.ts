@@ -61,19 +61,16 @@ export class LandingPageValidation {
     }
     async completeSearch(){
       await this.searchBox.isVisible();
-      await this.searchBox.isEnabled();
       await this.searchBox.click();
       await this.searchBox.fill(testData.completeSearch);
     }
     async partialSearch(){
       await this.searchBox.isVisible();
-      await this.searchBox.isEnabled();
       await this.searchBox.click();
       await this.searchBox.fill(testData.partialSearch);
     }
     async incorrectSearch(){
       await this.searchBox.isVisible();
-      await this.searchBox.isEnabled();
       await this.searchBox.click();
       await this.searchBox.fill(testData.incorrectSearch);
     }
