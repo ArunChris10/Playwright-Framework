@@ -10,6 +10,8 @@ try{
       return await context.post(endpoint, { data: payload });
     case 'PUT':
       return await context.put(endpoint, { data: payload });
+    case 'PATCH':
+      return await context.patch(endpoint, { data: payload });
     case 'DELETE':
       return await context.delete(endpoint);
     default:

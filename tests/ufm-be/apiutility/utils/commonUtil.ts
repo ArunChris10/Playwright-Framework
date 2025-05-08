@@ -95,7 +95,9 @@ let filePathOfPayload;
     const interpolated: any = Array.isArray(obj) ? [] : {};
     for (const key in obj) {
       const val = obj[key];
-      interpolated[key] = typeof val === 'object' ? interpolateObject(val) : interpolate(val);
+      const interpolatedKey = interpolate(key);
+      const interpolatedVal = typeof val === 'object' ? interpolateObject(val) : interpolate(val);
+      interpolated[interpolatedKey] = interpolatedVal;
     }
     return interpolated;
   }
@@ -104,6 +106,7 @@ let filePathOfPayload;
 
   export function validateAssertions(response:any,responseBody: any, assertions: any[], testcase: ApiTestCase) {
     assertions.forEach((assertion) => {
+
       assertion.forEach(async arrayOfAssertion  => {
         if ('status' in arrayOfAssertion) {
             // Handle status assertion
@@ -121,8 +124,7 @@ let filePathOfPayload;
               for (let index = 0; index < keys.length; index += 2) {
                 const jsonPathKey = keys[index];
                 const valueKey = keys[index + 1];
-        
-                const jsonPath = arrayOfAssertion.assertEquals[jsonPathKey];
+                let jsonPath = interpolate(arrayOfAssertion.assertEquals[jsonPathKey]);
                 const expectedValue = arrayOfAssertion.assertEquals[valueKey];
                 const actualValue = findAllValuesByKey(responseBody, jsonPath);
                 expect(actualValue).toContain(expectedValue); // Assert the equality
@@ -175,4 +177,12 @@ let filePathOfPayload;
         }         
       });     
     });
+  }
+
+  export function getDynamicMonth(): string {
+      const now = new Date();
+      now.setMonth(now.getMonth() + 1); 
+      const year = now.getFullYear() + 1;
+      const monthString = (now.getMonth() + 1).toString().padStart(2, '0'); // Ensure 2-digit month
+    return `${year}${monthString}`;
   }

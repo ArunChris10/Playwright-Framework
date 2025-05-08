@@ -1,23 +1,28 @@
 {
-  "headers": {
-    "Content-Type": "application/json",
-    "Authorization": "{{token}}"
-  },
-  "user": "LB-ibg-ufm-auto",
-  "testFiles": [
-    "testCases/excel-load-data-api-tests.json",
-    "testCases/scenario-snapshots-api-tests.json",
-      "testCases/create-view-api-tests.json"
-  ],
-  "coreService": {
-    "baseURL": {
-      "qa": "https://ibg-ufm-core-service.qa.ibg.walmart.com",
-      "dev": "https://ibg-ufm-core-service.dev.ibg.walmart.com"
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "{{token}}"
     },
-    "getScreenId": "/filter/screen_details?",
-    "listHistoricals": "/scenario/list-historicals?",
-    "snapshots": "/archive/"
-      
+    "user":"LB-ibg-ufm-auto",
+    "testFiles": [
+      "testCases/excel-load-data-api-tests.json",
+      "testCases/scenario-snapshots-api-tests.json",
+      "testCases/create-view-api-tests.json",
+      "testCases/data-science-review-testcases/data-science-calculate-save.json",
+      "testCases/data-science-review-testcases/aop-calculate-save.json"
+    ],
+    "coreService": {
+      "baseURL":{
+        "qa":"https://ibg-ufm-core-service.qa.ibg.walmart.com",
+        "dev":"https://ibg-ufm-core-service.dev.ibg.walmart.com"
+      },
+      "getScreenId": "/filter/screen_details?",
+      "listHistoricals":"/scenario/list-historicals?",
+      "snapshots":"/archive/",
+      "getDataScienceInfo":"/scenario/data-science/info",
+      "allocateData":"/allocate-data",
+      "saveAdjustment":"/adjustment/",
+      "getKpi":"/reports/get-mykpi"
   },
   "notificationService": {
     "baseURL": {
