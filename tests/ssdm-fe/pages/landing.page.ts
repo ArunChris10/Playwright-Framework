@@ -26,8 +26,6 @@ export class LandingPageValidation {
         this.btnInput = page.locator('//button[text()="Inputs"]');
         this.btnCalculations = page.locator('//button[text()="Calculations"]');
         this.drpSortGroupBy = page.locator('//button[text()="Sort / Group by"]');
-        // '//div[text()="Sort / Group by"]'
-        // ' //div[contains(@class,"MuiBox-root css-1xswck6")]'
         this.btnSettings = page.locator('//button[aria-label="Gear"]')
         this.btnFilter = page.locator('//button[aria-label="Filter"]')
         this.searchFilter = page.locator('//input[contains(@class,"textfield")]');
@@ -62,16 +60,22 @@ export class LandingPageValidation {
       await this.btnFilter.isVisible();
     }
     async completeSearch(){
+      await this.searchBox.isVisible();
+      await this.searchBox.isEnabled();
       await this.searchBox.click();
-      await this.searchBox.fill('Cost per Delivery');
+      await this.searchBox.fill(testData.completeSearch);
     }
     async partialSearch(){
+      await this.searchBox.isVisible();
+      await this.searchBox.isEnabled();
       await this.searchBox.click();
-      await this.searchBox.fill('Cost per');
+      await this.searchBox.fill(testData.partialSearch);
     }
     async incorrectSearch(){
+      await this.searchBox.isVisible();
+      await this.searchBox.isEnabled();
       await this.searchBox.click();
-      await this.searchBox.fill('Growth');
+      await this.searchBox.fill(testData.incorrectSearch);
     }
     async monthFilter(){
       await this.btnFilter.isVisible();

@@ -22,8 +22,10 @@
         "newlyPublishedNodeEdgeStatus": "IN PROGRESS",
         "dateTimePattern": "(January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4}, \\d{1,2}:\\d{2} (AM|PM)",  
         "publishInProgressMessagePattern": "Publish in progress \\d+%",
-        "publishInProgressToolTipText": "^Currently, there is a publish in progress\\. Once the current publish is complete, you will be able to publish another version of your file\\.\\s*Last published: (January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4} at \\d{1,2}:\\d{2} (AM|PM) by .+$"
-
+        "publishInProgressToolTipText": "^Currently, there is a publish in progress\\. Once the current publish is complete, you will be able to publish another version of your file\\.\\s*Last published: (January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4} at \\d{1,2}:\\d{2} (AM|PM) by .+$",
+        "completeSearch": "Cost per Delivery",
+        "partialSearch": "Cost per",
+        "incorrectSearch": "Growth"
 
     },
     "filterOptions": [
