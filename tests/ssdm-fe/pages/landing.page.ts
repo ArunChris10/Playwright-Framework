@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import { testData } from '../testdata/fileName.json';
 
 export class LandingPageValidation {
@@ -108,23 +108,33 @@ export class LandingPageValidation {
     }
 
     async sortAZ(){
+      await this.drpSortGroupBy.isVisible();
        await this.drpSortGroupBy.click();
+       await this.sort_AZ.isVisible();
        await this.sort_AZ.click();
     }
     async sortZA(){
+      await this.drpSortGroupBy.isVisible();
       await this.drpSortGroupBy.click();
+      await this.sort_ZA.isVisible();
       await this.sort_ZA.click();
     }
     async recentupdate(){
+      await this.drpSortGroupBy.isVisible();
       await this.drpSortGroupBy.click();
+      await this.recentUpdate.isVisible();
       await this.recentUpdate.click();
     }
     async groupNode(){
+      await this.drpSortGroupBy.isVisible();
       await this.drpSortGroupBy.click();
+      await this.sameNode.isVisible();
       await this.sameNode.click();
     }
     async groupOwner(){
+      await this.drpSortGroupBy.isVisible();
       await this.drpSortGroupBy.click();
+      await this.owner.isVisible();
       await this.owner.click();
   }
 }
