@@ -34,7 +34,7 @@ export function findAllValuesByKey(obj: any, path: string): any[] {
   return results;
 }
 
-export function findFirstValuesByKey(obj: any, path: string): any[] {
+export function findFirstValueByKey(obj: any, path: string): any[] {
   const results: any[] = [];
   const pathSegments = path.split(".");
 

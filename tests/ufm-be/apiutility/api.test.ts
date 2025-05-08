@@ -1,7 +1,7 @@
 import { test, expect, request,APIRequestContext } from '@playwright/test';
 import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
-import { findAllValuesByKey,findRelativeValue,loadJSON, findFirstValuesByKey } from '../apiutility/utils/jsonUtils';
+import { findAllValuesByKey,findRelativeValue,loadJSON, findFirstValueByKey } from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions} from '../apiutility/utils/commonUtil'
@@ -147,7 +147,7 @@ parentConfig.testFiles.forEach(testCasePath => {
       if (testCase.extractFirst) {
         let value;
         for (const globalVar in testCase.extractFirst) {
-          value = findFirstValuesByKey(responseBody, testCase.extractFirst[globalVar].replace(/^body\./, ''));
+          value = findFirstValueByKey(responseBody, testCase.extractFirst[globalVar].replace(/^body\./, ''));
 
           if (value == undefined || value.length == 0) {
             throw new Error(`Key ${testCase.extractFirst[globalVar]} not found in response body`);
