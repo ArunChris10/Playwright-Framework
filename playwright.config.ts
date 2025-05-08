@@ -16,8 +16,8 @@ if (!process.env.tag) {
 }
 const grepPattern = process.env.REPO_NAME
   ? new RegExp(
-    "(?=.*" + process.env.tag + ")(?=.*@" + process.env.REPO_NAME + ")"
-  )
+      "(?=.*" + process.env.tag + ")(?=.*@" + process.env.REPO_NAME + ")"
+    )
   : new RegExp("" + process.env.tag);
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -35,9 +35,9 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: process.env.CI
     ? [
-      ["html", { outputFolder: `playwright-report/${process.env.APP_NAME}` }],
-      ["@walmartlabs/testburst-playwright-js-reporter"],
-    ]
+        ["html", { outputFolder: `playwright-report/${process.env.APP_NAME}` }],
+        ["@walmartlabs/testburst-playwright-js-reporter"],
+      ]
     : "html",
   //reporter: "html",
   //reporter: 'allure-playwright',
@@ -50,7 +50,6 @@ export default defineConfig({
      */
     timeout: 1 * 30 * 1000,
   },
- 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -177,7 +176,7 @@ export default defineConfig({
       dependencies: ["api-setup"],
       testMatch: /ssdm-be.*.spec.ts/,
       grep: [new RegExp(process.env.tag + "")],
-
+      
     },
   ],
 });

@@ -20,13 +20,12 @@
     "@types/convert-excel-to-json": "^1.7.4",
     "@types/debug": "^4.1.12",
     "@types/node": "^20.17.16",
-    "allure-playwright": "^2.8.1",
-    "playwright-expect": "^0.1.2"
+    "allure-playwright": "^2.8.1"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/sdk-trace-node": "^1.26.0",
-    "@playwright/test": "^1.52.0",
+    "@playwright/test": "^1.49.1",
     "@walmartlabs/testburst-playwright-js-reporter": "2.0.0",
     "chromium": "^3.0.3",
     "convert-excel-to-json": "^1.7.0",
