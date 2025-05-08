@@ -1,8 +1,8 @@
-import path from "path";
 import { test, expect } from "../../common/fixtures/test-hook";
 import { PageFactory } from '../../common/pages/page-factory';
 import { signinUtility } from "../fixtures/utility";
 import { TIMEOUT } from '../constants/timeout.json';
+import { filterOptions } from '../testdata/fileName.json';
 
 test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @walmart123" }, async () => {
     let objpageFactory: PageFactory;
@@ -13,11 +13,11 @@ test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @
     });
 
     test.beforeEach(async ({ page }) => {
+        test.setTimeout(TIMEOUT);
         await signinUtility.SignIn(page); // Centralized sign-in before each test
     });
 
-    test('Verify Landing page is available with its tabular records', async ({ page }) => {
-        test.setTimeout(TIMEOUT);
+    test('Verify Landing page is available with its tabular records', async () => {
 
         // Verify the search field is displayed on the landing page
         await test.step('Verify the search field is displayed', async () => {
@@ -45,23 +45,20 @@ test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @
         });
     });
 
-    test('Check if the search works with the complete metric name', async ({ page }) => {
-        test.setTimeout(TIMEOUT);
+    test('Check if the search works with the complete metric name', async () => {
+
         await objpageFactory.ssdmPageFactory().landingPage().completeSearch(); // Perform search with complete metric name
     });
 
-    test('Check if the search works with the partial metric name', async ({ page }) => {
-        test.setTimeout(TIMEOUT);
+    test('Check if the search works with the partial metric name', async () => {
         await objpageFactory.ssdmPageFactory().landingPage().partialSearch(); // Perform search with partial metric name
     });
 
-    test('Check if the search response on incorrect metric name', async ({ page }) => {
-        test.setTimeout(TIMEOUT);
+    test('Check if the search response on incorrect metric name', async () => {
         await objpageFactory.ssdmPageFactory().landingPage().incorrectSearch(); // Perform search with incorrect metric name
     });
 
-    test('Check the filter validation functionality', async ({ page }) => {
-        test.setTimeout(TIMEOUT);
+    test('Check the filter validation functionality', async () => {
 
         // Validate filter functionality for the "month" column
         test.step('user selects the "month" column and  should be able to select filter values', async () => {
@@ -88,20 +85,27 @@ test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @
             await objpageFactory.ssdmPageFactory().landingPage().entityFilter();
         });
     });
+    //test the clear-all filter functionality
+    filterOptions.forEach(filterOption => {
+        test('User checks the Clear-all filter button functionality', async () => {
+            for (const [, filterSelection] of Object.entries(filterOption.data)) {
+                await test.step(`Select ${filterSelection["childDropDown"]} ${filterSelection["dropDown"]} ${filterSelection["option"]} filter options`, async () => {
+                    await objpageFactory.ssdmPageFactory().applyFilter().clickOnFiltersButton();
+                    await objpageFactory.ufmPageFactory().currentForecast().clickOnFilterDropdown(filterSelection["dropDown"]);
+                    await objpageFactory.ssdmPageFactory().applyFilter().clickOnFilterOption(filterSelection["childDropDown"]);
+                    await objpageFactory.ssdmPageFactory().applyFilter().searchFilterOption(filterSelection["option"]);
+                    await objpageFactory.ssdmPageFactory().landingPage().clearAllFilter();
+                })
+            }
+        });
+    })
 
-    test('User checks the Clear-all filter button functionality', async ({ page }) => {
-        test.setTimeout(TIMEOUT);
-        // Uncomment the following line to test the clear-all filter functionality
-        // await objpageFactory.ssdmPageFactory().landingPage().clearAllFilter(["option"]);
-    });
 
-    test('User checks the table settings', async ({ page }) => {
-        test.setTimeout(TIMEOUT);
+    test('User checks the table settings', async () => {
         await objpageFactory.ssdmPageFactory().landingPage().tableSettings(); // Validate table settings functionality
     });
 
-    test('User sorts the data rows based on dropdown formats', async ({ page }) => {
-        test.setTimeout(TIMEOUT);
+    test('User sorts the data rows based on dropdown formats', async () => {
 
         // Sort data rows in ascending order
         await objpageFactory.ssdmPageFactory().landingPage().sortAZ();
@@ -113,8 +117,7 @@ test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @
         await objpageFactory.ssdmPageFactory().landingPage().recentupdate();
     });
 
-    test('User groups the data rows based on dropdown formats', async ({ page }) => {
-        test.setTimeout(TIMEOUT);
+    test('User groups the data rows based on dropdown formats', async () => {
 
         // Group data rows by node
         await objpageFactory.ssdmPageFactory().landingPage().groupNode();

@@ -93,16 +93,8 @@ export class LandingPageValidation {
       await this.btnFilter.isVisible();
       await this.btnFilter.click();
     }
-    async clearAllFilter(value: string){
-      await this.btnFilter.isVisible();
-      await this.btnFilter.click();
-      await this.searchFilter.fill(value)
-      await this.page.waitForTimeout(1000);
-      await this.searchResult.isVisible();
-      await this.page
-          .getByLabel(`${value}`, { exact: true })
-          .check();
-      await this.page.keyboard.press("Escape");
+    async clearAllFilter(){
+     await this.btnClearFilter.isVisible();
       await this.btnClearFilter.click();
     }
     async tableSettings(){
