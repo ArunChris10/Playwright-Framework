@@ -57,7 +57,7 @@ Object.entries(lobList).forEach(([org, lob]) => {
                 })
 
                 await test.step(`Click on Open ${org} Frecast`, async () => {
-                    await objpageFactory.ufmPageFactory().currentForecast().clickOnOpenParticularForecast(lob[i])
+                    await objpageFactory.ufmPageFactory().currentForecast().clickOpenForecastByName(scenario_details["name"])
                 })
 
                 await test.step('Click on choose different drivers', async () => {
