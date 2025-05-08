@@ -112,9 +112,11 @@ parentConfig.testFiles.forEach(testCasePath => {
     else if (testCase.service == "nexusService") {
       baseUrl = parentConfig.nexusService.baseURL[testCase.environment];
     } 
-    const resolvedBaseUrl = baseUrl + parentConfig[testCase.service][testCase.uri] +interpolate(testCase.queryParams);
+    
     const interpolatedHeader = interpolateObject(parentConfig.headers);
     test(testCase.testName, async () =>  {
+    const resolvedBaseUrl = baseUrl + parentConfig[testCase.service][testCase.uri] +interpolate(testCase.queryParams);
+    console.log(`Resolved Base URL for test case "${testCase.testName}":`, resolvedBaseUrl);
       requestContext = await request.newContext({
         baseURL: resolvedBaseUrl,
         extraHTTPHeaders: interpolatedHeader,

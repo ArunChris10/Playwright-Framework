@@ -9,7 +9,9 @@
       "testCases/scenario-snapshots-api-tests.json",
       "testCases/create-view-api-tests.json",
       "testCases/data-science-review-testcases/data-science-calculate-save.json",
-      "testCases/data-science-review-testcases/aop-calculate-save.json"
+      "testCases/data-science-review-testcases/aop-calculate-save.json",
+      "testCases/forecast-cycle-api-tests.json"
+      
     ],
     "coreService": {
       "baseURL":{
@@ -22,7 +24,9 @@
       "getDataScienceInfo":"/scenario/data-science/info",
       "allocateData":"/allocate-data",
       "saveAdjustment":"/adjustment/",
-      "getKpi":"/reports/get-mykpi"
+      "getKpi":"/reports/get-mykpi",
+      "getForecastCalendar":"/forecast_calendar/"
+
   },
   "notificationService": {
     "baseURL": {

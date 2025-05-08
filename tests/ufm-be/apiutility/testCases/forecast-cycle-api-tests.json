@@ -1,0 +1,99 @@
+[
+  {
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "IBGROW-36277",
+      "IBGROW-36151",
+      "Nidhi"
+    ],
+    "service": "coreService",
+    "uri": "getForecastCalendar",
+    "testName": "get forecast Calendar API",
+    "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
+    "method": "GET",
+    "assertion": [
+      {
+        "status": 200
+      },
+      {
+        "assertEquals": {
+          "jsonPath1": "submission_cycles.submission_cycle_details.dim_id",
+          "value1": 13,
+          "jsonPath2": "submission_cycles.submission_cycle_details.dim_val_id",
+          "value2": 130001
+        },
+        "assertNotNull": {
+          "jsonPath1": "calendar_id",
+          "jsonPath2": "submission_cycles.cycle_id",
+          "jsonPath3": "submission_cycles.submission_cycle_details.event_id",
+          "jsonPath4": "submission_cycles.submission_cycle_details.deadline_date"
+        }
+      }
+    ],
+    "extractFirst": {
+      "this_calendar_id": "calendar_id",
+      "this_cycle_id": "submission_cycles.cycle_id"
+    }
+  },
+  {
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "IBGROW-36274",
+      "IBGROW-36154",
+      "Pallavi"
+    ],
+    "service": "coreService",
+    "uri": "getForecastCalendar",
+    "testName": "Verify create forecast cycle api",
+    "queryParams": "{{this_calendar_id}}/cycles",
+    "method": "POST",
+    "payload": {
+      "deadlines": [
+        {
+          "dim_id": 13,
+          "dim_val_id": "130001",
+          "event_id": 28,
+          "deadline": "2025-09-12 00:00",
+          "timezone": "CST"
+        }
+      ]
+    },
+    "assertion": [
+      {
+        "status": 201
+      },
+      {
+        "assertNotNull": {
+          "jsonPath": "cycle_id"
+        }
+      }
+    ],
+    "extractFirst": {
+      "new_cycle_id": "cycle_id"
+    }
+  },
+  {
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "IBGROW-36276",
+      "IBGROW-36152",
+      "Nidhi"
+    ],
+    "service": "coreService",
+    "uri": "getForecastCalendar",
+    "testName": "publish Forecast Calendar",
+    "queryParams": "{{this_calendar_id}}",
+    "method": "PATCH",
+    "payload": {
+      "published_flag": true
+    },
+    "assertion": [
+      {
+        "status": 200
+      }
+    ]
+  }
+]

@@ -74,7 +74,7 @@
       },
       {
         "assertEquals": {
-          "jsonPath1": "edits.202603.forecast",
+          "jsonPath1": "edits.{{dynamicMonth}}.forecast",
           "value1": 25000000.119999998
         }
       }
