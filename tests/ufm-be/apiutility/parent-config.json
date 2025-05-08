@@ -1,36 +1,34 @@
 {
-    "headers": {
-      "Content-Type": "application/json",
-      "Authorization": "{{token}}"
+  "headers": {
+    "Content-Type": "application/json",
+    "Authorization": "{{token}}"
+  },
+  "user": "LB-ibg-ufm-auto",
+  "testFiles": [
+    "testCases/excel-load-data-api-tests.json",
+    "testCases/scenario-snapshots-api-tests.json",
+      "testCases/create-view-api-tests.json"
+  ],
+  "coreService": {
+    "baseURL": {
+      "qa": "https://ibg-ufm-core-service.qa.ibg.walmart.com",
+      "dev": "https://ibg-ufm-core-service.dev.ibg.walmart.com"
     },
-    "user":"LB-ibg-ufm-auto",
-    "testFiles": [
-      "testCases/scenario-snapshots-api-tests.json",
-      "testCases/create-view-api-tests.json",
-      "testCases/snapshopt-api-test.json",
-      "testCases/get-my-kpi-api-tests.json"
-  
-    ],
-    "coreService": {
-      "baseURL":{
-        "qa":"https://ibg-ufm-core-service.qa.ibg.walmart.com",
-        "dev":"https://ibg-ufm-core-service.dev.ibg.walmart.com"
-      },
-      "getScreenId": "/filter/screen_details?",
-      "listHistoricals":"/scenario/list-historicals?",
-      "snapshots":"/archive/",      
-      "getmykpi":"/reports/get-mykpi",
-      "downloadSnapshot":"/reports/download-active-forecast",
-      "getSnapshots":"/archive/"
+    "getScreenId": "/filter/screen_details?",
+    "listHistoricals": "/scenario/list-historicals?",
+    "snapshots": "/archive/",
+    "getmykpi":"/reports/get-mykpi",
+    "downloadSnapshot":"/reports/download-active-forecast",
+    "getSnapshots":"/archive/"
       
-    },
-    "notificationService": {
-      "baseURL":{
-        "qa":"https://api.notifications.qa.ibg.walmart.com/api/v3/",
-        "dev":"https://api.notifications.dev.ibg.walmart.com/api/v3/"
+  },
+  "notificationService": {
+    "baseURL": {
+      "qa": "https://api.notifications.qa.ibg.walmart.com/api/v3/",
+      "dev": "https://api.notifications.dev.ibg.walmart.com/api/v3/"
         
-      },
-      "notifications": "notifications/?"
+    },
+    "notifications": "notifications/?"
     },
     "nexusService": {
       "baseURL":{
@@ -39,7 +37,12 @@
         
       },
       "create-nexus-preference":"/apps/preferences/configurations"
-    }
-
+  },
+  "reportingService": {
+    "baseURL": {
+      "qa": "https://ibg-ufm-reporting-proxy.qa.ibg.walmart.com",
+      "dev": "https://ibg-ufm-reporting-proxy.dev.ibg.walmart.com"
+    },
+    "scenarios": "/scenarios"
+  }
 }
-

@@ -59,7 +59,6 @@ export class GetNodeVariantforDriverTreeUtility {
             `Getting Permissions for all Node Variants for driver tree key ${driver_tree_key}, driver tree version ${driver_tree_version} and metadata_refresh_id ${metadatarefreshid}`
           );
         }
-        console.log(endpointURL);
         response = await request.get(endpointURL);
         if (isError) 
           await expect.soft(response.status()).toEqual(404);
@@ -86,7 +85,6 @@ export class GetNodeVariantforDriverTreeUtility {
             `Getting Dimensions for all Node Variants for driver tree key ${driver_tree_key}, driver tree version ${driver_tree_version} and metadata_refresh_id ${metadatarefreshid}`
           );
         }
-        console.log(endpointURL);
         response = await request.get(endpointURL);
         responsebody = await Utility.assertAndLog(response,isError);
         if (isError) await expect.soft(response.status()).toEqual(404);
@@ -138,7 +136,7 @@ export class GetNodeVariantforDriverTreeUtility {
     endpointURL= `${process.env.apiBaseURLSSDM}${nodeVariantsForDriverTree.getDriverTree}`;
     if(driverTreeKey==0)
     {
-    console.log(endpointURL)  ;
+   
     Utility.logIt('Getting Driver Tree');
     response = await request.get(endpointURL);
     return Utility.assertAndLog(response,false);

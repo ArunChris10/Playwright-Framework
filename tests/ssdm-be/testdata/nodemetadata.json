@@ -5,6 +5,7 @@
         "driver_tree_version": 1,
         "node_key": 2013,
         "node_variant_key": 22312,
+        "node_key_create" : 2543,
         "expectedResponse" : "{\"nodeVariantKey\":22312,\"nodeNm\":\"eComm Off Shelf & Retail Cost\",\"metricType\":null,\"nodeType\":\"calculated\",\"calcType\":\"\",\"calcText\":\"(fCOffShelfandRetailCost + brandsOffShelfandRetailCost + othereCommOffShelfandRetailCost)\",\"aggrText\":null}"
          },
     "qa":{
@@ -12,6 +13,11 @@
         "driver_tree_version": 1,
         "node_key": 10582,
         "node_variant_key": 11272,
+        "node_key_create" : 9911,
         "expectedResponse" : "{\r\n  \"nodeVariantKey\": 11272,\r\n  \"nodeNm\": \"Membership Income\",\r\n  \"metricType\": null,\r\n  \"nodeType\": \"input\",\r\n  \"calcType\": \"\",\r\n  \"calcText\": null,\r\n  \"aggrText\": null\r\n}"
-         }
+         },
+         "requestbody":"{\"nodeNm\":\"{nodeName}\",\"calcText\":\"{calcText}\",\"aggrText\":\"{aggrText}\"}",
+         "calcText" : "TestCalcText",
+         "aggrText":"TestAggrText",
+         "nodeNm":"TestNodeName"
 }
