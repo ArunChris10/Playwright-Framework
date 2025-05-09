@@ -4,7 +4,7 @@ import { globalStore } from '../apiutility/globalStore';
 import { findAllValuesByKey,findRelativeValue,loadJSON, findFirstValueByKey } from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
-import {validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions} from '../apiutility/utils/commonUtil'
+import {interpolateHeadersObject,validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions} from '../apiutility/utils/commonUtil'
 import {pollForExpectedResponse} from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../../secrets/nexus-users-token.json";
 
@@ -61,13 +61,13 @@ function populateGlobalStore() {
 
   globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
   globalStore["randomNumber"] = generateRandomNumber(3);
-
 }
 populateGlobalStore();
 
 // Pre-hook: Runs before all test cases
 test.beforeAll(async () => {
   console.log('Global Setup Started');
+
 });
 
 // Pre-hook: Runs before each test
@@ -113,7 +113,7 @@ parentConfig.testFiles.forEach(testCasePath => {
       baseUrl = parentConfig.nexusService.baseURL[testCase.environment];
     } 
     const resolvedBaseUrl = baseUrl + parentConfig[testCase.service][testCase.uri] +interpolate(testCase.queryParams);
-    const interpolatedHeader = interpolateObject(parentConfig.headers);
+    const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
     test(testCase.testName, async () =>  {
       requestContext = await request.newContext({
         baseURL: resolvedBaseUrl,
@@ -121,7 +121,8 @@ parentConfig.testFiles.forEach(testCasePath => {
         ignoreHTTPSErrors: true,
       });
       const endpoint = "";
-      const payload = interpolateObject(testCase.payload);
+      let payload = await postProcessInterpolatedPayload(testCase.payload);
+      payload = interpolateObject(payload);
       response = await executeRequest(testCase.method, requestContext, endpoint,payload);
       const responseBody = await response.json();
 
@@ -189,6 +190,43 @@ parentConfig.testFiles.forEach(testCasePath => {
         await validateAssertions(response,responseBody, [testCase.assertion],testCase);
       }
 
+      function postProcessInterpolatedPayload(obj: any): any {
+        if (obj === null || typeof obj !== 'object') return obj;
+      
+        const processed = Array.isArray(obj) ? [] : {};
+      
+        for (const key in obj) {
+          const value = obj[key];
+      
+          if (key === 'scenario_id' || key === 'scenario_version') {
+            processed[key] = Number(globalStore[key]);
+          }
+          else if (Array.isArray(value)) {
+            // Check and replace items in the array that include "scenario_id"
+            processed[key] = value.map(item => {
+              if (typeof item === 'string' && item.includes("scenario_id")) {
+                const match = item.match(/\{\{(.*?)\}\}/);
+                if (match) {
+                  const variableKey = match[1].trim();
+                  return globalStore.getValue
+                    ? globalStore.getValue(variableKey)
+                    : globalStore[variableKey];
+                }
+              }
+              return item; // return original if not matched
+            });
+          }
+          else if (typeof value === 'object') {
+            processed[key] = postProcessInterpolatedPayload(value); // recursive call
+          } else {
+            processed[key] = value;
+          }
+        }
+      
+        return processed;
+      }
+      
+      // get kpi is done but above code is very specific to it, make it general for get snapshot
 
       // keeping the below code for future use, if needed
 

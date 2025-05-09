@@ -82,9 +82,22 @@ let filePathOfPayload;
     return expected === actual;
   }
 
-  export function interpolate(value: any): any {
+  export function interpolateHeaders(value: any): any {
     if (typeof value === 'string') {
       return value.replace(/\{\{(.*?)\}\}/g, (_, key) => globalStore[key.trim()] ?? '');
+    }
+    return value;
+  }
+
+  export function interpolate(value: any): any {
+    if (typeof value === 'string') {
+      return value.replace(/\{\{(.*?)\}\}/g, (_, key) => {
+        const trimmedKey = key.trim();
+        if (globalStore.getValue) {
+          return globalStore.getValue(trimmedKey) ?? '';
+        }
+        return globalStore[trimmedKey] ?? '';
+      });
     }
     return value;
   }
@@ -100,6 +113,16 @@ let filePathOfPayload;
     return interpolated;
   }
 
+  export function interpolateHeadersObject(obj: any): any {
+    if (typeof obj !== 'object' || obj === null) return obj;
+  
+    const interpolated: any = Array.isArray(obj) ? [] : {};
+    for (const key in obj) {
+      const val = obj[key];
+      interpolated[key] = typeof val === 'object' ? interpolateHeadersObject(val) : interpolateHeaders(val);
+    }
+    return interpolated;
+  }
 
 
   export function validateAssertions(response:any,responseBody: any, assertions: any[], testcase: ApiTestCase) {
@@ -187,4 +210,5 @@ let filePathOfPayload;
         }         
       });     
     });
+    
   }

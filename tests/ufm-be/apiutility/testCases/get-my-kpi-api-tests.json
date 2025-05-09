@@ -21,39 +21,8 @@
     },
     "classification_id":12,
     "dim_id":12,
-    "dim_val_id":120010,
-    "filters":[
-      {
-        "dim_id": 1,
-        "dim_val_ids": [
-          80,
-          83,
-          93,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13,
-          14,
-          16,
-          17,
-          18,
-          19,
-          20
-        ],
-        "template_id":1,
-        "unit":"Millions"
-      }
-
-    ],
+    "dim_val_id":120006,
+    "filters":[],
     "template_id":1,
     "unit":"Millions"
 
@@ -65,8 +34,8 @@
     }      
   ],
   "extractFirst": {
-    "scenarioId": "rowData.scenarioId",
-    "scenarioVersion": "rowData.scenarioVersion"
+    "scenario_id": "rowData.scenarioId",
+    "scenario_version": "rowData.scenarioVersion"
   }
 }, 
   {
@@ -95,51 +64,51 @@
             "name": "Driver"
           },
           {
-            "name": "202601",
+            "name": "{{dynamicMonth-4}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202602",
+            "name": "{{dynamicMonth-3}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202603",
+            "name": "{{dynamicMonth-2}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202604",
+            "name": "{{dynamicMonth-1}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202605",
+            "name": "{{dynamicMonth}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202606",
+            "name": "{{dynamicMonth+1}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202607",
+            "name": "{{dynamicMonth+2}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202608",
+            "name": "{{dynamicMonth+3}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202609",
+            "name": "{{dynamicMonth+4}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202610",
+            "name": "{{dynamicMonth+5}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202611",
+            "name": "{{dynamicMonth+6}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202612",
+            "name": "{{dynamicMonth+7}}",
             "columnsMenuParams": "middleColumns"
           },
           {
@@ -160,18 +129,18 @@
           }
         ],
         "month": [
-          "202601",
-          "202602",
-          "202603",
-          "202604",
-          "202605",
-          "202606",
-          "202607",
-          "202608",
-          "202609",
-          "202610",
-          "202611",
-          "202612"
+          "{{dynamicMonth-4}}",
+          "{{dynamicMonth-3}}",
+          "{{dynamicMonth-2}}",
+          "{{dynamicMonth-1}}",
+          "{{dynamicMonth}}",
+          "{{dynamicMonth+1}}",
+          "{{dynamicMonth+2}}",
+          "{{dynamicMonth+3}}",
+          "{{dynamicMonth+4}}",
+          "{{dynamicMonth+5}}",
+          "{{dynamicMonth+6}}",
+          "{{dynamicMonth+7}}"
         ]
       },
       "classification_id":12,
@@ -179,8 +148,8 @@
       "dim_val_id":110026,
       "filters":[],
       "isApplied":true,
-      "scenario_id":"{{scenarioId}}",
-      "scenario_version":"{{scenarioVersion}}",
+      "scenario_id":"{{scenario_id}}",
+      "scenario_version":"{{scenario_version}}",
       "template_id":3
     },
     "method": "POST",
@@ -216,51 +185,54 @@
         ],
         "template_include_headers": [
           {
-            "name": "202601",
+            "name": "Driver"
+          },
+          {
+            "name": "{{dynamicMonth-4}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202602",
+            "name": "{{dynamicMonth-3}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202603",
+            "name": "{{dynamicMonth-2}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202604",
+            "name": "{{dynamicMonth-1}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202605",
+            "name": "{{dynamicMonth}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202606",
+            "name": "{{dynamicMonth+1}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202607",
+            "name": "{{dynamicMonth+2}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202608",
+            "name": "{{dynamicMonth+3}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202609",
+            "name": "{{dynamicMonth+4}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202610",
+            "name": "{{dynamicMonth+5}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202611",
+            "name": "{{dynamicMonth+6}}",
             "columnsMenuParams": "middleColumns"
           },
           {
-            "name": "202612",
+            "name": "{{dynamicMonth+7}}",
             "columnsMenuParams": "middleColumns"
           },
           {
@@ -281,18 +253,18 @@
           }
         ],
         "month": [
-          "202601",
-          "202602",
-          "202603",
-          "202604",
-          "202605",
-          "202606",
-          "202607",
-          "202608",
-          "202609",
-          "202610",
-          "202611",
-          "202612"
+          "{{dynamicMonth-4}}",
+          "{{dynamicMonth-3}}",
+          "{{dynamicMonth-2}}",
+          "{{dynamicMonth-1}}",
+          "{{dynamicMonth}}",
+          "{{dynamicMonth+1}}",
+          "{{dynamicMonth+2}}",
+          "{{dynamicMonth+3}}",
+          "{{dynamicMonth+4}}",
+          "{{dynamicMonth+5}}",
+          "{{dynamicMonth+6}}",
+          "{{dynamicMonth+7}}"
         ]
       },
       "classification_id":12,
@@ -308,8 +280,8 @@
         }
       ],
       "isApplied":true,
-      "scenario_id":"{{scenarioId}}",
-      "scenario_version":"{{scenarioVersion}}",
+      "scenario_id":"{{scenario_id}}",
+      "scenario_version":"{{scenario_version}}",
       "template_id":3
     },
     "method": "POST",

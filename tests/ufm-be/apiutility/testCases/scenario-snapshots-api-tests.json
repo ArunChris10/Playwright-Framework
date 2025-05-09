@@ -1,79 +1,119 @@
-[    
+[  
   {
-    "environment": "qa",
-    "labels": ["smoke", "snapshots"],
-    "service":"coreService",
-    "uri":"snapshots",
-    "testName": "validate compute snapshots API - as Forecast",
-    "queryParams": "",
-    "method": "POST",
-    "payload": {
-      "scenario_org_id": "120010",
-      "snapshot_desc": "",
-      "snapshot_type_id": 77
-    },
-    "assertion": [
-      {
-         "status": 200 
-      },
-      {
-        "assertEquals": {
-          "jsonPath1": "message",
-          "value1": "Archived scenario successfully"
-        }
-      }
-    ]
+  "environment": "qa",
+  "labels": ["smoke", "snapshots"],
+  "service":"coreService",
+  "uri":"snapshots",
+  "testName": "validate compute snapshots API - as Forecast",
+  "queryParams": "",
+  "method": "POST",
+  "payload": {
+    "scenario_org_id": "120010",
+    "snapshot_desc": "",
+    "snapshot_type_id": 77
   },
-  {
-    "environment": "qa",
-    "labels": ["smoke", "snapshots"],
-    "service":"coreService",
-    "uri":"snapshots",
-    "testName": "validate compute snapshots API - as OTB",
-    "queryParams": "",
-    "method": "POST",
-    "payload": {
-      "scenario_org_id": "120010",
-      "snapshot_desc": "",
-      "snapshot_type_id": 78
+  "assertion": [
+    {
+       "status": 200 
     },
-    "assertion": [
-      {
-         "status": 200
-      },
-      {
-        "assertEquals": {
-          "jsonPath1": "message",
-          "value1": "Archived scenario successfully"
-        }
+    {
+      "assertEquals": {
+        "jsonPath1": "message",
+        "value1": "Archived scenario successfully"
       }
-    ]
+    }
+  ]
+},
+{
+  "environment": "qa",
+  "labels": ["smoke", "snapshots"],
+  "service":"coreService",
+  "uri":"snapshots",
+  "testName": "validate compute snapshots API - as OTB",
+  "queryParams": "",
+  "method": "POST",
+  "payload": {
+    "scenario_org_id": "120010",
+    "snapshot_desc": "",
+    "snapshot_type_id": 78
   },
-  {
-    "environment": "qa",
-    "labels": ["smoke", "snapshots"],
-    "service":"coreService",
-    "uri":"snapshots",
-    "testName": "validate compute snapshots API - as Budget",
-    "queryParams": "",
-    "method": "POST",
-    "payload": {
-      "scenario_org_id": "120010",
-      "snapshot_desc": "",
-      "snapshot_type_id": 79
+  "assertion": [
+    {
+       "status": 200
     },
-    "assertion": [
-      {
-         "status": 200
-      },
-      {
-        "assertEquals": {
-          "jsonPath1": "message",
-          "value1": "Archived scenario successfully"
-        }
+    {
+      "assertEquals": {
+        "jsonPath1": "message",
+        "value1": "Archived scenario successfully"
       }
-    ]
-  },  {
+    }
+  ]
+},
+{
+  "environment": "qa",
+  "labels": ["smoke", "snapshots"],
+  "service":"coreService",
+  "uri":"snapshots",
+  "testName": "validate compute snapshots API - as Budget",
+  "queryParams": "",
+  "method": "POST",
+  "payload": {
+    "scenario_org_id": "120010",
+    "snapshot_desc": "",
+    "snapshot_type_id": 79
+  },
+  "assertion": [
+    {
+       "status": 200
+    },
+    {
+      "assertEquals": {
+        "jsonPath1": "message",
+        "value1": "Archived scenario successfully"
+      }
+    }
+  ]
+},
+{
+  "environment": "qa",
+  "labels": ["smoke", "rahul","pre-requisite"],
+  "service":"coreService",
+  "uri":"getForecast",
+  "testName": "Get forecast for download of snapshot",
+  "queryParams": "",
+  "payload":{
+    "additional_filters":{
+      "template_include_headers": [
+        {
+          "name": "vs LY",
+          "format": "percent"
+        },
+        {
+          "name": "vs Plan",
+          "format": "absolute"
+        }
+      ]
+    },
+    "classification_id":12,
+    "dim_id":12,
+    "dim_val_id":120006,
+    "filters":[],
+    "template_id":1,
+    "unit":"Millions"
+
+  },
+  "method": "POST",
+  "assertion": [
+    {
+       "status": 200 
+    }      
+  ],
+  "extractFirst": {
+    "scenario_id": "rowData.scenarioId",
+    "scenario_version": "rowData.scenarioVersion"
+  }
+},    
+  {
     "environment": "qa",
     "labels": ["rahul", "IBGROW-38030"],
     "service":"coreService",
@@ -98,116 +138,82 @@
           "segmentoperatingincome",
           "grossprofit"
         ],
-        "month": [
-          "202201",
-          "202202",
-          "202203",
-          "202204",
-          "202205",
-          "202206",
-          "202207",
-          "202208",
-          "202209",
-          "202210",
-          "202211",
-          "202212",
-          "202301",
-          "202302",
-          "202303",
-          "202304",
-          "202305",
-          "202306",
-          "202307",
-          "202308",
-          "202309",
-          "202310",
-          "202311",
-          "202312",
-          "202401",
-          "202402",
-          "202403",
-          "202404",
-          "202405",
-          "202406",
-          "202407",
-          "202408",
-          "202409",
-          "202410",
-          "202411",
-          "202412",
-          "202501",
-          "202502",
-          "202503",
-          "202504",
-          "202505",
-          "202506",
-          "202507",
-          "202508",
-          "202509",
-          "202510",
-          "202511",
-          "202512",
-          "202601",
-          "202602",
-          "202603",
-          "202604",
-          "202605",
-          "202606",
-          "202607",
-          "202608",
-          "202609",
-          "202610",
-          "202611",
-          "202612",
-          "202701",
-          "202702",
-          "202703",
-          "202704",
-          "202705",
-          "202706",
-          "202707",
-          "202708",
-          "202709",
-          "202710",
-          "202711",
-          "202712",
-          "202801",
-          "202802",
-          "202803",
-          "202804",
-          "202805",
-          "202806",
-          "202807",
-          "202808",
-          "202809",
-          "202810",
-          "202811",
-          "202812",
-          "202901",
-          "202902",
-          "202903",
-          "202904",
-          "202905",
-          "202906",
-          "202907",
-          "202908",
-          "202909",
-          "202910",
-          "202911",
-          "202912",
-          "203001",
-          "203002",
-          "203003",
-          "203004",
-          "203005",
-          "203006",
-          "203007",
-          "203008",
-          "203009",
-          "203010",
-          "203011",
-          "203012"
-        ]
+"month": [
+  "{{dynamicMonths-36}}",
+  "{{dynamicMonths-35}}",
+  "{{dynamicMonths-34}}",
+  "{{dynamicMonths-33}}",
+  "{{dynamicMonths-32}}",
+  "{{dynamicMonths-31}}",
+  "{{dynamicMonths-30}}",
+  "{{dynamicMonths-29}}",
+  "{{dynamicMonths-28}}",
+  "{{dynamicMonths-27}}",
+  "{{dynamicMonths-26}}",
+  "{{dynamicMonths-25}}",
+  "{{dynamicMonths-24}}",
+  "{{dynamicMonths-23}}",
+  "{{dynamicMonths-22}}",
+  "{{dynamicMonths-21}}",
+  "{{dynamicMonths-20}}",
+  "{{dynamicMonths-19}}",
+  "{{dynamicMonths-18}}",
+  "{{dynamicMonths-17}}",
+  "{{dynamicMonths-16}}",
+  "{{dynamicMonths-15}}",
+  "{{dynamicMonths-14}}",
+  "{{dynamicMonths-13}}",
+  "{{dynamicMonths-12}}",
+  "{{dynamicMonths-11}}",
+  "{{dynamicMonths-10}}",
+  "{{dynamicMonths-9}}",
+  "{{dynamicMonths-8}}",
+  "{{dynamicMonths-7}}",
+  "{{dynamicMonths-6}}",
+  "{{dynamicMonths-5}}",
+  "{{dynamicMonths-4}}",
+  "{{dynamicMonths-3}}",
+  "{{dynamicMonths-2}}",
+  "{{dynamicMonths-1}}",
+  "{{dynamicMonths}}",
+  "{{dynamicMonths+1}}",
+  "{{dynamicMonths+2}}",
+  "{{dynamicMonths+3}}",
+  "{{dynamicMonths+4}}",
+  "{{dynamicMonths+5}}",
+  "{{dynamicMonths+6}}",
+  "{{dynamicMonths+7}}",
+  "{{dynamicMonths+8}}",
+  "{{dynamicMonths+9}}",
+  "{{dynamicMonths+10}}",
+  "{{dynamicMonths+11}}",
+  "{{dynamicMonths+12}}",
+  "{{dynamicMonths+13}}",
+  "{{dynamicMonths+14}}",
+  "{{dynamicMonths+15}}",
+  "{{dynamicMonths+16}}",
+  "{{dynamicMonths+17}}",
+  "{{dynamicMonths+18}}",
+  "{{dynamicMonths+19}}",
+  "{{dynamicMonths+20}}",
+  "{{dynamicMonths+21}}",
+  "{{dynamicMonths+22}}",
+  "{{dynamicMonths+23}}",
+  "{{dynamicMonths+24}}",
+  "{{dynamicMonths+25}}",
+  "{{dynamicMonths+26}}",
+  "{{dynamicMonths+27}}",
+  "{{dynamicMonths+28}}",
+  "{{dynamicMonths+29}}",
+  "{{dynamicMonths+30}}",
+  "{{dynamicMonths+31}}",
+  "{{dynamicMonths+32}}",
+  "{{dynamicMonths+33}}",
+  "{{dynamicMonths+34}}",
+  "{{dynamicMonths+35}}",
+  "{{dynamicMonths+36}}"
+]
+
       },
       "filters":[
         {
@@ -240,16 +246,8 @@
       ],
       "scenarios":[
         [
-          12821739808040,
-          1744005354
-        ],
-        [
-          18661744098857,
-          1744098857
-        ],
-        [
-          18431744022016,
-          1744022016
+          "{{scenario_id}}",
+          "{{scenario_version}}"
         ]
       ]
     },
