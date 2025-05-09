@@ -366,6 +366,31 @@ export class CurrentForecast {
     expect(foreCastHeader).toEqual(forecastName);
   }
 
+
+  async clickOpenForecastByName(scenarioName: string) {
+    let forecastParentElement
+    try {
+      forecastParentElement = this.page
+        .locator(
+          `//span[text()="${scenarioName}"]/ancestor::div[@role="row"]`
+        );
+    }
+    catch (error) {
+      console.log("Scenario Not found")
+    }
+    let forecastRowID = await forecastParentElement.getAttribute("row-id");
+
+    let LOBForecast = await this.page.locator(`//div[contains(@class,'CurrentForecast_card-container')]//div[@row-id=${forecastRowID}]`
+    );
+
+    await LOBForecast.locator(this.open).click();
+
+    let foreCastHeader = await this.forecastHeader.innerText();
+
+    expect(foreCastHeader).toEqual(scenarioName);
+  }
+
+
   async clickOnParticularForecastEllipses(scenarioName: string) {
     let forecastRowID = await this.page
       .locator(
