@@ -61,7 +61,6 @@ function populateGlobalStore() {
 
   globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
   globalStore["randomNumber"] = generateRandomNumber(3);
-  globalStore["dynamicMonth"] = getDynamicMonth();
 
 }
 populateGlobalStore();
@@ -228,8 +227,6 @@ parentConfig.testFiles.forEach(testCasePath => {
         return processed;
       }
       
-      // get kpi is done but above code is very specific to it, make it general for get snapshot
-
       // keeping the below code for future use, if needed
 
 /*       if (testCase.method.toUpperCase() === 'POST' && testCase.polling) {
