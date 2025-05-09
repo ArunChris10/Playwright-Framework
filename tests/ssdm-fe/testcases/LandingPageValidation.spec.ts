@@ -4,17 +4,18 @@ import { signinUtility } from "../fixtures/utility";
 import { TIMEOUT } from '../constants/timeout.json';
 import { filterOptions } from '../testdata/fileName.json';
 
-test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @walmart123" }, async () => {
+test.describe('Landing page validate Feature Test',{  tag: "@Smoke @Regression @walmart123" }, async () => {
     let objpageFactory: PageFactory;
 
-    test.beforeAll(async ({ pageFactory }) => {
-        objpageFactory = pageFactory;
-        // Initialize the page factory before all tests
-    });
+    // test.beforeAll(async ({ pageFactory }) => {
+    //     objpageFactory = pageFactory;
+    //     // Initialize the page factory before all tests
+    // });
 
     test.beforeEach(async ({ page }) => {
         test.setTimeout(TIMEOUT);
         await signinUtility.SignIn(page); // Centralized sign-in before each test
+        // objpageFactory = PageFactory(page);
     });
 
     test('Verify Landing page is available with its tabular records', async () => {
@@ -45,7 +46,7 @@ test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @
         });
     });
 
-    test('Check if the search works with the complete metric name', async () => {
+    test('Check if the search works with the complete metric name', {  tag: "@Smoke @Regression @walmart124" }, async () => {
 
         await objpageFactory.ssdmPageFactory().landingPage().completeSearch(); // Perform search with complete metric name
     });
@@ -58,71 +59,96 @@ test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @
         await objpageFactory.ssdmPageFactory().landingPage().incorrectSearch(); // Perform search with incorrect metric name
     });
 
-    test('Check the filter validation functionality', async () => {
-
-        // Validate filter functionality for the "month" column
-        test.step('user selects the "month" column and  should be able to select filter values', async () => {
-            await objpageFactory.ssdmPageFactory().landingPage().monthFilter();
-        });
-
-        // Validate filter functionality for the "channel" column
-        test.step('user selects the "channel" column and  should be able to select filter values', async () => {
-            await objpageFactory.ssdmPageFactory().landingPage().channelFilter();
-        });
-
-        // Validate filter functionality for the "owner" column
-        test.step('user selects the "owner" column and  should be able to select filter values', async () => {
-            await objpageFactory.ssdmPageFactory().landingPage().ownerFilter();
-        });
-
-        // Validate filter functionality for the "department" column
-        test.step('user selects the "department" column and  should be able to select filter values', async () => {
-            await objpageFactory.ssdmPageFactory().landingPage().departmentFilter();
-        });
-
-        // Validate filter functionality for the "entity" column
-        test.step('user selects the "entity" column and  should be able to select filter values', async () => {
-            await objpageFactory.ssdmPageFactory().landingPage().entityFilter();
-        });
-    });
-    //test the clear-all filter functionality
     filterOptions.forEach(filterOption => {
-        test('User checks the Clear-all filter button functionality', async () => {
+        test('Check the filter validation functionality', async () => {
+            // Validate filter functionality for the "month" column
             for (const [, filterSelection] of Object.entries(filterOption.data)) {
                 await test.step(`Select ${filterSelection["childDropDown"]} ${filterSelection["dropDown"]} ${filterSelection["option"]} filter options`, async () => {
-                    await objpageFactory.ssdmPageFactory().applyFilter().clickOnFiltersButton();
+                    await objpageFactory.ssdmPageFactory().landingPage().monthFilter();
                     await objpageFactory.ufmPageFactory().currentForecast().clickOnFilterDropdown(filterSelection["dropDown"]);
                     await objpageFactory.ssdmPageFactory().applyFilter().clickOnFilterOption(filterSelection["childDropDown"]);
                     await objpageFactory.ssdmPageFactory().applyFilter().searchFilterOption(filterSelection["option"]);
-                    await objpageFactory.ssdmPageFactory().landingPage().clearAllFilter();
-                })
+                });
             }
-        });
-    })
 
+                // Validate filter functionality for the "channel" column
+                for (const [, filterSelection] of Object.entries(filterOption.data)) {
+                    await test.step(`Select ${filterSelection["childDropDown"]} ${filterSelection["dropDown"]} ${filterSelection["option"]} filter options`, async () => {
+                        await objpageFactory.ssdmPageFactory().landingPage().channelFilter();
+                        await objpageFactory.ufmPageFactory().currentForecast().clickOnFilterDropdown(filterSelection["dropDown"]);
+                        await objpageFactory.ssdmPageFactory().applyFilter().clickOnFilterOption(filterSelection["childDropDown"]);
+                        await objpageFactory.ssdmPageFactory().applyFilter().searchFilterOption(filterSelection["option"]);
+                    });
+                }
 
-    test('User checks the table settings', async () => {
-        await objpageFactory.ssdmPageFactory().landingPage().tableSettings(); // Validate table settings functionality
+                    // Validate filter functionality for the "owner" column
+                    for (const [, filterSelection] of Object.entries(filterOption.data)) {
+                        await test.step(`Select ${filterSelection["childDropDown"]} ${filterSelection["dropDown"]} ${filterSelection["option"]} filter options`, async () => {
+                            await objpageFactory.ssdmPageFactory().landingPage().ownerFilter();
+                            await objpageFactory.ufmPageFactory().currentForecast().clickOnFilterDropdown(filterSelection["dropDown"]);
+                            await objpageFactory.ssdmPageFactory().applyFilter().clickOnFilterOption(filterSelection["childDropDown"]);
+                            await objpageFactory.ssdmPageFactory().applyFilter().searchFilterOption(filterSelection["option"]);
+                        });
+                    }
+
+                        // Validate filter functionality for the "department" column
+                        for (const [, filterSelection] of Object.entries(filterOption.data)) {
+                            await test.step(`Select ${filterSelection["childDropDown"]} ${filterSelection["dropDown"]} ${filterSelection["option"]} filter options`, async () => {
+                                await objpageFactory.ssdmPageFactory().landingPage().departmentFilter();
+                                await objpageFactory.ufmPageFactory().currentForecast().clickOnFilterDropdown(filterSelection["dropDown"]);
+                                await objpageFactory.ssdmPageFactory().applyFilter().clickOnFilterOption(filterSelection["childDropDown"]);
+                                await objpageFactory.ssdmPageFactory().applyFilter().searchFilterOption(filterSelection["option"]);
+                            });
+                        }
+
+                            // Validate filter functionality for the "entity" column
+                            for (const [, filterSelection] of Object.entries(filterOption.data)) {
+                                await test.step(`Select ${filterSelection["childDropDown"]} ${filterSelection["dropDown"]} ${filterSelection["option"]} filter options`, async () => {
+                                    await objpageFactory.ssdmPageFactory().landingPage().entityFilter();
+                                    await objpageFactory.ufmPageFactory().currentForecast().clickOnFilterDropdown(filterSelection["dropDown"]);
+                                    await objpageFactory.ssdmPageFactory().applyFilter().clickOnFilterOption(filterSelection["childDropDown"]);
+                                    await objpageFactory.ssdmPageFactory().applyFilter().searchFilterOption(filterSelection["option"]);
+                                });
+                            }
+                 
     });
-
-    test('User sorts the data rows based on dropdown formats', async () => {
-
-        // Sort data rows in ascending order
-        await objpageFactory.ssdmPageFactory().landingPage().sortAZ();
-
-        // Sort data rows in descending order
-        await objpageFactory.ssdmPageFactory().landingPage().sortZA();
-
-        // Sort data rows by recent updates
-        await objpageFactory.ssdmPageFactory().landingPage().recentupdate();
+    //test the clear-all filter functionality
+    test('User checks the Clear-all filter button functionality', async () => {
+        for (const [, filterSelection] of Object.entries(filterOption.data)) {
+            await test.step(`Select ${filterSelection["childDropDown"]} ${filterSelection["dropDown"]} ${filterSelection["option"]} filter options`, async () => {
+                await objpageFactory.ssdmPageFactory().applyFilter().clickOnFiltersButton();
+                await objpageFactory.ufmPageFactory().currentForecast().clickOnFilterDropdown(filterSelection["dropDown"]);
+                await objpageFactory.ssdmPageFactory().applyFilter().clickOnFilterOption(filterSelection["childDropDown"]);
+                await objpageFactory.ssdmPageFactory().applyFilter().searchFilterOption(filterSelection["option"]);
+                await objpageFactory.ssdmPageFactory().landingPage().clearAllFilter();
+            })
+        }
     });
+})
 
-    test('User groups the data rows based on dropdown formats', async () => {
 
-        // Group data rows by node
-        await objpageFactory.ssdmPageFactory().landingPage().groupNode();
+test('User checks the table settings', async () => {
+    await objpageFactory.ssdmPageFactory().landingPage().tableSettings(); // Validate table settings functionality
+});
 
-        // Group data rows by owner
-        await objpageFactory.ssdmPageFactory().landingPage().groupOwner();
-    });
+test('User sorts the data rows based on dropdown formats', async () => {
+
+    // Sort data rows in ascending order
+    await objpageFactory.ssdmPageFactory().landingPage().validateSortAZ();
+
+    // Sort data rows in descending order
+    await objpageFactory.ssdmPageFactory().landingPage().validateSortZA();
+
+    // Sort data rows by recent updates
+    await objpageFactory.ssdmPageFactory().landingPage().validateRecentlyUpdated();
+});
+
+test('User groups the data rows based on dropdown formats', async () => {
+
+    // Group data rows by node
+    await objpageFactory.ssdmPageFactory().landingPage().validateGroupBySameNode();
+
+    // Group data rows by owner
+    await objpageFactory.ssdmPageFactory().landingPage().validateGroupByOwner();
+});
 });

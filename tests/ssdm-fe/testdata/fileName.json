@@ -25,21 +25,35 @@
         "publishInProgressToolTipText": "^Currently, there is a publish in progress\\. Once the current publish is complete, you will be able to publish another version of your file\\.\\s*Last published: (January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4} at \\d{1,2}:\\d{2} (AM|PM) by .+$",
         "completeSearch": "Cost per Delivery",
         "partialSearch": "Cost per",
-        "incorrectSearch": "Growth"
-
+        "incorrectSearch": "Growth",
+        "metricName1": "TestNodeNameUpdated"
     },
     "filterOptions": [
         {
             "data": {
+                "month":{
+                    "actuals":"actuals",
+                    "forecast": "Forecast"
+                },
                 "channel": {
                     "dropDown": "Channel",
                     "childDropDown": "DELIVERY",
-                    "option": "OWNED_S2H"
+                    "option": "OWNED_S2H",
+                    "option1": "DSV_S2H, DSV_S2S",
+                    "option3": "*, CORE_SERVICES"
                 },
                 "department": {
                     "dropDown": "Department",
                     "childDropDown": "FOOD",
-                    "option": "1_CANDY"
+                    "option": "1_CANDY",
+                    "option1": "*, 38_PHARMACY RX"
+                },
+                "owner":{
+                    "option1": "MARKETPLACE",
+                    "option2": "CONNECT"
+                },
+                "entity":{
+                    "option": "ACQUISITIONS_AND_INCUBATIONS"
                 }
             }
         }
