@@ -4,7 +4,8 @@
     "labels": [
       "smoke",
       "Pre-Req",
-      "BG-35040",
+      "IBGROW-35040",
+      "IBGROW-34988",
       "Nidhi"
     ],
     "service": "coreService",
@@ -34,7 +35,8 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "BG-35040",
+      "IBGROW-35040",
+      "IBGROW-34988",
       "Nidhi"
     ],
     "service": "coreService",
@@ -53,7 +55,7 @@
           "node_var_name": "moecommreturnscogs",
           "node_dimension": {},
           "data": {
-            "202603": 25000000.12
+            "{{dynamicMonth}}": 25000000.12
           },
           "allocation": {
             "interval": null,
@@ -72,8 +74,8 @@
       },
       {
         "assertEquals": {
-          "jsonPath1": "edits.202603.forecast",
-          "value1": 25000000.119999997
+          "jsonPath1": "edits.{{dynamicMonth}}.forecast",
+          "value1": 25000000.11999998
         }
       }
     ]
@@ -82,7 +84,8 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "BG-35040",
+      "IBGROW-35040",
+      "IBGROW-34988",
       "Nidhi"
     ],
     "service": "coreService",
@@ -113,7 +116,7 @@
             "node_var_name": "moecommreturnscogs",
             "node_dimension": {},
             "data": {
-              "202603": 25000000.12
+              "{{dynamicMonth}}": 25000000.12
             },
             "allocation": {
               "interval": null,
@@ -150,5 +153,62 @@
     "extract": {
       "adjustment_id": "adjustment_metadata.adjustment_id"
     }
+  },
+  {
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "IBGROW-35040",
+      "IBGROW-34988",
+      "Nidhi"
+    ],
+    "service": "coreService",
+    "uri": "getKpi",
+    "testName": "Validate saved data for datascience - GetKpi",
+    "queryParams": "",
+    "method": "POST",
+    "payload": {
+      "scenario_id": "{{datascience_scenario_id}}",
+      "scenario_version": "{{datascience_scenario_version}}",
+      "dim_id": 13,
+      "dim_val_id": 130001,
+      "classification_id": 12,
+      "template_id": 3,
+      "filters": [],
+      "additional_filters": {
+        "pivot_cols": [
+          "month"
+        ],
+        "pivot_index": [
+          "node_id"
+        ],
+        "period_view": [
+          "month"
+        ],
+        "nodes": [
+          "moecommreturnscogs"
+        ],
+        "template_include_headers": [
+          {
+            "name": "Driver"
+          }
+        ],
+        "month": [
+          "{{dynamicMonth}}"
+        ]
+      },
+      "isApplied": false
+    },
+    "assertion": [
+      {
+        "status": 200
+      },
+      {
+        "assertEquals": {
+          "jsonPath1": "rowData.{{dynamicMonth}}.forecast",
+          "value1": 25000000.12
+        }
+      }
+    ]
   }
 ]
