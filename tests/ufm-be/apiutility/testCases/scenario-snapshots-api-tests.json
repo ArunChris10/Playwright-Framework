@@ -1,7 +1,7 @@
 [  
-  {
+{
   "environment": "qa",
-  "labels": ["smoke", "snapshots"],
+  "labels":  ["smoke","BG-38035","Nidhi"],
   "service":"coreService",
   "uri":"snapshots",
   "testName": "validate compute snapshots API - as Forecast",
@@ -26,7 +26,7 @@
 },
 {
   "environment": "qa",
-  "labels": ["smoke", "snapshots"],
+  "labels":  ["smoke","BG-38034","Nidhi"],
   "service":"coreService",
   "uri":"snapshots",
   "testName": "validate compute snapshots API - as OTB",
@@ -51,7 +51,7 @@
 },
 {
   "environment": "qa",
-  "labels": ["smoke", "snapshots"],
+  "labels":  ["smoke","BG-38033","Nidhi"],
   "service":"coreService",
   "uri":"snapshots",
   "testName": "validate compute snapshots API - as Budget",
@@ -112,8 +112,8 @@
     "scenario_id": "rowData.scenarioId",
     "scenario_version": "rowData.scenarioVersion"
   }
-},    
-  {
+},   
+{
     "environment": "qa",
     "labels": ["rahul", "IBGROW-38030"],
     "service":"coreService",
@@ -256,12 +256,12 @@
          "status": 200 
       }
     ]
-  },
-  {
+},
+{
     "environment": "qa",
     "labels": ["rahul", "IBGROW-38029"],
     "service":"coreService",
-    "uri":"getSnapshots",
+    "uri":"snapshots",
     "testName": "validate get snapshot api",
     "queryParams": "",
     "method": "GET",
@@ -275,8 +275,10 @@
           "jsonPath2": "snapshot_type_id",
           "jsonPath3": "snapshot_ts",
           "jsonPath4": "snapshot_id"
-        }      
+        }     
+
       }
     ]
-  }
+}
+
 ]

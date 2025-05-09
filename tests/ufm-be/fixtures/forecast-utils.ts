@@ -24,18 +24,18 @@ export class ForecastUtility {
   ) {
     //Making the get call to create forecast
     Utility.logIt(`Creating Scenario for ${lobName}`);
-    const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}`;
+    const endpointURL = `${process.env.apiBaseURLUFM}${forecastData.createendpoint}`;
     Utility.logIt(endpointURL);
-    let PrimaryId = process.env.envName + "Primary";
+    // let PrimaryId = process.env.envName + "Primary";
     let payload = {
       type: commonData.type,
-      source: {
-        scenarios: [
-          {
-            scenario_id: scenarioIds.payloads[PrimaryId].scenario_id,
-          },
-        ],
-      },
+      // source: {
+      //   scenarios: [
+      //     {
+      //       scenario_id: scenarioIds.payloads[PrimaryId].scenario_id,
+      //     },
+      //   ],
+      // },
       name: lobName + " Automation - ",
       classification_id: commonData.classification_id,
       dim_id: commonData.lob_dim_id,
@@ -80,7 +80,7 @@ export class ForecastUtility {
           {
             // Probe, wait 60s, probe, wait 60s, probe, wait 60s, probe, wait 30s, probe and so on..
             intervals: [
-              60_000, 60_000, 60_000, 60_000, 60_000, 30_000, 30_000, 30_000,
+              20_000, 20_000, 20_000, 10_000, 10_000, 10_000, 30_000, 30_000,
             ],
             timeout: 500_000,
           }
