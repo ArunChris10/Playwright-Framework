@@ -42,7 +42,7 @@
     "environment": "qa",
     "labels": ["smoke", "rahul","IBGROW-36348"],
     "service":"coreService",
-    "uri":"getmykpi",
+    "uri":"getKpi",
     "testName": "validate getmykpi API before filter",
     "queryParams": "",
     "payload":{
@@ -166,7 +166,7 @@
     "environment": "qa",
     "labels": ["smoke", "rahul","IBGROW-36348"],
     "service":"coreService",
-    "uri":"getmykpi",
+    "uri":"getKpi",
     "testName": "validate getmykpi API after filter",
     "queryParams": "",
     "payload":{
