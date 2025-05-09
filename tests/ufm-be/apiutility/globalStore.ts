@@ -23,7 +23,7 @@ if (!g.globalStore) {
         const year = now.getFullYear();
         const month = (now.getMonth() + 1).toString().padStart(2, '0');
 
-        return `${year}${month}`; // <<--- Important: RETURN STRING
+        return `${year}${month}`;
       }
 
       // Default behavior for normal keys
