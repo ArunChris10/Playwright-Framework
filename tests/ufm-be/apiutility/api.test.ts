@@ -123,9 +123,12 @@ parentConfig.testFiles.forEach(testCasePath => {
         ignoreHTTPSErrors: true,
       });
       const endpoint = "";
+      let responseBody = null;
       const payload = interpolateObject(testCase.payload);
       response = await executeRequest(testCase.method, requestContext, endpoint,payload);
-      const responseBody = await response.json();
+      if(response.status() != 204){
+       responseBody = await response.json();
+      }
 
       if (testCase.assertion) {
         await validateAssertions(response,responseBody, [testCase.assertion],testCase);
