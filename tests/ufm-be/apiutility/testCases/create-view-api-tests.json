@@ -1,7 +1,7 @@
 [    
   {
     "environment": "qa",
-    "labels": ["smoke","BG-36815","Palalvi"],
+    "labels": ["smoke","BG-36815","Pallavi"],
     "service":"nexusService",
     "uri":"create-nexus-preference",
     "testName": "validate create view with numeric name API",

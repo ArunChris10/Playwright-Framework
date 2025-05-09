@@ -9,7 +9,9 @@
       "testCases/scenario-snapshots-api-tests.json",
       "testCases/create-view-api-tests.json",
       "testCases/data-science-review-testcases/data-science-calculate-save.json",
-      "testCases/data-science-review-testcases/aop-calculate-save.json"
+      "testCases/data-science-review-testcases/data-science-calculate-save-demand-node.json",
+      "testCases/data-science-review-testcases/aop-calculate-save.json",
+      "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json"
     ],
     "coreService": {
       "baseURL":{

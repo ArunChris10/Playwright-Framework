@@ -73,5 +73,149 @@
         }
       }
     ]
+  },
+  {
+    "environment": "qa",
+    "labels":  ["smoke","BG-38032","Pallavi"],
+    "service":"coreService",
+    "uri":"downlaodSnapshots",
+    "testName": "Verify User able to download single snapshots",
+    "queryParams": "",
+    "method": "POST",
+    "payload": {
+      "additional_filters":{
+        "pivot_cols": [
+          "month"
+        ],
+        "pivot_index": [
+          "node_var_name",
+          "channel",
+          "department"
+        ],
+        "period_view": [
+          "month"
+        ],
+        "nodes": [],
+        "month": [
+          "202601",
+          "202602",
+          "202603",
+          "202604",
+          "202605",
+          "202606",
+          "202607",
+          "202608",
+          "202609",
+          "202610",
+          "202611",
+          "202612"
+        ]
+      },
+      "dim_id": 12,
+      "dim_val_id": 120010,
+      "classification_id": 12,
+      "filters":[
+        {
+          "dim_id": 23,
+          "dim_val_ids": [
+            230002
+          ],
+          "children": []
+        },
+        {
+          "dim_id": 2,
+          "dim_val_ids": [
+            20002
+          ],
+          "children": []
+        }
+      ],
+      "snapshot_ids":[
+        "6CF4B53A-B793-4F60-937A-9E5C82B816E2"
+      ]
+    },
+    "assertion": [
+      {
+         "status": 200
+      },
+      {
+        "assertEquals": {
+          "jsonPath1": "message",
+          "value1": "Download snapshot started."
+        }
+      }
+    ]
+  },
+  {
+    "environment": "qa",
+    "labels":  ["smoke","BG-38031","Pallavi"],
+    "service":"coreService",
+    "uri":"downlaodSnapshots",
+    "testName": "Verify User able to download multiple snapshots",
+    "queryParams": "",
+    "method": "POST",
+    "payload": {
+      "additional_filters":{
+        "pivot_cols": [
+          "month"
+        ],
+        "pivot_index": [
+          "node_var_name",
+          "channel",
+          "department"
+        ],
+        "period_view": [
+          "month"
+        ],
+        "nodes": [],
+        "month": [
+          "202601",
+          "202602",
+          "202603",
+          "202604",
+          "202605",
+          "202606",
+          "202607",
+          "202608",
+          "202609",
+          "202610",
+          "202611",
+          "202612"
+        ]
+      },
+      "dim_id": 12,
+      "dim_val_id": 120010,
+      "classification_id": 12,
+      "filters":[
+        {
+          "dim_id": 23,
+          "dim_val_ids": [
+            230002
+          ],
+          "children": []
+        },
+        {
+          "dim_id": 2,
+          "dim_val_ids": [
+            20002
+          ],
+          "children": []
+        }
+      ],
+      "snapshot_ids":["6CF4B53A-B793-4F60-937A-9E5C82B816E2", "13823F45-D59D-4272-B2C4-B3CCE8E9D8B1"]
+    },
+    "assertion": [
+      {
+         "status": 200
+      },
+      {
+        "assertEquals": {
+          "jsonPath1": "message",
+          "value1": "Download snapshot started."
+        }
+      }
+    ]
   }
+
+
 ]
