@@ -176,6 +176,11 @@ export default defineConfig({
       dependencies: ["api-setup"],
       testMatch: /ssdm-be.*.spec.ts/,
       grep: [new RegExp(process.env.tag + "")],
+      use: {
+        extraHTTPHeaders: {
+          "Content-Type": "application/json",
+        },
+      },
       
     },
   ],
