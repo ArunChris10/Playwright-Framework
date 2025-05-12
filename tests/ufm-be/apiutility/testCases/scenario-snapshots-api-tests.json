@@ -114,8 +114,7 @@
   }
 },   
 {
-    "environment": "qa",
-    
+    "environment": "qa",    
     "labels": ["rahul", "IBGROW-38030"],
     "service":"coreService",
     "uri":"downloadSnapshot",

@@ -4,7 +4,7 @@ import { globalStore } from '../apiutility/globalStore';
 import { findAllValuesByKey,findRelativeValue,loadJSON, findFirstValueByKey } from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
-import {interpolateHeadersObject,validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions,getRandomFutureDateTimeWithOffset} from '../apiutility/utils/commonUtil'
+import {getRandomFutureDateTimeWithOffset,interpolateHeadersObject,validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions} from '../apiutility/utils/commonUtil'
 import {pollForExpectedResponse} from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../../secrets/nexus-users-token.json";
 
@@ -115,8 +115,7 @@ parentConfig.testFiles.forEach(testCasePath => {
     else if (testCase.service == "nexusService") {
       baseUrl = parentConfig.nexusService.baseURL[testCase.environment];
     } 
-    
-    const interpolatedHeader = interpolateObject(parentConfig.headers);
+    const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
     test(testCase.testName, async () =>  {
     const resolvedBaseUrl = baseUrl + parentConfig[testCase.service][testCase.uri] +interpolate(testCase.queryParams);
     console.log(`Resolved Base URL for test case "${testCase.testName}":`, resolvedBaseUrl);
@@ -139,18 +138,14 @@ parentConfig.testFiles.forEach(testCasePath => {
         let value;
         for (const globalVar in testCase.extract) {
 
-          if (globalVar == "lastApiResponse"){
-            globalStore["lastApiResponse-"+testCase.testName] = responseBody;
-          }
-          else
-          {
+
           value = findAllValuesByKey(responseBody, testCase.extract[globalVar].replace(/^body\./, ''));
 
           if (value == undefined || value.length == 0) {
             throw new Error(`Key ${testCase.extract[globalVar]} not found in response body`);
           }
           globalStore[globalVar] = value;
-          }          
+                   
         }
       }
       if (testCase.extractFirst) {
@@ -182,15 +177,8 @@ parentConfig.testFiles.forEach(testCasePath => {
         for (const globalKey in testCase.validateExtract) {
           const expected = interpolate(testCase.validateExtract[globalKey]);
           const actual = globalStore[globalKey];
-          if (globalKey == "lastApiResponse"){
-            const selectedPayload = getPayloadByTestCaseName(testCase.testName);
-            const actual = globalStore["lastApiResponse-"+testCase.testName];
-            let ismatch = deepPartialMatch(selectedPayload, actual);
-            expect(ismatch).toBeTruthy();
-          }
-          else{
           await validateExtractedValues(actual, expected, globalKey);
-          }
+          
         }
       }
 
@@ -206,8 +194,8 @@ parentConfig.testFiles.forEach(testCasePath => {
         for (const key in obj) {
           const value = obj[key];
       
-          if (key === 'scenario_id' || key === 'scenario_version') {
-            processed[key] = Number(globalStore[key]);
+          if (key.includes('scenario_id') || key.includes('scenario_version')) {
+            processed[key] = Number(globalStore[value.replace('{{', '').replace('}}', '')]);
           }
           else if (Array.isArray(value)) {
             // Check and replace items in the array that include "scenario_id"
