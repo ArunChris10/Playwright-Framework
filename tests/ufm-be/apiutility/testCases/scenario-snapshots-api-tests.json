@@ -1,7 +1,7 @@
 [  
 {
   "environment": "qa",
-  "labels":  ["smoke","BG-38035","Nidhi"],
+  "labels":  ["smoke","IBGROW-38035","IBGROW-38022","Nidhi"],
   "service":"coreService",
   "uri":"snapshots",
   "testName": "validate compute snapshots API - as Forecast",
@@ -26,7 +26,7 @@
 },
 {
   "environment": "qa",
-  "labels":  ["smoke","BG-38034","Nidhi"],
+  "labels":  ["smoke","IBGROW-38034","IBGROW-38023","Nidhi"],
   "service":"coreService",
   "uri":"snapshots",
   "testName": "validate compute snapshots API - as OTB",
@@ -51,7 +51,7 @@
 },
 {
   "environment": "qa",
-  "labels":  ["smoke","BG-38033","Nidhi"],
+  "labels":  ["smoke","IBGROW-38033","IBGROW-38024","Nidhi"],
   "service":"coreService",
   "uri":"snapshots",
   "testName": "validate compute snapshots API - as Budget",
@@ -115,6 +115,7 @@
 },   
 {
     "environment": "qa",
+    
     "labels": ["rahul", "IBGROW-38030"],
     "service":"coreService",
     "uri":"downloadSnapshot",
@@ -279,6 +280,5 @@
 
       }
     ]
-}
-
+  }
 ]

@@ -4,7 +4,7 @@ import { globalStore } from '../apiutility/globalStore';
 import { findAllValuesByKey,findRelativeValue,loadJSON, findFirstValueByKey } from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
-import {interpolateHeadersObject,validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions, getDynamicMonth} from '../apiutility/utils/commonUtil'
+import {interpolateHeadersObject,validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions,getRandomFutureDateTimeWithOffset} from '../apiutility/utils/commonUtil'
 import {pollForExpectedResponse} from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../../secrets/nexus-users-token.json";
 
@@ -61,6 +61,8 @@ function populateGlobalStore() {
 
   globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
   globalStore["randomNumber"] = generateRandomNumber(3);
+  globalStore["deadlineDate"] = getRandomFutureDateTimeWithOffset(2,0);
+  globalStore["updatedDeadlineDate"] = getRandomFutureDateTimeWithOffset(2,10);
 
 }
 populateGlobalStore();
@@ -113,19 +115,24 @@ parentConfig.testFiles.forEach(testCasePath => {
     else if (testCase.service == "nexusService") {
       baseUrl = parentConfig.nexusService.baseURL[testCase.environment];
     } 
-    const resolvedBaseUrl = baseUrl + parentConfig[testCase.service][testCase.uri] +interpolate(testCase.queryParams);
-    const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
+    
+    const interpolatedHeader = interpolateObject(parentConfig.headers);
     test(testCase.testName, async () =>  {
+    const resolvedBaseUrl = baseUrl + parentConfig[testCase.service][testCase.uri] +interpolate(testCase.queryParams);
+    console.log(`Resolved Base URL for test case "${testCase.testName}":`, resolvedBaseUrl);
       requestContext = await request.newContext({
         baseURL: resolvedBaseUrl,
         extraHTTPHeaders: interpolatedHeader,
         ignoreHTTPSErrors: true,
       });
       const endpoint = "";
+      let responseBody = null;
       let payload = await postProcessInterpolatedPayload(testCase.payload);
       payload = interpolateObject(payload);
       response = await executeRequest(testCase.method, requestContext, endpoint,payload);
-      const responseBody = await response.json();
+      if(response.status() != 204){
+       responseBody = await response.json();
+      }
 
 
       if (testCase.extract) {

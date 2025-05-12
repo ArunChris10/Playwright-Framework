@@ -10,7 +10,8 @@
     "testCases/excel-load-data-api-tests.json",
     "testCases/scenario-snapshots-api-tests.json",
     "testCases/create-view-api-tests.json",
-    "testCases/get-my-kpi-api-tests.json"
+    "testCases/get-my-kpi-api-tests.json",
+    "testCases/forecast-cycle-api-tests.json"
   ],
   "coreService": {
     "baseURL": {
@@ -25,7 +26,8 @@
     "saveAdjustment":"/adjustment/",
     "getKpi":"/reports/get-mykpi",
     "downloadSnapshot":"/reports/download-active-forecast",
-    "getForecast":"/reports/get-report"
+    "getForecast":"/reports/get-report",
+    "getForecastCalendar":"/forecast_calendar/"
   },
   "notificationService": {
     "baseURL": {
