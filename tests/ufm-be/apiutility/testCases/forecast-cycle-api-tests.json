@@ -30,8 +30,8 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "IBGROW-36274",
-      "IBGROW-36154",
+      "BG-36274",
+      "IBGROW-36272",
       "Pallavi"
     ],
     "service": "coreService",
@@ -45,7 +45,7 @@
           "dim_id": 13,
           "dim_val_id": "130001",
           "event_id": 28,
-          "deadline": "2025-09-13 00:00",
+          "deadline": "{{deadlineDate}}",
           "timezone": "CST"
         }
       ]
@@ -60,7 +60,7 @@
         }
       }
     ],
-    "extractFirst": {
+    "extract": {
       "new_cycle_id": "cycle_id"
     }
   },
@@ -85,6 +85,118 @@
         "status": 200
       }
     ]
+  },
+  {
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "IBGROW-36271",
+      "Pallavi"
+    ],
+    "service": "coreService",
+    "uri": "getForecastCalendar",
+    "testName": "Verify get the upcoming deadline API",
+    "queryParams": "deadlines?dim_id=13&dim_val_id=130001&classification_id=12&children=true&published=true",
+    "method": "GET",
+    "extractRelative": {
+      "saved_deadline_date": {
+        "whereKey": "cycle_id",
+        "equals": "{{new_cycle_id}}",
+        "extractKey": "deadline_date"
+      },
+      "assertion": [
+        {
+          "status": 200
+        },
+        {
+          "assertValuesAreEqual": [
+            "{{deadlineDate}}",
+            "{{saved_deadline_date}}"
+          ]
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "dim_id",
+            "value1": 13,
+            "jsonPath2": "dim_val_id",
+            "value2": 130001
+          },
+          "assertNotNull": {
+            "jsonPath1": "forecast_cal_id",
+            "jsonPath2": "cycle_id",
+            "jsonPath3": "event_id",
+            "jsonPath4": "deadline_date"
+          }
+        }
+      ]
+    }
+  },
+  
+  {
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "BG-36270",
+      "Pallavi"
+    ],
+    "service": "coreService",
+    "uri": "getForecastCalendar",
+    "testName": "Verify update forecast cycle api",
+    "queryParams": "{{this_calendar_id}}/cycles/{{new_cycle_id}}",
+    "method": "POST",
+    "payload": {
+      "deadlines": [
+        {
+          "dim_id": 13,
+          "dim_val_id": "130001",
+          "event_id": 28,
+          "deadline": "{{updatedDeadlineDate}}",
+          "timezone": "CST"
+        }
+      ]
+    },
+    "assertion": [
+      {
+        "status": 200
+      },
+      {
+        "assertEquals": {
+          "jsonPath1": "message",
+          "value1": "Cycle updated successfully."
+        }
+      }
+    ]
+  },
+  {
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "IBGROW-36270",
+      "Pallavi"
+    ],
+    "service": "coreService",
+    "uri": "getForecastCalendar",
+    "testName": "validate updated cycle details in get forecast Calendar API",
+    "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
+    "method": "GET",
+    "extractRelative": {
+      "updated_deadline_date": {
+        "whereKey": "submission_cycles.submission_cycle_details.cycle_id",
+        "equals": "{{new_cycle_id}}",
+        "extractKey": "submission_cycles.submission_cycle_details.deadline_date"
+      },
+      "assertion": [
+        {
+          "status": 200
+        },
+        {
+          "assertValuesAreEqual": [
+            "{{updated_deadline_date}}",
+            "{{updatedDeadlineDate}}"
+          ]
+        }
+      ]
+    }
   },
   {
     "environment": "qa",
@@ -129,31 +241,26 @@
   },
   {
     "environment": "qa",
-    "labels": [
-      "smoke",
-      "IBGROW-36274",
-      "IBGROW-36154",
-      "Pallavi"
-    ],
-    "service": "coreService",
-    "uri": "getForecastCalendar",
-    "testName": "Create another forecast cycle after delete",
+    "labels": ["smoke","BG-36274","IBGROW-36272","Pallavi"],
+    "service":"coreService",
+    "uri":"getForecastCalendar",
+    "testName": "Create Forecast for generating cycle data",
     "queryParams": "{{this_calendar_id}}/cycles",
     "method": "POST",
     "payload": {
-      "deadlines": [
+      "deadlines":[
         {
           "dim_id": 13,
           "dim_val_id": "130001",
           "event_id": 28,
-          "deadline": "2025-09-15 00:00",
+          "deadline": "{{deadlineDate}}",
           "timezone": "CST"
         }
       ]
     },
     "assertion": [
       {
-        "status": 201
+         "status": 201 
       },
       {
         "assertNotNull": {
@@ -161,8 +268,8 @@
         }
       }
     ],
-    "extractFirst": {
-      "this_cycle_id": "cycle_id"
+     "extract": {
+      "second_cycle_id": "cycle_id"
     }
   },
   {
@@ -201,10 +308,10 @@
     "service": "coreService",
     "uri": "getForecastCalendar",
     "testName": "delete Forecast Calendar cycle- cleanup",
-    "queryParams": "{{this_calendar_id}}/cycles/{{this_cycle_id}}",
+    "queryParams": "{{this_calendar_id}}/cycles/{{second_cycle_id}}",
     "method": "DELETE",
     "payload": {
-      "cycle_id": "{{this_cycle_id}}",
+      "cycle_id": "{{second_cycle_id}}",
       "calendar_id": "{{this_calendar_id}}"
     }
   }
