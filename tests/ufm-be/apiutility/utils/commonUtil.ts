@@ -214,10 +214,15 @@ let filePathOfPayload;
     });
   }
 
-  export function getDynamicMonth(): string {
-      const now = new Date();
-      now.setMonth(now.getMonth() + 1); 
-      const year = now.getFullYear() + 1;
-      const monthString = (now.getMonth() + 1).toString().padStart(2, '0'); // Ensure 2-digit month
-    return `${year}${monthString}`;
+  export function getRandomFutureDateTimeWithOffset(daysFromNow: number, hoursOffset: number = 0): string {
+    const now = new Date();
+    const randomDays = Math.floor(Math.random() * daysFromNow) + 1; // Random number of days within the range
+    now.setDate(now.getDate() + randomDays); // Add random days to the current date
+    now.setHours(now.getHours() + hoursOffset); // Add the specified hours offset
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Ensure 2-digit month
+    const day = now.getDate().toString().padStart(2, '0'); // Ensure 2-digit day
+    const hours = now.getHours().toString().padStart(2, '0'); // Ensure 2-digit hour
+    const minutes = now.getMinutes().toString().padStart(2, '0'); // Ensure 2-digit minute
+    return `${year}-${month}-${day} ${hours}:${minutes}`; // Return the date-time in the desired format
   }
