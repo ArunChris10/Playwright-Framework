@@ -82,9 +82,22 @@ let filePathOfPayload;
     return expected === actual;
   }
 
-  export function interpolate(value: any): any {
+  export function interpolateHeaders(value: any): any {
     if (typeof value === 'string') {
       return value.replace(/\{\{(.*?)\}\}/g, (_, key) => globalStore[key.trim()] ?? '');
+    }
+    return value;
+  }
+
+  export function interpolate(value: any): any {
+    if (typeof value === 'string') {
+      return value.replace(/\{\{(.*?)\}\}/g, (_, key) => {
+        const trimmedKey = key.trim();
+        if (globalStore.getValue) {
+          return globalStore.getValue(trimmedKey) ?? '';
+        }
+        return globalStore[trimmedKey] ?? '';
+      });
     }
     return value;
   }
@@ -102,6 +115,16 @@ let filePathOfPayload;
     return interpolated;
   }
 
+  export function interpolateHeadersObject(obj: any): any {
+    if (typeof obj !== 'object' || obj === null) return obj;
+  
+    const interpolated: any = Array.isArray(obj) ? [] : {};
+    for (const key in obj) {
+      const val = obj[key];
+      interpolated[key] = typeof val === 'object' ? interpolateHeadersObject(val) : interpolateHeaders(val);
+    }
+    return interpolated;
+  }
 
 
   export function validateAssertions(response:any,responseBody: any, assertions: any[], testcase: ApiTestCase) {
@@ -163,8 +186,20 @@ let filePathOfPayload;
                 const actualValue = findAllValuesByKey(responseBody, jsonPath);
                 expect(actualValue).not.toBeNull(); // Assert the equality
               }
+
+            } else if (arrayOfAssertion.assertValuesAreEqual) {
+              // Handle assertValuesAreEqual
+              if (arrayOfAssertion.assertValuesAreEqual.length < 2) {
+                throw new Error('assertValuesAreEqual requires at least two values.');
+              }              
+              const firstValue = interpolate(arrayOfAssertion.assertValuesAreEqual[0]);
+              for (let i = 1; i < arrayOfAssertion.assertValuesAreEqual.length; i++) {
+                const curValue = interpolate(arrayOfAssertion.assertValuesAreEqual[i]);
+                  expect(curValue).toEqual(firstValue);
+              }
+              }
             
-            } else if (arrayOfAssertion.assertResponse) {
+            else if (arrayOfAssertion.assertResponse) {
               // Handle assertNotNull
               const selectedPayload = await getPayloadByTestCaseName(testcase);
               let ismatch = deepPartialMatch(selectedPayload, responseBody);

@@ -1,10 +1,10 @@
 import { test, expect, request,APIRequestContext } from '@playwright/test';
 import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
-import { findAllValuesByKey,findRelativeValue,loadJSON, findFirstValuesByKey } from '../apiutility/utils/jsonUtils';
+import { findAllValuesByKey,findRelativeValue,loadJSON, findFirstValueByKey } from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
-import {validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions, getDynamicMonth} from '../apiutility/utils/commonUtil'
+import {interpolateHeadersObject,validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions,getRandomFutureDateTimeWithOffset} from '../apiutility/utils/commonUtil'
 import {pollForExpectedResponse} from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../../secrets/nexus-users-token.json";
 
@@ -41,7 +41,8 @@ export type AssertionEntry =
 | { assertNotEquals: {[key: string]: string | number;  }}
 | { assertNull: {[key: string]: string;};}
 | { assertNotNull: {[key: string]: string;};}
-| { assertResponse: { filePath: string, value: any } };
+| { assertResponse: { filePath: string, value: any } }
+| { assertValuesAreEqual: (string | number)[] };;
 
 interface ParentConfig {
   headers: { [key: string]: string };
@@ -60,7 +61,8 @@ function populateGlobalStore() {
 
   globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
   globalStore["randomNumber"] = generateRandomNumber(3);
-  globalStore["dynamicMonth"] = getDynamicMonth();
+  globalStore["deadlineDate"] = getRandomFutureDateTimeWithOffset(2,0);
+  globalStore["updatedDeadlineDate"] = getRandomFutureDateTimeWithOffset(2,10);
 
 }
 populateGlobalStore();
@@ -68,6 +70,7 @@ populateGlobalStore();
 // Pre-hook: Runs before all test cases
 test.beforeAll(async () => {
   console.log('Global Setup Started');
+
 });
 
 // Pre-hook: Runs before each test
@@ -124,15 +127,13 @@ parentConfig.testFiles.forEach(testCasePath => {
       });
       const endpoint = "";
       let responseBody = null;
-      const payload = interpolateObject(testCase.payload);
+      let payload = await postProcessInterpolatedPayload(testCase.payload);
+      payload = interpolateObject(payload);
       response = await executeRequest(testCase.method, requestContext, endpoint,payload);
       if(response.status() != 204){
        responseBody = await response.json();
       }
 
-      if (testCase.assertion) {
-        await validateAssertions(response,responseBody, [testCase.assertion],testCase);
-      }
 
       if (testCase.extract) {
         let value;
@@ -155,7 +156,7 @@ parentConfig.testFiles.forEach(testCasePath => {
       if (testCase.extractFirst) {
         let value;
         for (const globalVar in testCase.extractFirst) {
-          value = findFirstValuesByKey(responseBody, testCase.extractFirst[globalVar].replace(/^body\./, ''));
+          value = findFirstValueByKey(responseBody, testCase.extractFirst[globalVar].replace(/^body\./, ''));
 
           if (value == undefined || value.length == 0) {
             throw new Error(`Key ${testCase.extractFirst[globalVar]} not found in response body`);
@@ -193,6 +194,46 @@ parentConfig.testFiles.forEach(testCasePath => {
         }
       }
 
+      if (testCase.assertion) {
+        await validateAssertions(response,responseBody, [testCase.assertion],testCase);
+      }
+
+      function postProcessInterpolatedPayload(obj: any): any {
+        if (obj === null || typeof obj !== 'object') return obj;
+      
+        const processed = Array.isArray(obj) ? [] : {};
+      
+        for (const key in obj) {
+          const value = obj[key];
+      
+          if (key === 'scenario_id' || key === 'scenario_version') {
+            processed[key] = Number(globalStore[key]);
+          }
+          else if (Array.isArray(value)) {
+            // Check and replace items in the array that include "scenario_id"
+            processed[key] = value.map(item => {
+              if (typeof item === 'string' && item.includes("scenario_id")) {
+                const match = item.match(/\{\{(.*?)\}\}/);
+                if (match) {
+                  const variableKey = match[1].trim();
+                  return globalStore.getValue
+                    ? globalStore.getValue(variableKey)
+                    : globalStore[variableKey];
+                }
+              }
+              return item; // return original if not matched
+            });
+          }
+          else if (typeof value === 'object') {
+            processed[key] = postProcessInterpolatedPayload(value); // recursive call
+          } else {
+            processed[key] = value;
+          }
+        }
+      
+        return processed;
+      }
+      
       // keeping the below code for future use, if needed
 
 /*       if (testCase.method.toUpperCase() === 'POST' && testCase.polling) {
