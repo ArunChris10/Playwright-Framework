@@ -1,0 +1,12 @@
+{
+    "Optical": {
+        "orgName": "Health & wellness",
+        "driver": {
+            "inputDriver": [
+                "Membership Income",
+                "Other Cost of Goods Sold",
+                "Inventory Variances Input"
+            ]
+        }
+    }
+}

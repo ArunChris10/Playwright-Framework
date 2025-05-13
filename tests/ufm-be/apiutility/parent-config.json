@@ -5,9 +5,13 @@
   },
   "user": "LB-ibg-ufm-auto",
   "testFiles": [
+    "testCases/data-science-review-testcases/data-science-calculate-save.json",
+    "testCases/data-science-review-testcases/aop-calculate-save.json",
     "testCases/excel-load-data-api-tests.json",
     "testCases/scenario-snapshots-api-tests.json",
-      "testCases/create-view-api-tests.json"
+    "testCases/create-view-api-tests.json",
+    "testCases/get-my-kpi-api-tests.json",
+    "testCases/forecast-cycle-api-tests.json"
   ],
   "coreService": {
     "baseURL": {
@@ -16,8 +20,14 @@
     },
     "getScreenId": "/filter/screen_details?",
     "listHistoricals": "/scenario/list-historicals?",
-    "snapshots": "/archive/"
-      
+    "snapshots": "/archive/",
+    "getDataScienceInfo":"/scenario/data-science/info",
+    "allocateData":"/allocate-data",
+    "saveAdjustment":"/adjustment/",
+    "getKpi":"/reports/get-mykpi",
+    "downloadSnapshot":"/reports/download-active-forecast",
+    "getForecast":"/reports/get-report",
+    "getForecastCalendar":"/forecast_calendar/"
   },
   "notificationService": {
     "baseURL": {
