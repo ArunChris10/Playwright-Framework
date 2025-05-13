@@ -4,7 +4,7 @@ import { globalStore } from '../apiutility/globalStore';
 import { findAllValuesByKey,findRelativeValue,loadJSON, findFirstValueByKey } from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
-import {getRandomFutureDateTimeWithOffset,interpolateHeadersObject,validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions} from '../apiutility/utils/commonUtil'
+import {clearGlobalStoreFile,getRandomFutureDateTimeWithOffset,interpolateHeadersObject,validateExtractedValues,generateRandomNumber,getPayloadByTestCaseName,deepPartialMatch,interpolateObject,interpolate,validateAssertions} from '../apiutility/utils/commonUtil'
 import {pollForExpectedResponse} from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../../secrets/nexus-users-token.json";
 
@@ -60,36 +60,8 @@ const parentConfig = loadJSON<ParentConfig>(path.resolve(__dirname, 'parent-conf
 function populateGlobalStore() {
 
   globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
-  globalStore["randomNumber"] = generateRandomNumber(3);
-  globalStore["deadlineDate"] = getRandomFutureDateTimeWithOffset(2,0);
-  globalStore["updatedDeadlineDate"] = getRandomFutureDateTimeWithOffset(2,10);
-
 }
 populateGlobalStore();
-
-// Pre-hook: Runs before all test cases
-test.beforeAll(async () => {
-  console.log('Global Setup Started');
-
-});
-
-// Pre-hook: Runs before each test
-test.beforeEach(async ({}, testInfo) => {
-  console.log(`Starting test: ${testInfo.title}`);
-
-});
-
-// Post-hook: Runs after each test
-test.afterEach(async ({}, testInfo) => {
-  console.log(`Completed test: ${testInfo.title}`);
-
-});
-
-// Post-hook: Runs once after all tests are done
-test.afterAll(async () => {
-  console.log('Global Teardown Completed');
-
-});
 
 
 parentConfig.testFiles.forEach(testCasePath => {
@@ -144,7 +116,7 @@ parentConfig.testFiles.forEach(testCasePath => {
           if (value == undefined || value.length == 0) {
             throw new Error(`Key ${testCase.extract[globalVar]} not found in response body`);
           }
-          globalStore[globalVar] = value;
+          globalStore.setValue([globalVar],value);
                    
         }
       }
@@ -156,7 +128,7 @@ parentConfig.testFiles.forEach(testCasePath => {
           if (value == undefined || value.length == 0) {
             throw new Error(`Key ${testCase.extractFirst[globalVar]} not found in response body`);
           }
-          globalStore[globalVar] = value;       
+          globalStore.setValue([globalVar],value);      
         }
       }
 
@@ -165,7 +137,7 @@ parentConfig.testFiles.forEach(testCasePath => {
           const { whereKey, equals, extractKey } = testCase.extractRelative[globalVar];
           const value = findRelativeValue(responseBody, whereKey, equals, extractKey);
           if (value !== undefined) {
-            globalStore[globalVar] = value;
+            globalStore.setValue([globalVar],value);
           } else {
             throw new Error(`Could not find relative value where "${whereKey}" == "${equals}" to extract "${extractKey}"`);
           }
@@ -194,8 +166,10 @@ parentConfig.testFiles.forEach(testCasePath => {
         for (const key in obj) {
           const value = obj[key];
       
-          if (key.includes('scenario_id') || key.includes('scenario_version')) {
-            processed[key] = Number(globalStore[value.replace('{{', '').replace('}}', '')]);
+          if (key.includes('scenario_id') || key.includes('scenario_version') || key.includes('"scenario_version_timestamp"')) {
+            const rawValue = globalStore[value.replace('{{', '').replace('}}', '')];
+            const numericValue = Number(rawValue);
+            processed[key] = isNaN(numericValue) ? rawValue : numericValue;
           }
           else if (Array.isArray(value)) {
             // Check and replace items in the array that include "scenario_id"
@@ -230,5 +204,5 @@ parentConfig.testFiles.forEach(testCasePath => {
 
       // console.log(`Global Store after ${testCase.testName}:`, globalStore);
     });
-  });
+  });  
 });

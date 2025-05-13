@@ -31,7 +31,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 0 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? undefined : undefined,
+  workers: 5,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: process.env.CI
     ? [
@@ -193,6 +193,17 @@ export default defineConfig({
           headless: false,
           launchOptions: {
             args: ["--ignore-certificate-errors", "--start-fullscreen"],
+          },
+        },
+      },
+      {
+        name: "apiutility",
+        dependencies: ["api-setup"],
+        testMatch: /api.test.*.ts/,
+        grep: [new RegExp(process.env.tag + "")],
+        use: {
+          extraHTTPHeaders: {
+            Authorization: `Bearer ${nexusTokens[process.env.ufmUser + ""]}`,
           },
         },
       },
