@@ -88,13 +88,14 @@ let filePathOfPayload;
     }
     return value;
   }
+  
 
   export function interpolate(value: any): any {
     if (typeof value === 'string') {
       return value.replace(/\{\{(.*?)\}\}/g, (_, key) => {
         const trimmedKey = key.trim();
         if (globalStore.getValue) {
-          return globalStore.getValue(trimmedKey) ?? '';
+          return globalStore.getValue?.(trimmedKey) ?? globalStore[trimmedKey] ?? '';
         }
         return globalStore[trimmedKey] ?? '';
       });
@@ -225,4 +226,12 @@ let filePathOfPayload;
     const hours = now.getHours().toString().padStart(2, '0'); // Ensure 2-digit hour
     const minutes = now.getMinutes().toString().padStart(2, '0'); // Ensure 2-digit minute
     return `${year}-${month}-${day} ${hours}:${minutes}`; // Return the date-time in the desired format
+  }
+
+  export async function clearGlobalStoreFile() {
+    const STORE_FILE = path.resolve(process.cwd(), '.globalStore.json');
+    if (fs.existsSync(STORE_FILE)) {
+      fs.writeFileSync(STORE_FILE, '{}', 'utf-8');
+      console.log('🧹 Cleared .globalStore.json after all tests.');
+    }
   }
