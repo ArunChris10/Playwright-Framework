@@ -9,6 +9,10 @@ export class ExcelPage {
   readonly businessArea: Locator;
   readonly dateRangePicker: Locator;
   readonly btnHasText: Function;
+  readonly savedView: Locator;
+  readonly scenario: Locator;
+  readonly loadDataButton: Locator;
+  readonly spinner: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -23,6 +27,9 @@ export class ExcelPage {
     this.dateRangePicker = this.mainIframe.getByTestId("date-range-component");
     this.btnHasText = (text: string) =>
       this.mainIframe.locator("button").filter({ hasText: text });
+    this.savedView = this.mainIframe.getByText("Saved Views");
+    this.scenario = this.mainIframe.getByText("Scenarios");
+    this.loadDataButton = this.mainIframe.getByTestId("LoadDataButton");
   }
 
   async getStarted() {
@@ -38,6 +45,43 @@ export class ExcelPage {
         .getByRole("menuitem", { name: businessArea })
         .click();
     }
+  }
+
+  async selectSavedView(savedView?: string) {
+    await this.savedView.click();
+    if (savedView) {
+      await this.mainIframe.getByRole("radio", { name: savedView }).click();
+    } else {
+      await this.mainIframe.getByRole("radio").first().click();
+    }
+    await this.savedView.click();
+  }
+
+  async selectScenario(scenario?: string) {
+    await this.scenario.click();
+    if (scenario) {
+      await this.mainIframe.getByRole("checkbox", { name: scenario }).click();
+    } else {
+      if (!(await this.mainIframe.getByRole("checkbox").first().isChecked())) {
+        await this.mainIframe.getByRole("checkbox").first().click();
+      }
+    }
+    await this.scenario.click();
+  }
+
+  async loadData() {
+    await this.loadDataButton.click();
+    await this.loadDataButton.isHidden();
+    await this.loadDataButton.isVisible();
+    await this.page.waitForTimeout(5000);
+  }
+
+  async verifySavedConfigurations() {
+    await this.loadDataButton.isEnabled();
+    await this.scenario.click();
+    await this.mainIframe.getByRole("checkbox").first().isChecked();
+    await this.savedView.click();
+    await this.mainIframe.getByRole("radio").first().isChecked();
   }
 
   async openDateRangePicker() {
