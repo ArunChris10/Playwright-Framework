@@ -85,7 +85,7 @@
     ],
    "period_view": "month",
 "preview": true,
-"scenario_id": 15001747205118
+"scenario_id": "{{scenario_id}}"
   },
   "assertion": [
     {
@@ -137,12 +137,12 @@
       "is_update": false,
       "is_create": true,
       "adjustment_edits": 1,
-      "scenario_id": 15001747205118,
+      "scenario_id":"{{scenario_id}}",
       "scenario_version_timestamp": 1747205118
     },
     "allocation_request":{
         "display_nodes": [],
-        "scenario_id": 15001747205118,
+        "scenario_id":"{{scenario_id}}",
         "dim_val_id": 110027,
         "dim_id": 11,
         "preview": false,
