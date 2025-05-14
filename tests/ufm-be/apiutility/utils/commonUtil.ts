@@ -82,9 +82,23 @@ let filePathOfPayload;
     return expected === actual;
   }
 
-  export function interpolate(value: any): any {
+  export function interpolateHeaders(value: any): any {
     if (typeof value === 'string') {
       return value.replace(/\{\{(.*?)\}\}/g, (_, key) => globalStore[key.trim()] ?? '');
+    }
+    return value;
+  }
+  
+
+  export function interpolate(value: any): any {
+    if (typeof value === 'string') {
+      return value.replace(/\{\{(.*?)\}\}/g, (_, key) => {
+        const trimmedKey = key.trim();
+        if (globalStore.getValue) {
+          return globalStore.getValue?.(trimmedKey) ?? globalStore[trimmedKey] ?? '';
+        }
+        return globalStore[trimmedKey] ?? '';
+      });
     }
     return value;
   }
@@ -102,6 +116,16 @@ let filePathOfPayload;
     return interpolated;
   }
 
+  export function interpolateHeadersObject(obj: any): any {
+    if (typeof obj !== 'object' || obj === null) return obj;
+  
+    const interpolated: any = Array.isArray(obj) ? [] : {};
+    for (const key in obj) {
+      const val = obj[key];
+      interpolated[key] = typeof val === 'object' ? interpolateHeadersObject(val) : interpolateHeaders(val);
+    }
+    return interpolated;
+  }
 
 
   export function validateAssertions(response:any,responseBody: any, assertions: any[], testcase: ApiTestCase) {
@@ -163,8 +187,20 @@ let filePathOfPayload;
                 const actualValue = findAllValuesByKey(responseBody, jsonPath);
                 expect(actualValue).not.toBeNull(); // Assert the equality
               }
+
+            } else if (arrayOfAssertion.assertValuesAreEqual) {
+              // Handle assertValuesAreEqual
+              if (arrayOfAssertion.assertValuesAreEqual.length < 2) {
+                throw new Error('assertValuesAreEqual requires at least two values.');
+              }              
+              const firstValue = interpolate(arrayOfAssertion.assertValuesAreEqual[0]);
+              for (let i = 1; i < arrayOfAssertion.assertValuesAreEqual.length; i++) {
+                const curValue = interpolate(arrayOfAssertion.assertValuesAreEqual[i]);
+                  expect(curValue).toEqual(firstValue);
+              }
+              }
             
-            } else if (arrayOfAssertion.assertResponse) {
+            else if (arrayOfAssertion.assertResponse) {
               // Handle assertNotNull
               const selectedPayload = await getPayloadByTestCaseName(testcase);
               let ismatch = deepPartialMatch(selectedPayload, responseBody);
@@ -179,10 +215,23 @@ let filePathOfPayload;
     });
   }
 
-  export function getDynamicMonth(): string {
-      const now = new Date();
-      now.setMonth(now.getMonth() + 1); 
-      const year = now.getFullYear() + 1;
-      const monthString = (now.getMonth() + 1).toString().padStart(2, '0'); // Ensure 2-digit month
-    return `${year}${monthString}`;
+  export function getRandomFutureDateTimeWithOffset(daysFromNow: number, hoursOffset: number = 0): string {
+    const now = new Date();
+    const randomDays = Math.floor(Math.random() * daysFromNow) + 1; // Random number of days within the range
+    now.setDate(now.getDate() + randomDays); // Add random days to the current date
+    now.setHours(now.getHours() + hoursOffset); // Add the specified hours offset
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Ensure 2-digit month
+    const day = now.getDate().toString().padStart(2, '0'); // Ensure 2-digit day
+    const hours = now.getHours().toString().padStart(2, '0'); // Ensure 2-digit hour
+    const minutes = now.getMinutes().toString().padStart(2, '0'); // Ensure 2-digit minute
+    return `${year}-${month}-${day} ${hours}:${minutes}`; // Return the date-time in the desired format
+  }
+
+  export async function clearGlobalStoreFile() {
+    const STORE_FILE = path.resolve(process.cwd(), '.globalStore.json');
+    if (fs.existsSync(STORE_FILE)) {
+      fs.writeFileSync(STORE_FILE, '{}', 'utf-8');
+      console.log('🧹 Cleared .globalStore.json after all tests.');
+    }
   }

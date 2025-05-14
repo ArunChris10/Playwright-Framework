@@ -1,30 +1,34 @@
 {
-    "headers": {
-      "Content-Type": "application/json",
-      "Authorization": "{{token}}"
+  "headers": {
+    "Content-Type": "application/json",
+    "Authorization": "{{token}}"
+  },
+  "user": "LB-ibg-ufm-auto",
+  "testFiles": [
+    "testCases/data-science-review-testcases/data-science-calculate-save.json",
+    "testCases/data-science-review-testcases/aop-calculate-save.json",
+    "testCases/excel-load-data-api-tests.json",
+    "testCases/scenario-snapshots-api-tests.json",
+    "testCases/create-view-api-tests.json",
+    "testCases/get-my-kpi-api-tests.json",
+    "testCases/forecast-cycle-api-tests.json"
+    "testCases/calculate-save-non-additive-node-api-test.json"
+  ],
+  "coreService": {
+    "baseURL": {
+      "qa": "https://ibg-ufm-core-service.qa.ibg.walmart.com",
+      "dev": "https://ibg-ufm-core-service.dev.ibg.walmart.com"
     },
-    "user":"LB-ibg-ufm-auto",
-    "testFiles": [
-      "testCases/excel-load-data-api-tests.json",
-      "testCases/scenario-snapshots-api-tests.json",
-      "testCases/create-view-api-tests.json",
-      "testCases/data-science-review-testcases/data-science-calculate-save.json",
-      "testCases/data-science-review-testcases/data-science-calculate-save-demand-node.json",
-      "testCases/data-science-review-testcases/aop-calculate-save.json",
-      "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json"
-    ],
-    "coreService": {
-      "baseURL":{
-        "qa":"https://ibg-ufm-core-service.qa.ibg.walmart.com",
-        "dev":"https://ibg-ufm-core-service.dev.ibg.walmart.com"
-      },
-      "getScreenId": "/filter/screen_details?",
-      "listHistoricals":"/scenario/list-historicals?",
-      "snapshots":"/archive/",
-      "getDataScienceInfo":"/scenario/data-science/info",
-      "allocateData":"/allocate-data",
-      "saveAdjustment":"/adjustment/",
-      "getKpi":"/reports/get-mykpi"
+    "getScreenId": "/filter/screen_details?",
+    "listHistoricals": "/scenario/list-historicals?",
+    "snapshots": "/archive/",
+    "getDataScienceInfo":"/scenario/data-science/info",
+    "allocateData":"/allocate-data",
+    "saveAdjustment":"/adjustment/",
+    "getKpi":"/reports/get-mykpi",
+    "downloadSnapshot":"/reports/download-active-forecast",
+    "getForecast":"/reports/get-report",
+    "getForecastCalendar":"/forecast_calendar/"
   },
   "notificationService": {
     "baseURL": {

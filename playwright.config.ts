@@ -196,5 +196,16 @@ export default defineConfig({
           },
         },
       },
+      {
+        name: "apiutility",
+        dependencies: ["api-setup"],
+        testMatch: /api.test.*.ts/,
+        grep: [new RegExp(process.env.tag + "")],
+        use: {
+          extraHTTPHeaders: {
+            Authorization: `Bearer ${nexusTokens[process.env.ufmUser + ""]}`,
+          },
+        },
+      },
   ],
 });

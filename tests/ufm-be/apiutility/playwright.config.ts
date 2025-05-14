@@ -3,14 +3,13 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   timeout: 60000,
+  globalTeardown: './globalTeardown.ts',
+  globalSetup: './globalSetup.ts', 
   retries: 0,
-  workers:3,
-  use: {
-    baseURL: 'https://your-default-base-url.com',
-  },
+  workers: 3,
   reporter: [
-    ['list'],               // console reporter
-    ['html', { open: 'never' }],  // generates HTML report
-    ['json', { outputFile: 'test-report.json' }], // optional
+    ['list'],
+    ['html', { open: 'never' }],
+    ['json', { outputFile: 'test-report.json' }],
   ],
 });
