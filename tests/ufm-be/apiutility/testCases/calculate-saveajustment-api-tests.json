@@ -37,11 +37,17 @@
       }
     ],
     "extractRelative": {
-      "scenario_id": {
+      "calculate_scenario_id": {
         "whereKey": "rowData.name",
         "equals": "io",
         "extractKey": "scenarioId"
+      },
+      "calculate_scenario_version":{
+        "whereKey": "rowData.name",
+        "equals": "io",
+        "extractKey": "scenarioVersion"
       }
+
     }
   },
   {
@@ -59,7 +65,7 @@
     "queryParams": "",
     "payload": {
       "display_nodes": [],
-      "scenario_id": 18501744038446,
+      "scenario_id": "{{calculate_scenario_id}}",
       "dim_val_id": 110026,
       "dim_id": 11,
       "preview": true,
@@ -163,8 +169,8 @@
         "is_update": false,
         "is_create": true,
         "adjustment_edits": 3,
-        "scenario_id": 18501744038446,
-        "scenario_version_timestamp": 1744038446
+        "scenario_id": "{{calculate_scenario_id}}",
+        "scenario_version_timestamp": "{{calculate_scenario_version}}"
       },
       "allocation_request":{
           "display_nodes": [],
