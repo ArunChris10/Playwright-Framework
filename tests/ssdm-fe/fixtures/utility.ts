@@ -1,7 +1,5 @@
 import { test, expect, Page, Browser, Locator } from '@playwright/test';
-import { LoginPage } from "../../common/pages/login.page";
 import { TIMEOUT } from '../constants/timeout.json';
-import { Home } from '../../common/pages/home.page';
 import { matchers } from 'playwright-expect';
 import { Utility } from "../../common/fixtures/utils";
 
@@ -34,11 +32,11 @@ export class signinUtility {
     }
 
     // Method to perform the sign-in operation
-    static async SignIn(page1: Page) {
+    static async SignIn(signinPage: Page) {
         // Navigate to the application URL with a timeout
-        await page1.goto(this.urlEndpoint, { timeout: 300000 });
+        await signinPage.goto(this.urlEndpoint, { timeout: 300000 });
         // Initialize locators for the page
-        this.initialize(page1);
+        this.initialize(signinPage);
         // Fill in the user ID and password fields
         await this.userId.fill(String(this.userName));
         await this.password.fill(await Utility.getLoginPassword(String(this.userName)));

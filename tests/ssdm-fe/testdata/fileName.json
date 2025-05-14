@@ -26,31 +26,34 @@
         "completeSearch": "Cost per Delivery",
         "partialSearch": "Cost per",
         "incorrectSearch": "Growth",
-        "metricName1": "TestNodeNameUpdated"
+        "metricNames": "TestNodeName",
+        "month": "Month",
+        "segment": "SEGMENT"
     },
     "filterOptions": [
         {
             "data": {
                 "month":{
-                    "actuals":"actuals",
-                    "forecast": "Forecast"
+                    "actuals":"ACTUALS",
+                    "forecast": "FORECAST"
                 },
                 "channel": {
                     "dropDown": "Channel",
                     "childDropDown": "DELIVERY",
                     "option": "OWNED_S2H",
-                    "option1": "DSV_S2H, DSV_S2S",
-                    "option3": "*, CORE_SERVICES"
+                    "options": "DSV_S2H, DSV_S2S",
+                    "optionValue": "*, CORE_SERVICES"
                 },
                 "department": {
                     "dropDown": "Department",
                     "childDropDown": "FOOD",
                     "option": "1_CANDY",
-                    "option1": "*, 38_PHARMACY RX"
+                    "options": "*, 38_PHARMACY RX"
                 },
                 "owner":{
-                    "option1": "MARKETPLACE",
-                    "option2": "CONNECT"
+                    "option": "MARKETPLACE",
+                    "options": "CONNECT",
+                     "segment": "SEGMENT"
                 },
                 "entity":{
                     "option": "ACQUISITIONS_AND_INCUBATIONS"

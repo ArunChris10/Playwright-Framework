@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { testData, filterOptions } from '../testdata/fileName.json';
+import { testData, filterOptions  } from '../testdata/fileName.json';
 
 export class LandingPageValidation {
   readonly page: Page;
@@ -19,7 +19,7 @@ export class LandingPageValidation {
   readonly btnClose: Locator;
   readonly sameNode: Locator;
   readonly owner: Locator;
-  readonly text: Locator;
+  readonly owners: Locator;
   readonly checked: Locator;
   readonly checktext: Locator | string;
   readonly monthText: Locator;
@@ -37,43 +37,45 @@ export class LandingPageValidation {
   readonly groupOwner1: Locator;
   readonly groupOwner2: Locator;
   readonly nameText: Locator;
+  readonly textField: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.searchBox = page.locator('input[type="search"]');
     this.btnInput = page.locator('//button[text()="Inputs"]');
     this.btnCalculations = page.locator('//button[text()="Calculations"]');
-    this.drpSortGroupBy = page.locator('//button[text()="Sort / Group by"]');
-    this.btnSettings = page.locator('//button[aria-label="Gear"]');
-    this.btnFilter = page.locator('//button[aria-label="Filter"]');
+    this.drpSortGroupBy = page.locator('//p[text()="Sort / Group by"]');
+    this.btnSettings = page.locator('//div[@data-field="settings"]');
+    this.btnFilter = page.locator('//button[@aria-label="Filter"]');
     this.searchFilter = page.locator('//input[contains(@class,"textfield")]');
     this.searchResult = page.locator('//i[contains(@class,"ld")]');
-    this.btnClearFilter = page.locator('//button[text()="Clear Filter"]');
+    this.btnClearFilter = page.locator('//button[@type="button"]');
     this.checkbox = page.locator('input[type="checkbox"]');
-    this.sort_AZ = page.locator('div[text()="Metric Name - A-Z"]');
-    this.sort_ZA = page.locator('div[text()="Metric Name - Z-A"]');
-    this.recentUpdate = page.locator('div[text()="Recently Updated"]');
+    this.sort_AZ = page.locator('//div[text()="Metric Name - A-Z"]');
+    this.sort_ZA = page.locator('//div[text()="Metric Name - Z-A"]');
+    this.recentUpdate = page.locator('//div[text()="Recently Updated"]');
     this.btnClose = page.locator('//button[text()="Close"]');
-    this.sameNode = page.locator('div[text()="Same node variations"]');
-    this.owner = page.locator('div[text()="Owner"]');
-    this.text = page.locator('div[@role="gridcell"]');
-    this.checked = page.locator('div[@role="row"]');
-    this.checktext = page.locator('span[text()="Checkbox-module_labelText__14PgT"]');
-    this.monthText = page.locator('div[data-field="month"]');
+    this.sameNode = page.locator('//div[text()="Same node variations"]');
+    this.owner = page.locator('//div[@data-field="Owner"]');
+    this.owners = page.locator('//span[text()="Owner"]')
+    this.checked = page.locator('//div[@role="row"]');
+    this.checktext = page.locator('span[class()="Body-module_body__FhbCV Body-module_body1__dqtk7"]');
+    this.monthText = page.locator('//div[@data-field="month"]');
     this.nameText = page.locator('div[data-field="metricName"]');
+    this.textField = page.locator('//input[@type="text"]');
     this.month1Text = page.locator('input[value="forecast"]');
-    this.channelText = page.locator('input[value="DSV_S2H, DSV_S2S"]');
+    this.channelText = page.locator('//div[@data-field="channel"]');
     this.channel1Text = page.locator('input[text()="DSV_S2H, DSV_S2S"]');
-    this.ownerText = page.locator('input[value="MARKETPLACE"]');
+    this.ownerText = page.locator('//div[@data-field="owner"]');
     this.owner1Text = page.locator('input[text()="MARKETPLACE"]');
-    this.departmentText = page.locator('input[value="*, 38_PHARMACY RX"]');
+    this.departmentText = page.locator('//div[@data-field="department"]');
     this.department1Text = page.locator('input[text()="*, 38_PHARMACY RX"]');
-    this.entityText = page.locator('input[value="ACQUISITIONS_AND_INCUBATIONS"]');
+    this.entityText = page.locator('//div[@data-field="entity"]');
     this.entity1Text = page.locator('input[text()="ACQUISITIONS_AND_INCUBATIONS"]');
-    this.sortGroup = page.locator('div[@role="rowgroup"]');
-    this.groupOwner = page.locator('div[text()="SEGMENT"]');
-    this.groupOwner1 = page.locator('div[text()="[11.04] Other Tax Expense - Pre-Opening"]');
-    this.groupOwner2 = page.locator('div[text()="[11.05] Other Taxes non-regulated"]');
+    this.sortGroup = page.locator('//div[@role="gridcell"]');
+    this.groupOwner = page.locator('//div[text()="SEGMENT"]');
+    // this.groupOwner1 = page.locator('//div[text()="[11.04] Other Tax Expense - Pre-Opening"]');
+    // this.groupOwner2 = page.locator('//div[text()="[11.05] Other Taxes non-regulated"]');
   }
 
   async Search() {
@@ -96,58 +98,68 @@ export class LandingPageValidation {
     await this.btnFilter.isVisible();
   }
   async completeSearch() {
-    // await this.searchBox.isVisible();
+    await this.searchBox.isVisible();
     await this.searchBox.click();
     await this.searchBox.fill(testData.completeSearch);
-    await expect(this.text).toHaveText(testData.completeSearch);
+    await expect(this.nameText.nth(1)).toHaveText(testData.completeSearch);
   }
   async partialSearch() {
     await this.searchBox.isVisible();
     await this.searchBox.click();
     await this.searchBox.fill(testData.partialSearch);
-    await expect(this.text).toHaveText(testData.partialSearch)
+    await expect(this.nameText.nth(2)).toHaveText(testData.partialSearch)
   }
   async incorrectSearch() {
     await this.searchBox.isVisible();
     await this.searchBox.click();
     await this.searchBox.fill(testData.incorrectSearch);
-    await expect(this.text).not.toHaveText(testData.incorrectSearch);
+    await expect(this.nameText.nth(1)).not.toHaveText(testData.incorrectSearch);
   }
   async monthFilter() {
-    await this.btnFilter.isVisible();
-    await this.btnFilter.click();
-    await expect(this.month1Text).toHaveValue(await this.monthText.inputValue());
+    await this.btnFilter.nth(0).isVisible();
+    await this.btnFilter.nth(0).click();
+    await this.textField.fill(filterOptions[0].data.month.actuals)
+    await this.btnFilter.nth(0).click({force: true});
+    await expect(this.monthText.nth(1)).toHaveText(filterOptions[0].data.month.actuals);
   }
   async channelFilter() {
-    await this.btnFilter.isVisible();
-    await this.btnFilter.click();
-    await expect(this.channel1Text).toHaveValue(await this.channelText.inputValue());
+    await this.btnFilter.nth(1).isVisible();
+    await this.btnFilter.nth(1).click();
+    await this.textField.fill(filterOptions[0].data.channel.options)
+    await this.btnFilter.nth(0).click({force: true});
+    await expect(this.channelText.nth(1)).toHaveText(filterOptions[0].data.channel.options);
   }
   async ownerFilter() {
-    await this.btnFilter.isVisible();
-    await this.btnFilter.click();
-    await expect(this.owner1Text).toHaveValue(await this.ownerText.inputValue());
+    await this.btnFilter.nth(4).isVisible();
+    await this.btnFilter.nth(4).click();
+    await this.textField.fill(filterOptions[0].data.owner.segment)
+    await this.btnFilter.nth(0).click({force: true});
+    await expect(this.ownerText.nth(1)).toHaveText(filterOptions[0].data.owner.segment);
   }
   async departmentFilter() {
-    await this.btnFilter.isVisible();
-    await this.btnFilter.click();
-    await expect(this.department1Text).toHaveValue(await this.departmentText.inputValue());
+    await this.btnFilter.nth(2).isVisible();
+    await this.btnFilter.nth(2).click();
+    await this.textField.fill(filterOptions[0].data.department.options)
+    await this.btnFilter.nth(0).click({force: true});
+    await expect(this.departmentText.nth(1)).toHaveText(filterOptions[0].data.department.options);
   }
   async entityFilter() {
-    await this.btnFilter.isVisible();
-    await this.btnFilter.click();
-    await expect(this.entity1Text).toHaveValue(await this.entityText.inputValue());
+    await this.btnFilter.nth(3).isVisible();
+    await this.btnFilter.nth(3).click();
+    await this.textField.fill(filterOptions[0].data.entity.option)
+    await this.btnFilter.nth(0).click({force: true});
+    await expect(this.entityText.nth(1)).toHaveText(filterOptions[0].data.entity.option);
   }
   async clearAllFilter() {
-    await this.btnClearFilter.isVisible();
-    await this.btnClearFilter.click();
+    await this.btnClearFilter.nth(2).isVisible();
+    await this.btnClearFilter.nth(2).click();
+    await expect(this.channelText.nth(1)).not.toHaveText(filterOptions[0].data.channel.options);
   }
   async tableSettings() {
-    await this.checkbox.isVisible();
-    await this.checkbox.click();
-    if (typeof this.checktext !== 'string') {
-      await expect(this.checked).toHaveText(await this.checktext.inputValue());
-    }
+    await this.btnSettings.isVisible();
+    await this.btnSettings.nth(0).click();
+    await this.checkbox.nth(2).click();
+    await expect(this.checked.nth(2)).not.toHaveText(testData.month);
     await this.btnClose.click();
   }
 
@@ -156,20 +168,22 @@ export class LandingPageValidation {
     await this.drpSortGroupBy.click();
     await this.sort_AZ.isVisible();
     await this.sort_AZ.click();
+    await this.page.waitForTimeout(1000);
     // Locate all rows in the column
-    const columnData = await this.sortGroup[0].allTextContents();
+    const columnData = await this.sortGroup.nth(0).allTextContents();
     // Create a sorted copy of the column data
     const sortedData = [...columnData].sort((a, b) => a.localeCompare(b));
     // Validate that the original column data matches the sorted data
-    await expect(columnData).toEqual(sortedData);
+    expect(columnData).toEqual(sortedData);
   }
   async validateSortZA() {
     await this.drpSortGroupBy.isVisible();
     await this.drpSortGroupBy.click();
     await this.sort_ZA.isVisible();
     await this.sort_ZA.click();
+    await this.page.waitForTimeout(1000);
     // Locate all rows in the column
-    const columnData = await this.sortGroup[0].allTextContents();
+    const columnData = await this.sortGroup.nth(0).allTextContents();
     // Create a sorted copy of the column data in descending order
     const sortedData = [...columnData].sort((a, b) => b.localeCompare(a));
     // Validate that the original column data matches the sorted data
@@ -180,8 +194,9 @@ export class LandingPageValidation {
     await this.drpSortGroupBy.click();
     await this.recentUpdate.isVisible();
     await this.recentUpdate.click();
-    // Locate all rows in the "recently updated" column
-    const columnData = await this.sortGroup[0].allTextContents();
+    await this.page.waitForTimeout(1000);
+    // Locate all rows in the column
+    const columnData = await this.sortGroup.nth(0).allTextContents();
     // Parse the column data into date objects
     const parsedDates = columnData.map((dateString: string | number | Date) => new Date(dateString));
     // Create a sorted copy of the parsed dates in descending order
@@ -193,16 +208,18 @@ export class LandingPageValidation {
     await this.drpSortGroupBy.isVisible();
     await this.drpSortGroupBy.click();
     await this.sameNode.isVisible();
-    await this.sameNode.click();
-    // await expect(this.nameText).toHaveText(testData.metricName1);
+    await this.sameNode.click({force:true});
+    await expect(this.sortGroup.nth(0)).toHaveText(testData.metricNames);
   }
   async validateGroupByOwner() {
     await this.drpSortGroupBy.isVisible();
     await this.drpSortGroupBy.click();
-    await this.owner.isVisible();
-    await this.owner.click();
-    const row1 = await expect(this.groupOwner).toHaveText(await this.groupOwner1.inputValue());
-    const row2 = await expect(this.groupOwner).toHaveText(await this.groupOwner2.inputValue());
-    expect(row1).not.toEqual(row2);
+    await this.owners.isVisible();
+    await this.owners.click();
+    const ownerRow = await expect(this.owner.nth(1)).toHaveText(testData.segment);
+    const metricNameRow = await expect(this.nameText.nth(1)).toHaveText(testData.metricNames);
+    // await expect(this.owner.nth(1)).toEqual(await this.owner.nth(2));
+    // await expect(this.nameText.nth(1)).not.toEqual(this.nameText.nth(2));
+
   }
 }
