@@ -614,6 +614,19 @@ export class Utility {
     return monthArray;
   }
 
+  /**
+   * @returns {string} The current fiscal year in the format "FYXX".
+   */
+  public static getCurrentFiscalYear(): string {
+    const today = new Date();
+    const month = today.getMonth();
+    let year = today.getFullYear();
+    if (0 < month) {
+      year += 1;
+    }
+    return `FY${year.toString().slice(-2)}`;
+  }
+
   public static async downloadAndSaveCSVNodeEdgeFile(download: Download) {
     const downloadPath = path.join(__dirname, "download.csv");
     await download.saveAs(downloadPath);

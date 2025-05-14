@@ -10,6 +10,7 @@ export class AddDriverPage {
     readonly searchIcon: Locator;
     readonly applyDrivers: Locator;
     readonly driverSearchResult: string;
+    readonly driversModalHeader: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -18,10 +19,14 @@ export class AddDriverPage {
         this.searchIcon = page.locator("//button[@aria-label='icon']")
         this.applyDrivers = page.getByText('Apply Drivers')
         this.driverSearchResult = 'span[data-testid="remainingWord"]'
+        this.driversModalHeader = this.page.locator('.modalTitle', { hasText: 'Add drivers' })
+
     }
 
     async waitForPageLoad() {
+        await this.driversModalHeader.isVisible({ timeout: 1000 })
         await this.page.waitForSelector(this.driverNodeTree)
+        return true
     }
 
     async inputDriverName(driverName: string) {
@@ -39,14 +44,8 @@ export class AddDriverPage {
             lastElement.scrollIntoView();
         });
         await this.page.waitForSelector(`//div[@class="noncalculated"]//parent::*//parent::*//strong[contains(text(),"${driverName}")] `, { state: 'attached' });
-        await this.page.waitForTimeout(5000);
+        await this.page.waitForTimeout(2000);
         await this.page.getByRole('option', { name: `${driverName} input View in` }).getByLabel(`${driverName}`).check();
-
-        // await driverNodeElement!.click();
-
-        // driverNodeElement = await this.page.$(`label:has(span[data-testid="remainingWord"]):has-text("${driverName}")`);
-        // await driverNodeElement!.click();
-        //await this.page.locator(`//div[@class="customSelected"]//span[contains(text(),"${driverName}")]`).waitFor({ state: "visible" });
     }
 
     async searchAndApplyDrivers(driverNames: string[]) {
@@ -63,5 +62,4 @@ export class AddDriverPage {
     async clickOnApplyDrivers() {
         await this.applyDrivers.click()
     }
-
 }

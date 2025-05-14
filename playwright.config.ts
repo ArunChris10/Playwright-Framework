@@ -183,5 +183,18 @@ export default defineConfig({
       },
       
     },
+    {
+        name: "excel-fe",
+        // dependencies: ["ui-setup"],
+        testMatch: /excel-fe.*.spec.ts/,
+        grep: [new RegExp(process.env.tag + "")],
+        use: {
+          ...devices["Desktop Chrome"],
+          headless: false,
+          launchOptions: {
+            args: ["--ignore-certificate-errors", "--start-fullscreen"],
+          },
+        },
+      },
   ],
 });

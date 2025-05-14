@@ -6,6 +6,8 @@ import { UFMPageFactory } from "../../ufm-fe/pages/ufm-page-factory";
 import { Utility } from "../fixtures/utils";
 import { SSDMPageFactory } from "../../ssdm-fe/pages/ssdm-page-factory";
 import { ForecastComparisonPageFactory } from "../../ufm-fe/pages/forecast-compare.page";
+import { ExcelPage } from "../../excel-fe/pages/excel.page";
+import { LoginExcelPage } from "./login-excel.page";
 
 export class PageFactory {
     private readonly page: Page;
@@ -36,6 +38,14 @@ export class PageFactory {
 
     forecastComparisonPageFactory() {
         return new ForecastComparisonPageFactory(this.page);
+    }
+
+    loginExcel() {
+        return new LoginExcelPage(this.page);
+    }
+
+    excel() {
+        return new ExcelPage(this.page);
     }
 
     quit() {
