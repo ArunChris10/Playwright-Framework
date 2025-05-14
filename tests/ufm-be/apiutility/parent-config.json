@@ -4,6 +4,7 @@
     "Authorization": "{{token}}"
   },
   "user": "LB-ibg-ufm-auto",
+  "tagsToRun": ["smoke"],
   "testFiles": [
     "testCases/data-science-review-testcases/data-science-calculate-save.json",
     "testCases/data-science-review-testcases/aop-calculate-save.json",
@@ -11,7 +12,8 @@
     "testCases/scenario-snapshots-api-tests.json",
     "testCases/create-view-api-tests.json",
     "testCases/get-my-kpi-api-tests.json",
-    "testCases/forecast-cycle-api-tests.json"
+    "testCases/forecast-cycle-api-tests.json",
+    "testCases/visual-indicator-api.json"
   ],
   "coreService": {
     "baseURL": {
@@ -27,7 +29,8 @@
     "getKpi":"/reports/get-mykpi",
     "downloadSnapshot":"/reports/download-active-forecast",
     "getForecast":"/reports/get-report",
-    "getForecastCalendar":"/forecast_calendar/"
+    "getForecastCalendar":"/forecast_calendar/",
+    "visualIndicator":"/scenario/scenario-composition"
   },
   "notificationService": {
     "baseURL": {
