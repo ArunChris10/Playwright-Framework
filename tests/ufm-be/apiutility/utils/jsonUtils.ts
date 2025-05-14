@@ -1,5 +1,7 @@
 import fs from 'fs';
 import path from 'path';
+import {interpolate} from '../utils/commonUtil'
+import { expect } from 'playwright/test';
 
 /**
  * Recursively finds all values for a given key in a deeply nested JSON object,
@@ -34,7 +36,7 @@ export function findAllValuesByKey(obj: any, path: string): any[] {
   return results;
 }
 
-export function findFirstValueByKey(obj: any, path: string): any[] {
+export function findFirstValueByKey(obj: any, path: string): string[] {
   const results: any[] = [];
   const pathSegments = path.split(".");
 
@@ -56,7 +58,7 @@ export function findFirstValueByKey(obj: any, path: string): any[] {
   }
 
   traverse(obj, pathSegments);
-  return results.length > 0 ? results[0] : results;
+  return results.length > 0 ? results[0].toString() : results;
 }
 export function loadJSON<T>(filePath: string): T {
   const data =  fs.readFileSync(path.resolve(__dirname, filePath), 'utf-8');
@@ -107,7 +109,8 @@ export function findRelativeValue(
     const current = stack.pop();
 
     if (typeof current === 'object' && current !== null) {
-      const whereValue = getNestedValue(current, whereKey,equals);
+      const whereValue = getNestedValue(current, interpolate(whereKey),interpolate(equals));
+      expect(whereValue).toBeDefined();
       console.log(`Checking object:\n${JSON.stringify(current, null, 2)}`);
       console.log(`whereKey: "${whereKey}", value: "${whereValue}", expected: "${equals}"`);
       

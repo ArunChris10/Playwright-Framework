@@ -1,0 +1,29 @@
+[  
+{
+  "environment": "qa",
+  "labels": ["smoke","IBGROW-38455","rahul"],
+  "service":"coreService",
+  "uri":"forecastCalender",
+  "testName": "create forecast calender",
+  "queryParams": "",
+  "method": "POST",
+  "payload": {
+      "classification_id": 1,
+      "fiscal_year": "{{DynamicYear}}",
+      "published_flag": true,
+      "dim_id": 13,
+      "dim_val_id": 1
+  },
+  "assertion": [
+    {
+        "status": 200 
+    },
+    {
+      "assertNotNull": {
+          "jsonPath": "calendar_id"
+      }
+    }
+
+  ]
+}
+]
