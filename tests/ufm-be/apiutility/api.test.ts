@@ -166,8 +166,8 @@ parentConfig.testFiles.forEach(testCasePath => {
         for (const key in obj) {
           const value = obj[key];
       
-          if (key.includes('scenario_id') || key.includes('scenario_version') || key.includes('"scenario_version_timestamp"')) {
-            const rawValue = globalStore[value.replace('{{', '').replace('}}', '')];
+          if (key.includes('scenario_id') || key.includes('scenario_version') || key.includes('scenario_version_timestamp')) {
+            const rawValue = globalStore.getValue(value.replace('{{', '').replace('}}', ''));
             const numericValue = Number(rawValue);
             processed[key] = isNaN(numericValue) ? rawValue : numericValue;
           }

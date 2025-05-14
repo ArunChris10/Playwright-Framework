@@ -11,7 +11,8 @@
     "testCases/scenario-snapshots-api-tests.json",
     "testCases/create-view-api-tests.json",
     "testCases/get-my-kpi-api-tests.json",
-    "testCases/forecast-cycle-api-tests.json"
+    "testCases/forecast-cycle-api-tests.json",
+    "testCases/calculate-saveajustment-api-tests.json"
   ],
   "coreService": {
     "baseURL": {

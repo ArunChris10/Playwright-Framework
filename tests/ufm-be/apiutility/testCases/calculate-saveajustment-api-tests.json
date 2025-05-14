@@ -1,0 +1,237 @@
+[
+  {
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "Pre-Req",
+      "Nidhi"
+    ],
+    "service": "coreService",
+    "uri": "getForecast",
+    "testName": "get Forecast to fetch Scenario ID",
+    "queryParams": "",
+    "method": "POST",
+    "payload": {
+      "unit": "Millions",
+      "dim_id": 12,
+      "dim_val_id": 120009,
+      "classification_id": 12,
+      "template_id": 1,
+      "filters": [],
+      "additional_filters": {
+        "template_include_headers": [
+          {
+            "name": "vs LY",
+            "format": "percent"
+          },
+          {
+            "name": "vs Plan",
+            "format": "absolute"
+          }
+        ]
+      }
+    },
+    "assertion": [
+      {
+        "status": 200
+      }
+    ],
+    "extractRelative": {
+      "scenario_id": {
+        "whereKey": "rowData.name",
+        "equals": "io",
+        "extractKey": "scenarioId"
+      }
+    }
+  },
+  {
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "IBGROW-38434",
+      "IBGROW-35440",
+      "Nidhi"
+    ],
+    "testName": "Verify Calculate is working for all combination of type of node - #,% and $",
+    "uri": "allocateData",
+    "method": "POST",
+    "service": "coreService",
+    "queryParams": "",
+    "payload": {
+      "display_nodes": [],
+      "scenario_id": 18501744038446,
+      "dim_val_id": 110026,
+      "dim_id": 11,
+      "preview": true,
+      "edits": [
+        {
+          "node_var_name": "returnedunitsuom_input",
+          "node_dimension": {},
+          "data": {
+            "{{dynamicMonth+1}}": 532
+          },
+          "allocation": {
+            "interval": null,
+            "offset": null,
+            "method": 29
+          }
+        },
+        {
+          "node_var_name": "storereturns_input",
+          "node_dimension": {},
+          "data": {
+            "{{dynamicMonth+1}}": 500
+          },
+          "allocation": {
+            "interval": null,
+            "offset": null,
+            "method": 29
+          }
+        },
+        {
+          "node_var_name": "allocationpctmerchandiseincome_input",
+          "node_dimension": {},
+          "data": {
+            "{{dynamicMonth+1}}": 1.5
+          },
+          "allocation": {
+            "interval": null,
+            "offset": null,
+            "method": 29
+          }
+        }
+      ],
+      "filters": [],
+      "period_view": "month",
+      "adjustment_id": 1747131515456
+    },
+    "assertion": [
+      {
+        "status": 200
+      },
+      {
+        "extractRelative": {
+          "forecastDriverOne": {
+            "whereKey": "node_var_name",
+            "equals": "storereturns_input",
+            "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+          },
+          "forecastDriverTwo": {
+            "whereKey": "node_var_name",
+            "equals": "returnedunitsuom_input",
+            "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+          },
+          "forecastDriverThree": {
+            "whereKey": "node_var_name",
+            "equals": "merchandiseincomeallocatedtoentity",
+            "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+          },
+          "forecastDriverFour": {
+            "whereKey": "node_var_name",
+            "equals": "allocationpctmerchandiseincome_input",
+            "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+          }
+        },
+        "validateExtract": {
+          "forecastDriverOne": 499.9999999999999,
+          "forecastDriverTwo": 532, 
+          "forecastDriverThree": 49997295220.91298,
+          "forecastDriverFour": 1.4999999999999978
+        }
+      }
+    ]
+  },
+  {
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "IBGROW-38435",
+      "IBGROW-35441",
+      "Nidhi"
+    ],
+    "testName": "Verify Save is working for all combination of type of node - #,% and $",
+    "uri": "saveAdjustment",
+    "method": "PATCH",
+    "service": "coreService",
+    "queryParams": "",
+    "payload": {
+      "adjustment_metadata": {
+        "adjustment_name": "test Adjustment",
+        "adjustment_reason": "",
+        "adjustment_type": 73,
+        "is_duplicated": false,
+        "is_update": false,
+        "is_create": true,
+        "adjustment_edits": 3,
+        "scenario_id": 18501744038446,
+        "scenario_version_timestamp": 1744038446
+      },
+      "allocation_request":{
+          "display_nodes": [],
+          "scenario_id": 18501744038446,
+          "dim_val_id": 110026,
+          "dim_id": 11,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "returnedunitsuom_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 532
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "storereturns_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 500
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "allocationpctmerchandiseincome_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 1.5
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+      },
+      "dim_val_id": 110026
+    },
+    "assertion": [
+      {
+        "status": 200
+      },
+      {
+        "assertEquals": {
+          "jsonPath1": "message",
+          "value1": "New adjustment created successfully!!",
+          "jsonPath2": "adjustment_metadata.adjustment_name",
+          "value2": "test Adjustment"
+        },
+        "assertNotNull": {
+          "jsonPath1": "adjustment_metadata.adjustment_id",
+          "jsonPath2": "adjustment_metadata.created_by",
+          "jsonPath3": "adjustment_metadata.created_at"
+        }
+      }
+    ]
+  }
+]
