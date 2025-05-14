@@ -180,7 +180,7 @@ parentConfig.testFiles.forEach(testCasePath => {
         console.log("Validating extracted values:");
         for (const globalKey in testCase.validateExtract) {
           const expected = interpolate(testCase.validateExtract[globalKey]);
-          const actual = globalStore[globalKey];
+          const actual = globalStore.getValue(globalKey);
           await validateExtractedValues(actual, expected, globalKey);
           console.log(`Validated ${globalKey}: actual = ${actual}, expected = ${expected}`);
         }
