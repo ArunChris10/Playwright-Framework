@@ -47,7 +47,6 @@
         "equals": "io",
         "extractKey": "scenarioVersion"
       }
-
     }
   },
   {
@@ -174,7 +173,7 @@
       },
       "allocation_request":{
           "display_nodes": [],
-          "scenario_id": 18501744038446,
+          "scenario_id": "{{calculate_scenario_id}}",
           "dim_val_id": 110026,
           "dim_id": 11,
           "preview": false,
