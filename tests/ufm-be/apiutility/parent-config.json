@@ -4,6 +4,7 @@
     "Authorization": "{{token}}"
   },
   "user": "LB-ibg-ufm-auto",
+  "tagsToRun": ["smoke"],
   "testFiles": [
     "testCases/data-science-review-testcases/data-science-calculate-save.json",
     "testCases/data-science-review-testcases/aop-calculate-save.json",
