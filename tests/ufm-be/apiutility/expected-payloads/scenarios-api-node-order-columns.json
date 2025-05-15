@@ -1,0 +1,71 @@
+{
+  "rowData": [
+    {
+      "Date": "{{dynamicMonthStr-1}}",
+      "Scenario Name": "{{scenario_id}}",
+      "grossprofit": "*",
+      "momerchandisesales": "*",
+      "mowarehouseallowances": "*",
+      "mobuyingallowances": "*",
+      "mototalallowances": "*"
+    },
+    {
+      "Date": "{{dynamicMonthStr}}",
+      "Scenario Name": "{{scenario_id}}",
+      "grossprofit": "*",
+      "momerchandisesales": "*",
+      "mowarehouseallowances": "*",
+      "mobuyingallowances": "*",
+      "mototalallowances": "*"
+    },
+    {
+      "Date": "{{dynamicMonthStr+1}}",
+      "Scenario Name": "{{scenario_id}}",
+      "grossprofit": "*",
+      "momerchandisesales": "*",
+      "mowarehouseallowances": "*",
+      "mobuyingallowances": "*",
+      "mototalallowances": "*"
+    }
+  ],
+  "metadata": {
+    "cutOffDate": "*",
+    "nodeDetails": {
+      "grossprofit": {
+        "nodeId": "4000_UFM",
+        "nodeVar": "grossprofit",
+        "nodeName": "Gross Profit",
+        "nodeType": "calculated",
+        "nodeValType": "$"
+      },
+      "momerchandisesales": {
+        "nodeId": "101_MOMERCHSALES",
+        "nodeVar": "momerchandisesales",
+        "nodeName": "Merchandise Sales (MO)",
+        "nodeType": "input",
+        "nodeValType": "$"
+      },
+      "mototalallowances": {
+        "nodeId": "104_MOBA",
+        "nodeVar": "mototalallowances",
+        "nodeName": "Total Allowances (MO)",
+        "nodeType": "calculated",
+        "nodeValType": "$"
+      },
+      "mobuyingallowances": {
+        "nodeId": "102_MOBA",
+        "nodeVar": "mobuyingallowances",
+        "nodeName": "Buying Allowances (MO)",
+        "nodeType": "input",
+        "nodeValType": "$"
+      },
+      "mowarehouseallowances": {
+        "nodeId": "103_MOBA",
+        "nodeVar": "mowarehouseallowances",
+        "nodeName": "Warehouse Allowances (MO)",
+        "nodeType": "input",
+        "nodeValType": "$"
+      }
+    }
+  }
+}

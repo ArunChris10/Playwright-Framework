@@ -180,7 +180,7 @@ parentConfig.testFiles.forEach(testCasePath => {
         console.log("Validating extracted values:");
         for (const globalKey in testCase.validateExtract) {
           const expected = interpolate(testCase.validateExtract[globalKey]);
-          const actual = globalStore[globalKey];
+          const actual = globalStore.getValue(globalKey);
           await validateExtractedValues(actual, expected, globalKey);
           console.log(`Validated ${globalKey}: actual = ${actual}, expected = ${expected}`);
         }
@@ -206,7 +206,7 @@ function postProcessInterpolatedPayload(obj: any): any {
   for (const key in obj) {
     const value = obj[key];
 
-    if (key.includes('scenario_id') || key.includes('scenario_version') || key.includes('"scenario_version_timestamp"')) {
+    if (key.includes('scenario_id') || key.includes('scenario_version') || key.includes('scenario_version_timestamp')) {
       const rawValue = globalStore.getValue(value.replace('{{', '').replace('}}', ''));
       const numericValue = Number(rawValue);
       processed[key] = isNaN(numericValue) ? rawValue : numericValue;

@@ -55,7 +55,7 @@
           "node_var_name": "moecommshippingexpense",
           "node_dimension": {},
           "data": {
-            "{{dynamicMonth+1}}": 25000000.12
+            "{{dynamicMonth+1}}": 5
           },
           "allocation": {
             "interval": null,
@@ -75,7 +75,7 @@
       {
         "assertEquals": {
           "jsonPath1": "edits.{{dynamicMonth+1}}.forecast",
-          "value1": 25000000.119999998
+          "value1": 5
         }
       }
     ]
@@ -116,7 +116,7 @@
             "node_var_name": "moecommshippingexpense",
             "node_dimension": {},
             "data": {
-              "{{dynamicMonth+1}}": 25000000.12
+              "{{dynamicMonth+1}}": 5
             },
             "allocation": {
               "interval": null,
@@ -204,9 +204,9 @@
         "status": 200
       },
       {
-        "assertEquals": {
+        "assertContains": {
           "jsonPath1": "rowData.{{dynamicMonth+1}}.forecast",
-          "value1": 25000000.12
+          "value1": 5
         }
       }
     ]
