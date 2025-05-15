@@ -194,6 +194,7 @@ export default defineConfig({
           launchOptions: {
             args: ["--ignore-certificate-errors", "--start-fullscreen"],
           },
+          permissions: ["clipboard-read", "clipboard-write"]
         },
       },
       {
