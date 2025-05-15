@@ -1,6 +1,6 @@
 import { testData } from "../testdata/inputNodeValues.json";
 import { PageFactory } from "../../common/pages/page-factory";
-import { test } from "../../common/fixtures/test-hook";
+import { test, expect } from "../../common/fixtures/test-hook";
 
 let lobList = {
   [testData[0].sbaName]: [testData[0].LOB],
@@ -82,6 +82,24 @@ Object.entries(lobList).forEach(([org, lob]) => {
               .waitForKPITableToLoad();
           });
 
+          //   Verify Comparison benchmarks is removed from under the Group-by filter
+          await test.step("User is able to see group By button", async () => {
+            await objpageFactory
+              .ssdmPageFactory().applyFilter().clickOnGroupBy();
+          });
+
+          await test.step("Check if label is not present", async () => {
+            await objpageFactory
+              .ssdmPageFactory().applyFilter().clickOnGroupBy();
+            const labelLocator = objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .getLabelLocator('text=Comparison columns'); // Ensure this method returns a valid Playwright Locator
+
+            const isLabelVisible = await labelLocator.isVisible(); // Check if the label is visible
+            expect(isLabelVisible).toBe(false);
+          });
+
           await test.step("User is able to see compare button", async () => {
             await objpageFactory
               .forecastComparisonPageFactory()
@@ -104,6 +122,43 @@ Object.entries(lobList).forEach(([org, lob]) => {
             await objpageFactory
               .forecastComparisonPageFactory()
               .selectComparisonCheckBox("vs Last Year (LY)");
+          });
+
+          // Verify user can switch between options inder selected benchmarks without page reload
+
+          await test.step("user is able to toggle the comparison checkbox without page reload", async () => {
+            const forecastComparisonPage = objpageFactory.forecastComparisonPageFactory();
+            // Flag to detect page reload
+            let isPageReloaded = false;
+            // Listen for the 'load' event, which indicates a page reload
+            forecastComparisonPage.page.on('load', () => {
+              isPageReloaded = true;
+            });
+            // Select the checkbox
+            await forecastComparisonPage.selectComparisonCheckBoxOnCheck("vs Last Year (LY)");
+            // Assert that the checkbox is selected
+            const isCheckedAfterSelect = await forecastComparisonPage.isComparisonCheckBoxChecked("vs Last Year (LY)");
+            expect(isCheckedAfterSelect).toBe(true);
+            // Assert that the page was not reloaded
+            expect(isPageReloaded).toBe(false);
+            // Deselect the checkbox
+            await forecastComparisonPage.selectComparisonCheckBoxOnUnCheck("vs Last Year (LY)");
+            // Assert that the checkbox is deselected
+            const isCheckedAfterDeselect = await forecastComparisonPage.isComparisonCheckBoxChecked("vs Last Year (LY)");
+            expect(isCheckedAfterDeselect).toBe(false);
+            // Assert that the page was not reloaded
+            expect(isPageReloaded).toBe(false);
+          });
+
+          await test.step("user is able to click on comparison checkbox and check the count of selection made", async () => {
+            const forecastComparisonPage = objpageFactory.forecastComparisonPageFactory();
+            // Perform actions that affect the count (e.g., selecting checkboxes)
+            await forecastComparisonPage.selectComparisonCheckBoxOnCheck("vs Last Year (LY)");
+            await forecastComparisonPage.selectComparisonCheckBoxOnCheck("vs Prior Forecast");
+            // Get the count beside the Compare button
+            const countBesideCompareButton = await forecastComparisonPage.getCountBesideCompareButton();
+            // Assert the count (adjust the expected value as needed)
+            expect(countBesideCompareButton).toBe(2);
           });
 
           await test.step("User clicks on apply changes for comparison ", async () => {

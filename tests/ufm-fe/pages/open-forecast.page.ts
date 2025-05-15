@@ -125,6 +125,10 @@ export class OpenCurrentForecast {
 
   }
 
+  getLabelLocator(selector: string) {
+    return this.page.locator(selector);
+  }
+
   async clickOnChooseDriver() {
     await this.DriversButton.waitFor({ state: "visible" });
     await this.DriversButton.click();

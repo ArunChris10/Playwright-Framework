@@ -32,4 +32,36 @@ export class ForecastComparisonPageFactory {
   async visibilityOfCompareDropdown() {
     await this.compareDropdown.isVisible();
   }
+
+  async selectComparisonCheckBoxOnCheck(label: string): Promise<void> {
+    const checkBoxLocator = await this.page.getByLabel(label, {
+      exact: true,
+    });
+    await checkBoxLocator.check();
+  }
+
+  async selectComparisonCheckBoxOnUnCheck(label: string): Promise<void> {
+    const checkBoxLocator = await this.page.getByLabel(label, {
+      exact: true,
+    });
+    await checkBoxLocator.uncheck();
+  }
+
+  async isComparisonCheckBoxChecked(label: string): Promise<boolean> {
+    const checkBoxLocator = this.page.locator(`text=${label}`);
+    return await checkBoxLocator.isChecked(); // Playwright's built-in method to check if a checkbox is selected
+  }
+
+  async getSelectedComparisonCheckBoxCount(): Promise<number> {
+    return await this.page.$$eval('input[type="checkbox"]:checked', (checkboxes) => checkboxes.length);
+  }
+
+  async getCountBesideCompareButton(): Promise<number> {
+    // Locate the span element containing the count beside the "Compare" button
+    const countLocator = this.page.locator('button:has-text("Compare") .KPIPageHeader_badge__Wtwln');
+    // Get the text content of the span and convert it to a number
+    const countText = await countLocator.textContent();
+    return parseInt(countText || '0', 10); // Default to 0 if countText is null
+  }
+
 }
