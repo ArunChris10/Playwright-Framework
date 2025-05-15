@@ -1,49 +1,54 @@
 [   
- {
-  "environment": "qa",
-  "labels": [
-    "smoke",
-    "Pre-Req",
-    "Nidhi"
-  ],
-  "service": "coreService",
-  "uri": "getForecast",
-  "testName": "get Forecast to fetch Scenario ID",
-  "queryParams": "",
-  "method": "POST",
-  "payload": {
-    "unit": "Millions",
-    "dim_id": 12,
-    "dim_val_id": 120009,
-    "classification_id": 12,
-    "template_id": 1,
-    "filters": [],
-    "additional_filters": {
-      "template_include_headers": [
-        {
-          "name": "vs LY",
-          "format": "percent"
-        },
-        {
-          "name": "vs Plan",
-          "format": "absolute"
-        }
-      ]
+  {
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "Pre-Req",
+      "Nidhi"
+    ],
+    "service": "coreService",
+    "uri": "getForecast",
+    "testName": "get Forecast details to fetch Scenario ID",
+    "queryParams": "",
+    "method": "POST",
+    "payload": {
+      "unit": "Millions",
+      "dim_id": 12,
+      "dim_val_id": 120009,
+      "classification_id": 12,
+      "template_id": 1,
+      "filters": [],
+      "additional_filters": {
+        "template_include_headers": [
+          {
+            "name": "vs LY",
+            "format": "percent"
+          },
+          {
+            "name": "vs Plan",
+            "format": "absolute"
+          }
+        ]
+      }
+    },
+    "assertion": [
+      {
+        "status": 200
+      }
+    ],
+    "extractRelative": {
+      "calculate_scenario_id": {
+        "whereKey": "rowData.name",
+        "equals": "io",
+        "extractKey": "scenarioId"
+      },
+      "calculate_scenario_version":{
+        "whereKey": "rowData.name",
+        "equals": "io",
+        "extractKey": "scenarioVersion"
+      }
     }
   },
-  "assertion": [
-    {
-      "status": 200
-    }
-  ],
-  "extractRelative": {
-    "extract_scenario_id": {
-      "whereKey": "rowData.name",
-      "equals": "io",
-      "extractKey": "scenarioId"
-    }
-  }
-},
 {
   "environment": "qa",
   "labels":  ["smoke","IBGROW-38428","Pallavi"],
@@ -85,7 +90,7 @@
     ],
    "period_view": "month",
 "preview": true,
-"scenario_id": "{{extract_scenario_id}}"
+"scenario_id": "{{calculate_scenario_id}}"
   },
   "assertion": [
     {
@@ -137,12 +142,12 @@
       "is_update": false,
       "is_create": true,
       "adjustment_edits": 1,
-      "scenario_id":"{{extract_scenario_id}}",
-      "scenario_version_timestamp": 1747205118
+      "scenario_id":"{{calculate_scenario_id}}",
+      "scenario_version_timestamp": "{{calculate_scenario_version}}"
     },
     "allocation_request":{
         "display_nodes": [],
-        "scenario_id":"{{extract_scenario_id}}",
+        "scenario_id":"{{calculate_scenario_id}}",
         "dim_val_id": 110027,
         "dim_id": 11,
         "preview": false,
