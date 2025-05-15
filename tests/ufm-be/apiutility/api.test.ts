@@ -166,7 +166,7 @@ parentConfig.testFiles.forEach(testCasePath => {
         console.log("Extracting relative values:");
         for (const globalVar in testCase.extractRelative) {
           const { whereKey, equals, extractKey } = testCase.extractRelative[globalVar];
-          const value = findRelativeValue(responseBody, whereKey, equals, extractKey);
+          const value = findRelativeValue(responseBody, whereKey, equals, interpolate(extractKey));
           if (value !== undefined) {
             globalStore.setValue(globalVar, value);
             console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
