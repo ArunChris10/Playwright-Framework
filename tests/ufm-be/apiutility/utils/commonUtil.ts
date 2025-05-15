@@ -60,22 +60,72 @@ let filePathOfPayload;
     }
   }
   
+  export function deepPartialMatch(
+    expected: any,
+    actual: any,
+    strict: boolean = false
+  ): boolean {
+    // Wildcard always matches
+    if (expected === '*') {
+      return true;
+    }
   
-  export function deepPartialMatch(expected: any, actual: any): boolean {
-    if (typeof expected !== typeof actual || expected == undefined) return false;
+    // Interpolate expected value using globalStore
+    expected = interpolate(expected);
   
+    // If types differ (unless expected is '*'), fail
+    if (typeof expected !== typeof actual || expected === undefined) return false;
+  
+    // If it's an object or array (and not null), handle recursively
     if (typeof expected === 'object' && expected !== null) {
-      if (Array.isArray(expected)) {
-        // Check if every item in expected array is in actual array (deeply)
-        return expected.every(expItem =>
-          actual.some((actItem: any) => deepPartialMatch(expItem, actItem))
-        );
-      } else {
-        // Check all expected keys exist in actual and match
-        return Object.keys(expected).every(key =>
-          deepPartialMatch(expected[key], actual[key])
-        );
+  
+      // --- ARRAY LOGIC ---
+      if (Array.isArray(expected) && Array.isArray(actual)) {
+        if (!strict) {
+          // Original behavior: each expected item must appear somewhere in actual
+          return expected.every(expItem =>
+            actual.some((actItem: any) => deepPartialMatch(expItem, actItem, strict))
+          );
+        } else {
+          // Strict order: compare each index in sequence
+          if (expected.length !== actual.length) return false;
+          for (let i = 0; i < expected.length; i++) {
+            if (!deepPartialMatch(expected[i], actual[i], strict)) {
+              return false;
+            }
+          }
+          return true;
+        }
       }
+  
+      // --- OBJECT LOGIC ---
+      if (!Array.isArray(expected) && !Array.isArray(actual)) {
+        if (!strict) {
+          // Original behavior: all expected keys must exist in actual
+          return Object.keys(expected).every(key =>
+            deepPartialMatch(expected[key], actual[key], strict)
+          );
+        } else {
+          // Strict order: compare entries in the exact key order
+          const expectedEntries = Object.entries(expected);
+          const actualEntries = Object.entries(actual);
+          if (expectedEntries.length !== actualEntries.length) return false;
+          for (let i = 0; i < expectedEntries.length; i++) {
+            const [expKey, expVal] = expectedEntries[i];
+            const [actKey, actVal] = actualEntries[i];
+            if (interpolate(expKey) !== actKey) {
+              return false;
+            }
+            if (!deepPartialMatch(expVal, actVal, strict)) {
+              return false;
+            }
+          }
+          return true;
+        }
+      }
+  
+      // If one is an array and the other isn't, no match
+      return false;
     }
   
     // Primitive comparison (string, number, etc.)
@@ -165,6 +215,18 @@ let filePathOfPayload;
                 const actualValue = findAllValuesByKey(responseBody, jsonPath);
                 expect(actualValue).not.toContain(expectedValue); // Assert the equality
               }
+              } else if (arrayOfAssertion.assertContains) {
+                const keys = Object.keys(arrayOfAssertion.assertContains);
+                for (let index = 0; index < keys.length; index += 2) {
+                const jsonPathKey = keys[index];
+                const valueKey = keys[index + 1];
+
+                const jsonPath = interpolate(arrayOfAssertion.assertContains[jsonPathKey]);
+                const expectedValue = arrayOfAssertion.assertContains[valueKey];
+                const actualValue = findAllValuesByKey(responseBody, jsonPath);
+                const containsValue = actualValue.some((val: any) => val?.toString().includes(expectedValue.toString()));
+                expect(containsValue).toBeTruthy(); // Assert that the value is contained
+                }
 
             } else if (arrayOfAssertion.assertNull) {
               // Handle assertNull
@@ -201,10 +263,11 @@ let filePathOfPayload;
               }
             
             else if (arrayOfAssertion.assertResponse) {
-              // Handle assertNotNull
-              const selectedPayload = await getPayloadByTestCaseName(testcase);
-              let ismatch = deepPartialMatch(selectedPayload, responseBody);
-              expect(ismatch).toBeTruthy();
+              const selectedPayload = arrayOfAssertion.assertResponse.payload
+                ? arrayOfAssertion.assertResponse.payload
+                : await getPayloadByTestCaseName(testcase);
+              const strict = arrayOfAssertion.assertResponse.strict == true;
+              expect(deepPartialMatch(selectedPayload, responseBody, strict)).toBeTruthy();
             }
             const firstKey = Object.keys(arrayOfAssertion)[0];
             delete arrayOfAssertion[firstKey];
