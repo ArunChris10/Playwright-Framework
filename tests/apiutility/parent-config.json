@@ -12,9 +12,10 @@
     "testCases/create-view-api-tests.json",
     "testCases/get-my-kpi-api-tests.json",
     "testCases/visual-indicator-api.json",
-    "testCases/forecast-cycle-api-tests.json",
-    "testCases/create-forecast.api.json"
+    "testCases/forecast-cycle-api-tests.json"
+
   ],
+
   "coreService": {
     "baseURL": {
       "qa": "https://ibg-ufm-core-service.qa.ibg.walmart.com",
