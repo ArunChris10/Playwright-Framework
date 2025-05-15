@@ -3,7 +3,7 @@
     {
       "testStep": "Get forecast for KPI filters",
       "environment": "qa",
-      "labels": ["smoke", "rahul0", "IBGROW-36348"],
+      "labels": ["smoke", "IBGROW-36348","rahul"],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get forecast for KPI filters",
@@ -42,7 +42,7 @@
     {
       "testStep": "Call getMyKPI API without filters",
       "environment": "qa",
-      "labels": ["smoke", "rahul0", "IBGROW-36348"],
+      "labels": ["smoke","IBGROW-36348","rahul"],
       "service": "coreService",
       "uri": "getKpi",
       "testName": "validate getMyKPI API before filter",
@@ -100,7 +100,7 @@
     {
       "testStep": "Call getMyKPI API with filter applied",
       "environment": "qa",
-      "labels": ["smoke", "rahul0", "IBGROW-36348"],
+      "labels": ["smoke","IBGROW-36348","rahul"],
       "service": "coreService",
       "uri": "getKpi",
       "testName": "validate getMyKPI API after filter",

@@ -3,7 +3,7 @@
     {
       "testStep": "Create forecast calendar",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38455", "rahul"],
+      "labels": ["smoke", "IBGROW-38455","rahul"],
       "service": "coreService",
       "uri": "forecastCalender",
       "testName": "create forecast calender",

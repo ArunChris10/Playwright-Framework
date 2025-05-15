@@ -1,7 +1,7 @@
 [
 {
   "environment": "qa",
-  "labels": ["smoke", "rahul112","IBGROW-36348"],
+  "labels": ["smoke","IBGROW-36348","rahul"],
   "service":"coreService",
   "uri":"getForecast",
   "testName": "Get forecast for kpi filters",
@@ -39,7 +39,7 @@
 },
 {
   "environment": "qa",
-  "labels": ["smoke","rahul112"],
+  "labels": ["smoke"],
   "service":"coreService",
   "uri":"allocateData",
   "testName": "Validate allocateData for ",
@@ -87,8 +87,7 @@
 "labels": [
     "smoke",
     "IBGROW-35040",
-    "IBGROW-34988",
-    "rahul112"
+    "IBGROW-34988"
 ],
 "service": "coreService",
 "uri": "saveAdjustment",

@@ -3,7 +3,7 @@
     {
       "testStep": "Fetch visual indicator for classification ID 12",
       "environment": "qa",
-      "labels": ["smoke", "rahul", "IBGROW-36348"],
+      "labels": ["smoke", "IBGROW-36348","rahul"],
       "service": "coreService",
       "uri": "visualIndicator",
       "testName": "Fetch visual indicator details",
