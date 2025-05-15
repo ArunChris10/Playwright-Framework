@@ -2,29 +2,16 @@ import { test } from "../../common/fixtures/test-hook";
 import { PageFactory } from '../../common/pages/page-factory';
 import { signinUtility } from "../fixtures/utility";
 import { TIMEOUT } from '../constants/timeout.json';
-import { filterOptions } from '../testdata/fileName.json';
 
 test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @walmart123" }, async () => {
     let objpageFactory: PageFactory;
     test.describe.configure({ mode: 'parallel', timeout: 300_000 });
-
-    // test.beforeAll(async ({ pageFactory, page, browser }) => {
-    //     objpageFactory = pageFactory;
-    //     // Initialize the page factory before all tests
-    //     await page.close();
-    //     await browser.close();
-    // });
 
     test.beforeEach(async ({ page }) => {
         test.setTimeout(TIMEOUT);
         await signinUtility.SignIn(page); // Centralized sign-in before each test
         objpageFactory = new PageFactory(page);
     });
-
-    // test.afterEach(async ({ page, browser }) => {
-    //    await page.close();
-    //    await browser.close();
-    // });
 
     test('Verify Landing page is available with its tabular records', async () => {
 

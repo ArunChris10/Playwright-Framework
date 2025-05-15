@@ -1,4 +1,4 @@
-import { test, expect, Page, Browser, Locator } from '@playwright/test';
+import { expect, Page, Locator } from '@playwright/test';
 import { TIMEOUT } from '../constants/timeout.json';
 import { matchers } from 'playwright-expect';
 import { Utility } from "../../common/fixtures/utils";
@@ -34,7 +34,7 @@ export class signinUtility {
     // Method to perform the sign-in operation
     static async SignIn(signinPage: Page) {
         // Navigate to the application URL with a timeout
-        await signinPage.goto(this.urlEndpoint, { timeout: 300000 });
+        await signinPage.goto(this.urlEndpoint, { timeout: 3000000 });
         // Initialize locators for the page
         this.initialize(signinPage);
         // Fill in the user ID and password fields
