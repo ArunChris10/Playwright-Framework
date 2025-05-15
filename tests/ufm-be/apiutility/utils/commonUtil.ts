@@ -215,6 +215,18 @@ let filePathOfPayload;
                 const actualValue = findAllValuesByKey(responseBody, jsonPath);
                 expect(actualValue).not.toContain(expectedValue); // Assert the equality
               }
+              } else if (arrayOfAssertion.assertContains) {
+                const keys = Object.keys(arrayOfAssertion.assertContains);
+                for (let index = 0; index < keys.length; index += 2) {
+                const jsonPathKey = keys[index];
+                const valueKey = keys[index + 1];
+
+                const jsonPath = interpolate(arrayOfAssertion.assertContains[jsonPathKey]);
+                const expectedValue = arrayOfAssertion.assertContains[valueKey];
+                const actualValue = findAllValuesByKey(responseBody, jsonPath);
+                const containsValue = actualValue.some((val: any) => val?.toString().includes(expectedValue.toString()));
+                expect(containsValue).toBeTruthy(); // Assert that the value is contained
+                }
 
             } else if (arrayOfAssertion.assertNull) {
               // Handle assertNull
