@@ -13,11 +13,14 @@
     "testCases/create-view-api-tests.json",
     "testCases/get-my-kpi-api-tests.json",
     "testCases/forecast-cycle-api-tests.json",
+
     "testCases/calculate-save-non-additive-node-api-test.json",
+
     "testCases/calculate-saveajustment-api-tests.json",
     "testCases/visual-indicator-api.json"
 
   ],
+
   "coreService": {
     "baseURL": {
       "qa": "https://ibg-ufm-core-service.qa.ibg.walmart.com",
