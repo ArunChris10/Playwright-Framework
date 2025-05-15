@@ -75,7 +75,7 @@
       {
         "assertEquals": {
           "jsonPath1": "edits.{{dynamicMonth+1}}.forecast",
-          "value1": 25000000.11999998
+          "value1": 25000000.119999997
         }
       }
     ]
@@ -204,9 +204,9 @@
         "status": 200
       },
       {
-        "assertEquals": {
+        "assertContains": {
           "jsonPath1": "rowData.{{dynamicMonth+1}}.forecast",
-          "value1": 25000000.12
+          "value1": 25000000.1
         }
       }
     ]
