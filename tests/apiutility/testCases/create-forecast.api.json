@@ -1,0 +1,77 @@
+{
+  "validate_create_and_poll_forecast": [
+    {
+      "testStep": "Create Forecast Scenario",
+      "environment": "qa",
+      "labels": ["smoke"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "testName{{'randomNumber'}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110021
+      },
+      "extract": {
+        "createrForecastScenarioID": "scenario.scenario_id",
+        "createrForecastscenarioVersionTimestamp": "scenario.scenario_version_timestamp",
+        "createrForecastDimID": "scenario.dim_id",
+        "createrForecastDimValID": "scenario.dim_val_id"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of FORECAST",
+      "environment": "qa",
+      "labels": ["smoke"],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120006,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "testName",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    }
+  ]
+}

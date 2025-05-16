@@ -1,0 +1,147 @@
+[
+{
+  "environment": "qa",
+  "labels": ["smoke","IBGROW-36348","rahul"],
+  "service":"coreService",
+  "uri":"getForecast",
+  "testName": "Get forecast for kpi filters",
+  "queryParams": "",
+  "payload":{
+  "unit": "Millions",
+  "dim_id": 12,
+  "dim_val_id": 120006,
+  "classification_id": 12,
+  "template_id": 1,
+  "filters": [],
+  "additional_filters": {
+    "template_include_headers": [
+      {
+        "name": "vs LY",
+        "format": "percent"
+      },
+      {
+        "name": "vs Plan",
+        "format": "absolute"
+      }
+    ]
+  }
+},
+  "method": "POST",
+  "assertion": [
+    {
+       "status": 200 
+    }      
+  ],
+  "extractFirst": {
+    "NodeRefreshRecall_02_scenario_id": "rowData.scenarioId",
+    "NodeRefreshRecall_02_scenario_version": "rowData.scenarioVersion"
+  }
+},
+{
+  "environment": "qa",
+  "labels": ["smoke"],
+  "service":"coreService",
+  "uri":"allocateData",
+  "testName": "Validate allocateData for ",
+"queryParams": "",
+"payload": {
+    "display_nodes": [],
+    "scenario_id": "{{NodeRefreshRecall_02_scenario_id}}",
+    "dim_val_id": 110009,
+    "dim_id": 11,
+    "preview": true,
+    "edits": [
+        {
+            "node_var_name": "membershipincome_input",
+            "node_dimension": {},
+            "data": {
+                "202602": 99999,
+                "202603": 99999,
+                "202604": 99999,
+                "202605": 99999,
+                "202606": 99999,
+                "202607": 99999,
+                "202608": 99999,
+                "202609": 99999
+            },
+            "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+            }
+        }
+    ],
+    "filters": [],
+    "period_view": "month",
+    "adjustment_id": 1747235993229
+},
+"method": "POST",
+  "assertion": [
+    {
+        "status": 200 
+    }      
+  ]
+},
+{
+"environment": "qa",
+"labels": [
+    "smoke",
+    "IBGROW-35040",
+    "IBGROW-34988"
+],
+"service": "coreService",
+"uri": "saveAdjustment",
+"testName": "Send request for save-adjustment- AOP- NonDemand",
+"queryParams": "",
+"method": "PATCH",
+"payload": {
+    "adjustment_metadata": {
+        "adjustment_name": "testing1234",
+        "adjustment_reason": "",
+        "adjustment_type": 73,
+        "is_duplicated": false,
+        "is_update": false,
+        "is_create": true,
+        "adjustment_edits": 8,
+        "scenario_id": "{{NodeRefreshRecall_02_scenario_id}}",
+        "scenario_version_timestamp": "{{NodeRefreshRecall_02_scenario_version}}"
+    },
+    "allocation_request": {
+        "display_nodes": [],
+        "scenario_id": "{{NodeRefreshRecall_02_scenario_id",
+        "dim_val_id": 110009,
+        "dim_id": 11,
+        "preview": false,
+        "edits": [
+            {
+                "node_var_name": "membershipincome_input",
+                "node_dimension": {},
+                "data": {
+                    "202602": 99999,
+                    "202603": 99999,
+                    "202604": 99999,
+                    "202605": 99999,
+                    "202606": 99999,
+                    "202607": 99999,
+                    "202608": 99999,
+                    "202609": 99999
+                },
+                "allocation": {
+                    "interval": null,
+                    "offset": null,
+                    "method": 29
+                }
+            }
+        ],
+        "filters": [],
+        "period_view": "month"
+    },
+    "dim_val_id": 110009
+},
+"assertion": [
+    {
+    "status": 200
+    }
+]
+}
+]

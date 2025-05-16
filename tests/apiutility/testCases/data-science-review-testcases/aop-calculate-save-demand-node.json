@@ -1,0 +1,189 @@
+{
+  "validate_aop_demand_adjustment_workflow": [
+    {
+      "testStep": "Fetch Scenario Details from DataScience Info",
+      "environment": "qa",
+      "labels": ["smoke", "Pre-Req", "IBGROW-35039", "IBGROW-34989", "Pallavi"],
+      "service": "coreService",
+      "uri": "getDataScienceInfo",
+      "testName": "Get Scenario details from data science info (classification_id: 11)",
+      "queryParams": "",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "aop_scenario_id": {
+          "whereKey": "classification_id",
+          "equals": 11,
+          "extractKey": "scenario_id"
+        },
+        "aop_scenario_version": {
+          "whereKey": "classification_id",
+          "equals": 11,
+          "extractKey": "scenario_version"
+        }
+      }
+    },
+    {
+      "testStep": "Allocate Data for AOP - Demand Node",
+      "environment": "qa",
+      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "Pallavi"],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Send request for allocate-data - AOP- Demand",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{aop_scenario_id}}",
+        "dim_val_id": 130001,
+        "dim_id": 13,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "grossgmv",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth}}": 10000
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1746529245390
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "edits.{{dynamicMonth}}.forecast",
+            "value1": 10000.00000000001
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Save AOP Adjustment",
+      "environment": "qa",
+      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "Pallavi"],
+      "service": "coreService",
+      "uri": "saveAdjustment",
+      "testName": "Send request for save-adjustment - AOP- Demand",
+      "queryParams": "",
+      "method": "PATCH",
+      "payload": {
+        "adjustment_metadata": {
+          "adjustment_name": "test Automation adjustment",
+          "adjustment_reason": "test",
+          "adjustment_type": 74,
+          "is_duplicated": false,
+          "is_update": false,
+          "is_create": true,
+          "adjustment_edits": 1,
+          "scenario_id": "{{aop_scenario_id}}",
+          "scenario_version_timestamp": "{{aop_scenario_version}}"
+        },
+        "allocation_request": {
+          "display_nodes": [],
+          "scenario_id": "{{aop_scenario_id}}",
+          "dim_val_id": 130001,
+          "dim_id": 13,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "moecommshippingexpense",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth}}": 10000
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+        },
+        "dim_val_id": 130001
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "New adjustment created successfully!!",
+            "jsonPath2": "adjustment_metadata.adjustment_name",
+            "value2": "test Automation adjustment",
+            "jsonPath3": "adjustment_metadata.adjustment_reason",
+            "value3": "test"
+          },
+          "assertNotNull": {
+            "jsonPath1": "adjustment_metadata.adjustment_id",
+            "jsonPath2": "adjustment_metadata.created_by",
+            "jsonPath3": "adjustment_metadata.created_at"
+          }
+        }
+      ],
+      "extract": {
+        "adjustment_id": "adjustment_metadata.adjustment_id"
+      }
+    },
+    {
+      "testStep": "Validate Saved KPI for AOP",
+      "environment": "qa",
+      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "Pallavi"],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Validate saved data for AOP - GetKpi",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{aop_scenario_id}}",
+        "scenario_version": "{{aop_scenario_version}}",
+        "dim_id": 13,
+        "dim_val_id": 130001,
+        "classification_id": 12,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": ["month"],
+          "pivot_index": ["node_id"],
+          "period_view": ["month"],
+          "nodes": ["grossgmv"],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            }
+          ],
+          "month": ["{{dynamicMonth}}"]
+        },
+        "isApplied": false
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "rowData.{{dynamicMonth}}.forecast",
+            "value1": 2050000000
+          }
+        }
+      ]
+    }
+  ]
+}
