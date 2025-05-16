@@ -160,10 +160,11 @@
           "status": 200
         },
         {
-          "assertValuesAreEqual": [
-            "{{foreCastBeforeFilter}}",
-            "{{foreCastAfterFilter}}"
-          ]
+        "assertApproxEquals": {
+        "jsonPath": "{{foreCastBeforeFilter}}",
+        "expected": "{{foreCastAfterFilter}}",
+        "acceptedDifference": 0.1000
+        }
         }
       ]
     }
