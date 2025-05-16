@@ -1,0 +1,122 @@
+{
+  "validate_excel_scenarios_export": [
+    {
+      "testStep": "Extract scenario version from listHistoricals API",
+      "environment": "qa",
+      "labels": ["smoke", "listHistoricals"],
+      "service": "coreService",
+      "uri": "listHistoricals",
+      "testName": "Get scenarios for excel",
+      "queryParams": "dim_val_id=120010&dim_id=12&data_level=11&classification_id=12",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractFirst": {
+        "scenario_version_timestamp": "row_data.scenario_version_timestamp",
+        "scenario_id": "row_data.scenario_id"
+      }
+    },
+    {
+      "testStep": "Validate scenarios API - complete node list",
+      "environment": "qa",
+      "labels": ["smoke", "excel"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "testName": "validate scenarios API 200",
+      "method": "POST",
+      "queryParams": "",
+      "payload": {
+        "nodeIds": [
+          "momerchandisesales", "moserviceincome", "mocommissionincome", "moserviceandcommissionincome",
+          "momobilephonecommissionincome", "moothermerchandiseincome", "mofinancialservicesincome",
+          "moassociatepurchasediscount", "mocontrasales", "mootherdiscounttosales", "modiscounttosales",
+          "moibgmlbaselinenetsales", "monetsales", "mohomeofficeinitiatedmarkdowns", "mostoreinitiatedmarkdowns",
+          "momarkdownsnet", "moreceiptsatretail", "moreceiptsatcostwithoutcash", "mocoops", "modeals",
+          "momonthendaccrual", "moothernonstorereceipts", "mocashcoop", "moreceiptsatcostwithcash",
+          "moimupctwithoutcash", "moimupctwithcash", "moendinginventoryatcostinput", "mocummarginpct",
+          "moendinginventoryatretail", "moendinginventoryatcostcalculated", "molevelofcalc", "moendinginventoryatcost",
+          "mobegininventoryatcost", "mocostofgoodssold", "moshrink", "mopostaudit", "mobuyingallowances",
+          "mowarehouseallowances", "moimportallowances", "moothercostofsales", "mototalallowances", "modcthrows",
+          "mocostofsales", "mogrossprofit"
+        ],
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}"
+          }
+        ],
+        "filters": {},
+        "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
+        "periods": [
+          "202601", "202602", "202603", "202604", "202605", "202606",
+          "202607", "202608", "202609", "202610", "202611", "202612"
+        ],
+        "aggregationLevel": "MONTH",
+        "dimensions": ["channel_l3", "channel_l2", "channel_l1"],
+        "pivot_rows": ["Node Name", "Channel L0", "Channel L1", "Channel L2"],
+        "pivot_columns": ["Date", "Scenario Name"]
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Validate scenarios API row data",
+      "environment": "qa",
+      "labels": ["smoke", "excel"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "queryParams": "",
+      "testName": "validate scenarios API row data",
+      "method": "POST",
+      "payload": {
+        "nodeIds": [
+          "grossprofit", "momerchandisesales", "mowarehouseallowances",
+          "mobuyingallowances", "mototalallowances"
+        ],
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}"
+          }
+        ],
+        "filters": {},
+        "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
+        "periods": [
+          "202602", "202603", "202604", "202605", "202606", "202607",
+          "202608", "202609", "202610", "202611", "202612"
+        ],
+        "aggregationLevel": "MONTH",
+        "dimensions": ["channel_l3", "channel_l2", "channel_l1"],
+        "pivot_rows": ["Node Name", "Channel L0", "Channel L1", "Channel L2"],
+        "pivot_columns": ["Date", "Scenario Name"]
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "rowData.Node Name",
+            "value1": "grossprofit"
+          }
+        }
+      ],
+      "extractRelative": {
+        "channel_l0": {
+          "whereKey": "rowData.Node Name",
+          "equals": "grossprofit",
+          "extractKey": "Channel L0"
+        }
+      },
+      "validateExtract": {
+        "channel_l0": 0
+      }
+    }
+  ]
+}

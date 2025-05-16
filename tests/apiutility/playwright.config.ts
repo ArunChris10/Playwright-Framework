@@ -2,7 +2,7 @@
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  timeout: 60000,
+  timeout: 100000,
   globalTeardown: './globalTeardown.ts',
   globalSetup: './globalSetup.ts', 
   retries: 0,

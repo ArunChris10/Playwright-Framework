@@ -1,0 +1,133 @@
+{
+
+    "validate_create_view_with_numeric_name": [
+      {
+        "testStep": "Create view with numeric name",
+        "environment": "qa",
+        "labels": ["smoke", "BG-36815", "Palalvi"],
+        "service": "nexusService",
+        "uri": "create-nexus-preference",
+        "testName": "validate create view with numeric name API",
+        "queryParams": "",
+        "method": "POST",
+        "payload": {
+          "appName": "IBG",
+          "entityType": "dimValId_userId",
+          "entityTypeValue": "110027_LB-ibg-ufm-auto",
+          "preferenceType": "SavedView",
+          "preferenceConfigs": {
+            "preferenceConfig": {
+              "name": "test@4545",
+              "config": {
+                "groupBy": {
+                  "rows": "allRows",
+                  "checkbox": {},
+                  "configApply": {
+                    "pivot_index": [],
+                    "template_include_headers": []
+                  }
+                },
+                "selectionsCompare": [],
+                "drivers": ["memometrics"],
+                "filters": [],
+                "dateRange": {
+                  "intervalType": "MONTH",
+                  "range": {
+                    "start": "1-2026",
+                    "end": "12-2026"
+                  }
+                },
+                "dataUnit": "Absolute",
+                "rowOrder": {
+                  "memometrics": {
+                    "i": 0,
+                    "a": ""
+                  }
+                },
+                "colOrder": ["driver"]
+              }
+            },
+            "tags": [],
+            "createdBy": "LB-ibg-ufm-auto"
+          }
+        },
+        "assertions": [
+          {
+            "status": 200
+          },
+          {
+            "assertEquals": {
+              "jsonPath1": "preferenceConfig.name",
+              "value1": "test@4545"
+            }
+          }
+        ]
+      }
+    ],
+
+    "validate_create_view_exceed_max_length": [
+      {
+        "testStep": "Create view with max length name",
+        "environment": "qa",
+        "labels": ["smoke", "BG-36816", "Palalvi"],
+        "service": "nexusService",
+        "uri": "create-nexus-preference",
+        "testName": "validate create view Exceed Max Length API",
+        "queryParams": "",
+        "method": "POST",
+        "payload": {
+          "appName": "IBG",
+          "entityType": "dimValId_userId",
+          "entityTypeValue": "110027_LB-ibg-ufm-auto",
+          "preferenceType": "SavedView",
+          "preferenceConfigs": {
+            "preferenceConfig": {
+              "name": "NewTestView_CreateView_ExceedMaxLength",
+              "config": {
+                "groupBy": {
+                  "rows": "allRows",
+                  "checkbox": {},
+                  "configApply": {
+                    "pivot_index": [],
+                    "template_include_headers": []
+                  }
+                },
+                "selectionsCompare": [],
+                "drivers": ["memometrics"],
+                "filters": [],
+                "dateRange": {
+                  "intervalType": "MONTH",
+                  "range": {
+                    "start": "1-2026",
+                    "end": "12-2026"
+                  }
+                },
+                "dataUnit": "Absolute",
+                "rowOrder": {
+                  "memometrics": {
+                    "i": 0,
+                    "a": ""
+                  }
+                },
+                "colOrder": ["driver"]
+              }
+            },
+            "tags": [],
+            "createdBy": "LB-ibg-ufm-auto"
+          }
+        },
+        "assertions": [
+          {
+            "status": 200
+          },
+          {
+            "assertEquals": {
+              "jsonPath1": "preferenceConfig.name",
+              "value1": "NewTestView_CreateView_ExceedMaxLength"
+            }
+          }
+        ]
+      }
+    ]
+  
+}

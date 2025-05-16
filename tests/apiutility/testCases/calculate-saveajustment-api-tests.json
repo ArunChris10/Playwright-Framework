@@ -1,0 +1,236 @@
+{
+  "validate_calculation_for_various_node_types": [
+    {
+      "testStep": "Fetch Scenario ID and Version from Forecast",
+      "environment": "qa",
+      "labels": ["smoke", "Pre-Req", "Nidhi"],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get forecast data to extract scenario ID and version for 'io'",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120009,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extract": {
+        "calculate_scenario_id": {
+          "whereKey": "rowData.name",
+          "equals": "io",
+          "extractKey": "scenarioId"
+        },
+        "calculate_scenario_version": {
+          "whereKey": "rowData.name",
+          "equals": "io",
+          "extractKey": "scenarioVersion"
+        }
+      }
+    },
+    {
+      "testStep": "Calculate Forecast for #, %, and $ Node Types",
+      "environment": "qa",
+      "labels": ["smoke", "IBGROW-38434", "IBGROW-35440", "Nidhi"],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Verify calculation for all node types (#, %, $)",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{calculate_scenario_id}}",
+        "dim_val_id": 110026,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "returnedunitsuom_input",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 532
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          },
+          {
+            "node_var_name": "storereturns_input",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 500
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          },
+          {
+            "node_var_name": "allocationpctmerchandiseincome_input",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 1.5
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1747131515456
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "extractRelative": {
+            "forecastDriverOne": {
+              "whereKey": "node_var_name",
+              "equals": "storereturns_input",
+              "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+            },
+            "forecastDriverTwo": {
+              "whereKey": "node_var_name",
+              "equals": "returnedunitsuom_input",
+              "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+            },
+            "forecastDriverThree": {
+              "whereKey": "node_var_name",
+              "equals": "merchandiseincomeallocatedtoentity",
+              "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+            },
+            "forecastDriverFour": {
+              "whereKey": "node_var_name",
+              "equals": "allocationpctmerchandiseincome_input",
+              "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+            }
+          },
+          "validateExtract": {
+            "forecastDriverOne": 499.9999999999999,
+            "forecastDriverTwo": 532,
+            "forecastDriverThree": 49997295220.91298,
+            "forecastDriverFour": 1.4999999999999978
+          }
+        }
+      ]
+    }
+  ],  
+  "validate_save_adjustment_for_various_node_types": [
+    {
+      "testStep": "Save Adjustment for Node Types (#, %, $)",
+      "environment": "qa",
+      "labels": ["smoke", "IBGROW-38435", "IBGROW-35441", "Nidhi"],
+      "service": "coreService",
+      "uri": "saveAdjustment",
+      "testName": "Verify Save works correctly for all node types (#, %, $)",
+      "queryParams": "",
+      "method": "PATCH",
+      "payload": {
+        "adjustment_metadata": {
+          "adjustment_name": "test Adjustment",
+          "adjustment_reason": "",
+          "adjustment_type": 73,
+          "is_duplicated": false,
+          "is_update": false,
+          "is_create": true,
+          "adjustment_edits": 3,
+          "scenario_id": "{{calculate_scenario_id}}",
+          "scenario_version_timestamp": "{{calculate_scenario_version}}"
+        },
+        "allocation_request": {
+          "display_nodes": [],
+          "scenario_id": "{{calculate_scenario_id}}",
+          "dim_val_id": 110026,
+          "dim_id": 11,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "returnedunitsuom_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 532
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "storereturns_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 500
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "allocationpctmerchandiseincome_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 1.5
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+        },
+        "dim_val_id": 110026
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "New adjustment created successfully!!",
+            "jsonPath2": "adjustment_metadata.adjustment_name",
+            "value2": "test Adjustment"
+          },
+          "assertNotNull": {
+            "jsonPath1": "adjustment_metadata.adjustment_id",
+            "jsonPath2": "adjustment_metadata.created_by",
+            "jsonPath3": "adjustment_metadata.created_at"
+          }
+        }
+      ]
+    }
+  ]
+}
+
