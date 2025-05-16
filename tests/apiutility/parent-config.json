@@ -19,7 +19,8 @@
     "testCases/get-my-kpi-api-tests.json",
     "testCases/scenario-snapshots-api-tests.json",
     "testCases/visual-indicator-api.json",
-    "testCases/forecast-comp-api-tests.json"
+    "testCases/forecast-comp-api-tests.json",
+    "testCases/forecast-comp-api-error-tests.json"
   ],
 
   "coreService": {
