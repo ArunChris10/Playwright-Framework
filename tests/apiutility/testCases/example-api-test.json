@@ -1,5 +1,40 @@
 {
-  "validate_get_screen_details": [
+  "validate_screen_id_api_response": [
+    {
+      "testStep": "Validate screen section ID and name",
+      "environment": "qa",
+      "labels": ["smoke", "login"],
+      "service": "coreService",
+      "uri": "getScreenId",
+      "testName": "Validate screen id API returns correct values",
+      "queryParams": "dim_id=12&dim_val_id=120006",
+      "method": "GET",
+      "assertion": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "screen_sec_name",
+            "value1": "Inputter",
+            "jsonPath2": "screen_sect_id",
+            "value2": 103
+          },
+          "assertNotEquals": {
+            "jsonPath": "screen_sec_name",
+            "value": "rahul"
+          },
+          "assertNotNull": {
+            "jsonPath": "screen_sec_name"
+          },
+          "assertResponse": {
+            "filePath": "examplePayload.json"
+          }
+        }
+      ]
+    }
+  ],
+    "validate_get_screen_details": [
     {
       "testStep": "Call get screen ID API and extract values",
       "environment": "qa",

@@ -22,8 +22,8 @@ import nexusTokens from "../../secrets/nexus-users-token.json";
 export interface ApiTestCase {
   environment: string;
   service: string;
-  testStep?: string; // <-- Add this line
-  testName?: string; // <-- Optional: keep for backward compatibility
+  testStep?: string; 
+  testName?: string; 
   uri: string;
   queryParams: string;
   method: string;
@@ -87,7 +87,13 @@ parentConfig.testFiles.forEach(testCasePath => {
   );
 
   for (const [testName, steps] of Object.entries(rawTestData)) {
-    const caseLabels = (steps[0] as any).labels || [];
+    let caseLabels;
+    try{
+    caseLabels = (steps[0] as any).labels || [];
+    }catch (error) {
+      throw new Error(`Test case "${steps}" does not have the correct format.: ${error}`);
+    }
+
 
     const isIncluded =
       tagsToRun.length === 0 ||
