@@ -18,8 +18,8 @@
     "testCases/forecast-cycle-api-tests.json",
     "testCases/get-my-kpi-api-tests.json",
     "testCases/scenario-snapshots-api-tests.json",
-    "testCases/visual-indicator-api.json"
-
+    "testCases/visual-indicator-api.json",
+    "testCases/forecast-comp-api-tests.json"
   ],
 
   "coreService": {
@@ -38,7 +38,8 @@
     "getForecast":"/reports/get-report",
     "getForecastCalendar":"/forecast_calendar/",
     "visualIndicator":"/scenario/scenario-composition",
-    "Forecast":"/scenario"
+    "Forecast":"/scenario",
+    "getKpiV2":"/reports/get-mykpi/v2"
   },
   "notificationService": {
     "baseURL": {

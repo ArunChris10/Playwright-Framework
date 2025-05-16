@@ -248,6 +248,37 @@ export async function validateAssertions(response: any, responseBody: any, asser
           const selectedPayload = await getPayloadByTestCaseName(testcase);
           const ismatch = deepPartialMatch(selectedPayload, responseBody);
           expect(ismatch).toBeTruthy();
+        } else if(arrayOfAssertion.assertResponseByCalculation) {
+          const value1 = parseFloat(interpolate(arrayOfAssertion.assertResponseByCalculation.value1));
+          const value2 = parseFloat(interpolate(arrayOfAssertion.assertResponseByCalculation.value2));
+          const sign = arrayOfAssertion.assertResponseByCalculation.sign; // Get the operation type
+          const expected = parseFloat(interpolate(arrayOfAssertion.assertResponseByCalculation.expected));
+          let expectedValue: number;
+
+          // Perform the calculation based on the sign
+          switch (sign) {
+            case '-':
+              expectedValue = value1 - value2;
+              break;
+            case '+':
+              expectedValue = value1 + value2;
+              break;
+            case '%':
+              if (value2 === 0) {
+                throw new Error("Division by zero is not allowed for percentage calculation.");
+              }
+              expectedValue = ((value1 - value2) / value2) * 100;
+              break;
+            default:
+              throw new Error(`Invalid operation type: ${sign}. Supported types are '-', '+', '%'`);
+          }
+
+          // const actualValue = parseFloat(interpolate(arrayOfAssertion.assertResponseByCalculation.actualValue));
+          const acceptedDifference = parseFloat(arrayOfAssertion.assertResponseByCalculation.acceptedDifference);
+
+          // Calculate the difference and validate
+          const difference = Math.abs(expected - expectedValue);
+          expect(difference).toBeLessThanOrEqual(acceptedDifference);
         }
 
         const firstKey = Object.keys(arrayOfAssertion)[0];
