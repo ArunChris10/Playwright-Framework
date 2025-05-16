@@ -110,7 +110,7 @@ export class ExcelPage {
     await this.loadDataButton.click();
     await this.loadDataButton.isHidden();
     await this.loadDataButton.isVisible();
-    await this.page.waitForTimeout(20000);
+    await this.page.waitForTimeout(5000);
   }
 
   async verifySavedConfigurations() {
