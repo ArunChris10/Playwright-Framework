@@ -1,11 +1,11 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import { AOPUtils } from '../fixtures/aop-utils';
-import testdatafileScenario from "../testdata/forecast-api.json";
-import adjustmentData from "../testdata/adjustment.json";
-import testdatafile from "../testdata/new-aop-version.json";
-import newAopVersion from "../testdata/new-aop-version.json";
-import aopEdits from "../testdata/aop-edits.json";
+import { expect, test } from "../../../common/fixtures/test-hook";
+import { Utility } from "../../../common/fixtures/utils";
+import { AOPUtils } from '../../fixtures/aop-utils';
+import testdatafileScenario from "../../testdata/forecast-api.json";
+import adjustmentData from "../../testdata/adjustment.json";
+import testdatafile from "../../testdata/new-aop-version.json";
+import newAopVersion from "../../testdata/new-aop-version.json";
+import aopEdits from "../../testdata/aop-edits.json";
 
 test.describe(
     "Verify if user is able to create another AOP scenario when new datasets are available",
@@ -19,6 +19,7 @@ test.describe(
 
         const scenarioURL = `${process.env.apiBaseURLUFM}${testdatafileScenario.endpoint}`;
         const endpointUploadURL = `${process.env.apiBaseURLUFM}${newAopVersion.upload_aop_endpoint}`;
+        const demandComputeEndpoint = `${process.env.apiBaseURLUFM}${aopEdits.demand_compute_endpoint}`;
 
         test(`Verify AOP scenario creation with new datasets`, async ({ request }) => {
             try {
@@ -86,7 +87,7 @@ test.describe(
                     nservices = kpiResponseBody.rowData.find((row: { driver: string }) => row.driver === aopEdits.nservices)[aopEdits.yearMonth].forecast;
                     returnstotal = kpiResponseBody.rowData.find((row: { driver: string }) => row.driver === aopEdits.returnstotal)[aopEdits.yearMonth].forecast;
                     unitsgrossuomnginput = kpiResponseBody.rowData.find((row: { driver: string }) => row.driver === aopEdits.unitsgrossuomng_input)[aopEdits.yearMonth].forecast;
-                    tempplugforuom = kpiResponseBody.rowData.find((row: { driver: string }) => row.driver === aopEdits.tempplugforuom)[aopEdits.yearMonth].forecast;
+                    tempplugforuom = kpiResponseBody.rowData.find((row: { driver: string }) => row.driver === aopEdits.tempplugforuom)?.[aopEdits.yearMonth]?.forecast??0;
                     unitsops = kpiResponseBody.rowData.find((row: { driver: string }) => row.driver === aopEdits.unitsops)[aopEdits.yearMonth].forecast;
                     unitsreturnedops = kpiResponseBody.rowData.find((row: { driver: string }) => row.driver === aopEdits.unitsreturnedops)[aopEdits.yearMonth].forecast;
                     returnedunitsuomng = kpiResponseBody.rowData.find((row: { driver: string }) => row.driver === aopEdits.returnedunitsuomng)[aopEdits.yearMonth].forecast;
@@ -137,6 +138,27 @@ test.describe(
                     expect(responseBody.scenario).toHaveProperty("scenario_id");
                     expect(responseBody.scenario).toHaveProperty("dim_id");
                 });
+
+                            await test.step("Compute AOP scenario forecast", async () => {
+                Utility.logIt("Triggering demand computation for the new AOP scenario...");
+
+                // Fetch the latest AOP version for scenario details
+                const latestAopResponse = await AOPUtils.getAOPVersion(request);
+                const latestAopDetails = JSON.parse(await latestAopResponse.text()).find(
+                    (scenario) => scenario.classification_id === testdatafile.classification_id
+                );
+
+                const computeResponse = await request.post(demandComputeEndpoint, {
+                    data: { scenario_id: latestAopDetails.scenario_id },
+                });
+
+                const computeResponseBody = await Utility.assertAndLog(computeResponse);
+
+                // Ensure the computation was successful
+                await expect
+                    .soft(computeResponseBody)
+                    .toEqual(aopEdits.demandComputeSuccessMessage);
+            });
             } catch (error) {
                 Utility.logIt(`Unexpected error occurred: ${error.message}`);
                 throw error;

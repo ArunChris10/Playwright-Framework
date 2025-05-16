@@ -1,19 +1,19 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import testdatafile from "../testdata/new-aop-version.json";
-import { AOPUtils } from '../fixtures/aop-utils';
-import { EditForecastUtility } from "../fixtures/editForecast-utils";
-import { testData } from "../testdata/editForecast.json"
-import commonData from "../constants/common.json";
-import { CdfUtility } from "../../cdf-be/fixtures/cdf-utils";
-import { AdjustmentUtility } from "../fixtures/adjustment-utils";
-import adjustmentData from "../testdata/adjustment.json";
-import aopEdits from "../testdata/aop-edits.json"
+import { expect, test } from "../../../common/fixtures/test-hook";
+import { Utility } from "../../../common/fixtures/utils";
+import testdatafile from "../../testdata/new-aop-version.json";
+import { AOPUtils } from '../../fixtures/aop-utils';
+import { EditForecastUtility } from "../../fixtures/editForecast-utils";
+import { testData } from "../../testdata/editForecast.json"
+import commonData from "../../constants/common.json";
+import { CdfUtility } from "../../../cdf-be/fixtures/cdf-utils";
+import { AdjustmentUtility } from "../../fixtures/adjustment-utils";
+import adjustmentData from "../../testdata/adjustment.json";
+import aopEdits from "../../testdata/aop-edits.json"
 export interface NodeDimension { };
 
 test.describe(
   "Compare the aop publish data with current demand",
-  { tag: "@Smoke @Regression @aop @perf" },
+  { tag: "@Smoke @Regression @aop @aoppublish" },
   () => {
   
     let responseBody, utilResponse;

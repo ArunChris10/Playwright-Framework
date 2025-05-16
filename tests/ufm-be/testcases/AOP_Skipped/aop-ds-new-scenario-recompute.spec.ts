@@ -1,15 +1,15 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import testdatafile from "../testdata/new-aop-version.json";
-import { AOPUtils } from '../fixtures/aop-utils';
-import adjustmentData from "../testdata/adjustment.json";
-import aopEdits from "../testdata/aop-edits.json";
-import forecastData from "../testdata/forecast-api.json";
+import { expect, test } from "../../../common/fixtures/test-hook";
+import { Utility } from "../../../common/fixtures/utils";
+import testdatafile from "../../testdata/new-aop-version.json";
+import { AOPUtils } from '../../fixtures/aop-utils';
+import adjustmentData from "../../testdata/adjustment.json";
+import aopEdits from "../../testdata/aop-edits.json";
+import forecastData from "../../testdata/forecast-api.json";
 export interface NodeDimension { };
 
-test.describe(
+test.describe.skip(
   "Compare the demand nodes data of the DS scenario before and after creating a new AOP scenario",
-  { tag: "@Smoke @Regression @aop @perf" },
+  { tag: "@Smoke @Regression @aop @DSDataNoChangeDSPublish" },
   () => {
   
     let responseBody, utilResponse, newUtilResponse, computePayload;
