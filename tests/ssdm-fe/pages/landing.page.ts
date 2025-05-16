@@ -2,6 +2,7 @@ import { expect, Locator, Page } from "@playwright/test";
 import { testData, filterOptions } from '../testdata/fileName.json';
 
 export class LandingPageValidation {
+
   readonly page: Page;
   readonly searchBox: Locator;
   readonly btnInput: Locator;
@@ -51,7 +52,7 @@ export class LandingPageValidation {
     this.owners = page.locator('//div[text()="Owner"]')
     this.checked = page.locator('//div[@role="row"]');
     this.monthText = page.locator('//div[@data-field="month"]');
-    this.nameText = page.locator('div[data-field="metricName"]');
+    this.nameText = page.locator('//div[@data-field="metricName"]');
     this.textField = page.locator('//input[@type="text"]');
     this.channelText = page.locator('//div[@data-field="channel"]');
     this.ownerText = page.locator('//div[@data-field="owner"]');
@@ -79,63 +80,100 @@ export class LandingPageValidation {
   async Filter() {
     await this.btnFilter.nth(0).isVisible();
   }
-  async completeSearch() {
+
+  async searchValidate(searchterm: string) {
     await this.searchBox.isVisible();
     await this.searchBox.click();
-    await this.searchBox.fill(testData.completeSearch);
-    await expect(this.nameText.nth(1)).toHaveText(testData.completeSearch);
+    await this.searchBox.fill(searchterm);
+    return this.nameText.nth(1);
   }
-  async partialSearch() {
-    await this.searchBox.isVisible();
-    await this.searchBox.click();
-    await this.searchBox.fill(testData.partialSearch);
-    await expect(this.nameText.nth(2)).toContainText(testData.partialSearch)
+
+  // async monthFilter() {
+  //   await this.btnFilter.nth(0).isVisible();
+  //   await this.btnFilter.nth(0).click();
+  //   await this.textField.fill(filterOptions[0].data.month.actuals)
+  //   await this.btnFilter.nth(0).click({ force: true });
+  //   await expect(this.monthText.nth(1)).toHaveText(filterOptions[0].data.month.actuals);
+  // }
+  // async channelFilter() {
+  //   await this.btnFilter.nth(1).isVisible();
+  //   await this.btnFilter.nth(1).click();
+  //   await this.textField.fill(filterOptions[0].data.channel.options)
+  //   await this.btnFilter.nth(0).click({ force: true });
+  //   await expect(this.channelText.nth(1)).toHaveText(filterOptions[0].data.channel.options);
+  // }
+  // async ownerFilter() {
+  //   await this.btnFilter.nth(4).isVisible();
+  //   await this.btnFilter.nth(4).click();
+  //   await this.textField.fill(filterOptions[0].data.owner.segment)
+  //   await this.btnFilter.nth(0).click({ force: true });
+  //   await expect(this.ownerText.nth(1)).toHaveText(filterOptions[0].data.owner.segment);
+  // }
+  // async departmentFilter() {
+  //   await this.btnFilter.nth(2).isVisible();
+  //   await this.btnFilter.nth(2).click();
+  //   await this.textField.fill(filterOptions[0].data.department.options)
+  //   await this.btnFilter.nth(0).click({ force: true });
+  //   await expect(this.departmentText.nth(1)).toHaveText(filterOptions[0].data.department.options);
+  // }
+  // async entityFilter() {
+  //   await this.btnFilter.nth(3).isVisible();
+  //   await this.btnFilter.nth(3).click();
+  //   await this.textField.fill(filterOptions[0].data.entity.option)
+  //   await this.btnFilter.nth(0).click({ force: true });
+  //   await expect(this.entityText.nth(1)).toHaveText(filterOptions[0].data.entity.option);
+  // }
+
+  async selectFilter(filterType: string) {
+    let i = 0;
+    let b = filterOptions[0].data.month.actuals;
+    let c: Locator = this.monthText.nth(1); // Default assignment to avoid uninitialized usage
+    switch (filterType) {
+      case "month":
+        i = 0;
+        b = filterOptions[0].data.month.actuals;
+        c = this.monthText.nth(1);
+        break;
+      case "channel":
+        i = 1;
+        b = filterOptions[0].data.channel.optionValue;
+        c = this.channelText.nth(1);
+        break;
+      case "department":
+        i = 2;
+        b = filterOptions[0].data.department.options;
+        c = this.departmentText.nth(1);
+        break;
+      case "entity":
+        i = 3;
+        b = filterOptions[0].data.entity.option;
+        c = this.entityText.nth(1);
+        break;
+      case "owner":
+        i = 4;
+        b = filterOptions[0].data.owner.segment;
+        c = this.ownerText.nth(1);
+        break;
+    }
+    await this.btnFilter.nth(i).isVisible();
+    await this.btnFilter.nth(i).click();
+    await this.textField.fill(b);
+    await this.btnFilter.nth(0).click({ force: true, timeout: 100000 });
+     expect(await c.textContent()).toBe(b);
   }
-  async incorrectSearch() {
-    await this.searchBox.isVisible();
-    await this.searchBox.click();
-    await this.searchBox.fill(testData.incorrectSearch);
-    await expect(this.nameText.nth(1)).not.toHaveText(testData.incorrectSearch);
-  }
-  async monthFilter() {
-    await this.btnFilter.nth(0).isVisible();
-    await this.btnFilter.nth(0).click();
-    await this.textField.fill(filterOptions[0].data.month.actuals)
-    await this.btnFilter.nth(0).click({ force: true });
-    await expect(this.monthText.nth(1)).toHaveText(filterOptions[0].data.month.actuals);
-  }
-  async channelFilter() {
-    await this.btnFilter.nth(1).isVisible();
-    await this.btnFilter.nth(1).click();
-    await this.textField.fill(filterOptions[0].data.channel.options)
-    await this.btnFilter.nth(0).click({ force: true });
-    await expect(this.channelText.nth(1)).toHaveText(filterOptions[0].data.channel.options);
-  }
-  async ownerFilter() {
-    await this.btnFilter.nth(4).isVisible();
-    await this.btnFilter.nth(4).click();
-    await this.textField.fill(filterOptions[0].data.owner.segment)
-    await this.btnFilter.nth(0).click({ force: true });
-    await expect(this.ownerText.nth(1)).toHaveText(filterOptions[0].data.owner.segment);
-  }
-  async departmentFilter() {
-    await this.btnFilter.nth(2).isVisible();
-    await this.btnFilter.nth(2).click();
-    await this.textField.fill(filterOptions[0].data.department.options)
-    await this.btnFilter.nth(0).click({ force: true });
-    await expect(this.departmentText.nth(1)).toHaveText(filterOptions[0].data.department.options);
-  }
-  async entityFilter() {
-    await this.btnFilter.nth(3).isVisible();
-    await this.btnFilter.nth(3).click();
-    await this.textField.fill(filterOptions[0].data.entity.option)
-    await this.btnFilter.nth(0).click({ force: true });
-    await expect(this.entityText.nth(1)).toHaveText(filterOptions[0].data.entity.option);
-  }
+
   async clearAllFilter() {
-    await this.btnClearFilter.nth(2).isVisible();
-    await this.btnClearFilter.nth(2).click();
-    await expect(this.channelText.nth(1)).not.toHaveText(filterOptions[0].data.channel.options);
+    let i = 2;
+    let c = this.channelText.nth(1);
+    let b = filterOptions[0].data.channel.optionValue;
+
+    await this.btnFilter.nth(i).isVisible();
+    await this.btnFilter.nth(i).click();
+    await this.textField.fill(b)
+    await this.btnFilter.nth(0).click({ force: true }); //applies filter
+    await this.btnClearFilter.nth(i).isVisible();
+    await this.btnClearFilter.nth(i).click(); //clears filter
+    await expect(c).not.toHaveText(b);
   }
   async tableSettings() {
     await this.btnSettings.isVisible();
@@ -186,6 +224,7 @@ export class LandingPageValidation {
     // Validate that the original parsed dates match the sorted dates
     expect(parsedDates).toEqual(sortedDates);
   }
+
   async validateGroupBySameNode() {
     await this.drpSortGroupBy.isVisible();
     await this.drpSortGroupBy.click(); // clicks on the sort/groupby button
@@ -194,11 +233,12 @@ export class LandingPageValidation {
     await expect(this.sortGroup.nth(0)).toHaveText(testData.metricNames); //assert
   }
   async validateGroupByOwner() {
+    let a = 1; let b = 2;
     await this.drpSortGroupBy.isVisible();
     await this.drpSortGroupBy.click(); // clicks on the sort/groupby button
     await this.owners.isVisible();
     await this.owners.click({ force: true });//clicks on the dropdown values to group by owner
-    expect(await this.owner.nth(1).textContent()).toBe(await this.owner.nth(2).textContent())
-    expect(await this.nameText.nth(1).textContent()).not.toBe(await this.nameText.nth(2).textContent()); //assert
+    expect(await this.owner.nth(a).textContent()).toBe(await this.owner.nth(b).textContent())
+    expect(await this.nameText.nth(a).textContent()).not.toBe(await this.nameText.nth(b).textContent()); //assert
   }
 }

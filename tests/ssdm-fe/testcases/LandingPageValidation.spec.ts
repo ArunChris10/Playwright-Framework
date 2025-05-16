@@ -1,7 +1,9 @@
 import { test } from "../../common/fixtures/test-hook";
+import { expect } from "@playwright/test";
 import { PageFactory } from '../../common/pages/page-factory';
-import { signinUtility } from "../fixtures/utility";
+import { signinUtility } from "../fixtures/signinUtility";
 import { TIMEOUT } from '../constants/timeout.json';
+import { testData, filterOptions } from '../testdata/fileName.json';
 
 test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @walmart123" }, async () => {
     let objpageFactory: PageFactory;
@@ -42,48 +44,60 @@ test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @
     });
 
     test('Check if the search works with the complete metric name', async () => {
-
-        await objpageFactory.ssdmPageFactory().landingPage().completeSearch(); // Perform search with complete metric name
+        let searchterm = testData.completeSearch; // Perform search with complete metric name
+        let result = await objpageFactory.ssdmPageFactory().landingPage().searchValidate(searchterm); 
+        await expect (result).toHaveText(searchterm);
     });
 
     test('Check if the search works with the partial metric name', async () => {
-        await objpageFactory.ssdmPageFactory().landingPage().partialSearch(); // Perform search with partial metric name
+        let searchterm = testData.partialSearch;  // Perform search with partial metric name
+        let result = await objpageFactory.ssdmPageFactory().landingPage().searchValidate(searchterm); 
+        await expect (result).toContainText(searchterm);
     });
 
-    test('Check if the search response on incorrect metric name', async () => {
-        await objpageFactory.ssdmPageFactory().landingPage().incorrectSearch(); // Perform search with incorrect metric name
+    test('Check if the search response on incorrect metric name', async () => { 
+        let searchterm = testData.incorrectSearch;  // Perform search with incorrect metric name
+        let result = await objpageFactory.ssdmPageFactory().landingPage().searchValidate(searchterm); 
+        await expect (result).not.toHaveText(searchterm);
     });
-
 
     // Validate filter functionality for the "month" column
     test('month column filter validation', async () => {
-        await objpageFactory.ssdmPageFactory().landingPage().monthFilter();
+        let filterType = filterOptions[0].data.month.dropDown;
+        let result = await objpageFactory.ssdmPageFactory().landingPage().selectFilter(filterType);
+         expect (result).toBe(filterType)
     });
 
     // Validate filter functionality for the "channel" column
-    test('channel column filter validation', async () => {
-        await objpageFactory.ssdmPageFactory().landingPage().channelFilter();
+    test('channel column filter validation',async () => {
+        let filterType = filterOptions[0].data.channel.dropDown;
+        let result = await objpageFactory.ssdmPageFactory().landingPage().selectFilter(filterType);
+        expect (result).toBe(filterType);
     });
 
     // Validate filter functionality for the "department" column
     test('department column filter validation', async () => {
-        await objpageFactory.ssdmPageFactory().landingPage().departmentFilter();
+        let filterType = filterOptions[0].data.department.dropDown;
+        let result = await objpageFactory.ssdmPageFactory().landingPage().selectFilter(filterType);
+        expect (result).toBe(filterType);
     });
 
     // Validate filter functionality for the "entity" column
     test('entity column filter validation', async () => {
-        await objpageFactory.ssdmPageFactory().landingPage().entityFilter();
+        let filterType = filterOptions[0].data.entity.dropDown;
+        let result = await objpageFactory.ssdmPageFactory().landingPage().selectFilter(filterType);
+        expect (result).toBe(filterType);
     });
 
     // Validate filter functionality for the "owner" column
     test('owner column filter validation', async () => {
-        await objpageFactory.ssdmPageFactory().landingPage().ownerFilter();
+        let filterType = filterOptions[0].data.owner.dropDown;
+        let result = await objpageFactory.ssdmPageFactory().landingPage().selectFilter(filterType);
+        expect (result).toBe(filterType);
     });
-
 
     //test the clear-all filter functionality
     test('User checks the Clear-all filter button functionality', async () => {
-        await objpageFactory.ssdmPageFactory().landingPage().channelFilter();
         await objpageFactory.ssdmPageFactory().landingPage().clearAllFilter();
     });
 

@@ -26,7 +26,7 @@
         "completeSearch": "Cost per Delivery",
         "partialSearch": "Cost per",
         "incorrectSearch": "Growth",
-        "metricNames": "TestNodeName",
+        "metricNames": "TestCompositeUpdatedNodeName",
         "month": "Month",
         "segment": "SEGMENT"
     },
@@ -34,6 +34,7 @@
         {
             "data": {
                 "month":{
+                    "dropDown": "Month",
                     "actuals":"ACTUALS",
                     "forecast": "FORECAST"
                 },
@@ -51,11 +52,13 @@
                     "options": "*, 38_PHARMACY RX"
                 },
                 "owner":{
+                    "dropDown": "Owner",
                     "option": "MARKETPLACE",
                     "options": "CONNECT",
                      "segment": "SEGMENT"
                 },
                 "entity":{
+                    "dropDown": "Entity",
                     "option": "ACQUISITIONS_AND_INCUBATIONS"
                 }
             }
