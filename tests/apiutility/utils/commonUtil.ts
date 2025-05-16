@@ -178,105 +178,86 @@ let filePathOfPayload;
   }
 
 
-  export function validateAssertions(response:any,responseBody: any, assertions: any[], testcase: ApiTestCase) {
-    assertions.forEach((assertion) => {
+export async function validateAssertions(response: any, responseBody: any, assertions: any[], testcase: ApiTestCase) {
+  for (const arrayOfAssertion of assertions) {
+    if ('status' in arrayOfAssertion) {
+      const statusCode = arrayOfAssertion.status;
+      expect(response.status()).toEqual(statusCode);
+    } else {
+      for (let i = 0; i <= Object.keys(arrayOfAssertion).length; i++) {
+        if (arrayOfAssertion.assertEquals) {
+          const keys = Object.keys(arrayOfAssertion.assertEquals);
+          for (let index = 0; index < keys.length; index += 2) {
+            const jsonPathKey = keys[index];
+            const valueKey = keys[index + 1];
+            const jsonPath = interpolate(arrayOfAssertion.assertEquals[jsonPathKey]);
+            const expectedValue = arrayOfAssertion.assertEquals[valueKey];
+            const actualValue = findAllValuesByKey(responseBody, jsonPath);
+            expect(actualValue).toContain(expectedValue);
+          }
 
-      assertion.forEach(async arrayOfAssertion  => {
-        if ('status' in arrayOfAssertion) {
-            // Handle status assertion
-            const statusCode = arrayOfAssertion.status;
-            expect(response.status()).toEqual(statusCode); // Example: Check status code
+        } else if (arrayOfAssertion.assertApproxEquals) {
+          const actualValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.jsonPath));
+          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.expected))
+          const acceptedDifference = parseFloat(arrayOfAssertion.assertApproxEquals.acceptedDifference);
+          // const actualValue = parseFloat(findAllValuesByKey(responseBody, jsonPath)[0]);
+
+          const difference = Math.abs(actualValue - expectedValue);
+          expect(difference).toBeLessThanOrEqual(acceptedDifference);
+
+        } else if (arrayOfAssertion.assertNotEquals) {
+          const keys = Object.keys(arrayOfAssertion.assertNotEquals);
+          for (let index = 0; index < keys.length; index += 2) {
+            const jsonPathKey = keys[index];
+            const valueKey = keys[index + 1];
+            const jsonPath = arrayOfAssertion.assertNotEquals[jsonPathKey];
+            const expectedValue = arrayOfAssertion.assertNotEquals[valueKey];
+            const actualValue = findAllValuesByKey(responseBody, jsonPath);
+            expect(actualValue).not.toContain(expectedValue);
+          }
+
+        } else if (arrayOfAssertion.assertNull) {
+          const keys = Object.keys(arrayOfAssertion.assertNull);
+          for (let index = 0; index < keys.length; index += 2) {
+            const jsonPathKey = keys[index];
+            const jsonPath = arrayOfAssertion.assertNull[jsonPathKey];
+            const actualValue = findAllValuesByKey(responseBody, jsonPath);
+            expect(actualValue).toBeNull();
+          }
+
+        } else if (arrayOfAssertion.assertNotNull) {
+          const keys = Object.keys(arrayOfAssertion.assertNotNull);
+          for (let index = 0; index < keys.length; index += 2) {
+            const jsonPathKey = keys[index];
+            const jsonPath = arrayOfAssertion.assertNotNull[jsonPathKey];
+            const actualValue = findAllValuesByKey(responseBody, jsonPath);
+            expect(actualValue).not.toBeNull();
+          }
+
+        } else if (arrayOfAssertion.assertValuesAreEqual) {
+          if (arrayOfAssertion.assertValuesAreEqual.length < 2) {
+            throw new Error('assertValuesAreEqual requires at least two values.');
+          }
+          const firstValue = interpolate(arrayOfAssertion.assertValuesAreEqual[0]);
+          for (let i = 1; i < arrayOfAssertion.assertValuesAreEqual.length; i++) {
+            const curValue = interpolate(arrayOfAssertion.assertValuesAreEqual[i]);
+            expect(curValue).toEqual(firstValue);
+          }
+
+        } else if (arrayOfAssertion.assertResponse) {
+          const selectedPayload = await getPayloadByTestCaseName(testcase);
+          const ismatch = deepPartialMatch(selectedPayload, responseBody);
+          expect(ismatch).toBeTruthy();
         }
-        else{
-          
-          for (let i =0; i <= Object.keys(arrayOfAssertion).length; i++){
 
-            if (arrayOfAssertion.assertEquals) {
-              // Handle assertEquals
-
-              const keys = Object.keys(arrayOfAssertion.assertEquals);
-              for (let index = 0; index < keys.length; index += 2) {
-                const jsonPathKey = keys[index];
-                const valueKey = keys[index + 1];
-                let jsonPath = interpolate(arrayOfAssertion.assertEquals[jsonPathKey]);
-                const expectedValue = arrayOfAssertion.assertEquals[valueKey];
-                const actualValue = findAllValuesByKey(responseBody, jsonPath);
-                expect(actualValue).toContain(expectedValue); // Assert the equality
-              }
-
-            } else if (arrayOfAssertion.assertNotEquals) {
-              const keys = Object.keys(arrayOfAssertion.assertNotEquals);
-              for (let index = 0; index < keys.length; index += 2) {
-                const jsonPathKey = keys[index];
-                const valueKey = keys[index + 1];
-        
-                const jsonPath = arrayOfAssertion.assertNotEquals[jsonPathKey];
-                const expectedValue = arrayOfAssertion.assertNotEquals[valueKey];
-                const actualValue = findAllValuesByKey(responseBody, jsonPath);
-                expect(actualValue).not.toContain(expectedValue); // Assert the equality
-              }
-              } else if (arrayOfAssertion.assertContains) {
-                const keys = Object.keys(arrayOfAssertion.assertContains);
-                for (let index = 0; index < keys.length; index += 2) {
-                const jsonPathKey = keys[index];
-                const valueKey = keys[index + 1];
-
-                const jsonPath = interpolate(arrayOfAssertion.assertContains[jsonPathKey]);
-                const expectedValue = arrayOfAssertion.assertContains[valueKey];
-                const actualValue = findAllValuesByKey(responseBody, jsonPath);
-                const containsValue = actualValue.some((val: any) => val?.toString().includes(expectedValue.toString()));
-                expect(containsValue).toBeTruthy(); // Assert that the value is contained
-                }
-
-            } else if (arrayOfAssertion.assertNull) {
-              // Handle assertNull
-              const keys = Object.keys(arrayOfAssertion.assertNull);
-              for (let index = 0; index < keys.length; index += 2) {
-                const jsonPathKey = keys[index];
-        
-                const jsonPath = arrayOfAssertion.assertNull[jsonPathKey];
-                const actualValue = findAllValuesByKey(responseBody, jsonPath);
-                expect(actualValue).toBeNull(); // Assert the equality
-              }
-
-            } else if (arrayOfAssertion.assertNotNull) {
-              // Handle assertNotNull
-              const keys = Object.keys(arrayOfAssertion.assertNotNull);
-              for (let index = 0; index < keys.length; index += 2) {
-                const jsonPathKey = keys[index];
-       
-                const jsonPath = arrayOfAssertion.assertNotNull[jsonPathKey];
-                const actualValue = findAllValuesByKey(responseBody, jsonPath);
-                expect(actualValue).not.toBeNull(); // Assert the equality
-              }
-
-            } else if (arrayOfAssertion.assertValuesAreEqual) {
-              // Handle assertValuesAreEqual
-              if (arrayOfAssertion.assertValuesAreEqual.length < 2) {
-                throw new Error('assertValuesAreEqual requires at least two values.');
-              }              
-              const firstValue = interpolate(arrayOfAssertion.assertValuesAreEqual[0]);
-              for (let i = 1; i < arrayOfAssertion.assertValuesAreEqual.length; i++) {
-                const curValue = interpolate(arrayOfAssertion.assertValuesAreEqual[i]);
-                  expect(curValue).toEqual(firstValue);
-              }
-              }
-            
-            else if (arrayOfAssertion.assertResponse) {
-              const selectedPayload = arrayOfAssertion.assertResponse.payload
-                ? arrayOfAssertion.assertResponse.payload
-                : await getPayloadByTestCaseName(testcase);
-              const strict = arrayOfAssertion.assertResponse.strict == true;
-              expect(deepPartialMatch(selectedPayload, responseBody, strict)).toBeTruthy();
-            }
-            const firstKey = Object.keys(arrayOfAssertion)[0];
-            delete arrayOfAssertion[firstKey];
-            i=0;
-          }          
-        }         
-      });     
-    });
+        const firstKey = Object.keys(arrayOfAssertion)[0];
+        delete arrayOfAssertion[firstKey];
+        i = 0;
+      }
+    }
   }
+}
+
 
   export function getRandomFutureDateTimeWithOffset(daysFromNow: number, hoursOffset: number = 0): string {
     const now = new Date();
