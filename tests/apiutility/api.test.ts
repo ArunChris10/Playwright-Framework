@@ -1,7 +1,7 @@
 import { test, expect, request, APIRequestContext } from '@playwright/test';
 import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
-import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey } from '../apiutility/utils/jsonUtils';
+import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey, findRelativeValueWithMultipleConditions } from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {
@@ -49,6 +49,15 @@ export interface ApiTestCase {
       extractKey: string;
     };
   };
+  extractRelativeWithMultipleKeys?: {
+    [globalVar: string]: {
+      whereKey1: string;
+      equals1: any;
+      whereKey2: string;
+      equals2: any;
+      extractKey: string;
+    };
+  };
   labels?: string[];
 }
 
@@ -70,6 +79,7 @@ export interface ParentConfig {
   notificationService: { baseURL: { [key: string]: string }, testCaseName: string };
   reportingService: { baseURL: { [key: string]: string }, testCaseName: string };
   nexusService: { baseURL: { [key: string]: string }, testCaseName: string };
+  currentDemandService: { baseURL: { [key: string]: string }, testCaseName: string };
 }
 
 export let response;
@@ -125,6 +135,8 @@ parentConfig.testFiles.forEach(testCasePath => {
           baseUrl = parentConfig.reportingService.baseURL[step.environment];
         } else if (step.service === "nexusService") {
           baseUrl = parentConfig.nexusService.baseURL[step.environment];
+        } else if (step.service === "currentDemandService") {
+          baseUrl = parentConfig.currentDemandService.baseURL[step.environment];
         }
 
         const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
@@ -181,6 +193,20 @@ parentConfig.testFiles.forEach(testCasePath => {
               console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
             } else {
               throw new Error(`Could not find relative value where "${whereKey}" == "${equals}"`);
+            }
+          }
+        }
+
+        if (step.extractRelativeWithMultipleKeys) {
+          for (const globalVar in step.extractRelativeWithMultipleKeys) {
+            const { whereKey1, equals1, whereKey2, equals2, extractKey } = step.extractRelativeWithMultipleKeys[globalVar];
+
+            const value = findRelativeValueWithMultipleConditions(responseBody, whereKey1, equals1, whereKey2, equals2, extractKey);
+            if (value !== undefined) {
+              globalStore.setValue(globalVar, value);
+              console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
+            } else {
+              throw new Error(`Could not find relative value where keys "${whereKey1}" match values "${equals1}"`);
             }
           }
         }
