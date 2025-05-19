@@ -317,6 +317,7 @@
     }
   },
   {
+    "testStep":"validate saved data science input nodes", 
     "environment": "qa",
     "labels": [
       "smoke",

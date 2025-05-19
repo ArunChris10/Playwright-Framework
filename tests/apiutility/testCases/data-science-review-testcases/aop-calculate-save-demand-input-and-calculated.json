@@ -1,5 +1,5 @@
 {
-  "validate_aop_ademand_calculate_save_workflow": [
+  "validate_aop_demand_calculate_save_workflow": [
   {
     "testStep": "Get AOP Scenario Details from DataScience Info",
     "environment": "qa",
@@ -31,7 +31,7 @@
       }
     }
   },
-  {
+  { "testStep": "Caluclate AOP demand input node",
     "environment": "qa",
     "labels": [
       "smoke",
@@ -196,6 +196,7 @@
     ]
   },
   {
+    "testStep": "save AOP demand input node",
     "environment": "qa",
     "labels": [
       "smoke",
@@ -354,6 +355,7 @@
     }
   },
   {
+    "testStep": "Validate saved data for AOP",
     "environment": "qa",
     "labels": [
       "smoke",

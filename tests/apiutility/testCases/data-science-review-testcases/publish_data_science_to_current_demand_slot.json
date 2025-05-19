@@ -31,6 +31,7 @@
     }
   },
    {
+    "testStep":" to get actual numbers from AOP data",
     "environment": "qa",
     "labels": [
       "smoke",
@@ -201,6 +202,7 @@
     ]
   },
   {
+    "testStep":"To publish AOP data",
     "environment": "qa",
     "labels": [
       "smoke",
@@ -229,6 +231,7 @@
   }
 ,
   {
+    "testStep":"To get actual numbers from AOP data from current demand",
     "environment": "qa",
     "labels": [
       "smoke",
