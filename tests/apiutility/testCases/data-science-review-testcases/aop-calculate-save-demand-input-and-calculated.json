@@ -1,0 +1,414 @@
+{
+  "validate_aop_ademand_calculate_save_workflow": [
+  {
+    "testStep": "Get AOP Scenario Details from DataScience Info",
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "Pre-Req",
+      "Pallavi"
+    ],
+    "service": "coreService",
+    "uri": "getDataScienceInfo",
+    "testName": "get Scenario details from data Science info",
+    "queryParams": "",
+    "method": "GET",
+    "assertion": [
+      {
+        "status": 200
+      }
+    ],
+    "extractRelative": {
+      "aop_scenario_id": {
+        "whereKey": "classification_id",
+        "equals": 11,
+        "extractKey": "scenario_id"
+      },
+      "aop_scenario_version": {
+        "whereKey": "classification_id",
+        "equals": 11,
+        "extractKey": "scenario_version"
+      }
+    }
+  },
+  {
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "IBGROW-35121",
+      "Pallavi"
+    ],
+    "service": "coreService",
+    "uri": "allocateData",
+    "testName": "Verify if the calculated nodes are matching with expected numbers - AOP- Demand",
+    "queryParams": "",
+    "method": "POST",
+    "payload": {
+
+      "adjustment_id": 1747313678157,
+      "dim_id": 13,
+      "dim_val_id": 130001,
+      "display_nodes": [
+        "gmvplusservices",
+        "gmvplusserviceslessreturns",
+        "workedunits",
+        "unitsgrossuomng",
+        "unitsuomlessreturns"
+      ],
+      "edits": [
+        {
+          "node_var_name": "grossgmv",
+          "node_dimension": {},
+          "allocation": {
+            "interval": null,
+            "offset": null,
+            "method": 29
+          },
+          "data": {
+            "202601": 4000,
+            "202602": 4000,
+            "202603": 4000,
+            "202604": 4000,
+            "202605": 4000,
+            "202606": 4000,
+            "202607": 4000
+          }
+        },
+        {
+          "node_var_name": "tempplugforuom",
+          "node_dimension": {},
+          "allocation": {
+            "interval": null,
+            "offset": null,
+            "method": 29
+          },
+          "data": {
+            "202601": 5000,
+            "202602": 5000,
+            "202603": 5000,
+            "202604": 5000,
+            "202605": 5000,
+            "202606": 5000,
+            "202607": 5000
+          }
+        },
+        {
+          "node_var_name": "tempplugforreturns",
+          "node_dimension": {},
+          "allocation": {
+            "interval": null,
+            "offset": null,
+            "method": 29
+          },
+          "data": {
+            "202601": 6000,
+            "202602": 6000,
+            "202603": 6000,
+            "202604": 6000,
+            "202605": 6000,
+            "202606": 6000,
+            "202607": 6000
+          }
+        },
+        {
+          "node_var_name": "unitsgrossuomng_input",
+          "node_dimension": {},
+          "allocation": {
+            "interval": null,
+            "offset": null,
+            "method": 29
+          },
+          "data": {
+            "202601": 2000,
+            "202602": 2000,
+            "202603": 2000,
+            "202604": 2000,
+            "202605": 2000,
+            "202606": 2000,
+            "202607": 2000
+          }
+        },
+        {
+          "node_var_name": "instorereturnspctofgrossgmv",
+          "node_dimension": {},
+          "allocation": {
+            "interval": null,
+            "offset": null,
+            "method": 29
+          },
+          "data": {
+            "202601": 0.03,
+            "202602": 0.03,
+            "202603": 0.03,
+            "202604": 0.03,
+            "202605": 0.03,
+            "202606": 0.03,
+            "202607": 0.03
+          }
+        }
+      ],
+      "filters": [],
+      "period_view": "month",
+      "preview": true,
+      "scenario_id": 15141747243293
+    }
+,    
+    "assertion": [
+      {
+        "status": 200
+      },
+      {
+        "extractRelative": {
+          "CalculatedDriverOneForecast": {
+            "whereKey": "node_var_name",
+            "equals": "workedunits",
+            "extractKey": "edits.202602.forecast"
+          },
+          "CalculatedDriverTwoForecast": {
+            "whereKey": "node_var_name",
+            "equals": "unitsuomlessreturns",
+            "extractKey": "edits.202602.forecast"
+          },
+          "CalculatedDriverThreeForecast": {
+            "whereKey": "node_var_name",
+            "equals": "unitsgrossuomng",
+            "extractKey": "edits.202602.forecast"
+          },
+          "CalculatedDriverFourForecast": {
+            "whereKey": "node_var_name",
+            "equals": "gmvplusserviceslessreturns",
+            "extractKey": "edits.202602.forecast"
+          },
+          "CalculatedDriverFiveForecast": {
+            "whereKey": "node_var_name",
+            "equals": "gmvplusservices",
+            "extractKey": "edits.202602.forecast"
+          }
+        },
+        "validateExtract": {
+          "CalculatedDriverOneForecast": 2079.55510814874,
+          "CalculatedDriverTwoForecast": 6920.440048959669, 
+          "CalculatedDriverThreeForecast": 2000,
+          "CalculatedDriverFourForecast": 188890042.94143116,
+          "CalculatedDriverFiveForecast":430218104.18000954
+        }
+      }
+    ]
+  },
+  {
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "IBGROW-35121",
+      "Pallavi"
+    ],
+    "service": "coreService",
+    "uri": "saveAdjustment",
+    "testName": "Send request for save-adjustment- AOP- Demand",
+    "queryParams": "",
+    "method": "PATCH",
+    "payload": {
+     
+      "adjustment_metadata": {
+        "adjustment_name": "test",
+        "adjustment_reason": "",
+        "adjustment_type": 74,
+        "is_duplicated": false,
+        "is_create": true,
+        "is_update": false,
+        "scenario_id": 15141747243293,
+        "scenario_version_timestamp": 1747243294
+      },
+      "adjustment_edits": 35,
+      "allocation_request": {
+        "dim_id": 13,
+        "dim_val_id": 130001,
+        "display_nodes": [
+          "gmvplusservices",
+          "gmvplusserviceslessreturns",
+          "workedunits",
+          "unitsgrossuomng",
+          "unitsuomlessreturns"
+        ],
+        "edits": [
+          {
+            "node_var_name": "grossgmv",
+            "node_dimension": {},
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            },
+            "data": {
+              "{{dynamicMonth-4}}": 4000,
+              "{{dynamicMonth-3}}": 4000,
+              "{{dynamicMonth-2}}": 4000,
+              "{{dynamicMonth-1}}": 4000,
+              "{{dynamicMonth}}": 4000,
+              "{{dynamicMonth+1}}": 4000,
+              "{{dynamicMonth+2}}": 4000
+            }
+          },
+          {
+            "node_var_name": "tempplugforuom",
+            "node_dimension": {},
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            },
+            "data": {
+             "{{dynamicMonth-4}}": 5000,
+              "{{dynamicMonth-3}}": 5000,
+              "{{dynamicMonth-2}}": 5000,
+              "{{dynamicMonth-1}}": 5000,
+              "{{dynamicMonth}}": 5000,
+              "{{dynamicMonth+1}}": 5000,
+              "{{dynamicMonth+2}}": 5000
+            }
+          },
+          {
+            "node_var_name": "tempplugforreturns",
+            "node_dimension": {},
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            },
+            "data": {
+              "{{dynamicMonth-4}}": 6000,
+              "{{dynamicMonth-3}}": 6000,
+              "{{dynamicMonth-2}}": 6000,
+              "{{dynamicMonth-1}}": 6000,
+              "{{dynamicMonth}}": 6000,
+              "{{dynamicMonth+1}}": 6000,
+              "{{dynamicMonth+2}}": 6000
+            }
+          },
+          {
+            "node_var_name": "unitsgrossuomng_input",
+            "node_dimension": {},
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            },
+            "data": {
+              "202601": 2000,
+              "202602": 2000,
+              "202603": 2000,
+              "202604": 2000,
+              "202605": 2000,
+              "202606": 2000,
+              "202607": 2000
+            }
+          },
+          {
+            "node_var_name": "instorereturnspctofgrossgmv",
+            "node_dimension": {},
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            },
+            "data": {
+              "202601": 0.03,
+              "202602": 0.03,
+              "202603": 0.03,
+              "202604": 0.03,
+              "202605": 0.03,
+              "202606": 0.03,
+              "202607": 0.03
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "preview": false,
+        "scenario_id": 15141747243293
+      }
+    }
+,    
+    "assertion": [
+      {
+        "status": 200
+      },
+      {
+        "assertEquals": {
+          "jsonPath1": "message",
+          "value1": "New adjustment created successfully!!",
+          "jsonPath2": "adjustment_metadata.adjustment_name",
+          "value2": "test Automation adjustment",
+          "jsonPath3": "adjustment_metadata.adjustment_reason",
+          "value3": "test"
+        },
+        "assertNotNull": {
+          "jsonPath1": "adjustment_metadata.adjustment_id",
+          "jsonPath2": "adjustment_metadata.created_by",
+          "jsonPath3": "adjustment_metadata.created_at"
+        }
+      }
+    ],
+    "extract": {
+      "adjustment_id": "adjustment_metadata.adjustment_id"
+    }
+  },
+  {
+    "environment": "qa",
+    "labels": [
+      "smoke",
+      "IBGROW-35039",
+            "IBGROW-34989",
+            "Pallavi"
+    ],
+    "service": "coreService",
+    "uri": "getKpi",
+    "testName": "Validate saved data for AOP - GetKpi",
+    "queryParams": "",
+    "method": "POST",
+    "payload": {
+      "scenario_id": "{{aop_scenario_id}}",
+      "scenario_version": "{{aop_scenario_version}}",
+      "dim_id": 13,
+      "dim_val_id": 130001,
+      "classification_id": 12,
+      "template_id": 3,
+      "filters": [],
+      "additional_filters": {
+        "pivot_cols": [
+          "month"
+        ],
+        "pivot_index": [
+          "node_id"
+        ],
+        "period_view": [
+          "month"
+        ],
+        "nodes": [
+          "grossgmv"
+        ],
+        "template_include_headers": [
+          {
+            "name": "Driver"
+          }
+        ],
+        "month": [
+          "{{dynamicMonth-3}}"
+        ]
+      },
+      "isApplied": false
+    },
+    "assertion": [
+      {
+        "status": 200
+      },
+      {
+        "assertEquals": {
+          "jsonPath1": "rowData.{{dynamicMonth-3}}.forecast",
+          "value1": 2050000000
+        }
+      }
+    ]
+  }
+]
+}

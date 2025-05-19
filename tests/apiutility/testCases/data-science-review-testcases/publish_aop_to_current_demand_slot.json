@@ -1,36 +1,17 @@
-[
+{"publish_AOP_data_to_current_demand_workflow":[
   {
+    "testStep": "get_data_science_info",
     "environment": "qa",
     "labels": [
       "smoke",
-      "Pre-Req",
-      "Nidhi"
+      "Pre-Req"
     ],
     "service": "coreService",
-    "uri": "getForecast",
-    "testName": "get Forecast to fetch Scenario ID",
+    "uri": "get-data-science-info",
+    "testName": "get data science info to fetch Scenario ID and version",
     "queryParams": "",
-    "method": "POST",
-    "payload": {
-      "unit": "Millions",
-      "dim_id": 12,
-      "dim_val_id": 120009,
-      "classification_id": 12,
-      "template_id": 1,
-      "filters": [],
-      "additional_filters": {
-        "template_include_headers": [
-          {
-            "name": "vs LY",
-            "format": "percent"
-          },
-          {
-            "name": "vs Plan",
-            "format": "absolute"
-          }
-        ]
-      }
-    },
+    "method": "GET",
+    "payload": {},
     "assertion": [
       {
         "status": 200
@@ -38,14 +19,14 @@
     ],
     "extractRelative": {
       "calculate_scenario_id": {
-        "whereKey": "rowData.name",
-        "equals": "io",
-        "extractKey": "scenarioId"
+        "whereKey": "classification_id",
+        "equals": 11,
+        "extractKey": "scenario_id"
       },
       "calculate_scenario_version":{
-        "whereKey": "rowData.name",
-        "equals": "io",
-        "extractKey": "scenarioVersion"
+       "whereKey": "classification_id",
+        "equals": 11,
+        "extractKey": "scenario_version"
       }
     }
   },
@@ -215,7 +196,7 @@
       "post-req","Pallavi"
     ],
     "testName": "publish node data",
-    "uri": "publish-data-science",
+    "uri": "publish-data-science-aop",
     "method": "POST",
     "service": "coreService",
     "queryParams": "",
@@ -224,11 +205,16 @@
           "scenario_id": "{{calculate_scenario_id}}",
           "scenario_version": "{{calculate_scenario_version}}"
         },
-    "assertion": [
-      {
-        "status": 200
-      }
-    ]
+        "polling": {
+          "extractRelative": {
+            "WhereKey": "statusCode",
+            "Equals": "OK",
+            "Findkey": "body"
+          },
+          "expectedValue": "File uploaded successfully",
+          "intervalMs": 5000,
+          "timeoutMs": 6000000
+        }
   }
 ,
   {
@@ -239,9 +225,9 @@
      "Pallavi"
     ],
     "testName": "Verify Actuals numbers are published to current demand slot 3 and is matching with AOP admin data",
-    "uri": "AopGetKpi",
+    "uri": "get-demand-scenario-forecast-by-slot-3",
     "method": "POST",
-    "service": "coreService",
+    "service": "currentDemandService",
     "queryParams": "",
     "payload": {
       "baseChannel": [],
@@ -325,4 +311,4 @@
       }
     ]
   }
-]
+]}

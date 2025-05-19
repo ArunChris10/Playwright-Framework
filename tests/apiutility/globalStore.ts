@@ -37,6 +37,8 @@ export const globalStore = {
   getValue(key: string): any {
     // Handle dynamic month logic: dynamicMonth, dynamicMonth+1, etc.
     const dynamicMonthMatch = key.match(/^dynamicMonth(?:([+-]\d+))?$/);
+    const dynamicYearMatch = key.match(/^dynamicForecastYear(?:([+-]\d+))?$/);
+    
     if (dynamicMonthMatch) {
       const offset = dynamicMonthMatch[1] ? Number(dynamicMonthMatch[1]) : 0;
       const now = new Date();
@@ -45,6 +47,15 @@ export const globalStore = {
       const year = now.getFullYear();
       const month = (now.getMonth() + 1).toString().padStart(2, '0');
       return `${year}${month}`;
+    }
+
+    if (dynamicYearMatch) {
+      const offset = dynamicYearMatch && dynamicYearMatch[1] ? Number(dynamicYearMatch[1]) : 0;
+
+      const baseYear = new Date().getFullYear() + 1; // start from next year
+      const year = baseYear + offset;
+      
+      return `${year}`;
     }
 
     // Handle dynamic year

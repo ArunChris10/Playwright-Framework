@@ -5,10 +5,8 @@
   },
   "user": "LB-ibg-ufm-auto",
   "tagsToRun": [""],
+  
   "testFiles": [
-    "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
-    "testCases/data-science-review-testcases/data-science-calculate-save.json",
-    "testCases/data-science-review-testcases/aop-calculate-save.json",
     "testCases/data-science-review-testcases/calculate-save-non-additive-node-api-test.json",
     "testCases/calculate-saveajustment-api-tests.json",
     "testCases/create-forecast.api.json",
@@ -22,6 +20,15 @@
     "testCases/publish_to_demand_slot.json"
   ],
 
+  "currentDemandService": {
+    "baseURL": {
+      "qa": "https://scenario.qa.ibg.walmart.com",
+      "dev": "https://scenario.dev.ibg.walmart.com"
+    },
+    
+    "get-demand-scenario-forecast-by-slot-3":"/api/demandscenarios/currentDemand/3",
+    "get-demand-scenario-forecast-by-slot-1":"/api/demandscenarios/currentDemand"
+  },
   "coreService": {
     "baseURL": {
       "qa": "https://ibg-ufm-core-service.qa.ibg.walmart.com",
@@ -39,7 +46,10 @@
     "getForecast":"/reports/get-report",
     "getForecastCalendar":"/forecast_calendar/",
     "visualIndicator":"/scenario/scenario-composition",
-    "Forecast":"/scenario"
+    "Forecast":"/scenario",   
+    "publish-data-science-aop":"/data-science/aop/upload",
+    "publish-data-science":"data-science/upload",
+    "get-data-science-info":"/scenario/data-science/info"
   },
   "notificationService": {
     "baseURL": {
