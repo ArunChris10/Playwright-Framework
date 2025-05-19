@@ -6,7 +6,7 @@ import common from "../constants/common.json";
 
 // Test suite for verifying Node Meta Data
 test.describe("Verify Create/View Node Meta Data", { tag: "@Smoke @NodeCreateEdit @NodeMetaData @Regression" }, async () => {
-  test.describe.configure({ timeout: 500_000, mode: "serial" });
+  test.describe.configure({ timeout: 500_000, mode: "parallel" });
 
   // Variables to store test data
   let expectedResponse = "",
@@ -60,7 +60,8 @@ test.describe("Verify Create/View Node Meta Data", { tag: "@Smoke @NodeCreateEdi
       nodeVariantKey + 20, // Incorrect Node Variant Key
       request,
       "Metadata",
-      true
+      true,
+      "IncorrectNodeVariantKey"
     );
   });
 
@@ -76,7 +77,8 @@ test.describe("Verify Create/View Node Meta Data", { tag: "@Smoke @NodeCreateEdi
       nodeVariantKey,
       request,
       "Metadata",
-      true
+      true,
+      "IncorrectNodeKey"
     );
   });
 
@@ -92,7 +94,8 @@ test.describe("Verify Create/View Node Meta Data", { tag: "@Smoke @NodeCreateEdi
       nodeVariantKey,
       request,
       "Metadata",
-      true
+      true,
+      "IncorrectDriverTreeVersionKey"
     );
   });
 
@@ -108,7 +111,8 @@ test.describe("Verify Create/View Node Meta Data", { tag: "@Smoke @NodeCreateEdi
       nodeVariantKey,
       request,
       "Metadata",
-      true
+      true,
+      "IncorrectDriverTreeKey"
     );
   });
 
@@ -139,7 +143,7 @@ test.describe("Verify Create/View Node Meta Data", { tag: "@Smoke @NodeCreateEdi
       nodeVariantKey*0,
       request,
       "Metadata",
-      true
+      true,false,"IncorrectNodeKey"
     );
     
   });
@@ -156,7 +160,7 @@ test.describe("Verify Create/View Node Meta Data", { tag: "@Smoke @NodeCreateEdi
         nodeVariantKey*0,
         request,
         "Metadata",
-        true
+        true,false,"IncorrectDriverTreeVersionKey"
       );
     });
 
@@ -171,7 +175,7 @@ test.describe("Verify Create/View Node Meta Data", { tag: "@Smoke @NodeCreateEdi
           nodeVariantKey*0,
           request,
           "Metadata",
-          true
+          true,false,"IncorrectDriverTreeKey"
         );
       });
 
@@ -195,9 +199,145 @@ test.describe("Verify Create/View Node Meta Data", { tag: "@Smoke @NodeCreateEdi
           parseInt(response.toString(),10),
           request,
           "Metadata",
-          false,
-          true
+          false,true
         ); 
       });
+      test(`Verify Delete Node Metadata Data with correct value of Driver tree Version,Node Key, Node Variant and Driver tree`, async ({
+        request,
+      }) => {
+        // Make API call with an correct Driver Tree to Create a Variant
+        let response = await NodeUtility.createNodeDetails(
+          driverTree , 
+          driverTreeVersion,
+          nodeKeyCreate,
+          nodeVariantKey*0,
+          request,
+          "Metadata",
+          false,
+        );
+
+        // Make API call with correct details to Delete the Variant
+         await NodeUtility.deleteNodeDetails(
+          driverTree ,
+          driverTreeVersion,
+          nodeKeyCreate,
+          parseInt(response.toString(),10),
+          request,
+          "Metadata",
+          false,
+        ); 
+      });
+
+      test(`Verify Delete Node Metadata Error with correct value of Driver tree Version,Node Key and Node Variant but incorrect Driver tree`, async ({
+        request,
+      }) => {
+        // Make API call with an correct Driver Tree to Create a Variant
+        let response = await NodeUtility.createNodeDetails(
+          driverTree , 
+          driverTreeVersion,
+          nodeKeyCreate,
+          nodeVariantKey*0,
+          request,
+          "Metadata",
+          false,
+        );
+
+        // Make API call with correct details to Delete the Variant
+         await NodeUtility.deleteNodeDetails(
+          driverTree+5 ,
+          driverTreeVersion,
+          nodeKeyCreate,
+          parseInt(response.toString(),10),
+          request,
+          "Metadata",
+          true,
+          "IncorrectDriverTreeKey"
+        ); 
+      });
+
+
+  test(`Verify Delete Node Metadata Error with correct value of Driver tree,Node Key and Node Variant but incorrect Driver tree Version`, async ({
+        request,
+      }) => {
+        // Make API call with an correct Driver Tree to Create a Variant
+        let response = await NodeUtility.createNodeDetails(
+          driverTree, 
+          driverTreeVersion,
+          nodeKeyCreate,
+          nodeVariantKey*0,
+          request,
+          "Metadata",
+          false,
+        );
+
+        // Make API call with correct details to Delete the Variant
+         await NodeUtility.deleteNodeDetails(
+          driverTree ,
+          driverTreeVersion+5,
+          nodeKeyCreate,
+          parseInt(response.toString(),10),
+          request,
+          "Metadata",
+          true,
+          "IncorrectDriverTreeVersionKey"
+        ); 
+      });
+
+  test(`Verify Delete Node Metadata Error with correct value of Driver tree,Driver tree Version and Node Variant but incorrect Node Key`, async ({
+        request,
+      }) => {
+        // Make API call with an correct Driver Tree to Create a Variant
+        let response = await NodeUtility.createNodeDetails(
+          driverTree , 
+          driverTreeVersion,
+          nodeKeyCreate,
+          nodeVariantKey*0,
+          request,
+          "Metadata",
+          false,
+        );
+
+        // Make API call with correct details to Delete the Variant
+         await NodeUtility.deleteNodeDetails(
+          driverTree ,
+          driverTreeVersion,
+          nodeKeyCreate+5,
+          parseInt(response.toString(),10),
+          request,
+          "Metadata",
+          true,
+          "IncorrectNodeKey"
+        ); 
+      });
+
+  test(`Verify Delete Node Metadata Error with correct value of Driver tree,Driver tree Version and Node Key but incorrect Node Variant Key`, async ({
+        request,
+      }) => {
+        // Make API call with an correct Driver Tree to Create a Variant
+        let response = await NodeUtility.createNodeDetails(
+          driverTree , 
+          driverTreeVersion,
+          nodeKeyCreate-2,
+          nodeVariantKey*0,
+          request,
+          "Metadata",
+          false,
+        );
+
+        // Make API call with correct details to Delete the Variant
+         await NodeUtility.deleteNodeDetails(
+          driverTree ,
+          driverTreeVersion,
+          nodeKeyCreate,
+          parseInt(response.toString(),10),
+          request,
+          "Metadata",
+          true,
+          "IncorrectNodeVariantKey"
+        ); 
+      });
+
+
+
 
 });

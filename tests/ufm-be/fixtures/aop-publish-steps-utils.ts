@@ -90,9 +90,9 @@ export async function executeAOPSteps(request: APIRequestContext, aopEditsPayloa
   unitsgrossuomnginput = kpiResponseBody.rowData.find(
     (row: { driver: string }) => row.driver === aopEdits.unitsgrossuomng_input
   )[aopEdits.yearMonth].forecast;
-  tempplugforuom = kpiResponseBody.rowData.find((row: { driver: string }) => row.driver === aopEdits.tempplugforuom)[
+  tempplugforuom = kpiResponseBody.rowData.find((row: { driver: string }) => row.driver === aopEdits.tempplugforuom)?.[
     aopEdits.yearMonth
-  ].forecast;
+  ]?.forecast ?? 0;
   unitsops = kpiResponseBody.rowData.find((row: { driver: string }) => row.driver === aopEdits.unitsops)[
     aopEdits.yearMonth
   ].forecast;
