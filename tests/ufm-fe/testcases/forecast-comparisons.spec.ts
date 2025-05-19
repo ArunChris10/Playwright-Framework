@@ -5,6 +5,8 @@ import forecastComparisonData from '../testdata/comparisonForecast.json';
 
 const LY = forecastComparisonData.views.ly;
 const PRIOR = forecastComparisonData.views.prior;
+const COUNT = forecastComparisonData.count;
+
 
 
 let lobList = {
@@ -133,26 +135,20 @@ Object.entries(lobList).forEach(([org, lob]) => {
 
           await test.step("user is able to toggle the comparison checkbox without page reload", async () => {
             const forecastComparisonPage = objpageFactory.forecastComparisonPageFactory();
-            // Flag to detect page reload
-            let isPageReloaded = false;
-            // Listen for the 'load' event, which indicates a page reload
-            forecastComparisonPage.page.on('load', () => {
-              isPageReloaded = true;
-            });
-            // Select the checkbox
+            const isPageLoaded = forecastComparisonPage.isPageLoaded();
             await forecastComparisonPage.selectComparisonCheckBoxOnCheck(LY);
             // Assert that the checkbox is selected
-            const isCheckedAfterSelect = await forecastComparisonPage.isComparisonCheckBoxChecked("vs Last Year (LY)");
+            const isCheckedAfterSelect = await forecastComparisonPage.isComparisonCheckBoxChecked(LY);
             expect(isCheckedAfterSelect).toBe(true);
             // Assert that the page was not reloaded
-            expect(isPageReloaded).toBe(false);
+            expect(isPageLoaded).toBe(false);
             // Deselect the checkbox
             await forecastComparisonPage.selectComparisonCheckBoxOnUnCheck(LY);
             // Assert that the checkbox is deselected
-            const isCheckedAfterDeselect = await forecastComparisonPage.isComparisonCheckBoxChecked("vs Last Year (LY)");
+            const isCheckedAfterDeselect = await forecastComparisonPage.isComparisonCheckBoxChecked(LY);
             expect(isCheckedAfterDeselect).toBe(false);
             // Assert that the page was not reloaded
-            expect(isPageReloaded).toBe(false);
+            expect(isPageLoaded).toBe(false);
           });
 
           await test.step("user is able to click on comparison checkbox and check the count of selection made", async () => {
@@ -163,7 +159,7 @@ Object.entries(lobList).forEach(([org, lob]) => {
             // Get the count beside the Compare button
             const countBesideCompareButton = await forecastComparisonPage.getCountBesideCompareButton();
             // Assert the count (adjust the expected value as needed)
-            expect(countBesideCompareButton).toBe(2);
+            expect(countBesideCompareButton).toBe(COUNT);
           });
 
           await test.step("User clicks on apply changes for comparison ", async () => {

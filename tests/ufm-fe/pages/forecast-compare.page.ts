@@ -3,6 +3,9 @@ export class ForecastComparisonPageFactory {
   readonly page: Page;
   readonly btnCompare: Locator;
   readonly compareDropdown: Locator;
+  readonly checkBoxCount: Promise<number>;
+  readonly countLocator: Locator;
+
 
   constructor(page: Page) {
     this.page = page;
@@ -10,6 +13,8 @@ export class ForecastComparisonPageFactory {
     this.compareDropdown = page.locator(
       '//div[contains(@class,"KPIPageHeader_toolbarContainer")]'
     );
+    this.checkBoxCount = page.$$eval('input[type="checkbox"]:checked', (checkboxes) => checkboxes.length);
+    this.countLocator = page.locator('button:has-text("Compare") .KPIPageHeader_badge__Wtwln');
   }
 
   async clickOnCompare() {
@@ -53,15 +58,26 @@ export class ForecastComparisonPageFactory {
   }
 
   async getSelectedComparisonCheckBoxCount(): Promise<number> {
-    return await this.page.$$eval('input[type="checkbox"]:checked', (checkboxes) => checkboxes.length);
+    return await this.checkBoxCount;
   }
 
   async getCountBesideCompareButton(): Promise<number> {
-    // Locate the span element containing the count beside the "Compare" button
-    const countLocator = this.page.locator('button:has-text("Compare") .KPIPageHeader_badge__Wtwln');
     // Get the text content of the span and convert it to a number
-    const countText = await countLocator.textContent();
+    const countText = await this.countLocator.textContent();
     return parseInt(countText || '0', 10); // Default to 0 if countText is null
   }
+
+  isPageLoaded() {
+    // Flag to detect page reload
+    let isPageReloaded = false;
+    // Listen for the 'load' event, which indicates a page reload
+    this.page.on('load', () => {
+      isPageReloaded = true;
+    });
+
+    return isPageReloaded;
+  }
+
+
 
 }

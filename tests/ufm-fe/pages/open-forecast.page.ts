@@ -60,7 +60,7 @@ export class OpenCurrentForecast {
       '//div[@class="table-container"]//button[contains(text(),"Actions")]'
     );
     this.chooseDifferentDriverButton = page.getByText(
-      "Create new view"
+      "Add Drivers"
     );
     this.addDriversButton = page.getByText("Add Drivers")
     this.DriversButton = page.locator("//button[text()='Drivers']")

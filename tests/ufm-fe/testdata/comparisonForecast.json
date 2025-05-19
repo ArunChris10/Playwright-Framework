@@ -2,5 +2,6 @@
   "views": {
     "ly": "vs Last Year (LY)",
     "prior": "vs Prior Forecast"
-  }
+  },
+  "count": 2
 }
