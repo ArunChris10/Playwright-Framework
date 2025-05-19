@@ -65,13 +65,13 @@
             "method": 29
           },
           "data": {
-            "202601": 4000,
-            "202602": 4000,
-            "202603": 4000,
-            "202604": 4000,
-            "202605": 4000,
-            "202606": 4000,
-            "202607": 4000
+         "{{dynamicMonth-4}}": 4000,
+              "{{dynamicMonth-3}}": 4000,
+              "{{dynamicMonth-2}}": 4000,
+              "{{dynamicMonth-1}}": 4000,
+              "{{dynamicMonth}}": 4000,
+              "{{dynamicMonth+1}}": 4000,
+              "{{dynamicMonth+2}}": 4000
           }
         },
         {
@@ -83,13 +83,13 @@
             "method": 29
           },
           "data": {
-            "202601": 5000,
-            "202602": 5000,
-            "202603": 5000,
-            "202604": 5000,
-            "202605": 5000,
-            "202606": 5000,
-            "202607": 5000
+            "{{dynamicMonth-4}}": 5000,
+            "{{dynamicMonth-3}}": 5000,
+            "{{dynamicMonth-2}}": 5000,
+            "{{dynamicMonth-1}}": 5000,
+            "{{dynamicMonth}}": 5000,
+            "{{dynamicMonth+1}}": 5000,
+            "{{dynamicMonth+2}}": 5000
           }
         },
         {
@@ -101,13 +101,13 @@
             "method": 29
           },
           "data": {
-            "202601": 6000,
-            "202602": 6000,
-            "202603": 6000,
-            "202604": 6000,
-            "202605": 6000,
-            "202606": 6000,
-            "202607": 6000
+              "{{dynamicMonth-4}}": 6000,
+              "{{dynamicMonth-3}}": 6000,
+              "{{dynamicMonth-2}}": 6000,
+              "{{dynamicMonth-1}}": 6000,
+              "{{dynamicMonth}}": 6000,
+              "{{dynamicMonth+1}}": 6000,
+              "{{dynamicMonth+2}}": 6000
           }
         },
         {
@@ -119,13 +119,13 @@
             "method": 29
           },
           "data": {
-            "202601": 2000,
-            "202602": 2000,
-            "202603": 2000,
-            "202604": 2000,
-            "202605": 2000,
-            "202606": 2000,
-            "202607": 2000
+            "{{dynamicMonth-4}}": 2000,
+              "{{dynamicMonth-3}}": 2000,
+              "{{dynamicMonth-2}}": 2000,
+              "{{dynamicMonth-1}}": 2000,
+              "{{dynamicMonth}}": 2000,
+              "{{dynamicMonth+1}}": 2000,
+              "{{dynamicMonth+2}}": 2000
           }
         },
         {
@@ -137,13 +137,13 @@
             "method": 29
           },
           "data": {
-            "202601": 0.03,
-            "202602": 0.03,
-            "202603": 0.03,
-            "202604": 0.03,
-            "202605": 0.03,
-            "202606": 0.03,
-            "202607": 0.03
+            "{{dynamicMonth-4}}": 0.03,
+              "{{dynamicMonth-3}}": 0.03,
+              "{{dynamicMonth-2}}": 0.03,
+              "{{dynamicMonth-1}}": 0.03,
+              "{{dynamicMonth}}": 0.03,
+              "{{dynamicMonth+1}}": 0.03,
+              "{{dynamicMonth+2}}": 0.03
           }
         }
       ],
@@ -210,14 +210,14 @@
     "payload": {
      
       "adjustment_metadata": {
-        "adjustment_name": "test",
-        "adjustment_reason": "",
+        "adjustment_name": "test Automation adjustment",
+        "adjustment_reason": "test",
         "adjustment_type": 74,
         "is_duplicated": false,
         "is_create": true,
         "is_update": false,
-        "scenario_id": 15141747243293,
-        "scenario_version_timestamp": 1747243294
+        "scenario_id": "{{aop_scenario_id}}",
+        "scenario_version_timestamp": "{{aop_scenario_version}}"
       },
       "adjustment_edits": 35,
       "allocation_request": {
@@ -294,13 +294,13 @@
               "method": 29
             },
             "data": {
-              "202601": 2000,
-              "202602": 2000,
-              "202603": 2000,
-              "202604": 2000,
-              "202605": 2000,
-              "202606": 2000,
-              "202607": 2000
+             "{{dynamicMonth-4}}": 2000,
+              "{{dynamicMonth-3}}": 2000,
+              "{{dynamicMonth-2}}": 2000,
+              "{{dynamicMonth-1}}": 2000,
+              "{{dynamicMonth}}": 2000,
+              "{{dynamicMonth+1}}": 2000,
+              "{{dynamicMonth+2}}": 2000
             }
           },
           {
@@ -312,20 +312,20 @@
               "method": 29
             },
             "data": {
-              "202601": 0.03,
-              "202602": 0.03,
-              "202603": 0.03,
-              "202604": 0.03,
-              "202605": 0.03,
-              "202606": 0.03,
-              "202607": 0.03
+              "{{dynamicMonth-4}}": 0.03,
+              "{{dynamicMonth-3}}": 0.03,
+              "{{dynamicMonth-2}}": 0.03,
+              "{{dynamicMonth-1}}": 0.03,
+              "{{dynamicMonth}}": 0.03,
+              "{{dynamicMonth+1}}": 0.03,
+              "{{dynamicMonth+2}}": 0.03
             }
           }
         ],
         "filters": [],
         "period_view": "month",
         "preview": false,
-        "scenario_id": 15141747243293
+        "scenario_id": "{{aop_scenario_id}}"
       }
     }
 ,    
