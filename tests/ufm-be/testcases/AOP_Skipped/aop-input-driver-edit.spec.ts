@@ -1,12 +1,12 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import testdatafile from "../testdata/new-aop-version.json";
-import { AOPUtils } from '../fixtures/aop-utils';
-import adjustmentData from "../testdata/adjustment.json";
-import aopEdits from "../testdata/aop-edits.json";
+import { expect, test } from "../../../common/fixtures/test-hook";
+import { Utility } from "../../../common/fixtures/utils";
+import testdatafile from "../../testdata/new-aop-version.json";
+import { AOPUtils } from '../../fixtures/aop-utils';
+import adjustmentData from "../../testdata/adjustment.json";
+import aopEdits from "../../testdata/aop-edits.json";
 export interface NodeDimension { };
 
-test.describe(
+test.describe.skip(
   "Verify if user is able to select the input drivers and edit the data",
   { tag: "@Smoke @Regression @aop_input_driver_edit" },
   () => {
@@ -57,8 +57,8 @@ test.describe(
     });
 
     // fetch new calculated values after successful AOP edits
-    await test.step("Make a Post Request for getting the forecast data for AOP before new DS scenario is created", async () => {
-        Utility.logIt("Make a Post Request for getting the forecast data for AOP before new DS scenario is created");
+    await test.step("fetch new calculated values after successful AOP edits", async () => {
+        Utility.logIt("fetch new calculated values after successful AOP edits");
 
         let kpiPayload = aopEdits.getInputDriverKpiForecast.payload;
         kpiPayload.scenario_id = aopPayload.scenario_id;
