@@ -1,0 +1,46 @@
+{
+    "Validate Activated And Latest Datasets Timestamp": [
+        {
+            "testStep": "Get Activated And Latest Datasets Timestamp",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "timestampVisibility",
+                "BGROW-38664",
+                "IBGROW-38665"
+            ],
+            "service": "coreService",
+            "uri": "getTimestamp",
+            "testName": "Validate Activated And Latest Datasets Timestamp",
+            "queryParams": "",
+            "method": "GET",
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "jsonPath": "$.latest_dataset_timestamp.actuals",
+                    "greaterThan": 0
+                },
+                {
+                    "jsonPath": "$.latest_dataset_timestamp.forecast",
+                    "greaterThan": 0
+                },
+                {
+                    "jsonPath": "$.activated_dataset_timestamp.actuals",
+                    "greaterThan": 0
+                },
+                {
+                    "jsonPath": "$.activated_dataset_timestamp.forecast",
+                    "greaterThan": 0
+                }
+            ],
+            "extract": {
+                "latestActualsTimestamp": "latest_dataset_timestamp.actuals",
+                "latestForecastTimestamp": "latest_dataset_timestamp.forecast",
+                "activatedActualsTimestamp": "activated_dataset_timestamp.actuals",
+                "activatedForecastTimestamp": "activated_dataset_timestamp.forecast"
+            }
+        }
+    ]
+}
