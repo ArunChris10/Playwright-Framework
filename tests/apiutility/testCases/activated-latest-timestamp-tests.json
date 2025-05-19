@@ -6,7 +6,7 @@
             "labels": [
                 "smoke",
                 "timestampVisibility",
-                "BGROW-38664",
+                "IBGROW-38664",
                 "IBGROW-38665"
             ],
             "service": "coreService",
