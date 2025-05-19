@@ -1,0 +1,67 @@
+{
+  "headers": {
+    "Content-Type": "application/json",
+    "Authorization": "{{token}}"
+  },
+  "user": "LB-ibg-ufm-auto",
+  "tagsToRun": [""],
+  "testFiles": [
+    "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
+    "testCases/data-science-review-testcases/data-science-calculate-save.json",
+    "testCases/data-science-review-testcases/aop-calculate-save.json",
+    "testCases/data-science-review-testcases/calculate-save-non-additive-node-api-test.json",
+    "testCases/calculate-saveajustment-api-tests.json",
+    "testCases/create-forecast.api.json",
+    "testCases/create-view-api-tests.json",
+    "testCases/excel-load-data-api-tests.json",
+    "testCases/forecast-calender-api.json",
+    "testCases/forecast-cycle-api-tests.json",
+    "testCases/get-my-kpi-api-tests.json",
+    "testCases/scenario-snapshots-api-tests.json",
+    "testCases/visual-indicator-api.json",
+    "testCases/publish_to_demand_slot.json"
+  ],
+
+  "coreService": {
+    "baseURL": {
+      "qa": "https://ibg-ufm-core-service.qa.ibg.walmart.com",
+      "dev": "https://ibg-ufm-core-service.dev.ibg.walmart.com"
+    },
+    "getScreenId": "/filter/screen_details?",
+    "listHistoricals": "/scenario/list-historicals?",
+    "snapshots": "/archive/",
+    "getDataScienceInfo":"/scenario/data-science/info",
+    "allocateData":"/allocate-data",
+    "saveAdjustment":"/adjustment/",
+    "getKpi":"/reports/get-mykpi",
+    "AopGetKpi":"/reports/get-mykpi/v2",
+    "downloadSnapshot":"/reports/download-active-forecast",
+    "getForecast":"/reports/get-report",
+    "getForecastCalendar":"/forecast_calendar/",
+    "visualIndicator":"/scenario/scenario-composition",
+    "Forecast":"/scenario"
+  },
+  "notificationService": {
+    "baseURL": {
+      "qa": "https://api.notifications.qa.ibg.walmart.com/api/v3/",
+      "dev": "https://api.notifications.dev.ibg.walmart.com/api/v3/"
+        
+    },
+    "notifications": "notifications/?"
+    },
+    "nexusService": {
+      "baseURL":{
+        "qa":"https://nexus-wizard-preference-manager.api.qa.walmart.com/api/v1",
+        "dev":"https://nexus-wizard-preference-manager.api.dev.walmart.com/api/v1"
+        
+      },
+      "create-nexus-preference":"/apps/preferences/configurations"
+  },
+  "reportingService": {
+    "baseURL": {
+      "qa": "https://ibg-ufm-reporting-proxy.qa.ibg.walmart.com",
+      "dev": "https://ibg-ufm-reporting-proxy.dev.ibg.walmart.com"
+    },
+    "scenarios": "/scenarios"
+  }
+}
