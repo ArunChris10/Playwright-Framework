@@ -4,8 +4,8 @@ import nodeGranularities from "../testdata/nodegranularity.json";
 import common from "../constants/common.json";
 
 // Test suite for verifying Node Granularity Data
-test.describe("Verify Create/View Node Granularity Data", { tag: "@Smoke @NodeCreateEdit @NodeGranularities @Regression" }, async () => {
-  test.describe.configure({ timeout: 500_000, mode: "serial" });
+test.describe("Verify Create/View Node Granularity Data", { tag: "@Smoke @NodeCreateEdit @NodeGranularities @Regression " }, async () => {
+  test.describe.configure({ timeout: 500_000, mode: "parallel" });
 
   // Variables to store test data
   let expectedResponse = "",
@@ -176,18 +176,121 @@ test.describe("Verify Create/View Node Granularity Data", { tag: "@Smoke @NodeCr
     );
   });
 
-  //Test case: Verify Create Node Granularity Data Error with incorrect Driver Tree Version
-  test(`Verify Create Node Granularity Data Error with incorrect Driver Tree Version but correct Node Variant, Node Key and Driver Tree`, async ({
+  //Test case: Verify Delete Node Granularity Data with Correct Details
+  test(`Verify Delete Node Granularity Data Error with correct Node Variant, Node Key,Driver Tree and Driver Tree Version`, async ({
     request,
   }) => {
     let response = await NodeUtility.createNodeDetails(
       driverTree,
-      driverTreeVersion * 50, // Incorrect Driver Tree Version
+      driverTreeVersion,
       nodeKeyCreate,
       nodeVariantKeyCreate,
       request,
       "Granularity",
-      true
+      false
+    );
+      response = await NodeUtility.deleteNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Granularity",
+      false
     );
   });
+
+  test(`Verify Delete Node Granularity Data Error with correct Node Key,Driver Tree and Driver Tree Version but incorrect Node Variant Key`, async ({
+    request,
+  }) => {
+    let response = await NodeUtility.createNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Granularity",
+      false
+    );
+      response = await NodeUtility.deleteNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate,
+      nodeVariantKeyCreate-3, // Incorrect Node Variant Key
+      request,
+      "Granularity",
+      true,"IncorrectNodeVariantKey"
+    );
+  });
+
+  test(`Verify Delete Node Granularity Data Error with correct Node Variant Key,Driver Tree and Driver Tree Version but incorrect Node Key`, async ({
+    request,
+  }) => {
+    let response = await NodeUtility.createNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Granularity",
+      false
+    );
+      response = await NodeUtility.deleteNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate-3, // Incorrect Node Key
+      nodeVariantKeyCreate,
+      request,
+      "Granularity",
+      true,"IncorrectNodeKey"
+    );
+  });
+
+test(`Verify Delete Node Granularity Data Error with correct  Node Key, Node Variant Key and Driver Tree but incorrect Driver Tree Version`, async ({
+    request,
+  }) => {
+    let response = await NodeUtility.createNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Granularity",
+      false
+    );
+      response = await NodeUtility.deleteNodeDetails(
+      driverTree,
+      driverTreeVersion+3, // Incorrect Driver Tree Version
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Granularity",
+      true,"IncorrectDriverTreeVersionKey"
+    );
+  });
+
+  test(`Verify Delete Node Granularity Data Error with correct  Node Key, Node Variant Key and Driver Tree Version but incorrect Driver Tree `, async ({
+    request,
+  }) => {
+    let response = await NodeUtility.createNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Granularity",
+      false
+    );
+      response = await NodeUtility.deleteNodeDetails(
+      driverTree-3, // Incorrect Driver Tree
+      driverTreeVersion, 
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Granularity",
+      true,"IncorrectDriverTreeKey"
+    );
+  });
+
+
 });

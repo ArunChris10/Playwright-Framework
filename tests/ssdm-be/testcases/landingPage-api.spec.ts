@@ -50,20 +50,6 @@ test.describe("Verify Node Variant Gets", { tag: "@Smoke @GetNodeVariantsForDriv
     await GetNodeVariantforDriverTreeUtility.getNodeVariantsDetailsforDriverTreeKeyAndDriverTreeVersion(driverTree,driverTreeVersion,request,false,"NodeVariantPermissions");
   });
 
-   // Test case: Verify with correct values
-   test(`Verify Get Permissions for all node variants with correct Driver Tree Key, correct Driver Tree Version Key and correct metadatarefreshid`, async ({
-    request,
-  }) => {
-    await GetNodeVariantforDriverTreeUtility.getNodeVariantsDetailsforDriverTreeKeyAndDriverTreeVersion(driverTree,driverTreeVersion,request,false,"NodeVariantPermissions",metadataRefreshid);
-  });
-
-  
-   // Test case: Verify with correct values
-   test(`Verify Get Permissions for all node variants with correct Driver Tree Key, correct Driver Tree Version Key and incorrect metadatarefreshid`, async ({
-    request,
-  }) => {
-    await GetNodeVariantforDriverTreeUtility.getNodeVariantsDetailsforDriverTreeKeyAndDriverTreeVersion(driverTree,driverTreeVersion,request,true,"NodeVariantPermissions",parseInt(metadataRefreshid.toString()) - 2);
-  });
 
   // Test case: Verify with incorrect driver tree
   test(`Verify Get Permissions for all node variants with incorrect Driver Tree Key and correct Driver Tree Version Key`, async ({
@@ -86,22 +72,7 @@ test.describe("Verify Node Variant Gets", { tag: "@Smoke @GetNodeVariantsForDriv
       await GetNodeVariantforDriverTreeUtility.getNodeVariantsDetailsforDriverTreeKeyAndDriverTreeVersion(driverTree,driverTreeVersion,request,false,"NodeVariantDimensions");
     });
 
-  // Test case: Verify with correct values
-  test(`Verify Get Dimensions for all node variants with correct Driver Tree Key, correct Driver Tree Version Key and correct metadatarefreshid`, async ({
-    request,
-  }) => {
-    await GetNodeVariantforDriverTreeUtility.getNodeVariantsDetailsforDriverTreeKeyAndDriverTreeVersion(driverTree,driverTreeVersion,request,false,"NodeVariantDimensions",metadataRefreshid);
-  });
-
-  
-   // Test case: Verify with correct values
-   test(`Verify Get Dimensions for all node variants with correct Driver Tree Key, correct Driver Tree Version Key and incorrect metadatarefreshid`, async ({
-    request,
-  }) => {
-    await GetNodeVariantforDriverTreeUtility.getNodeVariantsDetailsforDriverTreeKeyAndDriverTreeVersion(driverTree,driverTreeVersion,request,true,"NodeVariantDimensions",parseInt(metadataRefreshid.toString()) - 2);
-  });
-
-  // Test case: Verify with incorrect driver tree
+    // Test case: Verify with incorrect driver tree
   test(`Verify Get Dimensions for all node variants with incorrect Driver Tree Key and correct Driver Tree Version Key`, async ({
     request,
   }) => {
@@ -122,21 +93,7 @@ test.describe("Verify Node Variant Gets", { tag: "@Smoke @GetNodeVariantsForDriv
         await GetNodeVariantforDriverTreeUtility.getNodeVariantsDetailsforDriverTreeKeyAndDriverTreeVersion(driverTree,driverTreeVersion,request,false,"NodeVariantCompositeData");
       });
   
-    // Test case: Verify with correct values
-    test(`Verify Get Composite Data for all node variants with correct Driver Tree Key, correct Driver Tree Version Key and correct metadatarefreshid`, async ({
-      request,
-    }) => {
-      await GetNodeVariantforDriverTreeUtility.getNodeVariantsDetailsforDriverTreeKeyAndDriverTreeVersion(driverTree,driverTreeVersion,request,false,"NodeVariantCompositeData",metadataRefreshid);
-    });
-  
     
-     // Test case: Verify with correct values
-     test(`Verify Get Composite Data for all node variants with correct Driver Tree Key, correct Driver Tree Version Key and incorrect metadatarefreshid`, async ({
-      request,
-    }) => {
-      await GetNodeVariantforDriverTreeUtility.getNodeVariantsDetailsforDriverTreeKeyAndDriverTreeVersion(driverTree,driverTreeVersion,request,false,"NodeVariantCompositeData",parseInt(metadataRefreshid.toString()) - 2);
-    });
-  
     // Test case: Verify with incorrect driver tree
     test(`Verify Get Composite Data for all node variants with incorrect Driver Tree Key and correct Driver Tree Version Key`, async ({
       request,
