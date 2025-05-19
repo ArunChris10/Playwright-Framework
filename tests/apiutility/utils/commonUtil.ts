@@ -245,9 +245,11 @@ export async function validateAssertions(response: any, responseBody: any, asser
           }
 
         } else if (arrayOfAssertion.assertResponse) {
-          const selectedPayload = await getPayloadByTestCaseName(testcase);
-          const ismatch = deepPartialMatch(selectedPayload, responseBody);
-          expect(ismatch).toBeTruthy();
+          const selectedPayload = arrayOfAssertion.assertResponse.payload
+            ? arrayOfAssertion.assertResponse.payload
+            : await getPayloadByTestCaseName(testcase);
+          const strict = arrayOfAssertion.assertResponse.strict == true;
+          expect(deepPartialMatch(selectedPayload, responseBody, strict)).toBeTruthy();
         } else if(arrayOfAssertion.assertResponseByCalculation) {
           const value1 = parseFloat(interpolate(arrayOfAssertion.assertResponseByCalculation.value1));
           const value2 = parseFloat(interpolate(arrayOfAssertion.assertResponseByCalculation.value2));
