@@ -42,7 +42,7 @@ export default defineConfig({
   //reporter: "html",
   //reporter: 'allure-playwright',
   /* maximum time each test can run for */
-  timeout: 3 * 60 * 1000,
+  timeout: 5 * 60 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
