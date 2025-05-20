@@ -5,7 +5,7 @@
 
   },
   "user": "LB-ibg-ufm-auto",
-  "tagsToRun": [""],
+
   "testFiles": [
     "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save.json",
@@ -56,7 +56,8 @@
     "Forecast":"/scenario",   
     "publish-data-science-aop":"/data-science/aop/upload",
     "publish-data-science":"data-science/upload",
-    "get-data-science-info":"/scenario/data-science/info"
+    "get-data-science-info":"/scenario/data-science/info",
+    "getKpiV2":"/reports/get-mykpi/v2"
   },
   "notificationService": {
     "baseURL": {

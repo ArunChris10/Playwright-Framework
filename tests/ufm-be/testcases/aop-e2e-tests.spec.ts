@@ -556,7 +556,7 @@ test.describe(
     );
 
     test(
-      `Verify if creation of a new AOP scenario does not impact existing DS scenario data`,
+      `Verify if creation of a new AOP scenario and editing it does not impact existing DS scenario data`,
       { tag: "@DSDataNoChangeAfterAOPCreation" },
       async ({ request }) => {
         let responseBody, utilResponse, newUtilResponse, computePayload;
@@ -591,7 +591,7 @@ test.describe(
           scenario_id: scenarioDSDetails.scenario_id,
           scenario_version: scenarioDSDetails.scenario_version,
         };
-
+        let newAOPDetails;
         // fetch old values before creating new AOP scenario
         await test.step("Make a Post Request for getting the forecast data for DS before new AOP scenario is created", async () => {
           Utility.logIt(
@@ -670,7 +670,7 @@ test.describe(
 
           let newAOPResponse = await AOPUtils.getAOPVersion(request);
           newAOPResponse = JSON.parse(await newAOPResponse.text());
-          let newAOPDetails = newAOPResponse.find(
+          newAOPDetails = newAOPResponse.find(
             (scenario) =>
               scenario.classification_id === testdatafile.classification_id
           );
@@ -684,6 +684,26 @@ test.describe(
           await expect
             .soft(responseBody)
             .toEqual(aopEdits.demandComputeSuccessMessage);
+        });
+
+        // make AOP edits
+        await test.step("Edit and save data in AOP scenario", async () => {
+          Utility.logIt("Edit and save data in AOP scenario");
+
+          let adjustment_payload = aopEdits.allocation_payload;
+
+          adjustment_payload.adjustment_metadata.scenario_id =
+            newAOPDetails.scenario_id;
+          adjustment_payload.adjustment_metadata.scenario_version_timestamp =
+            newAOPDetails.scenario_version;
+          adjustment_payload.allocation_request.scenario_id =
+            newAOPDetails.scenario_id;
+
+          const response = await request.patch(adjustmentEndpointURL, {
+            data: adjustment_payload,
+          });
+          responseBody = await Utility.assertAndLog(response);
+          expect(responseBody.message).toBe(aopEdits.adjustment_success);
         });
 
         //  fetch DS scenario details after creating a new AOP scenario
