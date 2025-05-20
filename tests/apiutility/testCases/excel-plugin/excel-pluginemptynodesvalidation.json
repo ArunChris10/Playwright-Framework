@@ -149,11 +149,10 @@
       "aggregationLevel": "MONTH",
       "dimensions": [],
       "pivot_rows": [
-        "Node Name"
+
       ],
       "pivot_columns": [
-        "Date",
-        "Scenario Name"
+
       ]
     },
       "assertions": [
@@ -175,15 +174,14 @@
       "method": "POST",
     "payload": {
       "nodeIds": [
-        "returnedunitsuomng",
-        "returnedpctofunitsgrossuom"
+
       ],
       "scenarios": [
         {
-        "scenarioId": "16761747398439",
-        "scenarioVer": "1747398439",
-        "actual_scenario_id": "55861747645822",
-        "forecast_scenario_id": "55531747645798",
+      "scenarioId": "{{emptyPivot_scenario_id}}",
+      "scenarioVer": "{{emptyPivot_scenario_version_timestamp}}",
+      "actual_scenario_id": "{{emptyPivot_actual_scenario_id}}",
+      "forecast_scenario_id": "{{emptyPivot_forecast_scenario_id}}",
         "type": "scenarios"
         }
       ],
