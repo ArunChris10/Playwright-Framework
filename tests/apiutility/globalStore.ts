@@ -35,16 +35,33 @@ export const globalStore = {
   },
 
   getValue(key: string): any {
-    // Handle dynamic month logic: dynamicMonth, dynamicMonth+1, etc.
     const dynamicMonthMatch = key.match(/^dynamicMonth(?:([+-]\d+))?$/);
     if (dynamicMonthMatch) {
       const offset = dynamicMonthMatch[1] ? Number(dynamicMonthMatch[1]) : 0;
       const now = new Date();
-      now.setFullYear(now.getFullYear() + 1); // As per your original logic
       now.setMonth(now.getMonth() + offset);
-      const year = now.getFullYear();
-      const month = (now.getMonth() + 1).toString().padStart(2, '0');
-      return `${year}${month}`;
+      let fiscalYear = now.getFullYear() + 1;
+      let fiscalMonth = now.getMonth();
+      if (fiscalMonth === 0) {
+        fiscalYear -= 1;
+        fiscalMonth = 12;
+      }
+      return `${fiscalYear}${fiscalMonth.toString().padStart(2, '0')}`;
+    }
+
+    const dynamicMonthStrMatch = key.match(/^dynamicMonthStr(?:([+-]\d+))?$/);
+    if (dynamicMonthStrMatch) {
+      const offset = dynamicMonthStrMatch[1] ? Number(dynamicMonthStrMatch[1]) : 0;
+      const now = new Date();
+      now.setMonth(now.getMonth() + offset);
+      let fiscalYear = now.getFullYear() + 1;
+      let fiscalMonth = now.getMonth();
+      if (fiscalMonth === 0) {
+        fiscalYear -= 1;
+        fiscalMonth = 12;
+      }
+      const month = [ 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan' ];
+      return `${month[fiscalMonth-1]} FY${fiscalYear.toString().substring(2)}`;
     }
 
     // Handle dynamic year
@@ -53,6 +70,10 @@ export const globalStore = {
       const minYear = currentYear + 1;
       const maxYear = currentYear + 60;
       return Math.floor(Math.random() * (maxYear - minYear + 1)) + minYear;
+    }
+
+    if (key.includes("-lowercase")) {
+      return this.store[key].toLowerCase();
     }
 
     const store = loadStore();

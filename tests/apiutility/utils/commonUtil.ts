@@ -197,10 +197,16 @@ export async function validateAssertions(response: any, responseBody: any, asser
           }
 
         } else if (arrayOfAssertion.assertApproxEquals) {
-          const actualValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.jsonPath));
-          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.expected))
+          const jsonPathOrValue = interpolate(arrayOfAssertion.assertApproxEquals.jsonPath);
+          let actualValueRaw = findAllValuesByKey(responseBody, jsonPathOrValue);
+
+          // If we found something in the response using jsonPath, use it. Otherwise treat input as a hardcoded value.
+          const actualValue = actualValueRaw && actualValueRaw.length > 0
+            ? parseFloat(actualValueRaw[0])
+            : parseFloat(jsonPathOrValue);
+
+          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.value));
           const acceptedDifference = parseFloat(arrayOfAssertion.assertApproxEquals.acceptedDifference);
-          // const actualValue = parseFloat(findAllValuesByKey(responseBody, jsonPath)[0]);
 
           const difference = Math.abs(actualValue - expectedValue);
           expect(difference).toBeLessThanOrEqual(acceptedDifference);
@@ -245,9 +251,11 @@ export async function validateAssertions(response: any, responseBody: any, asser
           }
 
         } else if (arrayOfAssertion.assertResponse) {
-          const selectedPayload = await getPayloadByTestCaseName(testcase);
-          const ismatch = deepPartialMatch(selectedPayload, responseBody);
-          expect(ismatch).toBeTruthy();
+          const selectedPayload = arrayOfAssertion.assertResponse.payload
+            ? arrayOfAssertion.assertResponse.payload
+            : await getPayloadByTestCaseName(testcase);
+          const strict = arrayOfAssertion.assertResponse.strict == true;
+          expect(deepPartialMatch(selectedPayload, responseBody, strict)).toBeTruthy();
         } else if(arrayOfAssertion.assertResponseByCalculation) {
           const value1 = parseFloat(interpolate(arrayOfAssertion.assertResponseByCalculation.value1));
           const value2 = parseFloat(interpolate(arrayOfAssertion.assertResponseByCalculation.value2));
