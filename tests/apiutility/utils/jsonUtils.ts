@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import {interpolate} from '../utils/commonUtil'
 import { expect } from 'playwright/test';
+import { get } from 'http';
+import { equal } from 'assert';
 
 /**
  * Recursively finds all values for a given key in a deeply nested JSON object,
@@ -64,64 +66,60 @@ export function loadJSON<T>(filePath: string): T {
   const data =  fs.readFileSync(path.resolve(__dirname, filePath), 'utf-8');
   return JSON.parse(data);
 }
-
-export function getNestedValue(obj: any, path: string,equals:string): any {
+export function getNestedValue(obj: any, path: string, equals: any): any {
   const keys = path.split('.');
   let current = obj;
-
+ 
   for (const key of keys) {
-    if (!current) return undefined;
-
+    if (current === undefined || current === null) return undefined;
+ 
     if (Array.isArray(current)) {
-      // Search through array of objects
-      let found = undefined;
-      let foundResponse = undefined;
+      // Search through array of objects for a match on key === equals
+      let foundItem = undefined;
       for (const item of current) {
-        if (item && key in item) {
-          if ( item[key] == equals){
-            found = item[key];
-            foundResponse = item;
-            break;
-          }
-
+        if (item && item[key] != null && item[key] == equals) {
+          foundItem = item;
+          break;
+        }
+        else if(item[key]!=null)
+        {
+          getNestedValue(item[key],key,equals)
         }
       }
-      current = foundResponse;
+      if (!foundItem) return undefined;
+      current = foundItem;
     } else if (typeof current === 'object') {
       current = current[key];
     } else {
       return undefined;
     }
   }
-
+ 
   return current;
 }
-
+ 
+ 
 export function findRelativeValue(
   data: any,
   whereKey: string,
   equals: any,
   extractKey: string
 ): any {
-  const stack: any[] = [data];
-
+  const stack: any[] = Array.isArray(data) ? [...data] : [data];
+ 
   while (stack.length) {
     const current = stack.pop();
-
+ 
     if (typeof current === 'object' && current !== null) {
-      const whereValue = getNestedValue(current, interpolate(whereKey),interpolate(equals));
-      expect(whereValue).toBeDefined();
-      console.log(`Checking object:\n${JSON.stringify(current, null, 2)}`);
-      console.log(`whereKey: "${whereKey}", value: "${whereValue}", expected: "${equals}"`);
-      
-      const hasValue = Object.values(whereValue).includes(equals);
-      if (hasValue) {
-        const extractedValue = getNestedValue(whereValue, extractKey,equals);
+      const whereValue = getNestedValue(current, whereKey,equals);
+     
+      if (whereValue === equals) {
+        const extractedValue = getNestedValue(current, extractKey,equals);
         console.log(`MATCHED. Extracting '${extractKey}': ${extractedValue}`);
         return extractedValue;
       }
-
-      // Traverse nested structures
+ 
+      // Traverse nested objects
       for (const key in current) {
         if (typeof current[key] === 'object') {
           stack.push(current[key]);
@@ -129,11 +127,10 @@ export function findRelativeValue(
       }
     }
   }
-
+ 
   console.warn(`No match found for whereKey: "${whereKey}" == "${equals}"`);
   return undefined;
 }
-
 
 
 

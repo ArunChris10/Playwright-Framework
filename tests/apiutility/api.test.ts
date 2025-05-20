@@ -18,6 +18,7 @@ import {
 } from '../apiutility/utils/commonUtil';
 import { pollForExpectedResponse } from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../secrets/nexus-users-token.json";
+import { console } from 'inspector/promises';
 
 export interface ApiTestCase {
   environment: string;
@@ -175,7 +176,8 @@ parentConfig.testFiles.forEach(testCasePath => {
         if (step.extractRelative) {
           for (const globalVar in step.extractRelative) {
             const { whereKey, equals, extractKey } = step.extractRelative[globalVar];
-            const value = findRelativeValue(responseBody, whereKey, equals, extractKey);
+            const value = findRelativeValue(responseBody, interpolate(whereKey), interpolate(equals), interpolate(extractKey));
+            console.log("value is"+value)
             if (value !== undefined) {
               globalStore.setValue(globalVar, value);
               console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
