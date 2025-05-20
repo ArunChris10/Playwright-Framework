@@ -197,10 +197,16 @@ export async function validateAssertions(response: any, responseBody: any, asser
           }
 
         } else if (arrayOfAssertion.assertApproxEquals) {
-          const actualValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.jsonPath));
-          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.expected))
+          const jsonPathOrValue = interpolate(arrayOfAssertion.assertApproxEquals.jsonPath);
+          let actualValueRaw = findAllValuesByKey(responseBody, jsonPathOrValue);
+
+          // If we found something in the response using jsonPath, use it. Otherwise treat input as a hardcoded value.
+          const actualValue = actualValueRaw && actualValueRaw.length > 0
+            ? parseFloat(actualValueRaw[0])
+            : parseFloat(jsonPathOrValue);
+
+          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.value));
           const acceptedDifference = parseFloat(arrayOfAssertion.assertApproxEquals.acceptedDifference);
-          // const actualValue = parseFloat(findAllValuesByKey(responseBody, jsonPath)[0]);
 
           const difference = Math.abs(actualValue - expectedValue);
           expect(difference).toBeLessThanOrEqual(acceptedDifference);

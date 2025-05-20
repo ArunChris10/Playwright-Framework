@@ -1,0 +1,180 @@
+{
+  "Validate excel plugin load data with empty pivot": [
+    {
+      "testStep": "Validate excel plugin load data with empty pivot",
+      "environment": "qa",
+      "labels": ["smoke"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "testName": "Validate excel plugin load data with empty pivot",
+      "queryParams": "",
+      "method": "POST",
+    "payload": {
+      "nodeIds": [
+      ],
+      "scenarios": [
+        {
+        "scenarioId": "16761747398439",
+        "scenarioVer": "1747398439",
+        "actual_scenario_id": "55861747645822",
+        "forecast_scenario_id": "55531747645798",
+        "type": "scenarios"
+        }
+      ],
+      "filters": {},
+      "hierarchy_names": [
+        "CHANNEL_GROUP_LEVELS",
+        "SBU",
+        "ENTITY",
+        "REPORTING",
+        "BUSINESS_AREA"
+      ],
+      "periods": [
+        "{{dynamicMonth-4}}",
+        "{{dynamicMonth-3}}",
+        "{{dynamicMonth-2}}",
+        "{{dynamicMonth-1}}",
+        "{{dynamicMonth}}",
+        "{{dynamicMonth+1}}",
+        "{{dynamicMonth+2}}",
+        "{{dynamicMonth+3}}",
+        "{{dynamicMonth+4}}",
+        "{{dynamicMonth+5}}",
+        "{{dynamicMonth+6}}",
+        "{{dynamicMonth+7}}"
+      ],
+      "aggregationLevel": "MONTH",
+      "dimensions": []
+        },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+        {
+      "testStep": "Extract scenario version from listHistoricals API",
+      "environment": "qa",
+      "labels": ["smoke"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "testName": "Validate excel plugin load data with empty pivot",
+      "queryParams": "",
+      "method": "POST",
+    "payload": {
+      "nodeIds": [
+        "returnedunitsuomng",
+        "returnedpctofunitsgrossuom"
+      ],
+      "scenarios": [
+        {
+        "scenarioId": "16761747398439",
+        "scenarioVer": "1747398439",
+        "actual_scenario_id": "55861747645822",
+        "forecast_scenario_id": "55531747645798",
+        "type": "scenarios"
+        }
+      ],
+      "filters": {},
+      "hierarchy_names": [
+        "CHANNEL_GROUP_LEVELS",
+        "SBU",
+        "ENTITY",
+        "REPORTING",
+        "BUSINESS_AREA"
+      ],
+      "periods": [
+        "{{dynamicMonth-4}}",
+        "{{dynamicMonth-3}}",
+        "{{dynamicMonth-2}}",
+        "{{dynamicMonth-1}}",
+        "{{dynamicMonth}}",
+        "{{dynamicMonth+1}}",
+        "{{dynamicMonth+2}}",
+        "{{dynamicMonth+3}}",
+        "{{dynamicMonth+4}}",
+        "{{dynamicMonth+5}}",
+        "{{dynamicMonth+6}}",
+        "{{dynamicMonth+7}}"
+      ],
+      "aggregationLevel": "MONTH",
+      "dimensions": [],
+      "pivot_rows": [
+        "Node Name"
+      ],
+      "pivot_columns": [
+        "Date",
+        "Scenario Name"
+      ]
+    },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ],
+    "Validate excel plugin load data with empty nodes": [
+        {
+      "testStep": "Validate excel plugin load data with empty nodes",
+      "environment": "qa",
+      "labels": ["smoke"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "testName": "Validate excel plugin load data with empty nodes",
+      "queryParams": "",
+      "method": "POST",
+    "payload": {
+      "nodeIds": [
+        "returnedunitsuomng",
+        "returnedpctofunitsgrossuom"
+      ],
+      "scenarios": [
+        {
+        "scenarioId": "16761747398439",
+        "scenarioVer": "1747398439",
+        "actual_scenario_id": "55861747645822",
+        "forecast_scenario_id": "55531747645798",
+        "type": "scenarios"
+        }
+      ],
+      "filters": {},
+      "hierarchy_names": [
+        "CHANNEL_GROUP_LEVELS",
+        "SBU",
+        "ENTITY",
+        "REPORTING",
+        "BUSINESS_AREA"
+      ],
+      "periods": [
+        "{{dynamicMonth-4}}",
+        "{{dynamicMonth-3}}",
+        "{{dynamicMonth-2}}",
+        "{{dynamicMonth-1}}",
+        "{{dynamicMonth}}",
+        "{{dynamicMonth+1}}",
+        "{{dynamicMonth+2}}",
+        "{{dynamicMonth+3}}",
+        "{{dynamicMonth+4}}",
+        "{{dynamicMonth+5}}",
+        "{{dynamicMonth+6}}",
+        "{{dynamicMonth+7}}"
+      ],
+      "aggregationLevel": "MONTH",
+      "dimensions": [],
+      "pivot_rows": [
+        "Node Name"
+      ],
+      "pivot_columns": [
+        "Date",
+        "Scenario Name"
+      ]
+    },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}
