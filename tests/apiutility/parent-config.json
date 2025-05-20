@@ -26,6 +26,7 @@
     "testCases/visual-indicator-api.json",
     "testCases/forecast-comp-api-tests.json",
     "testCases/forecast-comp-api-error-tests.json",
+    "testCases/excel-plugin/excel-plugin-load-data-test.json",
     "testCases/excel-plugin/excel-pluginemptynodesvalidation.json"
   ],
   
