@@ -162,6 +162,19 @@ Object.entries(lobList).forEach(([org, lob]) => {
             expect(countBesideCompareButton).toBe(COUNT);
           });
 
+          await test.step("Click on Cancel Button", async () => {
+            const forecastComparisonPage = objpageFactory.forecastComparisonPageFactory();
+            // Perform actions that affect the count (e.g., selecting checkboxes)
+            await forecastComparisonPage.selectComparisonCheckBoxOnCheck(LY);
+            const countBesideCompareButtonBefore = await forecastComparisonPage.getCountBesideCompareButton();
+            expect(countBesideCompareButtonBefore).toBe(1);
+            await forecastComparisonPage.clickOnCancel();
+            // Get the count beside the Compare button
+            const countBesideCompareButtonAfter = await forecastComparisonPage.getCountBesideCompareButton();
+            // Assert the count (adjust the expected value as needed)
+            expect(countBesideCompareButtonAfter).toBe(0);
+          });
+
           await test.step("User clicks on apply changes for comparison ", async () => {
             await objpageFactory
               .ssdmPageFactory()

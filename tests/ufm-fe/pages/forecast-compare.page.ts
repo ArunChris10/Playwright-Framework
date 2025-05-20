@@ -5,11 +5,13 @@ export class ForecastComparisonPageFactory {
   readonly compareDropdown: Locator;
   readonly checkBoxCount: Promise<number>;
   readonly countLocator: Locator;
+  readonly btnCancel: Locator;
 
 
   constructor(page: Page) {
     this.page = page;
     this.btnCompare = page.getByText("Compare");
+    this.btnCancel = page.getByText("Cancel");
     this.compareDropdown = page.locator(
       '//div[contains(@class,"KPIPageHeader_toolbarContainer")]'
     );
@@ -19,6 +21,10 @@ export class ForecastComparisonPageFactory {
 
   async clickOnCompare() {
     await this.btnCompare.click();
+  }
+
+  async clickOnCancel() {
+    await this.btnCancel.click();
   }
 
   async selectComparisonCheckBox(checkBoxValue: string) {
