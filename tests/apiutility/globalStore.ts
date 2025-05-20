@@ -83,6 +83,10 @@ export const globalStore = {
       return Math.floor(Math.random() * (maxYear - minYear + 1)) + minYear;
     }
 
+    if (key.includes("-lowercase")) {
+      return this.store[key].toLowerCase();
+    }
+
     const store = loadStore();
     return store[key];
   },
