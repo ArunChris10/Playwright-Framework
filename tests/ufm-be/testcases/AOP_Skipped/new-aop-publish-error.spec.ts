@@ -1,16 +1,18 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import testdatafile from "../testdata/new-aop-version.json";
+import { expect, test } from "../../../common/fixtures/test-hook";
+import { Utility } from "../../../common/fixtures/utils";
+import testdatafile from "../../testdata/new-aop-version.json";
 
 test.describe(
   "Verify the aop publish failed with api error",
   { tag: "@Smoke @Regression @aop_publish_error" },
   () => {
     const endpointUploadURL = `${process.env.apiBaseURLUFM}${testdatafile.upload_aop_endpoint}`;
-  
+
     Utility.logIt(endpointUploadURL);
 
-    test(`Verify if user can see publish error when request data is invalid`, async ({ request }) => {
+    test(`Verify if user can see publish error when request data is invalid`, async ({
+      request,
+    }) => {
       // invalid payload
       const invalidPayload = {
         scenario_id: -1,
@@ -31,11 +33,12 @@ test.describe(
 
           const errorText = await errorResponse.text();
           Utility.logIt(`Error response: ${errorText}`);
-          expect(errorText).toContain("Something went wrong. Please Try Again Later");
+          expect(errorText).toContain(
+            "Something went wrong. Please Try Again Later"
+          );
 
           const contentType = errorResponse.headers()["content-type"];
           expect(contentType).toContain("application/json");
-
         } catch (error) {
           Utility.logIt(`Unexpected error occurred: ${error.message}`);
           throw error;

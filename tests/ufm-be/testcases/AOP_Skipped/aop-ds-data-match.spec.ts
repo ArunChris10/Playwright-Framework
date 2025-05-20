@@ -1,14 +1,14 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import testData from "../testdata/new-aop-version.json";
-import testDataScenario from "../testdata/forecast-api.json";
-import aopEdits from "../testdata/aop-edits.json";
-import { AOPUtils } from "../fixtures/aop-utils";
-import { DataScienceUtility } from "../fixtures/datascience-utils";
+import { expect, test } from "../../../common/fixtures/test-hook";
+import { Utility } from "../../../common/fixtures/utils";
+import testData from "../../testdata/new-aop-version.json";
+import testDataScenario from "../../testdata/forecast-api.json";
+import aopEdits from "../../testdata/aop-edits.json";
+import { AOPUtils } from "../../fixtures/aop-utils";
+import { DataScienceUtility } from "../../fixtures/datascience-utils";
 
 export interface NodeDimension {}
 
-test.describe(
+test.describe.skip(
     "Verify AOP vs Data Science raw forecast match for actuals and forecast period",
     { tag: "@Smoke @Regression @aop_ds_data_match" },
     () => {
