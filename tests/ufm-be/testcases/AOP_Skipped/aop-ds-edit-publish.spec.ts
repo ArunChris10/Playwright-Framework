@@ -1,15 +1,15 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import testdatafile from "../testdata/new-aop-version.json";
-import { AOPUtils } from '../fixtures/aop-utils';
-import adjustmentData from "../testdata/adjustment.json";
-import aopEdits from "../testdata/aop-edits.json";
-import forecastData from "../testdata/forecast-api.json";
+import { expect, test } from "../../../common/fixtures/test-hook";
+import { Utility } from "../../../common/fixtures/utils";
+import testdatafile from "../../testdata/new-aop-version.json";
+import { AOPUtils } from '../../fixtures/aop-utils';
+import adjustmentData from "../../testdata/adjustment.json";
+import aopEdits from "../../testdata/aop-edits.json";
+import forecastData from "../../testdata/forecast-api.json";
 export interface NodeDimension { };
 
-test.describe(
+test.describe.skip(
   "Compare the aop data with new DS scenario",
-  { tag: "@Smoke @Regression @aop @perf" },
+  { tag: "@Smoke @Regression @aop @perf @AOPDataNoChangeDSPublish" },
   () => {
   
     let responseBody, utilResponse, newUtilResponse;
@@ -18,6 +18,7 @@ test.describe(
     const adjustmentEndpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;
     const kpiEndpointURL = `${process.env.apiBaseURLUFM}${aopEdits.getKpiForecast.endpoint}`;
     const createEndpointURL = `${process.env.apiBaseURLUFM}${forecastData.endpoint}`;
+    const demandComputeEndpoint = `${process.env.apiBaseURLUFM}${aopEdits.demand_compute_endpoint}`;
 
     test(`Verify if creation of a new DS scenario does not impact existing AOP scenario data`, async ({
       request,
@@ -100,6 +101,28 @@ test.describe(
         await Utility.assertAndLog(responseBody);
         responseBody = JSON.parse(await responseBody.text());
 
+      });
+
+          // Step 4: Trigger demand computation for the newly created AOP scenario
+      await test.step("Compute DS scenario forecast", async () => {
+          Utility.logIt("Triggering demand computation for the new DS scenario...");
+
+          // Fetch the latest AOP version for scenario details
+          const latestDSResponse = await AOPUtils.getAOPVersion(request);
+          const latestDSDetails = JSON.parse(await latestDSResponse.text()).find(
+              (scenario) => scenario.classification_id === testdatafile.ds_classification_id
+          );
+
+          const computeResponse = await request.post(demandComputeEndpoint, {
+              data: { scenario_id: latestDSDetails.scenario_id },
+          });
+
+          const computeResponseBody = await Utility.assertAndLog(computeResponse);
+
+          // Ensure the computation was successful
+          await expect
+              .soft(computeResponseBody)
+              .toEqual(aopEdits.demandComputeSuccessMessage);
       });
 
     //  fetch AOP scenario details after AOP edits

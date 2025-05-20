@@ -4,8 +4,8 @@ import nodePermission from "../testdata/nodepermission.json";
 import common from "../constants/common.json";
 
 // Test suite for verifying Node Permission Data
-test.describe("Verify Create/View/Edit Node Permission Data", { tag: "@Smoke @NodeCreateEdit @NodePermission @Regression" }, async () => {
-  test.describe.configure({ timeout: 500_000, mode: "serial" });
+test.describe("Verify Create/View/Edit Node Permission Data", { tag: "@Smoke @NodeCreateEdit @NodePermission @Regression @Fix" }, async () => {
+  test.describe.configure({ timeout: 500_000, mode: "parallel" });
 
   // Variables to store test data
   let expectedResponse = "",
@@ -187,6 +187,131 @@ test.describe("Verify Create/View/Edit Node Permission Data", { tag: "@Smoke @No
       request,
       "Permissions",
       true
+    );
+  });
+
+  test(`Verify delete Node Permission Data with correct value of Driver Tree, Driver tree Version, Node Key and Node variant Key`,async ({
+    request,
+  }) => {
+    // Make API call with correct values
+    let response=await NodeUtility.createNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Permissions",
+      false
+    );
+
+    let responseDelete=await NodeUtility.deleteNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Permissions",
+      false
+    );
+  });
+  test(`Verify delete Node Permission Data with correct value of Driver Tree, Driver tree Version, Node Key but incorrect Node variant Key`,async ({
+    request,
+  }) => {
+    // Make API call with correct values
+    let response=await NodeUtility.createNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Permissions",
+      false
+    );
+
+    let responseDelete=await NodeUtility.deleteNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate,
+      nodeVariantKeyCreate-5,
+      request,
+      "Permissions",
+      true,"IncorrectNodeVariantKey"
+    );
+  });
+
+
+  test(`Verify delete Node Permission Data with correct value of Driver Tree, Driver tree Version, Node variant Key but incorrect Node  Key`,async ({
+    request,
+  }) => {
+    // Make API call with correct values
+    let response=await NodeUtility.createNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Permissions",
+      false
+    );
+
+    let responseDelete=await NodeUtility.deleteNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate-5,
+      nodeVariantKeyCreate,
+      request,
+      "Permissions",
+      true,"IncorrectNodeKey"
+    );
+  });
+
+  test(`Verify delete Node Permission Data with correct value of Driver Tree, Node Key, Node variant Key but incorrect Driver tree Version `,async ({
+    request,
+  }) => {
+    // Make API call with correct values
+    let response=await NodeUtility.createNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Permissions",
+      false
+    );
+
+    let responseDelete=await NodeUtility.deleteNodeDetails(
+      driverTree,
+      driverTreeVersion*2,
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Permissions",
+      true,"IncorrectDriverTreeVersionKey"
+    );
+  });
+
+  test(`Verify delete Node Permission Data with correct value of Driver Tree Version, Node Key, Node variant Key but incorrect Driver tree`,async ({
+    request,
+  }) => {
+    // Make API call with correct values
+    let response=await NodeUtility.createNodeDetails(
+      driverTree,
+      driverTreeVersion,
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Permissions",
+      false
+    );
+
+    let responseDelete=await NodeUtility.deleteNodeDetails(
+      driverTree*2,
+      driverTreeVersion,
+      nodeKeyCreate,
+      nodeVariantKeyCreate,
+      request,
+      "Permissions",
+      true,"IncorrectDriverTreeKey"
     );
   });
 

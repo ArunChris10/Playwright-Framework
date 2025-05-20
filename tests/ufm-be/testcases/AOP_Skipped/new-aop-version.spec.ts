@@ -1,12 +1,12 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import testdatafile from "../testdata/new-aop-version.json";
-import usersData from "../constants/ufm_users.json";
-import { AOPUtils } from '../fixtures/aop-utils';
+import { expect, test } from "../../../common/fixtures/test-hook";
+import { Utility } from "../../../common/fixtures/utils";
+import testdatafile from "../../testdata/new-aop-version.json";
+import usersData from "../../constants/ufm_users.json";
+import { AOPUtils } from '../../fixtures/aop-utils';
 
 test.describe(
   "Verify the aop publish API",
-  { tag: "@Smoke @Regression @aop @perf" },
+  { tag: "@Smoke @Regression @aop @aopNewVersion" },
   () => {
   
     let responseBody;
