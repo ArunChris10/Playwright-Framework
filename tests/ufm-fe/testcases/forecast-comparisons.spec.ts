@@ -7,8 +7,6 @@ const LY = forecastComparisonData.views.ly;
 const PRIOR = forecastComparisonData.views.prior;
 const COUNT = forecastComparisonData.count;
 
-
-
 let lobList = {
   [testData[0].sbaName]: [testData[0].LOB],
 };
@@ -132,7 +130,6 @@ Object.entries(lobList).forEach(([org, lob]) => {
           });
 
           // Verify user can switch between options inder selected benchmarks without page reload
-
           await test.step("user is able to toggle the comparison checkbox without page reload", async () => {
             const forecastComparisonPage = objpageFactory.forecastComparisonPageFactory();
             const isPageLoaded = forecastComparisonPage.isPageLoaded();

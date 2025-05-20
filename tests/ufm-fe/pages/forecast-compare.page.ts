@@ -7,7 +7,6 @@ export class ForecastComparisonPageFactory {
   readonly countLocator: Locator;
   readonly btnCancel: Locator;
 
-
   constructor(page: Page) {
     this.page = page;
     this.btnCompare = page.getByText("Compare");
@@ -80,10 +79,7 @@ export class ForecastComparisonPageFactory {
     this.page.on('load', () => {
       isPageReloaded = true;
     });
-
     return isPageReloaded;
   }
-
-
 
 }
