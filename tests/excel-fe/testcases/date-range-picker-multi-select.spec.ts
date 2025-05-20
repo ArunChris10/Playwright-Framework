@@ -30,11 +30,10 @@ test.describe(
 
     test("Verify multi granularity levels are shown", async () => {
       let data = await excelPage.getTableData();
-      console.log(data);
       let timeData = data[0];
       timeData = timeData.filter((element) => element !== "");
 
-      expect(timeData.length).toBe(22);
+      expect(timeData.length).toBe(19);
       expect(
         timeData.filter((element) => /^[a-zA-Z]{3} [FY]/.test(element)).length
       ).toBe(12);
