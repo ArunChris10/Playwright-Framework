@@ -21,7 +21,9 @@
     "testCases/visual-indicator-api.json",
     "testCases/forecast-comp-api-tests.json",
     "testCases/forecast-comp-api-error-tests.json",
+    "testCases/excel-plugin/excel-plugin-load-data-test.json",
     "testCases/excel-plugin/excel-pluginemptynodesvalidation.json"
+
   ],
 
   "coreService": {
@@ -36,6 +38,7 @@
     "allocateData":"/allocate-data",
     "saveAdjustment":"/adjustment/",
     "getKpi":"/reports/get-mykpi",
+    "AopGetKpi":"/reports/get-mykpi/v2",
     "downloadSnapshot":"/reports/download-active-forecast",
     "getForecast":"/reports/get-report",
     "getForecastCalendar":"/forecast_calendar/",
