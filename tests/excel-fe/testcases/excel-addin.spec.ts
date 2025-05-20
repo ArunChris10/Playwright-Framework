@@ -3,7 +3,7 @@ import { ExcelPage } from "../pages/excel.page";
 import { expect } from "@playwright/test";
 
 test.describe(
-  "Date Range Picker Test",
+  "Excel AddIn Generic Tests",
   { tag: "@Regression @Smoke @ExcelPlugin @ExceAddIn" },
   async () => {
     let excelPage: ExcelPage;
