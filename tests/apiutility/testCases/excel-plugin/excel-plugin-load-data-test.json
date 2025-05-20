@@ -1,0 +1,206 @@
+{
+  "validate_excel_load-data": [
+   
+    {
+      "testStep": "Extract scenario version from get-report API",
+      "environment": "qa",
+      "labels": ["smoke", "get-report","Pallavi"],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get scenarios ID and version for excel",
+      "queryParams": "",
+      "method": "POST",
+      "payload":{
+        "classification_id": 12,
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "template_id": 1
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractFirst": {
+        "scenario_version_timestamp": "rowData.scenarioVersion",       
+        "scenario_id": "rowData.scenarioId",
+        "forecast_scenario_id":"rowData.FTS",
+        "actual_scenario_id":"rowData.ATS"
+      }
+    },
+    {
+      "testStep": "validate Load data with empty dimensions value",
+      "environment": "qa",
+      "labels": ["smoke", "excel","IBG-37167","Pallavi"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "queryParams": "",
+      "testName": "validate Load data with empty dimensions value",
+      "method": "POST",
+      "payload": {
+        "nodeIds": [
+          "momerchandisesales",
+          "mowarehouseallowances",
+          "mobuyingallowances",
+          "mototalallowances",
+          "mopostaudit",
+          "moimportallowances",
+          "moothercostofsales"
+        ],
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_scenario_id}}",
+            "forecast_scenario_id": "{{forecast_scenario_id}}",
+            "type": "scenarios"
+              }
+        ],
+        "filters": {
+          "department": [
+            80,
+            83,
+            93
+          ]
+        },
+        "hierarchy_names": [
+          "MP_CHANNEL_LEVELS",
+          "SBU"
+        ],
+        "periods": [
+          "202602",
+          "202603",
+          "202604",
+          "202605",
+          "202606",
+          "202607",
+          "202608",
+          "202609",
+          "202610",
+          "202611",
+          "202612"
+        ],
+        "aggregationLevel": [
+          "MONTH"
+        ],
+        "dimensions": [],
+        "pivot_rows": [
+          "Node Name"
+        ],
+        "pivot_columns": [
+          "Date",
+          "Scenario Name"
+        ]
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "rowData.Node Name",
+            "value1": "grossprofit"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "validate load data with valid payload contains all necessary parameter",
+      "environment": "qa",
+      "labels": ["smoke", "excel","IBG-37163","Pallavi"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "queryParams": "",
+      "testName": "validate load data with valid payload ",
+      "method": "POST",
+      "payload": {
+        "nodeIds": [
+          "grossprofit",
+          "momerchandisesales",
+          "mowarehouseallowances",
+          "mobuyingallowances",
+          "mototalallowances"
+        ],
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_scenario_id}}",
+            "forecast_scenario_id": "{{forecast_scenario_id}}",
+            "type": "scenarios"
+            }
+        ],
+        "filters": {
+          "channel": [
+        230002
+          ],
+          "department": [
+        20002,
+        20004,
+        20005,
+        20007,
+        20010,
+        20009,
+        20011,
+        20012,
+        20013
+          ]
+        },
+        "hierarchy_names": [
+          "MP_CHANNEL_LEVELS",
+          "SBU"
+        ],
+        "periods": [
+          "202602",
+          "202603",
+          "202604",
+          "202605",
+          "202606",
+          "202607",
+          "202608",
+          "202609",
+          "202610",
+          "202611",
+          "202612"
+        ],
+        "aggregationLevel": [
+          "MONTH"
+        ],
+        "dimensions": [
+          "channel_l3",
+          "channel_l2",
+          "channel_l1",
+          "channel_l0",
+          "channel",
+          "department_l0",
+          "department"
+        ],
+        "pivot_rows": [
+          "Node Name",
+          "Channel L0",
+          "Channel L1",
+          "Channel L2",
+          "Channel L3",
+          "Base Channel",
+          "SBU",
+          "Department"
+        ],
+        "pivot_columns": [
+          "Date",
+          "Scenario Name"
+        ]
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "rowData.Node Name",
+            "value1": "grossprofit"
+          }
+        }
+      ]     
+    }
+  ]
+}
