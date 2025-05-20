@@ -1,0 +1,16 @@
+{
+    "endPoint" :"/api/driver-trees/{driverTreeKey}/versions/{driverTreeVersion}/nodes/{nodeKey}/variants/{nodeVersion}/composite-create",
+    "dev":{
+        "node_key" : 2543
+         },
+    "qa":{
+        "node_key": 9911
+    },
+     "requestBody":"{\r\n  \"node_variant\": {\r\n    \"node_name\": \"{node_name}\",\r\n    \"value_type\": \"$\",\r\n    \"calc_text\": \"{calc_text}\",\r\n    \"causal_function\": \"\",\r\n    \"aggr_text\": \"{aggr_text}\"\r\n  },\r\n  \"dimensions\": [\r\n    {\r\n      \"dim_val_id\": \"{dim_val_id}\"\r\n    }\r\n  ],\r\n  \"permissions\": [\r\n    {\r\n    \"permission_type\": \"{permission_type}\",\r\n    \"lob_id\": \"{lob_id}\"\r\n    }\r\n    ]\r\n}",
+         "dim_val_Id":"160164",
+         "lob_Id":110008,
+         "permission_Type":"Read",
+         "calc_Text" : "TestCompositeCalcText",
+         "aggr_Text":"TestCompositeAggrText",
+         "node_Name":"TestCompositeNodeName"
+}
