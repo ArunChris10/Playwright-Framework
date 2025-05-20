@@ -1,0 +1,1192 @@
+{
+  "validate_create_and_poll_forecast": [
+    {
+      "testStep": "Get a forecast to delete before proceding for demand SBA",
+      "environment": "qa",
+      "labels": ["smoke","rahul"],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get a forecast to delete before proceding",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+        {
+          "name": "vs LY",
+          "format": "percent"
+        },
+        {
+          "name": "vs Plan",
+          "format": "absolute"
+        }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      
+      "extractRelativeMultipleCondition": {
+      "DemandToDeletescenarioId": {
+        "conditions": [
+          { "path": "rowData.lineOfBusiness", "equals": 110030 },
+          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
+        ],
+        "extractKey": "scenarioId"
+      },
+        "DemandToDeletescenarioVersion": {
+        "conditions": [
+          { "path": "rowData.lineOfBusiness", "equals": 110030 },
+          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
+        ],
+        "extractKey": "scenarioVersion"
+      }
+
+    }
+  },
+    {
+      "testStep": "Delete demand SBA forecast before proceding",
+      "environment": "qa",
+      "labels": ["smoke","rahul22"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Delete a forecast before proceding",
+      "queryParams": "/{{DemandToDeletescenarioId}}/{{DemandToDeletescenarioVersion}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110030
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Create Forecast Scenario for Demand SBA",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast- Demand SBA",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "apiUtilityAutomation {{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110030
+      },
+      "extract": {
+        "consolidatedDemand_scenario_id": "scenario.scenario_id",
+        "consolidatedDemand_scenario_version": "scenario.scenario_version_timestamp"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Demand FORECAST",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Demand FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "apiUtilityAutomation {{randomNumber}}",
+          "Findkey": "forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "Get a forecast to delete before proceding for segment SBA",
+      "environment": "qa",
+      "labels": ["smoke","rahul"],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get a forecast to delete before proceding",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120006,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+        {
+          "name": "vs LY",
+          "format": "percent"
+        },
+        {
+          "name": "vs Plan",
+          "format": "absolute"
+        }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+      "SegmentToDeletescenarioId": {
+        "conditions": [
+          { "path": "rowData.lineOfBusiness", "equals": 110021 },
+          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
+        ],
+        "extractKey": "scenarioId"
+      },
+        "SegmentToDeletescenarioVersion": {
+        "conditions": [
+          { "path": "rowData.lineOfBusiness", "equals": 110021 },
+          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
+        ],
+        "extractKey": "scenarioVersion"
+      }
+
+    }
+    },
+    {
+      "testStep": "Delete segment SBA forecast before proceding",
+      "environment": "qa",
+      "labels": ["smoke","rahul22"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Delete a forecast before proceding",
+      "queryParams": "/{{SegmentToDeletescenarioId}}/{{SegmentToDeletescenarioVersion}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110021
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Create Forecast Scenario for Segment SBA",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast- Segment SBA",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "apiUtilityAutomation {{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110021
+      },
+      "extract": {
+        "asyncRefreshNode_scenario_id": "scenario.scenario_id",
+        "asyncRefreshNode_scenario_version": "scenario.scenario_version_timestamp"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Segment FORECAST",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Segment FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120006,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "segmentpolling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "apiUtilityAutomation {{randomNumber}}",
+          "Findkey": "forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "Get a forecast to delete before proceding for Optical SBA",
+      "environment": "qa",
+      "labels": ["smoke","rahul"],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get a forecast to delete before proceding",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120003,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+        {
+          "name": "vs LY",
+          "format": "percent"
+        },
+        {
+          "name": "vs Plan",
+          "format": "absolute"
+        }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+      "OpticalToDeletescenarioId": {
+        "conditions": [
+          { "path": "rowData.lineOfBusiness", "equals": 110016 },
+          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
+        ],
+        "extractKey": "scenarioId"
+      },
+        "OpticalToDeletescenarioVersion": {
+        "conditions": [
+          { "path": "rowData.lineOfBusiness", "equals": 110016 },
+          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
+        ],
+        "extractKey": "scenarioVersion"
+      }
+
+    }
+    },
+    {
+      "testStep": "Delete Optic SBA forecast before proceding",
+      "environment": "qa",
+      "labels": ["smoke","rahul22"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Delete a forecast before proceding",
+      "queryParams": "/{{OpticalToDeletescenarioId}}/{{OpticalToDeletescenarioVersion}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110016
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Create Forecast Scenario for Optical SBA",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast- Optical SBA",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "apiUtilityAutomation {{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110016
+      },
+      "extract": {
+        "optical_scenario_version": "scenario.scenario_version_timestamp"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Optical FORECAST",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Optical FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120003,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "apiUtilityAutomation {{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "get Scenario Id for optical",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req",
+        "Nidhi"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "get Forecast to fetch Scenario ID for Optical SBA",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120003,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertion": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "optical_scenario_id": {
+        "conditions": [
+          { "path": "rowData.name", "equals": "apiUtilityAutomation {{randomNumber}}" }
+        ],
+        "extractKey": "scenarioId"
+      }
+
+    }
+    }
+  ],
+  "validate_NodeRefresh": [
+    {
+      "testStep": "Edit Segment Forecast",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-37429",
+        "IBGROW-34379",
+        "Nidhi"
+      ],
+      "testName": "Edit the drivers - in Segment SBA",
+      "uri": "allocateData",
+      "method": "POST",
+      "service": "coreService",
+      "queryParams": "",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{asyncRefreshNode_scenario_id}}",
+        "dim_val_id": 110021,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "pharmacyincentiveexpensepk0203",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 4020
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          },
+          {
+            "node_var_name": "fieldincentiveexpensepk0202",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 8550
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          },
+          {
+            "node_var_name": "longtermbonuspk0201",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 9060
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1747291738569
+      },
+      "assertion": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "fieldincentiveexpenseEdit": {
+          "whereKey": "node_var_name",
+          "equals": "fieldincentiveexpensepk0202",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        },
+        "longtermbonusEdit": {
+          "whereKey": "node_var_name",
+          "equals": "longtermbonuspk0201",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        },
+        "pharmacyincentiveexpenseEdit": {
+          "whereKey": "node_var_name",
+          "equals": "pharmacyincentiveexpensepk0203",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        }
+      }
+    },
+    {
+      "testStep": "Save Segment Forecast adjustment",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-37429",
+        "IBGROW-34379",
+        "Nidhi"
+      ],
+      "testName": "Save adjustment in Segment SBA",
+      "uri": "saveAdjustment",
+      "method": "PATCH",
+      "service": "coreService",
+      "queryParams": "",
+      "payload": {
+        "adjustment_metadata": {
+          "adjustment_name": "test Adjustment",
+          "adjustment_reason": "",
+          "adjustment_type": 73,
+          "is_duplicated": false,
+          "is_update": false,
+          "is_create": true,
+          "adjustment_edits": 3,
+          "scenario_id": "{{asyncRefreshNode_scenario_id}}",
+          "scenario_version_timestamp": "{{asyncRefreshNode_scenario_version}}"
+        },
+        "allocation_request": {
+          "display_nodes": [],
+          "scenario_id": "{{asyncRefreshNode_scenario_id}}",
+          "dim_val_id": 110021,
+          "dim_id": 11,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "pharmacyincentiveexpensepk0203",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 4020
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "fieldincentiveexpensepk0202",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 8550
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "longtermbonuspk0201",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 9060
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+        },
+        "dim_val_id": 110021
+      },
+      "assertion": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "New adjustment created successfully!!",
+            "jsonPath2": "adjustment_metadata.adjustment_name",
+            "value2": "test Adjustment"
+          },
+          "assertNotNull": {
+            "jsonPath1": "adjustment_metadata.adjustment_id",
+            "jsonPath2": "adjustment_metadata.created_by",
+            "jsonPath3": "adjustment_metadata.created_at"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Send Segment Forecast for BA Review",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-37429",
+        "IBGROW-34379",
+        "Nidhi"
+      ],
+      "testName": "Send Segment SBA forecast to BA review",
+      "uri": "saveAdjustment",
+      "method": "POST",
+      "service": "coreService",
+      "queryParams": "status/v2",
+      "payload": {
+        "scenario": {
+          "scenario_id": "{{asyncRefreshNode_scenario_id}}",
+          "scenario_version": "{{asyncRefreshNode_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110021
+        }
+      },
+      "assertion": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "scenario_status.status",
+            "value1": 22
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Poll BA Submission of Segment FORECAST",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll BA Submission of Segment FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+        {
+          "name": "vs LY",
+          "format": "percent"
+        },
+        {
+          "name": "vs Plan",
+          "format": "absolute"
+        }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "segmentpolling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "apiUtilityAutomation {{randomNumber}}",
+          "Findkey": "forecastStatus.statusCode"
+        },
+        "expectedValue": 22,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "Edit Demand Forecast",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-37429",
+        "IBGROW-34379",
+        "Nidhi"
+      ],
+      "testName": "Edit the drivers - in Demand SBA",
+      "uri": "allocateData",
+      "method": "POST",
+      "service": "coreService",
+      "queryParams": "",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{consolidatedDemand_scenario_id}}",
+        "dim_val_id": 110030,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "grossgmv",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 25000
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1747295182190
+      },
+      "assertion": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "grossGMVEdit": {
+          "whereKey": "node_var_name",
+          "equals": "grossgmv",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        }
+      }
+    },
+    {
+      "testStep": "Save Demand Forecast adjustment",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-37429",
+        "IBGROW-34379",
+        "Nidhi"
+      ],
+      "testName": "Save adjustment in Demand SBA",
+      "uri": "saveAdjustment",
+      "method": "PATCH",
+      "service": "coreService",
+      "queryParams": "",
+      "payload": {
+        "adjustment_metadata": {
+          "adjustment_name": "test Adjustment",
+          "adjustment_reason": "",
+          "adjustment_type": 73,
+          "is_duplicated": false,
+          "is_update": false,
+          "is_create": true,
+          "adjustment_edits": 3,
+          "scenario_id": "{{consolidatedDemand_scenario_id}}",
+          "scenario_version_timestamp": "{{consolidatedDemand_scenario_version}}"
+        },
+        "allocation_request": {
+          "display_nodes": [],
+          "scenario_id": "{{consolidatedDemand_scenario_id}}",
+          "dim_val_id": 110030,
+          "dim_id": 11,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "grossgmv",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 25000
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+        },
+        "dim_val_id": 110030
+      },
+      "assertion": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "New adjustment created successfully!!",
+            "jsonPath2": "adjustment_metadata.adjustment_name",
+            "value2": "test Adjustment"
+          },
+          "assertNotNull": {
+            "jsonPath1": "adjustment_metadata.adjustment_id",
+            "jsonPath2": "adjustment_metadata.created_by",
+            "jsonPath3": "adjustment_metadata.created_at"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Send Demand Forecast for BA review",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-37429",
+        "IBGROW-34379",
+        "Nidhi"
+      ],
+      "testName": "Send Demand SBA forecast to BA review",
+      "uri": "saveAdjustment",
+      "method": "POST",
+      "service": "coreService",
+      "queryParams": "status/v2",
+      "payload": {
+        "scenario": {
+          "scenario_id": "{{consolidatedDemand_scenario_id}}",
+          "scenario_version": "{{consolidatedDemand_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110030
+        }
+      },
+      "assertion": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "scenario_status.status",
+            "value1": 22
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Poll BA submission of Demand FORECAST",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-37429",
+        "IBGROW-34379",
+        "Nidhi"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll BA Submission of Demand FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 110030,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "apiUtilityAutomation {{randomNumber}}",
+          "Findkey": "forecastStatus.statusCode"
+        },
+        "expectedValue": 22,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "Hit Refresh API in optical SBA",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-37429",
+        "IBGROW-34379",
+        "Nidhi"
+      ],
+      "testName": "Validate Refresh API for async not owned nodes",
+      "uri": "refresh",
+      "method": "POST",
+      "service": "coreService",
+      "queryParams": "",
+      "payload": {
+        "target_scenarios": [
+          "{{optical_scenario_id}}"
+        ]
+      },
+      "assertion": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Validate update as edit for optical forecast on refresh",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-37429",
+        "IBGROW-34379",
+        "Nidhi"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Validate refreshed data for optical non owned nodes - GetKpi",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{optical_scenario_id}}",
+        "scenario_version": "{{optical_scenario_version}}",
+        "dim_id": 11,
+        "dim_val_id": 110016,
+        "classification_id": 12,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "pharmacyincentiveexpensepk0203",
+            "fieldincentiveexpensepk0202",
+            "grossgmv",
+            "longtermbonuspk0201"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            },
+            {
+              "name": "{{dynamicMonth+1}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": true
+            },
+            {
+              "name": "Value",
+              "editable": true
+            }
+          ],
+          "month": [
+            "{{dynamicMonth+1}}"
+          ]
+        },
+        "isApplied": true
+      },
+      "assertion": {
+        "status": 200
+      },
+      "extractRelative": {
+        "fieldIncentiveExpenseRefreshData": {
+          "whereKey": "rowData.driver",
+          "equals": "fieldincentiveexpensepk0202",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "longTermBonusRefreshData": {
+          "whereKey": "rowData.driver",
+          "equals": "longtermbonuspk0201",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "pharmacyincentiveexpenseRefreshData": {
+          "whereKey": "rowData.driver",
+          "equals": "pharmacyincentiveexpensepk0203",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "grossGMVRefreshData": {
+          "whereKey": "rowData.driver",
+          "equals": "grossgmv",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        }
+      },
+      "validateExtractContains": {
+        "fieldIncentiveExpenseRefreshData": "{{fieldincentiveexpenseEdit}}",
+        "longTermBonusRefreshData": "{{longtermbonusEdit}}",
+        "pharmacyincentiveexpenseRefreshData": "{{pharmacyincentiveexpenseEdit}}",
+        "grossGMVRefreshData": "{{grossGMVEdit}}"
+      }
+    }
+  ],
+  "validate_visualIndicator_OnRefresh": [
+    {
+      "testStep": "Validate Visual Indicator timestamp for async refresh",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "nidhi",
+        "IBGROW-33386",
+        "IBGROW-37431"
+      ],
+      "service": "coreService",
+      "uri": "visualIndicator",
+      "testName": "Get visual Indicator on refresh in optical SBA",
+      "queryParams": "?classification_id=12&scenario_id={{optical_scenario_id}}",
+      "method": "GET",
+      "assertion": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "lastUpdatedTimestampOnRefresh": {
+          "whereKey": "dataset_type",
+          "equals": "Drivers forecasted by other owners",
+          "extractKey": "last_updated"
+        }
+      },
+      "validateExtractContains": {
+        "lastUpdatedTimestampOnRefresh": "{{currentDateWithHour}}"
+      }
+    }
+  ],
+  "cleanup_DeleteDemandScenario": [
+    {
+      "testStep": "Delete earlier created Demand scenario",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "nidhi"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Delete created Demand scenario for cleanup",
+      "queryParams": "/{{consolidatedDemand_scenario_id}}/{{consolidatedDemand_scenario_version}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110030
+      },
+      "assertion": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Delete earlier created Segment scenario",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "nidhi"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Delete created Segment scenario for cleanup",
+      "queryParams": "/{{asyncRefreshNode_scenario_id}}/{{asyncRefreshNode_scenario_version}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110021
+      },
+      "assertion": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Delete earlier created OpticalOptical scenario",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "nidhi"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Delete created Segment scenario for cleanup",
+      "queryParams": "/{{optical_scenario_id}}/{{optical_scenario_version}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110016
+      },
+      "assertion": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

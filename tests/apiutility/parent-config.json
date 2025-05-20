@@ -4,7 +4,6 @@
     "Authorization": "{{token}}"
   },
   "user": "LB-ibg-ufm-auto",
-  "tagsToRun": [""],
   "testFiles": [
     "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save.json",
@@ -14,6 +13,7 @@
     "testCases/create-forecast.api.json",
     "testCases/create-view-api-tests.json",
     "testCases/excel-load-data-api-tests.json",
+    "testCases/excel-load-data-api-snapshots-tests.json",
     "testCases/forecast-calender-api.json",
     "testCases/forecast-cycle-api-tests.json",
     "testCases/get-my-kpi-api-tests.json",
@@ -21,7 +21,9 @@
     "testCases/visual-indicator-api.json",
     "testCases/forecast-comp-api-tests.json",
     "testCases/forecast-comp-api-error-tests.json",
-    "testCases/excel-plugin/excel-plugin-load-data-test.json"
+    "testCases/excel-plugin/excel-plugin-load-data-test.json",
+    "testCases/excel-plugin/excel-pluginemptynodesvalidation.json"
+
   ],
 
   "coreService": {
@@ -42,6 +44,7 @@
     "getForecastCalendar":"/forecast_calendar/",
     "visualIndicator":"/scenario/scenario-composition",
     "Forecast":"/scenario",
+    "refresh": "/refresh-nodes",
     "getKpiV2":"/reports/get-mykpi/v2"
   },
   "notificationService": {

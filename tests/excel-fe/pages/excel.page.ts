@@ -15,7 +15,7 @@ export class ExcelPage {
   readonly savedView: Locator;
   readonly scenario: Locator;
   readonly loadDataButton: Locator;
-  readonly spinner: Locator;
+  readonly resetDateRange: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -38,6 +38,7 @@ export class ExcelPage {
     this.savedView = this.mainIframe.getByText("Saved Views");
     this.scenario = this.mainIframe.getByText("Scenarios");
     this.loadDataButton = this.mainIframe.getByTestId("LoadDataButton");
+    this.resetDateRange = this.mainIframe.getByText("Reset date range");
   }
 
   async getTableData() {
@@ -148,5 +149,14 @@ export class ExcelPage {
       "background-color",
       selectedColor
     );
+  }
+
+  async verifyInvalidDate() {
+    await this.openDateRangePicker();
+    await expect(this.mainIframe.getByText("Feb")).toBeTruthy();
+    await this.resetDateRange.click();
+    await this.closeDateRangePicker();
+    await expect(this.loadDataButton).toBeDisabled();
+    await expect(this.mainIframe.getByText("Feb")).toHaveCount(0);
   }
 }
