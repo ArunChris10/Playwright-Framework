@@ -225,10 +225,10 @@
      "Pallavi"
     ],
     "testName": "Verify Actuals numbers are published to current demand slot 3 and is matching with AOP admin data",
-    "uri": "get-demand-scenario-forecast-by-slot-3",
+    "uri": "get-demand-scenario-forecast-by-slot",
     "method": "POST",
     "service": "currentDemandService",
-    "queryParams": "",
+    "queryParams": "3",
     "payload": {
       "baseChannel": [],
       "baseChannelIds": [],

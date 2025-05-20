@@ -34,8 +34,7 @@
       "dev": "https://scenario.dev.ibg.walmart.com"
     },
     
-    "get-demand-scenario-forecast-by-slot-3":"/api/demandscenarios/currentDemand/3",
-    "get-demand-scenario-forecast-by-slot-1":"/api/demandscenarios/currentDemand"
+    "get-demand-scenario-forecast-by-slot":"/api/demandscenarios/currentDemand/"
   },
   "coreService": {
     "baseURL": {
