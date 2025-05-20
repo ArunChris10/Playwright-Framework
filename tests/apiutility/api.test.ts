@@ -1,7 +1,7 @@
 import { test, expect, request, APIRequestContext } from '@playwright/test';
 import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
-import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey } from '../apiutility/utils/jsonUtils';
+import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey,findRelativeValueMultiCondition } from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {
@@ -46,6 +46,15 @@ export interface ApiTestCase {
     [globalVar: string]: {
       whereKey: string;
       equals: any;
+      extractKey: string;
+    };
+  };
+   extractRelativeMultipleCondition?: {
+    [globalVar: string]: {
+      conditions: {
+        path: string;
+        equals: any;
+      }[];
       extractKey: string;
     };
   };
@@ -175,13 +184,25 @@ parentConfig.testFiles.forEach(testCasePath => {
         if (step.extractRelative) {
           for (const globalVar in step.extractRelative) {
             const { whereKey, equals, extractKey } = step.extractRelative[globalVar];
-            const value = findRelativeValue(responseBody, whereKey, equals, extractKey);
+            const value = findRelativeValue(responseBody, interpolate(whereKey), interpolate(equals), interpolate(extractKey));
             if (value !== undefined) {
               globalStore.setValue(globalVar, value);
               console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
             } else {
               throw new Error(`Could not find relative value where "${whereKey}" == "${equals}"`);
             }
+          }
+        }
+
+        if (step.extractRelativeMultipleCondition) {
+          for (const globalVar in step.extractRelativeMultipleCondition) {
+            const { conditions, extractKey } = step.extractRelativeMultipleCondition?.[globalVar] ?? {};
+          if (conditions && extractKey) {
+            const result = findRelativeValueMultiCondition(responseBody, conditions, extractKey);
+            globalStore.setValue(globalVar, result);
+          } else {
+            console.warn(`No valid extractRelative config found for globalVar: ${globalVar}`);
+          }
           }
         }
 
@@ -201,7 +222,7 @@ parentConfig.testFiles.forEach(testCasePath => {
         }
 
         if (step.method.toUpperCase() === 'POST' && step.polling) {
-          response = await pollForExpectedResponse(requestContext, resolvedBaseUrl, step.polling, step.method, payload);
+          response = await pollForExpectedResponse(requestContext, resolvedBaseUrl, interpolateObject(step.polling), step.method, payload);
         }
       }
 
