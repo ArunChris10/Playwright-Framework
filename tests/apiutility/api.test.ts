@@ -1,7 +1,7 @@
 import { test, expect, request, APIRequestContext } from '@playwright/test';
 import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
-import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey, findRelativeValueWithMultipleConditions } from '../apiutility/utils/jsonUtils';
+import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey } from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {
@@ -46,15 +46,6 @@ export interface ApiTestCase {
     [globalVar: string]: {
       whereKey: string;
       equals: any;
-      extractKey: string;
-    };
-  };
-  extractRelativeWithMultipleKeys?: {
-    [globalVar: string]: {
-      whereKey1: string;
-      equals1: any;
-      whereKey2: string;
-      equals2: any;
       extractKey: string;
     };
   };
@@ -197,19 +188,6 @@ parentConfig.testFiles.forEach(testCasePath => {
           }
         }
 
-        if (step.extractRelativeWithMultipleKeys) {
-          for (const globalVar in step.extractRelativeWithMultipleKeys) {
-            const { whereKey1, equals1, whereKey2, equals2, extractKey } = step.extractRelativeWithMultipleKeys[globalVar];
-
-            const value = findRelativeValueWithMultipleConditions(responseBody, whereKey1, equals1, whereKey2, equals2, extractKey);
-            if (value !== undefined) {
-              globalStore.setValue(globalVar, value);
-              console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
-            } else {
-              throw new Error(`Could not find relative value where keys "${whereKey1}" match values "${equals1}"`);
-            }
-          }
-        }
 
         if (step.validateExtract) {
           for (const globalKey in step.validateExtract) {

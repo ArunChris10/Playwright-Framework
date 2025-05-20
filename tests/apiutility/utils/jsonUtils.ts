@@ -134,52 +134,6 @@ export function findRelativeValue(
   return undefined;
 }
 
-export function findRelativeValueWithMultipleConditions(
-  data: any,
-  whereKey1: string,
-  equals1: any,
-  whereKey2: string,
-  equals2: any,
-  extractKey: string
-): any {
-  const stack: any[] = [data];
-
-  while (stack.length) {
-    const current = stack.pop();
-
-    if (typeof current === 'object' && current !== null) {
-      const whereValue1 = getNestedValue(current, interpolate(whereKey1), interpolate(equals1));
-      const whereValue2 = getNestedValue(current, interpolate(whereKey2), interpolate(equals2));
-
-      expect(whereValue1).toBeDefined();
-      expect(whereValue2).toBeDefined();
-
-      console.log(`Checking object:\n${JSON.stringify(current, null, 2)}`);
-      console.log(`whereKey1: "${whereKey1}", value1: "${whereValue1}", expected1: "${equals1}"`);
-      console.log(`whereKey2: "${whereKey2}", value2: "${whereValue2}", expected2: "${equals2}"`);
-
-      const hasValue1 = Object.values(whereValue1).includes(equals1);
-      const hasValue2 = Object.values(whereValue2).includes(equals2);
-
-      if (hasValue1 && hasValue2) {
-        const extractedValue = getNestedValue(current, extractKey, equals1);
-        console.log(`MATCHED. Extracting '${extractKey}': ${extractedValue}`);
-        return extractedValue;
-      }
-
-      // Traverse nested structures
-      for (const key in current) {
-        if (typeof current[key] === 'object') {
-          stack.push(current[key]);
-        }
-      }
-    }
-  }
-
-  console.warn(`No match found for whereKey1: "${whereKey1}" == "${equals1}" and whereKey2: "${whereKey2}" == "${equals2}"`);
-  return undefined;
-}
-
 
 
 

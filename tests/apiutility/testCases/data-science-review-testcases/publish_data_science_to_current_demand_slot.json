@@ -290,7 +290,7 @@
         "status": 200
       },
       {
-        "extractRelativeWithMultipleKeys": {
+        "extractRelative": {
           "CurrentDemandDriverOneFirstMonthActuals": {
             "whereKey1": "forecastTotals.grandTotal.forecast.month",
             "equals1": "1",

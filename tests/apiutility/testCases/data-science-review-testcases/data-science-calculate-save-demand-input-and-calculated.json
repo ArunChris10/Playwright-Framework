@@ -7,7 +7,7 @@
     "labels": [
       "smoke",
       "Pre-Req",
-      "Pallavi"
+      "Pallavi", "IBGROW-38120"
     ],
     "service": "coreService",
     "uri": "getDataScienceInfo",
