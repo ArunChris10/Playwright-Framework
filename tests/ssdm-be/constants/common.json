@@ -14,6 +14,9 @@
     "incorrect_Node_Variant_Key":"Invalid NODE_VARIANT_KEY {NodeVariantKey} FOR NODE_KEY {NodeKey}",
     "incorrect_driver_tree_version":"Invalid DRIVER_TREE_VERSION {DriverVersion} FOR DRIVER_TREE_KEY {DriverTreeKey}",
     "incorrect_driver_tree_key":"Invalid DRIVER_TREE_KEY {DriverTreeKey}",
-    "incorrect_node_key_create":"Invalid NODE_KEY {NodeKey}"
+    "incorrect_node_key_create":"Invalid NODE_KEY {NodeKey}",
+    "incorrect_dim":"Invalid DIM_IDS {DimIds}",
+    "incorrect_lob":"Invalid PERM_IDS {LobIds}"
+
 }
 }
