@@ -68,17 +68,17 @@
           "SBU"
         ],
         "periods": [
-          "202602",
-          "202603",
-          "202604",
-          "202605",
-          "202606",
-          "202607",
-          "202608",
-          "202609",
-          "202610",
-          "202611",
-          "202612"
+          "{{dynamicMonth-3}}",
+          "{{dynamicMonth-2}}",
+          "{{dynamicMonth-1}}",
+          "{{dynamicMonth}}",
+          "{{dynamicMonth+1}}",
+          "{{dynamicMonth+2}}",
+          "{{dynamicMonth+3}}",
+          "{{dynamicMonth+4}}",
+          "{{dynamicMonth+5}}",
+          "{{dynamicMonth+6}}",
+          "{{dynamicMonth+7}}"
         ],
         "aggregationLevel": [
           "MONTH"
@@ -151,17 +151,17 @@
           "SBU"
         ],
         "periods": [
-          "202602",
-          "202603",
-          "202604",
-          "202605",
-          "202606",
-          "202607",
-          "202608",
-          "202609",
-          "202610",
-          "202611",
-          "202612"
+          "{{dynamicMonth-3}}",
+          "{{dynamicMonth-2}}",
+          "{{dynamicMonth-1}}",
+          "{{dynamicMonth}}",
+          "{{dynamicMonth+1}}",
+          "{{dynamicMonth+2}}",
+          "{{dynamicMonth+3}}",
+          "{{dynamicMonth+4}}",
+          "{{dynamicMonth+5}}",
+          "{{dynamicMonth+6}}",
+          "{{dynamicMonth+7}}"
         ],
         "aggregationLevel": [
           "MONTH"
