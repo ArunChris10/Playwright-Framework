@@ -4,7 +4,7 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "Pre-Req"
+      "Pre-Req","Pallavi"
     ],
     "service": "coreService",
     "uri": "get-data-science-info",
@@ -290,33 +290,33 @@
         "status": 200
       },
       {
-        "extractRelative": {
+        "extractRelativeMultipleCondition": {
           "CurrentDemandDriverOneFirstMonthActuals": {
-            "whereKey1": "forecastTotals.grandTotal.forecast.month",
-            "equals1": "1",
-            "whereKey2": "forecastTotals.grandTotal.forecast.year",
-            "equals2": "{{dynamicForecastYear-3}}",
+            "conditions": [
+              { "path": "forecastTotals.grandTotal.forecast.month", "equals": 1},
+              { "path": "forecastTotals.grandTotal.forecast.year", "equals": "{{dynamicForecastYear-3}}" }
+            ],
             "extractKey": "rowData.grandTotal.forecast.grossGmv"
           },
           "CurrentDemandDriverOneSecondMonthActuals": {
-            "whereKey1": "forecastTotals.grandTotal.forecast.month",
-            "equals1": "2",
-            "whereKey2": "forecastTotals.grandTotal.forecast.year",
-            "equals2": "{{dynamicForecastYear-3}}",
+            "conditions": [
+              { "path": "forecastTotals.grandTotal.forecast.month", "equals": 2},
+              { "path": "forecastTotals.grandTotal.forecast.year", "equals": "{{dynamicForecastYear-3}}" }
+            ],
            "extractKey": "rowData.grandTotal.forecast.grossGmv"
           },
           "CurrentDemandDriverOneThirdMonthActuals": {
-            "whereKey1": "forecastTotals.grandTotal.forecast.month",
-            "equals1": "3",
-            "whereKey2": "forecastTotals.grandTotal.forecast.year",
-            "equals2": "{{dynamicForecastYear-3}}",
+            "conditions": [
+              { "path": "forecastTotals.grandTotal.forecast.month", "equals": 3},
+              { "path": "forecastTotals.grandTotal.forecast.year", "equals": "{{dynamicForecastYear-3}}" }
+            ],
             "extractKey": "rowData.grandTotal.forecast.grossGmv"
           },
           "CurrentDemandDriverOneForthMonthActuals": {
-            "whereKey1": "forecastTotals.grandTotal.forecast.month",
-            "equals1": "4",
-            "whereKey2": "forecastTotals.grandTotal.forecast.year",
-            "equals2": "{{dynamicForecastYear-3}}",
+            "conditions": [
+              { "path": "forecastTotals.grandTotal.forecast.month", "equals": 4},
+              { "path": "forecastTotals.grandTotal.forecast.year", "equals": "{{dynamicForecastYear-3}}" }
+            ],
           "extractKey": "rowData.grandTotal.forecast.grossGmv"
           }
         },
