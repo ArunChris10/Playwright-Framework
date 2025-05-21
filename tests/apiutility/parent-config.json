@@ -2,13 +2,19 @@
   "headers": {
     "Content-Type": "application/json",
     "Authorization": "{{token}}"
+
   },
   "user": "LB-ibg-ufm-auto",
+  "tagsToRun": [],
   "testFiles": [
     "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save.json",
     "testCases/data-science-review-testcases/aop-calculate-save.json",
     "testCases/data-science-review-testcases/calculate-save-non-additive-node-api-test.json",
+    "testCases/data-science-review-testcases/data-science-calculate-save-demand-input-and-calculated.json",
+    "testCases/data-science-review-testcases/aop-calculate-save-demand-input-and-calculated.json",
+    "testCases/data-science-review-testcases/publish_aop_to_current_demand_slot.json",
+    "testCases/data-science-review-testcases/publish_data_science_to_current_demand_slot.json",
     "testCases/calculate-saveajustment-api-tests.json",
     "testCases/create-forecast.api.json",
     "testCases/create-view-api-tests.json",
@@ -23,7 +29,15 @@
     "testCases/forecast-comp-api-error-tests.json",
     "testCases/activated-latest-timestamp-tests.json"
   ],
-
+  
+  "currentDemandService": {
+    "baseURL": {
+      "qa": "https://scenario.qa.ibg.walmart.com",
+      "dev": "https://scenario.dev.ibg.walmart.com"
+    },
+    
+    "get-demand-scenario-forecast-by-slot":"/api/demandscenarios/currentDemand/"
+  },
   "coreService": {
     "baseURL": {
       "qa": "https://ibg-ufm-core-service.qa.ibg.walmart.com",

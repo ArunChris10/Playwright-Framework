@@ -3,7 +3,7 @@
       {
         "testStep": "Get forecast Calendar API",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-36277", "IBGROW-36151", "Nidhi"],
+        "labels": ["smoke", "IBGROW-36277", "IBGROW-36151", "Nidhi","Pallavi"],
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "get forecast Calendar API",
@@ -60,7 +60,7 @@
       {
         "testStep": "Publish Forecast Calendar",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-3627", "IBGROW-36152", "Nidhi"],
+        "labels": ["smoke", "IBGROW-3627", "IBGROW-36152", "Nidhi","Pallavi"],
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "Publish Forecast Calendar",
@@ -186,7 +186,7 @@
       {
         "testStep": "Delete Forecast Calendar cycle",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-36275", "IBGROW-36153", "Nidhi"],
+        "labels": ["smoke", "IBGROW-36275", "IBGROW-36153", "Nidhi","Pallavi"],
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "Delete Forecast Calendar cycle",
