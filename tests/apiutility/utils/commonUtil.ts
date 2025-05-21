@@ -245,9 +245,14 @@ export async function validateAssertions(response: any, responseBody: any, asser
             throw new Error('assertValuesAreEqual requires at least two values.');
           }
           const firstValue = interpolate(arrayOfAssertion.assertValuesAreEqual[0]);
+          const firstValueAsNumber = !isNaN(Number(firstValue)) ? parseFloat(firstValue) : null;
           for (let i = 1; i < arrayOfAssertion.assertValuesAreEqual.length; i++) {
             const curValue = interpolate(arrayOfAssertion.assertValuesAreEqual[i]);
-            expect(curValue).toEqual(firstValue);
+            if (firstValueAsNumber) {
+              expect(parseFloat(curValue)).toBeCloseTo(firstValueAsNumber, 3);
+            } else {
+              expect(curValue).toEqual(firstValue);
+            }
           }
 
         } else if (arrayOfAssertion.assertResponse) {
