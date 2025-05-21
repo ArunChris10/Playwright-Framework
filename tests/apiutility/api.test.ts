@@ -1,7 +1,7 @@
 import { test, expect, request, APIRequestContext } from '@playwright/test';
 import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
-import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey } from '../apiutility/utils/jsonUtils';
+import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey,findRelativeValueMultiCondition} from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {
@@ -50,6 +50,15 @@ export interface ApiTestCase {
       extractKey: string;
     };
   };
+   extractRelativeMultipleCondition?: {
+    [globalVar: string]: {
+      conditions: {
+        path: string;
+        equals: any;
+      }[];
+      extractKey: string;
+    };
+  };
   labels?: string[];
 }
 
@@ -71,6 +80,7 @@ export interface ParentConfig {
   notificationService: { baseURL: { [key: string]: string }, testCaseName: string };
   reportingService: { baseURL: { [key: string]: string }, testCaseName: string };
   nexusService: { baseURL: { [key: string]: string }, testCaseName: string };
+  currentDemandService: { baseURL: { [key: string]: string }, testCaseName: string };
 }
 
 export let response;
@@ -126,6 +136,8 @@ parentConfig.testFiles.forEach(testCasePath => {
           baseUrl = parentConfig.reportingService.baseURL[step.environment];
         } else if (step.service === "nexusService") {
           baseUrl = parentConfig.nexusService.baseURL[step.environment];
+        } else if (step.service === "currentDemandService") {
+          baseUrl = parentConfig.currentDemandService.baseURL[step.environment];
         }
 
         const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
@@ -177,7 +189,6 @@ parentConfig.testFiles.forEach(testCasePath => {
           for (const globalVar in step.extractRelative) {
             const { whereKey, equals, extractKey } = step.extractRelative[globalVar];
             const value = findRelativeValue(responseBody, interpolate(whereKey), interpolate(equals), interpolate(extractKey));
-            console.log("value is"+value)
             if (value !== undefined) {
               globalStore.setValue(globalVar, value);
               console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
@@ -186,6 +197,20 @@ parentConfig.testFiles.forEach(testCasePath => {
             }
           }
         }
+
+
+        if (step.extractRelativeMultipleCondition) {
+          for (const globalVar in step.extractRelativeMultipleCondition) {
+            const { conditions, extractKey } = step.extractRelativeMultipleCondition?.[globalVar] ?? {};
+          if (conditions && extractKey) {
+            const result = findRelativeValueMultiCondition(responseBody, conditions, extractKey);
+            globalStore.setValue(globalVar, result);
+          } else {
+            console.warn(`No valid extractRelative config found for globalVar: ${globalVar}`);
+          }
+          }
+        }
+
 
         if (step.validateExtract) {
           for (const globalKey in step.validateExtract) {
@@ -203,7 +228,7 @@ parentConfig.testFiles.forEach(testCasePath => {
         }
 
         if (step.method.toUpperCase() === 'POST' && step.polling) {
-          response = await pollForExpectedResponse(requestContext, resolvedBaseUrl, step.polling, step.method, payload);
+          response = await pollForExpectedResponse(requestContext, resolvedBaseUrl, interpolateObject(step.polling), step.method, payload);
         }
       }
 

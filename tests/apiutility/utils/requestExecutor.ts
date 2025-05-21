@@ -13,7 +13,7 @@ try{
     case 'PATCH':
       return await context.patch(endpoint, { data: payload });
     case 'DELETE':
-      return await context.delete(endpoint);
+      return await context.delete(endpoint,{ data: payload });
     default:
       throw new Error(`Unsupported HTTP method: ${method}`);
   }

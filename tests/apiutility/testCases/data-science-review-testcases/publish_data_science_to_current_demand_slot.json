@@ -1,36 +1,17 @@
-[
+{"publish_Data_Science_data_to_current_demand_workflow":[
   {
+    "testStep": "get_data_science_info",
     "environment": "qa",
     "labels": [
       "smoke",
-      "Pre-Req",
-      "Nidhi"
+      "Pre-Req","MS2","IBGROW-38119"
     ],
     "service": "coreService",
-    "uri": "getForecast",
-    "testName": "get Forecast to fetch Scenario ID",
+    "uri": "get-data-science-info",
+    "testName": "get data science info to fetch Scenario ID and version",
     "queryParams": "",
-    "method": "POST",
-    "payload": {
-      "unit": "Millions",
-      "dim_id": 12,
-      "dim_val_id": 120009,
-      "classification_id": 12,
-      "template_id": 1,
-      "filters": [],
-      "additional_filters": {
-        "template_include_headers": [
-          {
-            "name": "vs LY",
-            "format": "percent"
-          },
-          {
-            "name": "vs Plan",
-            "format": "absolute"
-          }
-        ]
-      }
-    },
+    "method": "GET",
+    "payload": {},
     "assertion": [
       {
         "status": 200
@@ -38,23 +19,24 @@
     ],
     "extractRelative": {
       "calculate_scenario_id": {
-        "whereKey": "rowData.name",
-        "equals": "io",
-        "extractKey": "scenarioId"
+        "whereKey": "classification_id",
+        "equals": 12,
+        "extractKey": "scenario_id"
       },
       "calculate_scenario_version":{
-        "whereKey": "rowData.name",
-        "equals": "io",
-        "extractKey": "scenarioVersion"
+       "whereKey": "classification_id",
+        "equals": 12,
+        "extractKey": "scenario_version"
       }
     }
   },
    {
+    "testStep":" to get actual numbers from AOP data",
     "environment": "qa",
     "labels": [
       "smoke",
-      "IBGROW-35119",
-     "Pallavi"
+      "IBGROW-38119",
+     "MS2"
     ],
     "testName": "Verify both Actuals and Forecast numbers are published to current demand slot 3 and is matching with AOP admin data",
     "uri": "AopGetKpi",
@@ -62,6 +44,7 @@
     "service": "coreService",
     "queryParams": "",
     "payload": {
+      "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/reports/get-mykpi/v2",
       "additional_filters": {
         "pivot_cols": ["month"],
         "pivot_index": ["node_id"],
@@ -73,25 +56,35 @@
           "workedunits",
           "unitsgrossuomng",
           "unitsuomlessreturns"
-        ],
-        "template_include_headers": [
-          { "name": "Driver" },
-          { "name": "{{dynamicMonth-40}}", "columnsMenuParams": "middleColumns" },
-          { "name": "{{dynamicMonth-39}}", "columnsMenuParams": "middleColumns" },
-          { "name": "{{dynamicMonth-38}}", "columnsMenuParams": "middleColumns" },
-          { "name": "{{dynamicMonth-37}}", "columnsMenuParams": "middleColumns" }
         ]
       },
-      
-      "classification_id": 11,
+      "template_include_headers": [
+        { "name": "Driver" },
+        { "name": "{{dynamicMonth-40}}", "columnsMenuParams": "middleColumns" },
+        { "name": "{{dynamicMonth-39}}", "columnsMenuParams": "middleColumns" },
+        { "name": "{{dynamicMonth-38}}", "columnsMenuParams": "middleColumns" },
+        { "name": "{{dynamicMonth-37}}", "columnsMenuParams": "middleColumns" },
+        { "name": "", "columnsMenuParams": "fixedColumns" },
+        { "name": "Allocation Method", "columnsMenuParams": "action" },
+        { "name": "Forecast", "editable": true },
+        { "name": "Value", "editable": true }
+      ],
+      "classification_id": 12,
       "dim_id": 13,
       "dim_val_id": 130001,
-      "filters": [],
+      "filters": [
+        {
+          "dim_id": 2,
+          "dim_val_ids": [20004, 20005, 20002, 20010, 20011, 20012, 20013],
+          "children": []
+        }
+      ],
       "isApplied": true,
       "scenario_id": "{{calculate_scenario_id}}",
       "scenario_version": "{{calculate_scenario_version}}",
       "template_id": 3
     }
+    
     ,
     "assertion": [
       {
@@ -209,10 +202,11 @@
     ]
   },
   {
+    "testStep":"To publish AOP data",
     "environment": "qa",
     "labels": [
       "smoke",
-      "post-req","Pallavi"
+      "post-req","MS2","IBGROW-38119"
     ],
     "testName": "publish node data",
     "uri": "publish-data-science",
@@ -224,25 +218,31 @@
           "scenario_id": "{{calculate_scenario_id}}",
           "scenario_version": "{{calculate_scenario_version}}"
         },
-    "assertion": [
-      {
-        "status": 200
-      }
-    ]
+        "polling": {
+          "extractRelative": {
+            "WhereKey": "statusCode",
+            "Equals": "OK",
+            "Findkey": "body"
+          },
+          "expectedValue": "File uploaded successfully",
+          "intervalMs": 5000,
+          "timeoutMs": 6000000
+        }
   }
 ,
   {
+    "testStep":"To get actual numbers from AOP data from current demand",
     "environment": "qa",
     "labels": [
       "smoke",
-      "IBGROW-35119",
-     "Pallavi"
+      "IBGROW-38119",
+     "MS2"
     ],
-    "testName": "Verify Actuals numbers are published to current demand slot 3 and is matching with AOP admin data",
-    "uri": "AopGetKpi",
+    "testName": "Verify Actuals numbers are published to current demand slot 1 and is matching with AOP admin data",
+    "uri": "get-demand-scenario-forecast-by-slot",
     "method": "POST",
-    "service": "coreService",
-    "queryParams": "",
+    "service": "currentDemandService",
+    "queryParams": "1",
     "payload": {
       "baseChannel": [],
       "baseChannelIds": [],
@@ -274,45 +274,49 @@
       "sbuIds": [4, 29, 196, 27, 60, 47],
       "timeFilter": {
         "filterLevel": "MONTH",
-        "isYearSelected": true,
-        "isMonthSelected": true,
-        "isQuarterSelected": false
-        
+        "isYearSelected": false,
+        "isMonthSelected": false,
+        "isQuarterSelected": false,
+        "yearList": [],
+        "yearMonths": [],
+        "yearQuarters": [],
+        "years": []
       }
     }
+    
     ,
     "assertion": [
       {
         "status": 200
       },
       {
-        "extractRelative": {
+        "extractRelativeMultipleCondition": {
           "CurrentDemandDriverOneFirstMonthActuals": {
-            "whereKey": "forecastTotals.grandTotal.forecast.month",
-            "equals": "1",
-            "whereKey": "forecastTotals.grandTotal.forecast.year",
-            "equals": "2023",
+            "conditions": [
+              { "path": "forecastTotals.grandTotal.forecast.month", "equals": 1},
+              { "path": "forecastTotals.grandTotal.forecast.year", "equals": "{{dynamicForecastYear-3}}" }
+            ],
             "extractKey": "rowData.grandTotal.forecast.grossGmv"
           },
           "CurrentDemandDriverOneSecondMonthActuals": {
-            "whereKey": "forecastTotals.grandTotal.forecast.month",
-            "equals": "2",
-            "whereKey": "forecastTotals.grandTotal.forecast.year",
-            "equals": "2023",
+            "conditions": [
+              { "path": "forecastTotals.grandTotal.forecast.month", "equals": 2},
+              { "path": "forecastTotals.grandTotal.forecast.year", "equals": "{{dynamicForecastYear-3}}" }
+            ],
            "extractKey": "rowData.grandTotal.forecast.grossGmv"
           },
           "CurrentDemandDriverOneThirdMonthActuals": {
-            "whereKey": "forecastTotals.grandTotal.forecast.month",
-            "equals": "3",
-            "whereKey": "forecastTotals.grandTotal.forecast.year",
-            "equals": "2023",
+            "conditions": [
+              { "path": "forecastTotals.grandTotal.forecast.month", "equals": 3},
+              { "path": "forecastTotals.grandTotal.forecast.year", "equals": "{{dynamicForecastYear-3}}" }
+            ],
             "extractKey": "rowData.grandTotal.forecast.grossGmv"
           },
           "CurrentDemandDriverOneForthMonthActuals": {
-            "whereKey": "forecastTotals.grandTotal.forecast.month",
-            "equals": "4",
-            "whereKey": "forecastTotals.grandTotal.forecast.year",
-            "equals": "2023",
+            "conditions": [
+              { "path": "forecastTotals.grandTotal.forecast.month", "equals": 4},
+              { "path": "forecastTotals.grandTotal.forecast.year", "equals": "{{dynamicForecastYear-3}}" }
+            ],
           "extractKey": "rowData.grandTotal.forecast.grossGmv"
           }
         },
@@ -325,4 +329,4 @@
       }
     ]
   }
-]
+]}

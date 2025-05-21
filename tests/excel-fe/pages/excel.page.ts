@@ -15,7 +15,8 @@ export class ExcelPage {
   readonly savedView: Locator;
   readonly scenario: Locator;
   readonly loadDataButton: Locator;
-  readonly spinner: Locator;
+  readonly clearBtn: Locator;
+  readonly resetDateRange: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -38,6 +39,8 @@ export class ExcelPage {
     this.savedView = this.mainIframe.getByText("Saved Views");
     this.scenario = this.mainIframe.getByText("Scenarios");
     this.loadDataButton = this.mainIframe.getByTestId("LoadDataButton");
+    this.clearBtn = this.mainIframe.getByTestId("ClearButton");
+    this.resetDateRange = this.mainIframe.getByText("Reset date range");
   }
 
   async getTableData() {
@@ -74,6 +77,7 @@ export class ExcelPage {
         .getByRole("menuitem", { name: businessArea })
         .click();
     }
+    await this.page.waitForTimeout(1000);
   }
 
   async selectSavedView(savedView?: string) {
@@ -91,9 +95,7 @@ export class ExcelPage {
     if (scenario) {
       await this.mainIframe.getByRole("checkbox", { name: scenario }).click();
     } else {
-      if (!(await this.mainIframe.getByRole("checkbox").first().isChecked())) {
-        await this.mainIframe.getByRole("checkbox").first().click();
-      }
+      await this.mainIframe.getByRole("checkbox").first().click();
     }
     await this.scenario.click();
   }
@@ -103,6 +105,11 @@ export class ExcelPage {
     await this.loadDataButton.isHidden();
     await this.loadDataButton.isVisible();
     await this.page.waitForTimeout(5000);
+    await this.loadDataButton.isEnabled();
+  }
+
+  async clearSelections() {
+    await this.clearBtn.click();
   }
 
   async verifySavedConfigurations() {
@@ -148,5 +155,21 @@ export class ExcelPage {
       "background-color",
       selectedColor
     );
+  }
+
+  async verifyInvalidDate() {
+    await this.openDateRangePicker();
+    await expect(this.mainIframe.getByText("Feb")).toBeTruthy();
+    await this.resetDateRange.click();
+    await this.closeDateRangePicker();
+    await expect(this.loadDataButton).toBeDisabled();
+    await expect(this.mainIframe.getByText("Feb")).toHaveCount(0);
+  }
+
+  async selectMultiGrains() {
+    await this.mainIframe.getByText("Year").first().click();
+    await this.mainIframe.getByText("Show Months").click();
+    await this.mainIframe.getByText("Show Quarters").click();
+    await this.mainIframe.getByText("Show Halves").click();
   }
 }
