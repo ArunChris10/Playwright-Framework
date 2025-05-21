@@ -6,8 +6,7 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "Pre-Req",
-      "Pallavi", "IBGROW-38120"
+      "Pre-Req","Pallavi", "IBGROW-38120"
     ],
     "service": "coreService",
     "uri": "getDataScienceInfo",
@@ -182,7 +181,7 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "IBGROW-35120", "IBGROW-33531",
+      "IBGROW-38120", "IBGROW-33531",
       "Pallavi"
     ],
     "service": "coreService",
@@ -322,7 +321,7 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "IBGROW-,35120","Pallavi"
+      "IBGROW-,38120","Pallavi"
     ],
     "service": "coreService",
     "uri": "getKpi",

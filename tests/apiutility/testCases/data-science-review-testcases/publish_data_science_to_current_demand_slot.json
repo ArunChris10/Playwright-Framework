@@ -4,7 +4,7 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "Pre-Req","Pallavi"
+      "Pre-Req","Pallavi","IBGROW-38119"
     ],
     "service": "coreService",
     "uri": "get-data-science-info",
@@ -35,7 +35,7 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "IBGROW-35119",
+      "IBGROW-38119",
      "Pallavi"
     ],
     "testName": "Verify both Actuals and Forecast numbers are published to current demand slot 3 and is matching with AOP admin data",
@@ -206,7 +206,7 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "post-req","Pallavi"
+      "post-req","Pallavi","IBGROW-38119"
     ],
     "testName": "publish node data",
     "uri": "publish-data-science",
@@ -235,7 +235,7 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "IBGROW-35119",
+      "IBGROW-38119",
      "Pallavi"
     ],
     "testName": "Verify Actuals numbers are published to current demand slot 1 and is matching with AOP admin data",

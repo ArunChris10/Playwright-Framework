@@ -4,7 +4,7 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "Pre-Req","Pallavi"
+      "Pre-Req","Pallavi","IBGROW-35119"
     ],
     "service": "coreService",
     "uri": "get-data-science-info",
@@ -193,7 +193,7 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "post-req","Pallavi"
+      "post-req","Pallavi","IBGROW-35119"
     ],
     "testName": "publish node data",
     "uri": "publish-data-science-aop",
