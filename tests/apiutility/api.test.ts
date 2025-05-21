@@ -1,7 +1,7 @@
 import { test, expect, request, APIRequestContext } from '@playwright/test';
 import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
-import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey,findRelativeValueMultiCondition } from '../apiutility/utils/jsonUtils';
+import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey,findRelativeValueMultiCondition} from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {
@@ -79,6 +79,7 @@ export interface ParentConfig {
   notificationService: { baseURL: { [key: string]: string }, testCaseName: string };
   reportingService: { baseURL: { [key: string]: string }, testCaseName: string };
   nexusService: { baseURL: { [key: string]: string }, testCaseName: string };
+  currentDemandService: { baseURL: { [key: string]: string }, testCaseName: string };
 }
 
 export let response;
@@ -134,6 +135,8 @@ parentConfig.testFiles.forEach(testCasePath => {
           baseUrl = parentConfig.reportingService.baseURL[step.environment];
         } else if (step.service === "nexusService") {
           baseUrl = parentConfig.nexusService.baseURL[step.environment];
+        } else if (step.service === "currentDemandService") {
+          baseUrl = parentConfig.currentDemandService.baseURL[step.environment];
         }
 
         const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
@@ -194,6 +197,7 @@ parentConfig.testFiles.forEach(testCasePath => {
           }
         }
 
+
         if (step.extractRelativeMultipleCondition) {
           for (const globalVar in step.extractRelativeMultipleCondition) {
             const { conditions, extractKey } = step.extractRelativeMultipleCondition?.[globalVar] ?? {};
@@ -205,6 +209,7 @@ parentConfig.testFiles.forEach(testCasePath => {
           }
           }
         }
+
 
         if (step.validateExtract) {
           for (const globalKey in step.validateExtract) {
