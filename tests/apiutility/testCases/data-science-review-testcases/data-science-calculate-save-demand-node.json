@@ -3,7 +3,7 @@
     {
       "testStep": "Fetch Scenario Info for DataScience",
       "environment": "qa",
-      "labels": ["smoke", "Pre-Req", "IBGROW-35039", "IBGROW-34989", "Pallavi"],
+      "labels": ["smoke", "Pre-Req", "IBGROW-35039", "IBGROW-34989", "MS2"],
       "service": "coreService",
       "uri": "getDataScienceInfo",
       "testName": "Get scenario details from DataScience info",
@@ -30,7 +30,7 @@
     {
       "testStep": "Allocate Forecast for DataScience Node",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "Pallavi"],
+      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "MS2"],
       "service": "coreService",
       "uri": "allocateData",
       "testName": "Send forecast allocation request - DataScience Demand",
@@ -75,7 +75,7 @@
     {
       "testStep": "Save Adjustment for DataScience Allocation",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "Pallavi"],
+      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "MS2"],
       "service": "coreService",
       "uri": "saveAdjustment",
       "testName": "Save adjustment for DataScience Demand forecast",
@@ -145,7 +145,7 @@
     {
       "testStep": "Validate Forecasted Data in KPI View",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "Pallavi"],
+      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "MS2"],
       "service": "coreService",
       "uri": "getKpi",
       "testName": "Validate forecasted 'grossgmv' data in KPI output",

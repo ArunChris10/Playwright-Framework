@@ -3,7 +3,7 @@
     {
       "testStep": "Fetch Scenario ID and Version from Forecast",
       "environment": "qa",
-      "labels": ["smoke", "Pre-Req", "Nidhi"],
+      "labels": ["smoke", "Pre-Req", "MS1"],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get forecast data to extract scenario ID and version for 'io'",
@@ -50,7 +50,7 @@
     {
       "testStep": "Calculate Forecast for #, %, and $ Node Types",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38434", "IBGROW-35440", "Nidhi"],
+      "labels": ["smoke", "IBGROW-38434", "IBGROW-35440", "MS1"],
       "service": "coreService",
       "uri": "allocateData",
       "testName": "Verify calculation for all node types (#, %, $)",
@@ -145,7 +145,7 @@
     {
       "testStep": "Save Adjustment for Node Types (#, %, $)",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38435", "IBGROW-35441", "Nidhi"],
+      "labels": ["smoke", "IBGROW-38435", "IBGROW-35441", "MS1"],
       "service": "coreService",
       "uri": "saveAdjustment",
       "testName": "Verify Save works correctly for all node types (#, %, $)",

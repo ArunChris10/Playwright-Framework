@@ -3,7 +3,7 @@
       {
         "testStep": "Get forecast Calendar API",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-36277", "IBGROW-36151", "Nidhi","Pallavi"],
+        "labels": ["smoke", "IBGROW-36277", "IBGROW-36151", "MS1","MS2"],
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "get forecast Calendar API",
@@ -26,7 +26,7 @@
       {
         "testStep": "Verify create forecast cycle API",
         "environment": "qa",
-        "labels": ["smoke", "BG-36274", "IBGROW-36272", "Pallavi"],
+        "labels": ["smoke", "BG-36274", "IBGROW-36272", "MS2"],
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "Verify create forecast cycle API",
@@ -60,7 +60,7 @@
       {
         "testStep": "Publish Forecast Calendar",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-3627", "IBGROW-36152", "Nidhi","Pallavi"],
+        "labels": ["smoke", "IBGROW-3627", "IBGROW-36152", "MS1","MS2"],
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "Publish Forecast Calendar",
@@ -78,7 +78,7 @@
       {
         "testStep": "Verify get the upcoming deadline API",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-36271", "Pallavi"],
+        "labels": ["smoke", "IBGROW-36271", "MS2"],
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "Verify get the upcoming deadline API",
@@ -122,7 +122,7 @@
       {
         "testStep": "Verify update forecast cycle API",
         "environment": "qa",
-        "labels": ["smoke", "BG-36270", "Pallavi"],
+        "labels": ["smoke", "BG-36270", "MS2"],
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "Verify update forecast cycle API",
@@ -154,7 +154,7 @@
       {
         "testStep": "Validate updated cycle details in forecast calendar",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-36270", "Pallavi"],
+        "labels": ["smoke", "IBGROW-36270", "MS2"],
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "Validate updated cycle details in get forecast Calendar API",
@@ -186,7 +186,7 @@
       {
         "testStep": "Delete Forecast Calendar cycle",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-36275", "IBGROW-36153", "Nidhi","Pallavi"],
+        "labels": ["smoke", "IBGROW-36275", "IBGROW-36153", "MS1","MS2"],
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "Delete Forecast Calendar cycle",
@@ -205,7 +205,7 @@
       {
         "testStep": "Delete already deleted Forecast cycle - expect 404",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-36275", "IBGROW-36153", "Pallavi"],
+        "labels": ["smoke", "IBGROW-36275", "IBGROW-36153", "MS2"],
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "Delete already deleted Forecast cycle",
@@ -228,7 +228,7 @@
       {
         "testStep": "Create Forecast Cycle for generating new cycle data",
         "environment": "qa",
-        "labels": ["smoke", "BG-36274", "IBGROW-36272", "Pallavi"],
+        "labels": ["smoke", "BG-36274", "IBGROW-36272", "MS2"],
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "Create Forecast for generating cycle data",
@@ -262,7 +262,7 @@
       {
         "testStep": "Validate getForecastCalendar API after deleting first cycle",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-36277", "IBGROW-36151", "Nidhi"],
+        "labels": ["smoke", "IBGROW-36277", "IBGROW-36151", "MS1"],
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "Validate getForecastCalender API after delete",
@@ -283,7 +283,7 @@
       {
         "testStep": "Delete second forecast cycle - cleanup",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-36275", "IBGROW-36153", "Nidhi"],
+        "labels": ["smoke", "IBGROW-36275", "IBGROW-36153", "MS1"],
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "Delete Forecast Calendar cycle - cleanup",

@@ -1,7 +1,7 @@
 [
 {
   "environment": "qa",
-  "labels": ["smoke","IBGROW-36348","rahul"],
+  "labels": ["smoke","IBGROW-36348","MS3"],
   "service":"coreService",
   "uri":"getForecast",
   "testName": "Get forecast for kpi filters",
