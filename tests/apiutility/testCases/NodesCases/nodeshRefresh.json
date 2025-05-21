@@ -3,7 +3,7 @@
     {
       "testStep": "Get a forecast to delete before proceding for demand SBA",
       "environment": "qa",
-      "labels": ["smoke","rahul"],
+      "labels": ["smoke","MS3"],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get a forecast to delete before proceding",
@@ -152,7 +152,7 @@
     {
       "testStep": "Get a forecast to delete before proceding for segment SBA",
       "environment": "qa",
-      "labels": ["smoke","rahul"],
+      "labels": ["smoke","MS3"],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get a forecast to delete before proceding",
@@ -300,7 +300,7 @@
     {
       "testStep": "Get a forecast to delete before proceding for Optical SBA",
       "environment": "qa",
-      "labels": ["smoke","rahul"],
+      "labels": ["smoke","MS3"],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get a forecast to delete before proceding",
@@ -450,7 +450,7 @@
       "labels": [
         "smoke",
         "Pre-Req",
-        "Nidhi"
+        "MS1"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -501,7 +501,7 @@
         "smoke",
         "IBGROW-37429",
         "IBGROW-34379",
-        "Nidhi"
+        "MS1"
       ],
       "testName": "Edit the drivers - in Segment SBA",
       "uri": "allocateData",
@@ -586,7 +586,7 @@
         "smoke",
         "IBGROW-37429",
         "IBGROW-34379",
-        "Nidhi"
+        "MS1"
       ],
       "testName": "Save adjustment in Segment SBA",
       "uri": "saveAdjustment",
@@ -680,7 +680,7 @@
         "smoke",
         "IBGROW-37429",
         "IBGROW-34379",
-        "Nidhi"
+        "MS1"
       ],
       "testName": "Send Segment SBA forecast to BA review",
       "uri": "saveAdjustment",
@@ -763,7 +763,7 @@
         "smoke",
         "IBGROW-37429",
         "IBGROW-34379",
-        "Nidhi"
+        "MS1"
       ],
       "testName": "Edit the drivers - in Demand SBA",
       "uri": "allocateData",
@@ -814,7 +814,7 @@
         "smoke",
         "IBGROW-37429",
         "IBGROW-34379",
-        "Nidhi"
+        "MS1"
       ],
       "testName": "Save adjustment in Demand SBA",
       "uri": "saveAdjustment",
@@ -884,7 +884,7 @@
         "smoke",
         "IBGROW-37429",
         "IBGROW-34379",
-        "Nidhi"
+        "MS1"
       ],
       "testName": "Send Demand SBA forecast to BA review",
       "uri": "saveAdjustment",
@@ -919,7 +919,7 @@
         "smoke",
         "IBGROW-37429",
         "IBGROW-34379",
-        "Nidhi"
+        "MS1"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -969,7 +969,7 @@
         "smoke",
         "IBGROW-37429",
         "IBGROW-34379",
-        "Nidhi"
+        "MS1"
       ],
       "testName": "Validate Refresh API for async not owned nodes",
       "uri": "refresh",
@@ -994,7 +994,7 @@
         "smoke",
         "IBGROW-37429",
         "IBGROW-34379",
-        "Nidhi"
+        "MS1"
       ],
       "service": "coreService",
       "uri": "getKpi",
@@ -1095,7 +1095,7 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "nidhi",
+        "MS1",
         "IBGROW-33386",
         "IBGROW-37431"
       ],
@@ -1127,7 +1127,7 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "nidhi"
+        "MS1"
       ],
       "service": "coreService",
       "uri": "Forecast",
@@ -1149,7 +1149,7 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "nidhi"
+        "MS1"
       ],
       "service": "coreService",
       "uri": "Forecast",
@@ -1171,7 +1171,7 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "nidhi"
+        "MS1"
       ],
       "service": "coreService",
       "uri": "Forecast",

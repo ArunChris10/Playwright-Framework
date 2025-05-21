@@ -3,7 +3,7 @@
     {
       "testStep": "Get Forecast Scenario ID and Version",
       "environment": "qa",
-      "labels": ["smoke", "Pre-Req", "Pallavi"],
+      "labels": ["smoke", "Pre-Req", "MS2"],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Fetch scenario ID and version for 'io' from forecast data",
@@ -50,7 +50,7 @@
     {
       "testStep": "Apply Allocation on Non-Additive Node with Filters",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38428", "Pallavi"],
+      "labels": ["smoke", "IBGROW-38428", "MS2"],
       "service": "coreService",
       "uri": "allocateData",
       "testName": "Verify allocation with filters on non-additive node maintaining ratio",
@@ -121,7 +121,7 @@
     {
       "testStep": "Save Adjustment with Filters on Non-Additive Node",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38429", "Pallavi"],
+      "labels": ["smoke", "IBGROW-38429", "MS2"],
       "service": "coreService",
       "uri": "saveAdjustment",
       "testName": "Verify save works with filters on non-additive node maintaining ratio",

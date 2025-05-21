@@ -22,7 +22,7 @@
           },
           "assertNotEquals": {
             "jsonPath": "screen_sec_name",
-            "value": "rahul"
+            "value": "MS3"
           },
           "assertNotNull": {
             "jsonPath": "screen_sec_name"

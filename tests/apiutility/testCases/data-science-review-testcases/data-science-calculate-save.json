@@ -4,7 +4,7 @@
       {
         "testStep": "Get Scenario details from dataScience info",
         "environment": "qa",
-        "labels": ["smoke", "Pre-Req", "IBGROW-35040", "IBGROW-34988", "Nidhi"],
+        "labels": ["smoke", "Pre-Req", "IBGROW-35040", "IBGROW-34988", "MS1"],
         "service": "coreService",
         "uri": "getDataScienceInfo",
         "testName": "get Scenario details from dataScience info",
@@ -31,7 +31,7 @@
       {
         "testStep": "Send request for allocate-data - DataScience- NonDemand",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-35040", "IBGROW-34988", "Nidhi"],
+        "labels": ["smoke", "IBGROW-35040", "IBGROW-34988", "MS1"],
         "service": "coreService",
         "uri": "allocateData",
         "testName": "Send request for allocate-data - DataScience- NonDemand",
@@ -76,7 +76,7 @@
       {
         "testStep": "Send request for save-adjustment - DataScience - NonDemand",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-35040", "IBGROW-34988", "Nidhi"],
+        "labels": ["smoke", "IBGROW-35040", "IBGROW-34988", "MS1"],
         "service": "coreService",
         "uri": "saveAdjustment",
         "testName": "Send request for save-adjustment- DataScience- NonDemand",
@@ -146,7 +146,7 @@
       {
         "testStep": "Validate saved data for datascience - GetKpi",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-35040", "IBGROW-34988", "Nidhi"],
+        "labels": ["smoke", "IBGROW-35040", "IBGROW-34988", "MS1"],
         "service": "coreService",
         "uri": "getKpi",
         "testName": "Validate saved data for datascience - GetKpi",

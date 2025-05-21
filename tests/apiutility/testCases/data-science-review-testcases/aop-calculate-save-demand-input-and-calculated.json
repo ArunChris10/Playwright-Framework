@@ -6,7 +6,7 @@
     "labels": [
       "smoke",
       "Pre-Req",
-      "Pallavi"
+      "MS2"
     ],
     "service": "coreService",
     "uri": "getDataScienceInfo",
@@ -36,7 +36,7 @@
     "labels": [
       "smoke",
       "IBGROW-35121",
-      "Pallavi"
+      "MS2"
     ],
     "service": "coreService",
     "uri": "allocateData",
@@ -201,7 +201,7 @@
     "labels": [
       "smoke",
       "IBGROW-35121",
-      "Pallavi"
+      "MS2"
     ],
     "service": "coreService",
     "uri": "saveAdjustment",
@@ -361,7 +361,7 @@
       "smoke",
       "IBGROW-35039",
             "IBGROW-34989",
-            "Pallavi"
+            "MS2"
     ],
     "service": "coreService",
     "uri": "getKpi",
