@@ -1,0 +1,51 @@
+import { expect, test } from "../../common/fixtures/test-hook";
+import { ExcelPage } from "../pages/excel.page";
+
+test.describe(
+  "Date Range Picker Multi Time Granularity Test",
+  {
+    tag: "@Regression @Smoke @ExcelPlugin @ExcelDateRangePicker @ExcelDateRangePickerMultiGrains",
+  },
+  async () => {
+    let excelPage: ExcelPage;
+
+    test.beforeAll(async ({ pageFactory }) => {
+      await pageFactory.loginExcel().login();
+      excelPage = pageFactory.excel();
+      await excelPage.getStarted();
+      await excelPage.selectBusinessArea();
+      await excelPage.selectSavedView();
+      await excelPage.selectScenario();
+    });
+
+    test("Verify multi granularity levels exist and can be checked", async () => {
+      await excelPage.openDateRangePicker();
+      await excelPage.selectMultiGrains();
+      await excelPage.closeDateRangePicker();
+    });
+
+    test("Load Data", async () => {
+      await excelPage.loadData();
+    });
+
+    test("Verify multi granularity levels are shown", async () => {
+      let data = await excelPage.getTableData();
+      let timeData = data[0];
+      timeData = timeData.filter((element) => element !== "");
+
+      expect(timeData.length).toBe(19);
+      expect(
+        timeData.filter((element) => /^[a-zA-Z]{3} [FY]/.test(element)).length
+      ).toBe(12);
+      expect(
+        timeData.filter((element) => /^FY[0-9]{2} Q[0-9]/.test(element)).length
+      ).toBe(4);
+      expect(
+        timeData.filter((element) => /^FY[0-9]{2} H[0-9]/.test(element)).length
+      ).toBe(2);
+      expect(
+        timeData.filter((element) => /^FY[0-9]{2}/.test(element)).length
+      ).toBe(1);
+    });
+  }
+);

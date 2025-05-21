@@ -105,6 +105,7 @@ export class ExcelPage {
     await this.loadDataButton.isHidden();
     await this.loadDataButton.isVisible();
     await this.page.waitForTimeout(5000);
+    await this.loadDataButton.isEnabled();
   }
 
   async clearSelections() {
@@ -163,5 +164,12 @@ export class ExcelPage {
     await this.closeDateRangePicker();
     await expect(this.loadDataButton).toBeDisabled();
     await expect(this.mainIframe.getByText("Feb")).toHaveCount(0);
+  }
+
+  async selectMultiGrains() {
+    await this.mainIframe.getByText("Year").first().click();
+    await this.mainIframe.getByText("Show Months").click();
+    await this.mainIframe.getByText("Show Quarters").click();
+    await this.mainIframe.getByText("Show Halves").click();
   }
 }
