@@ -1,5 +1,5 @@
 {
-  "validate_datascience_forecast_allocation_and_save_flow": [
+  "validate_datascience_calculate_and_save_demand_node_flow": [
     {
       "testStep": "Fetch Scenario Info for DataScience",
       "environment": "qa",

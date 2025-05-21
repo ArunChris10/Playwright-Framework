@@ -3,7 +3,7 @@
     {
       "testStep": "Get Forecast Scenario ID and Version",
       "environment": "qa",
-      "labels": ["smoke", "Pre-Req", "Nidhi"],
+      "labels": ["smoke", "Pre-Req", "Pallavi"],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Fetch scenario ID and version for 'io' from forecast data",
