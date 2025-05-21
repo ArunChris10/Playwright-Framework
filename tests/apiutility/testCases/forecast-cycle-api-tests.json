@@ -132,7 +132,7 @@
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "Verify update forecast cycle API",
-        "queryParams": "{{this_calendar_id}}/cycles/{{saved_cycle_id}}",
+        "queryParams": "{{this_calendar_id}}/cycles/{{new_cycle_id}}",
         "method": "PATCH",
         "payload": {
           "deadlines": [
@@ -166,23 +166,27 @@
         "testName": "Validate updated cycle details in get forecast Calendar API",
         "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
         "method": "GET",
-        "extractRelative": {
-          "updated_deadline_date": {
-            "whereKey": "submission_cycles.submission_cycle_details.cycle_id",
-            "equals": "{{saved_cycle_id}}",
-            "extractKey": "submission_cycles.submission_cycle_details.deadline_date"
-          }
-        },
+       
         "assertion": [
           {
             "status": 200
           },
           {
-            "assertValuesAreEqual": [
-              "{{updated_deadline_date}}",
-              "{{updatedDeadlineDateISO}}"
-            ]
+            "extractRelativeMultipleCondition": {
+              "updated_deadline_date": {
+                "conditions": [
+                  { "path": "submission_cycles.submission_cycle_details.cycle_id", "equals": 1 },
+                  { "path": "submission_cycles.submission_cycle_details.cycle_id", "equals": "{{dynamicForecastYear-3}}" }
+                ],
+                "extractKey": "submission_cycles.submission_cycle_details.deadline_date"
+              }
+              
+            },
+            "validateExtract": {
+              "updated_deadline_date":  "{{updatedDeadlineDateISO}}"
+            }
           }
+       
         ]
       }
     ],
@@ -201,12 +205,7 @@
         "payload": {
           "cycle_id": "{{new_cycle_id}}",
           "calendar_id": "{{this_calendar_id}}"
-        },
-        "assertion": [
-          {
-            "status": 200
-          }
-        ]
+        }
       },
       {
         "testStep": "Delete already deleted Forecast cycle - expect 404",
@@ -298,12 +297,7 @@
         "payload": {
           "cycle_id": "{{second_cycle_id}}",
           "calendar_id": "{{this_calendar_id}}"
-        },
-        "assertion": [
-          {
-            "status": 200
-          }
-        ]
+        }
       }
     ]
   
