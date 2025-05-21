@@ -1,5 +1,5 @@
 {
-  "validate_calculate_and_save_data_science_demand_input_and_calculated_node_workflow": [
+  "validate_calculate_and_save_data_science_demand_input_and_calculated_nodes_workflow": [
     
   {
     "testStep": "Get AOP Scenario Details from DataScience Info",
