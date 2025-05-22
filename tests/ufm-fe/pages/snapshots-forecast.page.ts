@@ -41,13 +41,13 @@ export class SnapshotsForecast {
     this.createdSnapshotName = page.locator('//div[@data-testid="SnapshotList"]//div[@row-index="0"]//div[@col-id="name"]//span');
     this.successMessage = '//div[contains(text(),"forecasts are snapshotted")]';
     this.selecAllSnapshotCheckbox = page.locator('//*[@id="ag-40-input"]');
-    this.selectFirstSnapshotCheckbox = page.locator('//*[@id="ag-67-input"]');
+    this.selectFirstSnapshotCheckbox=page.locator('//*[@aria-rowindex="2"]//input[1][@type="checkbox"][1]');
     this.snapshotSelectedText = page.locator('//*[@data-testid="SelectionDownloadBanner"]/div/span/strong');
     this.selectAllLink = page.locator('//*[@data-testid="SelectionDownloadBanner"]/div/button[text()="Select all"]');
     this.clearSelectedLink = page.locator('//*[@data-testid="SelectionDownloadBanner"]/div/button[text()="Clear selected"]');
     this.snapshotSelectedText = page.locator('//*[@data-testid="SelectionDownloadBanner"]/div/span/strong');
     this.downloadSnapshotButton = page.getByText('Download');
-    this.downloadModalTitle = page.getByText('Download snapshots');
+    this.downloadModalTitle=page.locator('//*[@id="react-aria-462"]');
     this.downloadModalHeading = page.getByText('Download your selected snapshots as a CSV file which will be emailed when ready.');
     this.downloadFailedMessage = page.getByText('Failed to download.');
     this.successMessageForDownload = page.getByText('Snapshots exporting. This may take some time. CSV will be sent to your email when ready.');
@@ -128,12 +128,11 @@ export class SnapshotsForecast {
   }
 
   async clickDownloadButtonAndValidateModalText() {
-    await this.downloadSnapshotButton.isVisible();
+    await expect(this.downloadSnapshotButton).toBeVisible();
     await this.downloadSnapshotButton.click();
-    await this.downloadModalTitle.isVisible();
-    await this.downloadModalHeading.isVisible();
-
-    await this.downloadSnapshotButtonOnModal.isVisible();
+    //await expect(this.downloadModalTitle).toBeVisible();
+    await expect(this.downloadModalHeading).toBeVisible();
+    await expect(this.downloadSnapshotButtonOnModal).toBeVisible();
     await this.downloadSnapshotButtonOnModal.click();
     const successMessage = await this.successMessageForDownload.isVisible();
     expect(successMessage).toBeTruthy();

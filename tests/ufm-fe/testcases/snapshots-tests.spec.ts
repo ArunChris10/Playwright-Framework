@@ -47,16 +47,10 @@ test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @s
             await objpageFactory.ufmPageFactory().organisationSelection().selectOrganisation("Merchandising operations");
         })
 
-        await test.step(`Click on Snapshot Forecast Button`, async () => {
-            await objpageFactory.ufmPageFactory().currentForecast().clickOpenForecastByName("Merch Ops Forecast");
-        })
-
         await test.step('Download Single Snapshot', async () => {
             await objpageFactory.ufmPageFactory().snapshotsPage().selectSingleSnapshot();
             await objpageFactory.ufmPageFactory().snapshotsPage().clickDownloadButtonAndValidateModalText();
-
-
-        });
+         });
 
         await test.step('Download multiple Snapshot', async () => {
             await objpageFactory.ufmPageFactory().snapshotsPage().selectAllSnapshots();
