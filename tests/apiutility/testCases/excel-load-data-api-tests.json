@@ -16,7 +16,9 @@
       ],
       "extractFirst": {
         "scenario_version_timestamp": "row_data.scenario_version_timestamp",
-        "scenario_id": "row_data.scenario_id"
+        "scenario_id": "row_data.scenario_id",
+        "actual_template_id": "row_data.actual_template_id",
+        "forecast_template_id": "row_data.forecast_template_id"
       }
     },
     {
@@ -78,7 +80,10 @@
         "scenarios": [
           {
             "scenarioId": "{{scenario_id}}",
-            "scenarioVer": "{{scenario_version_timestamp}}"
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
           }
         ],
         "filters": {},
@@ -122,7 +127,10 @@
         "scenarios": [
           {
             "scenarioId": "{{scenario_id}}",
-            "scenarioVer": "{{scenario_version_timestamp}}"
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
           }
         ],
         "filters": {},
@@ -180,7 +188,10 @@
         "scenarios": [
           {
             "scenarioId": "{{scenario_id}}",
-            "scenarioVer": "{{scenario_version_timestamp}}"
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
           }
         ],
         "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
@@ -216,7 +227,10 @@
         "scenarios": [
           {
             "scenarioId": "{{scenario_id}}",
-            "scenarioVer": "{{scenario_version_timestamp}}"
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
           }
         ],
         "filters": {},
@@ -271,7 +285,10 @@
         "scenarios": [
           {
             "scenarioId": "{{scenario_id}}",
-            "scenarioVer": "{{scenario_version_timestamp}}"
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
           }
         ],
         "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
@@ -305,7 +322,10 @@
         "scenarios": [
           {
             "scenarioId": "{{scenario_id}}",
-            "scenarioVer": "{{scenario_version_timestamp}}"
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
           }
         ],
         "filters": { "department": [20002, 20004] },

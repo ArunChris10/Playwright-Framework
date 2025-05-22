@@ -20,6 +20,7 @@
     "testCases/create-view-api-tests.json",
     "testCases/excel-load-data-api-tests.json",
     "testCases/excel-load-data-api-snapshots-tests.json",
+    "testCases/excel-load-data-api-aggregation-tests.json",
     "testCases/forecast-calender-api.json",
     "testCases/forecast-cycle-api-tests.json",
     "testCases/get-my-kpi-api-tests.json",
