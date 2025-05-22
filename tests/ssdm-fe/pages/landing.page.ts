@@ -30,6 +30,9 @@ export class LandingPageValidation {
   readonly sortGroup: Locator;
   readonly nameText: Locator;
   readonly textField: Locator;
+  readonly filterResult: Locator;
+  readonly getFilterButtonXPath: any;
+
 
   constructor(page: Page) {
     this.page = page;
@@ -38,7 +41,7 @@ export class LandingPageValidation {
     this.btnCalculations = page.locator('//button[text()="Calculations"]');
     this.drpSortGroupBy = page.locator('//p[text()="Sort / Group by"]');
     this.btnSettings = page.locator('//div[@data-field="settings"]');
-    this.btnFilter = page.locator('//button[@aria-label="Filter"]');
+    //this.btnFilter = page.locator('//button[@aria-label="Filter"]');
     this.searchFilter = page.locator('//input[contains(@class,"textfield")]');
     this.searchResult = page.locator('//i[contains(@class,"ld")]');
     this.btnClearFilter = page.locator('//button[@type="button"]');
@@ -59,7 +62,9 @@ export class LandingPageValidation {
     this.departmentText = page.locator('//div[@data-field="department"]');
     this.entityText = page.locator('//div[@data-field="entity"]');
     this.sortGroup = page.locator('//div[@role="gridcell"]');
-  }
+    this.getFilterButtonXPath = (label: string): string => `//div[span[contains(., "${label}")] and button[@aria-label="Filter"]]/button`;
+
+  } 
 
   async Search() {
     await this.searchBox.isVisible();
@@ -159,7 +164,7 @@ export class LandingPageValidation {
     await this.btnFilter.nth(i).click();
     await this.textField.fill(b);
     await this.btnFilter.nth(0).click({ force: true, timeout: 100000 });
-     expect(await c.textContent()).toBe(b);
+    expect(await c.textContent()).toBe(b);
   }
 
   async clearAllFilter() {
@@ -240,5 +245,25 @@ export class LandingPageValidation {
     await this.owners.click({ force: true });//clicks on the dropdown values to group by owner
     expect(await this.owner.nth(a).textContent()).toBe(await this.owner.nth(b).textContent())
     expect(await this.nameText.nth(a).textContent()).not.toBe(await this.nameText.nth(b).textContent()); //assert
+  }
+
+  async selectAndApplyFilter(filterType: string, filterValue: string)
+  {
+    const filterButton = this.page.locator(this.getFilterButtonXPath(filterType));
+    await filterButton.isVisible();
+    await filterButton.click();
+    await this.textField.fill(filterValue);
+    await this.page.locator('body').click({ position: { x: 0, y: 0 }, force: true, timeout: 100000 });
+  }
+
+  async validateResultsByFilter(filterType: string, filterValueExpected:string)
+  {
+    const dataFieldAttribute = filterType.toLowerCase();
+    const resultElements = await this.page.$$(`[data-field="${dataFieldAttribute}}"]`);
+    for (const element of resultElements)
+    {
+      const filterValue = await element.textContent();
+      expect(filterValue).toBe(filterValueExpected);
+    }
   }
 }
