@@ -1,0 +1,19 @@
+{
+  "get_visual_indicator_for_classification_id": [
+    {
+      "testStep": "Fetch visual indicator for classification ID 12",
+      "environment": "qa",
+      "labels": ["smoke", "IBGROW-36348","MS3"],
+      "service": "coreService",
+      "uri": "visualIndicator",
+      "testName": "Fetch visual indicator details",
+      "queryParams": "?classification_id=12",
+      "method": "GET",
+      "assertion": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

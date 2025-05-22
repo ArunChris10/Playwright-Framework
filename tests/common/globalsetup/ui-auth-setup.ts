@@ -35,7 +35,7 @@ setup(
     const { ufmAppBaseURL, ufmUser } = process.env;
     const loginPage = new LoginPage(page);
     await loginPage.login(ufmUser);
-    await page.waitForURL(ufmAppBaseURL + "");
+    // await page.waitForURL(ufmAppBaseURL + "");
     await homePage.checkIfHomepageIsVisible();
     await page.context().storageState({ path: nexusAuthFile });
   }

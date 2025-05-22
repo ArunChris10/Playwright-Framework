@@ -1,0 +1,367 @@
+{
+  "validate_excel_load_data": [
+    {
+      "testStep": "Extract scenario version from listHistoricals API",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "listHistoricals"],
+      "service": "coreService",
+      "uri": "listHistoricals",
+      "testName": "Get scenarios for excel",
+      "queryParams": "dim_val_id=120010&dim_id=12&data_level=11&classification_id=12",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractFirst": {
+        "scenario_version_timestamp": "row_data.scenario_version_timestamp",
+        "scenario_id": "row_data.scenario_id",
+        "actual_template_id": "row_data.actual_template_id",
+        "forecast_template_id": "row_data.forecast_template_id"
+      }
+    },
+    {
+      "testStep": "Validate scenarios API - complete node list",
+      "environment": "qa",
+      "labels": ["smoke", "excel"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "testName": "validate scenarios API 200",
+      "method": "POST",
+      "queryParams": "",
+      "payload": {
+        "nodeIds": [
+          "momerchandisesales",
+          "moserviceincome",
+          "mocommissionincome",
+          "moserviceandcommissionincome",
+          "momobilephonecommissionincome",
+          "moothermerchandiseincome",
+          "mofinancialservicesincome",
+          "moassociatepurchasediscount",
+          "mocontrasales",
+          "mootherdiscounttosales",
+          "modiscounttosales",
+          "moibgmlbaselinenetsales",
+          "monetsales",
+          "mohomeofficeinitiatedmarkdowns",
+          "mostoreinitiatedmarkdowns",
+          "momarkdownsnet",
+          "moreceiptsatretail",
+          "moreceiptsatcostwithoutcash",
+          "mocoops",
+          "modeals",
+          "momonthendaccrual",
+          "moothernonstorereceipts",
+          "mocashcoop",
+          "moreceiptsatcostwithcash",
+          "moimupctwithoutcash",
+          "moimupctwithcash",
+          "moendinginventoryatcostinput",
+          "mocummarginpct",
+          "moendinginventoryatretail",
+          "moendinginventoryatcostcalculated",
+          "molevelofcalc",
+          "moendinginventoryatcost",
+          "mobegininventoryatcost",
+          "mocostofgoodssold",
+          "moshrink",
+          "mopostaudit",
+          "mobuyingallowances",
+          "mowarehouseallowances",
+          "moimportallowances",
+          "moothercostofsales",
+          "mototalallowances",
+          "modcthrows",
+          "mocostofsales",
+          "mogrossprofit"
+        ],
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
+          }
+        ],
+        "filters": {},
+        "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
+        "periods": [
+          "{{dynamicMonth-5}}",
+          "{{dynamicMonth-4}}",
+          "{{dynamicMonth-3}}",
+          "{{dynamicMonth-2}}",
+          "{{dynamicMonth-1}}",
+          "{{dynamicMonth}}",
+          "{{dynamicMonth+1}}",
+          "{{dynamicMonth+2}}",
+          "{{dynamicMonth+3}}",
+          "{{dynamicMonth+4}}",
+          "{{dynamicMonth+5}}",
+          "{{dynamicMonth+6}}"
+        ],
+        "aggregationLevel": ["MONTH"],
+        "dimensions": ["channel_l3", "channel_l2", "channel_l1"],
+        "pivot_rows": ["Node Name", "Channel L0", "Channel L1", "Channel L2"],
+        "pivot_columns": ["Date", "Scenario Name"]
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Validate scenarios API - all filter dimensions (merch ops)",
+      "testName": "Validate scenarios API - all filter dimensions (merch ops)",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-37183", "elliot"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "nodeIds": ["grossprofit"],
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
+          }
+        ],
+        "filters": {},
+        "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
+        "periods": ["{{dynamicMonth}}"],
+        "aggregationLevel": ["MONTH"],
+        "dimensions": [
+          "channel_l3",
+          "channel_l2",
+          "channel_l1",
+          "channel_l0",
+          "channel",
+          "department_l0",
+          "department"
+        ],
+        "pivot_rows": [
+          "Scenario Name",
+          "Node Name",
+          "Channel L0",
+          "Channel L1",
+          "Channel L2",
+          "Channel L3",
+          "Base Channel",
+          "SBU",
+          "Department"
+        ],
+        "pivot_columns": ["Date"]
+      },
+      "assertion": [
+        {
+          "assertResponse": {
+            "filePath": "scenarios-api-all-dimensions-merchops.json",
+            "strict": true
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Validate scenarios API - node order columns",
+      "testName": "Validate scenarios API - node order columns",
+      "environment": "qa",
+      "labels": ["regression", "IBGROW-38257", "elliot"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "nodeIds": [
+          "grossprofit",
+          "momerchandisesales",
+          "mowarehouseallowances",
+          "mobuyingallowances",
+          "mototalallowances"
+        ],
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
+          }
+        ],
+        "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
+        "periods": [
+          "{{dynamicMonth-1}}",
+          "{{dynamicMonth}}",
+          "{{dynamicMonth+1}}"
+        ],
+        "aggregationLevel": ["MONTH"],
+        "dimensions": [],
+        "pivot_rows": ["Date", "Scenario Name"],
+        "pivot_columns": ["Node Name"]
+      },
+      "assertion": [
+        {
+          "assertResponse": {
+            "filePath": "scenarios-api-node-order-columns.json",
+            "strict": true
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Validate scenarios API - 422 missing nodeIds",
+      "testName": "Validate scenarios API - 422 missing nodeIds",
+      "environment": "qa",
+      "labels": ["regression", "IBGROW-37168", "elliot"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
+          }
+        ],
+        "filters": {},
+        "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
+        "periods": ["{{dynamicMonth}}"],
+        "aggregationLevel": ["MONTH"],
+        "dimensions": [],
+        "pivot_rows": ["Date", "Scenario Name"],
+        "pivot_columns": ["Node Name"]
+      },
+      "assertion": [
+        {
+          "status": 422
+        }
+      ]
+    },
+    {
+      "testStep": "Validate scenarios API - 422 missing scenarios",
+      "testName": "Validate scenarios API - 422 missing scenarios",
+      "environment": "qa",
+      "labels": ["regression", "IBGROW-37168", "elliot"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "nodeIds": ["grossprofit"],
+        "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
+        "periods": ["{{dynamicMonth}}"],
+        "aggregationLevel": ["MONTH"],
+        "dimensions": [],
+        "pivot_rows": ["Date", "Scenario Name"],
+        "pivot_columns": ["Node Name"]
+      },
+      "assertion": [
+        {
+          "status": 422
+        }
+      ]
+    },
+    {
+      "testStep": "Validate scenarios API - invalid date",
+      "testName": "Validate scenarios API - invalid date",
+      "environment": "qa",
+      "labels": ["regression", "IBGROW-37181", "elliot"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "nodeIds": ["grossprofit"],
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
+          }
+        ],
+        "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
+        "periods": ["199901", "199902", "199903"],
+        "aggregationLevel": ["MONTH"],
+        "dimensions": [],
+        "pivot_rows": ["Date", "Scenario Name"],
+        "pivot_columns": ["Node Name"]
+      },
+      "assertion": [
+        {
+          "assertResponse": {
+            "payload": {
+              "rowData": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Validate scenarios API - filter at no data grains",
+      "testName": "Validate scenarios API - filter at no data grains",
+      "environment": "qa",
+      "labels": ["regression", "smoke", "IBGROW-37184", "elliot"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "nodeIds": ["grossprofit"],
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
+          }
+        ],
+        "filters": { "department": [20002, 20004] },
+        "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
+        "periods": ["{{dynamicMonth}}"],
+        "aggregationLevel": ["MONTH"],
+        "dimensions": ["department_l0", "department"],
+        "pivot_rows": ["Date", "Scenario Name", "Node Name", "SBU"],
+        "pivot_columns": ["Department"]
+      },
+      "assertion": [
+        {
+          "assertResponse": {
+            "payload": {
+              "rowData": [
+                {
+                  "1": null,
+                  "2": "*",
+                  "Date": "{{dynamicMonthStr}}",
+                  "Scenario Name": "{{scenario_id}}",
+                  "Node Name": "grossprofit",
+                  "SBU": 20002
+                },
+                {
+                  "1": "*",
+                  "2": null,
+                  "Date": "{{dynamicMonthStr}}",
+                  "Scenario Name": "{{scenario_id}}",
+                  "Node Name": "grossprofit",
+                  "SBU": 20004
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
