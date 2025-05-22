@@ -40,7 +40,7 @@ export class SnapshotsForecast {
     this.getSnapshotName = page.locator('//p[contains(@class,"Snapshot_subDescription")]//strong');
     this.createdSnapshotName = page.locator('//div[@data-testid="SnapshotList"]//div[@row-index="0"]//div[@col-id="name"]//span');
     this.successMessage = '//div[contains(text(),"forecasts are snapshotted")]';
-    this.selecAllSnapshotCheckbox = page.locator('//*[@id="ag-40-input"]');
+    this.selecAllSnapshotCheckbox = page.locator('//*[@id="ag-4-input"]');
     this.selectFirstSnapshotCheckbox=page.locator('//*[@aria-rowindex="2"]//input[1][@type="checkbox"][1]');
     this.snapshotSelectedText = page.locator('//*[@data-testid="SelectionDownloadBanner"]/div/span/strong');
     this.selectAllLink = page.locator('//*[@data-testid="SelectionDownloadBanner"]/div/button[text()="Select all"]');
@@ -121,8 +121,9 @@ export class SnapshotsForecast {
       const oneMinuteInMilliseconds = 60 * 1000;
       expect(timeDifference).toBeLessThanOrEqual(oneMinuteInMilliseconds);
     }
+    
   async selectAllSnapshots() {
-    await this.selecAllSnapshotCheckbox.isVisible();
+    await expect(this.selecAllSnapshotCheckbox).toBeVisible();
     await this.selecAllSnapshotCheckbox.check();
 
   }
