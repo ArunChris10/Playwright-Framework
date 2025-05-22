@@ -7,7 +7,7 @@ import { AddDriverPage } from "./add-driver-page";
 import { RollingForecastCalendar } from "./rolling-forecast-Calendar.page";
 import { UpdatePageCalendarView } from "./update-page-calendar-view";
 import { DataScienceReviewPage } from './data-science-review.page';
-import { SnapshotsForecast } from './snapshots-page';
+import { SnapshotsForecast } from './snapshots-forecast.page';
 
 export class UFMPageFactory {
 

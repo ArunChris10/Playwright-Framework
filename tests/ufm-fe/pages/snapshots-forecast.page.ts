@@ -1,8 +1,4 @@
 import { expect, Locator, Page } from "@playwright/test";
-import forecast from "../testdata/forecast.json";
-import debug from "debug";
-import { Utility } from "../../common/fixtures/utils";
-import testdata from "../../ufm-be/testdata/deadlinedate-api.json";
 
 export class SnapshotsForecast {
   readonly page: Page;
@@ -14,6 +10,7 @@ export class SnapshotsForecast {
   readonly snapshotTypeOtb: Locator;
   readonly createSnapshotsOnlyButton: Locator;
   readonly createdSnapshotType: Locator;
+  readonly getSnapshotName: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -25,6 +22,7 @@ export class SnapshotsForecast {
     this.createdSnapshotType = page.locator(
       '//div[@data-testid="SnapshotList"]//div[@row-index="0"]//div[@col-id="type"]'
     );
+    this.getSnapshotName = page.locator('//p[contains(@class,"Snapshot_subDescription")]//strong');
   }
 
   async clickSnapshotsForecastButton() {
@@ -33,9 +31,29 @@ export class SnapshotsForecast {
   }
 
   async clickSnapshotTypeForecast() {
-    const snapshotType = this.snapshotTypeForecast;
-    await snapshotType.isVisible();
+    await this.snapshotTypeForecast.isVisible();
     await this.snapshotTypeForecast.click();
+  }
+
+  async clickSnapshotTypeBudget() {
+    await this.snapshotTypeBudget.isVisible();
+    await this.snapshotTypeBudget.click();
+  }
+
+  async clickSnapshotTypeOtb() {
+    await this.snapshotTypeOtb.isVisible();
+    await this.snapshotTypeOtb.click();
+  }
+
+  async clickCreateSnapshotsOnlyButton() {
+    await this.createSnapshotsOnlyButton.isVisible();
+    await this.createSnapshotsOnlyButton.click();
+  }
+
+  async verifySnapshotTypeCreated() {
+    await this.createdSnapshotType.isVisible();
+    const snapshotType = await this.createdSnapshotType.innerText();
+    expect(snapshotType).toContain("Forecast");
   }
 
   
