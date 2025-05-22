@@ -13,7 +13,7 @@ test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @w
         objpageFactory = new PageFactory(page);
     });
 
-    test('Verify User is able to snapshot current version of Scenarios as OTB', async () => {
+    test('Verify User is able to download the snapshot', async () => {
 
         await test.step('Go To UFM Page', async () => {
             await objpageFactory.ufmPageFactory().organisationSelection().navigate();
@@ -25,6 +25,19 @@ test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @w
         await test.step(`Click on Snapshot Forecast Button`, async () => {
             await objpageFactory.ufmPageFactory().currentForecast().clickOpenForecastByName("Merch Ops Forecast");
         })
+
+        await test.step('Download Single Snapshot', async () => {
+            await objpageFactory.ufmPageFactory().snapshotsPage().selectSingleSnapshot();
+            await objpageFactory.ufmPageFactory().snapshotsPage().clickDownloadButtonAndValidateModalText();
+            
+            
+        });
+
+        await test.step('Download multiple Snapshot', async () => {
+            await objpageFactory.ufmPageFactory().snapshotsPage().selectAllSnapshots();
+            await objpageFactory.ufmPageFactory().snapshotsPage().clickDownloadButtonAndValidateModalText();            
+            
+        });
 
     });
 
