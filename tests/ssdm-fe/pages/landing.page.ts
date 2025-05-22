@@ -9,9 +9,9 @@ export class LandingPageValidation {
   readonly btnCalculations: Locator;
   readonly drpSortGroupBy: Locator;
   readonly btnSettings: Locator;
-  readonly btnFilter: Locator;
   readonly searchFilter: Locator;
   readonly searchResult: Locator;
+  readonly btnFilter: Locator;
   readonly btnClearFilter: Locator;
   readonly checkbox: Locator;
   readonly sort_AZ: Locator;
@@ -30,7 +30,7 @@ export class LandingPageValidation {
   readonly sortGroup: Locator;
   readonly nameText: Locator;
   readonly textField: Locator;
-  readonly filterResult: Locator;
+  readonly dataGridTable: string;
   readonly getFilterButtonXPath: any;
 
 
@@ -41,7 +41,7 @@ export class LandingPageValidation {
     this.btnCalculations = page.locator('//button[text()="Calculations"]');
     this.drpSortGroupBy = page.locator('//p[text()="Sort / Group by"]');
     this.btnSettings = page.locator('//div[@data-field="settings"]');
-    //this.btnFilter = page.locator('//button[@aria-label="Filter"]');
+    this.btnFilter = page.locator('//button[@aria-label="Filter"]');
     this.searchFilter = page.locator('//input[contains(@class,"textfield")]');
     this.searchResult = page.locator('//i[contains(@class,"ld")]');
     this.btnClearFilter = page.locator('//button[@type="button"]');
@@ -62,6 +62,7 @@ export class LandingPageValidation {
     this.departmentText = page.locator('//div[@data-field="department"]');
     this.entityText = page.locator('//div[@data-field="entity"]');
     this.sortGroup = page.locator('//div[@role="gridcell"]');
+    this.dataGridTable = ".data-grid-table";
     this.getFilterButtonXPath = (label: string): string => `//div[span[contains(., "${label}")] and button[@aria-label="Filter"]]/button`;
 
   } 
@@ -91,80 +92,6 @@ export class LandingPageValidation {
     await this.searchBox.click();
     await this.searchBox.fill(searchterm);
     return this.nameText.nth(1);
-  }
-
-  // async monthFilter() {
-  //   await this.btnFilter.nth(0).isVisible();
-  //   await this.btnFilter.nth(0).click();
-  //   await this.textField.fill(filterOptions[0].data.month.actuals)
-  //   await this.btnFilter.nth(0).click({ force: true });
-  //   await expect(this.monthText.nth(1)).toHaveText(filterOptions[0].data.month.actuals);
-  // }
-  // async channelFilter() {
-  //   await this.btnFilter.nth(1).isVisible();
-  //   await this.btnFilter.nth(1).click();
-  //   await this.textField.fill(filterOptions[0].data.channel.options)
-  //   await this.btnFilter.nth(0).click({ force: true });
-  //   await expect(this.channelText.nth(1)).toHaveText(filterOptions[0].data.channel.options);
-  // }
-  // async ownerFilter() {
-  //   await this.btnFilter.nth(4).isVisible();
-  //   await this.btnFilter.nth(4).click();
-  //   await this.textField.fill(filterOptions[0].data.owner.segment)
-  //   await this.btnFilter.nth(0).click({ force: true });
-  //   await expect(this.ownerText.nth(1)).toHaveText(filterOptions[0].data.owner.segment);
-  // }
-  // async departmentFilter() {
-  //   await this.btnFilter.nth(2).isVisible();
-  //   await this.btnFilter.nth(2).click();
-  //   await this.textField.fill(filterOptions[0].data.department.options)
-  //   await this.btnFilter.nth(0).click({ force: true });
-  //   await expect(this.departmentText.nth(1)).toHaveText(filterOptions[0].data.department.options);
-  // }
-  // async entityFilter() {
-  //   await this.btnFilter.nth(3).isVisible();
-  //   await this.btnFilter.nth(3).click();
-  //   await this.textField.fill(filterOptions[0].data.entity.option)
-  //   await this.btnFilter.nth(0).click({ force: true });
-  //   await expect(this.entityText.nth(1)).toHaveText(filterOptions[0].data.entity.option);
-  // }
-
-  async selectFilter(filterType: string) {
-    let i = 0;
-    let b = filterOptions[0].data.month.actuals;
-    let c: Locator = this.monthText.nth(1); // Default assignment to avoid uninitialized usage
-    switch (filterType) {
-      case "month":
-        i = 0;
-        b = filterOptions[0].data.month.actuals;
-        c = this.monthText.nth(1);
-        break;
-      case "channel":
-        i = 1;
-        b = filterOptions[0].data.channel.optionValue;
-        c = this.channelText.nth(1);
-        break;
-      case "department":
-        i = 2;
-        b = filterOptions[0].data.department.options;
-        c = this.departmentText.nth(1);
-        break;
-      case "entity":
-        i = 3;
-        b = filterOptions[0].data.entity.option;
-        c = this.entityText.nth(1);
-        break;
-      case "owner":
-        i = 4;
-        b = filterOptions[0].data.owner.segment;
-        c = this.ownerText.nth(1);
-        break;
-    }
-    await this.btnFilter.nth(i).isVisible();
-    await this.btnFilter.nth(i).click();
-    await this.textField.fill(b);
-    await this.btnFilter.nth(0).click({ force: true, timeout: 100000 });
-    expect(await c.textContent()).toBe(b);
   }
 
   async clearAllFilter() {
@@ -253,7 +180,9 @@ export class LandingPageValidation {
     await filterButton.isVisible();
     await filterButton.click();
     await this.textField.fill(filterValue);
-    await this.page.locator('body').click({ position: { x: 0, y: 0 }, force: true, timeout: 100000 });
+    await this.page.waitForTimeout(3000);
+    await this.page.locator('body').click({ position: { x: 0, y: 0 }, force: true, timeout: 3000 });
+    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout:3000 });
   }
 
   async validateResultsByFilter(filterType: string, filterValueExpected:string)

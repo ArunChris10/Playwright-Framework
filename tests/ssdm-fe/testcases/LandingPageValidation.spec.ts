@@ -64,36 +64,41 @@ test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @
     // Validate filter functionality for the "month" column
     test('month column filter validation', async () => {
         let filterType = filterOptions[0].data.month.dropDown;
-        let result = await objpageFactory.ssdmPageFactory().landingPage().selectFilter(filterType);
-         expect (result).toBe(filterType)
+        let filterValue = filterOptions[0].data.month.actuals;
+        await objpageFactory.ssdmPageFactory().landingPage().selectAndApplyFilter(filterType, filterValue);
+        await objpageFactory.ssdmPageFactory().landingPage().validateResultsByFilter(filterType, filterValue);
     });
 
     // Validate filter functionality for the "channel" column
-    test('channel column filter validation',async () => {
+    test('channel column filter validation', async () => {
         let filterType = filterOptions[0].data.channel.dropDown;
-        let result = await objpageFactory.ssdmPageFactory().landingPage().selectFilter(filterType);
-        expect (result).toBe(filterType);
+        let filterValue = filterOptions[0].data.channel.option;
+        await objpageFactory.ssdmPageFactory().landingPage().selectAndApplyFilter(filterType, filterValue);
+        await objpageFactory.ssdmPageFactory().landingPage().validateResultsByFilter(filterType, filterValue);
     });
 
     // Validate filter functionality for the "department" column
     test('department column filter validation', async () => {
         let filterType = filterOptions[0].data.department.dropDown;
-        let result = await objpageFactory.ssdmPageFactory().landingPage().selectFilter(filterType);
-        expect (result).toBe(filterType);
+        let filterValue = filterOptions[0].data.department.option;
+        await objpageFactory.ssdmPageFactory().landingPage().selectAndApplyFilter(filterType, filterValue);
+        await objpageFactory.ssdmPageFactory().landingPage().validateResultsByFilter(filterType, filterValue);    
     });
 
     // Validate filter functionality for the "entity" column
     test('entity column filter validation', async () => {
         let filterType = filterOptions[0].data.entity.dropDown;
-        let result = await objpageFactory.ssdmPageFactory().landingPage().selectFilter(filterType);
-        expect (result).toBe(filterType);
+        let filterValue = filterOptions[0].data.entity.option;
+        await objpageFactory.ssdmPageFactory().landingPage().selectAndApplyFilter(filterType, filterValue);
+        await objpageFactory.ssdmPageFactory().landingPage().validateResultsByFilter(filterType, filterValue);
     });
 
     // Validate filter functionality for the "owner" column
     test('owner column filter validation', async () => {
         let filterType = filterOptions[0].data.owner.dropDown;
-        let result = await objpageFactory.ssdmPageFactory().landingPage().selectFilter(filterType);
-        expect (result).toBe(filterType);
+        let filterValue = filterOptions[0].data.owner.option;
+        await objpageFactory.ssdmPageFactory().landingPage().selectAndApplyFilter(filterType, filterValue);
+        await objpageFactory.ssdmPageFactory().landingPage().validateResultsByFilter(filterType, filterValue);
     });
 
     //test the clear-all filter functionality
