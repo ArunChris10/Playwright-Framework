@@ -4,8 +4,9 @@ import { expect } from "@playwright/test";
 import { PageFactory } from '../../common/pages/page-factory';
 import { signinUtility } from "../../ssdm-fe/fixtures/signinUtility";
 
-test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @walmartNidhi" }, async () => {
+test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @snapshotsfe" }, async () => {
     let objpageFactory: PageFactory;
+    let expectedSnapshotName: string
     test.describe.configure({ mode: 'parallel', timeout: 300_000 });
 
     test.beforeEach(async ({ page }) => {
@@ -13,19 +14,29 @@ test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @w
         objpageFactory = new PageFactory(page);
     });
 
-    test('Verify User is able to snapshot current version of Scenarios as OTB', async () => {
+    const snapshotTypes = ["Forecast","OTB","Budget"]; // Add the snapshot types you want to test
 
-        await test.step('Go To UFM Page', async () => {
-            await objpageFactory.ufmPageFactory().organisationSelection().navigate();
-        })
-        await test.step(`Click on Merch Ops Organization`, async () => {
-            await objpageFactory.ufmPageFactory().organisationSelection().selectOrganisation("Merchandising operations");
-        })
-
-        await test.step(`Click on Snapshot Forecast Button`, async () => {
-            await objpageFactory.ufmPageFactory().currentForecast().clickOpenForecastByName("Merch Ops Forecast");
-        })
-
+    snapshotTypes.forEach((snapshotType) => {
+        test(`Verify User is able to snapshot current version of Scenarios as: ${snapshotType}`, async () => {
+            await test.step(`Click on Merch Ops Organization`, async () => {
+                await objpageFactory.ufmPageFactory().organisationSelection().selectOrganisation("Merchandising operations");
+            });
+            await test.step(`Click on Snapshot Forecast Button`, async () => {
+                await objpageFactory.ufmPageFactory().snapshotsPage().clickSnapshotsForecastButton();
+                expectedSnapshotName = await objpageFactory.ufmPageFactory().snapshotsPage().getSnapshotNameInDialog();
+            });
+            await test.step(`Select ${snapshotType} Type Radio button`, async () => {
+                await objpageFactory.ufmPageFactory().snapshotsPage().clickSnapshotType(snapshotType);
+            });
+            await test.step(`Click Snapshot only button`, async () => {
+                await objpageFactory.ufmPageFactory().snapshotsPage().clickCreateSnapshotsOnlyButton();
+            });
+            await test.step(`Verify Snapshot Is Created`, async () => {
+                await objpageFactory.ufmPageFactory().organisationSelection().navigate();
+                await objpageFactory.ufmPageFactory().snapshotsPage().verifySnapshotNameCreated(expectedSnapshotName);
+                await objpageFactory.ufmPageFactory().snapshotsPage().verifySnapshotTimeStampCreated(snapshotType);
+            });  
+        });
     });
 
 });
