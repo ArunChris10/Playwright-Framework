@@ -39,7 +39,7 @@ export class signinUtility {
         this.initialize(signinPage);
         // Fill in the user ID and password fields
         await this.userId.fill(String(this.userName));
-        await this.password.fill("f@k4p@8H");
+        await this.password.fill('}+Og0\\O8');
         // Click the sign-in button to log in
         await this.signIn.click();
     }

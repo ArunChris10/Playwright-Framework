@@ -14,7 +14,7 @@ test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @s
         objpageFactory = new PageFactory(page);
     });
 
-    const snapshotTypes = ["Forecast","OTB","Budget"]; // Add the snapshot types you want to test
+    const snapshotTypes = ["Forecast", "OTB", "Budget"]; // Add the snapshot types you want to test
 
     snapshotTypes.forEach((snapshotType) => {
         test(`Verify User is able to snapshot current version of Scenarios as: ${snapshotType}`, async () => {
@@ -35,8 +35,35 @@ test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @s
                 await objpageFactory.ufmPageFactory().organisationSelection().navigate();
                 await objpageFactory.ufmPageFactory().snapshotsPage().verifySnapshotNameCreated(expectedSnapshotName);
                 await objpageFactory.ufmPageFactory().snapshotsPage().verifySnapshotTimeStampCreated(snapshotType);
-            });  
+            });
         });
+    });
+    test('Verify User is able to download the snapshot', async () => {
+
+        await test.step('Go To UFM Page', async () => {
+            await objpageFactory.ufmPageFactory().organisationSelection().navigate();
+        })
+        await test.step(`Click on Merch Ops Organization`, async () => {
+            await objpageFactory.ufmPageFactory().organisationSelection().selectOrganisation("Merchandising operations");
+        })
+
+        await test.step(`Click on Snapshot Forecast Button`, async () => {
+            await objpageFactory.ufmPageFactory().currentForecast().clickOpenForecastByName("Merch Ops Forecast");
+        })
+
+        await test.step('Download Single Snapshot', async () => {
+            await objpageFactory.ufmPageFactory().snapshotsPage().selectSingleSnapshot();
+            await objpageFactory.ufmPageFactory().snapshotsPage().clickDownloadButtonAndValidateModalText();
+
+
+        });
+
+        await test.step('Download multiple Snapshot', async () => {
+            await objpageFactory.ufmPageFactory().snapshotsPage().selectAllSnapshots();
+            await objpageFactory.ufmPageFactory().snapshotsPage().clickDownloadButtonAndValidateModalText();
+
+        });
+
     });
 
 });
