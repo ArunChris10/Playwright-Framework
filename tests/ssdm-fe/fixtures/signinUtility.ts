@@ -17,7 +17,7 @@ export class signinUtility {
     static location: Locator;
     static signIn: Locator;
     // URL endpoint and username are fetched from environment variables
-    static readonly urlEndpoint = process.env.ufmAppBaseURL + "";
+    static readonly urlEndpoint = process.env.uiAppBaseURL + "";
     static readonly userName = process.env.ufmUser;
 
     // Method to initialize locators for the sign-in page
@@ -39,7 +39,7 @@ export class signinUtility {
         this.initialize(signinPage);
         // Fill in the user ID and password fields
         await this.userId.fill(String(this.userName));
-        await this.password.fill('}+Og0\\O8');
+        await this.password.fill(await Utility.getLoginPassword(String(this.userName)));
         // Click the sign-in button to log in
         await this.signIn.click();
     }

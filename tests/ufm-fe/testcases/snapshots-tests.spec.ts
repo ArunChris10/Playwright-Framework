@@ -5,14 +5,12 @@ import { PageFactory } from '../../common/pages/page-factory';
 import { signinUtility } from "../../ssdm-fe/fixtures/signinUtility";
 
 test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @snapshotsfe" }, async () => {
+    let expectedSnapshotName: string   
     let objpageFactory: PageFactory;
-    let expectedSnapshotName: string
-    test.describe.configure({ mode: 'parallel', timeout: 300_000 });
 
-    test.beforeEach(async ({ page }) => {
-        await signinUtility.SignIn(page); // Centralized sign-in before each test
-        objpageFactory = new PageFactory(page);
-    });
+    test.beforeAll(async ({ pageFactory }) => {
+        objpageFactory = pageFactory;
+    })
 
     const snapshotTypes = ["Forecast", "OTB", "Budget"]; // Add the snapshot types you want to test
 
