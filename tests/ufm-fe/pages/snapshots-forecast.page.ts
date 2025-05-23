@@ -26,6 +26,10 @@ export class SnapshotsForecast {
   readonly downloadFailedMessage: Locator;
   readonly successMessageForDownload: Locator;
   readonly downloadSnapshotButtonOnModal: Locator;
+  readonly selectFirstDepartment: Locator;
+  readonly selectFirstChannel: Locator;
+  readonly channelsFilter: Locator;
+  readonly departmentFilter: Locator;
 
 
 
@@ -52,6 +56,10 @@ export class SnapshotsForecast {
     this.downloadFailedMessage = page.getByText('Failed to download.');
     this.successMessageForDownload = page.getByText('Snapshots exporting. This may take some time. CSV will be sent to your email when ready.');
     this.downloadSnapshotButtonOnModal = page.locator('//*[@data-testid="download-button"]');
+    this.selectFirstDepartment = page.locator('//*[@id="react-aria-11"]');
+    this.selectFirstChannel = page.locator('//*[@id="react-aria-265"]');
+    this.channelsFilter = page.locator('//*[text()="Select channels to include in export"]/preceding::*[@data-testid="accordionSummary"][1]//*[@role="presentation"]');
+    this.departmentFilter = page.locator('//*[text()="Select departments to include in export"]/preceding::*[@data-testid="accordionSummary"]//*[@role="presentation"]');
 
   }
 
@@ -128,16 +136,39 @@ export class SnapshotsForecast {
 
   }
 
-  async clickDownloadButtonAndValidateModalText() {
+  async clickDownloadSnapshotButton() {
     await expect(this.downloadSnapshotButton).toBeVisible();
     await this.downloadSnapshotButton.click();
-    //await expect(this.downloadModalTitle).toBeVisible();
+  }
+
+  async downloadSnapshotAndValidateModalText() {
     await expect(this.downloadModalHeading).toBeVisible();
     await expect(this.downloadSnapshotButtonOnModal).toBeVisible();
     await this.downloadSnapshotButtonOnModal.click();
     const successMessage = await this.successMessageForDownload.isVisible();
     expect(successMessage).toBeTruthy();
 
+  }
+
+  async getTotalNumberOfSnapshot()
+  {
+    const selectedText = await this.snapshotSelectedText.innerText();
+    const totalSnapshots = parseInt(selectedText.split(" ")[0], 10);
+    return totalSnapshots;
+  }
+
+  async selectDepartmentFromFilter()
+  {
+    await expect(this.departmentFilter).toBeVisible();
+    await this.departmentFilter.click();
+    await this.selectFirstDepartment.click();
+  }
+
+  async selectChannelFromFilter()
+  {
+    await expect(this.channelsFilter).toBeVisible();
+    await this.channelsFilter.click();
+    await this.selectFirstChannel.click();
   }
 
 
