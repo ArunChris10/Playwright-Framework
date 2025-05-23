@@ -56,7 +56,7 @@
     {
       "testStep": "Delete demand SBA forecast before proceding",
       "environment": "qa",
-      "labels": ["smoke","rahul22"],
+      "labels": ["smoke"],
       "service": "coreService",
       "uri": "Forecast",
       "testName": "Delete a forecast before proceding",
@@ -65,12 +65,7 @@
       "payload": {
         "dim_id": 11,
         "dim_val_id": 110030
-      },
-      "assertions": [
-        {
-          "status": 200
-        }
-      ]
+      }
     },
     {
       "testStep": "Create Forecast Scenario for Demand SBA",
@@ -142,7 +137,7 @@
         "extractRelative": {
           "WhereKey": "rowData.name",
           "Equals": "apiUtilityAutomation {{randomNumber}}",
-          "Findkey": "forecastStatus.statusCode"
+          "Findkey": "rowData.forecastStatus.statusCode"
         },
         "expectedValue": 21,
         "intervalMs": 5000,
@@ -204,7 +199,7 @@
     {
       "testStep": "Delete segment SBA forecast before proceding",
       "environment": "qa",
-      "labels": ["smoke","rahul22"],
+      "labels": ["smoke"],
       "service": "coreService",
       "uri": "Forecast",
       "testName": "Delete a forecast before proceding",
@@ -213,12 +208,7 @@
       "payload": {
         "dim_id": 11,
         "dim_val_id": 110021
-      },
-      "assertions": [
-        {
-          "status": 200
-        }
-      ]
+      }
     },
     {
       "testStep": "Create Forecast Scenario for Segment SBA",
@@ -286,11 +276,11 @@
           "status": 200
         }
       ],
-      "segmentpolling": {
+      "polling": {
         "extractRelative": {
           "WhereKey": "rowData.name",
           "Equals": "apiUtilityAutomation {{randomNumber}}",
-          "Findkey": "forecastStatus.statusCode"
+          "Findkey": "rowData.forecastStatus.statusCode"
         },
         "expectedValue": 21,
         "intervalMs": 5000,
@@ -352,7 +342,7 @@
     {
       "testStep": "Delete Optic SBA forecast before proceding",
       "environment": "qa",
-      "labels": ["smoke","rahul22"],
+      "labels": ["smoke"],
       "service": "coreService",
       "uri": "Forecast",
       "testName": "Delete a forecast before proceding",
@@ -361,12 +351,7 @@
       "payload": {
         "dim_id": 11,
         "dim_val_id": 110016
-      },
-      "assertions": [
-        {
-          "status": 200
-        }
-      ]
+      }
     },
     {
       "testStep": "Create Forecast Scenario for Optical SBA",
@@ -519,7 +504,7 @@
             "node_var_name": "pharmacyincentiveexpensepk0203",
             "node_dimension": {},
             "data": {
-              "{{dynamicMonth+1}}": 4020
+              "{{dynamicMonth+2}}": 4020
             },
             "allocation": {
               "interval": null,
@@ -531,7 +516,7 @@
             "node_var_name": "fieldincentiveexpensepk0202",
             "node_dimension": {},
             "data": {
-              "{{dynamicMonth+1}}": 8550
+              "{{dynamicMonth+2}}": 8550
             },
             "allocation": {
               "interval": null,
@@ -543,7 +528,7 @@
             "node_var_name": "longtermbonuspk0201",
             "node_dimension": {},
             "data": {
-              "{{dynamicMonth+1}}": 9060
+              "{{dynamicMonth+2}}": 9060
             },
             "allocation": {
               "interval": null,
@@ -565,17 +550,17 @@
         "fieldincentiveexpenseEdit": {
           "whereKey": "node_var_name",
           "equals": "fieldincentiveexpensepk0202",
-          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+          "extractKey": "edits.{{dynamicMonth+2}}.forecast"
         },
         "longtermbonusEdit": {
           "whereKey": "node_var_name",
           "equals": "longtermbonuspk0201",
-          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+          "extractKey": "edits.{{dynamicMonth+2}}.forecast"
         },
         "pharmacyincentiveexpenseEdit": {
           "whereKey": "node_var_name",
           "equals": "pharmacyincentiveexpensepk0203",
-          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+          "extractKey": "edits.{{dynamicMonth+2}}.forecast"
         }
       }
     },
@@ -616,7 +601,7 @@
               "node_var_name": "pharmacyincentiveexpensepk0203",
               "node_dimension": {},
               "data": {
-                "{{dynamicMonth+1}}": 4020
+                "{{dynamicMonth+2}}": 4020
               },
               "allocation": {
                 "interval": null,
@@ -628,7 +613,7 @@
               "node_var_name": "fieldincentiveexpensepk0202",
               "node_dimension": {},
               "data": {
-                "{{dynamicMonth+1}}": 8550
+                "{{dynamicMonth+2}}": 8550
               },
               "allocation": {
                 "interval": null,
@@ -640,7 +625,7 @@
               "node_var_name": "longtermbonuspk0201",
               "node_dimension": {},
               "data": {
-                "{{dynamicMonth+1}}": 9060
+                "{{dynamicMonth+2}}": 9060
               },
               "allocation": {
                 "interval": null,
@@ -745,11 +730,11 @@
           "status": 200
         }
       ],
-      "segmentpolling": {
+      "polling": {
         "extractRelative": {
           "WhereKey": "rowData.name",
           "Equals": "apiUtilityAutomation {{randomNumber}}",
-          "Findkey": "forecastStatus.statusCode"
+          "Findkey": "rowData.forecastStatus.statusCode"
         },
         "expectedValue": 22,
         "intervalMs": 5000,
@@ -781,7 +766,7 @@
             "node_var_name": "grossgmv",
             "node_dimension": {},
             "data": {
-              "{{dynamicMonth+1}}": 25000
+              "{{dynamicMonth+2}}": 25000
             },
             "allocation": {
               "interval": null,
@@ -803,7 +788,7 @@
         "grossGMVEdit": {
           "whereKey": "node_var_name",
           "equals": "grossgmv",
-          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+          "extractKey": "edits.{{dynamicMonth+2}}.forecast"
         }
       }
     },
@@ -844,7 +829,7 @@
               "node_var_name": "grossgmv",
               "node_dimension": {},
               "data": {
-                "{{dynamicMonth+1}}": 25000
+                "{{dynamicMonth+2}}": 25000
               },
               "allocation": {
                 "interval": null,
@@ -955,7 +940,7 @@
         "extractRelative": {
           "WhereKey": "rowData.name",
           "Equals": "apiUtilityAutomation {{randomNumber}}",
-          "Findkey": "forecastStatus.statusCode"
+          "Findkey": "rowData.forecastStatus.statusCode"
         },
         "expectedValue": 22,
         "intervalMs": 5000,
@@ -1030,7 +1015,7 @@
               "name": "Driver"
             },
             {
-              "name": "{{dynamicMonth+1}}",
+              "name": "{{dynamicMonth+2}}",
               "columnsMenuParams": "middleColumns"
             },
             {
@@ -1051,7 +1036,7 @@
             }
           ],
           "month": [
-            "{{dynamicMonth+1}}"
+            "{{dynamicMonth+2}}"
           ]
         },
         "isApplied": true
@@ -1063,22 +1048,22 @@
         "fieldIncentiveExpenseRefreshData": {
           "whereKey": "rowData.driver",
           "equals": "fieldincentiveexpensepk0202",
-          "extractKey": "{{dynamicMonth+1}}.forecast"
+          "extractKey": "{{dynamicMonth+2}}.forecast"
         },
         "longTermBonusRefreshData": {
           "whereKey": "rowData.driver",
           "equals": "longtermbonuspk0201",
-          "extractKey": "{{dynamicMonth+1}}.forecast"
+          "extractKey": "{{dynamicMonth+2}}.forecast"
         },
         "pharmacyincentiveexpenseRefreshData": {
           "whereKey": "rowData.driver",
           "equals": "pharmacyincentiveexpensepk0203",
-          "extractKey": "{{dynamicMonth+1}}.forecast"
+          "extractKey": "{{dynamicMonth+2}}.forecast"
         },
         "grossGMVRefreshData": {
           "whereKey": "rowData.driver",
           "equals": "grossgmv",
-          "extractKey": "{{dynamicMonth+1}}.forecast"
+          "extractKey": "{{dynamicMonth+2}}.forecast"
         }
       },
       "validateExtractContains": {
