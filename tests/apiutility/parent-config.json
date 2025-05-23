@@ -2,7 +2,6 @@
   "headers": {
     "Content-Type": "application/json",
     "Authorization": "{{token}}"
-
   },
   "user": "LB-ibg-ufm-auto",
   "tagsToRun": [],
@@ -28,16 +27,19 @@
     "testCases/visual-indicator-api.json",
     "testCases/forecast-comp-api-tests.json",
     "testCases/forecast-comp-api-error-tests.json",
-    "testCases/activated-latest-timestamp-tests.json"
+    "testCases/activated-latest-timestamp-tests.json",
+    "testCases/ssdm-node-edge-compute-api-tests.json",
+    "testCases/ssdm-node-edge-get-drivers-api-tests.json",
+    "testCases/ssdm-node-edge-publish-api-tests.json"
   ],
-  
+
   "currentDemandService": {
     "baseURL": {
       "qa": "https://scenario.qa.ibg.walmart.com",
       "dev": "https://scenario.dev.ibg.walmart.com"
     },
-    
-    "get-demand-scenario-forecast-by-slot":"/api/demandscenarios/currentDemand/"
+
+    "get-demand-scenario-forecast-by-slot": "/api/demandscenarios/currentDemand/"
   },
   "coreService": {
     "baseURL": {
@@ -47,34 +49,36 @@
     "getScreenId": "/filter/screen_details?",
     "listHistoricals": "/scenario/list-historicals?",
     "snapshots": "/archive/",
-    "getDataScienceInfo":"/scenario/data-science/info",
-    "allocateData":"/allocate-data",
-    "saveAdjustment":"/adjustment/",
-    "getKpi":"/reports/get-mykpi",
-    "AopGetKpi":"/reports/get-mykpi/v2",
-    "downloadSnapshot":"/reports/download-active-forecast",
-    "getForecast":"/reports/get-report",
-    "getForecastCalendar":"/forecast_calendar/",
-    "visualIndicator":"/scenario/scenario-composition",
-    "Forecast":"/scenario",
-    "getKpiV2":"/reports/get-mykpi/v2",
-    "getTimestamp":"/sandbox/v1/get-datasets-timestamp"
+    "getDataScienceInfo": "/scenario/data-science/info",
+    "allocateData": "/allocate-data",
+    "saveAdjustment": "/adjustment/",
+    "getKpi": "/reports/get-mykpi",
+    "AopGetKpi": "/reports/get-mykpi/v2",
+    "downloadSnapshot": "/reports/download-active-forecast",
+    "getForecast": "/reports/get-report",
+    "getForecastCalendar": "/forecast_calendar/",
+    "visualIndicator": "/scenario/scenario-composition",
+    "Forecast": "/scenario",
+    "getKpiV2": "/reports/get-mykpi/v2",
+    "getTimestamp": "/sandbox/v1/get-datasets-timestamp",
+    "computeSsdm": "/sandbox/v1/compute-scenario",
+    "getScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
+    "getDriversListSSDM": "/metadata/drivers",
+    "publishSSDMActivatedDataset": "/sandbox/v1/publish-node-edge-document"
   },
   "notificationService": {
     "baseURL": {
       "qa": "https://api.notifications.qa.ibg.walmart.com/api/v3/",
       "dev": "https://api.notifications.dev.ibg.walmart.com/api/v3/"
-        
     },
     "notifications": "notifications/?"
+  },
+  "nexusService": {
+    "baseURL": {
+      "qa": "https://nexus-wizard-preference-manager.api.qa.walmart.com/api/v1",
+      "dev": "https://nexus-wizard-preference-manager.api.dev.walmart.com/api/v1"
     },
-    "nexusService": {
-      "baseURL":{
-        "qa":"https://nexus-wizard-preference-manager.api.qa.walmart.com/api/v1",
-        "dev":"https://nexus-wizard-preference-manager.api.dev.walmart.com/api/v1"
-        
-      },
-      "create-nexus-preference":"/apps/preferences/configurations"
+    "create-nexus-preference": "/apps/preferences/configurations"
   },
   "reportingService": {
     "baseURL": {
