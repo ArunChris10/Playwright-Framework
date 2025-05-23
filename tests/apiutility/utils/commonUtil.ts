@@ -34,6 +34,23 @@ export function generateRandomNumber(length: number): number {
     }
   }
 
+  export function validateExtractedValuesContains(actual: any, expected: any, key: string) {
+    if (Array.isArray(expected)) {
+      if (Array.isArray(actual)) {
+        const allPresent = expected.every(exp => actual.includes(exp));
+        expect(allPresent).toBeTruthy();
+      } else {
+        throw new Error(`Expected array from extract for key "${key}", but got a non-array.`);
+      }
+    } else {
+      if (Array.isArray(actual)) {
+        expect(actual).toContain(expected);
+      } else {
+        expect(actual).toContain(expected);
+      }
+    }
+  }
+
   export async function getPayloadByTestCaseName(testCase: any): Promise<any> {
 let filePathOfPayload;
     testCase.assertion.forEach(assertionArray => {
