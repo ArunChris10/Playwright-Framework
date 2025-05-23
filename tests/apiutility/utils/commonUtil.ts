@@ -340,3 +340,12 @@ export async function validateAssertions(response: any, responseBody: any, asser
       console.log('🧹 Cleared .globalStore.json after all tests.');
     }
   }
+
+  export function getCurrentDateWithHour(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Ensure 2-digit month
+    const day = now.getDate().toString().padStart(2, '0'); // Ensure 2-digit day
+    const hour = now.getHours().toString().padStart(2, '0'); // Ensure 2-digit hour
+    return `${year}-${month}-${day}T${hour}`; // Return the date-time in the desired format
+  }
