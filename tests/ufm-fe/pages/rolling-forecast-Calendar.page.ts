@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 
 export class RollingForecastCalendar {
 
@@ -31,6 +31,9 @@ export class RollingForecastCalendar {
   readonly organizationCalendarDateText: Locator;
   readonly chooseOrganizationMessage: Locator;
   readonly cycleCardHeader: Locator;
+  readonly CSTTimezone:Locator;
+  readonly AMTimeFomatButton:Locator;
+  readonly PMTimeFomatButton:Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -62,6 +65,9 @@ export class RollingForecastCalendar {
     this.organizationCalendarDateText = page.locator("//div[contains(text(),'Organization forecast due date')]/following-sibling::div[@class='calendarDateText']")
     this.chooseOrganizationMessage = page.getByText('Choose organizations for this due date')
     this.cycleCardHeader = page.locator('//div[@class="review-business-progress-header"]/h3')
+    this.CSTTimezone=page.locator('//*[@class="timezoneText"]/following::*[text()="CST"]')
+    this.AMTimeFomatButton=page.locator('//*[@type="button"][text()="AM"]')
+    this.PMTimeFomatButton=page.locator('//*[@type="button"][text()="PM"]')
   }
 
   async clickOnAddCycle() {
@@ -94,7 +100,18 @@ export class RollingForecastCalendar {
   async setOrganizationRadioButton(selection: string) {
     await this.page.locator(`//span[contains(text(),"${selection}")]/../input`).click()
   }
+  async validateTimeZoneInCST() {
+    expect(this.CSTTimezone).toBeVisible()
+ }
 
+ async selectAMOrPMTimeFormat() {
+   expect(this.AMTimeFomatButton).toBeVisible()
+   expect(await this.AMTimeFomatButton.getAttribute('class')).toContain('viewGroupForecastCycle');
+   await this.PMTimeFomatButton.click()
+   expect(await this.AMTimeFomatButton.getAttribute('class')).toContain('viewButtonForecastCycle');
+   expect(this.PMTimeFomatButton).toBeVisible()
+   await this.AMTimeFomatButton.click()
+}
   async selectCalendarDate(date: number, month: number) {
     await this.page.locator(`(//div[contains(@class,"MuiDateCalendar-root")])[${month}]//div[@role="rowgroup"]//button[contains(text(),"${date}")]`).click()
   }
