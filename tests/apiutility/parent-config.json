@@ -29,7 +29,8 @@
     "testCases/forecast-comp-api-tests.json",
     "testCases/forecast-comp-api-error-tests.json",
     "testCases/activated-latest-timestamp-tests.json",
-    "testCases/published-versions-api-tests.json"
+    "testCases/published-versions-api-tests.json",
+    "testCases/NodesCases/nodeshRefresh-api-tests.json"
   ],
   
   "currentDemandService": {
