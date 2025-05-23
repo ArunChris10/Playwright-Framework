@@ -28,7 +28,8 @@
     "testCases/visual-indicator-api.json",
     "testCases/forecast-comp-api-tests.json",
     "testCases/forecast-comp-api-error-tests.json",
-    "testCases/activated-latest-timestamp-tests.json"
+    "testCases/activated-latest-timestamp-tests.json",
+    "testCases/published-versions-api-tests.json"
   ],
   
   "currentDemandService": {
@@ -58,7 +59,8 @@
     "visualIndicator":"/scenario/scenario-composition",
     "Forecast":"/scenario",
     "getKpiV2":"/reports/get-mykpi/v2",
-    "getTimestamp":"/sandbox/v1/get-datasets-timestamp"
+    "getTimestamp":"/sandbox/v1/get-datasets-timestamp",
+    "getPublishedVersions":"/sandbox/v1/get-published-versions"
   },
   "notificationService": {
     "baseURL": {
