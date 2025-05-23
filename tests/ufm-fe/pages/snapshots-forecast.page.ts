@@ -56,8 +56,8 @@ export class SnapshotsForecast {
     this.downloadFailedMessage = page.getByText('Failed to download.');
     this.successMessageForDownload = page.getByText('Snapshots exporting. This may take some time. CSV will be sent to your email when ready.');
     this.downloadSnapshotButtonOnModal = page.locator('//*[@data-testid="download-button"]');
-    this.selectFirstDepartment = page.locator('//*[@id="react-aria-11"]');
-    this.selectFirstChannel = page.locator('//*[@id="react-aria-265"]');
+    this.selectFirstDepartment = page.locator('//*[text()="CONSUMABLES"]/preceding::input[contains(@id,"react-aria")]');
+    this.selectFirstChannel = page.locator('//*[text()="Store_Core_MP"]/preceding::input[1][contains(@id,"react-aria")]');
     this.channelsFilter = page.locator('//*[text()="Select channels to include in export"]/preceding::*[@data-testid="accordionSummary"][1]//*[@role="presentation"]');
     this.departmentFilter = page.locator('//*[text()="Select departments to include in export"]/preceding::*[@data-testid="accordionSummary"]//*[@role="presentation"]');
 
