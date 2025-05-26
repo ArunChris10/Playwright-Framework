@@ -34,6 +34,23 @@ export function generateRandomNumber(length: number): number {
     }
   }
 
+  export function validateExtractedValuesContains(actual: any, expected: any, key: string) {
+    if (Array.isArray(expected)) {
+      if (Array.isArray(actual)) {
+        const allPresent = expected.every(exp => actual.includes(exp));
+        expect(allPresent).toBeTruthy();
+      } else {
+        throw new Error(`Expected array from extract for key "${key}", but got a non-array.`);
+      }
+    } else {
+      if (Array.isArray(actual)) {
+        expect(actual).toContain(expected);
+      } else {
+        expect(actual).toContain(expected);
+      }
+    }
+  }
+
   export async function getPayloadByTestCaseName(testCase: any): Promise<any> {
 let filePathOfPayload;
     testCase.assertion.forEach(assertionArray => {
@@ -205,7 +222,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
             ? parseFloat(actualValueRaw[0])
             : parseFloat(jsonPathOrValue);
 
-          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.value));
+          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.expected));
           const acceptedDifference = parseFloat(arrayOfAssertion.assertApproxEquals.acceptedDifference);
 
           const difference = Math.abs(actualValue - expectedValue);
@@ -322,4 +339,13 @@ export async function validateAssertions(response: any, responseBody: any, asser
       fs.writeFileSync(STORE_FILE, '{}', 'utf-8');
       console.log('🧹 Cleared .globalStore.json after all tests.');
     }
+  }
+
+  export function getCurrentDateWithHour(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Ensure 2-digit month
+    const day = now.getDate().toString().padStart(2, '0'); // Ensure 2-digit day
+    const hour = now.getHours().toString().padStart(2, '0'); // Ensure 2-digit hour
+    return `${year}-${month}-${day}T${hour}`; // Return the date-time in the desired format
   }
