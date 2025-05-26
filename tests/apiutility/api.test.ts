@@ -14,7 +14,8 @@ import {
   deepPartialMatch,
   interpolateObject,
   interpolate,
-  validateAssertions
+  validateAssertions,
+  validateExtractedValuesContains
 } from '../apiutility/utils/commonUtil';
 import { pollForExpectedResponse } from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../secrets/nexus-users-token.json";
@@ -32,6 +33,7 @@ export interface ApiTestCase {
   assertion?: AssertionEntry;
   extract?: { [key: string]: string };
   extractFirst?: { [key: string]: string };
+  validateExtractContains?: { [key: string]: string};
   validateExtract?: { [key: string]: string };
   polling?: {
     extractRelative: {
@@ -217,6 +219,16 @@ parentConfig.testFiles.forEach(testCasePath => {
             const expected = interpolate(step.validateExtract[globalKey]);
             const actual = globalStore[globalKey];
             await validateExtractedValues(actual, expected, globalKey);
+            console.log(`Validated ${globalKey}: actual = ${actual}, expected = ${expected}`);
+          }
+        }
+
+        if (step.validateExtractContains) {
+          console.log("Validating extracted values being contained:");
+          for (const globalKey in step.validateExtractContains) {
+            const expected = interpolate(step.validateExtractContains[globalKey]);
+            const actual = globalStore.getValue(globalKey);
+            await validateExtractedValuesContains(actual, expected, globalKey);
             console.log(`Validated ${globalKey}: actual = ${actual}, expected = ${expected}`);
           }
         }

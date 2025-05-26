@@ -71,6 +71,14 @@ Corporate.forEach(filter => {
                 await test.step("Click on Add cycle", async () => {
                     await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().clickOnAddCycle()
                 })
+                
+                await test.step("Verify the time zone in CST", async () => {
+                    await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().validateTimeZoneInCST()
+                })
+
+                await test.step("Verify user can select the time format in Am/PM", async () => {
+                    await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().selectAMOrPMTimeFormat()
+                })
 
                 await test.step('Select no to set organization date', async () => {
                     await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().setOrganizationRadioButton("No")
