@@ -182,7 +182,11 @@ export async function validateAssertions(response: any, responseBody: any, asser
   for (const arrayOfAssertion of assertions) {
     if ('status' in arrayOfAssertion) {
       const statusCode = arrayOfAssertion.status;
-      expect(response.status()).toEqual(statusCode);
+      try {
+        expect(response.status()).toEqual(statusCode);
+      } catch (err: any) {
+        throw new Error(`Assertion failed for status: ${err.message}`);
+      }
     } else {
       for (let i = 0; i <= Object.keys(arrayOfAssertion).length; i++) {
         if (arrayOfAssertion.assertEquals) {
@@ -193,7 +197,11 @@ export async function validateAssertions(response: any, responseBody: any, asser
             const jsonPath = interpolate(arrayOfAssertion.assertEquals[jsonPathKey]);
             const expectedValue = arrayOfAssertion.assertEquals[valueKey];
             const actualValue = findAllValuesByKey(responseBody, jsonPath);
-            expect(actualValue).toContain(expectedValue);
+            try {
+              expect(actualValue).toContain(expectedValue);
+            } catch (err: any) {
+              throw new Error(`Assertion failed for assertEquals at path "${jsonPath}": ${err.message}`);
+            }
           }
 
         } else if (arrayOfAssertion.assertApproxEquals) {
@@ -209,7 +217,11 @@ export async function validateAssertions(response: any, responseBody: any, asser
           const acceptedDifference = parseFloat(arrayOfAssertion.assertApproxEquals.acceptedDifference);
 
           const difference = Math.abs(actualValue - expectedValue);
-          expect(difference).toBeLessThanOrEqual(acceptedDifference);
+          try {
+            expect(difference).toBeLessThanOrEqual(acceptedDifference);
+          } catch (err: any) {
+            throw new Error(`Assertion failed for assertApproxEquals: ${err.message}`);
+          }
 
         } else if (arrayOfAssertion.assertNotEquals) {
           const keys = Object.keys(arrayOfAssertion.assertNotEquals);
@@ -219,7 +231,11 @@ export async function validateAssertions(response: any, responseBody: any, asser
             const jsonPath = arrayOfAssertion.assertNotEquals[jsonPathKey];
             const expectedValue = arrayOfAssertion.assertNotEquals[valueKey];
             const actualValue = findAllValuesByKey(responseBody, jsonPath);
-            expect(actualValue).not.toContain(expectedValue);
+            try {
+              expect(actualValue).not.toContain(expectedValue);
+            } catch (err: any) {
+              throw new Error(`Assertion failed for assertNotEquals at path "${jsonPath}": ${err.message}`);
+            }
           }
 
         } else if (arrayOfAssertion.assertNull) {
@@ -228,7 +244,11 @@ export async function validateAssertions(response: any, responseBody: any, asser
             const jsonPathKey = keys[index];
             const jsonPath = arrayOfAssertion.assertNull[jsonPathKey];
             const actualValue = findAllValuesByKey(responseBody, jsonPath);
-            expect(actualValue).toBeNull();
+            try {
+              expect(actualValue).toBeNull();
+            } catch (err: any) {
+              throw new Error(`Assertion failed for assertNull at path "${jsonPath}": ${err.message}`);
+            }
           }
 
         } else if (arrayOfAssertion.assertNotNull) {
@@ -237,7 +257,11 @@ export async function validateAssertions(response: any, responseBody: any, asser
             const jsonPathKey = keys[index];
             const jsonPath = arrayOfAssertion.assertNotNull[jsonPathKey];
             const actualValue = findAllValuesByKey(responseBody, jsonPath);
-            expect(actualValue).not.toBeNull();
+            try {
+              expect(actualValue).not.toBeNull();
+            } catch (err: any) {
+              throw new Error(`Assertion failed for assertNotNull at path "${jsonPath}": ${err.message}`);
+            }
           }
 
         } else if (arrayOfAssertion.assertValuesAreEqual) {
@@ -247,7 +271,11 @@ export async function validateAssertions(response: any, responseBody: any, asser
           const firstValue = interpolate(arrayOfAssertion.assertValuesAreEqual[0]);
           for (let i = 1; i < arrayOfAssertion.assertValuesAreEqual.length; i++) {
             const curValue = interpolate(arrayOfAssertion.assertValuesAreEqual[i]);
-            expect(curValue).toEqual(firstValue);
+            try {
+              expect(curValue).toEqual(firstValue);
+            } catch (err: any) {
+              throw new Error(`Assertion failed for assertValuesAreEqual: ${err.message}`);
+            }
           }
 
         } else if (arrayOfAssertion.assertResponse) {
@@ -255,7 +283,11 @@ export async function validateAssertions(response: any, responseBody: any, asser
             ? arrayOfAssertion.assertResponse.payload
             : await getPayloadByTestCaseName(testcase);
           const strict = arrayOfAssertion.assertResponse.strict == true;
-          expect(deepPartialMatch(selectedPayload, responseBody, strict)).toBeTruthy();
+          try {
+            expect(deepPartialMatch(selectedPayload, responseBody, strict)).toBeTruthy();
+          } catch (err: any) {
+            throw new Error(`Assertion failed for assertResponse: ${err.message}`);
+          }
         } else if(arrayOfAssertion.assertResponseByCalculation) {
           const value1 = parseFloat(interpolate(arrayOfAssertion.assertResponseByCalculation.value1));
           const value2 = parseFloat(interpolate(arrayOfAssertion.assertResponseByCalculation.value2));
@@ -286,7 +318,11 @@ export async function validateAssertions(response: any, responseBody: any, asser
 
           // Calculate the difference and validate
           const difference = Math.abs(expected - expectedValue);
-          expect(difference).toBeLessThanOrEqual(acceptedDifference);
+          try {
+            expect(difference).toBeLessThanOrEqual(acceptedDifference);
+          } catch (err: any) {
+            throw new Error(`Assertion failed for assertResponseByCalculation: ${err.message}`);
+          }
         }
 
         const firstKey = Object.keys(arrayOfAssertion)[0];
