@@ -1,6 +1,5 @@
 import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
-import { signinUtility } from "../../ssdm-fe/fixtures/signinUtility"; // Adjusted the path to match the correct location
 
 
 test.describe('Validate FilterSet', { tag: "@Smoke" }, async () => {
