@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import {interpolate} from '../utils/commonUtil'
 import { expect } from 'playwright/test';
-import { get } from 'http';
 import { equal } from 'assert';
 
 /**
