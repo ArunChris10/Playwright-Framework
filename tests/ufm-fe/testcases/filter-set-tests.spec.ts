@@ -1,5 +1,6 @@
 import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
+import { signinUtility } from "../../ssdm-fe/fixtures/signinUtility"; // Adjusted the path to match the correct location
 
 
 test.describe('Validate FilterSet', { tag: "@Smoke" }, async () => {
@@ -80,6 +81,17 @@ test.describe('Validate FilterSet', { tag: "@Smoke" }, async () => {
             }
             appliedFilters = appliedFilters.map(filter => filter.trim().toLowerCase().replace(/ /g, "").replace(/_/g, "")).sort();
             expect(appliedFilters).toEqual(selectedFilters);
+        })
+
+        await test.step(`Delete existing filter set with name: ${filterSetName}`, async () => {
+            await objpageFactory.ufmPageFactory().currentForecast().clickOnFilterSetsDropdown();
+            await objpageFactory.ufmPageFactory().currentForecast().deleteFilterSet(filterSetName);
+            await objpageFactory.ufmPageFactory().currentForecast().getEmptyFilterSetListMessage();
+        })
+
+        await test.step(`Validate deleted filter set ${filterSetName} is removed from the dropdown on revisiting filterSet`, async () => {
+            await objpageFactory.ufmPageFactory().currentForecast().clickOnFilterSetButton();
+            await objpageFactory.ufmPageFactory().currentForecast().getEmptyFilterSetListMessage()
         })
 
     })
