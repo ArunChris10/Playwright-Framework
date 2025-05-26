@@ -182,10 +182,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
   for (const arrayOfAssertion of assertions) {
     if ('status' in arrayOfAssertion) {
       const statusCode = arrayOfAssertion.status;
-      if (response.status() !== statusCode) {
-        throw new Error(`Expected status ${statusCode}, but got ${response.status()}`);
-      }
-      console.log(`Status assertion passed: got ${response.status()}, Expected status ${statusCode}`);
+      expect(response.status()).toEqual(statusCode);
     } else {
       for (let i = 0; i <= Object.keys(arrayOfAssertion).length; i++) {
         if (arrayOfAssertion.assertEquals) {
@@ -196,32 +193,23 @@ export async function validateAssertions(response: any, responseBody: any, asser
             const jsonPath = interpolate(arrayOfAssertion.assertEquals[jsonPathKey]);
             const expectedValue = arrayOfAssertion.assertEquals[valueKey];
             const actualValue = findAllValuesByKey(responseBody, jsonPath);
-            try {
-              expect(actualValue).toContain(expectedValue);
-              console.log(`assertEquals passed: Path "${jsonPath}" contains "${expectedValue}"`);
-            } catch (err) {
-              throw new Error(`Assertion failed: Expected value at path "${jsonPath}" to contain "${expectedValue}", but got "${actualValue}".`);
-            }
+            expect(actualValue).toContain(expectedValue);
           }
 
         } else if (arrayOfAssertion.assertApproxEquals) {
           const jsonPathOrValue = interpolate(arrayOfAssertion.assertApproxEquals.jsonPath);
           let actualValueRaw = findAllValuesByKey(responseBody, jsonPathOrValue);
 
+          // If we found something in the response using jsonPath, use it. Otherwise treat input as a hardcoded value.
           const actualValue = actualValueRaw && actualValueRaw.length > 0
             ? parseFloat(actualValueRaw[0])
             : parseFloat(jsonPathOrValue);
 
-          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.expected));
+          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.value));
           const acceptedDifference = parseFloat(arrayOfAssertion.assertApproxEquals.acceptedDifference);
 
           const difference = Math.abs(actualValue - expectedValue);
-          try {
-            expect(difference).toBeLessThanOrEqual(acceptedDifference);
-            console.log(`assertApproxEquals passed: Difference (${difference}) <= accepted (${acceptedDifference})`);
-          } catch (err) {
-            throw new Error(`Assertion failed: Difference (${difference}) between actual (${actualValue}) and expected (${expectedValue}) exceeds accepted difference (${acceptedDifference}).`);
-          }
+          expect(difference).toBeLessThanOrEqual(acceptedDifference);
 
         } else if (arrayOfAssertion.assertNotEquals) {
           const keys = Object.keys(arrayOfAssertion.assertNotEquals);
@@ -231,12 +219,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
             const jsonPath = arrayOfAssertion.assertNotEquals[jsonPathKey];
             const expectedValue = arrayOfAssertion.assertNotEquals[valueKey];
             const actualValue = findAllValuesByKey(responseBody, jsonPath);
-            try {
-              expect(actualValue).not.toContain(expectedValue);
-              console.log(`assertNotEquals passed: Path "${jsonPath}" does not contain "${expectedValue}"`);
-            } catch (err) {
-              throw new Error(`Assertion failed: Expected value at path "${jsonPath}" not to contain "${expectedValue}", but got "${actualValue}".`);
-            }
+            expect(actualValue).not.toContain(expectedValue);
           }
 
         } else if (arrayOfAssertion.assertNull) {
@@ -245,12 +228,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
             const jsonPathKey = keys[index];
             const jsonPath = arrayOfAssertion.assertNull[jsonPathKey];
             const actualValue = findAllValuesByKey(responseBody, jsonPath);
-            try {
-              expect(actualValue).toBeNull();
-              console.log(`assertNull passed: Path "${jsonPath}" is null`);
-            } catch (err) {
-              throw new Error(`Assertion failed: Expected value at path "${jsonPath}" to be null, but got "${actualValue}".`);
-            }
+            expect(actualValue).toBeNull();
           }
 
         } else if (arrayOfAssertion.assertNotNull) {
@@ -259,12 +237,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
             const jsonPathKey = keys[index];
             const jsonPath = arrayOfAssertion.assertNotNull[jsonPathKey];
             const actualValue = findAllValuesByKey(responseBody, jsonPath);
-            try {
-              expect(actualValue).not.toBeNull();
-              console.log(`assertNotNull passed: Path "${jsonPath}" is not null`);
-            } catch (err) {
-              throw new Error(`Assertion failed: Expected value at path "${jsonPath}" not to be null, but got "${actualValue}".`);
-            }
+            expect(actualValue).not.toBeNull();
           }
 
         } else if (arrayOfAssertion.assertValuesAreEqual) {
@@ -274,12 +247,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
           const firstValue = interpolate(arrayOfAssertion.assertValuesAreEqual[0]);
           for (let i = 1; i < arrayOfAssertion.assertValuesAreEqual.length; i++) {
             const curValue = interpolate(arrayOfAssertion.assertValuesAreEqual[i]);
-            try {
-              expect(curValue).toEqual(firstValue);
-              console.log(`assertValuesAreEqual passed: "${curValue}" equals "${firstValue}"`);
-            } catch (err) {
-              throw new Error(`Assertion failed: Expected value "${curValue}" to equal "${firstValue}".`);
-            }
+            expect(curValue).toEqual(firstValue);
           }
 
         } else if (arrayOfAssertion.assertResponse) {
@@ -287,19 +255,15 @@ export async function validateAssertions(response: any, responseBody: any, asser
             ? arrayOfAssertion.assertResponse.payload
             : await getPayloadByTestCaseName(testcase);
           const strict = arrayOfAssertion.assertResponse.strict == true;
-          try {
-            expect(deepPartialMatch(selectedPayload, responseBody, strict)).toBeTruthy();
-            console.log(`assertResponse passed: Response body matches expected payload (strict: ${strict})`);
-          } catch (err) {
-            throw new Error(`Assertion failed: Response body does not match expected payload (strict: ${strict}).`);
-          }
+          expect(deepPartialMatch(selectedPayload, responseBody, strict)).toBeTruthy();
         } else if(arrayOfAssertion.assertResponseByCalculation) {
           const value1 = parseFloat(interpolate(arrayOfAssertion.assertResponseByCalculation.value1));
           const value2 = parseFloat(interpolate(arrayOfAssertion.assertResponseByCalculation.value2));
-          const sign = arrayOfAssertion.assertResponseByCalculation.sign;
+          const sign = arrayOfAssertion.assertResponseByCalculation.sign; // Get the operation type
           const expected = parseFloat(interpolate(arrayOfAssertion.assertResponseByCalculation.expected));
           let expectedValue: number;
 
+          // Perform the calculation based on the sign
           switch (sign) {
             case '-':
               expectedValue = value1 - value2;
@@ -317,15 +281,12 @@ export async function validateAssertions(response: any, responseBody: any, asser
               throw new Error(`Invalid operation type: ${sign}. Supported types are '-', '+', '%'`);
           }
 
+          // const actualValue = parseFloat(interpolate(arrayOfAssertion.assertResponseByCalculation.actualValue));
           const acceptedDifference = parseFloat(arrayOfAssertion.assertResponseByCalculation.acceptedDifference);
 
+          // Calculate the difference and validate
           const difference = Math.abs(expected - expectedValue);
-          try {
-            expect(difference).toBeLessThanOrEqual(acceptedDifference);
-            console.log(`assertResponseByCalculation passed: Calculation difference (${difference}) <= accepted (${acceptedDifference})`);
-          } catch (err) {
-            throw new Error(`Assertion failed: Calculation difference (${difference}) between expected (${expected}) and calculated (${expectedValue}) exceeds accepted difference (${acceptedDifference}).`);
-          }
+          expect(difference).toBeLessThanOrEqual(acceptedDifference);
         }
 
         const firstKey = Object.keys(arrayOfAssertion)[0];

@@ -94,13 +94,13 @@ parentConfig.testFiles.forEach(testCasePath => {
   const rawTestData = loadJSON<{ [testName: string]: ApiTestCase[] }>(
     path.resolve(__dirname, testCasePath)
   );
-  
+
   for (const [testName, steps] of Object.entries(rawTestData)) {
     let caseLabels;
     try{
     caseLabels = (steps[0] as any).labels || [];
     }catch (error) {
-      throw new Error(`File "${testCasePath}" does not have the correct format.: ${error}`);
+      throw new Error(`Test case "${steps}" does not have the correct format.: ${error}`);
     }
 
 
