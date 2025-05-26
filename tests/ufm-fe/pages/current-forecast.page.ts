@@ -42,6 +42,7 @@ export class CurrentForecast {
   readonly sendingForReview: Locator
   readonly filterOptions: Locator;
   readonly modalUFMFilters: Locator;
+  readonly nofilterSetList: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -49,6 +50,7 @@ export class CurrentForecast {
     this.createForecastButton = page.getByText("Create forecast");
     this.filterOptions = page.locator('//label[@test-id="check-box"]');
     this.modalUFMFilters = page.locator('//p[contains(@class, "UFMFilters")]');
+    this.nofilterSetList = page.locator('//p[contains(@class, "filtersetEmptyContent")]');
     this.forecastStatus = page.locator(
       '//div[@class="ag-pinned-left-cols-container"]//child::div[@class = "ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-value"]//div'
     );
@@ -463,9 +465,19 @@ export class CurrentForecast {
   }
 
   async captureAppliedFilters(filterName: string) {
+    await this.page.keyboard.press("Escape");
     await this.clickOnFilterDropdown(filterName);
     const filterOptionText1 = await this.filterOptions.nth(1).locator('xpath=./span').innerText();
     const filterOptionText2 = await this.filterOptions.nth(2).locator('xpath=./span').innerText();
     return [filterOptionText1, filterOptionText2];
+  }
+
+  async clickOnFilterSetButton() {
+    await this.page.keyboard.press("Escape");
+    await this.filterSetsDropdown.first().click();
+  }
+  async getEmptyFilterSetListMessage() {
+    const  emptyFilterSetList = await this.nofilterSetList.innerText();
+    expect(emptyFilterSetList).toBe("You don’t have any filter sets created yet.")
   }
 }
