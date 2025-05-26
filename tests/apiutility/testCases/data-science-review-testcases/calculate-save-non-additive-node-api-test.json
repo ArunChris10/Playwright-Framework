@@ -1,5 +1,5 @@
 {
-  "validate_forecast_allocation_and_save_with_filters": [
+  "Validate-calculate-save-non-additive-node-workflow": [
     {
       "testStep": "Get Forecast Scenario ID and Version",
       "environment": "qa",

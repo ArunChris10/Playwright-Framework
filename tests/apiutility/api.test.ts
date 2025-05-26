@@ -19,6 +19,7 @@ import {
 } from '../apiutility/utils/commonUtil';
 import { pollForExpectedResponse } from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../secrets/nexus-users-token.json";
+import { console } from 'inspector/promises';
 
 export interface ApiTestCase {
   environment: string;

@@ -7,6 +7,7 @@ import { signinUtility } from "../../ssdm-fe/fixtures/signinUtility";
 test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @snapshotsfe" }, async () => {
     let expectedSnapshotName: string   
     let objpageFactory: PageFactory;
+    let totalNumberOfSnapshots: number = 0;
 
     test.beforeAll(async ({ pageFactory }) => {
         objpageFactory = pageFactory;
@@ -18,6 +19,11 @@ test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @s
         test(`Verify User is able to snapshot current version of Scenarios as: ${snapshotType}`, async () => {
             await test.step(`Click on Merch Ops Organization`, async () => {
                 await objpageFactory.ufmPageFactory().organisationSelection().selectOrganisation("Merchandising operations");
+            });
+
+            await test.step(`get all snapshots total before creating any snapshot`, async () => {
+                await objpageFactory.ufmPageFactory().snapshotsPage().selectAllSnapshots();
+                totalNumberOfSnapshots = await objpageFactory.ufmPageFactory().snapshotsPage().getTotalNumberOfSnapshot();
             });
             await test.step(`Click on Snapshot Forecast Button`, async () => {
                 await objpageFactory.ufmPageFactory().snapshotsPage().clickSnapshotsForecastButton();
@@ -34,6 +40,12 @@ test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @s
                 await objpageFactory.ufmPageFactory().snapshotsPage().verifySnapshotNameCreated(expectedSnapshotName);
                 await objpageFactory.ufmPageFactory().snapshotsPage().verifySnapshotTimeStampCreated(snapshotType);
             });
+
+            await test.step(`get all snapshots total after creating any snapshot`, async () => {
+                await objpageFactory.ufmPageFactory().snapshotsPage().selectAllSnapshots();
+                let totalNumberOfSnapshotsAfterCreation = await objpageFactory.ufmPageFactory().snapshotsPage().getTotalNumberOfSnapshot();
+                expect(totalNumberOfSnapshotsAfterCreation).toBeGreaterThan(totalNumberOfSnapshots);
+            });
         });
     });
     test('Verify User is able to download the snapshot', async () => {
@@ -47,12 +59,22 @@ test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @s
 
         await test.step('Download Single Snapshot', async () => {
             await objpageFactory.ufmPageFactory().snapshotsPage().selectSingleSnapshot();
-            await objpageFactory.ufmPageFactory().snapshotsPage().clickDownloadButtonAndValidateModalText();
+            await objpageFactory.ufmPageFactory().snapshotsPage().clickDownloadSnapshotButton();
+            await objpageFactory.ufmPageFactory().snapshotsPage().downloadSnapshotAndValidateModalText();
+         });
+
+         await test.step('Download Single Snapshot with filters applied', async () => {
+            await objpageFactory.ufmPageFactory().snapshotsPage().selectSingleSnapshot();
+            await objpageFactory.ufmPageFactory().snapshotsPage().clickDownloadSnapshotButton();
+            await objpageFactory.ufmPageFactory().snapshotsPage().selectDepartmentFromFilter();
+            await objpageFactory.ufmPageFactory().snapshotsPage().selectChannelFromFilter();
+            await objpageFactory.ufmPageFactory().snapshotsPage().downloadSnapshotAndValidateModalText();
          });
 
         await test.step('Download multiple Snapshot', async () => {
             await objpageFactory.ufmPageFactory().snapshotsPage().selectAllSnapshots();
-            await objpageFactory.ufmPageFactory().snapshotsPage().clickDownloadButtonAndValidateModalText();
+            await objpageFactory.ufmPageFactory().snapshotsPage().clickDownloadSnapshotButton();
+            await objpageFactory.ufmPageFactory().snapshotsPage().downloadSnapshotAndValidateModalText();
 
         });
 
