@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import {interpolate} from '../utils/commonUtil'
 import { expect } from 'playwright/test';
-import { equal } from 'assert';
 
 /**
  * Recursively finds all values for a given key in a deeply nested JSON object,
