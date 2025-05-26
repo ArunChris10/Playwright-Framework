@@ -3,7 +3,8 @@ import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
 import { request, expect, APIRequestContext } from '@playwright/test';
 import nexusTokens from "../../secrets/nexus-users-token.json";
-import { getRandomFutureDateTimeWithOffset, generateRandomNumber,getCurrentDateWithHour  } from '../apiutility/utils/commonUtil';
+import { getRandomFutureDateTimeWithOffset, generateRandomNumber,getRandomFutureDateTimeWithOffsetISOFormat ,getCurrentDateWithHour} from '../apiutility/utils/commonUtil';
+
 import fs from 'fs';
 import { ForecastUtility } from "../ufm-be/fixtures/forecast-utils";
 import commonData from "../ufm-be/constants/common.json";
@@ -27,6 +28,9 @@ export default async function globalSetup() {
   globalStore.setValue('deadlineDate', getRandomFutureDateTimeWithOffset(2, 0));
   globalStore.setValue('updatedDeadlineDate', getRandomFutureDateTimeWithOffset(2, 10));
   globalStore.setValue('currentDateWithHour',getCurrentDateWithHour());
+
+  globalStore.setValue('deadlineDateISO', getRandomFutureDateTimeWithOffsetISOFormat(globalStore.getValue('deadlineDate')));
+  globalStore.setValue('updatedDeadlineDateISO', getRandomFutureDateTimeWithOffsetISOFormat(globalStore.getValue('updatedDeadlineDate')));
 
 /*   const apiRequestContext: APIRequestContext = await request.newContext({
     extraHTTPHeaders: interpolatedHeader,
