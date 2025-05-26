@@ -37,12 +37,12 @@
       "extract": {
         "calculate_scenario_id": {
           "whereKey": "rowData.name",
-          "equals": "io",
+          "equals": "Test2",
           "extractKey": "scenarioId"
         },
         "calculate_scenario_version": {
           "whereKey": "rowData.name",
-          "equals": "io",
+          "equals": "Test2",
           "extractKey": "scenarioVersion"
         }
       }

@@ -30,7 +30,8 @@
     "testCases/activated-latest-timestamp-tests.json",
     "testCases/ssdm-node-edge-compute-api-tests.json",
     "testCases/ssdm-node-edge-get-drivers-api-tests.json",
-    "testCases/ssdm-node-edge-publish-api-tests.json"
+    "testCases/ssdm-node-edge-publish-api-tests.json",
+    "testCases/NodesCases/nodeshRefresh-api-tests.json"
   ],
 
   "currentDemandService": {
