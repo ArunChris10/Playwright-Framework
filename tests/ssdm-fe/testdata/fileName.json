@@ -28,7 +28,8 @@
         "incorrectSearch": "Growth",
         "metricNames": "TestCompositeUpdatedNodeName",
         "month": "Month",
-        "segment": "SEGMENT"
+        "segment": "SEGMENT",
+        "dataFieldAttributeMetricName": "metricName"
     },
     "filterOptions": [
         {
