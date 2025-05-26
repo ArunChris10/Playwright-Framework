@@ -68,7 +68,7 @@ export function loadJSON<T>(filePath: string): T {
 export function getNestedValue(obj: any, path: string, equals: any): any {
   let keys = path.split('.');
   let current = obj;
-
+ 
   for (const key of keys) {
     if (current === undefined || current === null) return undefined;
 
@@ -101,7 +101,7 @@ export function getNestedValue(obj: any, path: string, equals: any): any {
     keys = keys.filter(item => item !== key);
     
   }
-
+ 
   return current;
 }
 
@@ -113,10 +113,9 @@ export function findRelativeValue(
   extractKey: string
 ): any {
   const stack: any[] = Array.isArray(data) ? [...data] : [data];
-
   while (stack.length) {
     const current = stack.pop();
-
+ 
     if (typeof current === 'object' && current !== null) {
       const whereValue = getNestedValue(current, whereKey,equals);
       
@@ -125,7 +124,6 @@ export function findRelativeValue(
         console.log(`MATCHED. Extracting '${extractKey}': ${extractedValue}`);
         return extractedValue;
       }
-
       // Traverse nested objects
       for (const key in current) {
         if (typeof current[key] === 'object') {
@@ -134,7 +132,7 @@ export function findRelativeValue(
       }
     }
   }
-
+ 
   console.warn(`No match found for whereKey: "${whereKey}" == "${equals}"`);
   return undefined;
 }
@@ -289,7 +287,6 @@ export function getNestedValueFromRoot(obj: any, path: string): MatchedNode | un
 
   return { value: current, parent, key: keys[keys.length - 1], fullPath };
 }
-
 
 
 

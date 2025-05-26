@@ -34,6 +34,23 @@ export function generateRandomNumber(length: number): number {
     }
   }
 
+  export function validateExtractedValuesContains(actual: any, expected: any, key: string) {
+    if (Array.isArray(expected)) {
+      if (Array.isArray(actual)) {
+        const allPresent = expected.every(exp => actual.includes(exp));
+        expect(allPresent).toBeTruthy();
+      } else {
+        throw new Error(`Expected array from extract for key "${key}", but got a non-array.`);
+      }
+    } else {
+      if (Array.isArray(actual)) {
+        expect(actual).toContain(expected);
+      } else {
+        expect(actual).toContain(expected);
+      }
+    }
+  }
+
   export async function getPayloadByTestCaseName(testCase: any): Promise<any> {
 let filePathOfPayload;
     testCase.assertion.forEach(assertionArray => {
@@ -205,7 +222,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
             ? parseFloat(actualValueRaw[0])
             : parseFloat(jsonPathOrValue);
 
-          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.value));
+          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.expected));
           const acceptedDifference = parseFloat(arrayOfAssertion.assertApproxEquals.acceptedDifference);
 
           const difference = Math.abs(actualValue - expectedValue);
@@ -305,15 +322,33 @@ export async function validateAssertions(response: any, responseBody: any, asser
 
   export function getRandomFutureDateTimeWithOffset(daysFromNow: number, hoursOffset: number = 0): string {
     const now = new Date();
-    const randomDays = Math.floor(Math.random() * daysFromNow) + 1; // Random number of days within the range
-    now.setDate(now.getDate() + randomDays); // Add random days to the current date
-    now.setHours(now.getHours() + hoursOffset); // Add the specified hours offset
-    const year = now.getFullYear();
-    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Ensure 2-digit month
-    const day = now.getDate().toString().padStart(2, '0'); // Ensure 2-digit day
-    const hours = now.getHours().toString().padStart(2, '0'); // Ensure 2-digit hour
-    const minutes = now.getMinutes().toString().padStart(2, '0'); // Ensure 2-digit minute
-    return `${year}-${month}-${day} ${hours}:${minutes}`; // Return the date-time in the desired format
+
+  // Start at 1:00 AM today
+  now.setHours(1, 0, 0, 0); // 1 AM, 0 minutes, 0 seconds, 0 milliseconds
+
+  // Add random number of days
+  const randomDays = Math.floor(Math.random() * daysFromNow) + 1;
+  now.setDate(now.getDate() + randomDays);
+
+  // Add optional hours
+  now.setHours(now.getHours() + hoursOffset);
+
+  // Format components
+  const year = now.getFullYear();
+  const month = (now.getMonth() + 1).toString().padStart(2, '0');
+  const day = now.getDate().toString().padStart(2, '0');
+
+  let hours = now.getHours() % 12 || 12; // Convert to 12-hour format
+  const formattedHours = hours.toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day} ${formattedHours}:${minutes}`;
+  }
+  export function getRandomFutureDateTimeWithOffsetISOFormat(deadlineDate: string): string {
+    const input = deadlineDate;
+    const formatted = input.replace(" ", "T") + ":00";
+    console.log(formatted); // "2025-05-21T11:14:00"
+    return formatted;
   }
 
   export async function clearGlobalStoreFile() {
@@ -322,4 +357,13 @@ export async function validateAssertions(response: any, responseBody: any, asser
       fs.writeFileSync(STORE_FILE, '{}', 'utf-8');
       console.log('🧹 Cleared .globalStore.json after all tests.');
     }
+  }
+
+  export function getCurrentDateWithHour(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Ensure 2-digit month
+    const day = now.getDate().toString().padStart(2, '0'); // Ensure 2-digit day
+    const hour = now.getHours().toString().padStart(2, '0'); // Ensure 2-digit hour
+    return `${year}-${month}-${day}T${hour}`; // Return the date-time in the desired format
   }
