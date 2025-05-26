@@ -10,7 +10,7 @@ let lob = "Optical"
 
 let testData = data[lob]
 
-let viewName = "views" + Date.now()
+let viewName: string | number = "views" + Date.now()
 
 
 test.describe('Verify user is able to create edit and delete savedViews', { tag: "@Smoke @savedViews" }, () => {
@@ -20,17 +20,18 @@ test.describe('Verify user is able to create edit and delete savedViews', { tag:
     test.describe.configure({ timeout: 1200_000, mode: "serial" })
 
     let scenario_details;
+    let scenarioId
 
     test.beforeAll(async ({ pageFactory, request }) => {
         objpageFactory = pageFactory;
-        const scenarioId = await ForecastUtility.createForecast(lob.toUpperCase(), request);
+        scenarioId = await ForecastUtility.createForecast(lob.toUpperCase(), request);
 
         let currentForecast = await UfmUtility.getCurrentForecastList(
             lob,
             request
         );
 
-        const scenario_details = await UfmUtility.getScenarioDetails(
+        scenario_details = await UfmUtility.getScenarioDetails(
             currentForecast,
             scenarioId
         );
@@ -51,8 +52,6 @@ test.describe('Verify user is able to create edit and delete savedViews', { tag:
 
 
     test(`Check if user able to create a view for scenario from lob: ${lob}`, { tag: "@createView" }, async () => {
-
-        test.setTimeout(480000);
 
         await test.step('Go To UFM Page', async () => {
             await objpageFactory.ufmPageFactory().organisationSelection().navigate();
@@ -76,11 +75,7 @@ test.describe('Verify user is able to create edit and delete savedViews', { tag:
         await test.step("Search and add drivers", async () => {
 
             await objpageFactory.ufmPageFactory().addDriverPage().searchAndApplyDrivers(testData.driver.inputDriver)
-            // }
-        })
 
-        await test.step("Click on apply drivers", async () => {
-            await objpageFactory.ufmPageFactory().addDriverPage().clickOnApplyDrivers()
         })
 
         await test.step("Validate the header of saved views dropDown", async () => {
@@ -99,13 +94,165 @@ test.describe('Verify user is able to create edit and delete savedViews', { tag:
 
         await test.step("Click on Save with empty name", async () => {
             await objpageFactory.ufmPageFactory().openCurrentForecast().inputSaveViews('')
-            // await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSave()
-            //clickOnSave returns true if element is disabled
-            expect(await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSave()).toBeTruthy()
+            //clickOnSave returns false if element is disabled
+            expect(await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSave()).toBeFalsy()
         })
 
 
         await test.step("Input a name in save view text field", async () => {
+            await objpageFactory.ufmPageFactory().openCurrentForecast().inputSaveViews(viewName)
+        })
+
+        await test.step("Click on Save", async () => {
+            await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSave()
+        })
+
+        await test.step("Wait for View Saved Successfull snackbar", async () => {
+            await objpageFactory.ufmPageFactory().openCurrentForecast().waitForSaveViewSuccessMessage()
+        })
+
+        await test.step("Validate the header of saved views dropDown", async () => {
+            let savedViewsHeader = await objpageFactory.ufmPageFactory().openCurrentForecast().getSavedViewsDropdownHeader()
+
+            expect(savedViewsHeader).toEqual(viewName)
+        })
+    })
+
+    test('Check if system warns user when provided duplicate name', async () => {
+        await test.step("Click on Create new view", async () => {
+            await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCreateNewView("dropDown")
+        })
+        await test.step('Validate driver modal opens upon clicking create new view', async () => {
+            expect(await objpageFactory.ufmPageFactory().addDriverPage().waitForPageLoad()).toBeTruthy()
+        })
+
+        await test.step("Search and add drivers", async () => {
+
+            await objpageFactory.ufmPageFactory().addDriverPage().searchAndApplyDrivers(testData.driver.inputDriver)
+
+        })
+
+        await test.step("Validate the header of saved views dropDown", async () => {
+            let savedViewsHeader = await objpageFactory.ufmPageFactory().openCurrentForecast().getSavedViewsDropdownHeader()
+
+            expect(savedViewsHeader?.toString()).toEqual("Untitled View")
+        })
+        await test.step("Click on Save View", async () => {
+            await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSaveView()
+        })
+        await test.step("Click on Save with duplicate name", async () => {
+            await objpageFactory.ufmPageFactory().openCurrentForecast().inputSaveViews(viewName)
+            //clickOnSave returns false if element is disabled
+            expect(await objpageFactory.ufmPageFactory().openCurrentForecast().checkDuplicateViewMessage()).toBeTruthy()
+            expect(await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSave()).toBeFalsy()
+        })
+
+
+    })
+    test(`Check if user able to create a view with numeric name for scenario from lob: ${lob}`, { tag: "@createView" }, async () => {
+
+
+        viewName = Math.floor(Math.random() * 90000) + 10000
+
+        await test.step('Go To UFM Page', async () => {
+            await objpageFactory.ufmPageFactory().organisationSelection().navigate();
+        })
+
+        await test.step(`Click on Open ${testData.orgName} Frecast`, async () => {
+            await objpageFactory.ufmPageFactory().currentForecast().clickOpenForecastByName(scenario_details["name"])
+        })
+
+
+        await test.step("Click on Create new view", async () => {
+            await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCreateNewView()
+        })
+
+        await test.step('Validate driver modal opens upon clicking create new view', async () => {
+            expect(await objpageFactory.ufmPageFactory().addDriverPage().waitForPageLoad()).toBeTruthy()
+        })
+
+        await test.step("Search and add drivers", async () => {
+
+            await objpageFactory.ufmPageFactory().addDriverPage().searchAndApplyDrivers(testData.driver.inputDriver)
+
+        })
+
+        await test.step("Validate the header of saved views dropDown", async () => {
+            let savedViewsHeader = await objpageFactory.ufmPageFactory().openCurrentForecast().getSavedViewsDropdownHeader()
+
+            expect(savedViewsHeader?.toString()).toEqual("Untitled View")
+        })
+
+        await test.step("Click on Save View", async () => {
+            await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSaveView()
+        })
+
+
+        await test.step("Input a name in save view text field", async () => {
+
+            await objpageFactory.ufmPageFactory().openCurrentForecast().inputSaveViews(viewName.toString())
+        })
+
+        await test.step("Click on Save", async () => {
+            await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSave()
+        })
+
+        await test.step("Wait for View Saved Successfull snackbar", async () => {
+            await objpageFactory.ufmPageFactory().openCurrentForecast().waitForSaveViewSuccessMessage()
+        })
+
+        await test.step("Validate the header of saved views dropDown", async () => {
+            let savedViewsHeader = await objpageFactory.ufmPageFactory().openCurrentForecast().getSavedViewsDropdownHeader()
+
+            expect(savedViewsHeader).toEqual(viewName.toString())
+        })
+    })
+
+    test(`Check if user able to create a view with very long name for scenario from lob: ${lob}`, { tag: "@createView" }, async () => {
+
+
+        viewName = testData.longName
+
+        await test.step('Go To UFM Page', async () => {
+            await objpageFactory.ufmPageFactory().organisationSelection().navigate();
+        })
+
+        await test.step(`Click on Open ${testData.orgName} Frecast`, async () => {
+            await objpageFactory.ufmPageFactory().currentForecast().clickOpenForecastByName(scenario_details["name"])
+        })
+
+
+        await test.step("Click on Create new view", async () => {
+            await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCreateNewView()
+        })
+
+        await test.step('Validate driver modal opens upon clicking create new view', async () => {
+            expect(await objpageFactory.ufmPageFactory().addDriverPage().waitForPageLoad()).toBeTruthy()
+        })
+
+        await test.step("Search and add drivers", async () => {
+
+            await objpageFactory.ufmPageFactory().addDriverPage().searchAndApplyDrivers(testData.driver.inputDriver)
+
+        })
+
+        await test.step("Click on apply drivers", async () => {
+            await objpageFactory.ufmPageFactory().addDriverPage().clickOnApplyDrivers()
+        })
+
+        await test.step("Validate the header of saved views dropDown", async () => {
+            let savedViewsHeader = await objpageFactory.ufmPageFactory().openCurrentForecast().getSavedViewsDropdownHeader()
+
+            expect(savedViewsHeader).toEqual("Untitled View")
+        })
+
+        await test.step("Click on Save View", async () => {
+            await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnSaveView()
+        })
+
+
+        await test.step("Input a name in save view text field", async () => {
+
             await objpageFactory.ufmPageFactory().openCurrentForecast().inputSaveViews(viewName)
         })
 
@@ -148,8 +295,4 @@ test.describe('Verify user is able to create edit and delete savedViews', { tag:
 
 
     })
-
-
-
-
 });

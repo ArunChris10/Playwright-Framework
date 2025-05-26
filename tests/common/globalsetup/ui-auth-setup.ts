@@ -17,35 +17,30 @@ setup("Login super user to CDF using faketoken api", { tag: "@CDF , @IBG , @fake
   await Utility.loginToCdf(page, request, "cdfUser", ibgAuthFile)
 });
 
-setup("Login normal user to CDF using faketoken api", { tag: "@CDF , @IBG , @faketoken" }, async ({ page, request}) => {
+setup("Login normal user to CDF using faketoken api", { tag: "@CDF , @IBG , @faketoken" }, async ({ page, request }) => {
   setup.setTimeout(300000)
   await Utility.loginToCdf(page, request, "cdfNormalUser", ibgAuthFileNormalUser)
 })
 
 // This Login method is used for Login to UFM from workbench URL in IBG APP
 // This method logs in by typing in the test account credentials in Login Page
-setup(
-  "Login to UFM using LabCredentials",
-  { tag: "@UFM , @IBG , @faketoken" },
-  async ({ page, request }) => {
-    await Utility.loginToIBGUsingToken(page, request);
-    const homePage: Home = new Home(page);
-    await homePage.checkIfHomepageIsVisible();
-    await homePage.open("Unified Financial Model");
-    const { ufmAppBaseURL, ufmUser } = process.env;
-    const loginPage = new LoginPage(page);
-    await loginPage.login(ufmUser);
-    // await page.waitForURL(ufmAppBaseURL + "");
-    await homePage.checkIfHomepageIsVisible();
-    await page.context().storageState({ path: nexusAuthFile });
-  }
-);
+setup("Login to UFM using LabCredentials", { tag: "@UFM , @IBG , @faketoken" }, async ({ page, request }) => {
 
-/**
- * This Login method is used to log into an online Microsoft Excel workbook
- * and load IBG Excel Addin.
- */
-setup("Login to Excel Addin", { tag: "@Excel @IBG" }, async ({ page }) => {
-    const loginExcelPage = new LoginExcelPage(page);
-    await loginExcelPage.login();
+  const { ufmAppBaseURL, ufmUser, appBaseURL } = process.env;
+  if (appBaseURL) {
+
+    const url = appBaseURL + "";
+    await page.goto(url);
+  } else {
+    console.error('ufmAppBaseURL is undefined');
+  }
+  const loginPage = new LoginPage(page);
+  await loginPage.login(ufmUser);
+  await page.waitForURL(/appBaseURL/);
+  const homePage: Home = new Home(page);
+  await homePage.checkIfHomepageIsVisible();
+  await homePage.open("Unified Financial Model")
+  await page.waitForURL(new RegExp(`^${ufmAppBaseURL}`));
+
+  await page.context().storageState({ path: nexusAuthFile });
 });
