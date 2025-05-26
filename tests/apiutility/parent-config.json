@@ -33,7 +33,7 @@
     "testCases/ssdm-node-edge-get-drivers-api-tests.json",
     "testCases/ssdm-node-edge-publish-api-tests.json",
     "testCases/NodesCases/nodeshRefresh-api-tests.json",
-   "testCases/projection-method-testcases/hostoricRate-constantValueAllocation.json"
+   "testCases/projection-method-testcases/historicRate-constantValueAllocation.json"
   ],
 
   "currentDemandService": {
