@@ -2,18 +2,25 @@
   "headers": {
     "Content-Type": "application/json",
     "Authorization": "{{token}}"
+
   },
   "user": "LB-ibg-ufm-auto",
+  "tagsToRun": [],
   "testFiles": [
     "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save.json",
     "testCases/data-science-review-testcases/aop-calculate-save.json",
     "testCases/data-science-review-testcases/calculate-save-non-additive-node-api-test.json",
+    "testCases/data-science-review-testcases/data-science-calculate-save-demand-input-and-calculated.json",
+    "testCases/data-science-review-testcases/aop-calculate-save-demand-input-and-calculated.json",
+    "testCases/data-science-review-testcases/publish_aop_to_current_demand_slot.json",
+    "testCases/data-science-review-testcases/publish_data_science_to_current_demand_slot.json",
     "testCases/calculate-saveajustment-api-tests.json",
     "testCases/create-forecast.api.json",
     "testCases/create-view-api-tests.json",
     "testCases/excel-load-data-api-tests.json",
     "testCases/excel-load-data-api-snapshots-tests.json",
+    "testCases/excel-load-data-api-aggregation-tests.json",
     "testCases/forecast-calender-api.json",
     "testCases/forecast-cycle-api-tests.json",
     "testCases/get-my-kpi-api-tests.json",
@@ -21,11 +28,18 @@
     "testCases/visual-indicator-api.json",
     "testCases/forecast-comp-api-tests.json",
     "testCases/forecast-comp-api-error-tests.json",
-    "testCases/excel-plugin/excel-plugin-load-data-test.json",
-    "testCases/excel-plugin/excel-pluginemptynodesvalidation.json"
-
+    "testCases/activated-latest-timestamp-tests.json",
+    "testCases/NodesCases/nodeshRefresh-api-tests.json"
   ],
-
+  
+  "currentDemandService": {
+    "baseURL": {
+      "qa": "https://scenario.qa.ibg.walmart.com",
+      "dev": "https://scenario.dev.ibg.walmart.com"
+    },
+    
+    "get-demand-scenario-forecast-by-slot":"/api/demandscenarios/currentDemand/"
+  },
   "coreService": {
     "baseURL": {
       "qa": "https://ibg-ufm-core-service.qa.ibg.walmart.com",
@@ -44,8 +58,8 @@
     "getForecastCalendar":"/forecast_calendar/",
     "visualIndicator":"/scenario/scenario-composition",
     "Forecast":"/scenario",
-    "refresh": "/refresh-nodes",
-    "getKpiV2":"/reports/get-mykpi/v2"
+    "getKpiV2":"/reports/get-mykpi/v2",
+    "getTimestamp":"/sandbox/v1/get-datasets-timestamp"
   },
   "notificationService": {
     "baseURL": {
