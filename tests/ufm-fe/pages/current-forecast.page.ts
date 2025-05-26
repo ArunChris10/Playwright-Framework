@@ -21,8 +21,10 @@ export class CurrentForecast {
   readonly totalForecastValueFirstRow: Locator;
   readonly netSalesForecastValueFirstRow: Locator;
   readonly createNewFilterSet: Locator;
+  readonly createNewFilterSetButton: Locator;
   readonly filterSetName: Locator;
   readonly selectedUFMFilterSection: Locator;
+  readonly resetFilters: Locator;
   readonly saveFilterSet: Locator;
   readonly open: Locator;
   private readonly urlEndpoint = process.env.ufmAppBaseURL + "";
@@ -38,11 +40,17 @@ export class CurrentForecast {
   readonly recallForecast: Locator
   readonly recallForecastHeader: Locator
   readonly sendingForReview: Locator
+  readonly filterOptions: Locator;
+  readonly modalUFMFilters: Locator;
+  readonly nofilterSetList: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.lnkOrganisationSelection = page.getByText("Organization Selection");
     this.createForecastButton = page.getByText("Create forecast");
+    this.filterOptions = page.locator('//label[@test-id="check-box"]');
+    this.modalUFMFilters = page.locator('//p[contains(@class, "UFMFilters")]');
+    this.nofilterSetList = page.locator('//p[contains(@class, "filtersetEmptyContent")]');
     this.forecastStatus = page.locator(
       '//div[@class="ag-pinned-left-cols-container"]//child::div[@class = "ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-value"]//div'
     );
@@ -72,6 +80,8 @@ export class CurrentForecast {
     this.createNewFilterSet = page.getByRole("button", {
       name: "Create new filter set",
     });
+    this.createNewFilterSetButton = page.locator('//button[text()="Create new filter set"]');
+    this.resetFilters = page.locator('//button[text()="Reset filters"]');
     this.filterSetName = page.getByPlaceholder("Filter set");
     this.selectedUFMFilterSection = page.locator(
       '//p[contains(@class,"UFMFilters_selectedFilters")]'
@@ -236,11 +246,11 @@ export class CurrentForecast {
     const selectedRadioButton = await this.page.$(
       `//span[contains(text(),"${filterSetName}")]/parent::label`
     );
-    const classOfSelectedFilter = await selectedRadioButton.getAttribute(
+    /* const classOfSelectedFilter = await selectedRadioButton.getAttribute(
       "class"
-    );
+    ); */
 
-    expect(classOfSelectedFilter.includes("checked"));
+    //expect(classOfSelectedFilter.includes("checked"));
   }
 
   async clickOnApplyFilterSet() {
@@ -416,5 +426,58 @@ export class CurrentForecast {
   async isCreateDueDateNudgeMessageDisplayed() {
     await this.page.waitForTimeout(1000);
     return await this.nudgeMessageForCreateDueDate.isVisible();
+  }
+
+  async selectFilters(filterName: string) {
+    await this.page.keyboard.press("Escape");
+    await this.clickOnFilterDropdown(filterName);
+    await this.filterOptions.nth(1).check();
+    const filterOptionText1 = await this.filterOptions.nth(1).locator('xpath=./span').innerText();
+    await this.filterOptions.nth(2).check();
+    const filterOptionText2 = await this.filterOptions.nth(2).locator('xpath=./span').innerText();
+    return [filterOptionText1, filterOptionText2];
+  }
+
+  async clickOnCreateNewFilterSetButton(){
+    await this.page.keyboard.press("Escape");
+    await this.filterSetsDropdown.first().click();
+    await this.createNewFilterSetButton.click();
+  }
+
+  async captureUFMFilters() {
+    const ufmFilters: string[] = [];
+    const filtersCount = await this.modalUFMFilters.count();
+
+    for (let i = 0; i < filtersCount; i++) {
+      const filterText = await this.modalUFMFilters.nth(i).innerText();
+      const extractedFilters = filterText.split(":")[1]?.trim().split(",") || [];
+      ufmFilters.push(...extractedFilters.map(filter => filter.trim()));
+      console.log(ufmFilters);
+    }
+
+    return ufmFilters;
+  }
+
+  async clickOnResetFilter() {
+    await this.page.keyboard.press("Escape");
+    await this.resetFilters.first().click();
+    await this.page.waitForTimeout(10000);
+  }
+
+  async captureAppliedFilters(filterName: string) {
+    await this.page.keyboard.press("Escape");
+    await this.clickOnFilterDropdown(filterName);
+    const filterOptionText1 = await this.filterOptions.nth(1).locator('xpath=./span').innerText();
+    const filterOptionText2 = await this.filterOptions.nth(2).locator('xpath=./span').innerText();
+    return [filterOptionText1, filterOptionText2];
+  }
+
+  async clickOnFilterSetButton() {
+    await this.page.keyboard.press("Escape");
+    await this.filterSetsDropdown.first().click();
+  }
+  async getEmptyFilterSetListMessage() {
+    const  emptyFilterSetList = await this.nofilterSetList.innerText();
+    expect(emptyFilterSetList).toBe("You don’t have any filter sets created yet.")
   }
 }

@@ -1,5 +1,6 @@
 import { test } from "../../common/fixtures/test-hook";
 import { ExcelPage } from "../pages/excel.page";
+import { Utility } from "../../common/fixtures/utils";
 
 test.describe(
   "Create Saved View Configuration",
@@ -18,6 +19,23 @@ test.describe(
 
     test("Load Data (Save Configurations)", async () => {
       await excelPage.loadData();
+    });
+
+    test("Clear Whitespace", async () => {
+      let cellData: string | null;
+
+      // Assuming cell ZZ5000 doesnot have any data.
+      await excelPage.setCellData("ZZ5000", "testCellValue");
+      cellData = await excelPage.getCellData("ZZ5000");
+      Utility.logIt(`Cell ZZ5000 Data Before:  ${cellData}`);
+
+      await excelPage.loadData();
+      await excelPage.page.waitForTimeout(120000);
+
+      cellData = await excelPage.getCellData("ZZ5000");
+      Utility.logIt(`Cell ZZ5000 Data After:  ${cellData}`);
+
+      test.expect(cellData).toBe("testCellValue");
     });
   }
 );
