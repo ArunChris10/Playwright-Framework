@@ -1,7 +1,7 @@
 import { test, expect, request, APIRequestContext } from '@playwright/test';
 import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
-import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey,findRelativeValueMultiCondition } from '../apiutility/utils/jsonUtils';
+import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey,findRelativeValueMultiCondition} from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {
@@ -14,10 +14,12 @@ import {
   deepPartialMatch,
   interpolateObject,
   interpolate,
-  validateAssertions
+  validateAssertions,
+  validateExtractedValuesContains
 } from '../apiutility/utils/commonUtil';
 import { pollForExpectedResponse } from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../secrets/nexus-users-token.json";
+import { console } from 'inspector/promises';
 
 export interface ApiTestCase {
   environment: string;
@@ -31,6 +33,7 @@ export interface ApiTestCase {
   assertion?: AssertionEntry;
   extract?: { [key: string]: string };
   extractFirst?: { [key: string]: string };
+  validateExtractContains?: { [key: string]: string};
   validateExtract?: { [key: string]: string };
   polling?: {
     extractRelative: {
@@ -79,6 +82,7 @@ export interface ParentConfig {
   notificationService: { baseURL: { [key: string]: string }, testCaseName: string };
   reportingService: { baseURL: { [key: string]: string }, testCaseName: string };
   nexusService: { baseURL: { [key: string]: string }, testCaseName: string };
+  currentDemandService: { baseURL: { [key: string]: string }, testCaseName: string };
 }
 
 export let response;
@@ -134,6 +138,8 @@ parentConfig.testFiles.forEach(testCasePath => {
           baseUrl = parentConfig.reportingService.baseURL[step.environment];
         } else if (step.service === "nexusService") {
           baseUrl = parentConfig.nexusService.baseURL[step.environment];
+        } else if (step.service === "currentDemandService") {
+          baseUrl = parentConfig.currentDemandService.baseURL[step.environment];
         }
 
         const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
@@ -194,6 +200,7 @@ parentConfig.testFiles.forEach(testCasePath => {
           }
         }
 
+
         if (step.extractRelativeMultipleCondition) {
           for (const globalVar in step.extractRelativeMultipleCondition) {
             const { conditions, extractKey } = step.extractRelativeMultipleCondition?.[globalVar] ?? {};
@@ -206,11 +213,22 @@ parentConfig.testFiles.forEach(testCasePath => {
           }
         }
 
+
         if (step.validateExtract) {
           for (const globalKey in step.validateExtract) {
             const expected = interpolate(step.validateExtract[globalKey]);
             const actual = globalStore[globalKey];
             await validateExtractedValues(actual, expected, globalKey);
+            console.log(`Validated ${globalKey}: actual = ${actual}, expected = ${expected}`);
+          }
+        }
+
+        if (step.validateExtractContains) {
+          console.log("Validating extracted values being contained:");
+          for (const globalKey in step.validateExtractContains) {
+            const expected = interpolate(step.validateExtractContains[globalKey]);
+            const actual = globalStore.getValue(globalKey);
+            await validateExtractedValuesContains(actual, expected, globalKey);
             console.log(`Validated ${globalKey}: actual = ${actual}, expected = ${expected}`);
           }
         }

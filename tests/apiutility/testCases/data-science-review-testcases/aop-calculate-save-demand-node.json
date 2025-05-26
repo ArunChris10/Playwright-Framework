@@ -3,7 +3,7 @@
     {
       "testStep": "Fetch Scenario Details from DataScience Info",
       "environment": "qa",
-      "labels": ["smoke", "Pre-Req", "IBGROW-35039", "IBGROW-34989", "Pallavi"],
+      "labels": ["smoke", "Pre-Req", "IBGROW-35039", "IBGROW-34989", "MS2"],
       "service": "coreService",
       "uri": "getDataScienceInfo",
       "testName": "Get Scenario details from data science info (classification_id: 11)",
@@ -30,7 +30,7 @@
     {
       "testStep": "Allocate Data for AOP - Demand Node",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "Pallavi"],
+      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "MS2"],
       "service": "coreService",
       "uri": "allocateData",
       "testName": "Send request for allocate-data - AOP- Demand",
@@ -75,7 +75,7 @@
     {
       "testStep": "Save AOP Adjustment",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "Pallavi"],
+      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "MS2"],
       "service": "coreService",
       "uri": "saveAdjustment",
       "testName": "Send request for save-adjustment - AOP- Demand",
@@ -145,7 +145,7 @@
     {
       "testStep": "Validate Saved KPI for AOP",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "Pallavi"],
+      "labels": ["smoke", "IBGROW-35039", "IBGROW-34989", "MS2"],
       "service": "coreService",
       "uri": "getKpi",
       "testName": "Validate saved data for AOP - GetKpi",

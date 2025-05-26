@@ -3,7 +3,7 @@
     {
       "testStep": "Extract scenario version from get-report API",
       "environment": "qa",
-      "labels": ["smoke", "get-report","Pallavi"],
+      "labels": ["smoke", "get-report","MS2"],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get scenarios ID and version for excel",

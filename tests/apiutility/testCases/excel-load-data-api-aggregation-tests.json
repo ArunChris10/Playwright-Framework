@@ -1,0 +1,210 @@
+{
+  "validate_excel_load_data_aggregation": [
+    {
+      "testStep": "Extract scenario version from listHistoricals API",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "listHistoricals"],
+      "service": "coreService",
+      "uri": "listHistoricals",
+      "testName": "Get scenarios for excel",
+      "queryParams": "dim_val_id=120010&dim_id=12&data_level=11&classification_id=12",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractFirst": {
+        "scenario_version_timestamp": "row_data.scenario_version_timestamp",
+        "scenario_id": "row_data.scenario_id",
+        "actual_template_id": "row_data.actual_template_id",
+        "forecast_template_id": "row_data.forecast_template_id"
+      }
+    },
+    {
+      "testStep": "Get no filter total",
+      "testName": "Get no filter total",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-37182", "elliot"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "nodeIds": ["momerchandisesales"],
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
+          }
+        ],
+        "filters": {},
+        "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
+        "periods": ["{{dynamicMonth}}"],
+        "aggregationLevel": ["MONTH"],
+        "dimensions": [],
+        "pivot_rows": ["Scenario Name", "Date"],
+        "pivot_columns": ["Node Name"]
+      },
+      "extractFirst": {
+        "no_filter_total": "rowData.momerchandisesales"
+      }
+    },
+    {
+      "testStep": "Validate scenarios API - Channel L1 aggregation to no filter total",
+      "testName": "Validate scenarios API - Channel L1 aggregation to no filter total",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-37182", "elliot"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "nodeIds": ["momerchandisesales"],
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
+          }
+        ],
+        "filters": { "channel": [230003, 230006, 230007] },
+        "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
+        "periods": ["{{dynamicMonth}}"],
+        "aggregationLevel": ["MONTH"],
+        "dimensions": [],
+        "pivot_rows": ["Scenario Name", "Date"],
+        "pivot_columns": ["Node Name"]
+      },
+      "extractFirst": {
+        "channel_l1_total": "rowData.momerchandisesales"
+      },
+      "assertion": [
+        {
+          "assertValuesAreEqual": [
+            "{{no_filter_total}}",
+            "{{channel_l1_total}}"
+          ]
+        }
+      ]
+    },
+    {
+      "testStep": "Validate scenarios API - SBU aggregation to no filter total",
+      "testName": "Validate scenarios API - SBU aggregation to no filter total",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-37182", "elliot"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "nodeIds": ["momerchandisesales"],
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
+          }
+        ],
+        "filters": {
+          "department": [
+            20002, 20004, 20005, 20007, 20009, 20010, 20011, 20012, 20013
+          ]
+        },
+        "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
+        "periods": ["{{dynamicMonth}}"],
+        "aggregationLevel": ["MONTH"],
+        "dimensions": [],
+        "pivot_rows": ["Scenario Name", "Date"],
+        "pivot_columns": ["Node Name"]
+      },
+      "extractFirst": {
+        "sbu_total": "rowData.momerchandisesales"
+      },
+      "assertion": [
+        {
+          "assertValuesAreEqual": ["{{no_filter_total}}", "{{sbu_total}}"]
+        }
+      ]
+    },
+    {
+      "testStep": "Get parent SBU total",
+      "testName": "Get parent SBU total",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-37182", "elliot"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "nodeIds": ["momerchandisesales"],
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
+          }
+        ],
+        "filters": { "department": [20002] },
+        "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
+        "periods": ["{{dynamicMonth}}"],
+        "aggregationLevel": ["MONTH"],
+        "dimensions": [],
+        "pivot_rows": ["Scenario Name", "Date"],
+        "pivot_columns": ["Node Name"]
+      },
+      "extractFirst": {
+        "parent_sbu_total": "rowData.momerchandisesales"
+      }
+    },
+    {
+      "testStep": "Validate scenarios API - department aggregation to parent SBU",
+      "testName": "Validate scenarios API - department aggregation to parent SBU",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-37182", "elliot"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "nodeIds": ["momerchandisesales"],
+        "scenarios": [
+          {
+            "scenarioId": "{{scenario_id}}",
+            "scenarioVer": "{{scenario_version_timestamp}}",
+            "actual_scenario_id": "{{actual_template_id}}",
+            "forecast_scenario_id": "{{forecast_template_id}}",
+            "type": "scenarios"
+          }
+        ],
+        "filters": { "department": [2, 4, 8, 13, 40, 46, 79] },
+        "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
+        "periods": ["{{dynamicMonth}}"],
+        "aggregationLevel": ["MONTH"],
+        "dimensions": [],
+        "pivot_rows": ["Scenario Name", "Date"],
+        "pivot_columns": ["Node Name"]
+      },
+      "extractFirst": {
+        "child_department_total": "rowData.momerchandisesales"
+      },
+      "assertion": [
+        {
+          "assertValuesAreEqual": [
+            "{{parent_sbu_total}}",
+            "{{child_department_total}}"
+          ]
+        }
+      ]
+    }
+  ]
+}

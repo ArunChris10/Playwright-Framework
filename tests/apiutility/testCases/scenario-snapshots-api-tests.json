@@ -3,7 +3,7 @@
     {
       "testStep": "Compute snapshot as Forecast",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38035", "IBGROW-38022", "Nidhi"],
+      "labels": ["smoke", "IBGROW-38035", "IBGROW-38022", "MS1"],
       "service": "coreService",
       "uri": "snapshots",
       "testName": "validate compute snapshots API - as Forecast",
@@ -31,7 +31,7 @@
     {
       "testStep": "Compute snapshot as OTB",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38034", "IBGROW-38023", "Nidhi"],
+      "labels": ["smoke", "IBGROW-38034", "IBGROW-38023", "MS1"],
       "service": "coreService",
       "uri": "snapshots",
       "testName": "validate compute snapshots API - as OTB",
@@ -59,7 +59,7 @@
     {
       "testStep": "Compute snapshot as Budget",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38033", "IBGROW-38024", "Nidhi"],
+      "labels": ["smoke", "IBGROW-38033", "IBGROW-38024", "MS1"],
       "service": "coreService",
       "uri": "snapshots",
       "testName": "validate compute snapshots API - as Budget",
@@ -88,7 +88,7 @@
     {
       "testStep": "Get forecast for snapshot download",
       "environment": "qa",
-      "labels": ["smoke", "pre-requisite","rahul"],
+      "labels": ["smoke", "pre-requisite","MS3"],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get forecast for download of snapshot",
@@ -127,7 +127,7 @@
     {
       "testStep": "Download snapshot with filters",
       "environment": "qa",
-      "labels": ["IBGROW-38030","rahul"],
+      "labels": ["IBGROW-38030","MS3"],
       "service": "coreService",
       "uri": "downloadSnapshot",
       "testName": "validate download of snapshot with filters applied",
