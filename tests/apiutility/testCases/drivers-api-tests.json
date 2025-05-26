@@ -1,0 +1,42 @@
+{
+    "validate_drivers_api": [
+        {
+            "testStep": "Call drivers API for all drivers",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "driversApi"
+            ],
+            "service": "coreService",
+            "uri": "getDrivers",
+            "testName": "validate drivers api for all drivers",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "dim_id": 11,
+                "dim_val_id": 110027,
+                "classification_id": 12,
+                "driver_type": 48,
+                "owner_type": [
+                    66,
+                    67
+                ],
+                "filters": [],
+                "utilisedBy": "",
+                "utilityObj": {},
+                "isApplied": true
+            },
+            "assertion": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertExists": {
+                        "jsonPath1": "$.nodes[*].node_id",
+                        "jsonPath2": "$.nodes[*].node_var_name"
+                    }
+                }
+            ]
+        }
+    ]
+}

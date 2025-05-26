@@ -1,0 +1,42 @@
+{
+    "validate_nodes_api": [
+        {
+            "testStep": "Call actual missing nodes api",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "nodesApi"
+            ],
+            "service": "dataForgeService",
+            "uri": "actualMissingNode",
+            "testName": "validate nodes api",
+            "queryParams": "",
+            "method": "GET",
+ 
+            "assertion": [
+                    {
+                        "status": 200
+                    },
+                    {
+                        "body.message": "Unique node names retrieved successfully"
+                    },
+                    {
+                        "body.data": [
+                            {
+                                "ufm_node_id": "111_TEST",
+                                "ufm_node_nm": "fakeInputNode"
+                            },
+                            {
+                                "ufm_node_id": "222_TEST",
+                                "ufm_node_nm": "fakeInputNodeTwo"
+                            },
+                            {
+                                "ufm_node_id": "333_TEST",
+                                "ufm_node_nm": "fakeInputNodeThird"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
