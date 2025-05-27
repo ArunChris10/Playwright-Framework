@@ -243,26 +243,26 @@
         }
       ],
       "extractRelative": {
-        "forecastDriverOne": {
+        "historic_ConstantValue_forecastDriverOne": {
           "whereKey": "node_var_name",
           "equals": "grossgmv",
           "extractKey": "edits.{{dynamicMonth+1}}.forecast"
         },
-        "forecastDriverTwo": {
+        "historic_ConstantValue_forecastDriverTwo": {
           "whereKey": "node_var_name",
           "equals": "unitsgrossuomng_input",
           "extractKey": "edits.{{dynamicMonth+1}}.forecast"
         },
-        "forecastDriverThree": {
+        "historic_ConstantValue_forecastDriverThree": {
           "whereKey": "node_var_name",
           "equals": "financialservicesincome",
           "extractKey": "edits.{{dynamicMonth+2}}.forecast"
         }
       },
       "validateExtractToBeNotNull": [
-        "forecastDriverOne",
-        "forecastDriverTwo",
-        "forecastDriverThree"
+        "historic_ConstantValue_forecastDriverOne",
+        "historic_ConstantValue_forecastDriverTwo",
+        "historic_ConstantValue_forecastDriverThree"
       ]
     }
   ],

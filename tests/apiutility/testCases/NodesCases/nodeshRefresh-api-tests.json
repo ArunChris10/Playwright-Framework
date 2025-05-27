@@ -373,7 +373,8 @@
         "dim_val_id": 110016
       },
       "extract": {
-        "optical_scenario_version": "scenario.scenario_version_timestamp"
+        "optical_scenario_version": "scenario.scenario_version_timestamp",
+        "optical_scenario_id": "scenario.scenario_id"
       },
       "assertions": [
         {
@@ -468,7 +469,7 @@
         }
       ],
       "extractRelativeMultipleCondition": {
-        "optical_scenario_id": {
+        "optical_scenario_id_2": {
         "conditions": [
           { "path": "rowData.name", "equals": "apiUtilityAutomation {{randomNumber}}" }
         ],
@@ -708,7 +709,7 @@
       "payload": {
         "unit": "Millions",
         "dim_id": 12,
-        "dim_val_id": 120011,
+        "dim_val_id": 120006,
         "classification_id": 12,
         "template_id": 1,
         "filters": [],
@@ -914,7 +915,7 @@
       "payload": {
         "unit": "Millions",
         "dim_id": 12,
-        "dim_val_id": 110030,
+        "dim_val_id": 120011,
         "classification_id": 12,
         "template_id": 1,
         "filters": [],
@@ -962,9 +963,9 @@
       "service": "coreService",
       "queryParams": "",
       "payload": {
-        "target_scenarios": [
+        "target_scenarios": 
           "{{optical_scenario_id}}"
-        ]
+        
       },
       "assertions": [
         {

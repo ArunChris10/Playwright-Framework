@@ -1,9 +1,14 @@
-{  
+{
   "validate_compute_snapshot_as_forecast": [
     {
       "testStep": "Compute snapshot as Forecast",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38035", "IBGROW-38022", "MS1"],
+      "labels": [
+        "smoke",
+        "IBGROW-38035",
+        "IBGROW-38022",
+        "MS1"
+      ],
       "service": "coreService",
       "uri": "snapshots",
       "testName": "validate compute snapshots API - as Forecast",
@@ -20,18 +25,23 @@
         },
         {
           "assertEquals": {
-            "message": "Archived scenario successfully"
+            "jsonPath1": "message",
+            "value1": "Archived scenario successfully"
           }
         }
       ]
     }
   ],
-
   "validate_compute_snapshot_as_otb": [
     {
       "testStep": "Compute snapshot as OTB",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38034", "IBGROW-38023", "MS1"],
+      "labels": [
+        "smoke",
+        "IBGROW-38034",
+        "IBGROW-38023",
+        "MS1"
+      ],
       "service": "coreService",
       "uri": "snapshots",
       "testName": "validate compute snapshots API - as OTB",
@@ -48,18 +58,23 @@
         },
         {
           "assertEquals": {
-            "message": "Archived scenario successfully"
+            "jsonPath1": "message",
+            "value1": "Archived scenario successfully"
           }
         }
       ]
     }
   ],
-
   "validate_compute_snapshot_as_budget": [
     {
       "testStep": "Compute snapshot as Budget",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38033", "IBGROW-38024", "MS1"],
+      "labels": [
+        "smoke",
+        "IBGROW-38033",
+        "IBGROW-38024",
+        "MS1"
+      ],
       "service": "coreService",
       "uri": "snapshots",
       "testName": "validate compute snapshots API - as Budget",
@@ -76,19 +91,22 @@
         },
         {
           "assertEquals": {
-            "message": "Archived scenario successfully"
+            "jsonPath1": "message",
+            "value1": "Archived scenario successfully"
           }
         }
       ]
     }
   ],
-
-
   "validate_download_snapshot_with_forecast_data": [
     {
       "testStep": "Get forecast for snapshot download",
       "environment": "qa",
-      "labels": ["smoke", "pre-requisite","MS3"],
+      "labels": [
+        "smoke",
+        "pre-requisite",
+        "MS3"
+      ],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get forecast for download of snapshot",
@@ -127,7 +145,10 @@
     {
       "testStep": "Download snapshot with filters",
       "environment": "qa",
-      "labels": ["IBGROW-38030","MS3"],
+      "labels": [
+        "IBGROW-38030",
+        "MS3"
+      ],
       "service": "coreService",
       "uri": "downloadSnapshot",
       "testName": "validate download of snapshot with filters applied",
@@ -135,29 +156,94 @@
       "method": "POST",
       "payload": {
         "additional_filters": {
-          "pivot_cols": ["month"],
-          "pivot_index": ["node_id", "channel", "department"],
-          "period_view": ["month"],
-          "nodes": ["segmentoperatingincome", "grossprofit"],
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id",
+            "channel",
+            "department"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "segmentoperatingincome",
+            "grossprofit"
+          ],
           "month": [
-            "{{dynamicMonth-36}}", "{{dynamicMonth-35}}", "{{dynamicMonth-34}}", "{{dynamicMonth-33}}",
-            "{{dynamicMonth-32}}", "{{dynamicMonth-31}}", "{{dynamicMonth-30}}", "{{dynamicMonth-29}}",
-            "{{dynamicMonth-28}}", "{{dynamicMonth-27}}", "{{dynamicMonth-26}}", "{{dynamicMonth-25}}",
-            "{{dynamicMonth-24}}", "{{dynamicMonth-23}}", "{{dynamicMonth-22}}", "{{dynamicMonth-21}}",
-            "{{dynamicMonth-20}}", "{{dynamicMonth-19}}", "{{dynamicMonth-18}}", "{{dynamicMonth-17}}",
-            "{{dynamicMonth-16}}", "{{dynamicMonth-15}}", "{{dynamicMonth-14}}", "{{dynamicMonth-13}}",
-            "{{dynamicMonth-12}}", "{{dynamicMonth-11}}", "{{dynamicMonth-10}}", "{{dynamicMonth-9}}",
-            "{{dynamicMonth-8}}", "{{dynamicMonth-7}}", "{{dynamicMonth-6}}", "{{dynamicMonth-5}}",
-            "{{dynamicMonth-4}}", "{{dynamicMonth-3}}", "{{dynamicMonth-2}}", "{{dynamicMonth-1}}",
-            "{{dynamicMonth}}", "{{dynamicMonth+1}}", "{{dynamicMonth+2}}", "{{dynamicMonth+3}}",
-            "{{dynamicMonth+4}}", "{{dynamicMonth+5}}", "{{dynamicMonth+6}}", "{{dynamicMonth+7}}",
-            "{{dynamicMonth+8}}", "{{dynamicMonth+9}}", "{{dynamicMonth+10}}", "{{dynamicMonth+11}}",
-            "{{dynamicMonth+12}}", "{{dynamicMonth+13}}", "{{dynamicMonth+14}}", "{{dynamicMonth+15}}",
-            "{{dynamicMonth+16}}", "{{dynamicMonth+17}}", "{{dynamicMonth+18}}", "{{dynamicMonth+19}}",
-            "{{dynamicMonth+20}}", "{{dynamicMonth+21}}", "{{dynamicMonth+22}}", "{{dynamicMonth+23}}",
-            "{{dynamicMonth+24}}", "{{dynamicMonth+25}}", "{{dynamicMonth+26}}", "{{dynamicMonth+27}}",
-            "{{dynamicMonth+28}}", "{{dynamicMonth+29}}", "{{dynamicMonth+30}}", "{{dynamicMonth+31}}",
-            "{{dynamicMonth+32}}", "{{dynamicMonth+33}}", "{{dynamicMonth+34}}", "{{dynamicMonth+35}}",
+            "{{dynamicMonth-36}}",
+            "{{dynamicMonth-35}}",
+            "{{dynamicMonth-34}}",
+            "{{dynamicMonth-33}}",
+            "{{dynamicMonth-32}}",
+            "{{dynamicMonth-31}}",
+            "{{dynamicMonth-30}}",
+            "{{dynamicMonth-29}}",
+            "{{dynamicMonth-28}}",
+            "{{dynamicMonth-27}}",
+            "{{dynamicMonth-26}}",
+            "{{dynamicMonth-25}}",
+            "{{dynamicMonth-24}}",
+            "{{dynamicMonth-23}}",
+            "{{dynamicMonth-22}}",
+            "{{dynamicMonth-21}}",
+            "{{dynamicMonth-20}}",
+            "{{dynamicMonth-19}}",
+            "{{dynamicMonth-18}}",
+            "{{dynamicMonth-17}}",
+            "{{dynamicMonth-16}}",
+            "{{dynamicMonth-15}}",
+            "{{dynamicMonth-14}}",
+            "{{dynamicMonth-13}}",
+            "{{dynamicMonth-12}}",
+            "{{dynamicMonth-11}}",
+            "{{dynamicMonth-10}}",
+            "{{dynamicMonth-9}}",
+            "{{dynamicMonth-8}}",
+            "{{dynamicMonth-7}}",
+            "{{dynamicMonth-6}}",
+            "{{dynamicMonth-5}}",
+            "{{dynamicMonth-4}}",
+            "{{dynamicMonth-3}}",
+            "{{dynamicMonth-2}}",
+            "{{dynamicMonth-1}}",
+            "{{dynamicMonth}}",
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}",
+            "{{dynamicMonth+3}}",
+            "{{dynamicMonth+4}}",
+            "{{dynamicMonth+5}}",
+            "{{dynamicMonth+6}}",
+            "{{dynamicMonth+7}}",
+            "{{dynamicMonth+8}}",
+            "{{dynamicMonth+9}}",
+            "{{dynamicMonth+10}}",
+            "{{dynamicMonth+11}}",
+            "{{dynamicMonth+12}}",
+            "{{dynamicMonth+13}}",
+            "{{dynamicMonth+14}}",
+            "{{dynamicMonth+15}}",
+            "{{dynamicMonth+16}}",
+            "{{dynamicMonth+17}}",
+            "{{dynamicMonth+18}}",
+            "{{dynamicMonth+19}}",
+            "{{dynamicMonth+20}}",
+            "{{dynamicMonth+21}}",
+            "{{dynamicMonth+22}}",
+            "{{dynamicMonth+23}}",
+            "{{dynamicMonth+24}}",
+            "{{dynamicMonth+25}}",
+            "{{dynamicMonth+26}}",
+            "{{dynamicMonth+27}}",
+            "{{dynamicMonth+28}}",
+            "{{dynamicMonth+29}}",
+            "{{dynamicMonth+30}}",
+            "{{dynamicMonth+31}}",
+            "{{dynamicMonth+32}}",
+            "{{dynamicMonth+33}}",
+            "{{dynamicMonth+34}}",
+            "{{dynamicMonth+35}}",
             "{{dynamicMonth+36}}"
           ]
         },
@@ -165,13 +251,36 @@
           {
             "dim_id": 1,
             "dim_val_ids": [
-              80, 83, 93, 1, 2, 3, 4, 5, 6, 7,
-              8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20
+              80,
+              83,
+              93,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              16,
+              17,
+              18,
+              19,
+              20
             ]
           }
         ],
         "scenarios": [
-          ["{{scenario_id}}", "{{scenario_version}}"]
+          [
+            "{{scenario_id}}",
+            "{{scenario_version}}"
+          ]
         ]
       },
       "assertions": [
@@ -181,12 +290,13 @@
       ]
     }
   ],
-
   "validate_get_snapshot_api": [
     {
       "testStep": "Call GET snapshot API and validate fields",
       "environment": "qa",
-      "labels": ["IBGROW-38029"],
+      "labels": [
+        "IBGROW-38029"
+      ],
       "service": "coreService",
       "uri": "snapshots",
       "testName": "validate get snapshot api",
@@ -207,5 +317,4 @@
       ]
     }
   ]
-
 }

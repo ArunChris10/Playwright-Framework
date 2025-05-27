@@ -1,0 +1,379 @@
+{
+  "Create Scenario for historic rate projection_with EqualDistb": [
+    {
+      "testStep": "Projection_hist with EqualDistb_Get a forecast to delete before proceding for Demand SBA",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS3"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Projection_Hist_EqualDistb_Get a forecast to delete before proceding for Io SBA",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "Projection_Hist_EqualDistbScenariotoDeletescenarioId": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110030
+            },
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
+        "Projection_Hist_EqualDistbScenariotoDeletescenarioVersion": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110030
+            },
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
+      }
+    },
+    {
+      "testStep": "Projection_Hist_EqualDistb_Delete Demand SBA forecast before proceding",
+      "environment": "qa",
+      "labels": [
+        "smoke"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Projection_Hist_EqualDistb_Delete a IO forecast before proceding",
+      "queryParams": "/{{Projection_Hist_EqualDistbScenariotoDeletescenarioId}}/{{Projection_Hist_EqualDistbScenariotoDeletescenarioVersion}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110030
+      }
+    },
+    {
+      "testStep": "Projection_Hist_EqualDistb_Create Forecast Scenario for Demand SBA",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Projection_Hist_EqualDistb_Validate create forecast- Demand SBA",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "apiUtilityAutomation {{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110030
+      },
+      "extract": {
+        "Projection_Hist_EqualDistb_scenario_id": "scenario.scenario_id",
+        "Projection_Hist_EqualDistb_scenario_version": "scenario.scenario_version_timestamp"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Projection_Hist_EqualDistb_Poll creation of Demand FORECAST",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Projection_Hist_EqualDistb_Poll creation of Demand FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "apiUtilityAutomation {{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    }
+  ],
+  "validate_calculation_historic rate projection_with EqualDistb": [
+    {
+      "testStep": "Projection_Hist_EqualDistb_Calculate Forecast",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-36509",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Projection_Hist_EqualDistb_Verify calculation",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{Projection_Hist_EqualDistb_scenario_id}}",
+        "dim_val_id": 110030,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "grossgmv",
+            "node_dimension": {},
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 31
+            },
+            "data": {
+              "{{dynamicMonth+1}}": {
+                "projection": {
+                  "method": 33,
+                  "input": null
+                }
+              }
+            }
+          },
+          {
+            "node_var_name": "unitsgrossuomng_input",
+            "node_dimension": {},
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 31
+            },
+            "data": {
+              "{{dynamicMonth+1}}": {
+                "projection": {
+                  "method": 33,
+                  "input": null
+                }
+              }
+            }
+          },
+          {
+            "node_var_name": "financialservicesincome",
+            "node_dimension": {},
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 31
+            },
+            "data": {
+              "{{dynamicMonth+2}}": {
+                "projection": {
+                  "method": 33,
+                  "input": null
+                }
+              }
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1748328470421
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "historic_EqualDistb_forecastDriverOne": {
+          "whereKey": "node_var_name",
+          "equals": "grossgmv",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        },
+        "historic_EqualDistb_forecastDriverTwo": {
+          "whereKey": "node_var_name",
+          "equals": "unitsgrossuomng_input",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        },
+        "historic_EqualDistb_forecastDriverThree": {
+          "whereKey": "node_var_name",
+          "equals": "financialservicesincome",
+          "extractKey": "edits.{{dynamicMonth+2}}.forecast"
+        }
+      },
+      "validateExtractToBeNotNull": [
+        "historic_EqualDistb_forecastDriverOne",
+        "historic_EqualDistb_forecastDriverTwo",
+        "historic_EqualDistb_forecastDriverThree"
+      ]
+    }
+  ],
+  "validate_save_adjustment_forProjection_Hist_EqualDistb": [
+    {
+      "testStep": "Projection_Hist_EqualDistb_Save Adjustment",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-36508",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "saveAdjustment",
+      "testName": "Projection_Hist_EqualDistb_Verify Save",
+      "queryParams": "",
+      "method": "PATCH",
+      "payload": {
+        "adjustment_metadata": {
+          "adjustment_name": "test auto adjustment",
+          "adjustment_reason": "",
+          "adjustment_type": 73,
+          "is_duplicated": false,
+          "is_update": false,
+          "is_create": true,
+          "adjustment_edits": 3,
+          "scenario_id": "{{Projection_Hist_EqualDistb_scenario_id}}",
+          "scenario_version_timestamp": "{{Projection_Hist_EqualDistb_scenario_version}}"
+        },
+        "allocation_request": {
+          "display_nodes": [],
+          "scenario_id": "{{Projection_Hist_EqualDistb_scenario_id}}",
+          "dim_val_id": 110030,
+          "dim_id": 11,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "grossgmv",
+              "node_dimension": {},
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 31
+              },
+              "data": {
+                "{{dynamicMonth+1}}": {
+                  "projection": {
+                    "method": 33,
+                    "input": null
+                  }
+                }
+              }
+            },
+            {
+              "node_var_name": "unitsgrossuomng_input",
+              "node_dimension": {},
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 31
+              },
+              "data": {
+                "{{dynamicMonth+1}}": {
+                  "projection": {
+                    "method": 33,
+                    "input": null
+                  }
+                }
+              }
+            },
+            {
+              "node_var_name": "financialservicesincome",
+              "node_dimension": {},
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 31
+              },
+              "data": {
+                "{{dynamicMonth+2}}": {
+                  "projection": {
+                    "method": 33,
+                    "input": null
+                  }
+                }
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+        },
+        "dim_val_id": 110030
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "New adjustment created successfully!!",
+            "jsonPath2": "adjustment_metadata.adjustment_name",
+            "value2": "test auto adjustment"
+          },
+          "assertNotNull": {
+            "jsonPath1": "adjustment_metadata.adjustment_id",
+            "jsonPath2": "adjustment_metadata.created_by",
+            "jsonPath3": "adjustment_metadata.created_at"
+          }
+        }
+      ]
+    }
+  ]
+}
