@@ -1,0 +1,26 @@
+{
+  "get_drivers_list_for_SSDM": [
+    {
+      "testStep": "get drivers list for SSDM ",
+      "environment": "qa",
+      "labels": ["smoke", "getDriversListSSDM"],
+      "service": "coreService",
+      "uri": "getDriversListSSDM",
+      "testName": "get drivers list for SSDM",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "classification_id": 12,
+        "dim_id": 13,
+        "dim_val_id": 130001,
+        "driver_type": 48,
+        "filters": []
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

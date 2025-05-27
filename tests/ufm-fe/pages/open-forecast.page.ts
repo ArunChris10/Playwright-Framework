@@ -44,6 +44,7 @@ export class OpenCurrentForecast {
   readonly deleteViewSnackBar: Locator;
   readonly savedViewsDropDownMenu: Locator;
   readonly deleteButton: Locator
+  readonly duplicateViewMessage: Locator
 
 
   constructor(page: Page) {
@@ -60,8 +61,9 @@ export class OpenCurrentForecast {
       '//div[@class="table-container"]//button[contains(text(),"Actions")]'
     );
     this.chooseDifferentDriverButton = page.getByText(
-      "Add Drivers"
+      "Create new view"
     );
+    this.duplicateViewMessage = page.getByText('This name is already in use. Please choose a different one.')
     this.addDriversButton = page.getByText("Add Drivers")
     this.DriversButton = page.locator("//button[text()='Drivers']")
     this.forecastInputCell =
@@ -123,10 +125,6 @@ export class OpenCurrentForecast {
   async clickOnChooseDifferentDriver() {
     await this.DriversButton.isVisible() ? await this.DriversButton.click() : await this.chooseDifferentDriverButton.click()
 
-  }
-
-  getLabelLocator(selector: string) {
-    return this.page.locator(selector);
   }
 
   async clickOnChooseDriver() {
@@ -432,7 +430,7 @@ export class OpenCurrentForecast {
       return await this.saveButton.click();
     }
 
-    return await this.saveButton.isDisabled();
+    return await this.saveButton.isDisabled() ? false : true;
 
   }
 
@@ -500,7 +498,7 @@ export class OpenCurrentForecast {
     expect(await this.saveViewModal.locator(this.saveButtonLocatorString).isVisible()).toBeTruthy()
   }
 
-  async inputSaveViews(name: string) {
+  async inputSaveViews(name) {
     await this.saveViewModal.locator('//input').fill(name)
   }
 
@@ -514,13 +512,19 @@ export class OpenCurrentForecast {
     await this.page.waitForTimeout(1000)
   }
 
-  async clickOnCreateNewView() {
-    if (await this.createNewViewButton.isVisible()) {
+  async clickOnCreateNewView(dropDown = "") {
+    if (dropDown == "dropDown") {
+      await this.savedViewsDropDownHeader.locator("//button").click()
       await this.createNewViewButton.click()
+    } else {
+      if (await this.createNewViewButton.isVisible()) {
+        await this.createNewViewButton.click()
+      }
+      else {
+        await this.clickOnChooseDifferentDriver()
+      }
     }
-    else {
-      await this.clickOnChooseDifferentDriver()
-    }
+
 
   }
 
@@ -534,5 +538,9 @@ export class OpenCurrentForecast {
       this.DriversButton.waitFor({ state: 'visible' }),
     ]);
     return await this.page.locator(`//span[@aria-label="Private view"]//following-sibling::span[text()="${viewName}"]`).isVisible()
+  }
+
+  async checkDuplicateViewMessage() {
+    return await this.duplicateViewMessage.isVisible()
   }
 }

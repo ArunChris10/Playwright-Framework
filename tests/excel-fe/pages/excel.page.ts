@@ -64,6 +64,14 @@ export class ExcelPage {
     return this.formulaBar.textContent();
   }
 
+   async setCellData(cell: string, value: string): Promise<void> {
+    await this.nameBox.click();
+    await this.nameBox.fill(cell);
+    await this.page.keyboard.press("Enter");
+    await this.page.keyboard.type(value);
+    await this.page.keyboard.press("Enter");
+  }
+
   async getStarted() {
     await this.getStartedBtn.click();
   }
