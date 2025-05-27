@@ -1,36 +1,32 @@
 {
-  "validate_aop_demand_calculate_save_workflow": [
-  {
-    "testStep": "Get AOP Scenario Details from DataScience Info",
-    "environment": "qa",
-    "labels": [
-      "smoke",
-      "Pre-Req",
-      "MS2"
-    ],
-    "service": "coreService",
-    "uri": "getDataScienceInfo",
-    "testName": "get Scenario details from data Science info",
-    "queryParams": "",
-    "method": "GET",
-    "assertion": [
-      {
-        "status": 200
+  "validate_calculate_and_save_aop_demand_input_and_calculated_nodes_workflow": [
+    {
+      "testStep": "Fetch Scenario Details from DataScience Info",
+      "environment": "qa",
+      "labels": ["smoke", "Pre-Req", "IBGROW-35039", "IBGROW-34989", "MS2"],
+      "service": "coreService",
+      "uri": "getDataScienceInfo",
+      "testName": "Get Scenario details from data science info (classification_id: 11)",
+      "queryParams": "",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "aop_scenario_id": {
+          "whereKey": "classification_id",
+          "equals": 11,
+          "extractKey": "scenario_id"
+        },
+        "aop_scenario_version": {
+          "whereKey": "classification_id",
+          "equals": 11,
+          "extractKey": "scenario_version"
+        }
       }
-    ],
-    "extractRelative": {
-      "aop_scenario_id": {
-        "whereKey": "classification_id",
-        "equals": 11,
-        "extractKey": "scenario_id"
-      },
-      "aop_scenario_version": {
-        "whereKey": "classification_id",
-        "equals": 11,
-        "extractKey": "scenario_version"
-      }
-    }
-  },
+    },
   { "testStep": "Caluclate AOP demand input node",
     "environment": "qa",
     "labels": [
@@ -150,10 +146,10 @@
       "filters": [],
       "period_view": "month",
       "preview": true,
-      "scenario_id": 15141747243293
+      "scenario_id": "{{aop_scenario_id}}"
     }
 ,    
-    "assertion": [
+    "assertions": [
       {
         "status": 200
       },
@@ -330,7 +326,7 @@
       }
     }
 ,    
-    "assertion": [
+    "assertions": [
       {
         "status": 200
       },
@@ -351,66 +347,8 @@
       }
     ],
     "extract": {
-      "adjustment_id": "adjustment_metadata.adjustment_id"
+      "saved_adjustment_id": "adjustment_metadata.adjustment_id"
     }
-  },
-  {
-    "testStep": "Validate saved data for AOP",
-    "environment": "qa",
-    "labels": [
-      "smoke",
-      "IBGROW-35039",
-            "IBGROW-34989",
-            "MS2"
-    ],
-    "service": "coreService",
-    "uri": "getKpi",
-    "testName": "Validate saved data for AOP - GetKpi",
-    "queryParams": "",
-    "method": "POST",
-    "payload": {
-      "scenario_id": "{{aop_scenario_id}}",
-      "scenario_version": "{{aop_scenario_version}}",
-      "dim_id": 13,
-      "dim_val_id": 130001,
-      "classification_id": 12,
-      "template_id": 3,
-      "filters": [],
-      "additional_filters": {
-        "pivot_cols": [
-          "month"
-        ],
-        "pivot_index": [
-          "node_id"
-        ],
-        "period_view": [
-          "month"
-        ],
-        "nodes": [
-          "grossgmv"
-        ],
-        "template_include_headers": [
-          {
-            "name": "Driver"
-          }
-        ],
-        "month": [
-          "{{dynamicMonth-3}}"
-        ]
-      },
-      "isApplied": false
-    },
-    "assertion": [
-      {
-        "status": 200
-      },
-      {
-        "assertEquals": {
-          "jsonPath1": "rowData.{{dynamicMonth-3}}.forecast",
-          "value1": 2050000000
-        }
-      }
-    ]
   }
 ]
 }
