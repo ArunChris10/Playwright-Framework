@@ -1,6 +1,7 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { testData } from '../testdata/fileName.json';
 import { TIMEOUT_FE_WAIT } from '../constants/timeout.json';
+import { Logger } from "../../common/fixtures/logger-utils";
 
 export class LandingPageValidation {
 
@@ -335,5 +336,17 @@ export class LandingPageValidation {
     }
 
     return { count: resultElements.length, filterValues };
+  }
+
+  async runFilterValidation(filterType: string, filterValue: string) {
+    await this.selectAndApplyFilter(filterType, filterValue);
+    const result = await this.validateResultsByFilter(filterType);
+    if (result.count > 0) {
+        for (const value of result.filterValues) {
+            expect(value).toContain(filterValue);
+        }
+    } else {
+      Logger.log(`No rows found for the filter: ${filterType} = ${filterValue}`); // <-- Use Logger instead of console.log
+    }
   }
 }

@@ -4,6 +4,7 @@ import { PageFactory } from '../../common/pages/page-factory';
 import { signinUtility } from "../fixtures/signinUtility";
 import { TIMEOUT_SSDM_FE } from '../constants/timeout.json';
 import { testData, filterOptions } from '../testdata/fileName.json';
+import { Logger } from "../../common/fixtures/logger-utils";
 
 test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @walmart123" }, async () => {
     let objpageFactory: PageFactory;
@@ -59,7 +60,7 @@ test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @
                 ).toBeTruthy();
             }
         } else {
-            console.log('No rows found for the complete metric name search term.');
+            Logger.log('No rows found for the complete metric name search term.');
         }
     });
 
@@ -73,7 +74,7 @@ test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @
                 expect(value).toContain(searchterm);
             }
         } else {
-            console.log('No rows found for the partial search term.');
+            Logger.log('No rows found for the partial search term.');
         }
     });
 
@@ -84,7 +85,6 @@ test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @
         if (result.count === 0) {
             // Assert that no results are returned for an incorrect search
             expect(result.count).toBe(0);
-            //console.log('No rows found for the incorrect metric name search term, as expected.');
         } else {
             for (const value of result.searchValues) {
                 // Validate none of the values contain the incorrect search term
@@ -97,75 +97,35 @@ test.describe('Landing page validate Feature Test', { tag: "@Smoke @Regression @
     test('month column filter validation', async () => {
         let filterType = filterOptions[0].data.month.dropDown;
         let filterValue = filterOptions[0].data.month.actuals;
-        await objpageFactory.ssdmPageFactory().landingPage().selectAndApplyFilter(filterType, filterValue);
-        const result = await objpageFactory.ssdmPageFactory().landingPage().validateResultsByFilter(filterType);
-        if (result.count > 0) {
-            for (const value of result.filterValues) {
-                expect(value).toContain(filterValue);
-            }
-        } else {
-            console.log(`No rows found for the filter: ${filterType} = ${filterValue}`);
-        }
+        await objpageFactory.ssdmPageFactory().landingPage().runFilterValidation(filterType, filterValue);
     });
 
     // Validate filter functionality for the "channel" column
     test('channel column filter validation', async () => {
         let filterType = filterOptions[0].data.channel.dropDown;
         let filterValue = filterOptions[0].data.channel.option;
-        await objpageFactory.ssdmPageFactory().landingPage().selectAndApplyFilter(filterType, filterValue);
-        const result = await objpageFactory.ssdmPageFactory().landingPage().validateResultsByFilter(filterType);
-        if (result.count > 0) {
-            for (const value of result.filterValues) {
-                expect(value).toContain(filterValue);
-            }
-        } else {
-            console.log(`No rows found for the filter: ${filterType} = ${filterValue}`);
-        }
+        await objpageFactory.ssdmPageFactory().landingPage().runFilterValidation(filterType, filterValue);
     });
 
     // Validate filter functionality for the "department" column
     test('department column filter validation', async () => {
         let filterType = filterOptions[0].data.department.dropDown;
         let filterValue = filterOptions[0].data.department.option;
-        await objpageFactory.ssdmPageFactory().landingPage().selectAndApplyFilter(filterType, filterValue);
-        const result = await objpageFactory.ssdmPageFactory().landingPage().validateResultsByFilter(filterType);
-        if (result.count > 0) {
-            for (const value of result.filterValues) {
-                expect(value).toContain(filterValue);
-            }
-        } else {
-            console.log(`No rows found for the filter: ${filterType} = ${filterValue}`);
-        }
+        await objpageFactory.ssdmPageFactory().landingPage().runFilterValidation(filterType, filterValue);
     });
 
     // Validate filter functionality for the "entity" column
     test('entity column filter validation', async () => {
         let filterType = filterOptions[0].data.entity.dropDown;
         let filterValue = filterOptions[0].data.entity.option;
-        await objpageFactory.ssdmPageFactory().landingPage().selectAndApplyFilter(filterType, filterValue);
-        const result = await objpageFactory.ssdmPageFactory().landingPage().validateResultsByFilter(filterType);
-        if (result.count > 0) {
-            for (const value of result.filterValues) {
-                expect(value).toContain(filterValue);
-            }
-        } else {
-            console.log(`No rows found for the filter: ${filterType} = ${filterValue}`);
-        }
+        await objpageFactory.ssdmPageFactory().landingPage().runFilterValidation(filterType, filterValue);
     });
 
     // Validate filter functionality for the "owner" column
     test('owner column filter validation', async () => {
         let filterType = filterOptions[0].data.owner.dropDown;
         let filterValue = filterOptions[0].data.owner.option;
-        await objpageFactory.ssdmPageFactory().landingPage().selectAndApplyFilter(filterType, filterValue);
-        const result = await objpageFactory.ssdmPageFactory().landingPage().validateResultsByFilter(filterType);
-        if (result.count > 0) {
-            for (const value of result.filterValues) {
-                expect(value).toContain(filterValue);
-            }
-        } else {
-            console.log(`No rows found for the filter: ${filterType} = ${filterValue}`);
-        }
+        await objpageFactory.ssdmPageFactory().landingPage().runFilterValidation(filterType, filterValue);
     });
 
     // Test the clear-all filter functionality
