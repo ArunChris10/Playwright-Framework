@@ -462,7 +462,7 @@
           ]
         }
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         }
@@ -541,7 +541,7 @@
         "period_view": "month",
         "adjustment_id": 1747291738569
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         }
@@ -639,7 +639,7 @@
         },
         "dim_val_id": 110021
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         },
@@ -681,7 +681,7 @@
           "dim_val_id": 110021
         }
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         },
@@ -779,7 +779,7 @@
         "period_view": "month",
         "adjustment_id": 1747295182190
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         }
@@ -843,7 +843,7 @@
         },
         "dim_val_id": 110030
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         },
@@ -885,7 +885,7 @@
           "dim_val_id": 110030
         }
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         },
@@ -966,7 +966,7 @@
           "{{optical_scenario_id}}"
         ]
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         }
@@ -1041,7 +1041,7 @@
         },
         "isApplied": true
       },
-      "assertion": {
+      "assertions": {
         "status": 200
       },
       "extractRelative": {
@@ -1089,7 +1089,7 @@
       "testName": "Get visual Indicator on refresh in optical SBA",
       "queryParams": "?classification_id=12&scenario_id={{optical_scenario_id}}",
       "method": "GET",
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         }
@@ -1123,7 +1123,7 @@
         "dim_id": 11,
         "dim_val_id": 110030
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         }
@@ -1145,7 +1145,7 @@
         "dim_id": 11,
         "dim_val_id": 110021
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         }
@@ -1167,7 +1167,7 @@
         "dim_id": 11,
         "dim_val_id": 110016
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         }
