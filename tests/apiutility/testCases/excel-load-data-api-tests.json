@@ -31,7 +31,7 @@
       "method": "POST",
       "queryParams": "",
       "payload": {
-        "nodeIds": [
+        "node_var_names": [
           "momerchandisesales",
           "moserviceincome",
           "mocommissionincome",
@@ -79,8 +79,8 @@
         ],
         "scenarios": [
           {
-            "scenarioId": "{{scenario_id}}",
-            "scenarioVer": "{{scenario_version_timestamp}}",
+            "scenario_id": "{{scenario_id}}",
+            "scenario_ver": "{{scenario_version_timestamp}}",
             "actual_scenario_id": "{{actual_template_id}}",
             "forecast_scenario_id": "{{forecast_template_id}}",
             "type": "scenarios"
@@ -102,10 +102,11 @@
           "{{dynamicMonth+5}}",
           "{{dynamicMonth+6}}"
         ],
-        "aggregationLevel": ["MONTH"],
+        "period_type": "month",
+        "period_levels": [],
         "dimensions": ["channel_l3", "channel_l2", "channel_l1"],
-        "pivot_rows": ["Node Name", "Channel L0", "Channel L1", "Channel L2"],
-        "pivot_columns": ["Date", "Scenario Name"]
+        "pivot_rows": ["node_var_name", "channel_l3", "channel_l1", "channel_l2"],
+        "pivot_columns": ["period", "scenario_id"]
       },
       "assertions": [
         {
@@ -123,11 +124,11 @@
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "nodeIds": ["grossprofit"],
+        "node_var_names": ["grossprofit"],
         "scenarios": [
           {
-            "scenarioId": "{{scenario_id}}",
-            "scenarioVer": "{{scenario_version_timestamp}}",
+            "scenario_id": "{{scenario_id}}",
+            "scenario_ver": "{{scenario_version_timestamp}}",
             "actual_scenario_id": "{{actual_template_id}}",
             "forecast_scenario_id": "{{forecast_template_id}}",
             "type": "scenarios"
@@ -136,7 +137,8 @@
         "filters": {},
         "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
         "periods": ["{{dynamicMonth}}"],
-        "aggregationLevel": ["MONTH"],
+        "period_type": "month",
+        "period_levels": [],
         "dimensions": [
           "channel_l3",
           "channel_l2",
@@ -147,17 +149,17 @@
           "department"
         ],
         "pivot_rows": [
-          "Scenario Name",
-          "Node Name",
-          "Channel L0",
-          "Channel L1",
-          "Channel L2",
-          "Channel L3",
-          "Base Channel",
-          "SBU",
-          "Department"
+          "scenario_id",
+          "node_var_name",
+          "channel_l0",
+          "channel_l1",
+          "channel_l2",
+          "channel_l3",
+          "channel",
+          "department_l0",
+          "department"
         ],
-        "pivot_columns": ["Date"]
+        "pivot_columns": ["period"]
       },
       "assertion": [
         {
@@ -178,7 +180,7 @@
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "nodeIds": [
+        "node_var_names": [
           "grossprofit",
           "momerchandisesales",
           "mowarehouseallowances",
@@ -187,8 +189,8 @@
         ],
         "scenarios": [
           {
-            "scenarioId": "{{scenario_id}}",
-            "scenarioVer": "{{scenario_version_timestamp}}",
+            "scenario_id": "{{scenario_id}}",
+            "scenario_ver": "{{scenario_version_timestamp}}",
             "actual_scenario_id": "{{actual_template_id}}",
             "forecast_scenario_id": "{{forecast_template_id}}",
             "type": "scenarios"
@@ -200,10 +202,11 @@
           "{{dynamicMonth}}",
           "{{dynamicMonth+1}}"
         ],
-        "aggregationLevel": ["MONTH"],
+        "period_type": "month",
+        "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["Date", "Scenario Name"],
-        "pivot_columns": ["Node Name"]
+        "pivot_rows": ["period", "scenario_id"],
+        "pivot_columns": ["node_var_name"]
       },
       "assertion": [
         {
@@ -226,8 +229,8 @@
       "payload": {
         "scenarios": [
           {
-            "scenarioId": "{{scenario_id}}",
-            "scenarioVer": "{{scenario_version_timestamp}}",
+            "scenario_id": "{{scenario_id}}",
+            "scenario_ver": "{{scenario_version_timestamp}}",
             "actual_scenario_id": "{{actual_template_id}}",
             "forecast_scenario_id": "{{forecast_template_id}}",
             "type": "scenarios"
@@ -236,10 +239,11 @@
         "filters": {},
         "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
         "periods": ["{{dynamicMonth}}"],
-        "aggregationLevel": ["MONTH"],
+        "period_type": "month",
+        "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["Date", "Scenario Name"],
-        "pivot_columns": ["Node Name"]
+        "pivot_rows": ["period", "scenario_id"],
+        "pivot_columns": ["node_var_name"]
       },
       "assertion": [
         {
@@ -257,13 +261,14 @@
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "nodeIds": ["grossprofit"],
+        "node_var_names": ["grossprofit"],
         "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
         "periods": ["{{dynamicMonth}}"],
-        "aggregationLevel": ["MONTH"],
+        "period_type": "month",
+        "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["Date", "Scenario Name"],
-        "pivot_columns": ["Node Name"]
+        "pivot_rows": ["period", "scenario_id"],
+        "pivot_columns": ["node_var_name"]
       },
       "assertion": [
         {
@@ -281,11 +286,11 @@
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "nodeIds": ["grossprofit"],
+        "node_var_names": ["grossprofit"],
         "scenarios": [
           {
-            "scenarioId": "{{scenario_id}}",
-            "scenarioVer": "{{scenario_version_timestamp}}",
+            "scenario_id": "{{scenario_id}}",
+            "scenario_ver": "{{scenario_version_timestamp}}",
             "actual_scenario_id": "{{actual_template_id}}",
             "forecast_scenario_id": "{{forecast_template_id}}",
             "type": "scenarios"
@@ -293,16 +298,17 @@
         ],
         "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
         "periods": ["199901", "199902", "199903"],
-        "aggregationLevel": ["MONTH"],
+        "period_type": "month",
+        "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["Date", "Scenario Name"],
-        "pivot_columns": ["Node Name"]
+        "pivot_rows": ["period", "scenario_id"],
+        "pivot_columns": ["node_var_name"]
       },
       "assertion": [
         {
           "assertResponse": {
             "payload": {
-              "rowData": []
+              "row_data": []
             }
           }
         }
@@ -318,11 +324,11 @@
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "nodeIds": ["grossprofit"],
+        "node_var_names": ["grossprofit"],
         "scenarios": [
           {
-            "scenarioId": "{{scenario_id}}",
-            "scenarioVer": "{{scenario_version_timestamp}}",
+            "scenario_id": "{{scenario_id}}",
+            "scenario_ver": "{{scenario_version_timestamp}}",
             "actual_scenario_id": "{{actual_template_id}}",
             "forecast_scenario_id": "{{forecast_template_id}}",
             "type": "scenarios"
@@ -331,20 +337,21 @@
         "filters": { "department": [20002, 20004] },
         "hierarchy_names": ["MP_CHANNEL_LEVELS", "SBU"],
         "periods": ["{{dynamicMonth}}"],
-        "aggregationLevel": ["MONTH"],
+        "period_type": "month",
+        "period_levels": [],
         "dimensions": ["department_l0", "department"],
-        "pivot_rows": ["Date", "Scenario Name", "Node Name", "SBU"],
-        "pivot_columns": ["Department"]
+        "pivot_rows": ["period", "scenario_id", "node_var_name", "department_l0"],
+        "pivot_columns": ["department"]
       },
       "assertion": [
         {
           "assertResponse": {
             "payload": {
-              "rowData": [
+              "row_data": [
                 {
                   "1": null,
                   "2": "*",
-                  "Date": "{{dynamicMonthStr}}",
+                  "Period": "{{dynamicMonthStr}}",
                   "Scenario Name": "{{scenario_id}}",
                   "Node Name": "grossprofit",
                   "SBU": 20002
@@ -352,7 +359,7 @@
                 {
                   "1": "*",
                   "2": null,
-                  "Date": "{{dynamicMonthStr}}",
+                  "Period": "{{dynamicMonthStr}}",
                   "Scenario Name": "{{scenario_id}}",
                   "Node Name": "grossprofit",
                   "SBU": 20004

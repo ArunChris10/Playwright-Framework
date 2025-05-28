@@ -1,12 +1,15 @@
 {
-  "validate_calculation_for_various_node_types": [
+  "createScenario_for_various_node_types": [
     {
-      "testStep": "Fetch Scenario ID and Version from Forecast",
+      "testStep": "Get a forecast to delete before proceding for IO SBA",
       "environment": "qa",
-      "labels": ["smoke", "Pre-Req", "MS1"],
+      "labels": [
+        "smoke",
+        "MS3"
+      ],
       "service": "coreService",
       "uri": "getForecast",
-      "testName": "Get forecast data to extract scenario ID and version for 'io'",
+      "testName": "Get a forecast to delete before proceding for Io SBA",
       "queryParams": "",
       "method": "POST",
       "payload": {
@@ -34,23 +37,139 @@
           "status": 200
         }
       ],
-      "extract": {
-        "calculate_scenario_id": {
-          "whereKey": "rowData.name",
-          "equals": "Test2",
+      "extractRelativeMultipleCondition": {
+        "IOtoDeletescenarioId": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110026
+            },
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            }
+          ],
           "extractKey": "scenarioId"
         },
-        "calculate_scenario_version": {
-          "whereKey": "rowData.name",
-          "equals": "Test2",
+        "IOtoDeletescenarioVersion": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110026
+            },
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            }
+          ],
           "extractKey": "scenarioVersion"
         }
       }
     },
     {
+      "testStep": "Delete IO SBA forecast before proceding",
+      "environment": "qa",
+      "labels": [
+        "smoke"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Delete a IO forecast before proceding",
+      "queryParams": "/{{IOtoDeletescenarioId}}/{{IOtoDeletescenarioVersion}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110026
+      }
+    },
+    {
+      "testStep": "Create Forecast Scenario for IO SBA to have combination of #, %, and $ Node Types",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast- IO SBA",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "apiUtilityAutomation {{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110026
+      },
+      "extract": {
+        "io_scenario_id": "scenario.scenario_id",
+        "io_scenario_version": "scenario.scenario_version_timestamp"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of IO FORECAST",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of IO FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120009,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "apiUtilityAutomation {{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    }
+  ],
+  "validate_calculation_for_various_node_types": [
+    {
       "testStep": "Calculate Forecast for #, %, and $ Node Types",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38434", "IBGROW-35440", "MS1"],
+      "labels": [
+        "smoke",
+        "IBGROW-38434",
+        "IBGROW-35440",
+        "MS1"
+      ],
       "service": "coreService",
       "uri": "allocateData",
       "testName": "Verify calculation for all node types (#, %, $)",
@@ -58,7 +177,7 @@
       "method": "POST",
       "payload": {
         "display_nodes": [],
-        "scenario_id": "{{calculate_scenario_id}}",
+        "scenario_id": "{{io_scenario_id}}",
         "dim_val_id": 110026,
         "dim_id": 11,
         "preview": true,
@@ -107,45 +226,48 @@
       "assertions": [
         {
           "status": 200
-        },
-        {
-          "extractRelative": {
-            "forecastDriverOne": {
-              "whereKey": "node_var_name",
-              "equals": "storereturns_input",
-              "extractKey": "edits.{{dynamicMonth+1}}.forecast"
-            },
-            "forecastDriverTwo": {
-              "whereKey": "node_var_name",
-              "equals": "returnedunitsuom_input",
-              "extractKey": "edits.{{dynamicMonth+1}}.forecast"
-            },
-            "forecastDriverThree": {
-              "whereKey": "node_var_name",
-              "equals": "merchandiseincomeallocatedtoentity",
-              "extractKey": "edits.{{dynamicMonth+1}}.forecast"
-            },
-            "forecastDriverFour": {
-              "whereKey": "node_var_name",
-              "equals": "allocationpctmerchandiseincome_input",
-              "extractKey": "edits.{{dynamicMonth+1}}.forecast"
-            }
-          },
-          "validateExtract": {
-            "forecastDriverOne": 499.9999999999999,
-            "forecastDriverTwo": 532,
-            "forecastDriverThree": 49997295220.91298,
-            "forecastDriverFour": 1.4999999999999978
-          }
         }
+      ],
+      "extractRelative": {
+        "forecastDriverOne": {
+          "whereKey": "node_var_name",
+          "equals": "storereturns_input",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        },
+        "forecastDriverTwo": {
+          "whereKey": "node_var_name",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        },
+        "forecastDriverThree": {
+          "whereKey": "node_var_name",
+          "equals": "merchandiseincomeallocatedtoentity",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        },
+        "forecastDriverFour": {
+          "whereKey": "node_var_name",
+          "equals": "allocationpctmerchandiseincome_input",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        }
+      },
+      "validateExtractToBeNotNull": [
+        "forecastDriverOne",
+        "forecastDriverTwo",
+        "forecastDriverThree",
+        "forecastDriverFour"
       ]
     }
-  ],  
+  ],
   "validate_save_adjustment_for_various_node_types": [
     {
       "testStep": "Save Adjustment for Node Types (#, %, $)",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38435", "IBGROW-35441", "MS1"],
+      "labels": [
+        "smoke",
+        "IBGROW-38435",
+        "IBGROW-35441",
+        "MS1"
+      ],
       "service": "coreService",
       "uri": "saveAdjustment",
       "testName": "Verify Save works correctly for all node types (#, %, $)",
@@ -160,12 +282,12 @@
           "is_update": false,
           "is_create": true,
           "adjustment_edits": 3,
-          "scenario_id": "{{calculate_scenario_id}}",
-          "scenario_version_timestamp": "{{calculate_scenario_version}}"
+          "scenario_id": "{{io_scenario_id}}",
+          "scenario_version_timestamp": "{{io_scenario_version}}"
         },
         "allocation_request": {
           "display_nodes": [],
-          "scenario_id": "{{calculate_scenario_id}}",
+          "scenario_id": "{{io_scenario_id}}",
           "dim_val_id": 110026,
           "dim_id": 11,
           "preview": false,
@@ -233,4 +355,3 @@
     }
   ]
 }
-

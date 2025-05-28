@@ -136,3 +136,12 @@ test.describe("Verify Scenario Workflow",
     
             });
     });
+
+test.describe("Verify Lock CDF",{tag : "@LockCDF @SegmentSubmission @DoNotRunInPipeline"},async () => {
+    test.describe.configure({ timeout: 3000_000, mode: "serial" });
+
+    test.skip(`Verify Lock CDF `, async ({ request }) => {
+        await WorkflowUtility.lockCDF(request);
+    });
+}
+)
