@@ -20,6 +20,17 @@
             }
         }
     ],
+    "HistoricalRatesTestData": [
+        {
+            "sbaName": "Demand",
+            "LOB": "CONSOLIDATED DEMAND",
+            "driver": {
+                "inputDriver": ["Financial Services Income"],
+                "noOfMonth": 2,
+                "allocationMethod": ["Constant value", "Maintain ratio","Equal distribution"]
+            }
+        }
+    ],
     "testAdditiveDataQuarter": [
         {
             "sbaName": "Health & wellness",
