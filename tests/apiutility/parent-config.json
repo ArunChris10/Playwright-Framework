@@ -6,7 +6,7 @@
   "user": "LB-ibg-ufm-auto",
   "tagsToRun": [],
   "testFiles": [
-    "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
+        "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save.json",
     "testCases/data-science-review-testcases/aop-calculate-save.json",
@@ -36,7 +36,9 @@
     "testCases/projection-method-testcases/historicRate-constantValueAllocation.json",
     "testCases/projection-method-testcases/historicRate-MaintainRatioAllocation.json",
     "testCases/projection-method-testcases/historicRate-EqualDistributionAllocation.json",
-   "testCases/excel-load-data-api-time-granularity.json"
+    "testCases/projection-method-testcases/historicRate-TimeRollingAllocation.json",
+    "testCases/projection-method-testcases/regression-MaintainRatioAllocation.json",
+    "testCases/excel-load-data-api-time-granularity.json"
   ],
   "currentDemandService": {
     "baseURL": {
