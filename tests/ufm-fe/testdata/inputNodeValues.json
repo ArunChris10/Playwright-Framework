@@ -27,7 +27,7 @@
             "driver": {
                 "inputDriver": ["Financial Services Income"],
                 "noOfMonth": 2,
-                "allocationMethod": ["Constant value", "Maintain ratio","Equal distribution"]
+                "allocationMethod": ["Constant value", "Maintain ratio","Equal distribution","Percent on time/rolling"]
             }
         }
     ],

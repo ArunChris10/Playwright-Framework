@@ -52,6 +52,9 @@ export class OpenCurrentForecast {
   readonly growthRateInput: Locator
   readonly applyButton: Locator
   readonly duplicateViewMessage: Locator
+  readonly rollingPercentageInput: Locator
+  readonly rollingPercentageOffsetInput: Locator
+  readonly doneButtonOnRollingPercentage: Locator
 
 
   constructor(page: Page) {
@@ -117,6 +120,9 @@ export class OpenCurrentForecast {
     this.selectProjectionMethodButton = this.page.locator("//*[@data-testid='AutoCompleteWithInputIcon-id']")
     this.historicalRateInput = this.page.locator("//*[@value='HISTORICAL']")
     this.growthRateInput = this.page.locator("//*[text()='Growth Rate']")
+    this.rollingPercentageInput = this.page.locator("//*[@data-testid='input-field']")
+    this.rollingPercentageOffsetInput = this.page.locator("//*[@data-testid='offset-field']")
+    this.doneButtonOnRollingPercentage = this.page.getByText("Done")
     this.applyButton = this.page.getByText("Apply")
   }
 
@@ -408,6 +414,11 @@ export class OpenCurrentForecast {
   async selectAllocationMethod(allocationMethod: string) {
     await this.allocationMethodDropDown.click();
     await this.page.locator(`//*[@aria-labelledby="basic-button"]//*[text()="${allocationMethod}"]`).click();
+    if (allocationMethod.toLowerCase().includes("rolling")) {
+      await this.rollingPercentageInput.fill("2");
+      await this.rollingPercentageOffsetInput.fill("3");
+      await this.doneButtonOnRollingPercentage.click();
+    }
   }
 
   async allocationErrorMessageExistence() {
