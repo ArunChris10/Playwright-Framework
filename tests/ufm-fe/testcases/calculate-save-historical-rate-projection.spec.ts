@@ -2,6 +2,9 @@ import { testData } from '../testdata/inputNodeValues.json';
 import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
 import { HistoricalRatesTestData } from '../testdata/inputNodeValues.json';
+import { ForecastUtility } from '../../ufm-be/fixtures/forecast-utils';
+import { UfmUtility } from '../../ufm-be/fixtures/ufm-utils';
+import commonData from "../../ufm-be/constants/common.json";
 
 let data = HistoricalRatesTestData[0];
 data.driver.allocationMethod.forEach((method: string) => {
@@ -12,10 +15,35 @@ test.describe('Verify historical rate projection', { tag: "@Smoke @CalculateAndS
         let inputCellLocator;
         let calculatedForecastValue;
         let adjustmentName: string; 
+        let scenarioId
+            let scenario_details
 
-        test.beforeAll(async ({ pageFactory }) => {
-            objpageFactory = pageFactory;
-        })
+            test.beforeAll(async ({ pageFactory, request }) => {
+                objpageFactory = pageFactory;
+                scenarioId = await ForecastUtility.createForecast(data.LOB,request);
+
+                let currentForecast = await UfmUtility.getCurrentForecastList(
+                    data.LOB,
+                    request
+                );
+
+                scenario_details = await UfmUtility.getScenarioDetails(
+                    currentForecast,
+                    scenarioId
+                );
+
+            })
+
+            test.afterAll(async ({ request }) => {
+                await ForecastUtility.deleteForecast(
+                    scenario_details["scenarioId"],
+                    scenario_details["scenarioVersion"],
+                    commonData.ba_dim_id,
+                    await UfmUtility.getMapping(data.LOB, "dim_val_id"),
+                    request
+                );
+            })
+
 
         test(`Verify historical rate projection is working correctly on calculate when Constant value is applied with allocation method: ${method}`,{ tag: "@calculateInputNode" }, async () => {
             test.setTimeout(300000);
