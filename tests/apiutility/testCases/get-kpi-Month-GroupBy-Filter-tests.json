@@ -5,7 +5,7 @@
             "environment": "qa",
             "labels": [
                 "smoke",
-                "kpiFilters"
+                "kpiFilters","Regression"
             ],
             "service": "coreService",
             "uri": "getForecast",

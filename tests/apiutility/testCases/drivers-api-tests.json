@@ -5,7 +5,7 @@
             "environment": "qa",
             "labels": [
                 "smoke",
-                "driversApi"
+                "driversApi", "Regression"
             ],
             "service": "coreService",
             "uri": "getDrivers",
