@@ -1,7 +1,7 @@
 {
-  "rowData": [
+  "row_data": [
     {
-      "Date": "{{dynamicMonthStr-1}}",
+      "Period": "{{dynamicMonthStr-1}}",
       "Scenario Name": "{{scenario_id}}",
       "grossprofit": "*",
       "momerchandisesales": "*",
@@ -10,7 +10,7 @@
       "mototalallowances": "*"
     },
     {
-      "Date": "{{dynamicMonthStr}}",
+      "Period": "{{dynamicMonthStr}}",
       "Scenario Name": "{{scenario_id}}",
       "grossprofit": "*",
       "momerchandisesales": "*",
@@ -19,7 +19,7 @@
       "mototalallowances": "*"
     },
     {
-      "Date": "{{dynamicMonthStr+1}}",
+      "Period": "{{dynamicMonthStr+1}}",
       "Scenario Name": "{{scenario_id}}",
       "grossprofit": "*",
       "momerchandisesales": "*",
@@ -29,8 +29,15 @@
     }
   ],
   "metadata": {
-    "cutOffDate": "*",
-    "nodeDetails": {
+    "cut_off_date": "*",
+    "node_details": {
+      "momerchandisesales": {
+        "nodeId": "101_MOMERCHSALES",
+        "nodeVar": "momerchandisesales",
+        "nodeName": "Merchandise Sales (MO)",
+        "nodeType": "input",
+        "nodeValType": "$"
+      },
       "mototalallowances": {
         "nodeId": "104_MOBA",
         "nodeVar": "mototalallowances",
@@ -57,13 +64,6 @@
         "nodeVar": "grossprofit",
         "nodeName": "Gross Profit",
         "nodeType": "calculated",
-        "nodeValType": "$"
-      },
-      "momerchandisesales": {
-        "nodeId": "101_MOMERCHSALES",
-        "nodeVar": "momerchandisesales",
-        "nodeName": "Merchandise Sales (MO)",
-        "nodeType": "input",
         "nodeValType": "$"
       }
     }

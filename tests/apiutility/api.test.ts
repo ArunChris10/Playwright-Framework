@@ -30,11 +30,12 @@ export interface ApiTestCase {
   queryParams: string;
   method: string;
   payload?: any;
-  assertion?: AssertionEntry;
+  assertions?: AssertionEntry;
   extract?: { [key: string]: string };
   extractFirst?: { [key: string]: string };
   validateExtractContains?: { [key: string]: string};
   validateExtract?: { [key: string]: string };
+  validateExtractToBeNotNull?: { [key: string]: string };
   polling?: {
     extractRelative: {
       WhereKey: string;
@@ -223,6 +224,17 @@ parentConfig.testFiles.forEach(testCasePath => {
           }
         }
 
+        if (step.validateExtractToBeNotNull) {
+            for (const key in step.validateExtractToBeNotNull) {
+            const globalKey = step.validateExtractToBeNotNull[key];
+            const actual = globalStore.getValue(globalKey);
+            if (actual === null || actual === undefined) {
+              throw new Error(`Expected ${globalKey} to be not null or undefined, but got ${actual}`);
+            }
+            console.log(`Validated ${globalKey} is not null or undefined: actual = ${actual}`);
+            }
+        }
+
         if (step.validateExtractContains) {
           console.log("Validating extracted values being contained:");
           for (const globalKey in step.validateExtractContains) {
@@ -233,9 +245,9 @@ parentConfig.testFiles.forEach(testCasePath => {
           }
         }
 
-        if (step.assertion) {
+        if (step.assertions) {
           console.log("Running assertions:");
-          await validateAssertions(response, responseBody, [step.assertion].flat(), step);
+          await validateAssertions(response, responseBody, [step.assertions].flat(), step);
           console.log("Assertions passed");
         }
 
