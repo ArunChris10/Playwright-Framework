@@ -44,8 +44,6 @@ export class OpenCurrentForecast {
   readonly deleteViewSnackBar: Locator;
   readonly savedViewsDropDownMenu: Locator;
   readonly deleteButton: Locator
-  readonly duplicateViewMessage: Locator
-=======
   readonly notificationIcon: Locator
   readonly notificationTitle: Locator
   readonly searchNotificationInput: Locator
@@ -53,6 +51,7 @@ export class OpenCurrentForecast {
   readonly historicalRateInput: Locator
   readonly growthRateInput: Locator
   readonly applyButton: Locator
+  readonly duplicateViewMessage: Locator
 
 
   constructor(page: Page) {
