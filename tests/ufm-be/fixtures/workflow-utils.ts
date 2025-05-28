@@ -3,7 +3,7 @@ import commonData from "../constants/common.json";
 import endpoints from "../testdata/statusendpoints.json";
 import { ForecastUtility } from "./forecast-utils";
 import { UfmUtility } from "./ufm-utils";
-import { expect } from "playwright/test";
+import { APIRequest, APIRequestContext, expect } from "playwright/test";
 export class WorkflowUtility {
 
     /**
@@ -18,7 +18,7 @@ export class WorkflowUtility {
      * @param {Request} request - The request object used for the operation.
      * @returns {Promise<void>} - A promise that resolves when the operation is complete.
      */
-    public static async changeToStatus(
+    public static async changeToStatus_old(
         lobName,
         scenario_id,
         scenario_version,
@@ -77,6 +77,66 @@ export class WorkflowUtility {
             )
             .toBe(status);
     }
+
+    public static async changeToStatus(
+        lobName,
+        scenario_id,
+        scenario_version,
+        status,
+        dim_id,
+        dim_val_id,
+        request
+    ) {
+        Utility.logIt(`Sending scenario id : ${scenario_id} to status: ${status}`);
+        const endpointURL = `${process.env.apiBaseURLUFM}${endpoints.review_endpoint_v2}`;
+        let response = await request.post(endpointURL, {
+            data: {
+               scenario: {
+                scenario_id: scenario_id,
+                scenario_version: scenario_version,
+                scenario_status: status,
+                dim_id: dim_id,
+                dim_val_id: dim_val_id,
+            }},
+        })
+
+        let responseBody = await Utility.assertAndLog(response);
+        await expect(responseBody.scenario_status.status).toEqual(status);
+        expect(response.status()).toBe(200);
+        let statusTrackingResponse;
+        //Polling to get the scenario status to accomodate async changes
+        await expect
+            .poll(
+                async () => {
+                    Utility.logIt("Polling Status update for.." + lobName + " for scenario "+scenario_id);
+                    if (lobName == "Segment_Finance") {
+                        const response = await this.getProgresstracker(
+                            "Segment_Finance",
+                            request
+                        );
+                        statusTrackingResponse = response.rowData;
+                    } else {
+                        statusTrackingResponse = await UfmUtility.getCurrentForecastList(
+                            lobName,
+                            request
+                        );
+                    }
+                    let new_scenario = statusTrackingResponse.find(
+                        (record) => record["scenarioId"] == responseBody.scenario_status.scenario_id
+                    );
+                    return new_scenario["forecastStatus"]["statusCode"];
+                },
+                {
+                    intervals: [
+                        45_000, 15_000, 10_000, 40_000, 60_000, 60_000, 40_000, 30_000,20_000,20_000
+                    ],
+                    timeout: 600_000,
+                }
+            )
+            .toBe(status);
+    }
+
+    
 
     /**
      * This method performs prerequisite checks and actions to ensure scenarios are in a default state.
@@ -259,14 +319,19 @@ export class WorkflowUtility {
      * @param {Request} request - The request object used for the operation.
      * @returns {Promise<object>} - A promise that resolves to the progress tracker data.
      */
-    public static async getProgresstracker(screen, request) {
+    public static async getProgresstracker(screen, request , isBA = false ) {
         let template_id, dim_id, dim_val_id;
         Utility.logIt(`Getting progress tracker for screen : ${screen}`);
         if (screen == "Segment_Finance") {
             template_id = commonData.Segment_Finance.template_id;
             dim_id = commonData.Segment_Finance.dim_id;
             dim_val_id = commonData.Segment_Finance.dim_val_id;
-        } else {
+        } else if(isBA){
+            template_id = commonData.ba_template_id;
+            dim_id = commonData.ba_dim_id;
+            dim_val_id = await UfmUtility.getMapping(screen, "dim_val_id", "PBA");
+        }
+        else {
             template_id = commonData.ba_template_id;
             dim_id = commonData.ba_dim_id;
             dim_val_id = await UfmUtility.getMapping(screen, "parent_id", "PBA");
@@ -381,6 +446,97 @@ static async sendToChangeRequestFromBA(orgName, request) {
 
 }
 
+    
+static async lockCDF(request: APIRequestContext & APIRequest) {
+        
+        //check the status of all BA scenarios
+        const statusResponse = await this.getProgresstracker("Segment_Finance", request)
+        console.log("Status of all BA scenarios: ", statusResponse);
+        
+        const BAReviewScenarios = statusResponse.rowData.filter(
+        (row) => row.forecastStatus.statusCode === commonData.BA_Review
+        );
+
+        const sendToSegmentPromise = sendToSegment(BAReviewScenarios,request)
+
+        const NonSubmittedScenarios = statusResponse.rowData.filter(
+        (row) => row.forecastStatus.statusCode !== commonData.Segment_Review && row.forecastStatus.statusCode !== commonData.BA_Review
+        );
+
+        await bringToBAReviewParallel(NonSubmittedScenarios,request)
+        await sendToSegmentPromise
+        await sendToSegment(NonSubmittedScenarios,request)
+
+        const segmentScenario = await UfmUtility.getIndividualstatus("WMT_US_SEGMENT_FINANCE", request, "SEGMENT");
+
+       
+            Utility.logIt("Locking CDF for Segment Finance");
+            await this.changeToStatus(
+                "Segment_Finance",
+                segmentScenario.scenarioId,
+                segmentScenario.scenarioVersion,
+                commonData.Submitted,
+                commonData.Segment_Finance.dim_id,
+                commonData.Segment_Finance.dim_val_id,
+                request
+            );
+            Utility.logIt("CDF Locked for Segment Finance");
 
 
+
+
+
+
+    }
 }
+async function sendToSegment(BAReviewScenarios: any[],request: APIRequestContext & APIRequest) {
+    for (const scenario of BAReviewScenarios) {
+        // Assuming 'this' context is WorkflowUtility and 'request' is available in the calling scope
+        // You may need to pass 'request' as an argument if not available globally
+        await WorkflowUtility.changeToStatus(
+            "Segment_Finance",
+            scenario.scenarioId,
+            scenario.scenarioVersion,
+            commonData.Segment_Review,
+            commonData.ba_dim_id,
+            scenario.organization,
+            request
+        );
+        Utility.logIt(`Scenario ${scenario.scenarioId} sent to Segment Review`);
+    }
+}
+
+async function bringToBAReviewParallel(NonSubmittedScenarios: any[], request: APIRequestContext & APIRequest) {
+    await Promise.all(
+        NonSubmittedScenarios.map(async (scenario) => {
+            const organizationName = await UfmUtility.getMapping(scenario.organization, "childName");
+            const statusResponse = await WorkflowUtility.getProgresstracker(organizationName, request, true);
+            const NonSubmittedScenariosInner = statusResponse.rowData.filter(
+                (row) => row.forecastStatus.statusCode !== commonData.Segment_Review && row.forecastStatus.statusCode !== commonData.BA_Review
+            );
+            await createAndSendAllToBAReview(NonSubmittedScenariosInner, request);
+            Utility.logIt(`Scenario ${scenario.scenarioId} processed for BA Review`);
+        })
+    );
+}
+
+async function createAndSendAllToBAReview(NonSubmittedScenarios: any[], request: APIRequestContext & APIRequest) {
+    for (const scenario of NonSubmittedScenarios) {
+        const lobName = await UfmUtility.getMapping(scenario.lineOfBusiness, "childName");
+        // Get or create the forecast if not exists
+        const [scenario_details] = await ForecastUtility.getOrCreateForecastIfNotExists(lobName, request);
+        // Send to BA Review
+        await WorkflowUtility.changeToStatus(
+            lobName,
+            scenario_details["scenarioId"],
+            scenario_details["scenarioVersion"],
+            commonData.BA_Review,
+            commonData.lob_dim_id,
+            await UfmUtility.getMapping(lobName, "dim_val_id"),
+            request
+        );
+
+        Utility.logIt(`Scenario ${scenario_details["scenarioId"]} sent to BA Review`);
+    }
+}
+
