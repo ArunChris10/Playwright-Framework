@@ -1,0 +1,113 @@
+{
+  "config": {
+    "configFile": "/Users/m0g0tee/Desktop/NewFrameworkAutomation/ibg-testscripts-playwright/tests/apiutility/playwright.config.ts",
+    "rootDir": "/Users/m0g0tee/Desktop/NewFrameworkAutomation/ibg-testscripts-playwright/tests/apiutility",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/Users/m0g0tee/Desktop/NewFrameworkAutomation/ibg-testscripts-playwright/tests/apiutility/globalSetup.ts",
+    "globalTeardown": "/Users/m0g0tee/Desktop/NewFrameworkAutomation/ibg-testscripts-playwright/tests/apiutility/globalTeardown.ts",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 15000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/m0g0tee/Desktop/NewFrameworkAutomation/ibg-testscripts-playwright/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "",
+        "name": "",
+        "testDir": "/Users/m0g0tee/Desktop/NewFrameworkAutomation/ibg-testscripts-playwright/tests/apiutility",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 10000000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "version": "1.49.1",
+    "workers": 3,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "api.test.ts",
+      "file": "api.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "validate_download_api",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 10000000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 2074,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-05-28T16:03:09.617Z",
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c04f6c958c2c3dd17d9d-06a0ae3ff8dc07c21dfc",
+          "file": "api.test.ts",
+          "line": 123,
+          "column": 9
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-05-28T16:03:08.794Z",
+    "duration": 2952.913,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

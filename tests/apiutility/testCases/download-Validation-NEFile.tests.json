@@ -1,0 +1,37 @@
+{
+  "validate_download_api": [
+    {
+      "testStep": "Call download API with document ID",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "downloadApi",
+        "Regression"
+      ],
+      "service": "coreService",
+      "uri": "download",
+      "testName": "validate file download from download API",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "do_id": "10611748438977"
+      },
+      "assertion": [
+        {
+          "status": 200
+        },
+        {
+          "assertHeader": {
+            "header": "Content-Disposition",
+            "contains": "attachment"
+          }
+        },
+        {
+          "assertBinarySignature": {
+            "startsWith": "504b0304"
+          }
+        }
+      ]
+    }
+  ]
+}
