@@ -150,15 +150,19 @@ export class UfmUtility {
    * @param {Request} request - the request object
    * @returns {Promise<object>} - the response body
    */
-  static async getIndividualstatus(orgName, request) {
+  static async getIndividualstatus(orgName, request , ba_type = "PBA") {
     Utility.logIt(`Getting Individual status for org : ${orgName}`);
     const endpointURL = `${process.env.apiBaseURLUFM}${endpoints.individual_status_endpoint}`;
-    const response = await request.post(endpointURL, {
-      data: {
+    let payload = {
         dim_id: commonData.ba_dim_id,
-        dim_val_id: await UfmUtility.getMapping(orgName, "dim_val_id", "PBA"),
+        dim_val_id: await UfmUtility.getMapping(orgName, "dim_val_id", ba_type),
         classification_id: commonData.classification_id,
-      },
+      }
+    if(orgName == "WMT_US_SEGMENT_FINANCE"){
+      payload.dim_id = commonData.Segment_Finance.dim_id
+    }
+    const response = await request.post(endpointURL, {
+      data: payload,
     });
 
     return await Utility.assertAndLog(response);
