@@ -1,9 +1,12 @@
 {
+  "user": "LB-ibg-ufm-auto",
   "headers": {
     "Content-Type": "application/json",
-    "Authorization": "{{token}}"
+    "Authorization": "{{token}}",
+    "user_id": "LB-ibg-ufm-auto"
+
   },
-  "user": "LB-ibg-ufm-auto",
+  
   "tagsToRun": [],
   "testFiles": [
     "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
@@ -33,8 +36,10 @@
     "testCases/ssdm-node-edge-get-drivers-api-tests.json",
     "testCases/ssdm-node-edge-publish-api-tests.json",
     "testCases/NodesCases/nodeshRefresh-api-tests.json",
-   "testCases/projection-method-testcases/historicRate-constantValueAllocation.json",
-   "testCases/excel-load-data-api-time-granularity.json"
+    "testCases/NodesCases/get-kpi-Month-GroupBy-Filter-tests.json",
+    "testCases/NodesCases/drivers-api-tests.json",
+     "testCases/NodesCases/actual-missing-nodes-api-tests.json"
+
   ],
 
   "currentDemandService": {
@@ -53,22 +58,20 @@
     "getScreenId": "/filter/screen_details?",
     "listHistoricals": "/scenario/list-historicals?",
     "snapshots": "/archive/",
-    "getDataScienceInfo": "/scenario/data-science/info",
-    "allocateData": "/allocate-data",
-    "saveAdjustment": "/adjustment/",
-    "getKpi": "/reports/get-mykpi",
-    "AopGetKpi": "/reports/get-mykpi/v2",
-    "downloadSnapshot": "/reports/download-active-forecast",
-    "getForecast": "/reports/get-report",
-    "getForecastCalendar": "/forecast_calendar/",
-    "visualIndicator": "/scenario/scenario-composition",
-    "Forecast": "/scenario",
-    "getKpiV2": "/reports/get-mykpi/v2",
-    "getTimestamp": "/sandbox/v1/get-datasets-timestamp",
-    "computeSsdm": "/sandbox/v1/compute-scenario",
-    "getScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
-    "getDriversListSSDM": "/metadata/drivers",
-    "publishSSDMActivatedDataset": "/sandbox/v1/publish-node-edge-document"
+    "getDataScienceInfo":"/scenario/data-science/info",
+    "allocateData":"/allocate-data",
+    "saveAdjustment":"/adjustment/",
+    "getKpi":"/reports/get-mykpi",
+    "AopGetKpi":"/reports/get-mykpi/v2",
+    "downloadSnapshot":"/reports/download-active-forecast",
+    "getForecast":"/reports/get-report",
+    "getForecastCalendar":"/forecast_calendar/",
+    "visualIndicator":"/scenario/scenario-composition",
+    "Forecast":"/scenario",
+    "getKpiV2":"/reports/get-mykpi/v2",
+    "getTimestamp":"/sandbox/v1/get-datasets-timestamp",
+    "getDrivers":"/metadata/drivers"
+    
   },
   "notificationService": {
     "baseURL": {
@@ -90,5 +93,12 @@
       "dev": "https://ibg-ufm-reporting-proxy.dev.ibg.walmart.com"
     },
     "scenarios": "/scenarios"
+  },
+  "dataForgeService":{
+    "baseURL":{
+      "qa": "https://ibg-ufm-dataforge-service.qa.ibg.walmart.com"
+
+    },
+    "actualMissingNode":"/v1/actual_missing/nodes"
   }
 }

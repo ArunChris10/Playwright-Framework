@@ -1,0 +1,495 @@
+{
+    "validate_group_by_filters": [
+        {
+            "testStep": "Get Scenario id and scenario version",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "kpiFilters","Regression"
+            ],
+            "service": "coreService",
+            "uri": "getForecast",
+            "testName": "Get Scenario id and scenario version",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "unit": "Millions",
+                "dim_id": 12,
+                "dim_val_id": 120009,
+                "classification_id": 12,
+                "template_id": 1,
+                "filters": [],
+                "additional_filters": {
+                    "template_include_headers": [
+                        {
+                            "name": "vs LY",
+                            "format": "percent"
+                        },
+                        {
+                            "name": "vs Plan",
+                            "format": "absolute"
+                        }
+                    ]
+                }
+            },
+            "assertion": [
+                {
+                    "status": 200
+                }
+            ],
+            "extractFirst": {
+                "getkpi_scenario_id": "rowData.scenarioId",
+                "getkpi_scenario_version": "rowData.scenarioVersion"
+            }
+        },
+        {
+            "testStep": "Call getMyKPI API before filters",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "kpiFilters"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "validate getMyKPI API before filter",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{getkpi_scenario_id}}",
+                "scenario_version": "{{getkpi_scenario_version}}",
+                "dim_id": 11,
+                "dim_val_id": 110027,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "cogsplug_input"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Driver"
+                        },
+                        {
+                            "name": "202601",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202602",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202603",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202604",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202605",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202606",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202607",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202608",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202609",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202610",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202611",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202612",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": false
+                        },
+                        {
+                            "name": "Value",
+                            "editable": false
+                        }
+                    ],
+                    "month": [
+                        "202601",
+                        "202602",
+                        "202603",
+                        "202604",
+                        "202605",
+                        "202606",
+                        "202607",
+                        "202608",
+                        "202609",
+                        "202610",
+                        "202611",
+                        "202612"
+                    ]
+                },
+                "isApplied": true
+            },
+            "assertion": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertNotExists": {
+                        "jsonPath": "$.rowData[*].channel",
+                        "jsonPath2": "$.rowData[*].department"
+                    }
+                }
+            ]
+        },
+        {
+            "testStep": "Call getMyKPI API with filters",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "ss"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "validate getMyKPI API with filter",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{getkpi_scenario_id}}",
+                "scenario_version": "{{getkpi_scenario_version}}",
+                "dim_id": 11,
+                "dim_val_id": 110027,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id",
+                        "channel",
+                        "department"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "cogsplug_input"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Channel"
+                        },
+                        {
+                            "name": "Department"
+                        },
+                        {
+                            "name": "202601",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202602",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202603",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202604",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202605",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202606",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202607",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202608",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202609",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202610",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202611",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202612",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": false
+                        },
+                        {
+                            "name": "Value",
+                            "editable": false
+                        }
+                    ],
+                    "month": [
+                        "202601",
+                        "202602",
+                        "202603",
+                        "202604",
+                        "202605",
+                        "202606",
+                        "202607",
+                        "202608",
+                        "202609",
+                        "202610",
+                        "202611",
+                        "202612"
+                    ]
+                },
+                "isApplied": true
+            },
+            "assertion": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertExists": {
+                        "jsonPath1": "$.rowData[*].channel",
+                        "jsonPath2": "$.rowData[*].department"
+                    }
+                }
+            ]
+        },
+        {
+            "testStep": "Verify Month filter in get kpi api",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "kpiFilters"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "validate Month filter in get kpi api",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{getkpi_scenario_id}}",
+                "scenario_version": "{{getkpi_scenario_version}}",
+                "dim_id": 11,
+                "dim_val_id": 110029,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [
+                    {
+                        "dim_id": 23,
+                        "dim_val_ids": [
+                            230002
+                        ],
+                        "children": []
+                    },
+                    {
+                        "dim_id": 1,
+                        "dim_val_ids": [
+                            2,
+                            4,
+                            8,
+                            13,
+                            1,
+                            80,
+                            83,
+                            93,
+                            14,
+                            17,
+                            19,
+                            20,
+                            3,
+                            9,
+                            10,
+                            11,
+                            12,
+                            16,
+                            5,
+                            6,
+                            7,
+                            18
+                        ],
+                        "children": []
+                    }
+                ],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id",
+                        "channel"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "mostoreinitiatedmarkdowns",
+                        "mobuyingallowances"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Channel"
+                        },
+                        {
+                            "name": "202501",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202502",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202503",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202504",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202505",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202506",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202507",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202508",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202509",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202510",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202511",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202512",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": true
+                        },
+                        {
+                            "name": "Value",
+                            "editable": true
+                        }
+                    ],
+                    "month": [
+                        "202501",
+                        "202502",
+                        "202503",
+                        "202504",
+                        "202505",
+                        "202506",
+                        "202507",
+                        "202508",
+                        "202509",
+                        "202510",
+                        "202511",
+                        "202512"
+                    ]
+                },
+                "isApplied": true
+            },
+            "assertion": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertContains": {
+                        "jsonPath": "$.rowData[*]",
+                        "expected": [
+                            "202501",
+                            "202502",
+                            "202503",
+                            "202504",
+                            "202505",
+                            "202506",
+                            "202507",
+                            "202508",
+                            "202509",
+                            "202510",
+                            "202511",
+                            "202512"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

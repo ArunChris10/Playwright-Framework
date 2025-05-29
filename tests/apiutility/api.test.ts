@@ -84,6 +84,7 @@ export interface ParentConfig {
   reportingService: { baseURL: { [key: string]: string }, testCaseName: string };
   nexusService: { baseURL: { [key: string]: string }, testCaseName: string };
   currentDemandService: { baseURL: { [key: string]: string }, testCaseName: string };
+  dataForgeService: { baseURL: { [key: string]: string }, testCaseName: string };
 }
 
 export let response;
@@ -141,6 +142,9 @@ parentConfig.testFiles.forEach(testCasePath => {
           baseUrl = parentConfig.nexusService.baseURL[step.environment];
         } else if (step.service === "currentDemandService") {
           baseUrl = parentConfig.currentDemandService.baseURL[step.environment];
+        }
+        else if(step.service === "dataForgeService") {
+          baseUrl = parentConfig.dataForgeService.baseURL[step.environment];
         }
 
         const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
