@@ -373,7 +373,121 @@
             "jsonPath3": "adjustment_metadata.created_at"
           }
         }
-      ]
+      ],
+      "extract": {
+        "historic_TimeRolling_adjustmentId": "adjustment_metadata.adjustment_id"
+      }
+    }
+  ],
+  "validate_saved_values_historic_TimeRolling_GetKpi": [
+    {
+      "testStep": "Validate update for historic_TimeRolling SavedData",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-37429",
+        "IBGROW-34379",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Validate saved data for historic_TimeRolling - GetKpi",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{Projection_Hist_TimeRolling_scenario_id}}",
+        "scenario_version": "{{Projection_Hist_TimeRolling_scenario_version}}",
+        "dim_id": 11,
+        "dim_val_id": 110030,
+        "classification_id": 12,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "grossgmv",
+            "unitsgrossuomng_input",
+            "financialservicesincome"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            },
+            {
+              "name": "{{dynamicMonth+1}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": true
+            },
+            {
+              "name": "Value",
+              "editable": true
+            }
+          ],
+          "month": [
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}"
+          ]
+        },
+        "adjustment_id": "{{historic_TimeRolling_adjustmentId}}",
+        "isApplied": false
+      },
+      "assertions": {
+        "status": 200
+      },
+      "extractRelative": {
+        "historic_TimeRolling_forecastDriverOne_KpiData": {
+          "whereKey": "driver",
+          "equals": "grossgmv",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "historic_TimeRolling_forecastDriverTwo_KpiData": {
+          "whereKey": "driver",
+          "equals": "unitsgrossuomng_input",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "historic_TimeRolling_forecastDriverThree_KpiData": {
+          "whereKey": "driver",
+          "equals": "financialservicesincome",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        }
+      },
+      "validateExtractToBeApprox": {
+        "historic_TimeRolling_forecastDriverOne_KpiData": {
+          "expected": "{{historic_TimeRolling_forecastDriverOne}}",
+          "tolerance": 10
+        },
+        "historic_TimeRolling_forecastDriverTwo_KpiData": {
+          "expected": "{{historic_TimeRolling_forecastDriverTwo}}",
+          "tolerance": 10
+        },
+        "historic_TimeRolling_forecastDriverThree_KpiData": {
+          "expected": "{{historic_TimeRolling_forecastDriverThree}}",
+          "tolerance": 10
+        }
+      }
     }
   ]
 }

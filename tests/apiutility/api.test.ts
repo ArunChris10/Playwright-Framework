@@ -1,7 +1,7 @@
 import { test, expect, request, APIRequestContext } from '@playwright/test';
 import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
-import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey,findRelativeValueMultiCondition, findRelativeNestedValue} from '../apiutility/utils/jsonUtils';
+import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey,findRelativeValueMultiCondition, findRelativeFlexibleValue} from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {
@@ -54,13 +54,6 @@ export interface ApiTestCase {
   };
   extractRelative?: {
     [globalVar: string]: {
-      whereKey: string;
-      equals: any;
-      extractKey: string;
-    };
-  };
-  extractRelativeForNestedResponse?: {
-    [globalVar: string]: {  
       whereKey: string;
       equals: any;
       extractKey: string;
@@ -208,7 +201,7 @@ parentConfig.testFiles.forEach(testCasePath => {
         if (step.extractRelative) {
           for (const globalVar in step.extractRelative) {
             const { whereKey, equals, extractKey } = step.extractRelative[globalVar];
-            const value = findRelativeValue(responseBody, interpolate(whereKey), interpolate(equals), interpolate(extractKey));
+            const value = findRelativeFlexibleValue(responseBody, interpolate(whereKey), interpolate(equals), interpolate(extractKey));
             if (value !== undefined) {
               globalStore.setValue(globalVar, value);
               console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
@@ -218,11 +211,11 @@ parentConfig.testFiles.forEach(testCasePath => {
           }
         }
 
-        // Handle extractRelativeForNestedResponse
+        /* // Handle extractRelativeForNestedResponse
         if (step.extractRelativeForNestedResponse) {
             for (const globalVar in step.extractRelativeForNestedResponse) {
             const { whereKey, equals, extractKey } = step.extractRelativeForNestedResponse[globalVar];
-            const value = findRelativeNestedValue(responseBody, interpolate(whereKey), interpolate(equals), interpolate(extractKey));
+            const value = findRelativeFlexibleValue(responseBody, interpolate(whereKey), interpolate(equals), interpolate(extractKey));
             if (value !== undefined) {
               globalStore.setValue(globalVar, value);
               console.log(`Extracted (nested) ${globalVar}: ${JSON.stringify(value)}`);
@@ -230,7 +223,7 @@ parentConfig.testFiles.forEach(testCasePath => {
               throw new Error(`Could not find nested relative value where "${whereKey}" == "${equals}"`);
             }
             }
-        }
+        } */
 
 
         if (step.extractRelativeMultipleCondition) {

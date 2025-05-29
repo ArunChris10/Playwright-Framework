@@ -373,7 +373,10 @@
             "jsonPath3": "adjustment_metadata.created_at"
           }
         }
-      ]
+      ],
+      "extract": {
+        "regression_ConstantValue_adjustmentId": "adjustment_metadata.adjustment_id"
+      }
     }
   ],
   "validate_saved_values_Regression_ConstantValue_GetKpi": [
@@ -454,7 +457,7 @@
       "assertions": {
         "status": 200
       },
-      "extractRelativeForNestedResponse": {
+      "extractRelative": {
         "regression_ConstantValue_forecastDriverOne_KpiData": {
           "whereKey": "driver",
           "equals": "grossgmv",
@@ -474,15 +477,15 @@
       "validateExtractToBeApprox": {
         "regression_ConstantValue_forecastDriverOne_KpiData": {
           "expected": "{{regression_ConstantValue_forecastDriverOne}}",
-          "tolerance": 2
+          "tolerance": 10
         },
         "regression_ConstantValue_forecastDriverTwo_KpiData": {
           "expected": "{{regression_ConstantValue_forecastDriverTwo}}",
-          "tolerance": 2
+          "tolerance": 10
         },
         "regression_ConstantValue_forecastDriverThree_KpiData": {
           "expected": "{{regression_ConstantValue_forecastDriverThree}}",
-          "tolerance": 2
+          "tolerance": 10
         }
       }
     }

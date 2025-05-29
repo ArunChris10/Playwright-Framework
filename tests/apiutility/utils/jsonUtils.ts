@@ -250,7 +250,45 @@ export function findRelativeValueMultiCondition(
   return undefined;
 }
 
-/****
+/**
+ * Finds a value in a nested object/array where a key (can be dot notation) matches a value,
+ * and extracts another value (can be dot notation) from the same object.
+ * @param data The data to search.
+ * @param whereKey The key (dot notation allowed) to match.
+ * @param equals The value to match.
+ * @param extractKey The key (dot notation allowed) to extract.
+ * @returns The extracted value, or undefined if not found.
+ */
+export function findRelativeFlexibleValue(
+  data: any,
+  whereKey: string,
+  equals: any,
+  extractKey: string
+): any {
+  // Helper to get nested value by dot notation
+  function getNested(obj: any, path: string): any {
+    return path.split('.').reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj);
+  }
+
+  // Stack-based DFS for arrays/objects
+  const stack = [data];
+  while (stack.length) {
+    const node = stack.pop();
+    if (Array.isArray(node)) {
+      stack.push(...node);
+    } else if (node && typeof node === 'object') {
+      if (getNested(node, whereKey) === equals) {
+        return getNested(node, extractKey);
+      }
+      Object.values(node).forEach(child => {
+        if (typeof child === 'object' && child !== null) stack.push(child);
+      });
+    }
+  }
+  return undefined;
+}
+
+/* /****
  * Finds the value of a nested property in an object within an array of objects, 
  * where another property matches a given value.
  * 
@@ -260,7 +298,7 @@ export function findRelativeValueMultiCondition(
  * @param extractPath - The dot-separated path to extract (e.g., "202605.forecast")
  * @returns The extracted value, or undefined if not found
  */
-export function findRelativeNestedValue(
+/* export function findRelativeNestedValue(
   data: any,
   matchKey: string,
   matchValue: any,
@@ -292,7 +330,7 @@ export function findRelativeNestedValue(
     return undefined;
   }
   return search(data);
-}
+}  */
 
 
 export function getNestedValueFromRoot(obj: any, path: string): MatchedNode | undefined {

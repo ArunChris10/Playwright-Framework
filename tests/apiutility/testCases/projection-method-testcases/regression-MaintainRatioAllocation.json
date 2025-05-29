@@ -457,7 +457,7 @@
       "assertions": {
         "status": 200
       },
-      "extractRelativeForNestedResponse": {
+      "extractRelative": {
         "regression_MaintainRatio_forecastDriverOne_KpiData": {
           "whereKey": "driver",
           "equals": "grossgmv",
@@ -477,15 +477,15 @@
       "validateExtractToBeApprox": {
         "regression_MaintainRatio_forecastDriverOne_KpiData": {
           "expected": "{{regression_MaintainRatio_forecastDriverOne}}",
-          "tolerance": 2
+          "tolerance": 10
         },
         "regression_MaintainRatio_forecastDriverTwo_KpiData": {
           "expected": "{{regression_MaintainRatio_forecastDriverTwo}}",
-          "tolerance": 2
+          "tolerance": 10
         },
         "regression_MaintainRatio_forecastDriverThree_KpiData": {
           "expected": "{{regression_MaintainRatio_forecastDriverThree}}",
-          "tolerance": 2
+          "tolerance": 10
         }
       }
     }

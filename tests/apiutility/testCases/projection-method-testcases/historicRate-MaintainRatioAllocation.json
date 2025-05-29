@@ -1,7 +1,7 @@
 {
-  "Create Scenario for historic rate projection_with Maintain Ration": [
+  "Create Scenario for historic rate projection_with Maintain Ratio": [
     {
-      "testStep": "Projection_hist with Maintain Ration_Get a forecast to delete before proceding for Demand SBA",
+      "testStep": "Projection_hist with Maintain Ratio_Get a forecast to delete before proceding for Demand SBA",
       "environment": "qa",
       "labels": [
         "smoke",
@@ -9,7 +9,7 @@
       ],
       "service": "coreService",
       "uri": "getForecast",
-      "testName": "Projection_Hist_Maintain Ration_Get a forecast to delete before proceding for s SBA",
+      "testName": "Projection_Hist_Maintain Ratio_Get a forecast to delete before proceding for s SBA",
       "queryParams": "",
       "method": "POST",
       "payload": {
@@ -67,14 +67,14 @@
       }
     },
     {
-      "testStep": "Projection_Hist_Maintain Ration_Delete Demand SBA forecast before proceding",
+      "testStep": "Projection_Hist_Maintain Ratio_Delete Demand SBA forecast before proceding",
       "environment": "qa",
       "labels": [
         "smoke"
       ],
       "service": "coreService",
       "uri": "Forecast",
-      "testName": "Projection_Hist_Maintain Ration_Delete a IO forecast before proceding",
+      "testName": "Projection_Hist_Maintain Ratio_Delete a IO forecast before proceding",
       "queryParams": "/{{Projection_Hist_MaintainRatioScenariotoDeletescenarioId}}/{{Projection_Hist_MaintainRatioScenariotoDeletescenarioVersion}}",
       "method": "DELETE",
       "payload": {
@@ -83,7 +83,7 @@
       }
     },
     {
-      "testStep": "Projection_Hist_Maintain Ration_Create Forecast Scenario for Demand SBA",
+      "testStep": "Projection_Hist_Maintain Ratio_Create Forecast Scenario for Demand SBA",
       "environment": "qa",
       "labels": [
         "smoke",
@@ -91,7 +91,7 @@
       ],
       "service": "coreService",
       "uri": "Forecast",
-      "testName": "Projection_Hist_Maintain Ration_Validate create forecast- Demand SBA",
+      "testName": "Projection_Hist_Maintain Ratio_Validate create forecast- Demand SBA",
       "queryParams": "/create-user-scenario",
       "method": "POST",
       "payload": {
@@ -102,8 +102,8 @@
         "dim_val_id": 110030
       },
       "extract": {
-        "Projection_Hist_Maintain Ration_scenario_id": "scenario.scenario_id",
-        "Projection_Hist_Maintain Ration_scenario_version": "scenario.scenario_version_timestamp"
+        "Projection_Hist_Maintain Ratio_scenario_id": "scenario.scenario_id",
+        "Projection_Hist_Maintain Ratio_scenario_version": "scenario.scenario_version_timestamp"
       },
       "assertions": [
         {
@@ -112,7 +112,7 @@
       ]
     },
     {
-      "testStep": "Projection_Hist_Maintain Ration_Poll creation of Demand FORECAST",
+      "testStep": "Projection_Hist_Maintain Ratio_Poll creation of Demand FORECAST",
       "environment": "qa",
       "labels": [
         "smoke",
@@ -120,7 +120,7 @@
       ],
       "service": "coreService",
       "uri": "getForecast",
-      "testName": "Projection_Hist_Maintain Ration_Poll creation of Demand FORECAST",
+      "testName": "Projection_Hist_Maintain Ratio_Poll creation of Demand FORECAST",
       "queryParams": "",
       "method": "POST",
       "payload": {
@@ -160,9 +160,9 @@
       }
     }
   ],
-  "validate_calculation_historic rate projection_with Maintain Ration": [
+  "validate_calculation_historic rate projection_with Maintain Ratio": [
     {
-      "testStep": "Projection_Hist_Maintain Ration_Calculate Forecast",
+      "testStep": "Projection_Hist_Maintain Ratio_Calculate Forecast",
       "environment": "qa",
       "labels": [
         "smoke",
@@ -171,12 +171,12 @@
       ],
       "service": "coreService",
       "uri": "allocateData",
-      "testName": "Projection_Hist_Maintain Ration_Verify calculation",
+      "testName": "Projection_Hist_Maintain Ratio_Verify calculation",
       "queryParams": "",
       "method": "POST",
       "payload": {
         "display_nodes": [],
-        "scenario_id": "{{Projection_Hist_Maintain Ration_scenario_id}}",
+        "scenario_id": "{{Projection_Hist_Maintain Ratio_scenario_id}}",
         "dim_val_id": 110030,
         "dim_id": 11,
         "preview": true,
@@ -268,7 +268,7 @@
   ],
   "validate_save_adjustment_forProjection_Hist_MaintainRatio": [
     {
-      "testStep": "Projection_Hist_Maintain Ration_Save Adjustment",
+      "testStep": "Projection_Hist_Maintain Ratio_Save Adjustment",
       "environment": "qa",
       "labels": [
         "smoke",
@@ -277,7 +277,7 @@
       ],
       "service": "coreService",
       "uri": "saveAdjustment",
-      "testName": "Projection_Hist_Maintain Ration_Verify Save",
+      "testName": "Projection_Hist_Maintain Ratio_Verify Save",
       "queryParams": "",
       "method": "PATCH",
       "payload": {
@@ -289,12 +289,12 @@
           "is_update": false,
           "is_create": true,
           "adjustment_edits": 3,
-          "scenario_id": "{{Projection_Hist_Maintain Ration_scenario_id}}",
-          "scenario_version_timestamp": "{{Projection_Hist_Maintain Ration_scenario_version}}"
+          "scenario_id": "{{Projection_Hist_Maintain Ratio_scenario_id}}",
+          "scenario_version_timestamp": "{{Projection_Hist_Maintain Ratio_scenario_version}}"
         },
         "allocation_request": {
           "display_nodes": [],
-          "scenario_id": "{{Projection_Hist_Maintain Ration_scenario_id}}",
+          "scenario_id": "{{Projection_Hist_Maintain Ratio_scenario_id}}",
           "dim_val_id": 110030,
           "dim_id": 11,
           "preview": false,
@@ -373,7 +373,121 @@
             "jsonPath3": "adjustment_metadata.created_at"
           }
         }
-      ]
+      ],
+      "extract": {
+        "historic_Maintain Ratio_adjustmentId": "adjustment_metadata.adjustment_id"
+      }
+    }
+  ],
+  "validate_saved_values_historic_Maintain Ratio_GetKpi": [
+    {
+      "testStep": "Validate update for historic_Maintain Ratio SavedData",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-37429",
+        "IBGROW-34379",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Validate saved data for historic_Maintain Ratio - GetKpi",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{Projection_Hist_Maintain Ratio_scenario_id}}",
+        "scenario_version": "{{Projection_Hist_Maintain Ratio_scenario_version}}",
+        "dim_id": 11,
+        "dim_val_id": 110030,
+        "classification_id": 12,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "grossgmv",
+            "unitsgrossuomng_input",
+            "financialservicesincome"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            },
+            {
+              "name": "{{dynamicMonth+1}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": true
+            },
+            {
+              "name": "Value",
+              "editable": true
+            }
+          ],
+          "month": [
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}"
+          ]
+        },
+        "adjustment_id": "{{historic_Maintain Ratio_adjustmentId}}",
+        "isApplied": false
+      },
+      "assertions": {
+        "status": 200
+      },
+      "extractRelative": {
+        "historic_Maintain Ratio_forecastDriverOne_KpiData": {
+          "whereKey": "driver",
+          "equals": "grossgmv",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "historic_Maintain Ratio_forecastDriverTwo_KpiData": {
+          "whereKey": "driver",
+          "equals": "unitsgrossuomng_input",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "historic_Maintain Ratio_forecastDriverThree_KpiData": {
+          "whereKey": "driver",
+          "equals": "financialservicesincome",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        }
+      },
+      "validateExtractToBeApprox": {
+        "historic_Maintain Ratio_forecastDriverOne_KpiData": {
+          "expected": "{{historic_MaintainRatio_forecastDriverOne}}",
+          "tolerance": 10
+        },
+        "historic_Maintain Ratio_forecastDriverTwo_KpiData": {
+          "expected": "{{historic_MaintainRatio_forecastDriverTwo}}",
+          "tolerance": 10
+        },
+        "historic_Maintain Ratio_forecastDriverThree_KpiData": {
+          "expected": "{{historic_MaintainRatio_forecastDriverThree}}",
+          "tolerance": 10
+        }
+      }
     }
   ]
 }
