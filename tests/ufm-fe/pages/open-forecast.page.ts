@@ -44,7 +44,17 @@ export class OpenCurrentForecast {
   readonly deleteViewSnackBar: Locator;
   readonly savedViewsDropDownMenu: Locator;
   readonly deleteButton: Locator
+  readonly notificationIcon: Locator
+  readonly notificationTitle: Locator
+  readonly searchNotificationInput: Locator
+  readonly selectProjectionMethodButton: Locator
+  readonly historicalRateInput: Locator
+  readonly growthRateInput: Locator
+  readonly applyButton: Locator
   readonly duplicateViewMessage: Locator
+  readonly rollingPercentageInput: Locator
+  readonly rollingPercentageOffsetInput: Locator
+  readonly doneButtonOnRollingPercentage: Locator
 
 
   constructor(page: Page) {
@@ -104,6 +114,16 @@ export class OpenCurrentForecast {
     this.saveViewSnackBar = this.page.getByText("View saved successfully.")
     this.deleteViewSnackBar = this.page.getByText("View deleted successfully.")
     this.deleteButton = this.page.locator('//button[text()="Delete"]')
+    this.notificationIcon = this.page.locator('//*[@data-testid="notification-count"]')
+    this.notificationTitle = this.page.locator('//*[@class="notificationTitle"]//*[text()="Notifications"]')
+    this.searchNotificationInput = this.page.getByPlaceholder("Search Notifications")
+    this.selectProjectionMethodButton = this.page.locator("//*[@data-testid='AutoCompleteWithInputIcon-id']")
+    this.historicalRateInput = this.page.locator("//*[@value='HISTORICAL']")
+    this.growthRateInput = this.page.locator("//*[text()='Growth Rate']")
+    this.rollingPercentageInput = this.page.locator("//*[@data-testid='input-field']")
+    this.rollingPercentageOffsetInput = this.page.locator("//*[@data-testid='offset-field']")
+    this.doneButtonOnRollingPercentage = this.page.getByText("Done")
+    this.applyButton = this.page.getByText("Apply")
   }
 
   async clickOnOpenButton() {
@@ -322,7 +342,7 @@ export class OpenCurrentForecast {
     return { updated_col_ids: updated_col_ids, old_col_ids: old_col_ids };
   }
 
-  async fillForecastInputCellForGivenDriver(noOfCells, inputValue, DriverName, FilteredLowestGrain) {
+  async fillForecastInputCellForGivenDriverWithlowestGrain(noOfCells, inputValue, DriverName, FilteredLowestGrain) {
 
     let DriverRow = await this.page.locator(`//*[text()='${DriverName}']//following::div[@col-id='department'][1]//*[text()='${FilteredLowestGrain}']/ancestor::*[@role='row']`);
     let row_id = (await DriverRow.getAttribute("row-id"))?.split(".")?.[0];
@@ -357,9 +377,48 @@ export class OpenCurrentForecast {
     return map;
   }
 
+  async getForecastInputCellForGivenDriver(DriverName) {
+
+    let DriverRow = await this.page.locator(`//*[text()='${DriverName}']//ancestor::*[@role='row']`);
+    let row_id = await DriverRow.getAttribute("row-id");
+
+    console.log(`Edit the value for given driver ${DriverName}`);
+    let FirstforecastInputElement = await this.page.locator(`(//div[contains(@class,'editable-cell-border')])[3]`);
+
+    let col_id = (await FirstforecastInputElement.getAttribute("col-id"))?.split(".")?.[0];
+    return { col_id, row_id };
+  }
+
+  async clickOnProjectionMethodforGivenInputCell(DriverName) {
+    const { col_id, row_id } = await this.getForecastInputCellForGivenDriver(DriverName);
+    if (!col_id || !row_id) {
+      throw new Error("col_id or row_id is undefined");
+    }
+    const xpath = `//*[@row-id="${row_id}"]/*[contains(@col-id,"${col_id}")]//span`;
+    const cell = this.page.locator(xpath);
+    await cell.waitFor({ state: 'visible' });
+    await cell.click();
+    await cell.dblclick();
+    await this.selectProjectionMethodButton.click();
+    return cell;
+  }
+
+  async selectHistoricalRateProjection()
+  {
+    await this.growthRateInput.click();
+    await this.historicalRateInput.click();
+    await this.applyButton.click();
+  }
+
+
   async selectAllocationMethod(allocationMethod: string) {
     await this.allocationMethodDropDown.click();
-    await this.page.getByText(allocationMethod).click();
+    await this.page.locator(`//*[@aria-labelledby="basic-button"]//*[text()="${allocationMethod}"]`).click();
+    if (allocationMethod.toLowerCase().includes("rolling")) {
+      await this.rollingPercentageInput.fill("2");
+      await this.rollingPercentageOffsetInput.fill("3");
+      await this.doneButtonOnRollingPercentage.click();
+    }
   }
 
   async allocationErrorMessageExistence() {
