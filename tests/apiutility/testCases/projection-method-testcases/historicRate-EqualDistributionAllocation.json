@@ -9,7 +9,7 @@
       ],
       "service": "coreService",
       "uri": "getForecast",
-      "testName": "Projection_Hist_EqualDistb_Get a forecast to delete before proceding for Io SBA",
+      "testName": "Projection_Hist_EqualDistb_Get a forecast to delete before proceding for demand SBA",
       "queryParams": "",
       "method": "POST",
       "payload": {

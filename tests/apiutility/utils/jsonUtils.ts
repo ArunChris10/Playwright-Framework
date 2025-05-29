@@ -250,7 +250,49 @@ export function findRelativeValueMultiCondition(
   return undefined;
 }
 
-
+/****
+ * Finds the value of a nested property in an object within an array of objects, 
+ * where another property matches a given value.
+ * 
+ * @param data - The complete ResponseBody (can be deeply nested)
+ * @param matchKey - The key to match on (e.g., "driver")
+ * @param matchValue - The value to match (e.g., "grossgmv")
+ * @param extractPath - The dot-separated path to extract (e.g., "202605.forecast")
+ * @returns The extracted value, or undefined if not found
+ */
+export function findRelativeNestedValue(
+  data: any,
+  matchKey: string,
+  matchValue: any,
+  extractPath: string
+): any {
+  // Recursively search for an array of objects containing matchKey
+  function search(node: any): any {
+    if (Array.isArray(node)) {
+      for (const item of node) {
+        if (item && typeof item === 'object' && matchKey in item && item[matchKey] === matchValue) {
+          // Found the matching object, extract value by extractPath
+          let current = item;
+          for (const key of extractPath.split('.')) {
+            if (current == null) return undefined;
+            current = current[key];
+          }
+          return current;
+        }
+        // Recurse into array elements
+        const found = search(item);
+        if (found !== undefined) return found;
+      }
+    } else if (node && typeof node === 'object') {
+      for (const key in node) {
+        const found = search(node[key]);
+        if (found !== undefined) return found;
+      }
+    }
+    return undefined;
+  }
+  return search(data);
+}
 
 
 export function getNestedValueFromRoot(obj: any, path: string): MatchedNode | undefined {
