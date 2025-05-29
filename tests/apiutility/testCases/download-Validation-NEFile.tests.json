@@ -40,7 +40,7 @@
       "environment": "qa",
       "labels": [
         "negative",
-        "downloadApi"
+        "downloadApi","smoke","Regression"
       ],
       "service": "coreService",
       "uri": "download",
@@ -63,7 +63,7 @@
       "environment": "qa",
       "labels": [
         "positive",
-        "downloadApi"
+        "downloadApi","smoke","Regression"
       ],
       "service": "coreService",
       "uri": "download",
