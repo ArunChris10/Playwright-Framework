@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { testData } from '../testdata/fileName.json';
+import { testData, sortingOptions, groupByOptions } from '../testdata/fileName.json';
 import { TIMEOUT_FE_WAIT } from '../constants/timeout.json';
 import { Logger } from "../../common/fixtures/logger-utils";
 
@@ -20,9 +20,6 @@ export class LandingPageValidation {
   readonly btnFilter: Locator;
   readonly btnClearFilter: Locator;
   readonly checkbox: Locator;
-  readonly sort_AZ: Locator;
-  readonly sort_ZA: Locator;
-  readonly recentUpdate: Locator;
   readonly btnClose: Locator;
   readonly sameNode: Locator;
   readonly owners: Locator;
@@ -37,8 +34,11 @@ export class LandingPageValidation {
   readonly textField: Locator;
   readonly dataGridTable: string;
   readonly tooltipValue: Locator;
+
+  // Parameterized XPath generators
   readonly getFilterButtonXPath: (label: string) => string;
   readonly getGridValueXPath: (dataFieldAttribute: string) => string;
+  readonly getSortOptionXPath: (sortLabel: string) => string;
 
   constructor(page: Page) {
     this.page = page;
@@ -51,9 +51,6 @@ export class LandingPageValidation {
     this.btnFilter = page.locator('button[aria-label="Filter"]');
     this.btnClearFilter = page.getByText("Reset");
     this.checkbox = page.locator('input[type="checkbox"]');
-    this.sort_AZ = page.getByText("Metric Name - A-Z");
-    this.sort_ZA = page.getByText("Metric Name - Z-A");
-    this.recentUpdate = page.getByText("Recently Updated");
     this.btnClose = page.getByRole('button', { name: "Close" });
     this.sameNode = page.getByText("Same node variations");
     this.owners = page.locator('//div[contains(@class, "sort-group-menu flex-row")]/div[normalize-space(text())="Owner/Editor"]');
@@ -68,8 +65,14 @@ export class LandingPageValidation {
     this.sortGroup = page.locator('[role="gridcell"]');
     this.dataGridTable = ".data-grid-table";
     this.tooltipValue = page.locator('//div[@role="tooltip"]/div/span').first();
-    this.getFilterButtonXPath = (label: string) => `//div[span[contains(., "${label}")] and button[@aria-label="Filter"]]/button`;
-    this.getGridValueXPath = (dataFieldAttribute: string) => `[data-field="${dataFieldAttribute}"][role="gridcell"]`;
+
+    // Parameterized XPath generators
+    this.getFilterButtonXPath = (label: string) =>
+      `//div[span[contains(., "${label}")] and button[@aria-label="Filter"]]/button`;
+    this.getGridValueXPath = (dataFieldAttribute: string) =>
+      `[data-field="${dataFieldAttribute}"][role="gridcell"]`;
+    this.getSortOptionXPath = (sortLabel: string) =>
+      `//div[normalize-space(text())="${sortLabel}"]`;
   }
 
   // --- General UI Checks ---
@@ -282,81 +285,82 @@ export class LandingPageValidation {
   // --- Sorting Validations ---
 
   /**
-   * Validates all sorting options.
+   * Validates all sorting options using sortingOptions from test data.
    */
   async verifySorting() {
-    await this.validateSortAZ();
-    await this.validateSortZA();
-    await this.validateRecentlyUpdated();
+    for (const sortOption of sortingOptions) {
+      await this.validateSorting(sortOption.label, sortOption.type as "asc" | "desc" | "date-desc");
+    }
   }
 
   /**
-   * Validates A-Z sorting.
+   * Sorting validation.
+   * @param sortLabel The visible label of the sort option.
+   * @param sortType "asc" | "desc" | "date-desc"
    */
-  async validateSortAZ() {
+  async validateSorting(sortLabel: string, sortType: "asc" | "desc" | "date-desc") {
     await this.dropdownSortBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     await this.dropdownSortBy.click();
-    await this.sort_AZ.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.sort_AZ.click();
-    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    const columnData = await this.sortGroup.allTextContents();
-    const isAscending = columnData.every(
-      (val, i, arr) =>
-        i === 0 || arr[i - 1].toLowerCase().localeCompare(val.toLowerCase()) <= 0
-    );
-    expect(isAscending).toBeTruthy();
-  }
 
-  /**
-   * Validates Z-A sorting.
-   */
-  async validateSortZA() {
-    await this.dropdownSortBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.dropdownSortBy.click();
-    await this.sort_ZA.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.sort_ZA.click();
-    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    const columnData = await this.sortGroup.allTextContents();
-    const isDescending = columnData.every(
-      (val, i, arr) =>
-        i === 0 || arr[i - 1].toLowerCase().localeCompare(val.toLowerCase()) >= 0
-    );
-    expect(isDescending).toBeTruthy();
-  }
+    const sortOption = this.page.locator(this.getSortOptionXPath(sortLabel));
+    await sortOption.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await sortOption.click();
 
-  /**
-   * Validates sorting by recently updated.
-   */
-  async validateRecentlyUpdated() {
-    await this.dropdownSortBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.dropdownSortBy.click();
-    await this.recentUpdate.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.recentUpdate.click();
     await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
     const columnData = await this.sortGroup.allTextContents();
-    const parsedDates = columnData.map(dateString => new Date(dateString));
-    const sortedDates = [...parsedDates].sort((a, b) => b.getTime() - a.getTime());
-    expect(parsedDates).toEqual(sortedDates);
+
+    if (sortType === "asc") {
+      const isAscending = columnData.every(
+        (val, i, arr) =>
+          i === 0 || arr[i - 1].toLowerCase().localeCompare(val.toLowerCase()) <= 0
+      );
+      expect(isAscending).toBeTruthy();
+    } else if (sortType === "desc") {
+      const isDescending = columnData.every(
+        (val, i, arr) =>
+          i === 0 || arr[i - 1].toLowerCase().localeCompare(val.toLowerCase()) >= 0
+      );
+      expect(isDescending).toBeTruthy();
+    } else if (sortType === "date-desc") {
+      const parsedDates = columnData.map(dateString => new Date(dateString));
+      const sortedDates = [...parsedDates].sort((a, b) => b.getTime() - a.getTime());
+      expect(parsedDates).toEqual(sortedDates);
+    }
   }
 
   // --- Grouping Validations ---
 
   /**
-   * Validates all grouping options.
+   * Validates all grouping options using groupByOptions from test data.
    */
   async verifyGrouping() {
-    await this.validateGroupBySameNode();
-    await this.validateGroupByOwner();
+    for (const groupObj of groupByOptions) {
+      const groupData = groupObj.data;
+      for (const key in groupData) {
+        const groupLabel = groupData[key].option;
+        await this.validateGrouping(groupLabel, key);
+      }
+    }
   }
 
   /**
-   * Validates grouping by "Same node variations".
+   * Grouping validation.
+   * @param groupLabel The visible label of the group by option.
+   * @param dataFieldAttribute The data-field attribute to validate grouping.
    */
-  async validateGroupBySameNode() {
+  async validateGrouping(groupLabel: string, dataFieldAttribute: string) {
     await this.dropdownGroupBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     await this.dropdownGroupBy.click();
-    await this.sameNode.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.sameNode.click({ force: true });
+
+    let groupOption: Locator;
+    if (groupLabel === groupByOptions[0].data.owner.option) {
+      groupOption = this.owners;
+    } else {
+      groupOption = this.page.getByText(groupLabel, { exact: true });
+    }
+
+    await groupOption.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await groupOption.click({ force: true });
     await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
 
     // Scroll to load all groups if table is virtualized
@@ -367,14 +371,14 @@ export class LandingPageValidation {
     await this.page.waitForTimeout(TIMEOUT_FE_WAIT);
 
     // Collect all grouped values
-    const metricNameCells = await this.page.$$(this.getGridValueXPath('metricName'));
+    const cells = await this.page.$$(this.getGridValueXPath(dataFieldAttribute));
     const groupedValues: string[] = [];
-    for (const cell of metricNameCells) {
+    for (const cell of cells) {
       const text = await cell.textContent();
       if (text !== null) groupedValues.push(text.trim());
     }
 
-    // Validate grouping
+    // Validate grouping: all rows in a group have the same value
     const groupMap = new Map<string, number>();
     for (const val of groupedValues) {
       groupMap.set(val, (groupMap.get(val) ?? 0) + 1);
@@ -382,46 +386,6 @@ export class LandingPageValidation {
 
     for (const [value, count] of groupMap.entries()) {
       const rowsInGroup = groupedValues.filter(v => v === value);
-      expect(rowsInGroup.length).toBe(count);
-      expect(rowsInGroup.every(v => v === value)).toBeTruthy();
-    }
-
-    expect(groupMap.size).toBeGreaterThan(0);
-  }
-
-  /**
-   * Validates grouping by owner/editor.
-   */
-  async validateGroupByOwner() {
-    await this.dropdownGroupBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.dropdownGroupBy.click();
-    await this.owners.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.owners.click({ force: true });
-    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
-
-    // Scroll to load all groups if table is virtualized
-    await this.page.evaluate(() => {
-      const grid = document.querySelector('.data-grid-table');
-      if (grid) grid.scrollTop = grid.scrollHeight;
-    });
-    await this.page.waitForTimeout(TIMEOUT_FE_WAIT);
-
-    // Collect all grouped values
-    const ownerCells = await this.page.$$(this.getGridValueXPath('owner'));
-    const ownerValues: string[] = [];
-    for (const cell of ownerCells) {
-      const text = await cell.textContent();
-      if (text !== null) ownerValues.push(text.trim());
-    }
-
-    // Validate grouping
-    const groupMap = new Map<string, number>();
-    for (const val of ownerValues) {
-      groupMap.set(val, (groupMap.get(val) ?? 0) + 1);
-    }
-
-    for (const [value, count] of groupMap.entries()) {
-      const rowsInGroup = ownerValues.filter(v => v === value);
       expect(rowsInGroup.length).toBe(count);
       expect(rowsInGroup.every(v => v === value)).toBeTruthy();
     }

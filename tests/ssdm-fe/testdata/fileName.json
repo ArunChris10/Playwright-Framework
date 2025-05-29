@@ -30,14 +30,14 @@
         "month": "Month",
         "segment": "SEGMENT",
         "dataFieldAttributeMetricName": "metricName",
-        "signInRetryNumber":2
+        "signInRetryNumber": 2
     },
     "filterOptions": [
         {
             "data": {
-                "month":{
+                "month": {
                     "dropDown": "Month",
-                    "actuals":"ACTUALS",
+                    "actuals": "ACTUALS",
                     "forecast": "FORECAST"
                 },
                 "channel": {
@@ -53,27 +53,41 @@
                     "option": "1_CANDY",
                     "options": "*, 38_PHARMACY RX"
                 },
-                "owner":{
+                "owner": {
                     "dropDown": "Owner",
                     "option": "MARKETPLACE",
                     "options": "CONNECT",
-                     "segment": "SEGMENT"
+                    "segment": "SEGMENT"
                 },
-                "entity":{
+                "entity": {
                     "dropDown": "Entity",
                     "option": "ACQUISITIONS_AND_INCUBATIONS"
                 }
             }
         }
     ],
+    "sortingOptions": [
+        {
+            "label": "Metric Name - A-Z",
+            "type": "asc"
+        },
+        {
+            "label": "Metric Name - Z-A",
+            "type": "desc"
+        },
+        {
+            "label": "Recently Updated",
+            "type": "date-desc"
+        }
+    ],
     "groupByOptions": [
         {
             "data": {
-                "channel": {
-                    "option": "Channel"
+                "owner": {
+                    "option": "Owner/Editor"
                 },
-                "department": {
-                    "option": "Department"
+                "metricName": {
+                    "option": "Same node variations"
                 }
             }
         }
