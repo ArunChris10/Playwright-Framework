@@ -1,7 +1,7 @@
 {
-  "validate_download_api": [
+  "validate_download_api_positive": [
     {
-      "testStep": "Call download API with document ID",
+      "testStep": "Call download API with valid document ID",
       "environment": "qa",
       "labels": [
         "smoke",
@@ -10,7 +10,7 @@
       ],
       "service": "coreService",
       "uri": "download",
-      "testName": "validate file download from download API",
+      "testName": "validate successful file download from download API",
       "queryParams": "",
       "method": "POST",
       "payload": {
@@ -30,6 +30,52 @@
           "assertBinarySignature": {
             "startsWith": "504b0304"
           }
+        }
+      ]
+    }
+  ],
+  "validate_NE_grid_api_negative": [
+    {
+      "testStep": "Call download API with invalid document ID",
+      "environment": "qa",
+      "labels": [
+        "negative",
+        "downloadApi"
+      ],
+      "service": "coreService",
+      "uri": "download",
+      "testName": "validate error response for invalid document ID",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "doc_id": "1061174843898"
+      },
+      "assertion": [
+        {
+          "status": 400
+        }
+      ]
+    }
+  ],
+  "validate_NE_grid_download_api": [
+    {
+      "testStep": "Call download API with invalid document ID",
+      "environment": "qa",
+      "labels": [
+        "positive",
+        "downloadApi"
+      ],
+      "service": "coreService",
+      "uri": "download",
+      "testName": "validate error response for valid document ID",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "doc_id": "10611748438977"
+      },
+      "assertion": [
+        {
+          "status": 200
         }
       ]
     }
