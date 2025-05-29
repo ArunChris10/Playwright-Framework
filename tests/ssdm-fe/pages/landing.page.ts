@@ -3,8 +3,13 @@ import { testData } from '../testdata/fileName.json';
 import { TIMEOUT_FE_WAIT } from '../constants/timeout.json';
 import { Logger } from "../../common/fixtures/logger-utils";
 
+/**
+ * Page Object Model for Landing Page Validation.
+ * Encapsulates all actions and assertions for the landing page.
+ */
 export class LandingPageValidation {
 
+  // --- Locators ---
   readonly page: Page;
   readonly searchBox: Locator;
   readonly btnInput: Locator;
@@ -67,232 +72,138 @@ export class LandingPageValidation {
     this.getGridValueXPath = (dataFieldAttribute: string) => `[data-field="${dataFieldAttribute}"][role="gridcell"]`;
   }
 
-  // Waits for the search box to be visible
+  // --- General UI Checks ---
+
+  /**
+   * Waits for the search box to be visible.
+   */
   async Search() {
     await this.searchBox.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
   }
 
-  // Waits for input and calculation buttons to be visible
+  /**
+   * Waits for input and calculation buttons to be visible.
+   */
   async Count() {
     await this.btnInput.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     await this.btnCalculations.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
   }
 
-  // Waits for the sort by dropdown to be visible
+  /**
+   * Waits for the sort by dropdown to be visible.
+   */
   async SortBy() {
     await this.dropdownSortBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
   }
 
-  // Waits for the group by dropdown to be visible
+  /**
+   * Waits for the group by dropdown to be visible.
+   */
   async GroupBy() {
     await this.dropdownGroupBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
   }
 
-  // Waits for the settings button to be visible
+  /**
+   * Waits for the settings button to be visible.
+   */
   async Settings() {
     await this.btnSettings.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
   }
 
-  // Waits for the first filter button to be visible
+  /**
+   * Waits for the first filter button to be visible.
+   */
   async Filter() {
     await this.btnFilter.first().waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
   }
 
+  // --- Search Validations ---
+
   /**
-   * Applies a search term and returns the count and values of matching results.
-   * @param searchterm The term to search for.
-   * @param dataFieldAttribute The data-field attribute to validate.
+   * Validates search with the complete metric name.
    */
-  async applyAndValidateSearch(searchterm: string, dataFieldAttribute: string) {
+  async verifySearchWithCompleteMetricName() {
+    await this._verifySearch(testData.completeSearch, testData.dataFieldAttributeMetricName, true);
+  }
+
+  /**
+   * Validates search with a partial metric name.
+   */
+  async verifySearchWithPartialMetricName() {
+    await this._verifySearch(testData.partialSearch, testData.dataFieldAttributeMetricName, false);
+  }
+
+  /**
+   * Validates search with an incorrect metric name.
+   */
+  async verifySearchWithIncorrectMetricName() {
+    await this._verifySearch(testData.incorrectSearch, testData.dataFieldAttributeMetricName, false, true);
+  }
+
+  /**
+   * Private helper for search validation.
+   */
+  private async _verifySearch(searchterm: string, dataFieldAttribute: string, exact: boolean, negative: boolean = false) {
     await this.searchBox.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     await this.searchBox.click();
     await this.searchBox.fill(searchterm);
     await this.page.waitForTimeout(TIMEOUT_FE_WAIT);
     await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    
+
     const resultElements = await this.page.$$(this.getGridValueXPath(dataFieldAttribute));
     const searchValues: (string | null)[] = [];
     for (const element of resultElements) {
       const searchValue = await element.textContent();
       searchValues.push(searchValue?.trim() ?? null);
     }
-    return { count: resultElements.length, searchValues };
+
+    if (negative) {
+      // Negative search: ensure no results contain the search term
+      if (resultElements.length === 0) {
+        expect(resultElements.length).toBe(0);
+      } else {
+        for (const value of searchValues) {
+          expect(value).not.toContain(searchterm);
+        }
+      }
+    } else {
+      // Positive search: ensure all results match or contain the search term
+      if (resultElements.length > 0) {
+        for (const value of searchValues) {
+          if (exact) {
+            expect(value === searchterm || (value && value.includes(searchterm))).toBeTruthy();
+          } else {
+            expect(value).toContain(searchterm);
+          }
+        }
+      } else {
+        Logger.log(`No rows found for the search term: ${searchterm}`);
+      }
+    }
   }
 
-  /**
-   * Clears all filters by clicking the reset button and validates that no filters are applied.
-   */
-  async clearAllFilterAndValidate(filterType: string, filterValue: string) {
-    await this.btnClearFilter.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.btnClearFilter.click();
-    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
+  // --- Filter Validations ---
 
+  /**
+   * Applies a filter and validates the results.
+   * @param filterType The filter dropdown label.
+   * @param filterValue The value to filter by.
+   */
+  async runFilterValidation(filterType: string, filterValue: string) {
+    await this.selectAndApplyFilter(filterType, filterValue);
     const result = await this.validateResultsByFilter(filterType);
     if (result.count > 0) {
-      const allContain = result.filterValues.every(value => value?.includes(filterValue));
-      expect(allContain).toBeFalsy();
+      for (const value of result.filterValues) {
+        expect(value).toContain(filterValue);
+      }
     } else {
-      expect(result.count).toBe(0);
+      Logger.log(`No rows found for the filter: ${filterType} = ${filterValue}`);
     }
   }
 
   /**
-   * Opens table settings and toggles a column.
-   */
-  async tableSettings() {
-    await this.btnSettings.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.btnSettings.click();
-    await this.checkbox.nth(2).click();
-    await expect(this.checked.nth(2)).not.toHaveText(testData.month);
-    await this.btnClose.click();
-  }
-
-  /**
-   * Validates that the column is sorted A-Z (ascending order), case-insensitive.
-   */
-  async validateSortAZ() {
-    await this.dropdownSortBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.dropdownSortBy.click();
-    await this.sort_AZ.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.sort_AZ.click();
-    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    const columnData = await this.sortGroup.allTextContents();
-    // Case-insensitive comparison for ascending order
-    const isAscending = columnData.every(
-      (val, i, arr) =>
-        i === 0 || arr[i - 1].toLowerCase().localeCompare(val.toLowerCase()) <= 0
-    );
-    expect(isAscending).toBeTruthy();
-  }
-
-  /**
-   * Validates that the column is sorted Z-A (descending order), case-insensitive.
-   */
-  async validateSortZA() {
-    await this.dropdownSortBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.dropdownSortBy.click();
-    await this.sort_ZA.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.sort_ZA.click();
-    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    const columnData = await this.sortGroup.allTextContents();
-    // Case-insensitive comparison for descending order
-    const isDescending = columnData.every(
-      (val, i, arr) =>
-        i === 0 || arr[i - 1].toLowerCase().localeCompare(val.toLowerCase()) >= 0
-    );
-    expect(isDescending).toBeTruthy();
-  }
-
-  /**
-   * Validates that the column is sorted by recently updated.
-   */
-  async validateRecentlyUpdated() {
-    await this.dropdownSortBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.dropdownSortBy.click();
-    await this.recentUpdate.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.recentUpdate.click();
-    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    const columnData = await this.sortGroup.allTextContents();
-    const parsedDates = columnData.map(dateString => new Date(dateString));
-    const sortedDates = [...parsedDates].sort((a, b) => b.getTime() - a.getTime());
-    expect(parsedDates).toEqual(sortedDates);
-  }
-
-  /**
-   * Validates grouping by same node.
-   * Checks that each group has all rows with the same value.
-   */
-  async validateGroupBySameNode() {
-    await this.dropdownGroupBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.dropdownGroupBy.click();
-    await this.sameNode.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.sameNode.click({ force: true });
-    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
-
-    //Scroll to bottom to load all groups if table is virtualized
-    await this.page.evaluate(() => {
-      const grid = document.querySelector('.data-grid-table');
-      if (grid) grid.scrollTop = grid.scrollHeight;
-    });
-    await this.page.waitForTimeout(TIMEOUT_FE_WAIT);
-
-    // Get all values in the grouped column using getGridValueXPath
-    const metricNameCells = await this.page.$$(this.getGridValueXPath('metricName'));
-    const groupedValues: string[] = [];
-    for (const cell of metricNameCells) {
-      const text = await cell.textContent();
-      if (text !== null) groupedValues.push(text.trim());
-    }
-
-    // Group by value and count occurrences
-    const groupMap = new Map<string, number>();
-    for (const val of groupedValues) {
-      groupMap.set(val, (groupMap.get(val) ?? 0) + 1);
-    }
-
-    // Validate each group has consistent values
-    let groupIndex = 1;
-    for (const [value, count] of groupMap.entries()) {
-      //console.log(`Group ${groupIndex} has ${count} rows with value "${value}"`);
-      const rowsInGroup = groupedValues.filter(v => v === value);
-      expect(rowsInGroup.length).toBe(count);
-      expect(rowsInGroup.every(v => v === value)).toBeTruthy();
-      groupIndex++;
-    }
-
-    // Assert that there is at least one group
-    expect(groupMap.size).toBeGreaterThan(0);
-  }
-
-  /**
-   * Validates grouping by owner.
-   * Checks that each group has all rows with the same owner.
-   */
-  async validateGroupByOwner() {
-    await this.dropdownGroupBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.dropdownGroupBy.click();
-    await this.owners.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    await this.owners.click({ force: true });
-    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
-
-    // Scroll to bottom to load all groups if table is virtualized
-    await this.page.evaluate(() => {
-      const grid = document.querySelector('.data-grid-table');
-      if (grid) grid.scrollTop = grid.scrollHeight;
-    });
-    await this.page.waitForTimeout(TIMEOUT_FE_WAIT);
-
-    // Get all values in the grouped column using getGridValueXPath for 'owner'
-    const ownerCells = await this.page.$$(this.getGridValueXPath('owner'));
-    const ownerValues: string[] = [];
-    for (const cell of ownerCells) {
-      const text = await cell.textContent();
-      if (text !== null) ownerValues.push(text.trim());
-    }
-
-    // Group by owner value and count occurrences
-    const groupMap = new Map<string, number>();
-    for (const val of ownerValues) {
-      groupMap.set(val, (groupMap.get(val) ?? 0) + 1);
-    }
-
-    // Validate each group has consistent values
-    let groupIndex = 1;
-    for (const [value, count] of groupMap.entries()) {
-      //console.log(`Group ${groupIndex} has ${count} rows with owner "${value}"`);
-      const rowsInGroup = ownerValues.filter(v => v === value);
-      expect(rowsInGroup.length).toBe(count);
-      expect(rowsInGroup.every(v => v === value)).toBeTruthy();
-      groupIndex++;
-    }
-
-    // Assert that there is at least one group
-    expect(groupMap.size).toBeGreaterThan(0);
-  }
-
-  /**
-   * Selects and applies a filter for a given column.
-   * @param filterType The column to filter.
+   * Selects and applies a filter.
+   * @param filterType The filter dropdown label.
    * @param filterValue The value to filter by.
    */
   async selectAndApplyFilter(filterType: string, filterValue: string) {
@@ -307,8 +218,7 @@ export class LandingPageValidation {
 
   /**
    * Validates the results after applying a filter.
-   * If a cell has a tooltip, checks the tooltip text for the filter value as well.
-   * @param filterType The column filtered.
+   * @param filterType The filter dropdown label.
    * @returns Object with count and array of filter values.
    */
   async validateResultsByFilter(filterType: string) {
@@ -317,10 +227,9 @@ export class LandingPageValidation {
     const filterValues: (string | null)[] = [];
 
     for (const element of resultElements) {
-      // Try to get the visible text
       let filterValue = (await element.textContent())?.trim() ?? null;
 
-      // Check for tooltip icon and get the tooltip text if present
+      // If the cell has a tooltip, use the tooltip value
       const tooltipIcon = await element.$('span[class*="list-trim-icon"]');
       if (tooltipIcon) {
         tooltipIcon.click();
@@ -338,15 +247,185 @@ export class LandingPageValidation {
     return { count: resultElements.length, filterValues };
   }
 
-  async runFilterValidation(filterType: string, filterValue: string) {
-    await this.selectAndApplyFilter(filterType, filterValue);
+  /**
+   * Clears all filters and validates that the filter value is not present.
+   * @param filterType The filter dropdown label.
+   * @param filterValue The value to filter by.
+   */
+  async verifyClearAllFilterFunctionality(filterType: string, filterValue: string) {
+    await this.btnClearFilter.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await this.btnClearFilter.click();
+    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
+
     const result = await this.validateResultsByFilter(filterType);
     if (result.count > 0) {
-        for (const value of result.filterValues) {
-            expect(value).toContain(filterValue);
-        }
+      const allContain = result.filterValues.every(value => value?.includes(filterValue));
+      expect(allContain).toBeFalsy();
     } else {
-      Logger.log(`No rows found for the filter: ${filterType} = ${filterValue}`); // <-- Use Logger instead of console.log
+      expect(result.count).toBe(0);
     }
+  }
+
+  // --- Table Settings ---
+
+  /**
+   * Validates table settings functionality.
+   */
+  async tableSettings() {
+    await this.btnSettings.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await this.btnSettings.click();
+    await this.checkbox.nth(2).click();
+    await expect(this.checked.nth(2)).not.toHaveText(testData.month);
+    await this.btnClose.click();
+  }
+
+  // --- Sorting Validations ---
+
+  /**
+   * Validates all sorting options.
+   */
+  async verifySorting() {
+    await this.validateSortAZ();
+    await this.validateSortZA();
+    await this.validateRecentlyUpdated();
+  }
+
+  /**
+   * Validates A-Z sorting.
+   */
+  async validateSortAZ() {
+    await this.dropdownSortBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await this.dropdownSortBy.click();
+    await this.sort_AZ.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await this.sort_AZ.click();
+    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    const columnData = await this.sortGroup.allTextContents();
+    const isAscending = columnData.every(
+      (val, i, arr) =>
+        i === 0 || arr[i - 1].toLowerCase().localeCompare(val.toLowerCase()) <= 0
+    );
+    expect(isAscending).toBeTruthy();
+  }
+
+  /**
+   * Validates Z-A sorting.
+   */
+  async validateSortZA() {
+    await this.dropdownSortBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await this.dropdownSortBy.click();
+    await this.sort_ZA.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await this.sort_ZA.click();
+    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    const columnData = await this.sortGroup.allTextContents();
+    const isDescending = columnData.every(
+      (val, i, arr) =>
+        i === 0 || arr[i - 1].toLowerCase().localeCompare(val.toLowerCase()) >= 0
+    );
+    expect(isDescending).toBeTruthy();
+  }
+
+  /**
+   * Validates sorting by recently updated.
+   */
+  async validateRecentlyUpdated() {
+    await this.dropdownSortBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await this.dropdownSortBy.click();
+    await this.recentUpdate.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await this.recentUpdate.click();
+    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    const columnData = await this.sortGroup.allTextContents();
+    const parsedDates = columnData.map(dateString => new Date(dateString));
+    const sortedDates = [...parsedDates].sort((a, b) => b.getTime() - a.getTime());
+    expect(parsedDates).toEqual(sortedDates);
+  }
+
+  // --- Grouping Validations ---
+
+  /**
+   * Validates all grouping options.
+   */
+  async verifyGrouping() {
+    await this.validateGroupBySameNode();
+    await this.validateGroupByOwner();
+  }
+
+  /**
+   * Validates grouping by "Same node variations".
+   */
+  async validateGroupBySameNode() {
+    await this.dropdownGroupBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await this.dropdownGroupBy.click();
+    await this.sameNode.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await this.sameNode.click({ force: true });
+    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
+
+    // Scroll to load all groups if table is virtualized
+    await this.page.evaluate(() => {
+      const grid = document.querySelector('.data-grid-table');
+      if (grid) grid.scrollTop = grid.scrollHeight;
+    });
+    await this.page.waitForTimeout(TIMEOUT_FE_WAIT);
+
+    // Collect all grouped values
+    const metricNameCells = await this.page.$$(this.getGridValueXPath('metricName'));
+    const groupedValues: string[] = [];
+    for (const cell of metricNameCells) {
+      const text = await cell.textContent();
+      if (text !== null) groupedValues.push(text.trim());
+    }
+
+    // Validate grouping
+    const groupMap = new Map<string, number>();
+    for (const val of groupedValues) {
+      groupMap.set(val, (groupMap.get(val) ?? 0) + 1);
+    }
+
+    for (const [value, count] of groupMap.entries()) {
+      const rowsInGroup = groupedValues.filter(v => v === value);
+      expect(rowsInGroup.length).toBe(count);
+      expect(rowsInGroup.every(v => v === value)).toBeTruthy();
+    }
+
+    expect(groupMap.size).toBeGreaterThan(0);
+  }
+
+  /**
+   * Validates grouping by owner/editor.
+   */
+  async validateGroupByOwner() {
+    await this.dropdownGroupBy.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await this.dropdownGroupBy.click();
+    await this.owners.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await this.owners.click({ force: true });
+    await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
+
+    // Scroll to load all groups if table is virtualized
+    await this.page.evaluate(() => {
+      const grid = document.querySelector('.data-grid-table');
+      if (grid) grid.scrollTop = grid.scrollHeight;
+    });
+    await this.page.waitForTimeout(TIMEOUT_FE_WAIT);
+
+    // Collect all grouped values
+    const ownerCells = await this.page.$$(this.getGridValueXPath('owner'));
+    const ownerValues: string[] = [];
+    for (const cell of ownerCells) {
+      const text = await cell.textContent();
+      if (text !== null) ownerValues.push(text.trim());
+    }
+
+    // Validate grouping
+    const groupMap = new Map<string, number>();
+    for (const val of ownerValues) {
+      groupMap.set(val, (groupMap.get(val) ?? 0) + 1);
+    }
+
+    for (const [value, count] of groupMap.entries()) {
+      const rowsInGroup = ownerValues.filter(v => v === value);
+      expect(rowsInGroup.length).toBe(count);
+      expect(rowsInGroup.every(v => v === value)).toBeTruthy();
+    }
+
+    expect(groupMap.size).toBeGreaterThan(0);
   }
 }

@@ -29,7 +29,8 @@
         "metricNames": "TestCompositeUpdatedNodeName",
         "month": "Month",
         "segment": "SEGMENT",
-        "dataFieldAttributeMetricName": "metricName"
+        "dataFieldAttributeMetricName": "metricName",
+        "signInRetryNumber":2
     },
     "filterOptions": [
         {
