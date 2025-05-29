@@ -10,7 +10,7 @@
         
         "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
         "method": "GET",
-        "assertion": [
+        "assertions": [
           {
             "status": 200
           },
@@ -44,7 +44,7 @@
             }
           ]
         },
-        "assertion": [
+        "assertions": [
           {
             "status": 201
           },
@@ -70,7 +70,7 @@
         "payload": {
           "published_flag": true
         },
-        "assertion": [
+        "assertions": [
           {
             "status": 200
           }
@@ -97,7 +97,7 @@
             "extractKey": "deadline_date"
           }
         },
-        "assertion": [
+        "assertions": [
           {
             "status": 200
           },
@@ -145,7 +145,7 @@
             }
           ]
         },
-        "assertion": [
+        "assertions": [
           {
             "status": 200
           },
@@ -167,7 +167,7 @@
         "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
         "method": "GET",
        
-        "assertion": [
+        "assertions": [
           {
             "status": 200
           },
@@ -220,7 +220,7 @@
           "cycle_id": "{{new_cycle_id}}",
           "calendar_id": "{{this_calendar_id}}"
         },
-        "assertion": [
+        "assertions": [
           {
             "status": 404
           }
@@ -250,7 +250,7 @@
             }
           ]
         },
-        "assertion": [
+        "assertions": [
           {
             "status": 201
           },
@@ -273,7 +273,7 @@
         "testName": "Validate getForecastCalender API after delete",
         "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
         "method": "GET",
-        "assertion": [
+        "assertions": [
           {
             "status": 200
           },
