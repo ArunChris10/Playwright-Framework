@@ -1,5 +1,5 @@
 {
-    "rowData": [
+    "row_data": [
       {
         "Scenario Name": "{{scenario_id}}",
         "Node Name": "grossprofit",
@@ -9434,8 +9434,8 @@
       }
     ],
     "metadata": {
-      "cutOffDate": "*",
-      "nodeDetails": {
+      "cut_off_date": "*",
+      "node_details": {
         "grossprofit": {
           "nodeId": "4000_UFM",
           "nodeVar": "grossprofit",
