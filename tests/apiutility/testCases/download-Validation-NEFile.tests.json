@@ -14,7 +14,7 @@
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "do_id": "10611748438977"
+        "doc_id": "10611748438977"
       },
       "assertion": [
         {
