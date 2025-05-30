@@ -14,7 +14,7 @@
           "status": 200
         }
       ],
-      "extract": {
+      "extractRelative": {
         "datascience_scenario_id": {
           "whereKey": "classification_id",
           "equals": 12,
@@ -47,7 +47,7 @@
             "node_var_name": "grossgmv",
             "node_dimension": {},
             "data": {
-              "{{dynamicMonth}}": 2050000000
+              "{{dynamicMonth+1}}": 10000
             },
             "allocation": {
               "interval": null,
@@ -66,8 +66,8 @@
         },
         {
           "assertEquals": {
-            "jsonPath1": "edits.{{dynamicMonth}}.forecast",
-            "value1": 2050000000.0000012
+            "jsonPath1": "edits.{{dynamicMonth+1}}.forecast",
+            "value1": 10000.000000000005
           }
         }
       ]
@@ -104,7 +104,7 @@
               "node_var_name": "grossgmv",
               "node_dimension": {},
               "data": {
-                "{{dynamicMonth}}": 2050000000
+                "{{dynamicMonth+1}}": 10000
               },
               "allocation": {
                 "interval": null,
@@ -169,7 +169,7 @@
               "name": "Driver"
             }
           ],
-          "month": ["{{dynamicMonth}}"]
+          "month": ["{{dynamicMonth+1}}"]
         },
         "isApplied": false
       },
@@ -177,10 +177,12 @@
         {
           "status": 200
         },
+       
         {
-          "assertEquals": {
-            "jsonPath1": "rowData.{{dynamicMonth}}.forecast",
-            "value1": 2050000000
+          "assertApproxEquals": {
+            "jsonPath": "rowData.{{dynamicMonth+1}}.forecast",
+            "expected": 9999.999999999998,
+            "acceptedDifference": 0.1000
           }
         }
       ]
