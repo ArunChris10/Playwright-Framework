@@ -4,9 +4,7 @@
     "Content-Type": "application/json",
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
-
   },
-  
   "tagsToRun": [],
   "testFiles": [
     "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
@@ -36,18 +34,22 @@
     "testCases/ssdm-node-edge-get-drivers-api-tests.json",
     "testCases/ssdm-node-edge-publish-api-tests.json",
     "testCases/NodesCases/nodeshRefresh-api-tests.json",
-    "testCases/NodesCases/get-kpi-Month-GroupBy-Filter-tests.json",
-    "testCases/NodesCases/drivers-api-tests.json",
-     "testCases/NodesCases/actual-missing-nodes-api-tests.json"
-
+    "testCases/get-kpi-Month-GroupBy-Filter-tests.json",
+    "testCases/drivers-api-tests.json",
+     "testCases/actual-missing-nodes-api-tests.json",
+    "testCases/projection-method-testcases/historicRate-constantValueAllocation.json",
+    "testCases/projection-method-testcases/historicRate-MaintainRatioAllocation.json",
+    "testCases/projection-method-testcases/historicRate-EqualDistributionAllocation.json",
+    "testCases/projection-method-testcases/historicRate-TimeRollingAllocation.json",
+    "testCases/projection-method-testcases/regression-MaintainRatioAllocation.json",
+    "testCases/projection-method-testcases/regression-constantValueAllocation.json",
+    "testCases/excel-load-data-api-time-granularity.json"
   ],
-
   "currentDemandService": {
     "baseURL": {
       "qa": "https://scenario.qa.ibg.walmart.com",
       "dev": "https://scenario.dev.ibg.walmart.com"
     },
-
     "get-demand-scenario-forecast-by-slot": "/api/demandscenarios/currentDemand/"
   },
   "coreService": {
@@ -58,20 +60,19 @@
     "getScreenId": "/filter/screen_details?",
     "listHistoricals": "/scenario/list-historicals?",
     "snapshots": "/archive/",
-    "getDataScienceInfo":"/scenario/data-science/info",
-    "allocateData":"/allocate-data",
-    "saveAdjustment":"/adjustment/",
-    "getKpi":"/reports/get-mykpi",
-    "AopGetKpi":"/reports/get-mykpi/v2",
-    "downloadSnapshot":"/reports/download-active-forecast",
-    "getForecast":"/reports/get-report",
-    "getForecastCalendar":"/forecast_calendar/",
-    "visualIndicator":"/scenario/scenario-composition",
-    "Forecast":"/scenario",
-    "getKpiV2":"/reports/get-mykpi/v2",
-    "getTimestamp":"/sandbox/v1/get-datasets-timestamp",
-    "getDrivers":"/metadata/drivers"
-    
+    "getDataScienceInfo": "/scenario/data-science/info",
+    "allocateData": "/allocate-data",
+    "saveAdjustment": "/adjustment/",
+    "getKpi": "/reports/get-mykpi",
+    "AopGetKpi": "/reports/get-mykpi/v2",
+    "downloadSnapshot": "/reports/download-active-forecast",
+    "getForecast": "/reports/get-report",
+    "getForecastCalendar": "/forecast_calendar/",
+    "visualIndicator": "/scenario/scenario-composition",
+    "Forecast": "/scenario",
+    "getKpiV2": "/reports/get-mykpi/v2",
+    "getTimestamp": "/sandbox/v1/get-datasets-timestamp",
+    "getDrivers": "/metadata/drivers"
   },
   "notificationService": {
     "baseURL": {
@@ -94,11 +95,10 @@
     },
     "scenarios": "/scenarios"
   },
-  "dataForgeService":{
-    "baseURL":{
+  "dataForgeService": {
+    "baseURL": {
       "qa": "https://ibg-ufm-dataforge-service.qa.ibg.walmart.com"
-
     },
-    "actualMissingNode":"/v1/actual_missing/nodes"
+    "actualMissingNode": "/v1/actual_missing/nodes"
   }
 }
