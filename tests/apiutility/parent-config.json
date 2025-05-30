@@ -33,7 +33,6 @@
     "testCases/forecast-comp-api-error-tests.json",
     "testCases/activated-latest-timestamp-tests.json",
     "testCases/published-versions-api-tests.json",
-    "testCases/NodesCases/nodeshRefresh-api-tests.json"
     "testCases/ssdm-node-edge-compute-api-tests.json",
     "testCases/ssdm-node-edge-get-drivers-api-tests.json",
     "testCases/ssdm-node-edge-publish-api-tests.json",
@@ -74,7 +73,7 @@
     "getTimestamp":"/sandbox/v1/get-datasets-timestamp",
     "getPublishedVersions":"/sandbox/v1/get-published-versions"
     "getDrivers":"/metadata/drivers"
-
+  
   },
   "notificationService": {
     "baseURL": {
