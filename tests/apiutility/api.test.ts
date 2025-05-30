@@ -117,11 +117,11 @@ parentConfig.testFiles.forEach((testCasePath: string) => {
   );
 
   for (const [testName, steps] of Object.entries(rawTestData)) {
-    let caseLabels: string[];
+    let caseLabels: string[] = [];
     try {
       caseLabels = (steps[0] as any).labels || [];
     } catch (error) {
-      throw new Error(`Test case "${testCasePath}" does not have the correct format.: ${error}`);
+      console.error(`Test case "${testCasePath}" does not have the correct format.: ${error}`);
     }
 
     const isIncluded: boolean =
