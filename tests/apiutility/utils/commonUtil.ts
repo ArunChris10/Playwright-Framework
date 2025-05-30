@@ -230,7 +230,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
             ? parseFloat(actualValueRaw[0])
             : parseFloat(jsonPathOrValue);
 
-          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.value));
+          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.expected));
           const acceptedDifference = parseFloat(arrayOfAssertion.assertApproxEquals.acceptedDifference);
 
           const difference = Math.abs(actualValue - expectedValue);
@@ -364,7 +364,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
     const now = new Date();
 
   // Start at 1:00 AM today
-  now.setHours(1, 0, 0, 0); // 1 AM, 0 minutes, 0 seconds, 0 milliseconds
+  now.setHours(2, 0, 0, 0); // 1 AM, 0 minutes, 0 seconds, 0 milliseconds
 
   // Add random number of days
   const randomDays = Math.floor(Math.random() * daysFromNow) + 1;

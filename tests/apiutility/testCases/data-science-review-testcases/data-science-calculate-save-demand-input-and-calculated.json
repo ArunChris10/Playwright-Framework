@@ -21,12 +21,12 @@
     "extractRelative": {
       "data_science_scenario_id": {
         "whereKey": "classification_id",
-        "equals": 11,
+        "equals": 12,
         "extractKey": "scenario_id"
       },
       "data_science_scenario_version": {
         "whereKey": "classification_id",
-        "equals": 11,
+        "equals": 12,
         "extractKey": "scenario_version"
       }
     }
