@@ -41,7 +41,7 @@
     "testCases/NodesCases/get-kpi-Month-GroupBy-Filter-tests.json",
     "testCases/NodesCases/drivers-api-tests.json",
      "testCases/NodesCases/actual-missing-nodes-api-tests.json"
-    
+
   ],
 
   "currentDemandService": {
@@ -74,7 +74,7 @@
     "getTimestamp":"/sandbox/v1/get-datasets-timestamp",
     "getPublishedVersions":"/sandbox/v1/get-published-versions"
     "getDrivers":"/metadata/drivers"
-    
+
   },
   "notificationService": {
     "baseURL": {
