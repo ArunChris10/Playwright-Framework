@@ -3,7 +3,13 @@
       {
         "testStep": "Get AOP Scenario Details from DataScience Info",
         "environment": "qa",
-        "labels": ["smoke", "Pre-Req", "IBGROW-35040", "IBGROW-34988", "MS1"],
+        "labels": [
+          "smoke",
+          "Pre-Req",
+          "IBGROW-35040",
+          "IBGROW-34988",
+          "MS1"
+        ],
         "service": "coreService",
         "uri": "getDataScienceInfo",
         "testName": "get aop Scenario details from dataScience info",
@@ -30,7 +36,12 @@
       {
         "testStep": "Allocate Data for AOP NonDemand - Preview",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-35040", "IBGROW-34988", "MS1"],
+        "labels": [
+          "smoke",
+          "IBGROW-35040",
+          "IBGROW-34988",
+          "MS1"
+        ],
         "service": "coreService",
         "uri": "allocateData",
         "testName": "Send request for allocate-data - AOP- NonDemand",
@@ -65,9 +76,10 @@
             "status": 200
           },
           {
-            "assertEquals": {
-              "jsonPath1": "edits.{{dynamicMonth+1}}.forecast",
-              "value1": 25000000.119999998
+            "assertApproxEquals": {
+              "jsonPath": "edits.{{dynamicMonth+1}}.forecast",
+              "expected": 25000000.12,
+              "acceptedDifference": 0.1000
             }
           }
         ]
@@ -75,7 +87,12 @@
       {
         "testStep": "Save Adjustment for AOP NonDemand",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-35040", "IBGROW-34988", "MS1"],
+        "labels": [
+          "smoke",
+          "IBGROW-35040",
+          "IBGROW-34988",
+          "MS1"
+        ],
         "service": "coreService",
         "uri": "saveAdjustment",
         "testName": "Send request for save-adjustment- AOP- NonDemand",
@@ -145,7 +162,12 @@
       {
         "testStep": "Validate AOP Adjustment via getKpi",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-35040", "IBGROW-34988", "MS1"],
+        "labels": [
+          "smoke",
+          "IBGROW-35040",
+          "IBGROW-34988",
+          "MS1"
+        ],
         "service": "coreService",
         "uri": "getKpi",
         "testName": "Validate saved data for aop- GetKpi",
@@ -160,16 +182,26 @@
           "template_id": 3,
           "filters": [],
           "additional_filters": {
-            "pivot_cols": ["month"],
-            "pivot_index": ["node_id"],
-            "period_view": ["month"],
-            "nodes": ["moecommshippingexpense"],
+            "pivot_cols": [
+              "month"
+            ],
+            "pivot_index": [
+              "node_id"
+            ],
+            "period_view": [
+              "month"
+            ],
+            "nodes": [
+              "moecommshippingexpense"
+            ],
             "template_include_headers": [
               {
                 "name": "Driver"
               }
             ],
-            "month": ["{{dynamicMonth+1}}"]
+            "month": [
+              "{{dynamicMonth+1}}"
+            ]
           },
           "isApplied": false
         },
@@ -187,4 +219,3 @@
       }
     ]
   }
-

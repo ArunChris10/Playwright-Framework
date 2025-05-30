@@ -1,5 +1,6 @@
 {
   "get_report_endpoint": "/reports/get-report",
+  "review_endpoint_v2":"/adjustment/status/v2",
   "review_endpoint": "/workflow/status",
   "individual_status_endpoint": "/workflow/get-individual-status",
   "last_locked_scenario_endpoint": "/scenario/last-locked-scenario",
