@@ -138,8 +138,8 @@
         }
       ],
       "extractFirst": {
-        "scenario_id": "rowData.scenarioId",
-        "scenario_version": "rowData.scenarioVersion"
+        "download_snapshot_scenario_id": "rowData.scenarioId",
+        "download_snapshot_scenario_version": "rowData.scenarioVersion"
       }
     },
     {

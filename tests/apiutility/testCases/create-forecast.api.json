@@ -5,7 +5,7 @@
       "environment": "qa",
       "labels": ["smoke"],
       "service": "coreService",
-      "uri": "Forecast",
+      "uri": "getForecast",
       "testName": "Validate create forecast",
       "queryParams": "/create-user-scenario",
       "method": "POST",
