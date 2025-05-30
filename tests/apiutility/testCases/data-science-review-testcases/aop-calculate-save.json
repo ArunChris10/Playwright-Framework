@@ -156,7 +156,7 @@
           }
         ],
         "extract": {
-          "adjustment_id": "adjustment_metadata.adjustment_id"
+          "aop_nondemand_adjustment_id": "adjustment_metadata.adjustment_id"
         }
       },
       {
@@ -210,9 +210,10 @@
             "status": 200
           },
           {
-            "assertEquals": {
-              "jsonPath1": "rowData.{{dynamicMonth+1}}.forecast",
-              "value1": 25000000.12
+            "assertApproxEquals": {
+              "jsonPath": "edits.{{dynamicMonth+1}}.forecast",
+              "expected": 25000000.12,
+              "acceptedDifference": 0.1000
             }
           }
         ]

@@ -139,7 +139,7 @@
         }
       ],
       "extract": {
-        "adjustment_id": "adjustment_metadata.adjustment_id"
+        "aop_demand_adjustment_id": "adjustment_metadata.adjustment_id"
       }
     },
     {

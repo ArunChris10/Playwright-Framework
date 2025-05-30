@@ -159,29 +159,17 @@ let filePathOfPayload;
   
 
 export function interpolate(value: any): any {
-  if (typeof value === 'string') {
-    const fullMatch = value.match(/^{{\s*(.*?)\s*}}$/);
-    if (fullMatch) {
-      // Whole string is a placeholder, return raw value from globalStore
-      const key = fullMatch[1].trim();
-      if (globalStore.getValue) {
-        return globalStore.getValue(key) ?? globalStore[key];
-      }
-      return globalStore[key];
+    if (typeof value === 'string') {
+      return value.replace(/\{\{(.*?)\}\}/g, (_, key) => {
+        const trimmedKey = key.trim();
+        if (globalStore.getValue) {
+          return globalStore.getValue?.(trimmedKey) ?? globalStore[trimmedKey] ?? '';
+        }
+        return globalStore[trimmedKey] ?? '';
+      });
     }
-
-    // Partial replacements (e.g., "some text {{key}} here")
-    return value.replace(/\{\{(.*?)\}\}/g, (_, key) => {
-      const trimmedKey = key.trim();
-      if (globalStore.getValue) {
-        return globalStore.getValue(trimmedKey) ?? globalStore[trimmedKey] ?? '';
-      }
-      return globalStore[trimmedKey] ?? '';
-    });
+    return value;
   }
-
-  return value;
-}
 
   
   export function interpolateObject(obj: any): any {
