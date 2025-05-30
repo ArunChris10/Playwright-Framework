@@ -1,5 +1,5 @@
 {
-  "validate_aop_demand_calculate_save_workflow": [
+  "validate_aop1_demand_calculate_save_workflow": [
   {
     "testStep": "Get AOP Scenario Details from DataScience Info",
     "environment": "qa",
@@ -13,18 +13,18 @@
     "testName": "get Scenario details from data Science info",
     "queryParams": "",
     "method": "GET",
-    "assertion": [
+    "assertions": [
       {
         "status": 200
       }
     ],
     "extractRelative": {
-      "aop_scenario_id": {
+      "aop1_scenario_id": {
         "whereKey": "classification_id",
         "equals": 11,
         "extractKey": "scenario_id"
       },
-      "aop_scenario_version": {
+      "aop1_scenario_version": {
         "whereKey": "classification_id",
         "equals": 11,
         "extractKey": "scenario_version"
@@ -153,7 +153,7 @@
       "scenario_id": 15141747243293
     }
 ,    
-    "assertion": [
+    "assertions": [
       {
         "status": 200
       },
@@ -217,8 +217,8 @@
         "is_duplicated": false,
         "is_create": true,
         "is_update": false,
-        "scenario_id": "{{aop_scenario_id}}",
-        "scenario_version_timestamp": "{{aop_scenario_version}}"
+        "scenario_id": "{{aop1_scenario_id}}",
+        "scenario_version_timestamp": "{{aop1_scenario_version}}"
       },
       "adjustment_edits": 35,
       "allocation_request": {
@@ -326,11 +326,11 @@
         "filters": [],
         "period_view": "month",
         "preview": false,
-        "scenario_id": "{{aop_scenario_id}}"
+        "scenario_id": "{{aop1_scenario_id}}"
       }
     }
 ,    
-    "assertion": [
+    "assertions": [
       {
         "status": 200
       },
@@ -369,8 +369,8 @@
     "queryParams": "",
     "method": "POST",
     "payload": {
-      "scenario_id": "{{aop_scenario_id}}",
-      "scenario_version": "{{aop_scenario_version}}",
+      "scenario_id": "{{aop1_scenario_id}}",
+      "scenario_version": "{{aop1_scenario_version}}",
       "dim_id": 13,
       "dim_val_id": 130001,
       "classification_id": 12,
@@ -400,7 +400,7 @@
       },
       "isApplied": false
     },
-    "assertion": [
+    "assertions": [
       {
         "status": 200
       },

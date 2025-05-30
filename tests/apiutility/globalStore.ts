@@ -34,7 +34,7 @@ export const globalStore = {
     console.log(`Key "${key}" set successfully.`);
   },
 
-  getValue(key: string): any {
+  getValue(key: string): string | string[] | undefined | any {
     const dynamicMonthMatch = key.match(/^dynamicMonth(?:([+-]\d+))?$/);
     const dynamicYearMatch = key.match(/^dynamicForecastYear(?:([+-]\d+))?$/);
     

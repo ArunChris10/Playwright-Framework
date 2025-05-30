@@ -15,10 +15,10 @@
         }
       ],
       "extractFirst": {
-        "scenario_version_timestamp": "row_data.scenario_version_timestamp",
-        "scenario_id": "row_data.scenario_id",
-        "actual_template_id": "row_data.actual_template_id",
-        "forecast_template_id": "row_data.forecast_template_id"
+        "excel_scenario_version_timestamp": "row_data.scenario_version_timestamp",
+        "excel_scenario_id": "row_data.scenario_id",
+        "excel_actual_template_id": "row_data.actual_template_id",
+        "excel_forecast_template_id": "row_data.forecast_template_id"
       }
     },
     {
@@ -34,10 +34,10 @@
         "node_var_names": ["momerchandisesales"],
         "scenarios": [
           {
-            "scenario_id": "{{scenario_id}}",
-            "scenario_ver": "{{scenario_version_timestamp}}",
-            "actual_scenario_id": "{{actual_template_id}}",
-            "forecast_scenario_id": "{{forecast_template_id}}",
+            "scenario_id": "{{excel_scenario_id}}",
+            "scenario_ver": "{{excel_scenario_version_timestamp}}",
+            "actual_scenario_id": "{{excel_actual_template_id}}",
+            "forecast_scenario_id": "{{excel_forecast_template_id}}",
             "type": "scenarios"
           }
         ],
@@ -67,10 +67,10 @@
         "node_var_names": ["momerchandisesales"],
         "scenarios": [
           {
-            "scenario_id": "{{scenario_id}}",
-            "scenario_ver": "{{scenario_version_timestamp}}",
-            "actual_scenario_id": "{{actual_template_id}}",
-            "forecast_scenario_id": "{{forecast_template_id}}",
+            "scenario_id": "{{excel_scenario_id}}",
+            "scenario_ver": "{{excel_scenario_version_timestamp}}",
+            "actual_scenario_id": "{{excel_actual_template_id}}",
+            "forecast_scenario_id": "{{excel_forecast_template_id}}",
             "type": "scenarios"
           }
         ],
@@ -86,7 +86,7 @@
       "extractFirst": {
         "channel_l1_total": "row_data.momerchandisesales"
       },
-      "assertion": [
+      "assertions": [
         {
           "assertValuesAreEqual": [
             "{{no_filter_total}}",
@@ -108,10 +108,10 @@
         "node_var_names": ["momerchandisesales"],
         "scenarios": [
           {
-            "scenario_id": "{{scenario_id}}",
-            "scenario_ver": "{{scenario_version_timestamp}}",
-            "actual_scenario_id": "{{actual_template_id}}",
-            "forecast_scenario_id": "{{forecast_template_id}}",
+            "scenario_id": "{{excel_scenario_id}}",
+            "scenario_ver": "{{excel_scenario_version_timestamp}}",
+            "actual_scenario_id": "{{excel_actual_template_id}}",
+            "forecast_scenario_id": "{{excel_forecast_template_id}}",
             "type": "scenarios"
           }
         ],
@@ -131,7 +131,7 @@
       "extractFirst": {
         "sbu_total": "row_data.momerchandisesales"
       },
-      "assertion": [
+      "assertions": [
         {
           "assertValuesAreEqual": ["{{no_filter_total}}", "{{sbu_total}}"]
         }
@@ -150,10 +150,10 @@
         "node_var_names": ["momerchandisesales"],
         "scenarios": [
           {
-            "scenario_id": "{{scenario_id}}",
-            "scenario_ver": "{{scenario_version_timestamp}}",
-            "actual_scenario_id": "{{actual_template_id}}",
-            "forecast_scenario_id": "{{forecast_template_id}}",
+            "scenario_id": "{{excel_scenario_id}}",
+            "scenario_ver": "{{excel_scenario_version_timestamp}}",
+            "actual_scenario_id": "{{excel_actual_template_id}}",
+            "forecast_scenario_id": "{{excel_forecast_template_id}}",
             "type": "scenarios"
           }
         ],
@@ -183,10 +183,10 @@
         "node_var_names": ["momerchandisesales"],
         "scenarios": [
           {
-            "scenario_id": "{{scenario_id}}",
-            "scenario_ver": "{{scenario_version_timestamp}}",
-            "actual_scenario_id": "{{actual_template_id}}",
-            "forecast_scenario_id": "{{forecast_template_id}}",
+            "scenario_id": "{{excel_scenario_id}}",
+            "scenario_ver": "{{excel_scenario_version_timestamp}}",
+            "actual_scenario_id": "{{excel_actual_template_id}}",
+            "forecast_scenario_id": "{{excel_forecast_template_id}}",
             "type": "scenarios"
           }
         ],
@@ -202,7 +202,7 @@
       "extractFirst": {
         "child_department_total": "row_data.momerchandisesales"
       },
-      "assertion": [
+      "assertions": [
         {
           "assertValuesAreEqual": [
             "{{parent_sbu_total}}",

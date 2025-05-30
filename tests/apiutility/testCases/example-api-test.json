@@ -9,7 +9,7 @@
       "testName": "Validate screen id API returns correct values",
       "queryParams": "dim_id=12&dim_val_id=120006",
       "method": "GET",
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         },
@@ -44,7 +44,7 @@
       "testName": "Validate get screen details",
       "queryParams": "dim_id=12&dim_val_id=120006",
       "method": "GET",
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         }
@@ -69,7 +69,7 @@
       "testName": "Validate extracted screen details",
       "method": "GET",
       "queryParams": "dim_id=12&dim_val_id=120006",
-      "assertion": [
+      "assertions": [
         {
           "assertEquals": {
             "jsonPath1": "{{screen_sect_id}}",

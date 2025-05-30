@@ -120,8 +120,8 @@
         }
       ],
       "extractFirst": {
-        "scenario_id": "rowData.scenarioId",
-        "scenario_version": "rowData.scenarioVersion"
+        "download_snapshot_scenario_id": "rowData.scenarioId",
+        "download_snapshot_scenario_version": "rowData.scenarioVersion"
       }
     },
     {
@@ -171,7 +171,7 @@
           }
         ],
         "scenarios": [
-          ["{{scenario_id}}", "{{scenario_version}}"]
+          ["{{download_snapshot_scenario_id}}", "{{download_snapshot_scenario_version}}"]
         ]
       },
       "assertions": [

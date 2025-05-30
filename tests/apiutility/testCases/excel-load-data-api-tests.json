@@ -1,5 +1,5 @@
 {
-  "validate_excel_load_data": [
+  "validate_excel_load_data listHistoricals": [
     {
       "testStep": "Extract scenario version from listHistoricals API",
       "environment": "qa",
@@ -15,10 +15,10 @@
         }
       ],
       "extractFirst": {
-        "scenario_version_timestamp": "row_data.scenario_version_timestamp",
-        "scenario_id": "row_data.scenario_id",
-        "actual_template_id": "row_data.actual_template_id",
-        "forecast_template_id": "row_data.forecast_template_id"
+        "listHistoricals_scenario_version_timestamp": "row_data.scenario_version_timestamp",
+        "listHistoricals_scenario_id": "row_data.scenario_id",
+        "listHistoricals_actual_template_id": "row_data.actual_template_id",
+        "listHistoricals_forecast_template_id": "row_data.forecast_template_id"
       }
     },
     {
@@ -79,10 +79,10 @@
         ],
         "scenarios": [
           {
-            "scenario_id": "{{scenario_id}}",
-            "scenario_ver": "{{scenario_version_timestamp}}",
-            "actual_scenario_id": "{{actual_template_id}}",
-            "forecast_scenario_id": "{{forecast_template_id}}",
+            "listHistoricals_scenario_id": "{{scenario_id}}",
+            "listHistoricals_scenario_ver": "{{scenario_version_timestamp}}",
+            "listHistoricals_actual_scenario_id": "{{actual_template_id}}",
+            "listHistoricals_forecast_scenario_id": "{{forecast_template_id}}",
             "type": "scenarios"
           }
         ],
@@ -127,10 +127,10 @@
         "node_var_names": ["grossprofit"],
         "scenarios": [
           {
-            "scenario_id": "{{scenario_id}}",
-            "scenario_ver": "{{scenario_version_timestamp}}",
-            "actual_scenario_id": "{{actual_template_id}}",
-            "forecast_scenario_id": "{{forecast_template_id}}",
+            "scenario_id": "{{listHistoricals_scenario_id}}",
+            "scenario_ver": "{{listHistoricals_scenario_version_timestamp}}",
+            "actual_scenario_id": "{{listHistoricals_actual_template_id}}",
+            "forecast_scenario_id": "{{listHistoricals_forecast_template_id}}",
             "type": "scenarios"
           }
         ],
@@ -161,7 +161,7 @@
         ],
         "pivot_columns": ["period"]
       },
-      "assertion": [
+      "assertions": [
         {
           "assertResponse": {
             "filePath": "scenarios-api-all-dimensions-merchops.json",
@@ -189,10 +189,10 @@
         ],
         "scenarios": [
           {
-            "scenario_id": "{{scenario_id}}",
-            "scenario_ver": "{{scenario_version_timestamp}}",
-            "actual_scenario_id": "{{actual_template_id}}",
-            "forecast_scenario_id": "{{forecast_template_id}}",
+            "scenario_id": "{{listHistoricals_scenario_id}}",
+            "scenario_ver": "{{listHistoricals_scenario_version_timestamp}}",
+            "actual_scenario_id": "{{listHistoricals_actual_template_id}}",
+            "forecast_scenario_id": "{{listHistoricals_forecast_template_id}}",
             "type": "scenarios"
           }
         ],
@@ -208,7 +208,7 @@
         "pivot_rows": ["period", "scenario_id"],
         "pivot_columns": ["node_var_name"]
       },
-      "assertion": [
+      "assertions": [
         {
           "assertResponse": {
             "filePath": "scenarios-api-node-order-columns.json",
@@ -229,10 +229,10 @@
       "payload": {
         "scenarios": [
           {
-            "scenario_id": "{{scenario_id}}",
-            "scenario_ver": "{{scenario_version_timestamp}}",
-            "actual_scenario_id": "{{actual_template_id}}",
-            "forecast_scenario_id": "{{forecast_template_id}}",
+            "scenario_id": "{{listHistoricals_scenario_id}}",
+            "scenario_ver": "{{listHistoricals_scenario_version_timestamp}}",
+            "actual_scenario_id": "{{listHistoricals_actual_template_id}}",
+            "forecast_scenario_id": "{{listHistoricals_forecast_template_id}}",
             "type": "scenarios"
           }
         ],
@@ -245,7 +245,7 @@
         "pivot_rows": ["period", "scenario_id"],
         "pivot_columns": ["node_var_name"]
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 422
         }
@@ -270,7 +270,7 @@
         "pivot_rows": ["period", "scenario_id"],
         "pivot_columns": ["node_var_name"]
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 422
         }
@@ -289,10 +289,10 @@
         "node_var_names": ["grossprofit"],
         "scenarios": [
           {
-            "scenario_id": "{{scenario_id}}",
-            "scenario_ver": "{{scenario_version_timestamp}}",
-            "actual_scenario_id": "{{actual_template_id}}",
-            "forecast_scenario_id": "{{forecast_template_id}}",
+            "scenario_id": "{{listHistoricals_scenario_id}}",
+            "scenario_ver": "{{listHistoricals_scenario_version_timestamp}}",
+            "actual_scenario_id": "{{listHistoricals_actual_template_id}}",
+            "forecast_scenario_id": "{{listHistoricals_forecast_template_id}}",
             "type": "scenarios"
           }
         ],
@@ -304,7 +304,7 @@
         "pivot_rows": ["period", "scenario_id"],
         "pivot_columns": ["node_var_name"]
       },
-      "assertion": [
+      "assertions": [
         {
           "assertResponse": {
             "payload": {
@@ -327,10 +327,10 @@
         "node_var_names": ["grossprofit"],
         "scenarios": [
           {
-            "scenario_id": "{{scenario_id}}",
-            "scenario_ver": "{{scenario_version_timestamp}}",
-            "actual_scenario_id": "{{actual_template_id}}",
-            "forecast_scenario_id": "{{forecast_template_id}}",
+            "scenario_id": "{{listHistoricals_scenario_id}}",
+            "scenario_ver": "{{listHistoricals_scenario_version_timestamp}}",
+            "actual_scenario_id": "{{listHistoricals_actual_template_id}}",
+            "forecast_scenario_id": "{{listHistoricals_forecast_template_id}}",
             "type": "scenarios"
           }
         ],
@@ -343,7 +343,7 @@
         "pivot_rows": ["period", "scenario_id", "node_var_name", "department_l0"],
         "pivot_columns": ["department"]
       },
-      "assertion": [
+      "assertions": [
         {
           "assertResponse": {
             "payload": {
@@ -352,7 +352,7 @@
                   "1": null,
                   "2": "*",
                   "Period": "{{dynamicMonthStr}}",
-                  "Scenario Name": "{{scenario_id}}",
+                  "Scenario Name": "{{listHistoricals_scenario_id}}",
                   "Node Name": "grossprofit",
                   "SBU": 20002
                 },
@@ -360,7 +360,7 @@
                   "1": "*",
                   "2": null,
                   "Period": "{{dynamicMonthStr}}",
-                  "Scenario Name": "{{scenario_id}}",
+                  "Scenario Name": "{{listHistoricals_scenario_id}}",
                   "Node Name": "grossprofit",
                   "SBU": 20004
                 }

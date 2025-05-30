@@ -5,6 +5,7 @@ import {AssertionEntry,ApiTestCase} from '../api.test';
 import { findAllValuesByKey} from '../utils/jsonUtils';
 import fs from 'fs';
 import path from 'path';
+import {validateDriversContainsData} from '../helperFunctions/helperFunctions'
 
 export function generateRandomNumber(length: number): number {
     if (length <= 0) {
@@ -157,18 +158,31 @@ let filePathOfPayload;
   }
   
 
-  export function interpolate(value: any): any {
-    if (typeof value === 'string') {
-      return value.replace(/\{\{(.*?)\}\}/g, (_, key) => {
-        const trimmedKey = key.trim();
-        if (globalStore.getValue) {
-          return globalStore.getValue?.(trimmedKey) ?? globalStore[trimmedKey] ?? '';
-        }
-        return globalStore[trimmedKey] ?? '';
-      });
+export function interpolate(value: any): any {
+  if (typeof value === 'string') {
+    const fullMatch = value.match(/^{{\s*(.*?)\s*}}$/);
+    if (fullMatch) {
+      // Whole string is a placeholder, return raw value from globalStore
+      const key = fullMatch[1].trim();
+      if (globalStore.getValue) {
+        return globalStore.getValue(key) ?? globalStore[key];
+      }
+      return globalStore[key];
     }
-    return value;
+
+    // Partial replacements (e.g., "some text {{key}} here")
+    return value.replace(/\{\{(.*?)\}\}/g, (_, key) => {
+      const trimmedKey = key.trim();
+      if (globalStore.getValue) {
+        return globalStore.getValue(trimmedKey) ?? globalStore[trimmedKey] ?? '';
+      }
+      return globalStore[trimmedKey] ?? '';
+    });
   }
+
+  return value;
+}
+
   
   export function interpolateObject(obj: any): any {
     if (typeof obj !== 'object' || obj === null) return obj;
@@ -230,7 +244,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
             ? parseFloat(actualValueRaw[0])
             : parseFloat(jsonPathOrValue);
 
-          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.value));
+          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.expected));
           const acceptedDifference = parseFloat(arrayOfAssertion.assertApproxEquals.acceptedDifference);
 
           const difference = Math.abs(actualValue - expectedValue);
@@ -395,7 +409,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
     const STORE_FILE = path.resolve(process.cwd(), '.globalStore.json');
     if (fs.existsSync(STORE_FILE)) {
       fs.writeFileSync(STORE_FILE, '{}', 'utf-8');
-      console.log('🧹 Cleared .globalStore.json after all tests.');
+      console.log('Cleared .globalStore.json after all tests.');
     }
   }
 
@@ -407,3 +421,15 @@ export async function validateAssertions(response: any, responseBody: any, asser
     const hour = now.getHours().toString().padStart(2, '0'); // Ensure 2-digit hour
     return `${year}-${month}-${day}T${hour}`; // Return the date-time in the desired format
   }
+
+export async function runFunctions(functionName:string,params:any[],payload?){
+  switch (functionName) {
+    case 'validateDriversContainsData':
+      validateDriversContainsData(payload);
+      break;
+        default:
+      throw new Error(`Function "${functionName}" is not recognized.`);
+  }
+
+}
+
