@@ -49,7 +49,9 @@ export class OpenCurrentForecast {
   readonly searchNotificationInput: Locator
   readonly selectProjectionMethodButton: Locator
   readonly historicalRateInput: Locator
+  readonly selectRegressionMethod: Locator
   readonly growthRateInput: Locator
+  readonly noOfYearsInput: Locator
   readonly applyButton: Locator
   readonly duplicateViewMessage: Locator
   readonly rollingPercentageInput: Locator
@@ -120,6 +122,8 @@ export class OpenCurrentForecast {
     this.selectProjectionMethodButton = this.page.locator("//*[@data-testid='AutoCompleteWithInputIcon-id']")
     this.historicalRateInput = this.page.locator("//*[@value='HISTORICAL']")
     this.growthRateInput = this.page.locator("//*[text()='Growth Rate']")
+    this.selectProjectionMethodButton = this.page.locator("//*[text()='Regression']")
+    this.noOfYearsInput = this.page.locator("//*[data-testid='projectionmethod-regression-noofyears-id']")
     this.rollingPercentageInput = this.page.locator("//*[@data-testid='input-field']")
     this.rollingPercentageOffsetInput = this.page.locator("//*[@data-testid='offset-field']")
     this.doneButtonOnRollingPercentage = this.page.getByText("Done")
@@ -407,6 +411,13 @@ export class OpenCurrentForecast {
   {
     await this.growthRateInput.click();
     await this.historicalRateInput.click();
+    await this.applyButton.click();
+  }
+
+  async selectRegressionProjection(noOfyears : string)
+  {
+    await this.selectRegressionMethod.click();
+    await this.noOfYearsInput.fill(noOfyears);
     await this.applyButton.click();
   }
 
