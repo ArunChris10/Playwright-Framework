@@ -1,12 +1,15 @@
 {
-  "validate_forecast_allocation_and_save_with_filters": [
+  "Validate-calculate-save-non-additive-node-workflow": [
     {
-      "testStep": "Get Forecast Scenario ID and Version",
+      "testStep": "Get a forecast to delete before proceding for IO SBA",
       "environment": "qa",
-      "labels": ["smoke", "Pre-Req", "MS2"],
+      "labels": [
+        "smoke",
+        "MS2"
+      ],
       "service": "coreService",
       "uri": "getForecast",
-      "testName": "Fetch scenario ID and version for 'io' from forecast data",
+      "testName": "Get a forecast to delete before proceding for Io SBA",
       "queryParams": "",
       "method": "POST",
       "payload": {
@@ -34,19 +37,129 @@
           "status": 200
         }
       ],
-      "extract": {
-        "calculate_scenario_id": {
-          "whereKey": "rowData.name",
-          "equals": "io",
+      "extractRelativeMultipleCondition": {
+        "IOtoDeletescenarioId": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110026
+            },
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            }
+          ],
           "extractKey": "scenarioId"
         },
-        "calculate_scenario_version": {
-          "whereKey": "rowData.name",
-          "equals": "io",
+        "IOtoDeletescenarioVersion": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110026
+            },
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            }
+          ],
           "extractKey": "scenarioVersion"
         }
       }
     },
+    {
+      "testStep": "Delete IO SBA forecast before proceding",
+      "environment": "qa",
+      "labels": [
+        "smoke","MS2"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Delete a IO forecast before proceding",
+      "queryParams": "/{{IOtoDeletescenarioId}}/{{IOtoDeletescenarioVersion}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110026
+      }
+    },
+    {
+      "testStep": "Create Forecast Scenario for IO SBA to have combination of #, %, and $ Node Types",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req","MS2"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast- IO SBA",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "apiUtilityAutomation {{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110026
+      },
+      "extract": {
+        "io_scenario_id": "scenario.scenario_id",
+        "io_scenario_version": "scenario.scenario_version_timestamp"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of IO FORECAST",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req","MS2"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of IO FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120009,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "apiUtilityAutomation {{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    }
+  ,
     {
       "testStep": "Apply Allocation on Non-Additive Node with Filters",
       "environment": "qa",
@@ -86,7 +199,7 @@
         ],
         "period_view": "month",
         "preview": true,
-        "scenario_id": "{{calculate_scenario_id}}"
+        "scenario_id": "{{io_scenario_id}}"
       },
       "assertions": [
         {
@@ -136,12 +249,12 @@
           "is_update": false,
           "is_create": true,
           "adjustment_edits": 1,
-          "scenario_id": "{{calculate_scenario_id}}",
-          "scenario_version_timestamp": "{{calculate_scenario_version}}"
+          "scenario_id": "{{io_scenario_id}}",
+          "scenario_version_timestamp": "{{io_scenario_version}}"
         },
         "allocation_request": {
           "display_nodes": [],
-          "scenario_id": "{{calculate_scenario_id}}",
+          "scenario_id": "{{io_scenario_id}}",
           "dim_val_id": 110027,
           "dim_id": 11,
           "preview": false,

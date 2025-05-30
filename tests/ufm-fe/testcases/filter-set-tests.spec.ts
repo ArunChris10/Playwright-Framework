@@ -82,5 +82,16 @@ test.describe('Validate FilterSet', { tag: "@Smoke" }, async () => {
             expect(appliedFilters).toEqual(selectedFilters);
         })
 
+        await test.step(`Delete existing filter set with name: ${filterSetName}`, async () => {
+            await objpageFactory.ufmPageFactory().currentForecast().clickOnFilterSetsDropdown();
+            await objpageFactory.ufmPageFactory().currentForecast().deleteFilterSet(filterSetName);
+            await objpageFactory.ufmPageFactory().currentForecast().getEmptyFilterSetListMessage();
+        })
+
+        await test.step(`Validate deleted filter set ${filterSetName} is removed from the dropdown on revisiting filterSet`, async () => {
+            await objpageFactory.ufmPageFactory().currentForecast().clickOnFilterSetButton();
+            await objpageFactory.ufmPageFactory().currentForecast().getEmptyFilterSetListMessage()
+        })
+
     })
 })

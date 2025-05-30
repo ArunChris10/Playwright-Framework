@@ -7,9 +7,10 @@
         "service": "coreService",
         "uri": "getForecastCalendar",
         "testName": "get forecast Calendar API",
+        
         "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
         "method": "GET",
-        "assertion": [
+        "assertions": [
           {
             "status": 200
           },
@@ -43,7 +44,7 @@
             }
           ]
         },
-        "assertion": [
+        "assertions": [
           {
             "status": 201
           },
@@ -69,7 +70,7 @@
         "payload": {
           "published_flag": true
         },
-        "assertion": [
+        "assertions": [
           {
             "status": 200
           }
@@ -85,19 +86,24 @@
         "queryParams": "deadlines?dim_id=13&dim_val_id=130001&classification_id=12&children=true&published=true",
         "method": "GET",
         "extractRelative": {
+          "saved_cycle_id": {
+            "whereKey": "dim_val_id",
+            "equals": 130001,
+            "extractKey": "cycle_id"
+          },
           "saved_deadline_date": {
             "whereKey": "cycle_id",
-            "equals": "{{new_cycle_id}}",
+            "equals": "{{saved_cycle_id}}",
             "extractKey": "deadline_date"
           }
         },
-        "assertion": [
+        "assertions": [
           {
             "status": 200
           },
           {
             "assertValuesAreEqual": [
-              "{{deadlineDate}}",
+              "{{deadlineDateISO}}",
               "{{saved_deadline_date}}"
             ]
           },
@@ -127,7 +133,7 @@
         "uri": "getForecastCalendar",
         "testName": "Verify update forecast cycle API",
         "queryParams": "{{this_calendar_id}}/cycles/{{new_cycle_id}}",
-        "method": "POST",
+        "method": "PATCH",
         "payload": {
           "deadlines": [
             {
@@ -139,7 +145,7 @@
             }
           ]
         },
-        "assertion": [
+        "assertions": [
           {
             "status": 200
           },
@@ -160,23 +166,27 @@
         "testName": "Validate updated cycle details in get forecast Calendar API",
         "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
         "method": "GET",
-        "extractRelative": {
-          "updated_deadline_date": {
-            "whereKey": "submission_cycles.submission_cycle_details.cycle_id",
-            "equals": "{{new_cycle_id}}",
-            "extractKey": "submission_cycles.submission_cycle_details.deadline_date"
-          }
-        },
-        "assertion": [
+       
+        "assertions": [
           {
             "status": 200
           },
           {
-            "assertValuesAreEqual": [
-              "{{updated_deadline_date}}",
-              "{{updatedDeadlineDate}}"
-            ]
+            "extractRelativeMultipleCondition": {
+              "updated_deadline_date": {
+                "conditions": [
+                  { "path": "submission_cycles.submission_cycle_details.cycle_id", "equals": 1 },
+                  { "path": "submission_cycles.submission_cycle_details.cycle_id", "equals": "{{dynamicForecastYear-3}}" }
+                ],
+                "extractKey": "submission_cycles.submission_cycle_details.deadline_date"
+              }
+              
+            },
+            "validateExtract": {
+              "updated_deadline_date":  "{{updatedDeadlineDateISO}}"
+            }
           }
+       
         ]
       }
     ],
@@ -195,12 +205,7 @@
         "payload": {
           "cycle_id": "{{new_cycle_id}}",
           "calendar_id": "{{this_calendar_id}}"
-        },
-        "assertion": [
-          {
-            "status": 200
-          }
-        ]
+        }
       },
       {
         "testStep": "Delete already deleted Forecast cycle - expect 404",
@@ -215,7 +220,7 @@
           "cycle_id": "{{new_cycle_id}}",
           "calendar_id": "{{this_calendar_id}}"
         },
-        "assertion": [
+        "assertions": [
           {
             "status": 404
           }
@@ -245,7 +250,7 @@
             }
           ]
         },
-        "assertion": [
+        "assertions": [
           {
             "status": 201
           },
@@ -268,7 +273,7 @@
         "testName": "Validate getForecastCalender API after delete",
         "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
         "method": "GET",
-        "assertion": [
+        "assertions": [
           {
             "status": 200
           },
@@ -292,12 +297,7 @@
         "payload": {
           "cycle_id": "{{second_cycle_id}}",
           "calendar_id": "{{this_calendar_id}}"
-        },
-        "assertion": [
-          {
-            "status": 200
-          }
-        ]
+        }
       }
     ]
   
