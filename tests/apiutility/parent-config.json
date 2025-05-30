@@ -43,6 +43,7 @@
     "testCases/projection-method-testcases/regression-MaintainRatioAllocation.json",
     "testCases/projection-method-testcases/regression-constantValueAllocation.json",
     "testCases/projection-method-testcases/regression-EqualDistributionAllocation.json",
+    "testCases/projection-method-testcases/regression-TimeRollingAllocation.json",
     "testCases/excel-load-data-api-time-granularity.json"
   ],
   "currentDemandService": {
