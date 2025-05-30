@@ -1,7 +1,7 @@
 import { test, expect, request, APIRequestContext } from '@playwright/test';
 import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
-import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey,findRelativeValueMultiCondition} from '../apiutility/utils/jsonUtils';
+import { findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey,findRelativeValueMultiCondition, findRelativeFlexibleValue} from '../apiutility/utils/jsonUtils';
 import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
 import { executeRequest } from '../apiutility/utils/requestExecutor';
 import {
@@ -36,6 +36,12 @@ export interface ApiTestCase {
   validateExtractContains?: { [key: string]: string};
   validateExtract?: { [key: string]: string };
   validateExtractToBeNotNull?: { [key: string]: string };
+  validateExtractToBeApprox?: {
+    [globalKey: string]: {
+      expected: string | number;
+      tolerance: number;
+    };
+  };
   polling?: {
     extractRelative: {
       WhereKey: string;
@@ -195,7 +201,7 @@ parentConfig.testFiles.forEach(testCasePath => {
         if (step.extractRelative) {
           for (const globalVar in step.extractRelative) {
             const { whereKey, equals, extractKey } = step.extractRelative[globalVar];
-            const value = findRelativeValue(responseBody, interpolate(whereKey), interpolate(equals), interpolate(extractKey));
+            const value = findRelativeFlexibleValue(responseBody, interpolate(whereKey), interpolate(equals), interpolate(extractKey));
             if (value !== undefined) {
               globalStore.setValue(globalVar, value);
               console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
@@ -204,6 +210,20 @@ parentConfig.testFiles.forEach(testCasePath => {
             }
           }
         }
+
+        /* // Handle extractRelativeForNestedResponse
+        if (step.extractRelativeForNestedResponse) {
+            for (const globalVar in step.extractRelativeForNestedResponse) {
+            const { whereKey, equals, extractKey } = step.extractRelativeForNestedResponse[globalVar];
+            const value = findRelativeFlexibleValue(responseBody, interpolate(whereKey), interpolate(equals), interpolate(extractKey));
+            if (value !== undefined) {
+              globalStore.setValue(globalVar, value);
+              console.log(`Extracted (nested) ${globalVar}: ${JSON.stringify(value)}`);
+            } else {
+              throw new Error(`Could not find nested relative value where "${whereKey}" == "${equals}"`);
+            }
+            }
+        } */
 
 
         if (step.extractRelativeMultipleCondition) {
@@ -246,6 +266,24 @@ parentConfig.testFiles.forEach(testCasePath => {
             const actual = globalStore.getValue(globalKey);
             await validateExtractedValuesContains(actual, expected, globalKey);
             console.log(`Validated ${globalKey}: actual = ${actual}, expected = ${expected}`);
+          }
+        }
+
+        if (step.validateExtractToBeApprox) {
+          console.log("Validating extracted values to be approximately equal:");
+          for (const globalKey in step.validateExtractToBeApprox) {
+            const { expected, tolerance } = step.validateExtractToBeApprox[globalKey];
+            const actual = globalStore.getValue(globalKey);
+            const interpolatedExpected = Number(interpolate(expected));
+            const interpolatedActual = Number(actual);
+            if (isNaN(interpolatedExpected) || isNaN(interpolatedActual)) {
+              throw new Error(`Cannot compare non-numeric values for ${globalKey}: actual=${actual}, expected=${expected}`);
+            }
+            const diff = Math.abs(interpolatedActual - interpolatedExpected);
+            if (diff > tolerance) {
+              throw new Error(`Value for ${globalKey} (${interpolatedActual}) is not within ${tolerance} of expected (${interpolatedExpected})`);
+            }
+            console.log(`Validated ${globalKey}: actual = ${interpolatedActual}, expected ≈ ${interpolatedExpected}, tolerance = ${tolerance}`);
           }
         }
 

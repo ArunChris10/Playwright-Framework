@@ -12,7 +12,7 @@ export class OrganisationSelection {
   }
 
   async selectOrganisation(organisationName: string) {
-    await this.page.getByText(organisationName).click();
+    await this.page.locator(`//*[@class="card-title"]/*[text()="${organisationName}"]`).click();   
     return new CurrentForecast(this.page);
   }
 
