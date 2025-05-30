@@ -1,0 +1,69 @@
+{
+  "check_for_value_type_ssdm_myKpi": [
+    {
+      "testStep": "Add drivers in ssdm myKpi and check the value type is recieved as $",
+      "environment": "qa",
+      "labels": ["smoke", "ssdmMyKpi"],
+      "service": "coreService",
+      "uri": "ssdmMyKpi",
+      "testName": "Check the value type is recieved as $ in ssdm myKpi",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "dim_id": 13,
+        "dim_val_id": 130001,
+        "classification_id": 12,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": ["month"],
+          "pivot_index": ["node_id"],
+          "period_view": ["month"],
+          "nodes": ["sot07mandr"],
+          "template_include_headers": [
+            { "name": "Driver" },
+            { "name": "202601", "columnsMenuParams": "middleColumns" },
+            { "name": "202602", "columnsMenuParams": "middleColumns" },
+            { "name": "202603", "columnsMenuParams": "middleColumns" },
+            { "name": "202604", "columnsMenuParams": "middleColumns" },
+            { "name": "202605", "columnsMenuParams": "middleColumns" },
+            { "name": "202606", "columnsMenuParams": "middleColumns" },
+            { "name": "202607", "columnsMenuParams": "middleColumns" },
+            { "name": "202608", "columnsMenuParams": "middleColumns" },
+            { "name": "202609", "columnsMenuParams": "middleColumns" },
+            { "name": "202610", "columnsMenuParams": "middleColumns" },
+            { "name": "202611", "columnsMenuParams": "middleColumns" },
+            { "name": "202612", "columnsMenuParams": "middleColumns" },
+            { "name": "", "columnsMenuParams": "fixedColumns" },
+            { "name": "Allocation Method", "columnsMenuParams": "action" },
+            { "name": "Forecast", "editable": false }
+          ],
+          "month": [
+            "202601",
+            "202602",
+            "202603",
+            "202604",
+            "202605",
+            "202606",
+            "202607",
+            "202608",
+            "202609",
+            "202610",
+            "202611",
+            "202612"
+          ]
+        },
+        "scenario_id": 14281722608503,
+        "scenario_version": 1748580592,
+        "doc_id": 12511748580565,
+        "ds_type": "Activated",
+        "utilisedBy": "SSDM"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

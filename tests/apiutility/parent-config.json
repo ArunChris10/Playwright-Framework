@@ -38,7 +38,8 @@
     "testCases/NodesCases/nodeshRefresh-api-tests.json",
     "testCases/NodesCases/get-kpi-Month-GroupBy-Filter-tests.json",
     "testCases/NodesCases/drivers-api-tests.json",
-     "testCases/NodesCases/actual-missing-nodes-api-tests.json"
+    "testCases/NodesCases/actual-missing-nodes-api-tests.json",
+    "testCases/ssdm-myKpi-valuetype-tests.json"
 
   ],
 
@@ -70,7 +71,8 @@
     "Forecast":"/scenario",
     "getKpiV2":"/reports/get-mykpi/v2",
     "getTimestamp":"/sandbox/v1/get-datasets-timestamp",
-    "getDrivers":"/metadata/drivers"
+    "getDrivers":"/metadata/drivers",
+    "ssdmMyKpi":"/sandbox/v1/get-mykpi"
     
   },
   "notificationService": {
