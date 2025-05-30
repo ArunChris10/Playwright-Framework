@@ -230,7 +230,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
             ? parseFloat(actualValueRaw[0])
             : parseFloat(jsonPathOrValue);
 
-          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.value));
+          const expectedValue = parseFloat(interpolate(arrayOfAssertion.assertApproxEquals.expected));
           const acceptedDifference = parseFloat(arrayOfAssertion.assertApproxEquals.acceptedDifference);
 
           const difference = Math.abs(actualValue - expectedValue);

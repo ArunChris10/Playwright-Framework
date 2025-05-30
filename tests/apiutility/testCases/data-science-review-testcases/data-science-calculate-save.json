@@ -15,7 +15,7 @@
       "testName": "get Scenario details from dataScience info",
       "queryParams": "",
       "method": "GET",
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         }
@@ -71,7 +71,7 @@
         "period_view": "month",
         "adjustment_id": 1746012292426
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         },
@@ -135,7 +135,7 @@
         },
         "dim_val_id": 130001
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         },
@@ -205,7 +205,7 @@
         },
         "isApplied": false
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         },
