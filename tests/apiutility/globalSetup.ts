@@ -25,8 +25,10 @@ export default async function globalSetup() {
   const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
 
   globalStore.setValue('randomNumber', generateRandomNumber(3));
-  globalStore.setValue('deadlineDate', getRandomFutureDateTimeWithOffset(2, 0));
-  globalStore.setValue('updatedDeadlineDate', getRandomFutureDateTimeWithOffset(2, 10));
+  globalStore.setValue('randomDateOffset', generateRandomNumber(1));
+  const randomDateOffset = globalStore.getValue('randomDateOffset');
+  globalStore.setValue('deadlineDate', getRandomFutureDateTimeWithOffset(randomDateOffset, 0));
+  globalStore.setValue('updatedDeadlineDate', getRandomFutureDateTimeWithOffset(randomDateOffset, 10));
   globalStore.setValue('currentDateWithHour',getCurrentDateWithHour());
 
   globalStore.setValue('deadlineDateISO', getRandomFutureDateTimeWithOffsetISOFormat(globalStore.getValue('deadlineDate')));
