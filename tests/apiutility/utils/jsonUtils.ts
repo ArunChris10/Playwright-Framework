@@ -250,7 +250,87 @@ export function findRelativeValueMultiCondition(
   return undefined;
 }
 
+/**
+ * Finds a value in a nested object/array where a key (can be dot notation) matches a value,
+ * and extracts another value (can be dot notation) from the same object.
+ * @param data The data to search.
+ * @param whereKey The key (dot notation allowed) to match.
+ * @param equals The value to match.
+ * @param extractKey The key (dot notation allowed) to extract.
+ * @returns The extracted value, or undefined if not found.
+ */
+export function findRelativeFlexibleValue(
+  data: any,
+  whereKey: string,
+  equals: any,
+  extractKey: string
+): any {
+  // Helper to get nested value by dot notation
+  function getNested(obj: any, path: string): any {
+    return path.split('.').reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj);
+  }
 
+  // Stack-based DFS for arrays/objects
+  const stack = [data];
+  while (stack.length) {
+    const node = stack.pop();
+    if (Array.isArray(node)) {
+      stack.push(...node);
+    } else if (node && typeof node === 'object') {
+      if (getNested(node, whereKey) === equals) {
+        return getNested(node, extractKey);
+      }
+      Object.values(node).forEach(child => {
+        if (typeof child === 'object' && child !== null) stack.push(child);
+      });
+    }
+  }
+  return undefined;
+}
+
+/* /****
+ * Finds the value of a nested property in an object within an array of objects, 
+ * where another property matches a given value.
+ * 
+ * @param data - The complete ResponseBody (can be deeply nested)
+ * @param matchKey - The key to match on (e.g., "driver")
+ * @param matchValue - The value to match (e.g., "grossgmv")
+ * @param extractPath - The dot-separated path to extract (e.g., "202605.forecast")
+ * @returns The extracted value, or undefined if not found
+ */
+/* export function findRelativeNestedValue(
+  data: any,
+  matchKey: string,
+  matchValue: any,
+  extractPath: string
+): any {
+  // Recursively search for an array of objects containing matchKey
+  function search(node: any): any {
+    if (Array.isArray(node)) {
+      for (const item of node) {
+        if (item && typeof item === 'object' && matchKey in item && item[matchKey] === matchValue) {
+          // Found the matching object, extract value by extractPath
+          let current = item;
+          for (const key of extractPath.split('.')) {
+            if (current == null) return undefined;
+            current = current[key];
+          }
+          return current;
+        }
+        // Recurse into array elements
+        const found = search(item);
+        if (found !== undefined) return found;
+      }
+    } else if (node && typeof node === 'object') {
+      for (const key in node) {
+        const found = search(node[key]);
+        if (found !== undefined) return found;
+      }
+    }
+    return undefined;
+  }
+  return search(data);
+}  */
 
 
 export function getNestedValueFromRoot(obj: any, path: string): MatchedNode | undefined {
