@@ -1,5 +1,5 @@
 {
-    "validate_excel_load_data": [
+    "validate_excel_load_data_timegranularity": [
         {
             "testStep": "Extract scenario version from listHistoricals API",
             "environment": "qa",

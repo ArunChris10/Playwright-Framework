@@ -1,5 +1,5 @@
 {
-  "validate_create_and_poll_forecast": [
+  "validate_create_and_poll_forecast_noderefresh": [
     {
       "testStep": "Get a forecast to delete before proceding for demand SBA",
       "environment": "qa",
