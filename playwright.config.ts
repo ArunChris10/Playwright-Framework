@@ -43,6 +43,8 @@ export default defineConfig({
   //reporter: 'allure-playwright',
   /* maximum time each test can run for */
   timeout: 5 * 60 * 1000,
+  globalTeardown: './tests/apiutility/globalTeardown.ts',
+  globalSetup: './tests/apiutility/globalSetup.ts',
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.

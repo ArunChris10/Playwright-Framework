@@ -17,6 +17,9 @@ import {
 import { pollForExpectedResponse } from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../secrets/nexus-users-token.json";
 import { console } from 'inspector/promises';
+import globalSetup from './globalSetup';
+import globalTeardown from './globalTeardown';
+import { Utility } from '../common/fixtures/utils';
 
 export interface FunctionArgs {
   [key: string]: any;
@@ -107,10 +110,13 @@ export let response: any;
 const parentConfig = loadJSON<ParentConfig>(path.resolve(__dirname, 'parent-config.json'));
 const tagsToRun = process.env.tag ? [process.env.tag] : (parentConfig as any).tagsToRun;
 
-function populateGlobalStore() {
+function populateGlobalStore(request) {
+  // Utility.getNexusFakeToken(parentConfig.user + "", request);
   globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
 }
-populateGlobalStore();
+// globalSetup()
+populateGlobalStore(request);
+
 let testCaseFiles
 
 if (!process.env.CI) {
@@ -349,8 +355,14 @@ testCaseFiles.forEach(testCasePath => {
       });
     });
 
+    // tes.afterAll(async () => {
+    //   globalTeardown()
+    // })
+
   }
 });
+
+// globalTeardown()
 
 
 function postProcessInterpolatedPayload(obj: any): any {
