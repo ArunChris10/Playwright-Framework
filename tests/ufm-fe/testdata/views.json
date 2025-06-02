@@ -6,6 +6,12 @@
                 "Membership Income",
                 "Other Cost of Goods Sold",
                 "Inventory Variances Input"
+            ],
+            "inputDrivers": [
+                "Membership Income",
+                "Other Cost of Goods Sold",
+                "Inventory Variances Input",
+                "Warehouse Allowances"
             ]
         }
     }
