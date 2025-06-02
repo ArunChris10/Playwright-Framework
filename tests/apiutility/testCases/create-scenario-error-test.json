@@ -1,0 +1,52 @@
+{
+  "verify error on creating a scenario with same name": [
+    {
+      "testStep": "Create a Forecast Scenario",
+      "environment": "qa",
+      "labels": ["smoke", "create_scenario_error"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "test_creation {{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110016
+      },
+      
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "Scenario created successfully"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Deleting the Forecast Scenario",
+      "environment": "qa",
+      "labels": ["smoke", "create_scenario_error"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate deleting the forecast scenario",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110016
+      },
+      "assertions": [
+        {
+          "status": 406
+        }
+      ]
+    }
+  ]
+}
