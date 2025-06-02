@@ -38,6 +38,9 @@ triggers:
       name: Run UFM API Regression
       call: runUFMBeTests
   - manual:
+      name: Run UFM API Regression_newFramework
+      call: runUFMBeTests_apiFramework
+  - manual:
       name: Run UFM API Smoke
       call: runUFMBeSmokeTests
   - manual:
@@ -69,6 +72,9 @@ triggers:
   - manual:
       name: Run ConcordTriggeredFlow
       call: concord-triggered-flow
+  - manual:
+      name: Run Concord_Integration Test
+      call: concord-triggered-flow-integration
 parameters:
   - app:
       {
@@ -124,6 +130,32 @@ flows:
         - var(APP_NAME = 'UFM')
         - call: runUFMBeTests
     - if: | #search ufm app name here
+        %{app =~ UFM_REPOS}
+      then:
+        - var(APP_NAME = 'UFM')
+        - call: runUFMBeTests_apiFramework
+    - if: | #search ufm app name here
+        %{app =~ CDF_REPOS}
+      then:
+        - var(APP_NAME = 'CDF')
+        - call: runCDFRegressionTest
+    - if: |
+        %{APP_NAME == 'BLANK'}
+      then:
+        - echo "No matching app name was found. Exiting!!"
+  concord-triggered-flow-integration:
+    - echo "Calling integration flow from concord"
+    - if: $app
+      then:
+        - echo "App found from Concord"
+        - var(REPO_NAME = '$app')
+    - echo "Running for App -> ${REPO_NAME}"
+    - if: | #search ufm app name here
+        %{app =~ UFM_REPOS}
+      then:
+        - var(APP_NAME = 'UFM')
+        - call: runUFMBeTests_apiFramework
+    - if: | #search ufm app name here
         %{app =~ CDF_REPOS}
       then:
         - var(APP_NAME = 'CDF')
@@ -146,6 +178,15 @@ flows:
       - echo "Running UFM API Regression testcases "
       - call: setup
       - RUNID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-be
+      - var(TEST_RESULT =true)
+    finally:
+      - call: reporter
+      - call: send_slack_msg
+  runUFMBeTests_apiFramework:
+    try:
+      - echo "Running UFM API Regression testcases using new framework"
+      - call: setup
+      - RUNID=$testrunid ENV=$envr TEST=regression npm run tests:apiutility
       - var(TEST_RESULT =true)
     finally:
       - call: reporter
