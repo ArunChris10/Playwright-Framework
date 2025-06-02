@@ -16,7 +16,6 @@ import {
 } from '../apiutility/utils/commonUtil';
 import { pollForExpectedResponse } from '../apiutility/utils/pollingMechanism';
 import nexusTokens from "../../secrets/nexus-users-token.json";
-import { console } from 'inspector/promises';
 import globalSetup from './globalSetup';
 import globalTeardown from './globalTeardown';
 import { Utility } from '../common/fixtures/utils';
