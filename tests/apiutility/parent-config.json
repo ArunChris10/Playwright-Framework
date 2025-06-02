@@ -43,7 +43,8 @@
     "testCases/projection-method-testcases/historicRate-TimeRollingAllocation.json",
     "testCases/projection-method-testcases/regression-MaintainRatioAllocation.json",
     "testCases/projection-method-testcases/regression-constantValueAllocation.json",
-    "testCases/excel-load-data-api-time-granularity.json"
+    "testCases/excel-load-data-api-time-granularity.json",
+    "testCases/ssdm-get-kpi-verify.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -72,7 +73,9 @@
     "Forecast": "/scenario",
     "getKpiV2": "/reports/get-mykpi/v2",
     "getTimestamp": "/sandbox/v1/get-datasets-timestamp",
-    "getDrivers": "/metadata/drivers"
+    "getDrivers": "/metadata/drivers",
+    "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
+    "getPublishedVersions": "/sandbox/v1/get-published-versions"
   },
   "notificationService": {
     "baseURL": {

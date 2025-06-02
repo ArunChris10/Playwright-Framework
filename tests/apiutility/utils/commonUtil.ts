@@ -351,6 +351,14 @@ export async function validateAssertions(response: any, responseBody: any, asser
           } catch (err: any) {
             throw new Error(`Assertion failed for assertResponseByCalculation: ${err.message}`);
           }
+        } else if (arrayOfAssertion.assertLength) {
+          const jsonPath = interpolate(arrayOfAssertion.assertLength.jsonPath); // Interpolate the JSON path
+          const expectedLength = parseFloat(interpolate(arrayOfAssertion.assertLength.expectedLength));
+          try {
+            expect(jsonPath.length).toEqual(expectedLength); // Validate the length
+          } catch (err: any) {
+            throw new Error(`Assertion failed for assertLength`);
+          }
         }
 
         const firstKey = Object.keys(arrayOfAssertion)[0];
