@@ -54,8 +54,8 @@
     "testCases/projection-method-testcases/regression-EqualDistributionAllocation.json",
     "testCases/projection-method-testcases/regression-TimeRollingAllocation.json",
     "testCases/projection-method-testcases/growthRate-EqualDistributionAllocation.json",
-    "testCases/projection-method-testcases/growthRate-TimeRollingAllocation.json",
-    "testCases/excel-load-data-api-time-granularity.json"
+    "testCases/projection-method-testcases/growthRate-TimeRollingAllocation.json",  
+    "testCases/data-science-demand-metric-ssdm-edit.json"
   ],
   "currentDemandService": {
     "baseURL": {
