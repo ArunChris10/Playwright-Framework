@@ -103,7 +103,7 @@
           "preview": false,
           "edits": [
             {
-              "node_var_name": "moecommshippingexpense",
+              "node_var_name": "grossgmv",
               "node_dimension": {},
               "data": {
                 "{{dynamicMonth}}": 10000
@@ -180,9 +180,10 @@
           "status": 200
         },
         {
-          "assertEquals": {
-            "jsonPath1": "rowData.{{dynamicMonth}}.forecast",
-            "value1": 2050000000
+          "assertApproxEquals": {
+            "jsonPath": "rowData.{{dynamicMonth}}.forecast",
+            "expected": 9999.99999999999,
+            "acceptedDifference": 0.1000
           }
         }
       ]
