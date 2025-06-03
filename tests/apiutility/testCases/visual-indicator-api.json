@@ -9,7 +9,7 @@
       "testName": "Fetch visual indicator details",
       "queryParams": "?classification_id=12",
       "method": "GET",
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         }

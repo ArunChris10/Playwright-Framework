@@ -15,7 +15,7 @@
         }
       ],
       "extractFirst": {
-        "getkpi_scenario_id": "scenario_id"
+        "getkpi4_scenario_id": "scenario_id"
       }
     },
     {
@@ -31,7 +31,7 @@
         "classification_id": 12,
         "doc_id": 10491747892608,
         "ds_type": "Activated",
-        "scenario_id": "{{getkpi_scenario_id}}"
+        "scenario_id": "{{getkpi4_scenario_id}}"
       },
       "assertions": [
         {

@@ -32,14 +32,14 @@
                     ]
                 }
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 }
             ],
             "extractFirst": {
-                "getkpi_scenario_id": "rowData.scenarioId",
-                "getkpi_scenario_version": "rowData.scenarioVersion"
+                "getkpi2_scenario_id": "rowData.scenarioId",
+                "getkpi2_scenario_version": "rowData.scenarioVersion"
             }
         },
         {
@@ -56,8 +56,8 @@
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
                 "dim_val_id": 110009,
                 "classification_id": 12,
@@ -185,7 +185,7 @@
                 "vsLyDifferenceValue": "rowData.202604.vsLyDifference",
                 "vsLyPercentValue": "rowData.202604.vsLyPercent"
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 },
@@ -212,8 +212,8 @@
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
                 "dim_val_id": 110009,
                 "classification_id": 12,
@@ -356,7 +356,7 @@
                 "vsPriorDifferenceValue": "rowData.202604.vsPriorDifference",
                 "vsPriorPercentValue": "rowData.202604.vsPriorPercent"
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 },
@@ -386,8 +386,8 @@
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
                 "dim_val_id": 110009,
                 "classification_id": 12,
@@ -510,7 +510,7 @@
                 "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
                 "vsLyDifferenceValue": "rowData.202604.vsLyDifference"
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 },
@@ -539,8 +539,8 @@
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
                 "dim_val_id": 110009,
                 "classification_id": 12,
@@ -663,7 +663,7 @@
                 "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
                 "vsLyPercentValue": "rowData.202604.vsLyPercent"
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 },
@@ -692,8 +692,8 @@
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
                 "dim_val_id": 110009,
                 "classification_id": 12,
@@ -816,7 +816,7 @@
                 "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
                 "vsLyPercentValue": "rowData.202604.vsLyPercent"
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 },
@@ -845,8 +845,8 @@
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
                 "dim_val_id": 110009,
                 "classification_id": 12,
@@ -969,7 +969,7 @@
                 "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
                 "vsPriorPercentValue": "rowData.202604.vsPriorPercent"
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 },
@@ -999,8 +999,8 @@
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
                 "dim_val_id": 110009,
                 "classification_id": 12,
@@ -1123,7 +1123,7 @@
                 "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
                 "vsPriorPercentValue": "rowData.202604.vsPriorPercent"
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 },
@@ -1152,8 +1152,8 @@
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
                 "dim_val_id": 110009,
                 "classification_id": 12,
@@ -1281,7 +1281,7 @@
                 "vsPriorDifferenceValue": "rowData.202604.vsPriorDifference",
                 "vsPriorPercentValue": "rowData.202604.vsPriorPercent"
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 },
@@ -1308,8 +1308,8 @@
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
                 "dim_val_id": 110009,
                 "classification_id": 12,
@@ -1432,7 +1432,7 @@
                 "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
                 "vsPriorDifferenceValue": "rowData.202604.vsPriorDifference"
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 },
