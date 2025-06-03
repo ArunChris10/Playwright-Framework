@@ -11,6 +11,7 @@ export class ExcelPage {
   readonly getStartedBtn: Locator;
   readonly businessArea: Locator;
   readonly dateRangePicker: Locator;
+  readonly dimensions: Locator;
   readonly btnHasText: Function;
   readonly savedView: Locator;
   readonly scenario: Locator;
@@ -37,6 +38,7 @@ export class ExcelPage {
     });
     this.businessArea = this.mainIframe.getByRole("combobox");
     this.dateRangePicker = this.mainIframe.getByTestId("date-range-component");
+    this.dimensions = this.mainIframe.getByText("Dimensions");
     this.btnHasText = (text: string) =>
       this.mainIframe.locator("button").filter({ hasText: text });
     this.savedView = this.mainIframe.getByText("Saved Views");
@@ -112,6 +114,44 @@ export class ExcelPage {
       await this.mainIframe.getByRole("checkbox").first().click();
     }
     await this.scenario.click();
+  }
+
+  async isDimensonDisabled(dimension: string) {
+    if (dimension) {
+      const checkbox = this.mainIframe.getByRole("checkbox", {
+        name: dimension,
+      });
+      if (await checkbox.isVisible()) {
+        return await checkbox.isDisabled();
+      }
+      throw new Error(`Dimension "${dimension}" not found or not visible`);
+    }
+  }
+
+  async selectDimension(toOpen?: boolean, dimensions?: string) {
+    if (!toOpen) {
+      if (dimensions) {
+        if (
+          await this.mainIframe
+            .getByRole("checkbox", { name: dimensions })
+            .isVisible()
+        ) {
+          await this.mainIframe
+            .getByRole("checkbox", { name: dimensions })
+            .click();
+          return true;
+        }
+        throw new Error(`Dimension "${dimensions}" not found or not visible`);
+      } else {
+        if (
+          !(await this.mainIframe.getByRole("checkbox").first().isChecked())
+        ) {
+          await this.mainIframe.getByRole("checkbox").first().click();
+        }
+      }
+    } else {
+      await this.dimensions.click();
+    }
   }
 
   async loadData() {

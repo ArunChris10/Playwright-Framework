@@ -57,7 +57,8 @@ export class OpenCurrentForecast {
   readonly rollingPercentageInput: Locator
   readonly rollingPercentageOffsetInput: Locator
   readonly doneButtonOnRollingPercentage: Locator
-
+  readonly viewDriver: Locator
+  readonly btnApplyChanges: Locator
 
   constructor(page: Page) {
     this.page = page;
@@ -105,6 +106,7 @@ export class OpenCurrentForecast {
     this.driverCheckBoxes = this.page.locator('/div[@class="layoutContentDriverComponent sharedPages"]')
     this.createNewViewButton = this.page.getByText('Create new view')
     this.savedViewsDropDownHeader = this.page.locator('//div[contains(@class,"SavedViewMenu_btn")]')
+    this.btnApplyChanges = this.page.locator('//button[text()="Apply changes"]');
     this.savedViewsDropDownMenu = this.page.locator('//div[contains(@class,"SavedViewMenu_menu")]')
     this.saveViewButton = this.page.getByText('Save View')
     this.saveViewModal = this.page.locator('//h2[text()="Save view"]//ancestor::div[@role="dialog"]')
@@ -128,6 +130,7 @@ export class OpenCurrentForecast {
     this.rollingPercentageOffsetInput = this.page.locator("//*[@data-testid='offset-field']")
     this.doneButtonOnRollingPercentage = this.page.getByText("Done")
     this.applyButton = this.page.getByText("Apply")
+    this.viewDriver = this.page.locator('//div[contains(@class,"chip-alignment")]//child::button[contains(@class,"drivers")]');
   }
 
   async clickOnOpenButton() {
@@ -155,6 +158,11 @@ export class OpenCurrentForecast {
     await this.DriversButton.waitFor({ state: "visible" });
     await this.DriversButton.click();
   }
+
+  async clickOnDriver(): Promise<void> {
+    const chooseDriverButton = await this.page.locator('button[aria-label="Please save your changes before adding more drivers."]'); // Use aria-label to locate the button
+    await chooseDriverButton.click();
+}
 
   async waitForKPITableToLoad(state: "attached" | "detached" | "visible" | "hidden" | undefined = "visible") {
     await this.KPITable.waitFor({ state: state })
@@ -594,8 +602,6 @@ export class OpenCurrentForecast {
         await this.clickOnChooseDifferentDriver()
       }
     }
-
-
   }
 
   async clickOnDeleteButton() {
@@ -610,7 +616,31 @@ export class OpenCurrentForecast {
     return await this.page.locator(`//span[@aria-label="Private view"]//following-sibling::span[text()="${viewName}"]`).isVisible()
   }
 
+  async getUserViewTilePresence(): Promise<number> {
+    await Promise.race([
+        this.createNewViewButton.waitFor({ state: 'visible' }),
+        this.DriversButton.waitFor({ state: 'visible' }),
+    ]);
+    const privateViews = await this.page.locator(`//span[@aria-label="Private view"]`);
+    const count = await privateViews.count();
+    return count;
+}
+
+async selectViewTile(): Promise<void> {
+  await Promise.race([
+      this.createNewViewButton.waitFor({ state: 'visible' }),
+      this.DriversButton.waitFor({ state: 'visible' }),
+  ]);
+  const privateViews = await this.page.locator(`//span[@aria-label="Private view"]`);
+  const firstView = privateViews.first();
+  await firstView.click();
+}
   async checkDuplicateViewMessage() {
     return await this.duplicateViewMessage.isVisible()
   }
+async waitForPageLoad(): Promise<boolean> {
+  // Wait for the ag-grid header container to be visible
+  await this.page.waitForSelector('.ag-header-container', { state: 'visible', timeout: 60000 });
+  return true;
+}
 }
