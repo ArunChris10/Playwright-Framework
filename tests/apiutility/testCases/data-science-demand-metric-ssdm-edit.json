@@ -5,6 +5,7 @@
             "environment": "qa",
             "labels": [
                 "smoke",
+                "regression",
                 "IBGROW-38085"
             ],
             "service": "coreService",
@@ -35,6 +36,7 @@
             "environment": "qa",
             "labels": [
                 "smoke",
+                "regression",
                 "IBGROW-38085"
             ],
             "service": "coreService",
@@ -147,6 +149,7 @@
             "environment": "qa",
             "labels": [
                 "smoke",
+                "regression",
                 "IBGROW-38085"
             ],
             "service": "coreService",
@@ -170,6 +173,7 @@
             "environment": "qa",
             "labels": [
                 "smoke",
+                "regression",
                 "IBGROW-38085"
             ],
             "service": "coreService",
@@ -192,6 +196,7 @@
             "environment": "qa",
             "labels": [
                 "smoke",
+                "regression",
                 "IBGROW-38085"
             ],
             "service": "coreService",
