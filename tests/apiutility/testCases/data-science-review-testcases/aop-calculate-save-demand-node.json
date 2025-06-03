@@ -1,5 +1,5 @@
 {
-  "validate_aop_demand_adjustment_workflow": [
+  "validate_aop2_demand_adjustment_workflow": [
     {
       "testStep": "Fetch Scenario Details from DataScience Info",
       "environment": "qa",
@@ -15,12 +15,12 @@
         }
       ],
       "extractRelative": {
-        "aop_scenario_id": {
+        "aop2_scenario_id": {
           "whereKey": "classification_id",
           "equals": 11,
           "extractKey": "scenario_id"
         },
-        "aop_scenario_version": {
+        "aop2_scenario_version": {
           "whereKey": "classification_id",
           "equals": 11,
           "extractKey": "scenario_version"
@@ -38,7 +38,7 @@
       "method": "POST",
       "payload": {
         "display_nodes": [],
-        "scenario_id": "{{aop_scenario_id}}",
+        "scenario_id": "{{aop2_scenario_id}}",
         "dim_val_id": 130001,
         "dim_id": 13,
         "preview": true,
@@ -90,12 +90,12 @@
           "is_update": false,
           "is_create": true,
           "adjustment_edits": 1,
-          "scenario_id": "{{aop_scenario_id}}",
-          "scenario_version_timestamp": "{{aop_scenario_version}}"
+          "scenario_id": "{{aop2_scenario_id}}",
+          "scenario_version_timestamp": "{{aop2_scenario_version}}"
         },
         "allocation_request": {
           "display_nodes": [],
-          "scenario_id": "{{aop_scenario_id}}",
+          "scenario_id": "{{aop2_scenario_id}}",
           "dim_val_id": 130001,
           "dim_id": 13,
           "preview": false,
@@ -139,7 +139,7 @@
         }
       ],
       "extract": {
-        "adjustment_id": "adjustment_metadata.adjustment_id"
+        "aop_demand_adjustment_id": "adjustment_metadata.adjustment_id"
       }
     },
     {
@@ -152,8 +152,8 @@
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario_id": "{{aop_scenario_id}}",
-        "scenario_version": "{{aop_scenario_version}}",
+        "scenario_id": "{{aop2_scenario_id}}",
+        "scenario_version": "{{aop2_scenario_version}}",
         "dim_id": 13,
         "dim_val_id": 130001,
         "classification_id": 12,

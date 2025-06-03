@@ -30,22 +30,36 @@ test.describe(
 
     test("Verify multi granularity levels are shown", async () => {
       let data = await excelPage.getTableData();
-      let timeData = data[0];
-      timeData = timeData.filter((element) => element !== "");
 
-      expect(timeData.length).toBe(19);
+      let parentLength = data[0].filter((element) => element !== "").length;
+
+      let years = data[0].filter((element) => element !== "");
+      expect(years.length).toBe(parentLength);
       expect(
-        timeData.filter((element) => /^[a-zA-Z]{3} [FY]/.test(element)).length
-      ).toBe(12);
+        years.filter((element) => /^FY[0-9]{2}/.test(element)).length
+      ).toBe(parentLength);
+      expect([...new Set(years)].length).toBe(1);
+
+      let halfYears = data[1].filter((element) => element !== "");
+      expect(halfYears.length).toBe(parentLength);
       expect(
-        timeData.filter((element) => /^FY[0-9]{2} Q[0-9]/.test(element)).length
-      ).toBe(4);
+        halfYears.filter((element) => /^FY[0-9]{2} H[0-9]/.test(element)).length
+      ).toBe(parentLength);
+      expect([...new Set(halfYears)].length).toBe(2);
+
+      let quarters = data[2].filter((element) => element !== "");
+      expect(quarters.length).toBe(parentLength);
       expect(
-        timeData.filter((element) => /^FY[0-9]{2} H[0-9]/.test(element)).length
-      ).toBe(2);
+        quarters.filter((element) => /^FY[0-9]{2} Q[0-9]/.test(element)).length
+      ).toBe(parentLength);
+      expect([...new Set(quarters)].length).toBe(4);
+
+      let months = data[3].filter((element) => element !== "");
+      expect(months.length).toBe(parentLength);
       expect(
-        timeData.filter((element) => /^FY[0-9]{2}/.test(element)).length
-      ).toBe(1);
+        months.filter((element) => /^[a-zA-Z]{3} [FY]/.test(element)).length
+      ).toBe(parentLength);
+      expect([...new Set(months)].length).toBe(parentLength);
     });
   }
 );

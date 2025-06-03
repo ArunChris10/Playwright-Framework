@@ -1,5 +1,5 @@
 {
-  "validate_calculate_and_save_data_science_demand_input_and_calculated_nodes_workflow": [
+  "validate_calculate_and_save_data_science1_demand_input_and_calculated_nodes_workflow": [
     
   {
     "testStep": "Get AOP Scenario Details from DataScience Info",
@@ -13,18 +13,18 @@
     "testName": "get Scenario details from data Science info",
     "queryParams": "",
     "method": "GET",
-    "assertion": [
+    "assertions": [
       {
         "status": 200
       }
     ],
     "extractRelative": {
-      "data_science_scenario_id": {
+      "data_science1_scenario_id": {
         "whereKey": "classification_id",
         "equals": 12,
         "extractKey": "scenario_id"
       },
-      "data_science_scenario_version": {
+      "data_science1_scenario_version": {
         "whereKey": "classification_id",
         "equals": 12,
         "extractKey": "scenario_version"
@@ -53,7 +53,7 @@
         "unitsuomlessreturns",
         "unitsgrossuomng"
       ],
-      "scenario_id": "{{data_science_scenario_id}}",
+      "scenario_id": "{{data_science1_scenario_id}}",
       "dim_val_id": 130001,
       "dim_id": 13,
       "preview": true,
@@ -134,7 +134,7 @@
       "adjustment_id": 1747641917313
     }
 ,    
-    "assertion": [
+    "assertions": [
       {
         "status": 200
       },
@@ -199,8 +199,8 @@
         "is_update": false,
         "is_create": true,
         "adjustment_edits": 15,
-        "scenario_id":"{{data_science_scenario_id}}",
-        "scenario_version_timestamp": "{{data_science_scenario_version}}"
+        "scenario_id":"{{data_science1_scenario_id}}",
+        "scenario_version_timestamp": "{{data_science1_scenario_version}}"
       },
       "allocation_request": {
         "display_nodes": [
@@ -210,7 +210,7 @@
           "unitsuomlessreturns",
           "unitsgrossuomng"
         ],
-        "scenario_id": "{{data_science_scenario_id}}",
+        "scenario_id": "{{data_science1_scenario_id}}",
         "dim_val_id": 130001,
         "dim_id": 13,
         "preview": false,
@@ -292,7 +292,7 @@
       "dim_val_id":130001
     }
 ,    
-    "assertion": [
+    "assertions": [
       {
         "status": 200
       },
@@ -329,8 +329,8 @@
     "queryParams": "",
     "method": "POST",
     "payload": {
-      "scenario_id": "{{data_science_scenario_id}}",
-      "scenario_version": "{{data_science_scenario_version}}",
+      "scenario_id": "{{data_science1_scenario_id}}",
+      "scenario_version": "{{data_science1_scenario_version}}",
       "dim_id": 13,
       "dim_val_id": 130001,
       "classification_id": 12,
@@ -360,7 +360,7 @@
       },
       "isApplied": false
     },
-    "assertion": [
+    "assertions": [
       {
         "status": 200
       },
