@@ -110,10 +110,8 @@ const parentConfig = loadJSON<ParentConfig>(path.resolve(__dirname, 'parent-conf
 const tagsToRun = process.env.tag ? [process.env.tag] : (parentConfig as any).tagsToRun;
 
 function populateGlobalStore(request) {
-  // Utility.getNexusFakeToken(parentConfig.user + "", request);
   globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
 }
-// globalSetup()
 populateGlobalStore(request);
 
 let testCaseFiles
@@ -172,7 +170,7 @@ testCaseFiles.forEach(testCasePath => {
       continue;
     }
 
-    test.describe.parallel(testName, () => {
+    test.describe.parallel(testCasePath, () => {
       test(testName, async () => {
         console.log("================================================================================");
         console.log(`STARTING TEST: ${testName}`);
@@ -354,14 +352,11 @@ testCaseFiles.forEach(testCasePath => {
       });
     });
 
-    // tes.afterAll(async () => {
-    //   globalTeardown()
-    // })
+   
 
   }
 });
 
-// globalTeardown()
 
 
 function postProcessInterpolatedPayload(obj: any): any {
