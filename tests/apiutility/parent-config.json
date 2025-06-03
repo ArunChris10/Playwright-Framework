@@ -19,7 +19,6 @@
     "testCases/calculate-saveajustment-api-tests.json",
     "testCases/create-view-api-tests.json",
     "testCases/excel-load-data-api-tests.json",
-    "testCases/excel-load-data-api-snapshots-tests.json",
     "testCases/excel-load-data-api-aggregation-tests.json",
     "testCases/forecast-calender-api.json",
     "testCases/forecast-cycle-api-tests.json",
@@ -34,12 +33,8 @@
     "testCases/ssdm-node-edge-get-drivers-api-tests.json",
     "testCases/ssdm-node-edge-publish-api-tests.json",
     "testCases/NodesCases/nodeshRefresh-api-tests.json",
-   "testCases/projection-method-testcases/historicRate-constantValueAllocation.json",
-   "testCases/excel-load-data-api-time-granularity.json",
-   "testCases/download-Validation-NEFile.tests.json",
-    "testCases/NodesCases/get-kpi-Month-GroupBy-Filter-tests.json",
-    "testCases/NodesCases/drivers-api-tests.json",
-    "testCases/NodesCases/actual-missing-nodes-api-tests.json",
+    "testCases/excel-load-data-api-time-granularity.json",
+    "testCases/download-Validation-NEFile.tests.json",
     "testCases/get-kpi-Month-GroupBy-Filter-tests.json",
     "testCases/drivers-api-tests.json",
     "testCases/actual-missing-nodes-api-tests.json",
@@ -50,8 +45,7 @@
     "testCases/projection-method-testcases/regression-MaintainRatioAllocation.json",
     "testCases/projection-method-testcases/regression-constantValueAllocation.json",
     "testCases/projection-method-testcases/regression-EqualDistributionAllocation.json",
-    "testCases/projection-method-testcases/regression-TimeRollingAllocation.json",
-    "testCases/excel-load-data-api-time-granularity.json"
+    "testCases/projection-method-testcases/regression-TimeRollingAllocation.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -68,21 +62,20 @@
     "getScreenId": "/filter/screen_details?",
     "listHistoricals": "/scenario/list-historicals?",
     "snapshots": "/archive/",
-    "getDataScienceInfo":"/scenario/data-science/info",
-    "allocateData":"/allocate-data",
-    "saveAdjustment":"/adjustment/",
-    "getKpi":"/reports/get-mykpi",
-    "AopGetKpi":"/reports/get-mykpi/v2",
-    "downloadSnapshot":"/reports/download-active-forecast",
-    "getForecast":"/reports/get-report",
-    "getForecastCalendar":"/forecast_calendar/",
-    "visualIndicator":"/scenario/scenario-composition",
-    "Forecast":"/scenario",
-    "getKpiV2":"/reports/get-mykpi/v2",
-    "getTimestamp":"/sandbox/v1/get-datasets-timestamp",
-    "getPublishedVersions":"/sandbox/v1/get-published-versions",
-    "getDrivers":"/metadata/drivers"
-  
+    "getDataScienceInfo": "/scenario/data-science/info",
+    "allocateData": "/allocate-data",
+    "saveAdjustment": "/adjustment/",
+    "getKpi": "/reports/get-mykpi",
+    "AopGetKpi": "/reports/get-mykpi/v2",
+    "downloadSnapshot": "/reports/download-active-forecast",
+    "getForecast": "/reports/get-report",
+    "getForecastCalendar": "/forecast_calendar/",
+    "visualIndicator": "/scenario/scenario-composition",
+    "Forecast": "/scenario",
+    "getKpiV2": "/reports/get-mykpi/v2",
+    "getTimestamp": "/sandbox/v1/get-datasets-timestamp",
+    "getPublishedVersions": "/sandbox/v1/get-published-versions",
+    "getDrivers": "/metadata/drivers"
   },
   "notificationService": {
     "baseURL": {
