@@ -351,6 +351,14 @@ export async function validateAssertions(response: any, responseBody: any, asser
           } catch (err: any) {
             throw new Error(`Assertion failed for assertResponseByCalculation: ${err.message}`);
           }
+        } else if (arrayOfAssertion.assertLength) {
+          const jsonPath = interpolate(arrayOfAssertion.assertLength.jsonPath); // Interpolate the JSON path
+          const expectedLength = parseFloat(interpolate(arrayOfAssertion.assertLength.expectedLength));
+          try {
+            expect(jsonPath.length).toEqual(expectedLength); // Validate the length
+          } catch (err: any) {
+            throw new Error(`Assertion failed for assertLength`);
+          }
         }
 
         const firstKey = Object.keys(arrayOfAssertion)[0];
@@ -365,8 +373,9 @@ export async function validateAssertions(response: any, responseBody: any, asser
   export function getRandomFutureDateTimeWithOffset(daysFromNow: number, hoursOffset: number = 0): string {
     const now = new Date();
 
-  // Start at 1:00 AM today
+
   now.setHours(2, 0, 0, 0); // 1 AM, 0 minutes, 0 seconds, 0 milliseconds
+
 
   // Add random number of days
   const randomDays = Math.floor(Math.random() * daysFromNow) + 1;
