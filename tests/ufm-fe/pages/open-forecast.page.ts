@@ -59,6 +59,8 @@ export class OpenCurrentForecast {
   readonly doneButtonOnRollingPercentage: Locator
   readonly viewDriver: Locator
   readonly btnApplyChanges: Locator
+  readonly firstChevronIcon: Locator
+  readonly detailsAfterExpandingChevronIcon: Locator
 
   constructor(page: Page) {
     this.page = page;
@@ -119,6 +121,9 @@ export class OpenCurrentForecast {
     this.deleteViewSnackBar = this.page.getByText("View deleted successfully.")
     this.deleteButton = this.page.locator('//button[text()="Delete"]')
     this.notificationIcon = this.page.locator('//*[@data-testid="notification-count"]')
+    this.firstChevronIcon = this.page.locator('//*[@data-testid="agGridColumnGroup-id"]//*[@row-index="0"]//*[@class="ag-icon ag-icon-tree-closed"]')
+    this.detailsAfterExpandingChevronIcon = this.page.locator('//*[@class="ag-details-row-auto-height ag-details-row"]')
+   
     this.notificationTitle = this.page.locator('//*[@class="notificationTitle"]//*[text()="Notifications"]')
     this.searchNotificationInput = this.page.getByPlaceholder("Search Notifications")
     this.selectProjectionMethodButton = this.page.locator("//*[@data-testid='AutoCompleteWithInputIcon-id']")
@@ -642,5 +647,21 @@ async waitForPageLoad(): Promise<boolean> {
   // Wait for the ag-grid header container to be visible
   await this.page.waitForSelector('.ag-header-container', { state: 'visible', timeout: 60000 });
   return true;
+}
+
+
+async verifyChevronIsReset() {
+  await this.firstChevronIcon.waitFor({ state: 'visible' });
+  await expect(this.detailsAfterExpandingChevronIcon).toBeHidden();
+}
+
+async expandChevronIcon() {
+  await this.firstChevronIcon.waitFor({ state: 'visible' });  
+  await this.firstChevronIcon.click();
+  await expect(this.detailsAfterExpandingChevronIcon).toBeVisible();
+}
+
+async navigateBackToOrganization(organizationName: string): Promise<void> {
+  await this.page.locator(`//*[@itemprop="name"][contains(text(),"${organizationName}")]`).click(); 
 }
 }
