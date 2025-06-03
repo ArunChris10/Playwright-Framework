@@ -1,16 +1,16 @@
 {
-    "postCommentEndpoint":"/api/comments",
-    "postCommentPayload": {
-        "commentDetails": "@[userId:Santhoshkumar Govindasamy]@  test comment",
-        "entityId": "75251a7e-ef98-49e4-8557-e2cd9d535f47",
-        "entityTypeCd": 16,
-        "fieldName": "{&quot;id&quot;:&quot;202503&quot;,&quot;commentOn&quot;:&quot;AgGrid&quot;,&quot;pageName&quot;:&quot;launchpad&quot;,&quot;itemHeirarchy&quot;:[&quot;FOOD&quot;],&quot;tableName&quot;:&quot;ForecastProjection&quot;,&quot;layerId&quot;:&quot;4bfc22ea-5d22-4c91-bf8b-efb71cdcf276&quot;}",
-        "commentType": "4bfc22ea-5d22-4c91-bf8b-efb71cdcf276",
-        "taggedUsers": [
-          {
-            "userId": "userId"
-          }
-        ]
-      },
-    "getNotificationEndpoint": "/api/v3/notifications/?pageNumber=0&search=&status=U&pageSize=6&sortBy=DESC"
+  "postCommentEndpoint":"/api/comments",
+  "postCommentPayload": {
+      "commentDetails": "@[userId:Santhoshkumar Govindasamy]@  test comment",
+      "entityId": "75251a7e-ef98-49e4-8557-e2cd9d535f47",
+      "entityTypeCd": 16,
+      "fieldName": "{&quot;id&quot;:&quot;202503&quot;,&quot;commentOn&quot;:&quot;AgGrid&quot;,&quot;pageName&quot;:&quot;launchpad&quot;,&quot;itemHeirarchy&quot;:[&quot;FOOD&quot;],&quot;tableName&quot;:&quot;ForecastProjection&quot;,&quot;layerId&quot;:&quot;4bfc22ea-5d22-4c91-bf8b-efb71cdcf276&quot;}",
+      "commentType": "4bfc22ea-5d22-4c91-bf8b-efb71cdcf276",
+      "taggedUsers": [
+        {
+          "userId": "userId"
+        }
+      ]
+    },
+  "getNotificationEndpoint": "/api/v3/notifications/?pageNumber=0&search=&status=U&pageSize=6&sortBy=DESC"
 }
