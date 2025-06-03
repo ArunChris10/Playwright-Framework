@@ -172,7 +172,7 @@ testCaseFiles.forEach(testCasePath => {
       continue;
     }
 
-    test.describe.parallel(testName, () => {
+    test.describe.parallel(testCasePath, () => {
       test(testName, async () => {
         console.log("================================================================================");
         console.log(`STARTING TEST: ${testName}`);
