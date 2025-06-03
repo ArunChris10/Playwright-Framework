@@ -64,8 +64,7 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "non_additive_perc_rolling",
-        "non_additive_perc_rolling_save"
+        "non_additive_perc_rolling"
       ],
       "service": "coreService",
       "uri": "allocateData",
