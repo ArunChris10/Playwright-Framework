@@ -385,8 +385,6 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "IBGROW-37429",
-        "IBGROW-34379",
         "MS1"
       ],
       "service": "coreService",
