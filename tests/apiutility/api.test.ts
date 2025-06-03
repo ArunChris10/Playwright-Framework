@@ -118,32 +118,32 @@ populateGlobalStore(request);
 
 let testCaseFiles
 
-if (!process.env.CI) {
-  const testCasesFolder = path.resolve(__dirname, 'testcases');
+// if (!process.env.CI) {
+//   const testCasesFolder = path.resolve(__dirname, 'testcases');
 
-  function getAllFilePathsRecursively(folderPath: string, basePath: string): string[] {
-    const filePaths: string[] = [];
-    const items = fs.readdirSync(folderPath);
+//   function getAllFilePathsRecursively(folderPath: string, basePath: string): string[] {
+//     const filePaths: string[] = [];
+//     const items = fs.readdirSync(folderPath);
 
-    items.forEach(item => {
-      const fullPath = path.resolve(folderPath, item);
-      if (fs.statSync(fullPath).isDirectory()) {
-        // Recursively fetch files from the nested folder
-        filePaths.push(...getAllFilePathsRecursively(fullPath, basePath));
-      } else if (fs.statSync(fullPath).isFile()) {
-        // Add relative path instead of full path
-        filePaths.push(path.relative(basePath, fullPath));
-      }
-    });
+//     items.forEach(item => {
+//       const fullPath = path.resolve(folderPath, item);
+//       if (fs.statSync(fullPath).isDirectory()) {
+//         // Recursively fetch files from the nested folder
+//         filePaths.push(...getAllFilePathsRecursively(fullPath, basePath));
+//       } else if (fs.statSync(fullPath).isFile()) {
+//         // Add relative path instead of full path
+//         filePaths.push(path.relative(basePath, fullPath));
+//       }
+//     });
 
-    return filePaths;
-  }
+//     return filePaths;
+//   }
 
-  testCaseFiles = getAllFilePathsRecursively(testCasesFolder, __dirname);
-}
-else {
-  testCaseFiles = parentConfig.testFiles
-}
+//   testCaseFiles = getAllFilePathsRecursively(testCasesFolder, __dirname);
+// }
+// else {
+testCaseFiles = parentConfig.testFiles
+// }
 
 // console.log('Test case files:', testCaseFiles);
 
