@@ -188,7 +188,7 @@
             }
         },
         {
-            "testStep": "Validate Forecasted Data in KPI View",
+            "testStep": "Verify get kpi response on SSDM",
             "environment": "qa",
             "labels": [
                 "smoke",
@@ -196,12 +196,10 @@
             ],
             "service": "coreService",
             "uri": "getKpi",
-            "testName": "Validate forecasted 'grossgmv' data in KPI output",
+            "testName": "Verify get kpi response on SSDM",
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
                 "dim_id": 13,
                 "dim_val_id": 130001,
                 "classification_id": 12,
@@ -271,6 +269,18 @@
                         {
                             "name": "{{dynamicMonth+7}}",
                             "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": false
                         }
                     ],
                     "month": [
@@ -288,7 +298,11 @@
                         "{{dynamicMonth+7}}"
                     ]
                 },
-                "isApplied": false
+                "scenario_id": "{{getkpi_scenario_id}}",
+                "scenario_version": "{{getkpi_scenario_version}}",
+                "doc_id": "{{extracted_doc_id}}",
+                "ds_type": "Activated",
+                "utilisedBy": "SSDM"
             },
             "extractFirst": {
                 "grossgmvvalueKPI": "rowData.202607.forecast"
