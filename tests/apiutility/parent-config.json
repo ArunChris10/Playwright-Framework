@@ -39,7 +39,7 @@
    "testCases/download-Validation-NEFile.tests.json",
     "testCases/NodesCases/get-kpi-Month-GroupBy-Filter-tests.json",
     "testCases/NodesCases/drivers-api-tests.json",
-    "testCases/NodesCases/actual-missing-nodes-api-tests.json"
+    "testCases/NodesCases/actual-missing-nodes-api-tests.json",
     "testCases/get-kpi-Month-GroupBy-Filter-tests.json",
     "testCases/drivers-api-tests.json",
     "testCases/actual-missing-nodes-api-tests.json",
@@ -51,6 +51,8 @@
     "testCases/projection-method-testcases/regression-constantValueAllocation.json",
     "testCases/projection-method-testcases/regression-EqualDistributionAllocation.json",
     "testCases/projection-method-testcases/regression-TimeRollingAllocation.json",
+    "testCases/projection-method-testcases/growthRate-EqualDistributionAllocation.json",
+    "testCases/projection-method-testcases/growthRate-TimeRollingAllocation.json",
     "testCases/excel-load-data-api-time-granularity.json"
   ],
   "currentDemandService": {
@@ -80,7 +82,7 @@
     "Forecast":"/scenario",
     "getKpiV2":"/reports/get-mykpi/v2",
     "getTimestamp":"/sandbox/v1/get-datasets-timestamp",
-    "getPublishedVersions":"/sandbox/v1/get-published-versions"
+    "getPublishedVersions":"/sandbox/v1/get-published-versions",
     "getDrivers":"/metadata/drivers"
   
   },
