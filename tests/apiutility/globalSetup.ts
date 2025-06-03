@@ -13,14 +13,13 @@ import {interpolateHeadersObject} from '../apiutility/utils/commonUtil'
 import { loadJSON } from '../apiutility/utils/jsonUtils';
 import {ParentConfig} from '../apiutility/api.test'
 import { Utility } from "../common/fixtures/utils";
-import data from "./parent-config.json"
 
 export default async function globalSetup() {
 
   process.env.apiBaseURLUFM =  'https://ibg-ufm-core-service.qa.ibg.walmart.com';
   
   console.log('Global Setup (runs once before all tests)');
-  const parentConfig = JSON.parse(data);
+  const parentConfig = loadJSON<ParentConfig>(path.resolve(__dirname, 'parent-config.json'));
   //await Utility.getNexusFakeToken(parentConfig.user + "", request);
   globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
   const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
