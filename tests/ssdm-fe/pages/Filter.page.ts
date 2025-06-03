@@ -33,8 +33,6 @@ export class FilterFunctionality {
     async clickOnApplyChanges() {
         await this.btnApplyChanges.isVisible();
         await this.btnApplyChanges.click();
-
-
     }
     async clickOnGroupBy() {
         await this.btnGroupBy.click();
