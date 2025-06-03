@@ -1,0 +1,324 @@
+{
+    "validate_ssdm_get_kpi": [
+        {
+            "testStep": "Get Scenario id and scenario version of sandbox scenario",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "SSDMKPI"
+            ],
+            "service": "coreService",
+            "uri": "getSandboxScenarioId",
+            "testName": "Get Scenario id and scenario version of sandbox scenario",
+            "queryParams": "",
+            "method": "GET",
+            "payload": {},
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ],
+            "extractFirst": {
+                "getkpi_scenario_id": "scenario_id",
+                "getkpi_scenario_version": "scenario_version_timestamp"
+            }
+        },
+        {
+            "testStep": "Get doc id of published version",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "SSDMKPI"
+            ],
+            "service": "coreService",
+            "uri": "getPublishedVersions",
+            "testName": "Get doc id of published version",
+            "queryParams": "",
+            "method": "GET",
+            "payload": {},
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ],
+            "extractFirst": {
+                "extracted_doc_id": "published_doc_list.document_id"
+            }
+        },
+        {
+            "testStep": "Verify get kpi response has no filters if none of the filters is applied on drivers on SSDM",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "SSDMKPI",
+                "IBGROW-38815"
+            ],
+            "service": "coreService",
+            "uri": "getKpi",
+            "testName": "Verify get kpi response has no filters if none of the filters is applied on drivers on SSDM",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "dim_id": 13,
+                "dim_val_id": 130001,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "moecommreturnscogs"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Driver"
+                        },
+                        {
+                            "name": "{{dynamicMonth-4}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-2}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+2}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+4}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+5}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+6}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+7}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": false
+                        }
+                    ],
+                    "month": [
+                        "{{dynamicMonth-4}}",
+                        "{{dynamicMonth-3}}",
+                        "{{dynamicMonth-2}}",
+                        "{{dynamicMonth-1}}",
+                        "{{dynamicMonth}}",
+                        "{{dynamicMonth+1}}",
+                        "{{dynamicMonth+2}}",
+                        "{{dynamicMonth+3}}",
+                        "{{dynamicMonth+4}}",
+                        "{{dynamicMonth+5}}",
+                        "{{dynamicMonth+6}}",
+                        "{{dynamicMonth+7}}"
+                    ]
+                },
+                "scenario_id": "{{getkpi_scenario_id}}",
+                "scenario_version": "{{getkpi_scenario_version}}",
+                "doc_id": "{{extracted_doc_id}}",
+                "ds_type": "Activated",
+                "utilisedBy": "SSDM"
+            },
+            "extractFirst": {
+                "department": "rowData.department"
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertLength": {
+                        "jsonPath": "{{department}}",
+                        "expectedLength": 0
+                    }
+                }
+            ]
+        },
+        {
+            "testStep": "Verify get kpi response has filters if filters is applied on drivers on SSDM",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "SSDMKPI",
+                "IBGROW-38817"
+            ],
+            "service": "coreService",
+            "uri": "getKpi",
+            "testName": "Verify get kpi response has filters if filters is applied on drivers on SSDM",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "dim_id": 13,
+                "dim_val_id": 130001,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [
+                    {
+                        "dim_id": 2,
+                        "dim_val_ids": [
+                            20002
+                        ],
+                        "children": []
+                    }
+                ],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id",
+                        "department"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "moecommreturnscogs"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Department"
+                        },
+                        {
+                            "name": "{{dynamicMonth-4}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-2}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+2}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+4}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+5}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+6}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+7}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": false
+                        }
+                    ],
+                    "month": [
+                        "{{dynamicMonth-4}}",
+                        "{{dynamicMonth-3}}",
+                        "{{dynamicMonth-2}}",
+                        "{{dynamicMonth-1}}",
+                        "{{dynamicMonth}}",
+                        "{{dynamicMonth+1}}",
+                        "{{dynamicMonth+2}}",
+                        "{{dynamicMonth+3}}",
+                        "{{dynamicMonth+4}}",
+                        "{{dynamicMonth+5}}",
+                        "{{dynamicMonth+6}}",
+                        "{{dynamicMonth+7}}"
+                    ]
+                },
+                "scenario_id": "{{getkpi_scenario_id}}",
+                "scenario_version": "{{getkpi_scenario_version}}",
+                "doc_id": "{{extracted_doc_id}}",
+                "ds_type": "Activated",
+                "utilisedBy": "SSDM"
+            },
+            "extractFirst": {
+                "departmentWithFilter": "rowData.department"
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertValuesAreEqual": [
+                        "{{departmentWithFilter}}",
+                        20002
+                    ]
+                }
+            ]
+        }
+    ]
+}

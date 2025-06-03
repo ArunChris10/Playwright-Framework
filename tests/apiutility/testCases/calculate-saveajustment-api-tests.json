@@ -38,7 +38,7 @@
         }
       ],
       "extractRelativeMultipleCondition": {
-        "IOtoDeletescenarioId": {
+        "IOtoDeletescenarioId_multipltNodes": {
           "conditions": [
             {
               "path": "rowData.lineOfBusiness",
@@ -51,7 +51,7 @@
           ],
           "extractKey": "scenarioId"
         },
-        "IOtoDeletescenarioVersion": {
+        "IOtoDeletescenarioVersion_multipltNodes": {
           "conditions": [
             {
               "path": "rowData.lineOfBusiness",
@@ -75,7 +75,7 @@
       "service": "coreService",
       "uri": "Forecast",
       "testName": "Delete a IO forecast before proceding",
-      "queryParams": "/{{IOtoDeletescenarioId}}/{{IOtoDeletescenarioVersion}}",
+      "queryParams": "/{{IOtoDeletescenarioId_multipltNodes}}/{{IOtoDeletescenarioVersion_multipltNodes}}",
       "method": "DELETE",
       "payload": {
         "dim_id": 11,
@@ -102,8 +102,8 @@
         "dim_val_id": 110026
       },
       "extract": {
-        "io_scenario_id": "scenario.scenario_id",
-        "io_scenario_version": "scenario.scenario_version_timestamp"
+        "io_scenario_id_multipltNodes": "scenario.scenario_id",
+        "io_scenario_version_multipleNodes": "scenario.scenario_version_timestamp"
       },
       "assertions": [
         {
@@ -177,7 +177,7 @@
       "method": "POST",
       "payload": {
         "display_nodes": [],
-        "scenario_id": "{{io_scenario_id}}",
+        "scenario_id": "{{io_scenario_id_multipltNodes}}",
         "dim_val_id": 110026,
         "dim_id": 11,
         "preview": true,
@@ -282,12 +282,12 @@
           "is_update": false,
           "is_create": true,
           "adjustment_edits": 3,
-          "scenario_id": "{{io_scenario_id}}",
-          "scenario_version_timestamp": "{{io_scenario_version}}"
+          "scenario_id": "{{io_scenario_id_multipltNodes}}",
+          "scenario_version_timestamp": "{{io_scenario_version_multipleNodes}}"
         },
         "allocation_request": {
           "display_nodes": [],
-          "scenario_id": "{{io_scenario_id}}",
+          "scenario_id": "{{io_scenario_id_multipltNodes}}",
           "dim_val_id": 110026,
           "dim_id": 11,
           "preview": false,

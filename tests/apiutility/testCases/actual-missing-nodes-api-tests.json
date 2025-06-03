@@ -1,0 +1,68 @@
+{
+    "validate_nodes_api": [
+        {
+            "testStep": "Call actual missing nodes api",
+            "environment": "qa",
+            "labels": [
+                "@Smoke",
+                "nodesApi",
+                "@Regression"
+            ],
+            "service": "dataForgeService",
+            "uri": "actualMissingNode",
+            "testName": "validate nodes api",
+            "queryParams": "",
+            "method": "GET",
+ 
+            "assertion": [
+                    {
+                        "status": 200
+                    },
+                    {
+                        "body.message": "Unique node names retrieved successfully"
+                    },
+                    {
+                        "body.data": [
+                            {
+                                "ufm_node_id": "111_TEST",
+                                "ufm_node_nm": "fakeInputNode"
+                            },
+                            {
+                                "ufm_node_id": "222_TEST",
+                                "ufm_node_nm": "fakeInputNodeTwo"
+                            },
+                            {
+                                "ufm_node_id": "333_TEST",
+                                "ufm_node_nm": "fakeInputNodeThird"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+    "validate_incorrect_nodes_api": [
+        {
+            "testStep": "Call actual missing nodes api with incorrect node name",
+            "environment": "qa",
+            "labels": [
+                "@Smoke",
+                "nodesApiIncorrect",
+                "@Regression"
+            ],
+            "service": "dataForgeService",
+            "uri": "actualMissingNodeIncorrect",
+            "testName": "validate incorrect nodes api",
+            "queryParams": "",
+            "method": "GET",
+
+            "assertion": [
+                    {
+                        "status": 400
+                    },
+                    {
+                        "body.message": "Invalid node name provided"
+                    }
+                ]
+        }
+    ]
+    }

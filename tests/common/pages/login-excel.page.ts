@@ -57,8 +57,9 @@ export class LoginExcelPage {
     // TODO: reduce flakiness
     for (let attempt = 0; attempt < 2; attempt++) {
       await this.homeTab.click();
-      await ibgAddinBtn.click();
       await this.page.waitForTimeout(5000);
+      expect(ibgAddinBtn).toBeVisible();
+      await ibgAddinBtn.click();
       if (await this.ssoWindow.isVisible()) {
         break;
       }
