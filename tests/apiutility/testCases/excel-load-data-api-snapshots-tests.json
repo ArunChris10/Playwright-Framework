@@ -6,7 +6,6 @@
             "labels": [
                 "smoke",
                 "snapshots",
-                "Arun"
             ],
             "service": "coreService",
             "uri": "snapshots",
