@@ -7,23 +7,23 @@
       "Pre-Req","MS2","IBGROW-38119"
     ],
     "service": "coreService",
-    "uri": "get-data-science-info",
+    "uri": "getDataScienceInfo",
     "testName": "get data science info to fetch Scenario ID and version",
     "queryParams": "",
     "method": "GET",
     "payload": {},
-    "assertion": [
+    "assertions": [
       {
         "status": 200
       }
     ],
     "extractRelative": {
-      "calculate_scenario_id": {
+      "calculate2_scenario_id": {
         "whereKey": "classification_id",
         "equals": 12,
         "extractKey": "scenario_id"
       },
-      "calculate_scenario_version":{
+      "calculate2_scenario_version":{
        "whereKey": "classification_id",
         "equals": 12,
         "extractKey": "scenario_version"
@@ -80,13 +80,13 @@
         }
       ],
       "isApplied": true,
-      "scenario_id": "{{calculate_scenario_id}}",
-      "scenario_version": "{{calculate_scenario_version}}",
+      "scenario_id": "{{calculate2_scenario_id}}",
+      "scenario_version": "{{calculate2_scenario_version}}",
       "template_id": 3
     }
     
     ,
-    "assertion": [
+    "assertions": [
       {
         "status": 200
       },
@@ -215,8 +215,8 @@
     "queryParams": "",
     "payload":
         { 
-          "scenario_id": "{{calculate_scenario_id}}",
-          "scenario_version": "{{calculate_scenario_version}}"
+          "scenario_id": "{{calculate2_scenario_id}}",
+          "scenario_version": "{{calculate2_scenario_version}}"
         },
         "polling": {
           "extractRelative": {
@@ -285,7 +285,7 @@
     }
     
     ,
-    "assertion": [
+    "assertions": [
       {
         "status": 200
       },

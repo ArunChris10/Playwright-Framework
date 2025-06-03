@@ -11,10 +11,14 @@ export class ExcelPage {
   readonly getStartedBtn: Locator;
   readonly businessArea: Locator;
   readonly dateRangePicker: Locator;
+  readonly dimensions: Locator;
   readonly btnHasText: Function;
   readonly savedView: Locator;
   readonly scenario: Locator;
   readonly loadDataButton: Locator;
+  readonly addComparedScenario: Locator;
+  readonly baselineCombobox: Locator;
+  readonly comparedWithCombobox: Locator;
   readonly clearBtn: Locator;
   readonly resetDateRange: Locator;
 
@@ -34,11 +38,15 @@ export class ExcelPage {
     });
     this.businessArea = this.mainIframe.getByRole("combobox");
     this.dateRangePicker = this.mainIframe.getByTestId("date-range-component");
+    this.dimensions = this.mainIframe.getByText("Dimensions");
     this.btnHasText = (text: string) =>
       this.mainIframe.locator("button").filter({ hasText: text });
     this.savedView = this.mainIframe.getByText("Saved Views");
     this.scenario = this.mainIframe.getByText("Scenarios");
     this.loadDataButton = this.mainIframe.getByTestId("LoadDataButton");
+    this.addComparedScenario = this.mainIframe.getByText("Add", {exact: true});
+    this.baselineCombobox = this.mainIframe.locator('#baselineCombobox, [aria-labelledby="baselineCombobox"]');
+    this.comparedWithCombobox = this.mainIframe.locator('#comparedWithCombobox, [aria-labelledby="comparedWithCombobox"]');
     this.clearBtn = this.mainIframe.getByTestId("ClearButton");
     this.resetDateRange = this.mainIframe.getByText("Reset date range");
   }
@@ -64,7 +72,7 @@ export class ExcelPage {
     return this.formulaBar.textContent();
   }
 
-   async setCellData(cell: string, value: string): Promise<void> {
+  async setCellData(cell: string, value: string): Promise<void> {
     await this.nameBox.click();
     await this.nameBox.fill(cell);
     await this.page.keyboard.press("Enter");
@@ -108,6 +116,44 @@ export class ExcelPage {
     await this.scenario.click();
   }
 
+  async isDimensonDisabled(dimension: string) {
+    if (dimension) {
+      const checkbox = this.mainIframe.getByRole("checkbox", {
+        name: dimension,
+      });
+      if (await checkbox.isVisible()) {
+        return await checkbox.isDisabled();
+      }
+      throw new Error(`Dimension "${dimension}" not found or not visible`);
+    }
+  }
+
+  async selectDimension(toOpen?: boolean, dimensions?: string) {
+    if (!toOpen) {
+      if (dimensions) {
+        if (
+          await this.mainIframe
+            .getByRole("checkbox", { name: dimensions })
+            .isVisible()
+        ) {
+          await this.mainIframe
+            .getByRole("checkbox", { name: dimensions })
+            .click();
+          return true;
+        }
+        throw new Error(`Dimension "${dimensions}" not found or not visible`);
+      } else {
+        if (
+          !(await this.mainIframe.getByRole("checkbox").first().isChecked())
+        ) {
+          await this.mainIframe.getByRole("checkbox").first().click();
+        }
+      }
+    } else {
+      await this.dimensions.click();
+    }
+  }
+
   async loadData() {
     await this.loadDataButton.click();
     await this.loadDataButton.isHidden();
@@ -120,6 +166,15 @@ export class ExcelPage {
     await this.clearBtn.click();
   }
 
+  async clickElementByRole(role: string) {
+    if (role === "baselineCombobox") {
+      await this.baselineCombobox.click();
+    } else if (role === "comparedWithCombobox") {
+      await this.comparedWithCombobox.click();
+    }
+    await this.mainIframe.getByRole("option").first().click();
+  }
+
   async verifySavedConfigurations() {
     await this.loadDataButton.isEnabled();
     await this.scenario.click();
@@ -130,6 +185,15 @@ export class ExcelPage {
 
   async openDateRangePicker() {
     await this.dateRangePicker.click();
+  }
+
+  async openElementByType(type: any, name: string) {
+    const addComparisonBtn = this.mainIframe.getByRole(type, { name });
+    if ((await addComparisonBtn.count()) > 0) {
+      await addComparisonBtn.click();
+    } else {
+      throw new Error(`${name} button not found`);
+    }
   }
 
   async closeDateRangePicker() {

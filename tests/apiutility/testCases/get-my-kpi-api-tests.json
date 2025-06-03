@@ -29,14 +29,14 @@
           ]
         }
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         }
       ],
       "extractFirst": {
-        "getkpi_scenario_id": "rowData.scenarioId",
-        "getkpi_scenario_version": "rowData.scenarioVersion"
+        "getkpi3_scenario_id": "rowData.scenarioId",
+        "getkpi3_scenario_version": "rowData.scenarioVersion"
       }
     },
     {
@@ -49,8 +49,8 @@
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario_id": "{{getkpi_scenario_id}}",
-        "scenario_version": "{{getkpi_scenario_version}}",
+        "scenario_id": "{{getkpi3_scenario_id}}",
+        "scenario_version": "{{getkpi3_scenario_version}}",
         "dim_id": 11,
         "dim_val_id": 110009,
         "classification_id": 12,
@@ -88,13 +88,13 @@
         },
         "isApplied": true
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         }
       ],
       "extract": {
-        "foreCastBeforeFilter": "rowData.202602.forecast"
+        "foreCastBeforeFilter": "rowData.{{dynamicMonth-1}}.forecast"
       }
     },
     {
@@ -107,8 +107,8 @@
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario_id": "{{getkpi_scenario_id}}",
-        "scenario_version": "{{getkpi_scenario_version}}",
+        "scenario_id": "{{getkpi3_scenario_id}}",
+        "scenario_version": "{{getkpi3_scenario_version}}",
         "dim_id": 11,
         "dim_val_id": 110009,
         "classification_id": 12,
@@ -153,9 +153,9 @@
         "isApplied": true
       },
       "extract": {
-        "foreCastAfterFilter": "rowData.202602.forecast"
+        "foreCastAfterFilter": "rowData.{{dynamicMonth-1}}.forecast"
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         },

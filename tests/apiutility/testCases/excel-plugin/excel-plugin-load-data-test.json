@@ -22,10 +22,10 @@
         }
       ],
       "extractFirst": {
-        "scenario_version_timestamp": "rowData.scenarioVersion",       
-        "scenario_id": "rowData.scenarioId",
-        "forecast_scenario_id":"rowData.FTS",
-        "actual_scenario_id":"rowData.ATS"
+        "get_report_scenario_version_timestamp": "rowData.scenarioVersion",       
+        "get_report_scenario_id": "rowData.scenarioId",
+        "get_report_forecast_scenario_id":"rowData.FTS",
+        "get_report_actual_scenario_id":"rowData.ATS"
       }
     },
     {
@@ -49,10 +49,10 @@
         ],
         "scenarios": [
           {
-            "scenarioId": "{{scenario_id}}",
-            "scenarioVer": "{{scenario_version_timestamp}}",
-            "actual_scenario_id": "{{actual_scenario_id}}",
-            "forecast_scenario_id": "{{forecast_scenario_id}}",
+            "scenarioId": "{{get_report_scenario_id}}",
+            "scenarioVer": "{{get_report_scenario_version_timestamp}}",
+            "actual_scenario_id": "{{get_report_actual_scenario_id}}",
+            "forecast_scenario_id": "{{get_report_forecast_scenario_id}}",
             "type": "scenarios"
               }
         ],
@@ -123,10 +123,10 @@
         ],
         "scenarios": [
           {
-            "scenarioId": "{{scenario_id}}",
-            "scenarioVer": "{{scenario_version_timestamp}}",
-            "actual_scenario_id": "{{actual_scenario_id}}",
-            "forecast_scenario_id": "{{forecast_scenario_id}}",
+            "scenarioId": "{{get_report_scenario_id}}",
+            "scenarioVer": "{{get_report_scenario_version_timestamp}}",
+            "actual_scenario_id": "{{get_report_actual_scenario_id}}",
+            "forecast_scenario_id": "{{get_report_forecast_scenario_id}}",
             "type": "scenarios"
             }
         ],

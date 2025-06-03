@@ -22,34 +22,72 @@
         "newlyPublishedNodeEdgeStatus": "IN PROGRESS",
         "dateTimePattern": "(January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4}, \\d{1,2}:\\d{2} (AM|PM)",  
         "publishInProgressMessagePattern": "Publish in progress \\d+%",
-        "publishInProgressToolTipText": "^Currently, there is a publish in progress\\. Once the current publish is complete, you will be able to publish another version of your file\\.\\s*Last published: (January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4} at \\d{1,2}:\\d{2} (AM|PM) by .+$"
-
-
+        "publishInProgressToolTipText": "^Currently, there is a publish in progress\\. Once the current publish is complete, you will be able to publish another version of your file\\.\\s*Last published: (January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4} at \\d{1,2}:\\d{2} (AM|PM) by .+$",
+        "completeSearch": "Cost per Delivery",
+        "partialSearch": "Cost per",
+        "incorrectSearch": "Growth",
+        "metricNames": "TestCompositeUpdatedNodeName",
+        "month": "Month",
+        "segment": "SEGMENT",
+        "dataFieldAttributeMetricName": "metricName",
+        "signInRetryNumber": 2
     },
     "filterOptions": [
         {
             "data": {
+                "month": {
+                    "dropDown": "Month",
+                    "actuals": "ACTUALS",
+                    "forecast": "FORECAST"
+                },
                 "channel": {
                     "dropDown": "Channel",
                     "childDropDown": "DELIVERY",
-                    "option": "OWNED_S2H"
+                    "option": "OWNED_S2H",
+                    "options": "DSV_S2H, DSV_S2S",
+                    "optionValue": "*, CORE_SERVICES"
                 },
                 "department": {
                     "dropDown": "Department",
                     "childDropDown": "FOOD",
-                    "option": "1_CANDY"
+                    "option": "1_CANDY",
+                    "options": "*, 38_PHARMACY RX"
+                },
+                "owner": {
+                    "dropDown": "Owner",
+                    "option": "MARKETPLACE",
+                    "options": "CONNECT",
+                    "segment": "SEGMENT"
+                },
+                "entity": {
+                    "dropDown": "Entity",
+                    "option": "ACQUISITIONS_AND_INCUBATIONS"
                 }
             }
+        }
+    ],
+    "sortingOptions": [
+        {
+            "label": "Metric Name - A-Z",
+            "type": "asc"
+        },
+        {
+            "label": "Metric Name - Z-A",
+            "type": "desc"
+        },
+        {
+            "label": "Recently Updated",
+            "type": "date-desc"
         }
     ],
     "groupByOptions": [
         {
             "data": {
-                "channel": {
-                    "option": "Channel"
+                "owner": {
+                    "option": "Owner/Editor"
                 },
-                "department": {
-                    "option": "Department"
+                "metricName": {
+                    "option": "Same node variations"
                 }
             }
         }

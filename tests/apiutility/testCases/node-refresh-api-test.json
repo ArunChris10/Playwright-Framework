@@ -27,7 +27,7 @@
   }
 },
   "method": "POST",
-  "assertion": [
+  "assertions": [
     {
        "status": 200 
     }      
@@ -76,7 +76,7 @@
     "adjustment_id": 1747235993229
 },
 "method": "POST",
-  "assertion": [
+  "assertions": [
     {
         "status": 200 
     }      
@@ -138,7 +138,7 @@
     },
     "dim_val_id": 110009
 },
-"assertion": [
+"assertions": [
     {
     "status": 200
     }
