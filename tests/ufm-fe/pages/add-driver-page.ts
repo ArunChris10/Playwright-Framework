@@ -29,6 +29,11 @@ export class AddDriverPage {
         return true
     }
 
+    async waitForKPITableLoad() {
+        await this.page.waitForSelector('[data-testid="forecast-table"]', { state: 'visible', timeout: 100000 });
+        return true
+    }
+
     async inputDriverName(driverName: string) {
         await this.page.locator(this.searchDriverField).fill(driverName).then(async () => {
             await this.page.waitForTimeout(1000)
