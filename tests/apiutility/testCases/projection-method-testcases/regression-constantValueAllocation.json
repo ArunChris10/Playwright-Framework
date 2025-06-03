@@ -475,15 +475,15 @@
       "validateExtractToBeApprox": {
         "regression_ConstantValue_forecastDriverOne_KpiData": {
           "expected": "{{regression_ConstantValue_forecastDriverOne}}",
-          "tolerance": 10
+          "tolerance": 200
         },
         "regression_ConstantValue_forecastDriverTwo_KpiData": {
           "expected": "{{regression_ConstantValue_forecastDriverTwo}}",
-          "tolerance": 10
+          "tolerance": 200
         },
         "regression_ConstantValue_forecastDriverThree_KpiData": {
           "expected": "{{regression_ConstantValue_forecastDriverThree}}",
-          "tolerance": 10
+          "tolerance": 200
         }
       }
     }

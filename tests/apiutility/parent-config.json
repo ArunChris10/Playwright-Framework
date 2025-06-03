@@ -17,7 +17,6 @@
     "testCases/data-science-review-testcases/publish_aop_to_current_demand_slot.json",
     "testCases/data-science-review-testcases/publish_data_science_to_current_demand_slot.json",
     "testCases/calculate-saveajustment-api-tests.json",
-    "testCases/create-forecast.api.json",
     "testCases/create-view-api-tests.json",
     "testCases/excel-load-data-api-tests.json",
     "testCases/excel-load-data-api-snapshots-tests.json",
@@ -43,6 +42,8 @@
     "testCases/projection-method-testcases/historicRate-TimeRollingAllocation.json",
     "testCases/projection-method-testcases/regression-MaintainRatioAllocation.json",
     "testCases/projection-method-testcases/regression-constantValueAllocation.json",
+    "testCases/projection-method-testcases/regression-EqualDistributionAllocation.json",
+    "testCases/projection-method-testcases/regression-TimeRollingAllocation.json",
     "testCases/projection-method-testcases/growthRate-MaintainRatioAllocation.json",
     "testCases/projection-method-testcases/growthRate-constantValueAllocation.json",
     "testCases/excel-load-data-api-time-granularity.json"

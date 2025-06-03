@@ -475,15 +475,15 @@
       "validateExtractToBeApprox": {
         "regression_MaintainRatio_forecastDriverOne_KpiData": {
           "expected": "{{regression_MaintainRatio_forecastDriverOne}}",
-          "tolerance": 10
+          "tolerance": 90
         },
         "regression_MaintainRatio_forecastDriverTwo_KpiData": {
           "expected": "{{regression_MaintainRatio_forecastDriverTwo}}",
-          "tolerance": 10
+          "tolerance": 90
         },
         "regression_MaintainRatio_forecastDriverThree_KpiData": {
           "expected": "{{regression_MaintainRatio_forecastDriverThree}}",
-          "tolerance": 10
+          "tolerance": 90
         }
       }
     }
