@@ -49,6 +49,8 @@
     "testCases/projection-method-testcases/historicRate-TimeRollingAllocation.json",
     "testCases/projection-method-testcases/regression-MaintainRatioAllocation.json",
     "testCases/projection-method-testcases/regression-constantValueAllocation.json",
+    "testCases/excel-load-data-api-time-granularity.json",
+    "testCases/ssdm-get-kpi-verify.json",
     "testCases/projection-method-testcases/regression-EqualDistributionAllocation.json",
     "testCases/projection-method-testcases/regression-TimeRollingAllocation.json",
     "testCases/projection-method-testcases/growthRate-EqualDistributionAllocation.json",
@@ -70,21 +72,21 @@
     "getScreenId": "/filter/screen_details?",
     "listHistoricals": "/scenario/list-historicals?",
     "snapshots": "/archive/",
-    "getDataScienceInfo":"/scenario/data-science/info",
-    "allocateData":"/allocate-data",
-    "saveAdjustment":"/adjustment/",
-    "getKpi":"/reports/get-mykpi",
-    "AopGetKpi":"/reports/get-mykpi/v2",
-    "downloadSnapshot":"/reports/download-active-forecast",
-    "getForecast":"/reports/get-report",
-    "getForecastCalendar":"/forecast_calendar/",
-    "visualIndicator":"/scenario/scenario-composition",
-    "Forecast":"/scenario",
-    "getKpiV2":"/reports/get-mykpi/v2",
-    "getTimestamp":"/sandbox/v1/get-datasets-timestamp",
-    "getPublishedVersions":"/sandbox/v1/get-published-versions",
-    "getDrivers":"/metadata/drivers"
-  
+    "getDataScienceInfo": "/scenario/data-science/info",
+    "allocateData": "/allocate-data",
+    "saveAdjustment": "/adjustment/",
+    "getKpi": "/reports/get-mykpi",
+    "AopGetKpi": "/reports/get-mykpi/v2",
+    "downloadSnapshot": "/reports/download-active-forecast",
+    "getForecast": "/reports/get-report",
+    "getForecastCalendar": "/forecast_calendar/",
+    "visualIndicator": "/scenario/scenario-composition",
+    "Forecast": "/scenario",
+    "getKpiV2": "/reports/get-mykpi/v2",
+    "getTimestamp": "/sandbox/v1/get-datasets-timestamp",
+    "getDrivers": "/metadata/drivers",
+    "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
+    "getPublishedVersions": "/sandbox/v1/get-published-versions"
   },
   "notificationService": {
     "baseURL": {
@@ -111,6 +113,7 @@
     "baseURL": {
       "qa": "https://ibg-ufm-dataforge-service.qa.ibg.walmart.com"
     },
-    "actualMissingNode": "/v1/actual_missing/nodes"
+    "actualMissingNode": "/v1/actual_missing/nodes",
+    "actualMissingNodeIncorrect":"/v1/actual_missing/nodes/incorrect"
   }
 }
