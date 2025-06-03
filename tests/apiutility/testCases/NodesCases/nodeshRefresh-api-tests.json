@@ -1,5 +1,5 @@
 {
-  "validate_create_and_poll_forecast": [
+  "validate_create_and_poll_forecast for node refresh": [
     {
       "testStep": "Get a forecast to delete before proceding for demand SBA",
       "environment": "qa",
@@ -373,7 +373,8 @@
         "dim_val_id": 110016
       },
       "extract": {
-        "optical_scenario_version": "scenario.scenario_version_timestamp"
+        "optical_scenario_version": "scenario.scenario_version_timestamp",
+        "optical_scenario_id": "scenario.scenario_id"
       },
       "assertions": [
         {
@@ -468,7 +469,7 @@
         }
       ],
       "extractRelativeMultipleCondition": {
-        "optical_scenario_id": {
+        "optical_scenario_id_2": {
         "conditions": [
           { "path": "rowData.name", "equals": "apiUtilityAutomation {{randomNumber}}" }
         ],
@@ -708,7 +709,7 @@
       "payload": {
         "unit": "Millions",
         "dim_id": 12,
-        "dim_val_id": 120011,
+        "dim_val_id": 120006,
         "classification_id": 12,
         "template_id": 1,
         "filters": [],
@@ -914,7 +915,7 @@
       "payload": {
         "unit": "Millions",
         "dim_id": 12,
-        "dim_val_id": 110030,
+        "dim_val_id": 120011,
         "classification_id": 12,
         "template_id": 1,
         "filters": [],
@@ -962,9 +963,9 @@
       "service": "coreService",
       "queryParams": "",
       "payload": {
-        "target_scenarios": [
+        "target_scenarios": 
           "{{optical_scenario_id}}"
-        ]
+        
       },
       "assertions": [
         {
@@ -1104,74 +1105,6 @@
       "validateExtractContains": {
         "lastUpdatedTimestampOnRefresh": "{{currentDateWithHour}}"
       }
-    }
-  ],
-  "cleanup_DeleteDemandScenario": [
-    {
-      "testStep": "Delete earlier created Demand scenario",
-      "environment": "qa",
-      "labels": [
-        "smoke",
-        "MS1"
-      ],
-      "service": "coreService",
-      "uri": "Forecast",
-      "testName": "Delete created Demand scenario for cleanup",
-      "queryParams": "/{{consolidatedDemand_scenario_id}}/{{consolidatedDemand_scenario_version}}",
-      "method": "DELETE",
-      "payload": {
-        "dim_id": 11,
-        "dim_val_id": 110030
-      },
-      "assertions": [
-        {
-          "status": 200
-        }
-      ]
-    },
-    {
-      "testStep": "Delete earlier created Segment scenario",
-      "environment": "qa",
-      "labels": [
-        "smoke",
-        "MS1"
-      ],
-      "service": "coreService",
-      "uri": "Forecast",
-      "testName": "Delete created Segment scenario for cleanup",
-      "queryParams": "/{{asyncRefreshNode_scenario_id}}/{{asyncRefreshNode_scenario_version}}",
-      "method": "DELETE",
-      "payload": {
-        "dim_id": 11,
-        "dim_val_id": 110021
-      },
-      "assertions": [
-        {
-          "status": 200
-        }
-      ]
-    },
-    {
-      "testStep": "Delete earlier created OpticalOptical scenario",
-      "environment": "qa",
-      "labels": [
-        "smoke",
-        "MS1"
-      ],
-      "service": "coreService",
-      "uri": "Forecast",
-      "testName": "Delete created Segment scenario for cleanup",
-      "queryParams": "/{{optical_scenario_id}}/{{optical_scenario_version}}",
-      "method": "DELETE",
-      "payload": {
-        "dim_id": 11,
-        "dim_val_id": 110016
-      },
-      "assertions": [
-        {
-          "status": 200
-        }
-      ]
     }
   ]
 }

@@ -14,8 +14,8 @@
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
+                "scenario_id": "{{getkpi1_scenario_id}}",
+                "scenario_version": "{{getkpi1_scenario_version}}",
                 "dim_id": 11,
                 "dim_val_id": 110009,
                 "classification_id": 12,
@@ -129,7 +129,7 @@
                 },
                 "isApplied": true
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 500
                 }
@@ -149,8 +149,8 @@
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
+                "scenario_id": "{{getkpi1_scenario_id}}",
+                "scenario_version": "{{getkpi1_scenario_version}}",
                 "dim_id": 11,
                 "dim_val_id": 110009,
                 "classification_id": 12,
@@ -264,7 +264,7 @@
                 },
                 "isApplied": true
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 500
                 }

@@ -15,12 +15,12 @@
         }
       ],
       "extractRelative": {
-        "aop_scenario_id": {
+        "aop1_scenario_id": {
           "whereKey": "classification_id",
           "equals": 11,
           "extractKey": "scenario_id"
         },
-        "aop_scenario_version": {
+        "aop1_scenario_version": {
           "whereKey": "classification_id",
           "equals": 11,
           "extractKey": "scenario_version"
@@ -213,8 +213,8 @@
         "is_duplicated": false,
         "is_create": true,
         "is_update": false,
-        "scenario_id": "{{aop_scenario_id}}",
-        "scenario_version_timestamp": "{{aop_scenario_version}}"
+        "scenario_id": "{{aop1_scenario_id}}",
+        "scenario_version_timestamp": "{{aop1_scenario_version}}"
       },
       "adjustment_edits": 35,
       "allocation_request": {
@@ -322,7 +322,7 @@
         "filters": [],
         "period_view": "month",
         "preview": false,
-        "scenario_id": "{{aop_scenario_id}}"
+        "scenario_id": "{{aop1_scenario_id}}"
       }
     }
 ,    

@@ -4,9 +4,7 @@
     "Content-Type": "application/json",
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
-
   },
-  
   "tagsToRun": [],
   "testFiles": [
     "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
@@ -19,7 +17,6 @@
     "testCases/data-science-review-testcases/publish_aop_to_current_demand_slot.json",
     "testCases/data-science-review-testcases/publish_data_science_to_current_demand_slot.json",
     "testCases/calculate-saveajustment-api-tests.json",
-    "testCases/create-forecast.api.json",
     "testCases/create-view-api-tests.json",
     "testCases/excel-load-data-api-tests.json",
     "testCases/excel-load-data-api-snapshots-tests.json",
@@ -37,18 +34,24 @@
     "testCases/ssdm-node-edge-get-drivers-api-tests.json",
     "testCases/ssdm-node-edge-publish-api-tests.json",
     "testCases/NodesCases/nodeshRefresh-api-tests.json",
-    "testCases/NodesCases/get-kpi-Month-GroupBy-Filter-tests.json",
-    "testCases/NodesCases/drivers-api-tests.json",
-     "testCases/NodesCases/actual-missing-nodes-api-tests.json"
-
+    "testCases/get-kpi-Month-GroupBy-Filter-tests.json",
+    "testCases/drivers-api-tests.json",
+    "testCases/actual-missing-nodes-api-tests.json",
+    "testCases/projection-method-testcases/historicRate-constantValueAllocation.json",
+    "testCases/projection-method-testcases/historicRate-MaintainRatioAllocation.json",
+    "testCases/projection-method-testcases/historicRate-EqualDistributionAllocation.json",
+    "testCases/projection-method-testcases/historicRate-TimeRollingAllocation.json",
+    "testCases/projection-method-testcases/regression-MaintainRatioAllocation.json",
+    "testCases/projection-method-testcases/regression-constantValueAllocation.json",
+    "testCases/projection-method-testcases/regression-EqualDistributionAllocation.json",
+    "testCases/projection-method-testcases/regression-TimeRollingAllocation.json",
+    "testCases/excel-load-data-api-time-granularity.json"
   ],
-
   "currentDemandService": {
     "baseURL": {
       "qa": "https://scenario.qa.ibg.walmart.com",
       "dev": "https://scenario.dev.ibg.walmart.com"
     },
-
     "get-demand-scenario-forecast-by-slot": "/api/demandscenarios/currentDemand/"
   },
   "coreService": {
@@ -96,11 +99,10 @@
     },
     "scenarios": "/scenarios"
   },
-  "dataForgeService":{
-    "baseURL":{
+  "dataForgeService": {
+    "baseURL": {
       "qa": "https://ibg-ufm-dataforge-service.qa.ibg.walmart.com"
-
     },
-    "actualMissingNode":"/v1/actual_missing/nodes"
+    "actualMissingNode": "/v1/actual_missing/nodes"
   }
 }

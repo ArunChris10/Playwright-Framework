@@ -1,9 +1,15 @@
   {
-    "validate_aop_adjustment_workflow": [
+    "validate_aop3_adjustment_workflow": [
       {
         "testStep": "Get AOP Scenario Details from DataScience Info",
         "environment": "qa",
-        "labels": ["smoke", "Pre-Req", "IBGROW-35040", "IBGROW-34988", "MS1"],
+        "labels": [
+          "smoke",
+          "Pre-Req",
+          "IBGROW-35040",
+          "IBGROW-34988",
+          "MS1"
+        ],
         "service": "coreService",
         "uri": "getDataScienceInfo",
         "testName": "get aop Scenario details from dataScience info",
@@ -15,12 +21,12 @@
           }
         ],
         "extractRelative": {
-          "aop_scenario_id": {
+          "aop3_scenario_id": {
             "whereKey": "classification_id",
             "equals": 11,
             "extractKey": "scenario_id"
           },
-          "aop_scenario_version": {
+          "aop3_scenario_version": {
             "whereKey": "classification_id",
             "equals": 11,
             "extractKey": "scenario_version"
@@ -30,7 +36,12 @@
       {
         "testStep": "Allocate Data for AOP NonDemand - Preview",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-35040", "IBGROW-34988", "MS1"],
+        "labels": [
+          "smoke",
+          "IBGROW-35040",
+          "IBGROW-34988",
+          "MS1"
+        ],
         "service": "coreService",
         "uri": "allocateData",
         "testName": "Send request for allocate-data - AOP- NonDemand",
@@ -38,7 +49,7 @@
         "method": "POST",
         "payload": {
           "display_nodes": [],
-          "scenario_id": "{{aop_scenario_id}}",
+          "scenario_id": "{{aop3_scenario_id}}",
           "dim_val_id": 130001,
           "dim_id": 13,
           "preview": true,
@@ -65,9 +76,10 @@
             "status": 200
           },
           {
-            "assertEquals": {
-              "jsonPath1": "edits.{{dynamicMonth+1}}.forecast",
-              "value1": 25000000.119999998
+            "assertApproxEquals": {
+              "jsonPath": "edits.{{dynamicMonth+1}}.forecast",
+              "expected": 25000000.12,
+              "acceptedDifference": 0.1000
             }
           }
         ]
@@ -75,7 +87,12 @@
       {
         "testStep": "Save Adjustment for AOP NonDemand",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-35040", "IBGROW-34988", "MS1"],
+        "labels": [
+          "smoke",
+          "IBGROW-35040",
+          "IBGROW-34988",
+          "MS1"
+        ],
         "service": "coreService",
         "uri": "saveAdjustment",
         "testName": "Send request for save-adjustment- AOP- NonDemand",
@@ -90,12 +107,12 @@
             "is_update": false,
             "is_create": true,
             "adjustment_edits": 1,
-            "scenario_id": "{{aop_scenario_id}}",
-            "scenario_version_timestamp": "{{aop_scenario_version}}"
+            "scenario_id": "{{aop3_scenario_id}}",
+            "scenario_version_timestamp": "{{aop3_scenario_version}}"
           },
           "allocation_request": {
             "display_nodes": [],
-            "scenario_id": "{{aop_scenario_id}}",
+            "scenario_id": "{{aop3_scenario_id}}",
             "dim_val_id": 130001,
             "dim_id": 13,
             "preview": false,
@@ -139,37 +156,52 @@
           }
         ],
         "extract": {
-          "adjustment_id": "adjustment_metadata.adjustment_id"
+          "aop_nondemand_adjustment_id": "adjustment_metadata.adjustment_id"
         }
       },
       {
         "testStep": "Validate AOP Adjustment via getKpi",
         "environment": "qa",
-        "labels": ["smoke", "IBGROW-35040", "IBGROW-34988", "MS1"],
+        "labels": [
+          "smoke",
+          "IBGROW-35040",
+          "IBGROW-34988",
+          "MS1"
+        ],
         "service": "coreService",
         "uri": "getKpi",
         "testName": "Validate saved data for aop- GetKpi",
         "queryParams": "",
         "method": "POST",
         "payload": {
-          "scenario_id": "{{aop_scenario_id}}",
-          "scenario_version": "{{aop_scenario_version}}",
+          "scenario_id": "{{aop3_scenario_id}}",
+          "scenario_version": "{{aop3_scenario_version}}",
           "dim_id": 13,
           "dim_val_id": 130001,
           "classification_id": 11,
           "template_id": 3,
           "filters": [],
           "additional_filters": {
-            "pivot_cols": ["month"],
-            "pivot_index": ["node_id"],
-            "period_view": ["month"],
-            "nodes": ["moecommshippingexpense"],
+            "pivot_cols": [
+              "month"
+            ],
+            "pivot_index": [
+              "node_id"
+            ],
+            "period_view": [
+              "month"
+            ],
+            "nodes": [
+              "moecommshippingexpense"
+            ],
             "template_include_headers": [
               {
                 "name": "Driver"
               }
             ],
-            "month": ["{{dynamicMonth+1}}"]
+            "month": [
+              "{{dynamicMonth+1}}"
+            ]
           },
           "isApplied": false
         },
@@ -178,13 +210,13 @@
             "status": 200
           },
           {
-            "assertEquals": {
-              "jsonPath1": "rowData.{{dynamicMonth+1}}.forecast",
-              "value1": 25000000.12
+            "assertApproxEquals": {
+              "jsonPath": "edits.{{dynamicMonth+1}}.forecast",
+              "expected": 25000000.12,
+              "acceptedDifference": 0.1000
             }
           }
         ]
       }
     ]
   }
-

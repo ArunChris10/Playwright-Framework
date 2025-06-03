@@ -5,13 +5,13 @@
       "environment": "qa",
       "labels": ["smoke", "IBGROW-38455","MS3"],
       "service": "coreService",
-      "uri": "forecastCalender",
+      "uri": "getForecastCalendar",
       "testName": "create forecast calender",
       "queryParams": "",
       "method": "POST",
       "payload": {
         "classification_id": 1,
-        "fiscal_year": "{{DynamicYear}}",
+        "fiscal_year": "{{dynamicYear}}",
         "published_flag": true,
         "dim_id": 13,
         "dim_val_id": 1
