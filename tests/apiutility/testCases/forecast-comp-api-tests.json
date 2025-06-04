@@ -2253,6 +2253,159 @@
                     }
                 }
             ]
-        }
+        },
+        {
+            "testStep": "Verify that the Last To Last Year(%diff) sign in api response",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "forecast_comp",
+                "IBGROW-39026"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "Verify that the Last To Last Year(%diff) sign in api response is in forecast comparision",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
+                "dim_id": 11,
+                "dim_val_id": 110009,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [
+                    {
+                        "dim_id": 24,
+                        "dim_val_ids": [
+                            240002
+                        ],
+                        "children": []
+                    }
+                ],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "membershipincome_input"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Last To Last Year",
+                            "format": "absolute"
+                        },
+                        {
+                            "name": "Last To Last Year",
+                            "format": "percent"
+                        },
+                        {
+                            "name": "{{dynamicMonth-4}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-2}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+2}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+4}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+5}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+6}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+7}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": false
+                        },
+                        {
+                            "name": "Value",
+                            "editable": false
+                        }
+                    ],
+                    "month": [
+                        "{{dynamicMonth-4}}",
+                        "{{dynamicMonth-3}}",
+                        "{{dynamicMonth-2}}",
+                        "{{dynamicMonth-1}}",
+                        "{{dynamicMonth}}",
+                        "{{dynamicMonth+1}}",
+                        "{{dynamicMonth+2}}",
+                        "{{dynamicMonth+3}}",
+                        "{{dynamicMonth+4}}",
+                        "{{dynamicMonth+5}}",
+                        "{{dynamicMonth+6}}",
+                        "{{dynamicMonth+7}}"
+                    ]
+                },
+                "isApplied": true
+            },
+            "extract": {
+                "forecastValue": "rowData.202604.forecast",
+                "lastToLastYearAbsoluteValue": "rowData.202604.lastToLastYearAbsolute",
+                "lastToLastYearPercentValue": "rowData.202604.lastToLastYearPercent"
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertResponseByCalculationForSign": {
+                        "value1": "{{forecastValue}}",
+                        "value2": "{{lastToLastYearAbsoluteValue}}",
+                        "sign": "%",
+                        "expected": "{{lastToLastYearPercentValue}}",
+                        "acceptedDifference": 0.1000
+                    }
+                }
+            ]
+        },
     ]
 }
