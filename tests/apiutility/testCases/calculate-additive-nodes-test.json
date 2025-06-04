@@ -1,7 +1,7 @@
 {
   "verify calculate and save for additive nodes in a SBA": [
     {
-      "testStep": "Get a forecast to calculate at lower grain",
+      "testStep": "Get a forecast to calculate for additive nodes",
       "environment": "qa",
       "labels": ["smoke", "additive_calculate", "additive_calculate_save"],
       "service": "coreService",
