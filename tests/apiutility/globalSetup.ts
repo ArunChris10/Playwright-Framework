@@ -24,7 +24,7 @@ export default async function globalSetup() {
   globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
   const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
 
-  globalStore.setValue('randomNumber', generateRandomNumber(3));
+  globalStore.setValue('randomNumber', generateRandomNumber(4));
   globalStore.setValue('randomDateOffset', generateRandomNumber(1));
   const randomDateOffset = globalStore.getValue('randomDateOffset');
   globalStore.setValue('deadlineDate', getRandomFutureDateTimeWithOffset(randomDateOffset, 0));
