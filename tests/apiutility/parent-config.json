@@ -33,8 +33,12 @@
     "testCases/ssdm-node-edge-get-drivers-api-tests.json",
     "testCases/ssdm-node-edge-publish-api-tests.json",
     "testCases/NodesCases/nodeshRefresh-api-tests.json",
+    "testCases/projection-method-testcases/historicRate-constantValueAllocation.json",
     "testCases/excel-load-data-api-time-granularity.json",
     "testCases/download-Validation-NEFile.tests.json",
+    "testCases/NodesCases/get-kpi-Month-GroupBy-Filter-tests.json",
+    "testCases/NodesCases/drivers-api-tests.json",
+    "testCases/NodesCases/actual-missing-nodes-api-tests.json",
     "testCases/get-kpi-Month-GroupBy-Filter-tests.json",
     "testCases/drivers-api-tests.json",
     "testCases/actual-missing-nodes-api-tests.json",
@@ -44,8 +48,12 @@
     "testCases/projection-method-testcases/historicRate-TimeRollingAllocation.json",
     "testCases/projection-method-testcases/regression-MaintainRatioAllocation.json",
     "testCases/projection-method-testcases/regression-constantValueAllocation.json",
+    "testCases/excel-load-data-api-time-granularity.json",
+    "testCases/ssdm-get-kpi-verify.json",
     "testCases/projection-method-testcases/regression-EqualDistributionAllocation.json",
-    "testCases/projection-method-testcases/regression-TimeRollingAllocation.json"
+    "testCases/projection-method-testcases/regression-TimeRollingAllocation.json",
+    "testCases/excel-load-data-api-time-granularity.json",
+    "testCases/data-science-demand-metric-ssdm-edit.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -74,8 +82,9 @@
     "Forecast": "/scenario",
     "getKpiV2": "/reports/get-mykpi/v2",
     "getTimestamp": "/sandbox/v1/get-datasets-timestamp",
-    "getPublishedVersions": "/sandbox/v1/get-published-versions",
-    "getDrivers": "/metadata/drivers"
+    "getDrivers": "/metadata/drivers",
+    "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
+    "getPublishedVersions": "/sandbox/v1/get-published-versions"
   },
   "notificationService": {
     "baseURL": {
@@ -102,6 +111,7 @@
     "baseURL": {
       "qa": "https://ibg-ufm-dataforge-service.qa.ibg.walmart.com"
     },
-    "actualMissingNode": "/v1/actual_missing/nodes"
+    "actualMissingNode": "/v1/actual_missing/nodes",
+    "actualMissingNodeIncorrect": "/v1/actual_missing/nodes/incorrect"
   }
 }

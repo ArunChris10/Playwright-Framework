@@ -91,7 +91,8 @@ export type AssertionEntry =
   | { assertNull: { [key: string]: string } }
   | { assertNotNull: { [key: string]: string } }
   | { assertResponse: { filePath: string, value: any } }
-  | { assertValuesAreEqual: (string | number)[] };
+  | { assertValuesAreEqual: (string | number)[] }
+  | { assertLength: (string | number)[] };
 
 export interface ParentConfig {
   headers: { [key: string]: string };
