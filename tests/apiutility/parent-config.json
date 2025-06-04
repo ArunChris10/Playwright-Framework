@@ -75,7 +75,10 @@
     "getKpiV2": "/reports/get-mykpi/v2",
     "getTimestamp": "/sandbox/v1/get-datasets-timestamp",
     "getPublishedVersions": "/sandbox/v1/get-published-versions",
-    "getDrivers": "/metadata/drivers"
+    "getDrivers": "/metadata/drivers",
+    "publish-data-science-aop":"/data-science/aop/upload",
+    "publish-data-science":"/data-science/upload",
+    "get-data-science-info":"/scenario/data-science/info"
   },
   "notificationService": {
     "baseURL": {
