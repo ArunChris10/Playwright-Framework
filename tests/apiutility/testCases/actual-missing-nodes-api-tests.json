@@ -39,5 +39,30 @@
                     }
                 ]
             }
-        ]
+        ],
+    "validate_incorrect_nodes_api": [
+        {
+            "testStep": "Call actual missing nodes api with incorrect node name",
+            "environment": "qa",
+            "labels": [
+                "@Smoke",
+                "nodesApiIncorrect",
+                "@Regression"
+            ],
+            "service": "dataForgeService",
+            "uri": "actualMissingNodeIncorrect",
+            "testName": "validate incorrect nodes api",
+            "queryParams": "",
+            "method": "GET",
+
+            "assertion": [
+                    {
+                        "status": 400
+                    },
+                    {
+                        "body.message": "Invalid node name provided"
+                    }
+                ]
+        }
+    ]
     }
