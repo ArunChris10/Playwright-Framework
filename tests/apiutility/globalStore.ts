@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const STORE_FILE = path.resolve(process.cwd(), '.globalStore.json');
+const STORE_FILE = path.resolve(__dirname, '.globalStore.json');
 
 function loadStore(): Record<string, any> {
   try {
