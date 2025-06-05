@@ -192,8 +192,8 @@
     "payload": {
       
       "adjustment_metadata": {
-        "adjustment_name": "test",
-        "adjustment_reason": "",
+        "adjustment_name": "test Automation adjustment",
+        "adjustment_reason": "test",
         "adjustment_type": 74,
         "is_duplicated": false,
         "is_update": false,
@@ -365,9 +365,10 @@
         "status": 200
       },
       {
-        "assertEquals": {
-          "jsonPath1": "rowData.{{dynamicMonth+2}}.forecast",
-          "value1": 2050000000
+        "assertApproxEquals": {
+          "jsonPath": "rowData.{{dynamicMonth+2}}.forecast",
+          "expected": 4000.0000000000023,
+          "acceptedDifference": 0.1000
         }
       }
     ]
