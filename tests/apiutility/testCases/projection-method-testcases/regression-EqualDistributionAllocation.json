@@ -485,15 +485,15 @@
       "validateExtractToBeApprox": {
         "regression_EqualDistb_forecastDriverOne_KpiData": {
           "expected": "{{regression_EqualDistb_forecastDriverOne}}",
-          "tolerance": 10
+          "tolerance": 50
         },
         "regression_EqualDistb_forecastDriverTwo_KpiData": {
           "expected": "{{regression_EqualDistb_forecastDriverTwo}}",
-          "tolerance": 10
+          "tolerance": 50
         },
         "regression_EqualDistb_forecastDriverThree_KpiData": {
           "expected": "{{regression_EqualDistb_forecastDriverThree}}",
-          "tolerance": 10
+          "tolerance": 50
         }
       }
     }

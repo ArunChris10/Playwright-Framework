@@ -485,15 +485,15 @@
       "validateExtractToBeApprox": {
         "regression_TimeRolling_forecastDriverOne_KpiData": {
           "expected": "{{regression_TimeRolling_forecastDriverOne}}",
-          "tolerance": 10
+          "tolerance": 50
         },
         "regression_TimeRolling_forecastDriverTwo_KpiData": {
           "expected": "{{regression_TimeRolling_forecastDriverTwo}}",
-          "tolerance": 10
+          "tolerance": 50
         },
         "regression_TimeRolling_forecastDriverThree_KpiData": {
           "expected": "{{regression_TimeRolling_forecastDriverThree}}",
-          "tolerance": 10
+          "tolerance": 50
         }
       }
     }

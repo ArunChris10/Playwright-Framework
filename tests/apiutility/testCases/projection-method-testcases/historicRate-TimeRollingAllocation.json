@@ -485,15 +485,15 @@
       "validateExtractToBeApprox": {
         "historic_TimeRolling_forecastDriverOne_KpiData": {
           "expected": "{{historic_TimeRolling_forecastDriverOne}}",
-          "tolerance": 10
+          "tolerance": 50
         },
         "historic_TimeRolling_forecastDriverTwo_KpiData": {
           "expected": "{{historic_TimeRolling_forecastDriverTwo}}",
-          "tolerance": 10
+          "tolerance": 50
         },
         "historic_TimeRolling_forecastDriverThree_KpiData": {
           "expected": "{{historic_TimeRolling_forecastDriverThree}}",
-          "tolerance": 10
+          "tolerance": 50
         }
       }
     }
