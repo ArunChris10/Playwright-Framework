@@ -126,7 +126,7 @@ export class OpenCurrentForecast {
     this.selectProjectionMethodButton = this.page.locator("//*[@data-testid='AutoCompleteWithInputIcon-id']")
     this.historicalRateInput = this.page.locator("//*[@value='HISTORICAL']")
     this.growthRateInput = this.page.locator("//*[text()='Growth Rate']")
-    this.selectProjectionMethodButton = this.page.locator("//*[text()='Regression']")
+    this.selectRegressionMethod = this.page.locator("//*[text()='Regression']")
     this.noOfYearsInput = this.page.locator("//*[data-testid='projectionmethod-regression-noofyears-id']")
     this.rollingPercentageInput = this.page.locator("//*[@data-testid='input-field']")
     this.rollingPercentageOffsetInput = this.page.locator("//*[@data-testid='offset-field']")

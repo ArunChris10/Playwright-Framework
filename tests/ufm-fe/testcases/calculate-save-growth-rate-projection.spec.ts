@@ -27,13 +27,13 @@ data.driver.allocationMethod.forEach((method: string) => {
     let scenarioId
     let scenario_details
 
-    test.beforeEach(async ({ page }) => {
+    /* test.beforeEach(async ({ page }) => {
         test.setTimeout(TIMEOUT);
         await signinUtility.SignIn(page); // Centralized sign-in before each test
         objpageFactory = new PageFactory(page);
-    });
+    }); */
 
-    /* test.beforeAll(async ({ pageFactory, request }) => {
+    test.beforeAll(async ({ pageFactory, request }) => {
       objpageFactory = pageFactory;
       scenarioId = await ForecastUtility.createForecast(data.LOB, request);
 
@@ -57,7 +57,7 @@ data.driver.allocationMethod.forEach((method: string) => {
         await UfmUtility.getMapping(data.LOB, "dim_val_id"),
         request
       );
-    }) */
+    }) 
 
 
     test(`Verify growth rate projection is working correctly on calculate when Constant value is applied with allocation method: ${method}`, { tag: "@calculateInputNode" }, async () => {
