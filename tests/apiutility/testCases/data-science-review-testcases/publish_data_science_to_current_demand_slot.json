@@ -44,7 +44,7 @@
     "service": "coreService",
     "queryParams": "",
     "payload": {
-      "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/reports/get-mykpi/v2",
+     
       "additional_filters": {
         "pivot_cols": ["month"],
         "pivot_index": ["node_id"],
@@ -57,7 +57,7 @@
           "unitsgrossuomng",
           "unitsuomlessreturns"
         ]
-      },
+      ,
       "template_include_headers": [
         { "name": "Driver" },
         { "name": "{{dynamicMonth-40}}", "columnsMenuParams": "middleColumns" },
@@ -68,7 +68,7 @@
         { "name": "Allocation Method", "columnsMenuParams": "action" },
         { "name": "Forecast", "editable": true },
         { "name": "Value", "editable": true }
-      ],
+      ]},
       "classification_id": 12,
       "dim_id": 13,
       "dim_val_id": 130001,
