@@ -2,21 +2,17 @@ import { testData } from '../testdata/inputNodeValues.json';
 import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
 import { HistoricalRatesTestData } from '../testdata/inputNodeValues.json';
-import { signinUtility } from '../../ssdm-fe/fixtures/signinUtility'; // Import signinUtility
 import { ForecastUtility } from '../../ufm-be/fixtures/forecast-utils';
 import { UfmUtility } from '../../ufm-be/fixtures/ufm-utils';
 import commonData from "../../ufm-be/constants/common.json";
 
 
 test.describe.configure({ mode: 'parallel', timeout: 300_000 });
-const TIMEOUT = 300_000; // Define a timeout value
 
 
 let data = HistoricalRatesTestData[0];
 let growthRatePercentInput = data.driver.growthRatePercentYear;
 data.driver.allocationMethod.forEach((method: string) => {
-
-
 
   test.describe('Verify growth rate projection', { tag: "@Smoke @CalculateAndSaveGrowthRateProjection" }, async () => {
 
@@ -26,12 +22,6 @@ data.driver.allocationMethod.forEach((method: string) => {
     let adjustmentName: string;
     let scenarioId
     let scenario_details
-
-    /* test.beforeEach(async ({ page }) => {
-        test.setTimeout(TIMEOUT);
-        await signinUtility.SignIn(page); // Centralized sign-in before each test
-        objpageFactory = new PageFactory(page);
-    }); */
 
     test.beforeAll(async ({ pageFactory, request }) => {
       objpageFactory = pageFactory;
@@ -60,7 +50,7 @@ data.driver.allocationMethod.forEach((method: string) => {
     }) 
 
 
-    test(`Verify growth rate projection is working correctly on calculate when Constant value is applied with allocation method: ${method}`, { tag: "@calculateInputNode" }, async () => {
+    test(`Verify growth rate projection is working correctly on calculate with allocation method: ${method}`, { tag: "@calculateInputNode" }, async () => {
       test.setTimeout(300000);
 
       await test.step('Go To UFM Page', async () => {
