@@ -211,7 +211,7 @@
           },
           {
             "assertApproxEquals": {
-              "jsonPath": "edits.{{dynamicMonth+1}}.forecast",
+              "jsonPath": "rowData.{{dynamicMonth+1}}.forecast",
               "expected": 25000000.12,
               "acceptedDifference": 0.1000
             }
