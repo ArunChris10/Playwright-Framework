@@ -495,147 +495,6 @@ test.describe(
     );
 
     test(
-      `Check if user able to create a view with very long name for scenario from lob: ${lob}`,
-      { tag: "@createView" },
-      async () => {
-        viewName = testData.longName;
-
-        await test.step("Go To UFM Page", async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .organisationSelection()
-            .navigate();
-        });
-
-        await test.step(`Click on Open ${testData.orgName} Frecast`, async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .currentForecast()
-            .clickOpenForecastByName(scenario_details["name"]);
-        });
-
-        await test.step("Click on Create new view", async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .openCurrentForecast()
-            .clickOnCreateNewView();
-        });
-
-        await test.step("Validate driver modal opens upon clicking create new view", async () => {
-          expect(
-            await objpageFactory
-              .ufmPageFactory()
-              .addDriverPage()
-              .waitForPageLoad()
-          ).toBeTruthy();
-        });
-
-        await test.step("Search and add drivers", async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .addDriverPage()
-            .searchAndApplyDrivers(testData.driver.inputDriver);
-        });
-
-        await test.step("Click on apply drivers", async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .addDriverPage()
-            .clickOnApplyDrivers();
-        });
-
-        await test.step("Validate the header of saved views dropDown", async () => {
-          let savedViewsHeader = await objpageFactory
-            .ufmPageFactory()
-            .openCurrentForecast()
-            .getSavedViewsDropdownHeader();
-
-          expect(savedViewsHeader).toEqual("Untitled View");
-        });
-
-        await test.step("Click on Save View", async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .openCurrentForecast()
-            .clickOnSaveView();
-        });
-
-        await test.step("Input a name in save view text field", async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .openCurrentForecast()
-            .inputSaveViews(viewName);
-        });
-
-        await test.step("Click on Save", async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .openCurrentForecast()
-            .clickOnSave();
-        });
-
-        await test.step("Wait for View Saved Successfull snackbar", async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .openCurrentForecast()
-            .waitForSaveViewSuccessMessage();
-        });
-
-        await test.step("Validate the header of saved views dropDown", async () => {
-          let savedViewsHeader = await objpageFactory
-            .ufmPageFactory()
-            .openCurrentForecast()
-            .getSavedViewsDropdownHeader();
-
-          expect(savedViewsHeader).toEqual(viewName);
-        });
-      }
-    );
-
-    test(
-      `Check if user able to delete a view for scenario from lob: ${lob}`,
-      { tag: "@deleteView" },
-      async () => {
-        await test.step("Click on Saved views Dropdown", async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .openCurrentForecast()
-            .clickOnSavedViewsDropdown();
-        });
-
-        await test.step("Hover on the view name and click delete", async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .openCurrentForecast()
-            .deleteView(viewName);
-        });
-
-        await test.step("Click on delete in confirmation modal", async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .openCurrentForecast()
-            .clickOnDeleteButton();
-        });
-
-        await test.step("Wait for delete success confirmation message", async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .openCurrentForecast()
-            .waitForDeleteViewSuccessMessage();
-        });
-
-        await test.step("Validate user is taken back to KPI launch page and view is deleted", async () => {
-          expect(
-            await objpageFactory
-              .ufmPageFactory()
-              .openCurrentForecast()
-              .getViewTilePresence(viewName)
-          ).toBeFalsy();
-        });
-      }
-    );
-
-    test(
       `Retrieve if user views exist, create one if not, and validate name and icon`,
       { tag: "@getUserViews" },
       async () => {
@@ -745,6 +604,50 @@ test.describe(
         });
       }
     );
+
+    test(
+      `Check if user able to delete a view for scenario from lob: ${lob}`,
+      { tag: "@deleteView" },
+      async () => {
+        await test.step("Click on Saved views Dropdown", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnSavedViewsDropdown();
+        });
+
+        await test.step("Hover on the view name and click delete", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .deleteView(viewName);
+        });
+
+        await test.step("Click on delete in confirmation modal", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnDeleteButton();
+        });
+
+        await test.step("Wait for delete success confirmation message", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .waitForDeleteViewSuccessMessage();
+        });
+
+        await test.step("Validate user is taken back to KPI launch page and view is deleted", async () => {
+          expect(
+            await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .getViewTilePresence(viewName)
+          ).toBeFalsy();
+        });
+      }
+    );
+
     test(
       `Edit views with special characters`,
       { tag: "@editViews" },
@@ -816,6 +719,28 @@ test.describe(
             .addDriverPage()
             .clickOnApplyDrivers();
         });
+        await test.step("Validate driver modal opens upon clicking create new view", async () => {
+          expect(
+            await objpageFactory
+              .ufmPageFactory()
+              .addDriverPage()
+              .waitForPageLoad()
+          ).toBeTruthy();
+        });
+
+        await test.step("Search and add drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .searchAndApplyDrivers(testData.driver.inputDrivers);
+        });
+
+        await test.step("Click on apply drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .clickOnApplyDrivers();
+        });
 
         await test.step("Click on Save View", async () => {
           await objpageFactory
@@ -852,6 +777,513 @@ test.describe(
             .getSavedViewsDropdownHeader();
 
           expect(savedViewsHeader).toEqual(randomName);
+        });
+      }
+    );
+    test(
+      `Edit views and verify the edits`,
+      { tag: "@editViews @verify" },
+      async () => {
+        const randomName = `View_${Math.random()
+          .toString(36)
+          .substring(2, 10)}`;
+        await test.step("Go To UFM Page", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .organisationSelection()
+            .navigate();
+        });
+
+        await test.step(`Click on ${testData.orgName} Organization`, async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .organisationSelection()
+            .selectOrganisation(testData.orgName);
+        });
+
+        await test.step(`Click on Open ${testData.orgName} Forecast`, async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .currentForecast()
+            .clickOpenForecastByName(scenario_details["name"]);
+        });
+
+        await test.step("Select a view tile", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .selectViewTile();
+        });
+
+        await test.step("Validate KPI landing page is loaded", async () => {
+          expect(
+            await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .waitForPageLoad()
+          ).toBeTruthy();
+        });
+
+        await objpageFactory
+          .ufmPageFactory()
+          .openCurrentForecast()
+          .clickOnDriver();
+
+        await test.step("Validate driver modal opens upon clicking create new view", async () => {
+          expect(
+            await objpageFactory
+              .ufmPageFactory()
+              .addDriverPage()
+              .waitForPageLoad()
+          ).toBeTruthy();
+        });
+
+        await test.step("Search and add drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .searchAndApplyDrivers(testData.driver.inputDrivers);
+        });
+
+        await test.step("Click on apply drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .clickOnApplyDrivers();
+        });
+
+        await test.step("Click on Save View", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnSaveView();
+        });
+
+        await test.step("Input a name in save view text field", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .inputSaveViews(randomName);
+        });
+
+        await test.step("Click on Save", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnSave();
+        });
+
+        await test.step("Wait for View Saved Successful snackbar", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .waitForSaveViewSuccessMessage();
+        });
+
+        await test.step("Validate drivers are present in ag-grid", async () => {
+          const driversInGrid = await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .getDriversFromGrid();
+          expect(driversInGrid).toBe(testData.driver.expectedDriverCount);
+        });
+
+        await test.step("Validate the header of saved views dropDown", async () => {
+          let savedViewsHeader = await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .getSavedViewsDropdownHeader();
+          expect(savedViewsHeader).toEqual(randomName);
+        });
+      }
+    );
+
+    test(
+      `Check if user able to create a view with duplicate name for scenario from lob: ${lob}`,
+      { tag: "@createView @duplicateViewName" },
+      async () => {
+        viewName = testData.viewName;
+
+        await test.step("Go To UFM Page", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .organisationSelection()
+            .navigate();
+        });
+
+        await test.step(`Click on ${testData.orgName} Organization`, async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .organisationSelection()
+            .selectOrganisation(testData.orgName);
+        });
+
+        await test.step(`Click on Open ${testData.orgName} Forecast`, async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .currentForecast()
+            .clickOpenForecastByName(scenario_details["name"]);
+        });
+
+        await test.step("Click on Create new view", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnCreateNewView();
+        });
+
+        await test.step("Validate driver modal opens upon clicking create new view", async () => {
+          expect(
+            await objpageFactory
+              .ufmPageFactory()
+              .addDriverPage()
+              .waitForPageLoad()
+          ).toBeTruthy();
+        });
+
+        await test.step("Search and add drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .searchAndApplyDrivers(testData.driver.inputDriver);
+        });
+
+        await test.step("Click on apply drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .clickOnApplyDrivers();
+        });
+
+        await test.step("Validate the header of saved views dropDown", async () => {
+          let savedViewsHeader = await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .getSavedViewsDropdownHeader();
+
+          expect(savedViewsHeader).toEqual("Untitled View");
+        });
+
+        await test.step("Click on Save View", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnSaveView();
+        });
+
+        await test.step("Input a name in save view text field", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .inputSaveViews(viewName);
+        });
+
+        await test.step("Click on Save", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnSave();
+        });
+
+        await test.step("Wait for View Saved Successfull snackbar", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .waitForSaveViewSuccessMessage();
+        });
+
+        await test.step("Validate the header of saved views dropDown", async () => {
+          let savedViewsHeader = await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .getSavedViewsDropdownHeader();
+
+          expect(savedViewsHeader).toEqual(viewName);
+        });
+
+        await test.step("Wait for View Saved Successfull snackbar", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnSavedViewsDropdown();
+        });
+
+        await test.step("Click on Create new view", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnCreateNewView();
+        });
+
+        await test.step("Validate driver modal opens upon clicking create new view", async () => {
+          expect(
+            await objpageFactory
+              .ufmPageFactory()
+              .addDriverPage()
+              .waitForPageLoad()
+          ).toBeTruthy();
+        });
+
+        await test.step("Search and add drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .searchAndApplyDrivers(testData.driver.inputDriver);
+        });
+
+        await test.step("Click on apply drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .clickOnApplyDrivers();
+        });
+
+        await test.step("Validate the header of saved views dropDown", async () => {
+          let savedViewsHeader = await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .getSavedViewsDropdownHeader();
+
+          expect(savedViewsHeader).toEqual("Untitled View");
+        });
+
+        await test.step("Click on Save View", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnSaveView();
+        });
+
+        await test.step("Input a name in save view text field", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .inputSaveViews(viewName);
+        });
+        await test.step("Check if duplicate view name message is visible", async () => {
+          const isDuplicateMessageVisible = await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .isDuplicateViewMessageVisible();
+          expect(isDuplicateMessageVisible).toBeTruthy();
+        });
+      }
+    );
+    test(
+      `Check if a view is edited successfully`,
+      { tag: "@editViews @success" },
+      async () => {
+        await test.step("Go To UFM Page", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .organisationSelection()
+            .navigate();
+        });
+
+        await test.step(`Click on ${testData.orgName} Organization`, async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .organisationSelection()
+            .selectOrganisation(testData.orgName);
+        });
+
+        await test.step(`Click on Open ${testData.orgName} Forecast`, async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .currentForecast()
+            .clickOpenForecastByName(scenario_details["name"]);
+        });
+
+        await test.step("Select a view tile", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .selectViewTile();
+        });
+
+        await test.step("Validate KPI landing page is loaded", async () => {
+          expect(
+            await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .waitForPageLoad()
+          ).toBeTruthy();
+        });
+
+        await objpageFactory
+          .ufmPageFactory()
+          .openCurrentForecast()
+          .clickOnDriver();
+
+        await test.step("Validate driver modal opens upon clicking Drivers chip", async () => {
+          expect(
+            await objpageFactory
+              .ufmPageFactory()
+              .addDriverPage()
+              .waitForPageLoad()
+          ).toBeTruthy();
+        });
+
+        await test.step("Search and add drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .searchAndApplyDrivers(testData.driver.inputDrivers);
+        });
+
+        await test.step("Click on apply drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .clickOnApplyDrivers();
+        });
+
+        await test.step("Click on Save View", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnSaveView();
+        });
+
+        await test.step("Click on Save", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnSave();
+        });
+
+        await test.step("Wait for View Saved Successful snackbar", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .waitForSaveViewSuccessMessage();
+        });
+      }
+    );
+
+    test(
+      `Check if user able to create a view with very long view name`,
+      { tag: "@createView @longViewName" },
+      async () => {
+        viewName = "View_" + "x".repeat(255);
+
+        await test.step("Go To UFM Page", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .organisationSelection()
+            .navigate();
+        });
+
+        await test.step(`Click on ${testData.orgName} Organization`, async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .organisationSelection()
+            .selectOrganisation(testData.orgName);
+        });
+
+        await test.step(`Click on Open ${testData.orgName} Forecast`, async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .currentForecast()
+            .clickOpenForecastByName(scenario_details["name"]);
+        });
+
+        await test.step("Click on Create new view", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnCreateNewView();
+        });
+
+        await test.step("Validate driver modal opens upon clicking create new view", async () => {
+          expect(
+            await objpageFactory
+              .ufmPageFactory()
+              .addDriverPage()
+              .waitForPageLoad()
+          ).toBeTruthy();
+        });
+
+        await test.step("Search and add drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .searchAndApplyDrivers(testData.driver.inputDriver);
+        });
+
+        await test.step("Click on apply drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .clickOnApplyDrivers();
+        });
+
+        await test.step("Validate the header of saved views dropDown", async () => {
+          let savedViewsHeader = await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .getSavedViewsDropdownHeader();
+
+          expect(savedViewsHeader).toEqual("Untitled View");
+        });
+        await test.step("Validate driver modal opens upon clicking create new view", async () => {
+          expect(
+            await objpageFactory
+              .ufmPageFactory()
+              .addDriverPage()
+              .waitForPageLoad()
+          ).toBeTruthy();
+        });
+
+        await test.step("Search and add drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .searchAndApplyDrivers(testData.driver.inputDrivers);
+        });
+
+        await test.step("Click on apply drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .clickOnApplyDrivers();
+        });
+
+        await test.step("Click on Save View", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnSaveView();
+        });
+
+        await test.step("Input a name in save view text field", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .inputSaveViews(viewName);
+        });
+
+        await test.step("Click on Save", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnSave();
+        });
+
+        await test.step("Wait for View Saved Successfull snackbar", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .waitForSaveViewSuccessMessage();
+        });
+
+        await test.step("Validate the header of saved views dropDown", async () => {
+          let savedViewsHeader = await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .getSavedViewsDropdownHeader();
+
+          expect(savedViewsHeader).toEqual(viewName);
         });
       }
     );
