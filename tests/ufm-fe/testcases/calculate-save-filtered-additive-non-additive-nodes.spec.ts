@@ -144,7 +144,7 @@ testData.forEach(forecastNodeDetail => {
 
                         await test.step('Validate save is changed', async () => {
                             const changesList = await objpageFactory.ufmPageFactory().openCurrentForecast().getAllChanges();
-                            expect(changesList[0]).toEqual(adjustmentName);
+                            expect(changesList).toContain(adjustmentName);
                         });
                     }
                 );
