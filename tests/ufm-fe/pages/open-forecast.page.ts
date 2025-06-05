@@ -59,6 +59,8 @@ export class OpenCurrentForecast {
   readonly doneButtonOnRollingPercentage: Locator
   readonly viewDriver: Locator
   readonly btnApplyChanges: Locator
+  readonly customGrowthRateInput: Locator
+  readonly growthRatePercentInput: Locator
 
   constructor(page: Page) {
     this.page = page;
@@ -131,6 +133,8 @@ export class OpenCurrentForecast {
     this.doneButtonOnRollingPercentage = this.page.getByText("Done")
     this.applyButton = this.page.getByText("Apply")
     this.viewDriver = this.page.locator('//div[contains(@class,"chip-alignment")]//child::button[contains(@class,"drivers")]');
+    this.customGrowthRateInput = this.page.locator("//*[@value='CUSTOM']")
+    this.growthRatePercentInput = this.page.locator("//input[@data-testid='projectionmethod-growthrate-percentage-id']")
   }
 
   async clickOnOpenButton() {
@@ -419,6 +423,14 @@ export class OpenCurrentForecast {
   {
     await this.growthRateInput.click();
     await this.historicalRateInput.click();
+    await this.applyButton.click();
+  }
+
+  async selectCustomGrowthRateProjection(growthRatePercentInputValue : string)
+  {
+    await this.growthRateInput.click();
+    await this.customGrowthRateInput.click();
+    await this.growthRatePercentInput.fill(growthRatePercentInputValue);
     await this.applyButton.click();
   }
 
