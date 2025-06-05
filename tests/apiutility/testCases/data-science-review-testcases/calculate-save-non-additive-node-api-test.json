@@ -51,10 +51,6 @@
             {
               "path": "rowData.forecastStatus.statusCode",
               "equals": 21
-            },
-            {
-              "path": "rowData.forecastStatus.statusCode",
-              "equals": 21
             }
           ],
           "extractKey": "scenarioId"

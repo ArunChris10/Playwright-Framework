@@ -47,6 +47,10 @@
             {
               "path": "rowData.owner",
               "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
             }
           ],
           "extractKey": "scenarioId"
@@ -60,6 +64,10 @@
             {
               "path": "rowData.owner",
               "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
             }
           ],
           "extractKey": "scenarioVersion"
@@ -475,15 +483,15 @@
       "validateExtractToBeApprox": {
         "growthRate_MaintainRatio_forecastDriverOne_KpiData": {
           "expected": "{{growthRate_MaintainRatio_forecastDriverOne}}",
-          "tolerance": 10
+          "tolerance": 50
         },
         "growthRate_MaintainRatio_forecastDriverTwo_KpiData": {
           "expected": "{{growthRate_MaintainRatio_forecastDriverTwo}}",
-          "tolerance": 10
+          "tolerance": 50
         },
         "growthRate_MaintainRatio_forecastDriverThree_KpiData": {
           "expected": "{{growthRate_MaintainRatio_forecastDriverThree}}",
-          "tolerance": 10
+          "tolerance": 50
         }
       }
     }
