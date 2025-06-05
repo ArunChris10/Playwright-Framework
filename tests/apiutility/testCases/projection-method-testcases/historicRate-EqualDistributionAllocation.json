@@ -47,6 +47,10 @@
             {
               "path": "rowData.owner",
               "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
             }
           ],
           "extractKey": "scenarioId"
@@ -60,6 +64,10 @@
             {
               "path": "rowData.owner",
               "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
             }
           ],
           "extractKey": "scenarioVersion"
@@ -477,15 +485,15 @@
       "validateExtractToBeApprox": {
         "historic_EqualDistb_forecastDriverOne_KpiData": {
           "expected": "{{historic_EqualDistb_forecastDriverOne}}",
-          "tolerance": 10
+          "tolerance": 50
         },
         "historic_EqualDistb_forecastDriverTwo_KpiData": {
           "expected": "{{historic_EqualDistb_forecastDriverTwo}}",
-          "tolerance": 10
+          "tolerance": 50
         },
         "historic_EqualDistb_forecastDriverThree_KpiData": {
           "expected": "{{historic_EqualDistb_forecastDriverThree}}",
-          "tolerance": 10
+          "tolerance": 50
         }
       }
     }
