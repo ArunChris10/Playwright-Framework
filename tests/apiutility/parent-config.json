@@ -80,7 +80,9 @@
     "getDrivers": "/metadata/drivers",
     "publish-data-science-aop": "/data-science/aop/upload",
     "publish-data-science": "/data-science/upload",
-    "get-data-science-info": "/scenario/data-science/info"
+    "get-data-science-info": "/scenario/data-science/info",
+    "download":"/validation/download"
+    
   },
   "notificationService": {
     "baseURL": {
