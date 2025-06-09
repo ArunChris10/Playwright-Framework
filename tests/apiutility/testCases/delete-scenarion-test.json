@@ -1,0 +1,133 @@
+{
+  "verify deleting a scenario": [
+    {
+      "testStep": "Get a forecast to delete before proceding for IO SBA",
+      "environment": "qa",
+      "labels": ["smoke", "MS3","delete_scenario"],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get a forecast to delete before proceeding to create a scenario in the  SBA",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120003,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "DeletescenarioId": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110016
+            },
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
+        "DeletescenarioVersion": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110016
+            },
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
+      }
+    },
+    {
+      "testStep": "Delete a forecast scenario for SBA before proceding",
+      "environment": "qa",
+      "labels": ["smoke","delete_scenario"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Delete a forecast before proceding",
+      "queryParams": "/{{DeletescenarioId}}/{{DeletescenarioVersion}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110016
+      }
+    },
+
+    {
+      "testStep": "Create Forecast Scenario",
+      "environment": "qa",
+      "labels": ["smoke", "delete_scenario"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "test_creation {{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110016
+      },
+      "extract": {
+        "scenarioID": "scenario.scenario_id",
+        "scenarioVersionTimestamp": "scenario.scenario_version_timestamp"
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "Scenario created successfully"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Deleting the Forecast Scenario",
+      "environment": "qa",
+      "labels": ["smoke", "delete_scenario"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate deleting the forecast scenario",
+      "queryParams": "/{{scenarioID}}/{{scenarioVersionTimestamp}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110016
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

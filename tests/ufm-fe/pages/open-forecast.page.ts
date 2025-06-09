@@ -59,6 +59,8 @@ export class OpenCurrentForecast {
   readonly doneButtonOnRollingPercentage: Locator
   readonly viewDriver: Locator
   readonly btnApplyChanges: Locator
+  readonly customGrowthRateInput: Locator
+  readonly growthRatePercentInput: Locator
 
   constructor(page: Page) {
     this.page = page;
@@ -124,13 +126,15 @@ export class OpenCurrentForecast {
     this.selectProjectionMethodButton = this.page.locator("//*[@data-testid='AutoCompleteWithInputIcon-id']")
     this.historicalRateInput = this.page.locator("//*[@value='HISTORICAL']")
     this.growthRateInput = this.page.locator("//*[text()='Growth Rate']")
-    this.selectProjectionMethodButton = this.page.locator("//*[text()='Regression']")
+    this.selectRegressionMethod = this.page.locator("//*[text()='Regression']")
     this.noOfYearsInput = this.page.locator("//*[data-testid='projectionmethod-regression-noofyears-id']")
     this.rollingPercentageInput = this.page.locator("//*[@data-testid='input-field']")
     this.rollingPercentageOffsetInput = this.page.locator("//*[@data-testid='offset-field']")
     this.doneButtonOnRollingPercentage = this.page.getByText("Done")
     this.applyButton = this.page.getByText("Apply")
     this.viewDriver = this.page.locator('//div[contains(@class,"chip-alignment")]//child::button[contains(@class,"drivers")]');
+    this.customGrowthRateInput = this.page.locator("//*[@value='CUSTOM']")
+    this.growthRatePercentInput = this.page.locator("//input[@data-testid='projectionmethod-growthrate-percentage-id']")
   }
 
   async clickOnOpenButton() {
@@ -422,6 +426,14 @@ export class OpenCurrentForecast {
     await this.applyButton.click();
   }
 
+  async selectCustomGrowthRateProjection(growthRatePercentInputValue : string)
+  {
+    await this.growthRateInput.click();
+    await this.customGrowthRateInput.click();
+    await this.growthRatePercentInput.fill(growthRatePercentInputValue);
+    await this.applyButton.click();
+  }
+
   async selectRegressionProjection(noOfyears : string)
   {
     await this.selectRegressionMethod.click();
@@ -639,8 +651,18 @@ async selectViewTile(): Promise<void> {
     return await this.duplicateViewMessage.isVisible()
   }
 async waitForPageLoad(): Promise<boolean> {
-  // Wait for the ag-grid header container to be visible
   await this.page.waitForSelector('.ag-header-container', { state: 'visible', timeout: 60000 });
   return true;
+}
+async getDriversFromGrid() {
+  const rowCount: number = await this.page.$$eval(
+    "div.ag-pinned-left-cols-container > div",
+    (divs) => divs.length
+  );
+  return rowCount;
+}
+async isDuplicateViewMessageVisible(): Promise<boolean> {
+  const duplicateMessage = await this.page.locator('text=This name is already in use. Please choose a different one.');
+  return await duplicateMessage.isVisible();
 }
 }
