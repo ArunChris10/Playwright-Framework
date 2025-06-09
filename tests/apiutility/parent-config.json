@@ -5,7 +5,7 @@
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
   },
-  "tagsToRun": ["validator"],
+  "tagsToRun": [],
   "testFiles": [
     "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save-demand-node.json",
