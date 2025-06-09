@@ -12,7 +12,9 @@
                 "Other Cost of Goods Sold",
                 "Inventory Variances Input",
                 "Warehouse Allowances"
-            ]
-        }
+            ],
+            "expectedDriverCount": 4
+        },
+        "viewName": "Test"
     }
 }

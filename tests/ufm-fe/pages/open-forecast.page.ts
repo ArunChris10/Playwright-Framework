@@ -651,8 +651,18 @@ async selectViewTile(): Promise<void> {
     return await this.duplicateViewMessage.isVisible()
   }
 async waitForPageLoad(): Promise<boolean> {
-  // Wait for the ag-grid header container to be visible
   await this.page.waitForSelector('.ag-header-container', { state: 'visible', timeout: 60000 });
   return true;
+}
+async getDriversFromGrid() {
+  const rowCount: number = await this.page.$$eval(
+    "div.ag-pinned-left-cols-container > div",
+    (divs) => divs.length
+  );
+  return rowCount;
+}
+async isDuplicateViewMessageVisible(): Promise<boolean> {
+  const duplicateMessage = await this.page.locator('text=This name is already in use. Please choose a different one.');
+  return await duplicateMessage.isVisible();
 }
 }
