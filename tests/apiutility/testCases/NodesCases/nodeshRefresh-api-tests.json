@@ -39,14 +39,22 @@
       "DemandToDeletescenarioId": {
         "conditions": [
           { "path": "rowData.lineOfBusiness", "equals": 110030 },
-          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
+          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
         ],
         "extractKey": "scenarioId"
       },
         "DemandToDeletescenarioVersion": {
         "conditions": [
           { "path": "rowData.lineOfBusiness", "equals": 110030 },
-          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
+          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
         ],
         "extractKey": "scenarioVersion"
       }
@@ -182,14 +190,22 @@
       "SegmentToDeletescenarioId": {
         "conditions": [
           { "path": "rowData.lineOfBusiness", "equals": 110021 },
-          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
+          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
         ],
         "extractKey": "scenarioId"
       },
         "SegmentToDeletescenarioVersion": {
         "conditions": [
           { "path": "rowData.lineOfBusiness", "equals": 110021 },
-          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
+          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
         ],
         "extractKey": "scenarioVersion"
       }
@@ -325,14 +341,22 @@
       "OpticalToDeletescenarioId": {
         "conditions": [
           { "path": "rowData.lineOfBusiness", "equals": 110016 },
-          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
+          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
         ],
         "extractKey": "scenarioId"
       },
         "OpticalToDeletescenarioVersion": {
         "conditions": [
           { "path": "rowData.lineOfBusiness", "equals": 110016 },
-          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
+          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
         ],
         "extractKey": "scenarioVersion"
       }
