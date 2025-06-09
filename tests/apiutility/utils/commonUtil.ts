@@ -5,7 +5,7 @@ import {AssertionEntry,ApiTestCase} from '../api.test';
 import { findAllValuesByKey} from '../utils/jsonUtils';
 import fs from 'fs';
 import path from 'path';
-import {validateDriversContainsData} from '../helperFunctions/helperFunctions'
+import {validateDriversContainsData,replaceNodeNames} from '../helperFunctions/helperFunctions'
 
 export function generateRandomNumber(length: number): number {
     if (length <= 0) {
@@ -419,10 +419,15 @@ export async function validateAssertions(response: any, responseBody: any, asser
     return `${year}-${month}-${day}T${hour}`; // Return the date-time in the desired format
   }
 
-export async function runFunctions(functionName:string,params:any[],payload?){
+export async function runFunctions(functionName:string,params:any,payload?){
   switch (functionName) {
     case 'validateDriversContainsData':
       validateDriversContainsData(payload);
+      break;
+    case 'replaceNodeNames':
+      let param1 = interpolate(params[0][0])
+      let param2 = interpolate(params[0][1])
+      replaceNodeNames(param1,param2);
       break;
         default:
       throw new Error(`Function "${functionName}" is not recognized.`);
