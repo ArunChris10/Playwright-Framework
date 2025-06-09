@@ -481,7 +481,7 @@ export class OpenCurrentForecast {
   }
 
   async waitForCalculationSuccessMessage() {
-    await this.calculationSuccessfulMessage.waitFor({ state: "visible" });
+    await this.calculationSuccessfulMessage.first().waitFor({ state: "visible" });
   }
 
   async clickOnSaveChanges() {
