@@ -10,6 +10,7 @@ export class ExcelPage {
   readonly formulaBar: Locator;
   readonly getStartedBtn: Locator;
   readonly businessArea: Locator;
+  readonly drivers: Locator;
   readonly dateRangePicker: Locator;
   readonly dimensions: Locator;
   readonly btnHasText: Function;
@@ -42,9 +43,11 @@ export class ExcelPage {
     this.btnHasText = (text: string) =>
       this.mainIframe.locator("button").filter({ hasText: text });
     this.savedView = this.mainIframe.getByText("Saved Views");
+    this.drivers = this.mainIframe.getByText("Drivers");
     this.scenario = this.mainIframe.getByText("Scenarios");
     this.loadDataButton = this.mainIframe.getByTestId("LoadDataButton");
     this.addComparedScenario = this.mainIframe.getByText("Add", {exact: true});
+    this.addComparedScenario = this.mainIframe.getByText("Add driver", {exact: true});
     this.baselineCombobox = this.mainIframe.locator('#baselineCombobox, [aria-labelledby="baselineCombobox"]');
     this.comparedWithCombobox = this.mainIframe.locator('#comparedWithCombobox, [aria-labelledby="comparedWithCombobox"]');
     this.clearBtn = this.mainIframe.getByTestId("ClearButton");
@@ -93,6 +96,11 @@ export class ExcelPage {
         .getByRole("menuitem", { name: businessArea })
         .click();
     }
+    await this.page.waitForTimeout(1000);
+  }
+
+  async selectDrivers() {
+    await this.drivers.click();
     await this.page.waitForTimeout(1000);
   }
 
