@@ -80,8 +80,8 @@ allocationMethods.driver.allocationMethod.forEach((method: string) => {
                             await objpageFactory.ufmPageFactory().openCurrentForecast().selectAllocationMethod(method);
                         });
 
-                        await test.step(`Get forecast input cell for driver: ${data.driver.inputDriver}`, async () => {
-                            inputCellLocator = await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnProjectionMethodforGivenInputCell(data.driver.inputDriver);
+                        await test.step(`Get forecast input cell for driver: ${driverType.drivers[0]}`, async () => {
+                            inputCellLocator = await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnProjectionMethodforGivenInputCell(driverType.drivers[0]);
                         });
 
                         await test.step('Input number in all valid cell/non-empty cell', async () => {
