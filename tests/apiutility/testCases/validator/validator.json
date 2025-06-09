@@ -2,7 +2,7 @@
   "validate_drivers_contains_data": [
     {
       "testStep": "Get forecast for scenario id and scenario version",
-      "environment": "stage",
+      "environment": "qa",
       "labels": ["smoke","validator"],
       "service": "coreService",
       "uri": "getForecast",
@@ -49,12 +49,12 @@
         }
       ],
       "extractObject": {
-        "drivers": "preferenceConfigs.preferenceConfig.config.drivers"
+        "driversReplaceAsObject": "preferenceConfigs.preferenceConfig.config.drivers"
       }
     },
     {
       "testStep": "check Default drivers for data",
-      "environment": "stage",
+      "environment": "qa",
       "labels": ["validator"],
       "service": "reportingService",
       "uri": "scenarios",
@@ -63,7 +63,7 @@
       "method": "POST",
       "replacePayloadAsObject":true,
       "payload": {
-        "node_var_names": "{{drivers}}",
+        "node_var_names": "{{driversReplaceAsObject}}",
         "scenarios": [
           {
             "scenario_id": "{{node_validator_asString_scenario_id}}",
@@ -214,12 +214,12 @@
         }
       ],            
       "extract": {
-                "dimensionData": "$"
+                "dimensionDataAsObject": "$"
             },
       "runFunctions": [
         {
           "functionName": "replaceNodeNames",
-          "args": ["{{reportNodesData}}", "{{dimensionData}}"]
+          "args": ["{{reportNodesDataAsObject}}", "{{dimensionDataAsObject}}"]
         }
       ]
     }

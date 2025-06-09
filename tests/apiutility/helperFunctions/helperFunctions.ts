@@ -8,7 +8,7 @@ type EmptyEntryReport = {
 };
 
 // DO NOT ADD ANYTHING TO THIS FILE UNLESS EXCLUSIVELY NEEDED FOR THE TESTS
-export function validateDriversContainsData(payload: any): EmptyEntryReport[] {
+export async function awaitvalidateDriversContainsData(payload: any): Promise<EmptyEntryReport[]> {
   const report: EmptyEntryReport[] = [];
 
   payload.row_data.forEach(row => {
@@ -80,7 +80,7 @@ export function validateDriversContainsData(payload: any): EmptyEntryReport[] {
     }
   });
 
-  globalStore.setValue("reportNodesData", report);
+  globalStore.setValue("reportNodesDataAsObject", report);
   return report;
 }
 
@@ -96,7 +96,7 @@ type MappingEntry = {
   child_name: string;
 };
 
-export function replaceNodeNames(json1: NodeEntry[], json2: any): NodeEntry[] {
+export async function replaceNodeNames(json1: NodeEntry[], json2: any): Promise<NodeEntry[]> {
   const idToNameMap = new Map<string, string>();
 
   // Flatten json2
