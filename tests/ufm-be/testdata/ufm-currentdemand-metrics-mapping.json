@@ -1,0 +1,27 @@
+{
+  "grossGmv": {
+    "nodevarname": "gmvplusservices",
+    "nodename": "GMV + Services",
+    "currentDemandDisplayName": "GMV + Services"
+  },
+  "amount": {
+    "nodevarname": "gmvplusserviceslessreturns",
+    "nodename": "GMV + Services less Returns",
+    "currentDemandDisplayName": "GMV + Services, less returns"
+  },
+  "grossUomQuantity": {
+    "nodevarname": "unitsgrossuomng",
+    "nodename": "Units (Gross UOM)NG",
+    "currentDemandDisplayName": "UoM (Units)"
+  },
+  "uomValue":{
+    "nodevarname": "unitsuomlessreturns",
+    "nodename": "Units (UOM less returns)",
+    "currentDemandDisplayName": "UoM (Units), less returns"
+  },
+  "grossOpsUnits":{
+    "nodevarname":"workedunits",
+    "nodename":"Worked Units",
+    "currentDemandDisplayName": "Worked units (ops units + returned units)"
+  }
+}

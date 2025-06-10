@@ -40,10 +40,7 @@
       "extractRelativeMultipleCondition": {
         "Projection_regression_TimeRollingScenariotoDeletescenarioId": {
           "conditions": [
-            {
-              "path": "rowData.lineOfBusiness",
-              "equals": 110030
-            },
+            
             {
               "path": "rowData.owner",
               "equals": "LB-ibg-ufm-auto"
@@ -57,10 +54,7 @@
         },
         "Projection_regression_TimeRollingScenariotoDeletescenarioVersion": {
           "conditions": [
-            {
-              "path": "rowData.lineOfBusiness",
-              "equals": 110030
-            },
+            
             {
               "path": "rowData.owner",
               "equals": "LB-ibg-ufm-auto"

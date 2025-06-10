@@ -17,7 +17,6 @@
         {
           "name": "Driver"
         },
-        { "templateIncludeeaders": "fixedRows" },
         {
           "name": "",
           "columnsMenuParams": "fixedColumns"
