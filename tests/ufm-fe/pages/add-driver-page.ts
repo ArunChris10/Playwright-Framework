@@ -50,7 +50,7 @@ export class AddDriverPage {
         });
         await this.page.waitForSelector(`//div[@class="noncalculated"]//parent::*//parent::*//strong[contains(text(),"${driverName}")] `, { state: 'attached' });
         await this.page.waitForTimeout(2000);
-        await this.page.getByRole('option', { name: `${driverName} input View in` }).getByLabel(`${driverName}`).check();
+        await this.page.getByRole('option', { name: `${driverName} input View in` }).getByLabel(`${driverName}`).first().check();
     }
 
     async searchAndApplyDrivers(driverNames: string[]) {
