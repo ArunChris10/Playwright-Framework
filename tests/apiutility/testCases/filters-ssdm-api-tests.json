@@ -3,8 +3,8 @@
     {
       "testStep": "Get Scenario id and scenario version of sandbox scenario",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38090"],
-      "tags": ["smoke", "IBGROW-38090"],
+      "labels": ["smoke", "regression", "IBGROW-38090"],
+      "tags": ["smoke", "regression", "IBGROW-38090"],
       "service": "coreService",
       "uri": "getSandboxScenarioId",
       "testName": "Get Scenario id and scenario version of sandbox scenario",
@@ -43,8 +43,8 @@
     {
       "testStep": "Apply changes",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38090"],
-      "tags": ["smoke", "IBGROW-38090"],
+      "labels": ["smoke", "regression", "IBGROW-38090"],
+      "tags": ["smoke", "regression", "IBGROW-38090"],
       "service": "coreService",
       "uri": "applyChangesOnSSDM",
       "testName": "Apply changes",
