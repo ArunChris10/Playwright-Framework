@@ -18,6 +18,13 @@ test.describe('Verify user is able to Open Current Forecast', { tag: "@Smoke @Op
             openCurrentForecast = await currentForecast.verifySBAName(forecast.Merch.sbaBreadCrumName);
         });
 
+        await test.step('Verify chevron is reset if user leaves the page and comes again to page', async () => {
+            await openCurrentForecast.expandChevronIcon(); 
+            await openCurrentForecast.clickOnOpenButton();
+            await openCurrentForecast.navigateBackToOrganization(forecast.Merch.nameOfTheSBA); 
+            await openCurrentForecast.verifyChevronIsReset(); // Verify chevron is reset
+          });
+
         await test.step('Click on open button of the current forecast in LOB screen', async () => {
             await openCurrentForecast.clickOnOpenButton();
         });

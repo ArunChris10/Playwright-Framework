@@ -411,7 +411,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
   }
 
   export async function clearGlobalStoreFile() {
-    const STORE_FILE = path.resolve(process.cwd(), '.globalStore.json');
+  const STORE_FILE = path.resolve(__dirname, '../.globalStore.json');
     if (fs.existsSync(STORE_FILE)) {
       fs.writeFileSync(STORE_FILE, '{}', 'utf-8');
       console.log('Cleared .globalStore.json after all tests.');
