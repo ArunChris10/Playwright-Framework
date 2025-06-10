@@ -1,0 +1,99 @@
+{
+  "verify calculate and save for non additive nodes in a SBA": [
+    {
+      "testStep": "Get a forecast to calculate for a non additive node",
+      "environment": "qa",
+      "labels": ["smoke", "non_additive_calculate"],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get a forecast to calculate non additive node",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120009,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            { "name": "vs LY", "format": "percent" },
+            { "name": "vs Plan", "format": "absolute" }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "scenario_id": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110027
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
+        "scenarioVersion": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110027
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
+      }
+    },
+    {
+      "testStep": "Editing and Calculating the non additive nodes",
+      "environment": "qa",
+      "labels": ["smoke", "non_additive_calculate"],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Calculating the non-additive nodes",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{scenario_id}}",
+        "dim_val_id": 110027,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "unitsperorder_input",
+            "node_dimension": {},
+            "data": { "{{dynamicMonth+1}}": 3 },
+            "allocation": { "interval": null, "offset": null, "method": 31 }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1748949679103
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertNotNull": {
+            "jsonPath1": "node_var_name"
+          }
+        }
+      ]
+    }
+  ]
+}

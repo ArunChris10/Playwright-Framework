@@ -1,0 +1,158 @@
+{
+  "apply_changes__On_SSDM": [
+    {
+      "testStep": "Get Scenario id and scenario version of sandbox scenario",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-38090"],
+      "tags": ["smoke", "regression", "IBGROW-38090"],
+      "service": "coreService",
+      "uri": "getSandboxScenarioId",
+      "testName": "Get Scenario id and scenario version of sandbox scenario",
+      "queryParams": "",
+      "method": "GET",
+      "payload": {},
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractFirst": {
+        "getkpi_scenario_id": "scenario_id",
+        "getkpi_scenario_version": "scenario_version_timestamp"
+      }
+    },
+    {
+      "testStep": "Get doc id of published version",
+      "environment": "qa",
+      "labels": ["smoke", "SSDMKPI"],
+      "service": "coreService",
+      "uri": "getPublishedVersions",
+      "testName": "Get doc id of published version",
+      "queryParams": "",
+      "method": "GET",
+      "payload": {},
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractFirst": {
+        "extracted_doc_id": "published_doc_list.document_id"
+      }
+    },
+    {
+      "testStep": "Apply changes",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-38090"],
+      "tags": ["smoke", "regression", "IBGROW-38090"],
+      "service": "coreService",
+      "uri": "applyChangesOnSSDM",
+      "testName": "Apply changes",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{getkpi_scenario_id}}",
+        "scenario_version": "{{getkpi_scenario_version}}",
+        "doc_id": "{{extracted_doc_id}}",
+        "ds_type": "Activated",
+        "utilisedBy": "SSDM",
+        "dim_id": 13,
+        "dim_val_id": 130001,
+        "classification_id": 12,
+        "template_id": 3,
+        "filters": [{ "dim_id": 24, "dim_val_ids": [240002], "children": [] }],
+        "additional_filters": {
+          "pivot_cols": ["month"],
+          "pivot_index": ["node_id", "department"],
+          "period_view": ["month"],
+          "nodes": ["moecommreturnscogs"],
+          "template_include_headers": [
+            {
+              "name": "Department"
+            },
+            {
+              "name": "{{dynamicMonth-4}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth-3}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth-2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth-1}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+1}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+3}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+4}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+5}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+6}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+7}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": false
+            }
+          ],
+          "month": [
+            "{{dynamicMonth-4}}",
+            "{{dynamicMonth-3}}",
+            "{{dynamicMonth-2}}",
+            "{{dynamicMonth-1}}",
+            "{{dynamicMonth}}",
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}",
+            "{{dynamicMonth+3}}",
+            "{{dynamicMonth+4}}",
+            "{{dynamicMonth+5}}",
+            "{{dynamicMonth+6}}",
+            "{{dynamicMonth+7}}"
+          ]
+        },
+        "isApplied": true
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}
