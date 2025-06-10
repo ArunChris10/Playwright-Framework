@@ -9,6 +9,7 @@ import inputNodes from "../testdata/inputnodes.json";
 import endpoints from "../testdata/statusendpoints.json";
 import { ForecastUtility } from "./forecast-utils";
 import { SOTUtility } from "./SOTUtility";
+import mappingData from "../constants/mapping.json"
 
 export class UfmUtility {
   private static readonly mappingfilepath: string =
@@ -517,4 +518,16 @@ export class UfmUtility {
     getKpiData.payloads.filters = filter;
     return getKpiData.payloads;
   }
+
+  static async getMappingValue(
+      searchCriteria: Record<string, any>,
+      returnKey: string
+    ) {
+      const found = mappingData.find((item: any) =>
+        Object.entries(searchCriteria).every(
+          ([key, value]) => item[key] === value
+        )
+      );
+      return found ? found[returnKey] : undefined;
+    }
 }

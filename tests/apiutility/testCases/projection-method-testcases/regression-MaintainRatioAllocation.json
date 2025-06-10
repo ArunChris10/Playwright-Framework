@@ -40,26 +40,28 @@
       "extractRelativeMultipleCondition": {
         "Projection_regression_MaintainRatioScenariotoDeletescenarioId": {
           "conditions": [
-            {
-              "path": "rowData.lineOfBusiness",
-              "equals": 110030
-            },
+            
             {
               "path": "rowData.owner",
               "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
             }
           ],
           "extractKey": "scenarioId"
         },
         "Projection_regression_MaintainRatioScenariotoDeletescenarioVersion": {
           "conditions": [
-            {
-              "path": "rowData.lineOfBusiness",
-              "equals": 110030
-            },
+            
             {
               "path": "rowData.owner",
               "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
             }
           ],
           "extractKey": "scenarioVersion"
@@ -385,8 +387,6 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "IBGROW-37429",
-        "IBGROW-34379",
         "MS1"
       ],
       "service": "coreService",
