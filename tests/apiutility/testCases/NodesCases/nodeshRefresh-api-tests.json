@@ -502,6 +502,84 @@
 
     }
     }
+    ,
+    {
+      "testStep": "Create Forecast Scenario for Optical SBA to check un refreshed data",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast- Optical SBA",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "apiUtilityAutomation {{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110016
+      },
+      "extract": {
+        "optical_scenario_version_unrefresh": "scenario.scenario_version_timestamp",
+        "optical_scenario_id_unrefresh": "scenario.scenario_id"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Optical FORECAST",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Optical FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120003,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "apiUtilityAutomation {{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    }
   ],
   "validate_NodeRefresh": [
     {
@@ -972,6 +1050,101 @@
         "timeoutMs": 600000
       }
     },
+      {
+      "testStep": "Extract the Before refresh data for unrefreshed scenario",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-37429",
+        "IBGROW-34379",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Extract the Before refresh data for unrefreshed scenario",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{optical_scenario_id_unrefresh}}",
+        "scenario_version": "{{optical_scenario_version_unrefresh}}",
+        "dim_id": 11,
+        "dim_val_id": 110016,
+        "classification_id": 12,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "pharmacyincentiveexpensepk0203",
+            "fieldincentiveexpensepk0202",
+            "grossgmv",
+            "longtermbonuspk0201"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            },
+            {
+              "name": "{{dynamicMonth+2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": true
+            },
+            {
+              "name": "Value",
+              "editable": true
+            }
+          ],
+          "month": [
+            "{{dynamicMonth+2}}"
+          ]
+        },
+        "isApplied": true
+      },
+      "assertions": {
+        "status": 200
+      },
+      "extractRelative": {
+        "fieldIncentiveExpenseUnRefreshData": {
+          "whereKey": "rowData.driver",
+          "equals": "fieldincentiveexpensepk0202",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "longTermBonusUnRefreshData": {
+          "whereKey": "rowData.driver",
+          "equals": "longtermbonuspk0201",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "pharmacyincentiveexpenseUnRefreshData": {
+          "whereKey": "rowData.driver",
+          "equals": "pharmacyincentiveexpensepk0203",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "grossGMVUnRefreshData": {
+          "whereKey": "rowData.driver",
+          "equals": "grossgmv",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        }
+      }
+    },
     {
       "testStep": "Hit Refresh API in optical SBA",
       "environment": "qa",
@@ -1096,6 +1269,107 @@
         "longTermBonusRefreshData": "{{longtermbonusEdit}}",
         "pharmacyincentiveexpenseRefreshData": "{{pharmacyincentiveexpenseEdit}}",
         "grossGMVRefreshData": "{{grossGMVEdit}}"
+      }
+    },
+    {
+      "testStep": "Check the data is not updated for unrefreshed scenario",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-33387",
+        "IBGROW-37430",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Verify if the refresh done in one scenario is not affecting any other scenario the other forecast should remain unaffected",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{optical_scenario_id_unrefresh}}",
+        "scenario_version": "{{optical_scenario_version_unrefresh}}",
+        "dim_id": 11,
+        "dim_val_id": 110016,
+        "classification_id": 12,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "pharmacyincentiveexpensepk0203",
+            "fieldincentiveexpensepk0202",
+            "grossgmv",
+            "longtermbonuspk0201"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            },
+            {
+              "name": "{{dynamicMonth+2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": true
+            },
+            {
+              "name": "Value",
+              "editable": true
+            }
+          ],
+          "month": [
+            "{{dynamicMonth+2}}"
+          ]
+        },
+        "isApplied": true
+      },
+      "assertions": {
+        "status": 200
+      },
+      "extractRelative": {
+        "fieldIncentiveExpenseRefreshData": {
+          "whereKey": "rowData.driver",
+          "equals": "fieldincentiveexpensepk0202",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "longTermBonusRefreshData": {
+          "whereKey": "rowData.driver",
+          "equals": "longtermbonuspk0201",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "pharmacyincentiveexpenseRefreshData": {
+          "whereKey": "rowData.driver",
+          "equals": "pharmacyincentiveexpensepk0203",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "grossGMVRefreshData": {
+          "whereKey": "rowData.driver",
+          "equals": "grossgmv",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        }
+      },
+      "validateExtractContains": {
+        "fieldIncentiveExpenseRefreshData": "{{fieldIncentiveExpenseUnRefreshData}}",
+        "longTermBonusRefreshData": "{{longTermBonusUnRefreshData}}",
+        "pharmacyincentiveexpenseRefreshData": "{{pharmacyincentiveexpenseUnRefreshData}}",
+        "grossGMVRefreshData": "{{grossGMVUnRefreshData}}"
       }
     }
   ],
