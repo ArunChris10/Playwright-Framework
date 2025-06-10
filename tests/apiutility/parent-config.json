@@ -53,7 +53,8 @@
     "testCases/excel-load-data-api-time-granularity.json",
     "testCases/data-science-demand-metric-ssdm-edit.json",
     "testCases/filters-ssdm-api-tests.json",
-    "testCases/progress-status-ssdm.api-tests.json"
+    "testCases/progress-status-ssdm.api-tests.json",
+    "testCases/data-science-demand-metric-ssdm-edit.json"
   ],
   "currentDemandService": {
     "baseURL": {
