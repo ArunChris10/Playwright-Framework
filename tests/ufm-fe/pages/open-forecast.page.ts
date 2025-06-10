@@ -675,4 +675,16 @@ async expandChevronIcon() {
 async navigateBackToOrganization(organizationName: string): Promise<void> {
   await this.page.locator(`//*[@itemprop="name"][contains(text(),"${organizationName}")]`).click(); 
 }
+
+async getDriversFromGrid() {
+const rowCount: number = await this.page.$$eval(
+  "div.ag-pinned-left-cols-container > div",
+  (divs) => divs.length
+);
+return rowCount;
+}
+async isDuplicateViewMessageVisible(): Promise<boolean> {
+const duplicateMessage = await this.page.locator('text=This name is already in use. Please choose a different one.');
+return await duplicateMessage.isVisible();
+}
 }
