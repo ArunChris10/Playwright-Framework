@@ -85,6 +85,14 @@ test.describe(
           expect(workflowStatus).toBeTruthy()
 
         })
+
+        await test.step(`Validate delete forecast`, async () => {
+          await objpageFactory.ufmPageFactory().currentForecast().deleteForecastByName(forecastName);
+          let workflowStatus = await objpageFactory.ufmPageFactory().currentForecast().validateWorflowAlertMessage("deleted", forecastName, true)
+
+          expect(workflowStatus).toBeTruthy()
+
+        })
       });
   }
 );
