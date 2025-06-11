@@ -96,6 +96,25 @@ test.describe('Verify user is able to do calculate and save post uploading file 
       }
     });
 
+    for (const filterSet of filterOptions) {
+      const filters = filterSet.data;
+      for (const [, filterSelection] of Object.entries(filters)) {
+        const typedFilterSelection = filterSelection as {
+          childDropDown: string;
+          dropDown: string;
+       };
+
+        await test.step(
+          `Select ${typedFilterSelection.childDropDown} ${typedFilterSelection.dropDown}} filter options`,
+          async () => {
+            await objpageFactory.ssdmPageFactory().applyFilter().clickOnFiltersButton();
+            await objpageFactory.ufmPageFactory().currentForecast().clickOnFilterDropdown(typedFilterSelection.dropDown);
+            await objpageFactory.ssdmPageFactory().applyFilter().clickOnFilterOption(typedFilterSelection.childDropDown);
+          }
+        );
+      }
+    }
+
     await test.step("Apply filters and wait for KPI table to load", async () => {
       await objpageFactory.ssdmPageFactory().applyFilter().clickOnApplyChanges();
       await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad();
@@ -107,7 +126,7 @@ test.describe('Verify user is able to do calculate and save post uploading file 
     });
 
     await test.step('Update the excel for some forecast values', async () => {
-      editedValues = await objpageFactory.ufmPageFactory().excelUtility().editExcel(downloadPath, drivers,6);
+      editedValues = await objpageFactory.ufmPageFactory().excelUtility().editExcel(downloadPath, drivers, 6);
       console.log("Edited value - ", editedValues);
     });
 
