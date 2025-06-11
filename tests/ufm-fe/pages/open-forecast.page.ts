@@ -424,6 +424,17 @@ export class OpenCurrentForecast {
     return cell;
   }
 
+  async getCellForGivenInputCell(DriverName) {
+    const { col_id, row_id } = await this.getForecastInputCellForGivenDriver(DriverName);
+    if (!col_id || !row_id) {
+      throw new Error("col_id or row_id is undefined");
+    }
+    const xpath = `//*[@row-id="${row_id}"]/*[contains(@col-id,"${col_id}")]//span`;
+    const cell = this.page.locator(xpath);
+    await cell.waitFor({ state: 'visible' });
+    return cell;
+  }
+
   async selectHistoricalRateProjection()
   {
     await this.growthRateInput.click();
