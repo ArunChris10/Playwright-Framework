@@ -37,6 +37,7 @@ export class OpenCurrentForecast {
   readonly savedViewsDropDownHeader: Locator
   readonly saveViewButton: Locator
   readonly saveViewModal: Locator
+  readonly saveViewAsModal: Locator
   readonly saveButtonLocatorString: string
   readonly cancelButtonLocatorString: string
   readonly cancelButton: Locator
@@ -114,6 +115,7 @@ export class OpenCurrentForecast {
     this.savedViewsDropDownMenu = this.page.locator('//div[contains(@class,"SavedViewMenu_menu")]')
     this.saveViewButton = this.page.getByText('Save View')
     this.saveViewModal = this.page.locator('//h2[text()="Save view"]//ancestor::div[@role="dialog"]')
+    this.saveViewAsModal = this.page.locator('//h2[text()="Save view as"]//ancestor::div[@role="dialog"]')
     this.saveButtonLocatorString = "//button[text()='Save']"
     this.cancelButtonLocatorString = "//button[text()='Cancel']"
 
@@ -591,6 +593,22 @@ export class OpenCurrentForecast {
     await this.savedViewsDropDownMenu.locator(`//button[@aria-label="Delete view"]`).click()
   }
 
+  async switchToFirstView(viewName) {
+    const menuItems = this.savedViewsDropDownMenu.locator('button[role="menuitem"]');
+    const count = await menuItems.count();
+
+    for (let i = 0; i < count; i++) {
+      const menuItem = menuItems.nth(i);
+      const menuItemName = await menuItem.getAttribute('name');
+      if (menuItemName?.trim() !== viewName) {
+        await menuItem.click();
+        return;
+      }
+    }
+
+    throw new Error(`No view found that is different from the provided view name: ${viewName}`);
+  }
+
   async validateSaveViewModal() {
 
     let saveViewModalContainer = this.saveViewModal
@@ -606,6 +624,10 @@ export class OpenCurrentForecast {
 
   async inputSaveViews(name) {
     await this.saveViewModal.locator('//input').fill(name)
+  }
+
+  async inputSaveViewsAs(name) {
+    await this.saveViewAsModal.locator('//input').fill(name)
   }
 
   async waitForSaveViewSuccessMessage() {
@@ -652,6 +674,24 @@ export class OpenCurrentForecast {
     const privateViews = await this.page.locator(`//span[@aria-label="Private view"]`);
     const count = await privateViews.count();
     return count;
+}
+
+async getGlobalViewTilePresence(): Promise<number> {
+  await Promise.race([
+      this.createNewViewButton.waitFor({ state: 'visible' }),
+      this.DriversButton.waitFor({ state: 'visible' }),
+  ]);
+  const globalViews = await this.page.locator(`//span[@aria-label="Global view"]`);
+  const count = await globalViews.count();
+  return count;
+}
+
+async clickOnSaveAsNew(): Promise<void> {
+  const saveViewButton = await this.page.locator('button.KPIPageHeader_splitsavebuttonsecondpart__OJYnq'); // Adjust selector if necessary
+  await saveViewButton.click();
+
+  const saveAsNewOption = await this.page.locator('//span[contains(@class, "KPIPageHeader_menuItem") and text()="Save as new"]'); // Adjusted selector for more specificity
+  await saveAsNewOption.click();
 }
 
 async selectViewTile(): Promise<void> {
