@@ -10,8 +10,8 @@
                     "Other Cost of Goods Sold"
                 ],
                 "inputAdditiveDrivers": [
-                    "Returned Units (UOM)",
-                    "Allocation % (Merchandise Income)"
+                    "Merchandise Income Plug"
+                    
                 ],
                 "inputAdditiveNonAdditiveDrivers": [
                     "COGS (Input)",

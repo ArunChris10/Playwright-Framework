@@ -1,0 +1,40 @@
+{
+  "published_node_document_versions_progress_status": [
+    {
+      "testStep": "Get published node edge document versions",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-38084"],
+      "tags": ["smoke", "regression", "IBGROW-38084"],
+      "service": "coreService",
+      "uri": "getPublishedVersionsProgressStatus",
+      "testName": "Get the last published node documents",
+      "queryParams": "",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertKeyTypes": {
+            "last_published": {
+              "publish_ts": "string",
+              "publish_user": "string"
+            },
+            "published_doc_list": [
+              {
+                "document_id": 123,
+                "document_name": "string",
+                "published_at": "string",
+                "published_by": "string",
+                "status": "string",
+                "progress": 100,
+                "total_net_new_input_nodes": 0,
+                "net_new_input_nodes": [0, null]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

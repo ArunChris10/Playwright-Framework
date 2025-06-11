@@ -37,6 +37,7 @@ export class OpenCurrentForecast {
   readonly savedViewsDropDownHeader: Locator
   readonly saveViewButton: Locator
   readonly saveViewModal: Locator
+  readonly saveViewAsModal: Locator
   readonly saveButtonLocatorString: string
   readonly cancelButtonLocatorString: string
   readonly cancelButton: Locator
@@ -59,6 +60,8 @@ export class OpenCurrentForecast {
   readonly doneButtonOnRollingPercentage: Locator
   readonly viewDriver: Locator
   readonly btnApplyChanges: Locator
+  readonly firstChevronIcon: Locator
+  readonly detailsAfterExpandingChevronIcon: Locator
   readonly customGrowthRateInput: Locator
   readonly growthRatePercentInput: Locator
 
@@ -112,6 +115,7 @@ export class OpenCurrentForecast {
     this.savedViewsDropDownMenu = this.page.locator('//div[contains(@class,"SavedViewMenu_menu")]')
     this.saveViewButton = this.page.getByText('Save View')
     this.saveViewModal = this.page.locator('//h2[text()="Save view"]//ancestor::div[@role="dialog"]')
+    this.saveViewAsModal = this.page.locator('//h2[text()="Save view as"]//ancestor::div[@role="dialog"]')
     this.saveButtonLocatorString = "//button[text()='Save']"
     this.cancelButtonLocatorString = "//button[text()='Cancel']"
 
@@ -121,6 +125,9 @@ export class OpenCurrentForecast {
     this.deleteViewSnackBar = this.page.getByText("View deleted successfully.")
     this.deleteButton = this.page.locator('//button[text()="Delete"]')
     this.notificationIcon = this.page.locator('//*[@data-testid="notification-count"]')
+    this.firstChevronIcon = this.page.locator('//*[@data-testid="agGridColumnGroup-id"]//*[@row-index="0"]//*[@class="ag-icon ag-icon-tree-closed"]')
+    this.detailsAfterExpandingChevronIcon = this.page.locator('//*[@class="ag-details-row-auto-height ag-details-row"]')
+   
     this.notificationTitle = this.page.locator('//*[@class="notificationTitle"]//*[text()="Notifications"]')
     this.searchNotificationInput = this.page.getByPlaceholder("Search Notifications")
     this.selectProjectionMethodButton = this.page.locator("//*[@data-testid='AutoCompleteWithInputIcon-id']")
@@ -481,7 +488,7 @@ export class OpenCurrentForecast {
   }
 
   async waitForCalculationSuccessMessage() {
-    await this.calculationSuccessfulMessage.waitFor({ state: "visible" });
+    await this.calculationSuccessfulMessage.first().waitFor({ state: "visible" });
   }
 
   async clickOnSaveChanges() {
@@ -575,6 +582,22 @@ export class OpenCurrentForecast {
     await this.savedViewsDropDownMenu.locator(`//button[@aria-label="Delete view"]`).click()
   }
 
+  async switchToFirstView(viewName) {
+    const menuItems = this.savedViewsDropDownMenu.locator('button[role="menuitem"]');
+    const count = await menuItems.count();
+
+    for (let i = 0; i < count; i++) {
+      const menuItem = menuItems.nth(i);
+      const menuItemName = await menuItem.getAttribute('name');
+      if (menuItemName?.trim() !== viewName) {
+        await menuItem.click();
+        return;
+      }
+    }
+
+    throw new Error(`No view found that is different from the provided view name: ${viewName}`);
+  }
+
   async validateSaveViewModal() {
 
     let saveViewModalContainer = this.saveViewModal
@@ -590,6 +613,10 @@ export class OpenCurrentForecast {
 
   async inputSaveViews(name) {
     await this.saveViewModal.locator('//input').fill(name)
+  }
+
+  async inputSaveViewsAs(name) {
+    await this.saveViewAsModal.locator('//input').fill(name)
   }
 
   async waitForSaveViewSuccessMessage() {
@@ -638,6 +665,24 @@ export class OpenCurrentForecast {
     return count;
 }
 
+async getGlobalViewTilePresence(): Promise<number> {
+  await Promise.race([
+      this.createNewViewButton.waitFor({ state: 'visible' }),
+      this.DriversButton.waitFor({ state: 'visible' }),
+  ]);
+  const globalViews = await this.page.locator(`//span[@aria-label="Global view"]`);
+  const count = await globalViews.count();
+  return count;
+}
+
+async clickOnSaveAsNew(): Promise<void> {
+  const saveViewButton = await this.page.locator('button.KPIPageHeader_splitsavebuttonsecondpart__OJYnq'); // Adjust selector if necessary
+  await saveViewButton.click();
+
+  const saveAsNewOption = await this.page.locator('//span[contains(@class, "KPIPageHeader_menuItem") and text()="Save as new"]'); // Adjusted selector for more specificity
+  await saveAsNewOption.click();
+}
+
 async selectViewTile(): Promise<void> {
   await Promise.race([
       this.createNewViewButton.waitFor({ state: 'visible' }),
@@ -654,15 +699,32 @@ async waitForPageLoad(): Promise<boolean> {
   await this.page.waitForSelector('.ag-header-container', { state: 'visible', timeout: 60000 });
   return true;
 }
+
+
+async verifyChevronIsReset() {
+  await this.firstChevronIcon.waitFor({ state: 'visible' });
+  await expect(this.detailsAfterExpandingChevronIcon).toBeHidden();
+}
+
+async expandChevronIcon() {
+  await this.firstChevronIcon.waitFor({ state: 'visible' });  
+  await this.firstChevronIcon.click();
+  await expect(this.detailsAfterExpandingChevronIcon).toBeVisible();
+}
+
+async navigateBackToOrganization(organizationName: string): Promise<void> {
+  await this.page.locator(`//*[@itemprop="name"][contains(text(),"${organizationName}")]`).click(); 
+}
+
 async getDriversFromGrid() {
-  const rowCount: number = await this.page.$$eval(
-    "div.ag-pinned-left-cols-container > div",
-    (divs) => divs.length
-  );
-  return rowCount;
+const rowCount: number = await this.page.$$eval(
+  "div.ag-pinned-left-cols-container > div",
+  (divs) => divs.length
+);
+return rowCount;
 }
 async isDuplicateViewMessageVisible(): Promise<boolean> {
-  const duplicateMessage = await this.page.locator('text=This name is already in use. Please choose a different one.');
-  return await duplicateMessage.isVisible();
+const duplicateMessage = await this.page.locator('text=This name is already in use. Please choose a different one.');
+return await duplicateMessage.isVisible();
 }
 }

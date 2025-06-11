@@ -43,14 +43,19 @@
     "testCases/projection-method-testcases/historicRate-TimeRollingAllocation.json",
     "testCases/projection-method-testcases/regression-MaintainRatioAllocation.json",
     "testCases/projection-method-testcases/regression-constantValueAllocation.json",
+    "testCases/excel-load-data-api-time-granularity.json",
+    "testCases/excel-load-data-time-grains.json",
     "testCases/ssdm-get-kpi-verify.json",
     "testCases/projection-method-testcases/regression-EqualDistributionAllocation.json",
     "testCases/projection-method-testcases/regression-TimeRollingAllocation.json",
+    "testCases/projection-method-testcases/growthRate-EqualDistributionAllocation.json",
+    "testCases/projection-method-testcases/growthRate-TimeRollingAllocation.json", 
     "testCases/projection-method-testcases/growthRate-MaintainRatioAllocation.json",
     "testCases/projection-method-testcases/growthRate-constantValueAllocation.json",
     "testCases/excel-load-data-api-time-granularity.json",
     "testCases/data-science-demand-metric-ssdm-edit.json",
-    "testCases/validator/validator.json"
+    "testCases/filters-ssdm-api-tests.json",
+    "testCases/progress-status-ssdm.api-tests.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -87,8 +92,10 @@
     "publish-data-science": "/data-science/upload",
     "get-data-science-info": "/scenario/data-science/info",
     "download":"/validation/download",
-    "getDimensions":"/metadata/dimensions/mappings"
-    
+    "getDimensions":"/metadata/dimensions/mappings",    
+    "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
+    "applyChangesOnSSDM":"/sandbox/v1/get-mykpi",
+    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions"
   },
   "notificationService": {
     "baseURL": {
