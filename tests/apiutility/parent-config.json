@@ -54,7 +54,9 @@
     "testCases/projection-method-testcases/growthRate-constantValueAllocation.json",
     "testCases/data-science-demand-metric-ssdm-edit.json",
     "testCases/filters-ssdm-api-tests.json",
-    "testCases/progress-status-ssdm.api-tests.json"
+    "testCases/progress-status-ssdm.api-tests.json",
+    "testCases/calculate-additive-nodes-constant-value.json",
+    "testCases/calculate-additive-nodes-percent-rolling.json"
   ],
   "currentDemandService": {
     "baseURL": {
