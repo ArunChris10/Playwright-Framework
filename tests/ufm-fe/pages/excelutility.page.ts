@@ -9,13 +9,14 @@ export class ExcelUtility {
     readonly downloadButtonSelector: Locator;
     readonly uploadButtonSelector: Locator;
     readonly fileInputSelector: Locator;
+    readonly importButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.downloadButtonSelector = page.locator('//div[@class="forecastTableHeader"]//div[@class="action"]//button[@test-data="icon-button"])[1]');
-        this.uploadButtonSelector = page.locator('//div[@class="forecastTableHeader"]//div[@class="action"]//button[@test-data="icon-button"])[2]');
-        // Update the selector below to match the actual file input element in your UI
-        this.fileInputSelector = page.locator('input[type="file"]');
+        this.downloadButtonSelector = page.locator('(//div[@class="forecastTableHeader"]//div[@class="action"]//button[@test-data="icon-button"])[1]');
+        this.uploadButtonSelector = page.locator('(//div[@class="forecastTableHeader"]//div[@class="action"]//button[@test-data="icon-button"])[2]');
+        this.importButton = page.locator('[data-testid="upload-submit"]');
+        this.fileInputSelector = page.locator('[class="uploadIcon"]');
     }
     private editedValues: Record<string, any> = {};
 
@@ -43,15 +44,13 @@ export class ExcelUtility {
     editExcel(
         filePath: string,
         rowFirstCellNames: string[],
+        targetColIndex,
     ): Record<string, any> {
         console.log(`[ExcelUtility] Reading Excel file: ${filePath}`);
         const workbook = XLSX.readFile(filePath);
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json<Record<string, any>>(worksheet, { header: 1 });
-
-        // 6th column is index 5 (0-based)
-        const targetColIndex = 5;
 
         rowFirstCellNames.forEach(rowFirstCellName => {
             const rowIndex = jsonData.findIndex(row => row[0] === rowFirstCellName);
@@ -95,27 +94,8 @@ export class ExcelUtility {
         console.log(`[ExcelUtility] Uploading file: ${filePath}`);
         await fileChooser.setFiles(filePath);
         console.log(`[ExcelUtility] File uploaded: ${filePath}`);
+        await this.importButton.click()
     }
-
-   /*  // Validates the values on the UI
-    async validateValuesOnUI(
-        page: Page,
-        valueSelectors: Record<string, string>, // key: `${rowFirstCellName}_${header}`, value: selector
-    ): Promise<void> {
-        for (const key in this.editedValues) {
-            const selector = valueSelectors[key];
-            const expectedValue = this.editedValues[key];
-            const actualValue = await page.textContent(selector);
-            console.log(`[ExcelUtility] Validating selector "${selector}": expected "${expectedValue}", actual "${actualValue?.trim()}"`);
-            expect(actualValue?.trim()).toBe(expectedValue.toString());
-        }
-    }
-
-    // Getter for edited values (for further use)
-    getEditedValues() {
-        console.log(`[ExcelUtility] Returning edited values:`, this.editedValues);
-        return this.editedValues;
-    } */
 
     async deleteDownloadedFile(filePath: string): Promise<void> {
         if (fs.existsSync(filePath)) {

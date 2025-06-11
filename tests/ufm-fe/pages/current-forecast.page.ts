@@ -354,7 +354,7 @@ export class CurrentForecast {
   async clickOnOpenParticularForecast(LOB: string) {
     let forecastParentElement = this.page
       .locator(
-        `//div[contains(@class,'CurrentForecast_card-container')]//div[contains(text(),"${LOB}")]/parent::div`
+        `//div[contains(@class,'CurrentForecast_card-container')]//div[(text()="${LOB}")]/parent::div`
       )
       .first();
 
