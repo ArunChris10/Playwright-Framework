@@ -86,6 +86,18 @@ test.describe(
 
         })
 
+        await test.step(`Click on Open ${lob.LobName} Forecast`, async () => {
+          await objpageFactory.ufmPageFactory().currentForecast().clickOnOpenParticularForecast(lob.LobName);
+      });
+
+      await test.step(`Edit forecast with duplicate name`, async () => {
+        await objpageFactory.ufmPageFactory().openCurrentForecast().editForecastWithDuplicateName();
+      });
+
+      await test.step(`Edit forecast name`, async () => {
+          await objpageFactory.ufmPageFactory().openCurrentForecast().editForecast(lob.LobName);
+        });
+
         await test.step(`Validate delete forecast`, async () => {
           await objpageFactory.ufmPageFactory().currentForecast().deleteForecastByName(forecastName);
           let workflowStatus = await objpageFactory.ufmPageFactory().currentForecast().validateWorflowAlertMessage("deleted", forecastName, true)
@@ -94,6 +106,4 @@ test.describe(
 
         })
       });
-  }
-);
-
+});
