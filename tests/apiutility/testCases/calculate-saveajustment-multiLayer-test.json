@@ -293,7 +293,7 @@
       }
     },
     {
-      "testStep": "Validate AOP Adjustment via getKpi-layer1",
+      "testStep": "Validate Adjustment via getKpi-layer1",
       "environment": "dev",
       "labels": [
         "smoke",
@@ -301,7 +301,7 @@
       ],
       "service": "coreService",
       "uri": "getKpi",
-      "testName": "Validate saved data for aop- GetKpi-layer1",
+      "testName": "Validate saved data for drivers- GetKpi-layer1",
       "queryParams": "",
       "method": "POST",
       "payload": {
@@ -490,33 +490,33 @@
           "dim_id": 11,
           "preview": false,
           "edits": [
-          {
-            "node_var_name": "returnedunitsuom_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 275,
-              "{{dynamicMonth+2}}": 275
+            {
+              "node_var_name": "returnedunitsuom_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 275,
+                "{{dynamicMonth+2}}": 275
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
             },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 29
+            {
+              "node_var_name": "storereturns_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 275,
+                "{{dynamicMonth+2}}": 275
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
             }
-          },
-          {
-            "node_var_name": "storereturns_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 275,
-              "{{dynamicMonth+2}}": 275
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 29
-            }
-          }
-        ],
+          ],
           "filters": [],
           "period_view": "month"
         },
@@ -545,7 +545,7 @@
       }
     },
     {
-      "testStep": "Validate AOP Adjustment via getKpi-layer2",
+      "testStep": "Validate Adjustment via getKpi-layer2",
       "environment": "dev",
       "labels": [
         "smoke",
@@ -553,7 +553,7 @@
       ],
       "service": "coreService",
       "uri": "getKpi",
-      "testName": "Validate saved data for aop- GetKpi-layer2",
+      "testName": "Validate saved data for drivers- GetKpi-layer2",
       "queryParams": "",
       "method": "POST",
       "payload": {
@@ -754,33 +754,33 @@
           "dim_id": 11,
           "preview": false,
           "edits": [
-          {
-            "node_var_name": "returnedunitsuom_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 500,
-              "{{dynamicMonth+2}}": 500
+            {
+              "node_var_name": "returnedunitsuom_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 500,
+                "{{dynamicMonth+2}}": 500
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
             },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 29
+            {
+              "node_var_name": "storereturns_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 500,
+                "{{dynamicMonth+2}}": 500
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
             }
-          },
-          {
-            "node_var_name": "storereturns_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 500,
-              "{{dynamicMonth+2}}": 500
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 29
-            }
-          }
-        ],
+          ],
           "filters": [],
           "period_view": "month"
         },
@@ -809,7 +809,7 @@
       }
     },
     {
-      "testStep": "Validate AOP Adjustment via getKpi-layer1",
+      "testStep": "Validate Adjustment via getKpi-layer3",
       "environment": "dev",
       "labels": [
         "smoke",
@@ -817,7 +817,7 @@
       ],
       "service": "coreService",
       "uri": "getKpi",
-      "testName": "Validate saved data for aop- GetKpi-layer1",
+      "testName": "Validate saved data for drivers- GetKpi-layer3",
       "queryParams": "",
       "method": "POST",
       "payload": {
@@ -880,6 +880,26 @@
           "whereKey": "driver",
           "equals": "storereturns_input",
           "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver1_layer3_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver1_layer3_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver2_layer3_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver2_layer3_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
         }
       },
       "validateExtractToBeApprox": {
@@ -897,6 +917,136 @@
         },
         "driver2_layer3_month2_KPIData": {
           "expected": "{{layer3_driver1_month2_forecast}}",
+          "tolerance": 1
+        },
+        "driver1_layer3_month1_previous_KPIData": {
+          "expected": "{{driver1_layer2_month1_KPIData}}",
+          "tolerance": 1
+        },
+        "driver1_layer3_month2_previous_KPIData": {
+          "expected": "{{driver1_layer2_month2_KPIData}}",
+          "tolerance": 1
+        },
+        "driver2_layer3_month1_previous_KPIData": {
+          "expected": "{{driver2_layer2_month1_KPIData}}",
+          "tolerance": 1
+        },
+        "driver2_layer3_month2_previous_KPIData": {
+          "expected": "{{driver2_layer2_month2_KPIData}}",
+          "tolerance": 1
+        }
+      }
+    }
+  ],
+  "Delete Layer-2 Adjustment and validate GetKpi": [
+    {
+      "testStep": "Delete Layer-2 Adjustment",
+      "environment": "dev",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "saveAdjustment",
+      "testName": "Delete Layer-2 Adjustment",
+      "queryParams": "{{level2_save_adjustmentId}}?scenario_id={{io_scenario_id_multiLayerSave}}&scenario_version_timestamp={{io_scenario_version_multiLayerSave}}",
+      "method": "DELETE",
+      "payload": {},
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Validate get KPI after deleting Layer-2 Adjustment",
+      "environment": "dev",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName":  "Validate get KPI after deleting Layer-2 Adjustment",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+        "scenario_version": "{{io_scenario_version_multiLayerSave}}",
+        "dim_id": 11,
+        "dim_val_id": 110026,
+        "classification_id": 11,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "returnedunitsuom_input",
+            "storereturns_input"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            }
+          ],
+          "month": [
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}"
+          ]
+        },
+        "isApplied": false,
+        "adjustment_id": "{{level3_save_adjustmentId}}"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "driver1_DeleteLayer2_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver1_DeleteLayer2_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver2_DeleteLayer2_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver2_DeleteLayer2_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        }
+      },
+      "validateExtractToBeApprox": {
+        "driver1_DeleteLayer2_month1_previous_KPIData": {
+          "expected": "{{driver1_layer1_month1_KPIData}}",
+          "tolerance": 1
+        },
+        "driver1_DeleteLayer2_month2_previous_KPIData": {
+          "expected": "{{driver1_layer1_month2_KPIData}}",
+          "tolerance": 1
+        },
+        "driver2_DeleteLayer2_month1_previous_KPIData": {
+          "expected": "{{driver2_layer1_month1_KPIData}}",
+          "tolerance": 1
+        },
+        "driver2_DeleteLayer2_month2_previous_KPIData": {
+          "expected": "{{driver2_layer1_month2_KPIData}}",
           "tolerance": 1
         }
       }
