@@ -48,13 +48,15 @@
     "testCases/ssdm-get-kpi-verify.json",
     "testCases/projection-method-testcases/regression-EqualDistributionAllocation.json",
     "testCases/projection-method-testcases/regression-TimeRollingAllocation.json",
+    "testCases/projection-method-testcases/growthRate-EqualDistributionAllocation.json",
+    "testCases/projection-method-testcases/growthRate-TimeRollingAllocation.json", 
     "testCases/projection-method-testcases/growthRate-MaintainRatioAllocation.json",
     "testCases/projection-method-testcases/growthRate-constantValueAllocation.json",
-    "testCases/excel-load-data-api-time-granularity.json",
     "testCases/data-science-demand-metric-ssdm-edit.json",
     "testCases/filters-ssdm-api-tests.json",
     "testCases/progress-status-ssdm.api-tests.json",
-    "testCases/data-science-demand-metric-ssdm-edit.json"
+    "testCases/calculate-additive-nodes-constant-value.json",
+    "testCases/calculate-additive-nodes-percent-rolling.json"
   ],
   "currentDemandService": {
     "baseURL": {
