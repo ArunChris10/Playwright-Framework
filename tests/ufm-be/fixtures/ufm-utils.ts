@@ -530,4 +530,34 @@ export class UfmUtility {
       );
       return found ? found[returnKey] : undefined;
     }
+
+    /**
+ * Compares calculated and API node values for all months and nodes.
+ * @param comparisonObj - { [month: string]: { calculatedNodes: Record<string, number>, apiNodeValues: Record<string, number> } }
+ * @param tolerance - Allowed difference between forecasts.
+ * @throws Error if any node/month pair mismatches beyond tolerance.
+ */
+static async compareNodeValuesByMonth(
+  comparisonObj: Record<string, { calculatedNodes: Record<string, number>, apiNodeValues: Record<string, number> }>,
+  tolerance: number = 0.5
+) {
+  const mismatches: string[] = [];
+  for (const monthKey in comparisonObj) {
+    const { calculatedNodes, apiNodeValues } = comparisonObj[monthKey];
+    for (const node in calculatedNodes) {
+      if (apiNodeValues[node] !== undefined) {
+        const diff = Math.abs(calculatedNodes[node] - apiNodeValues[node]);
+        if (diff > tolerance) {
+          mismatches.push(
+            `Mismatch for ${node} (${monthKey}): calculated=${calculatedNodes[node]}, api=${apiNodeValues[node]}, diff=${diff}`
+          );
+        }
+      }
+    }
+  }
+
+  // Use Playwright's expect for assertion
+  expect(mismatches, mismatches.join('\n')).toHaveLength(0);
+
+}
 }
