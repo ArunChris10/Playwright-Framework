@@ -182,6 +182,16 @@ export class ExcelPage {
     await this.scenario.click();
   }
 
+  async selectNthScenario(index: number) {
+    await this.scenario.click();
+    await this.scenarioSection.textbox.click();
+
+    await this.scenarioSection.checkboxes.nth(index).click();
+
+    await this.page.keyboard.press("Escape");
+    await this.scenario.click();
+  }
+
   async isDimensonDisabled(dimension: string) {
     if (dimension) {
       const checkbox = this.mainIframe.getByRole("checkbox", {
