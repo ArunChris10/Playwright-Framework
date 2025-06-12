@@ -2,7 +2,7 @@ import { expect, test } from "../../common/fixtures/test-hook";
 import { ExcelPage } from "../pages/excel.page";
 
 test.describe(
-    "Download Button Disable",
+    "Refresh Button Functionality",
     { tag: "@Regression @ExcelPlugin @RefreshButton" },
     async () => {
         let excelPage: ExcelPage;
