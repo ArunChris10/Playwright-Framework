@@ -155,7 +155,7 @@ export class Utility {
       fs.writeFileSync(this.nexusTokenFilePath, updatedDate);
     }
     let nexusTokens = JSON.stringify(parsedData[userId]);
-    nexusTokens = nexusTokens.replace('"', "");
+    // nexusTokens = nexusTokens.replace('"', "");
     nexusTokens = nexusTokens.replace('"', "");
     nexusTokens = `Bearer ` + nexusTokens;
     return nexusTokens;
@@ -643,5 +643,140 @@ export class Utility {
     }
 
     return doesFileExist;
+  }
+
+  /**
+   * Utility to compare two arrays of objects with the same structure, with tolerance for all numeric fields.
+   * Throws an error with details if any value exceeds the tolerance.
+   * Arrays must be in the same order and have the same keys.
+   * @param arr1 - First array of objects (e.g., Current Demand)
+   * @param arr2 - Second array of objects (e.g., KPI)
+   * @param tolerance - Allowed tolerance (default 0.5)
+   */
+  public static async expectArraysToBeClose(
+    arr1: any[],
+    arr2: any[],
+    tolerance: number = 0.5
+  ) {
+    if (arr1.length === 0 || arr2.length === 0) {
+      expect(arr1.length).toEqual(arr2.length);
+      return;
+    }
+    const keys = Object.keys(arr1[0]);
+    // Find a string key (e.g., 'month') and a numeric value key (e.g., 'forecast')
+    let keyField = keys.find(
+      (k) => typeof arr1[0][k] === "string" && arr2[0][k] === arr1[0][k]
+    );
+    let valueField = keys.find(
+      (k) => typeof arr1[0][k] === "number" && typeof arr2[0][k] === "number"
+    );
+    if (keyField && valueField) {
+      Utility.expectArraysToBeCloseWithKey(
+        arr1,
+        arr2,
+        keyField,
+        valueField,
+        valueField,
+        tolerance
+      );
+      return;
+    }
+    // Fallback: compare all fields as before
+    expect(arr1.length).toEqual(arr2.length);
+    for (let i = 0; i < arr1.length; i++) {
+      const a = arr1[i];
+      const b = arr2[i];
+      for (const key of Object.keys(a)) {
+        if (typeof a[key] === "number" && typeof b[key] === "number") {
+          const diff = Math.abs(a[key] - b[key]);
+          if (diff > tolerance) {
+            throw new Error(
+              `Mismatch for key '${key}' at index ${i}: arr1=${a[key]}, arr2=${b[key]}, diff=${diff} (tolerance=${tolerance})`
+            );
+          }
+        } else {
+          expect(a[key]).toEqual(b[key]);
+        }
+      }
+    }
+  }
+
+  /**
+   * Utility to compare two arrays of objects by a key, with tolerance for a numeric value field.
+   * Throws an error with details if any value exceeds the tolerance.
+   * @param arr1 - First array of objects (e.g., Current Demand)
+   * @param arr2 - Second array of objects (e.g., KPI)
+   * @param keyField - The field to match objects (e.g., 'month')
+   * @param valueField1 - The numeric value field in arr1 (e.g., 'forecast')
+   * @param valueField2 - The numeric value field in arr2 (e.g., 'forecast')
+   * @param tolerance - Allowed tolerance (default 0.5)
+   */
+  public static async expectArraysToBeCloseWithKey(
+    arr1: any[],
+    arr2: any[],
+    keyField: string,
+    valueField1: string,
+    valueField2: string,
+    tolerance: number = 0.5
+  ) {
+    // Convert to unified structure for generic comparison
+    const arr1Unified = arr1.map((a) => ({
+      [keyField]: a[keyField],
+      value: a[valueField1],
+    }));
+    const arr2Unified = arr2.map((b) => ({
+      [keyField]: b[keyField],
+      value: b[valueField2],
+    }));
+    expect(arr1Unified.length).toEqual(arr2Unified.length);
+    for (let i = 0; i < arr1Unified.length; i++) {
+      const a = arr1Unified[i];
+      const b = arr2Unified[i];
+      expect(a[keyField]).toEqual(b[keyField]);
+      const diff = Math.abs(a.value - b.value);
+      if (diff > tolerance) {
+        throw new Error(
+          `Mismatch for key '${keyField}'=${a[keyField]}: arr1=${a.value}, arr2=${b.value}, diff=${diff} (tolerance=${tolerance})`
+        );
+      }
+    }
+  }
+
+
+    /**
+   * Generates an array of months in 'YYYYMM' format around the current month.
+   *
+   * @param monthsBefore - Number of months before the current month to include (default: 36)
+   * @param monthsAfter - Number of months after the current month to include (default: 18)
+   * @param currentDate - The reference date (default: now)
+   * @returns {Promise<string[]>} Array of months in 'YYYYMM' format, from (current - monthsBefore) to (current + monthsAfter)
+   *
+   * Example: If currentDate is June 2025, monthsBefore is 36, and monthsAfter is 18,
+   * the result will start 36 months before June 2025 and end 18 months after, inclusive.
+   */
+  public static async generateMonthsAroundCurrent(
+    monthsBefore: number = 24,
+    monthsAfter: number = 30,
+    currentDate: Date = new Date()
+  ): Promise<string[]> {
+    const result: string[] = [];
+    let start = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - monthsBefore,
+      1
+    );
+    let end = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + monthsAfter,
+      1
+    );
+
+    while (start <= end) {
+      const y = start.getFullYear();
+      const m = (start.getMonth() + 1).toString().padStart(2, "0");
+      result.push(`${y}${m}`);
+      start.setMonth(start.getMonth() + 1);
+    }
+    return result;
   }
 }

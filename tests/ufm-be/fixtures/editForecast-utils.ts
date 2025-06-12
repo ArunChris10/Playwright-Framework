@@ -214,175 +214,205 @@ export class EditForecastUtility {
         obj.display_nodes = [...(obj.display_nodes || []), ...affectingNodes];
     }
 
-    /**
-     * Gets the KPI forecast.
-     *
-     * @param {string} lobName - The line of business name.
-     * @param {Object} scenario_details - The scenario details.
-     * @param {string} monthYear - The month and year.
-     * @param {any[]} inputNodes - The input nodes array.
-     * @param {Object} request - The request object.
-     * @returns {Promise<any>} A promise that resolves to the response object.
-     */
-    static async getKpiForecast(lobName, scenario_details, monthYear, node_dimension, inputNodes,filter,request) {
-        const endpointURL = `${process.env.apiBaseURLUFM}${getKpiData.endpoint}`;
-        let kpiPayload = await this.createKpiPayloadNodeLevel(
-            lobName,
-            scenario_details,
-          filter,
-            monthYear,
-            inputNodes,
-            node_dimension
-        );
-        Utility.logIt({ kpiPayload });
-        let apiResponse = await request.post(endpointURL, {
-            data: kpiPayload,
-        });
-        return await Utility.assertAndLog(apiResponse);
+  /**
+   * Gets the KPI forecast.
+   *
+   * @param {string} lobName - The line of business name.
+   * @param {Object} scenario_details - The scenario details.
+   * @param {string} monthYear - The month and year.
+   * @param {any[]} inputNodes - The input nodes array.
+   * @param {Object} request - The request object.
+   * @returns {Promise<any>} A promise that resolves to the response object.
+   */
+  static async getKpiForecast(
+    lobName,
+    scenario_details,
+    monthYear,
+    node_dimension,
+    inputNodes,
+    filter,
+    request
+  ) {
+    // If monthYear is empty or not provided, generate months around current
+    if (!monthYear || (Array.isArray(monthYear) && monthYear.length === 0)) {
+      monthYear = await Utility.generateMonthsAroundCurrent();
     }
+    const endpointURL = `${process.env.apiBaseURLUFM}${getKpiData.endpoint}`;
+    let kpiPayload = await this.createKpiPayloadNodeLevel(
+      lobName,
+      scenario_details,
+      filter,
+      monthYear,
+      inputNodes,
+      node_dimension
+    );
+    Utility.logIt({ kpiPayload });
+    let apiResponse = await request.post(endpointURL, {
+      data: kpiPayload,
+    });
+    return await Utility.assertAndLog(apiResponse);
+  }
 
-    /**
-     * Creates a KPI payload for node level.
-     *
-     * @param {string} lobName - The line of business name.
-     * @param {Object} scenario_details - The scenario details.
-     * @param {any[]} filter - The filter array.
-     * @param {string} monthYear - The month and year.
-     * @param {any[]} nodes - The nodes array.
-     * @returns {Promise<any>} A promise that resolves to the payload object.
-     */
-    static async createKpiPayloadNodeLevel(
-        lobName,
-        scenario_details,
-        filter ,
-        monthYear,
-        nodes,
-        node_dimension
-    ) {
-        getKpiData.payloads.scenario_id = scenario_details["scenarioId"];
-        getKpiData.payloads.scenario_version = scenario_details["scenarioVersion"];
+  /**
+   * Creates a KPI payload for node level.
+   *
+   * @param {string} lobName - The line of business name.
+   * @param {Object} scenario_details - The scenario details.
+   * @param {any[]} filter - The filter array.
+   * @param {string} monthYear - The month and year.
+   * @param {any[]} nodes - The nodes array.
+   * @returns {Promise<any>} A promise that resolves to the payload object.
+   */
+  static async createKpiPayloadNodeLevel(
+    lobName,
+    scenario_details,
+    filter,
+    monthYear,
+    nodes,
+    node_dimension
+  ) {
+    getKpiData.payloads.scenario_id = scenario_details["scenarioId"];
+    getKpiData.payloads.scenario_version = scenario_details["scenarioVersion"];
 
-        getKpiData.payloads.dim_val_id = await UfmUtility.getMapping(
-            lobName,
-            "dim_val_id"
-        );
-        getKpiData.payloads.additional_filters.template_include_headers[1] =
-            await SOTUtility.templateIncludeHeaders(monthYear);
-        getKpiData.payloads.additional_filters.month = monthYear;
+    getKpiData.payloads.dim_val_id = await UfmUtility.getMapping(
+      lobName,
+      "dim_val_id"
+    );
+    getKpiData.payloads.additional_filters.template_include_headers = [
+  ...getKpiData.payloads.additional_filters.template_include_headers,
+  ...(await SOTUtility.templateIncludeHeaders(monthYear))
+];
+    getKpiData.payloads.additional_filters.month = monthYear;
 
+    getKpiData.payloads.additional_filters.nodes = Array.isArray(nodes)
+      ? nodes
+      : [nodes];
+    if (node_dimension && Object.keys(node_dimension).length > 0) {
+      const key = Object.keys(node_dimension)[0];
+      if (!getKpiData.payloads.additional_filters.pivot_index?.includes(key)) {
+        getKpiData.payloads.additional_filters.pivot_index = [
+          ...(getKpiData.payloads.additional_filters.pivot_index || []),
+          key,
+        ];
+      }
+    }
+    getKpiData.payloads.filters = filter;
+    return getKpiData.payloads;
+  }
 
-        getKpiData.payloads.additional_filters.nodes = Array.isArray(nodes) ? nodes : [nodes];
-        if (node_dimension && Object.keys(node_dimension).length > 0) {
-            const key = Object.keys(node_dimension)[0];
-            if (!getKpiData.payloads.additional_filters.pivot_index?.includes(key)) {
-            getKpiData.payloads.additional_filters.pivot_index = [
-                ...(getKpiData.payloads.additional_filters.pivot_index || []),
-                key,
-            ];
-            }
+  /**
+   * Validates the forecast response.
+   *
+   * @param {any[]} responseBody - The response body.
+   * @param {Root} obj - The root object.
+   * @param {Record<string, number[]>} baselineValuesMap - The baseline values map.
+   * @param {string[]} months - The months array.
+   */
+  static async validateForecastResponse(
+    responseBody: any[],
+    obj: Root,
+    baselineValuesMap: Record<string, number[]>,
+    months: string[],
+    ratioMap: Record<string, Record<string, number>> = {} // Optional parameter for node and month ratios
+  ) {
+    for (const responseNode of responseBody) {
+      const { node_var_name, edits: responseEdits } = responseNode;
+
+      // Validate the edits (month and forecast values) for nodes present in obj.edits
+      const payloadNode = obj.edits.find(
+        (edit) => edit.node_var_name === node_var_name
+      );
+      if (payloadNode) {
+        for (const [month, edit] of Object.entries(
+          responseEdits as Record<string, { forecast: number }>
+        )) {
+          const forecastValue = edit.forecast;
+
+          // Adjust the expected value by multiplying with the respective month ratio
+          const expectedValue =
+            payloadNode.data[month] * (ratioMap[node_var_name]?.[month] || 1); // Default ratio is 1 if not found
+          const lowerBound = expectedValue * 0.99; // 1% less
+          const upperBound = expectedValue * 1.01; // 1% more
+          expect(forecastValue).toBeGreaterThanOrEqual(lowerBound);
+          expect(forecastValue).toBeLessThanOrEqual(upperBound);
+          Utility.logIt(
+            `Forecast value for month ${month} matches for node ${node_var_name}: ${forecastValue}`
+          );
         }
-        getKpiData.payloads.filters = filter;
-        return getKpiData.payloads;
-    }
+      }
 
-    /**
-     * Validates the forecast response.
-     *
-     * @param {any[]} responseBody - The response body.
-     * @param {Root} obj - The root object.
-     * @param {Record<string, number[]>} baselineValuesMap - The baseline values map.
-     * @param {string[]} months - The months array.
-     */
-    static async validateForecastResponse(
-        responseBody: any[],
-        obj: Root,
-        baselineValuesMap: Record<string, number[]>,
-        months: string[],
-        ratioMap: Record<string, Record<string, number>> = {} // Optional parameter for node and month ratios
-    ) {
-        for (const responseNode of responseBody) {
-            const { node_var_name, edits: responseEdits } = responseNode;
+      // Handle extra nodes (nodes not present in obj.edits)
+      const extraNodes = Object.keys(baselineValuesMap).filter(
+        (node) => !obj.edits.some((edit) => edit.node_var_name === node)
+      );
+      expect(extraNodes.length).toBeGreaterThan(0); // Ensure there are extra nodes
+      extraNodes.forEach((extraNode) => {
+        expect(
+          responseBody.some((node) => node.node_var_name === extraNode)
+        ).toBeTruthy(); // Check if each extra node is in the response
+      });
 
-            // Validate the edits (month and forecast values) for nodes present in obj.edits
-            const payloadNode = obj.edits.find(edit => edit.node_var_name === node_var_name);
-            if (payloadNode) {
-                for (const [month, edit] of Object.entries(responseEdits as Record<string, { forecast: number }>)) {
-                    const forecastValue = edit.forecast;
-
-                    // Adjust the expected value by multiplying with the respective month ratio
-                    const expectedValue = payloadNode.data[month] * (ratioMap[node_var_name]?.[month] || 1); // Default ratio is 1 if not found
-                    const lowerBound = expectedValue * 0.99; // 1% less
-                    const upperBound = expectedValue * 1.01; // 1% more
-                    expect(forecastValue).toBeGreaterThanOrEqual(lowerBound);
-                    expect(forecastValue).toBeLessThanOrEqual(upperBound);
-                    Utility.logIt(`Forecast value for month ${month} matches for node ${node_var_name}: ${forecastValue}`);
-                }
-            }
-    
-            // Handle extra nodes (nodes not present in obj.edits)
-            const extraNodes = Object.keys(baselineValuesMap).filter(
-                (node) => !obj.edits.some((edit) => edit.node_var_name === node)
-                );
-            expect(extraNodes.length).toBeGreaterThan(0); // Ensure there are extra nodes
-            extraNodes.forEach((extraNode) => {
-                expect(responseBody.some((node) => node.node_var_name === extraNode)).toBeTruthy(); // Check if each extra node is in the response
-            });
-    
-            if (extraNodes.includes(node_var_name)) {
-                for (const [month, edit] of Object.entries(responseEdits as Record<string, { forecast: number }>)) {
-                    const forecastValue = edit.forecast;
-                    const baselineValuesForNode = baselineValuesMap[node_var_name];
-                    expect(baselineValuesForNode).toBeDefined(); 
-                    const baselineValue = baselineValuesForNode[months.indexOf(month)]; // Get the baseline value for the current month
-                    expect(forecastValue).not.toBe(baselineValue); // Assert forecast for affecting nodes is updated with edit in Parent node
-                    Utility.logIt(`Forecast value for month ${month} (${forecastValue}) for extra node ${node_var_name} changed from baseline value (${baselineValue})`);
-                }
-            }
+      if (extraNodes.includes(node_var_name)) {
+        for (const [month, edit] of Object.entries(
+          responseEdits as Record<string, { forecast: number }>
+        )) {
+          const forecastValue = edit.forecast;
+          const baselineValuesForNode = baselineValuesMap[node_var_name];
+          expect(baselineValuesForNode).toBeDefined();
+          const baselineValue = baselineValuesForNode[months.indexOf(month)]; // Get the baseline value for the current month
+          expect(forecastValue).not.toBe(baselineValue); // Assert forecast for affecting nodes is updated with edit in Parent node
+          Utility.logIt(
+            `Forecast value for month ${month} (${forecastValue}) for extra node ${node_var_name} changed from baseline value (${baselineValue})`
+          );
         }
+      }
     }
+  }
 
-    /**
-     * Creates an adjustment.
-     *
-     * @param {number} scenario_id - The scenario ID.
-     * @param {number} scenario_version - The scenario version.
-     * @param {string} lobName - The line of business name.
-     * @param {number} allocationMethod - The allocation method.
-     * @param {string[]} additiveOrNonAdditive - The additive or non-additive nodes.
-     * @param {NodeDimension} node_dimension - The node dimension.
-     * @param {Object} request - The request object.
-     * @returns {Promise<any>} A promise that resolves to the response object.
-     */
-    static async createAdjustment(
-        scenario_id,
-        scenario_version,
-        lobName,
-        allocationMethod,
-        additiveOrNonAdditive: string[],
-        node_dimension: NodeDimension = {},
-        obj,
-        request
-    ) {
-        const endpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;
-        Utility.logIt(`Create adjustment for ${lobName}`);
-        adjustmentData.payloads.adjustment_metadata.adjustment_name =
-            lobName + " Auto Adjustment " + new Date().toLocaleString();
-        adjustmentData.payloads.adjustment_metadata.adjustment_reason =
-            lobName + " Auto Adjustment Desc " + new Date().toLocaleString();
-        adjustmentData.payloads.adjustment_metadata.scenario_id = scenario_id;
-        adjustmentData.payloads.adjustment_metadata.scenario_version_timestamp =
-            scenario_version;
-        adjustmentData.payloads.dim_val_id = await UfmUtility.getMapping(
-            lobName,
-            "dim_val_id"
-        );
-        obj.preview = false;
-        adjustmentData.payloads.allocation_request = obj;
-        Utility.logIt("Adjustment Payload" + JSON.stringify(adjustmentData.payloads))
-        const response = await request.patch(endpointURL, {
-            data: adjustmentData.payloads,
-        });
-        
-        return await Utility.assertAndLog(response);
-    }
+  /**
+   * Creates an adjustment.
+   *
+   * @param {number} scenario_id - The scenario ID.
+   * @param {number} scenario_version - The scenario version.
+   * @param {string} lobName - The line of business name.
+   * @param {number} allocationMethod - The allocation method.
+   * @param {string[]} additiveOrNonAdditive - The additive or non-additive nodes.
+   * @param {NodeDimension} node_dimension - The node dimension.
+   * @param {Object} request - The request object.
+   * @returns {Promise<any>} A promise that resolves to the response object.
+   */
+  static async createAdjustment(
+    scenario_id,
+    scenario_version,
+    lobName,
+    allocationMethod,
+    additiveOrNonAdditive: string[],
+    node_dimension: NodeDimension = {},
+    obj,
+    request
+  ) {
+    const endpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;
+    Utility.logIt(`Create adjustment for ${lobName}`);
+    adjustmentData.payloads.adjustment_metadata.adjustment_name =
+      lobName + " Auto Adjustment " + new Date().toLocaleString();
+    adjustmentData.payloads.adjustment_metadata.adjustment_reason =
+      lobName + " Auto Adjustment Desc " + new Date().toLocaleString();
+    adjustmentData.payloads.adjustment_metadata.scenario_id = scenario_id;
+    adjustmentData.payloads.adjustment_metadata.scenario_version_timestamp =
+      scenario_version;
+    adjustmentData.payloads.dim_val_id = await UfmUtility.getMapping(
+      lobName,
+      "dim_val_id"
+    );
+    obj.preview = false;
+    adjustmentData.payloads.allocation_request = obj;
+    Utility.logIt(
+      "Adjustment Payload" + JSON.stringify(adjustmentData.payloads)
+    );
+    const response = await request.patch(endpointURL, {
+      data: adjustmentData.payloads,
+    });
+
+    return await Utility.assertAndLog(response);
+  }
 }

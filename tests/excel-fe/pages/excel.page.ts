@@ -9,7 +9,10 @@ export class ExcelPage {
   readonly nameBox: Locator;
   readonly formulaBar: Locator;
   readonly getStartedBtn: Locator;
+  readonly uploadBtn: Locator;
+  readonly uploadTypeCombobox: Locator;
   readonly businessArea: Locator;
+  readonly drivers: Locator;
   readonly dateRangePicker: Locator;
   readonly dimensions: Locator;
   readonly btnHasText: Function;
@@ -21,6 +24,9 @@ export class ExcelPage {
   readonly comparedWithCombobox: Locator;
   readonly clearBtn: Locator;
   readonly resetDateRange: Locator;
+  readonly backToFiltersNavigation: Locator;
+  readonly uploadTextField: Locator;
+  readonly uploadTextArea: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -36,19 +42,37 @@ export class ExcelPage {
     this.getStartedBtn = this.mainIframe.getByRole("button", {
       name: "Get Started",
     });
+    this.uploadBtn = this.mainIframe.getByRole("button", {
+      name: "Upload",
+    });
+    this.uploadTypeCombobox = this.mainIframe.getByRole("combobox");
+    this.backToFiltersNavigation = this.mainIframe.getByTestId("BackToFilters");
     this.businessArea = this.mainIframe.getByRole("combobox");
     this.dateRangePicker = this.mainIframe.getByTestId("date-range-component");
     this.dimensions = this.mainIframe.getByText("Dimensions");
     this.btnHasText = (text: string) =>
       this.mainIframe.locator("button").filter({ hasText: text });
     this.savedView = this.mainIframe.getByText("Saved Views");
+    this.drivers = this.mainIframe.getByText("Drivers");
     this.scenario = this.mainIframe.getByText("Scenarios");
     this.loadDataButton = this.mainIframe.getByTestId("LoadDataButton");
     this.addComparedScenario = this.mainIframe.getByText("Add", {exact: true});
+    this.addComparedScenario = this.mainIframe.getByText("Add driver", {exact: true});
     this.baselineCombobox = this.mainIframe.locator('#baselineCombobox, [aria-labelledby="baselineCombobox"]');
     this.comparedWithCombobox = this.mainIframe.locator('#comparedWithCombobox, [aria-labelledby="comparedWithCombobox"]');
+    this.addComparedScenario = this.mainIframe.getByText("Add", {
+      exact: true,
+    });
+    this.baselineCombobox = this.mainIframe.locator(
+      '#baselineCombobox, [aria-labelledby="baselineCombobox"]'
+    );
+    this.comparedWithCombobox = this.mainIframe.locator(
+      '#comparedWithCombobox, [aria-labelledby="comparedWithCombobox"]'
+    );
     this.clearBtn = this.mainIframe.getByTestId("ClearButton");
     this.resetDateRange = this.mainIframe.getByText("Reset date range");
+    this.uploadTextField = this.mainIframe.locator('input[type="text"]');
+    this.uploadTextArea = this.mainIframe.locator("textarea");
   }
 
   async getTableData() {
@@ -84,6 +108,24 @@ export class ExcelPage {
     await this.getStartedBtn.click();
   }
 
+  async openUploadPanel() {
+    await this.uploadBtn.click();
+  }
+
+  async uploadData() {
+    await this.loadDataButton.click();
+  }
+
+  async selectUploadType(uploadType?: string) {
+    await this.uploadTypeCombobox.click();
+    if (!uploadType) {
+      await this.mainIframe.getByRole("menuitem").first().click();
+    } else {
+      await this.mainIframe.getByRole("menuitem", { name: uploadType }).click();
+    }
+    await this.page.waitForTimeout(1000);
+  }
+
   async selectBusinessArea(businessArea?: string) {
     await this.businessArea.click();
     if (!businessArea) {
@@ -93,6 +135,11 @@ export class ExcelPage {
         .getByRole("menuitem", { name: businessArea })
         .click();
     }
+    await this.page.waitForTimeout(1000);
+  }
+
+  async selectDrivers() {
+    await this.drivers.click();
     await this.page.waitForTimeout(1000);
   }
 

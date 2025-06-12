@@ -1,15 +1,18 @@
 // playwright.config.ts
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   timeout: 10000000,
   globalTeardown: './globalTeardown.ts',
-  globalSetup: './globalSetup.ts', 
+  globalSetup: './globalSetup.ts',
   retries: 0,
+
   workers: 1,
-  reporter: [
-    ['list'],
-    ['html', { open: 'never' }],
-    ['json', { outputFile: 'test-report.json' }],
-  ],
+  reporter: process.env.CI
+    ? [
+      ["html", { outputFolder: `playwright-report/${process.env.APP_NAME}` }],
+      ["@walmartlabs/testburst-playwright-js-reporter"],
+    ]
+    : "html",
+
 });

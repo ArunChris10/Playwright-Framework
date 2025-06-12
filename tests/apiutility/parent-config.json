@@ -19,7 +19,6 @@
     "testCases/calculate-saveajustment-api-tests.json",
     "testCases/create-view-api-tests.json",
     "testCases/excel-load-data-api-tests.json",
-    "testCases/excel-load-data-api-snapshots-tests.json",
     "testCases/excel-load-data-api-aggregation-tests.json",
     "testCases/forecast-calender-api.json",
     "testCases/forecast-cycle-api-tests.json",
@@ -34,13 +33,8 @@
     "testCases/ssdm-node-edge-get-drivers-api-tests.json",
     "testCases/ssdm-node-edge-publish-api-tests.json",
     "testCases/NodesCases/nodeshRefresh-api-tests.json",
-   "testCases/projection-method-testcases/historicRate-constantValueAllocation.json",
-   "testCases/excel-load-data-api-time-granularity.json",
-   "testCases/download-Validation-NEFile.tests.json",
-    "testCases/NodesCases/get-kpi-Month-GroupBy-Filter-tests.json",
-    "testCases/NodesCases/drivers-api-tests.json",
-    "testCases/NodesCases/actual-missing-nodes-api-tests.json",
     "testCases/ssdm-myKpi-valuetype-tests.json"
+    "testCases/download-Validation-NEFile.tests.json",
     "testCases/get-kpi-Month-GroupBy-Filter-tests.json",
     "testCases/drivers-api-tests.json",
     "testCases/actual-missing-nodes-api-tests.json",
@@ -51,11 +45,19 @@
     "testCases/projection-method-testcases/regression-MaintainRatioAllocation.json",
     "testCases/projection-method-testcases/regression-constantValueAllocation.json",
     "testCases/excel-load-data-api-time-granularity.json",
+    "testCases/excel-load-data-time-grains.json",
     "testCases/ssdm-get-kpi-verify.json",
     "testCases/projection-method-testcases/regression-EqualDistributionAllocation.json",
     "testCases/projection-method-testcases/regression-TimeRollingAllocation.json",
-    "testCases/excel-load-data-api-time-granularity.json",
-    "testCases/data-science-demand-metric-ssdm-edit.json"
+    "testCases/projection-method-testcases/growthRate-EqualDistributionAllocation.json",
+    "testCases/projection-method-testcases/growthRate-TimeRollingAllocation.json", 
+    "testCases/projection-method-testcases/growthRate-MaintainRatioAllocation.json",
+    "testCases/projection-method-testcases/growthRate-constantValueAllocation.json",
+    "testCases/data-science-demand-metric-ssdm-edit.json",
+    "testCases/filters-ssdm-api-tests.json",
+    "testCases/progress-status-ssdm.api-tests.json",
+    "testCases/calculate-additive-nodes-constant-value.json",
+    "testCases/calculate-additive-nodes-percent-rolling.json"
 
   ],
   "currentDemandService": {
@@ -99,9 +101,15 @@
     "Forecast": "/scenario",
     "getKpiV2": "/reports/get-mykpi/v2",
     "getTimestamp": "/sandbox/v1/get-datasets-timestamp",
+    "getPublishedVersions": "/sandbox/v1/get-published-versions",
     "getDrivers": "/metadata/drivers",
+    "publish-data-science-aop": "/data-science/aop/upload",
+    "publish-data-science": "/data-science/upload",
+    "get-data-science-info": "/scenario/data-science/info",
+    "download":"/validation/download",
     "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
-    "getPublishedVersions": "/sandbox/v1/get-published-versions"
+    "applyChangesOnSSDM":"/sandbox/v1/get-mykpi",
+    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions"
   },
   "notificationService": {
     "baseURL": {
@@ -129,6 +137,6 @@
       "qa": "https://ibg-ufm-dataforge-service.qa.ibg.walmart.com"
     },
     "actualMissingNode": "/v1/actual_missing/nodes",
-    "actualMissingNodeIncorrect":"/v1/actual_missing/nodes/incorrect"
+    "actualMissingNodeIncorrect": "/v1/actual_missing/nodes/incorrect"
   }
 }
