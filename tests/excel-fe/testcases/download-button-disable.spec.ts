@@ -13,11 +13,11 @@ test.describe(
             await excelPage.getStarted();
         });
 
-        test("Verify download button is disabled initially", async () => {
+        test("Verify Download button is disabled initially", async () => {
             await expect(excelPage.buttons.download).toBeDisabled();
         });
 
-        test("Verify download button is enabled after required selections", async () => {
+        test("Verify Download button is enabled after required selections", async () => {
             await excelPage.selectBusinessArea(
                 "Merchandising Operations  /  Merchops"
             );
@@ -26,13 +26,13 @@ test.describe(
             await expect(excelPage.buttons.download).toBeEnabled();
         });
 
-        test("Verify download button is disabled if Scenarios selection removed", async () => {
+        test("Verify Download button is disabled if Scenarios selection removed", async () => {
             await excelPage.selectScenario(); // unchecks checkbox
             await expect(excelPage.buttons.download).toBeDisabled();
             await excelPage.selectScenario(); // rechecks checkbox
         });
 
-        test("Verify Clear button removes selections and disables Load Data button", async () => {
+        test("Verify Clear button removes selections and disables Download button", async () => {
             await excelPage.clearSelections();
             await expect(
                 excelPage.mainIframe.getByText("Please select")
