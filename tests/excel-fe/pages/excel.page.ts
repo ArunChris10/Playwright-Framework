@@ -1,5 +1,6 @@
 import { expect, FrameLocator, Locator, Page } from "@playwright/test";
 import { Utility } from "../../common/fixtures/utils";
+import {Buttons, ScenarioSection} from "../types/excel.page.types";
 
 export class ExcelPage {
   readonly page: Page;
@@ -22,11 +23,14 @@ export class ExcelPage {
   readonly addComparedScenario: Locator;
   readonly baselineCombobox: Locator;
   readonly comparedWithCombobox: Locator;
-  readonly clearBtn: Locator;
   readonly resetDateRange: Locator;
   readonly backToFiltersNavigation: Locator;
   readonly uploadTextField: Locator;
   readonly uploadTextArea: Locator;
+
+  readonly scenarioSection: ScenarioSection
+
+  readonly buttons: Buttons;
 
   constructor(page: Page) {
     this.page = page;
@@ -69,10 +73,21 @@ export class ExcelPage {
     this.comparedWithCombobox = this.mainIframe.locator(
       '#comparedWithCombobox, [aria-labelledby="comparedWithCombobox"]'
     );
-    this.clearBtn = this.mainIframe.getByTestId("ClearButton");
     this.resetDateRange = this.mainIframe.getByText("Reset date range");
     this.uploadTextField = this.mainIframe.locator('input[type="text"]');
     this.uploadTextArea = this.mainIframe.locator("textarea");
+
+    this.scenarioSection = {
+      textbox: this.mainIframe.locator(`input[type="text"][value=""]`),
+      checkboxes: this.mainIframe.getByRole("checkbox")
+    }
+
+    this.buttons = {
+      download: this.mainIframe.getByRole("button", { name: "Download" }),
+      refresh: this.mainIframe.getByRole("button", { name: "Refresh "}),
+      clear: this.mainIframe.getByRole("button", { name: "Clear" }),
+    }
+
   }
 
   async getTableData() {
@@ -155,11 +170,15 @@ export class ExcelPage {
 
   async selectScenario(scenario?: string) {
     await this.scenario.click();
+    await this.scenarioSection.textbox.click();
+
     if (scenario) {
       await this.mainIframe.getByRole("checkbox", { name: scenario }).click();
     } else {
-      await this.mainIframe.getByRole("checkbox").first().click();
+      await this.scenarioSection.checkboxes.first().click();
     }
+
+    await this.page.keyboard.press("Escape");
     await this.scenario.click();
   }
 
@@ -210,7 +229,7 @@ export class ExcelPage {
   }
 
   async clearSelections() {
-    await this.clearBtn.click();
+    await this.buttons.clear.click();
   }
 
   async clickElementByRole(role: string) {
