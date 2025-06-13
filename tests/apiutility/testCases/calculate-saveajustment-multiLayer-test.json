@@ -2,7 +2,7 @@
   "createScenario_for_multi Layer Save": [
     {
       "testStep": "Get a forecast to delete before proceding for IO SBA - multi-layer save scenario",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke",
         "MS3"
@@ -76,7 +76,7 @@
     },
     {
       "testStep": "Delete IO SBA forecast before proceding_multiLayerSave",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke"
       ],
@@ -92,7 +92,7 @@
     },
     {
       "testStep": "Create Forecast Scenario for IO SBA_multiLayerSave",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke",
         "Pre-Req"
@@ -121,7 +121,7 @@
     },
     {
       "testStep": "Poll creation of IO FORECAST_multiLayerSave",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke",
         "Pre-Req"
@@ -171,7 +171,7 @@
   "layer-1 of calculate, save & GetKpi": [
     {
       "testStep": "Calculate Forecast for_multiLayerSave-Layer1",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke",
         "MS1"
@@ -223,7 +223,7 @@
     },
     {
       "testStep": "Save Adjustment_multiLayerSave-Layer1",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke",
         "MS1"
@@ -294,7 +294,7 @@
     },
     {
       "testStep": "Validate Adjustment via getKpi-layer1",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke",
         "MS1"
@@ -377,7 +377,7 @@
   "layer-2 of calculate, save & GetKpi": [
     {
       "testStep": "Calculate Forecast for_multiLayerSave-Layer2",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke",
         "MS1"
@@ -461,7 +461,7 @@
     },
     {
       "testStep": "Save Adjustment_multiLayerSave-Layer2",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke",
         "MS1"
@@ -546,7 +546,7 @@
     },
     {
       "testStep": "Validate Adjustment via getKpi-layer2",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke",
         "MS1"
@@ -641,7 +641,7 @@
   "layer-3 of calculate, save & GetKpi": [
     {
       "testStep": "Calculate Forecast for_multiLayerSave-Layer3",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke",
         "MS1"
@@ -725,7 +725,7 @@
     },
     {
       "testStep": "Save Adjustment_multiLayerSave-Layer3",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke",
         "MS1"
@@ -810,7 +810,7 @@
     },
     {
       "testStep": "Validate Adjustment via getKpi-layer3",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke",
         "MS1"
@@ -941,7 +941,7 @@
   "Delete Layer-2 Adjustment and validate GetKpi": [
     {
       "testStep": "Delete Layer-2 Adjustment",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke",
         "MS1"
@@ -960,7 +960,7 @@
     },
     {
       "testStep": "Validate get KPI after deleting Layer-2 Adjustment",
-      "environment": "dev",
+      "environment": "qa",
       "labels": [
         "smoke",
         "MS1"
