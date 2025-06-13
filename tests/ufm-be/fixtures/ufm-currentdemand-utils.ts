@@ -63,6 +63,29 @@ export function extractMonthsDataFromKPI(
 }
 
 /**
+ * Extracts and rounds forecast months from KPI data for a given nodevarname.
+ * @param data - KPI response.
+ * @param monthKey - Month for which the data needs to be retrieved.
+ * @returns Array of { drivername: string, forecast: number }
+ */
+export function extractDriverForecastFromKpi(
+  data: { rowData: any[] },
+  monthKey: string
+): Record<string, number> {
+  const result: Record<string, number> = {};
+  for (const row of data.rowData) {
+    if (
+      row.driver &&
+      row[monthKey] &&
+      typeof row[monthKey].baseline === "number"
+    ) {
+      result[row.driver] = row[monthKey].forecast;
+    }
+  }
+  return result;
+}
+
+/**
  * Compares two arrays of forecast months, filtering to only shared months and asserting equality.
  * @param currentDemandForecastMonths - Array from Current Demand.
  * @param kpiForecastMonths - Array from KPI.

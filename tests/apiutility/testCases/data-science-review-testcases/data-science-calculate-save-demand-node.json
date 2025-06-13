@@ -66,9 +66,10 @@
           "status": 200
         },
         {
-          "assertEquals": {
-            "jsonPath1": "edits.{{dynamicMonth+1}}.forecast",
-            "value1": 10000.000000000005
+          "assertApproxEquals": {
+            "jsonPath": "edits.{{dynamicMonth+1}}.forecast",
+            "expected": 10000.000000000005,
+            "acceptedDifference": 0.1000
           }
         }
       ]

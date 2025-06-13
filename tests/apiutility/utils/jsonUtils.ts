@@ -11,6 +11,13 @@ import path from 'path';
  */
 export function findAllValuesByKey(obj: any, path: string): any[] {
   const results: any[] = [];
+
+  // Special case: "$" means return the entire object
+  if (path === "$") {
+    results.push(obj);
+    return results;
+  }
+
   const pathSegments = path.split(".");
 
   function traverse(current: any, remainingPath: string[]) {
@@ -33,6 +40,7 @@ export function findAllValuesByKey(obj: any, path: string): any[] {
   traverse(obj, pathSegments);
   return results;
 }
+
 
 export function findFirstValueByKey(obj: any, path: string): string[] {
   const results: any[] = [];
@@ -417,6 +425,7 @@ export function findRelativeFlexibleValue(
 
 
 export function getNestedValueFromRoot(obj: any, path: string): MatchedNode | undefined {
+
   const keys = path.split('.');
   let current = obj;
   let parent: any = null;
@@ -439,6 +448,7 @@ export function getNestedValueFromRoot(obj: any, path: string): MatchedNode | un
           if (result) return result;
         }
         return undefined;
+
       }
     } else if (typeof current === 'object') {
       parent = current;
@@ -450,6 +460,7 @@ export function getNestedValueFromRoot(obj: any, path: string): MatchedNode | un
 
   return { value: current, parent, key: keys[keys.length - 1], fullPath };
 }
+
 
 
 
