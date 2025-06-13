@@ -57,7 +57,7 @@
     "testCases/filters-ssdm-api-tests.json",
     "testCases/progress-status-ssdm.api-tests.json",
     "testCases/calculate-additive-nodes-constant-value.json",
-    "testCases/calculate-additive-nodes-percent-rolling.json"
+    "testCases/calculate-additive-nodes-percent-rolling.json",
     "testCases/segment-user-send-to-corporate.json"
   ],
   "currentDemandService": {
@@ -98,7 +98,6 @@
     "getDimensions":"/metadata/dimensions/mappings",    
     "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
     "applyChangesOnSSDM":"/sandbox/v1/get-mykpi",
-    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions"
     "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions",
     "createScenario":"/create-user-scenario",
     "sendToBAReview":"/adjustment/status/v2",
