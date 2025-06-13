@@ -32,6 +32,58 @@
         "dataFieldAttributeMetricName": "metricName",
         "signInRetryNumber": 2
     },
+    "nodeCrudDialog": {
+        "fields": {
+            "nodeType": "Node Type",
+            "metricName": "Metric Name",
+            "metricNameValue": "Automated Test Metric Name",
+            "metricId": "Metric ID",
+            "valueType": "Value Type",
+            "valueTypeValue": "$",
+            "ownerEditor": "Owner/Editor",
+            "viewer": "Viewer",
+            "viewerValue": "CORE_SERVICES",
+            "nodeVariableName": "Node Variable Name",
+            "calculationText": "Calculation Text",
+            "causalFunction": "Causal Function",
+            "causalFunctionValue": "year_to_date",
+            "aggregationText": "Aggregation Text",
+            "token1": "#total",
+            "token2": "#segment"
+        },
+        "buttons": {
+            "saveChanges": "Save Changes",
+            "discard": "Discard",
+            "delete": "Delete",
+            "cancel": "Cancel",
+            "more": "More",
+            "add": "add",
+            "edit": "edit",
+            "closePanel": "Close Panel"
+        },
+        "dialogHeaders": {
+            "createNode": "Create Node",
+            "input": "Input",
+            "calculated": "Calculated",
+            "granularity": "Granularity",
+            "metadata": "Metadata"
+        },
+        "messages": {
+            "valueTypeRequired": "Value type is required",
+            "oneError": "1 Errors",
+            "calculationTextRequired": "Calculation text is required",
+            "editingAffectsNodes": "Editing this node will affect other nodes.",
+            "createAlertMessage":"Created",
+            "editAlertMessage": "Edited",
+            "calculationAggregationMessage": " Only Num/functions/formula or select node by typing #_ | example : #[node1] + #[Node2]"
+        },
+        "deleteConfirmation": {
+            "message": "Are you sure?",
+            "subMessage1": "This action cannot be undone(No nodes dependent on this node)",
+            "subMessage2": "Deleting this node affects the following nodes -",
+            "subMessage3": "It will create 1 validation errors"
+        }
+    },
     "filterOptions": [
         {
             "data": {
