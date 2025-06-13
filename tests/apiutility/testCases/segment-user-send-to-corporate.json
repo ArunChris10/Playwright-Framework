@@ -1,0 +1,698 @@
+{
+  "verify create and send to BA review for Customer & revenue org Data Venture forecast": [
+    {
+      "testStep": "Create Forecast Scenario for Customer & revenue Org",
+      "testName": "Validate create forecast for Customer & revenue Org",
+      "environment": "dev",
+      "labels": ["smoke", "MS2","IBG-38448"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "queryParams": "createScenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "Customer & revenue_Data Venture_{{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110004
+      },
+      "extract": {
+        "Customer_revenue_Data_Venture_scenario_id": "scenario.scenario_id",
+        "Customer_revenue_Data_Venture_scenario_version": "scenario.scenario_version_timestamp"
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "Scenario created successfully"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Customer & revenue Data venture FORECAST",
+      "environment": "dev",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Customer & revenue Data venture FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "Customer & revenue_Data Venture_{{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "Send Forecast Scenario to BA Review for Customer & revenue Org",
+      "testName": "Validate Send Forecast Scenario to BA Review Customer & revenue Org",
+      "environment": "dev",
+      "labels": ["smoke", "MS2","IBG-38448"],
+      "service": "coreService",
+      "uri": "sendToBAReview",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario":{"scenario_id":"{{Customer_revenue_Data_Venture_scenario_id}}",
+        "scenario_version":"{{Customer_revenue_Data_Venture_scenario_version}}",
+        "scenario_status":22,"dim_id":11,"dim_val_id":110004}},
+     
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Customer & revenue Data venture FORECAST",
+      "environment": "dev",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Customer & revenue Data venture FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "Customer & revenue_Data Venture_{{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 22,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    }
+  ],
+  "verify create and send to BA review for Customer & revenue org Connect forecast": [
+    {
+      "testStep": "Create Forecast Scenario for Customer & revenue Org",
+      "testName": "Validate create forecast for Customer & revenue Org",
+      "environment": "dev",
+      "labels": ["smoke", "MS2","IBG-38448"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "queryParams": "createScenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "Customer & revenue_connect_{{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110002
+      },
+      "extract": {
+        "Customer_revenue_Connect_scenario_id": "scenario.scenario_id",
+        "Customer_revenue_Connect_scenario_version": "scenario.scenario_version_timestamp"
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "Scenario created successfully"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Customer & revenue Connect FORECAST",
+      "environment": "dev",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Customer & revenue Connect FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "Customer & revenue_Connect_{{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "Send Forecast Scenario to BA Review for Customer & revenue Org",
+      "testName": "Validate Send Forecast Scenario to BA Review Customer & revenue Org",
+      "environment": "dev",
+      "labels": ["smoke", "MS2","IBG-38448"],
+      "service": "coreService",
+      "uri": "sendToBAReview",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario":{"scenario_id":"{{Customer_revenue_Connect_scenario_id}}",
+        "scenario_version":"{{Customer_revenue_Connect_scenario_version}}",
+        "scenario_status":22,"dim_id":11,"dim_val_id":110002}},
+     
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Customer & revenue Connect FORECAST",
+      "environment": "dev",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Customer & revenue Connect FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "Customer & revenue_Connect_{{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 22,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    }
+  ],
+  "verify create and send to BA review for Customer & revenue org Marketing forecast": [
+    {
+      "testStep": "Create Forecast Scenario for Customer & revenue Org",
+      "testName": "Validate create forecast for Customer & revenue Org",
+      "environment": "dev",
+      "labels": ["smoke", "MS2","IBG-38448"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "queryParams": "createScenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "Customer & revenue_Marketing_{{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110012
+      },
+      "extract": {
+        "Customer_revenue_Marketing_scenario_id": "scenario.scenario_id",
+        "Customer_revenue_Marketing_scenario_version": "scenario.scenario_version_timestamp"
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "Scenario created successfully"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Customer & revenue Marketing FORECAST",
+      "environment": "dev",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Customer & revenue Marketing FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "Customer & revenue_Marketing_{{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "Send Forecast Scenario to BA Review for Customer & revenue Org",
+      "testName": "Validate Send Forecast Scenario to BA Review Customer & revenue Org",
+      "environment": "dev",
+      "labels": ["smoke", "MS2","IBG-38448"],
+      "service": "coreService",
+      "uri": "sendToBAReview",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario":{"scenario_id":"{{Customer_revenue_Marketing_scenario_id}}",
+        "scenario_version":"{{Customer_revenue_Marketing_scenario_version}}",
+        "scenario_status":22,"dim_id":11,"dim_val_id":110012}},
+     
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Customer & revenue Marketing FORECAST",
+      "environment": "dev",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Customer & revenue Marketing FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "Customer & revenue_Marketing_{{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 22,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    }
+  ],
+  "verify send to segment review for Customer & revenue all forecast": [
+    {
+      "testStep": "get forecast status for Customer & revenue Org",
+      "testName": "get forecast status for Review Customer & revenue Org",
+      "environment": "dev",
+      "labels": ["smoke", "MS2","IBG-38448"],
+      "service": "coreService",
+      "uri": "getIndividualStatus",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {"dim_id":12,"dim_val_id":120001,"classification_id":12},
+      "extract": {
+        "Customer_revenue_scenario_id": "scenarioId",
+        "Customer_revenue_scenario_version": "scenarioVersion"
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "forecastStatus",
+            "value1": 22            
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Send Forecast Scenario to segment Review for Customer & revenue Org",
+      "testName": "Validate Send Forecast Scenario to segment Review Customer & revenue Org",
+      "environment": "dev",
+      "labels": ["smoke", "MS2","IBG-38448"],
+      "service": "coreService",
+      "uri": "sendToBAReview",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario":{"scenario_id":"{{Customer_revenue_Marketing_scenario_id}}",
+        "scenario_version":"{{Customer_revenue_Marketing_scenario_version}}",
+        "scenario_status":23,"dim_id":11,"dim_val_id":110012}},
+     
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Customer & revenue Marketing FORECAST",
+      "environment": "dev",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Customer & revenue Marketing FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "Customer & revenue_Marketing_{{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 23,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    }
+  ],
+  "verify create and send to BA review for Demand org Consolidated Demand forecast": [
+    {
+      "testStep": "Create Forecast Scenario for Demand Org",
+      "testName": "Validate create forecast for Demand Org",
+      "environment": "dev",
+      "labels": ["smoke", "MS2","IBG-38448"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "queryParams": "createScenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "Demand_Consolidated Demand_{{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110004
+      },
+      "extract": {
+        "Demand_Org_Consolidated_Demand_scenario_id": "scenario.scenario_id",
+        "Demand_Org_Consolidated_Demand_scenario_version": "scenario.scenario_version_timestamp"
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "Scenario created successfully"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Customer & revenue Data venture FORECAST",
+      "environment": "dev",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Customer & revenue Data venture FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "Customer & revenue_Data Venture_{{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "Send Forecast Scenario to BA Review for Customer & revenue Org",
+      "testName": "Validate Send Forecast Scenario to BA Review Customer & revenue Org",
+      "environment": "dev",
+      "labels": ["smoke", "MS2","IBG-38448"],
+      "service": "coreService",
+      "uri": "sendToBAReview",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario":{"scenario_id":"{{Customer_revenue_Data_Venture_scenario_id}}",
+        "scenario_version":"{{Customer_revenue_Data_Venture_scenario_version}}",
+        "scenario_status":22,"dim_id":11,"dim_val_id":110004}},
+     
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Customer & revenue Data venture FORECAST",
+      "environment": "dev",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Customer & revenue Data venture FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "Customer & revenue_Data Venture_{{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 22,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    }
+  ],
+}
