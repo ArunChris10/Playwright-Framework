@@ -264,10 +264,22 @@ export class NodeCRUDValidation {
     for (let i = 0; i < tokens.length; i++) {
       const token = tokens[i];
       await input.fill(token);
-      const suggestion = this.suggestionBoxButtons.first();
-      if (await suggestion.isVisible({ timeout: TIMEOUT_FE_WAIT }).catch(() => false)) {
-        await suggestion.click();
+
+      let suggestionAppeared = false;
+      for (let retry = 0; retry < 3; retry++) {
+        const suggestion = this.suggestionBoxButtons.first();
+        if (await suggestion.isVisible({ timeout: TIMEOUT_FE_WAIT }).catch(() => false)) {
+          await suggestion.click();
+          suggestionAppeared = true;
+          break;
+        }
+        
+        await this.page.waitForTimeout(500);
       }
+      if (!suggestionAppeared) {
+        throw new Error(`Autosuggestion did not appear for token: ${token}`);
+      }
+
       if (i < tokens.length - 1) {
         await input.fill(' + ');
       }
@@ -439,6 +451,9 @@ export class NodeCRUDValidation {
     await cancelButton.click();
     await this.deleteDialogLocator.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT });
     await this.landingPage.searchBox.fill(metricNameValue);
+    const nodeRowAfterCancel = this.page.getByText(metricNameValue).first();
+    await nodeRowAfterCancel.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+
     const stillExists = await this.landingPage._verifySearch(
       metricNameValue,
       testData.dataFieldAttributeMetricName,

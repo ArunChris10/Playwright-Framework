@@ -17,7 +17,7 @@ test.describe(
       objpageFactory = new PageFactory(page);
     });
 
-  // 3 test cases for Input node
+  // Create, edit and delete test cases for Input node
   test('Create Input Node', async () => {
     await objpageFactory.ssdmPageFactory().nodeCRUDValidation().validateCreateNodeFlow(nodeCrudDialog.dialogHeaders.input);
   });
@@ -30,7 +30,7 @@ test.describe(
     await objpageFactory.ssdmPageFactory().nodeCRUDValidation().validateDeleteNodeFlow(nodeCrudDialog.dialogHeaders.input);
   });
 
-  // 3 test cases for Calculated node
+  // Create, edit and delete test cases for Calculated node
   test('Create Calculated Node', async () => {
     await objpageFactory.ssdmPageFactory().nodeCRUDValidation().validateCreateNodeFlow(nodeCrudDialog.dialogHeaders.calculated);
   });

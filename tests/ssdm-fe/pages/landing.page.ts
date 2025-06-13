@@ -168,7 +168,7 @@ export class LandingPageValidation {
         for (const value of searchValues) {
           expect(value).not.toContain(searchterm);
         }
-        return !searchValues.some(value => value && value.includes(searchterm));
+        return true; 
       }
     } else {
       if (resultElements.length > 0) {
