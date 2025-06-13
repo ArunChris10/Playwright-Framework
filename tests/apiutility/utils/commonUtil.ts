@@ -3,8 +3,6 @@ import { globalStore } from '../globalStore';
 import { JSONPath } from 'jsonpath-plus';
 import {AssertionEntry,ApiTestCase} from '../types/api.types';
 import { findAllValuesByKey} from '../utils/jsonUtils';
-import { AssertionEntry, ApiTestCase } from '../api.test';
-import { findAllValuesByKey } from '../utils/jsonUtils';
 import fs from 'fs';
 import path from 'path';
 import { awaitvalidateDriversContainsData as validateDriversContainsData, replaceNodeNames } from '../helperFunctions/helperFunctions'
