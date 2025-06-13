@@ -1954,7 +1954,8 @@
             "labels": [
                 "smoke",
                 "forecast_comp",
-                "IBGROW-38900"
+                "IBGROW-38900",
+                "IBGROW-39031"
             ],
             "service": "coreService",
             "uri": "getKpiV2",
@@ -2107,7 +2108,9 @@
             "labels": [
                 "smoke",
                 "forecast_comp",
-                "IBGROW-38900"
+                "IBGROW-38900",
+                "IBGROW-39025",
+                "IBGROW-39030"
             ],
             "service": "coreService",
             "uri": "getKpiV2",
