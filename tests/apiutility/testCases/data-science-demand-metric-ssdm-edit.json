@@ -164,8 +164,8 @@
                 }
             ],
             "extractFirst": {
-                "getkpi_scenario_id": "scenario_id",
-                "getkpi_scenario_version": "scenario_version_timestamp"
+                "getkpi5_scenario_id": "scenario_id",
+                "getkpi5_scenario_version": "scenario_version_timestamp"
             }
         },
         {
@@ -188,7 +188,7 @@
                 }
             ],
             "extractFirst": {
-                "extracted_doc_id": "published_doc_list.document_id"
+                "extracted_doc_id1": "published_doc_list.document_id"
             }
         },
         {
@@ -303,9 +303,9 @@
                         "{{dynamicMonth+7}}"
                     ]
                 },
-                "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
-                "doc_id": "{{extracted_doc_id}}",
+                "scenario_id": "{{getkpi5_scenario_id}}",
+                "scenario_version": "{{getkpi5_scenario_version}}",
+                "doc_id": "{{extracted_doc_id1}}",
                 "ds_type": "Activated",
                 "utilisedBy": "SSDM"
             },

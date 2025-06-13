@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { globalStore } from '../globalStore';
 import { JSONPath } from 'jsonpath-plus';
-import {AssertionEntry,ApiTestCase} from '../api.test';
+import {AssertionEntry,ApiTestCase} from '../types/api.types';
 import { findAllValuesByKey} from '../utils/jsonUtils';
 import fs from 'fs';
 import path from 'path';

@@ -1,6 +1,7 @@
 {
   "Create Scenario for historic rate projection_with EqualDistb": [
     {
+            "runInParallel": false,
       "testStep": "Projection_hist with EqualDistb_Get a forecast to delete before proceding for Demand SBA",
       "environment": "qa",
       "labels": [
@@ -164,6 +165,7 @@
   ],
   "validate_calculation_historic rate projection_with EqualDistb": [
     {
+            "runInParallel": false,
       "testStep": "Projection_Hist_EqualDistb_Calculate Forecast",
       "environment": "qa",
       "labels": [
@@ -270,6 +272,7 @@
   ],
   "validate_save_adjustment_forProjection_Hist_EqualDistb": [
     {
+            "runInParallel": false,
       "testStep": "Projection_Hist_EqualDistb_Save Adjustment",
       "environment": "qa",
       "labels": [
@@ -383,6 +386,7 @@
   ],
   "validate_saved_values_historic_EqualDistb_GetKpi": [
     {
+            "runInParallel": false,
       "testStep": "Validate update for historic_EqualDistb SavedData",
       "environment": "qa",
       "labels": [

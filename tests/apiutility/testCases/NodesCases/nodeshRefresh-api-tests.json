@@ -1,6 +1,7 @@
 {
   "validate_create_and_poll_forecast for node refresh": [
     {
+            "runInParallel": false,
       "testStep": "Get a forecast to delete before proceding for demand SBA",
       "environment": "qa",
       "labels": ["smoke","MS3"],
@@ -583,6 +584,7 @@
   ],
   "validate_NodeRefresh": [
     {
+            "runInParallel": false,
       "testStep": "Edit Segment Forecast",
       "environment": "qa",
       "labels": [
@@ -1375,6 +1377,7 @@
   ],
   "validate_visualIndicator_OnRefresh": [
     {
+            "runInParallel": false,
       "testStep": "Validate Visual Indicator timestamp for async refresh",
       "environment": "qa",
       "labels": [

@@ -1,5 +1,7 @@
-{"publish_AOP_data_to_current_demand_workflow":[
+{"publish_AOP_data_to_current_demand_workflow":
+[
   {
+          "runInParallel": false,
     "testStep": "get_data_science_info",
     "environment": "qa",
     "labels": [

@@ -1,10 +1,8 @@
 import { test, request } from '@playwright/test';
 import path from 'path';
-import fs from 'fs';
-import { globalStore } from '../apiutility/globalStore';
-import { findFirstValueByKeyObject, findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey, findRelativeValueMultiCondition, findRelativeFlexibleValue } from '../apiutility/utils/jsonUtils';
-import { validateStatus, validateBody } from '../apiutility/utils/responseValidator';
-import { executeRequest } from '../apiutility/utils/requestExecutor';
+import { globalStore } from './globalStore';
+import { findFirstValueByKeyObject, findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey, findRelativeValueMultiCondition, findRelativeFlexibleValue } from './utils/jsonUtils';
+import { executeRequest } from './utils/requestExecutor';
 import {
   interpolateHeadersObject,
   validateExtractedValues,
@@ -13,166 +11,85 @@ import {
   validateAssertions,
   validateExtractedValuesContains,
   runFunctions
-} from '../apiutility/utils/commonUtil';
-import { pollForExpectedResponse } from '../apiutility/utils/pollingMechanism';
+} from './utils/commonUtil';
+import { pollForExpectedResponse } from './utils/pollingMechanism';
 import nexusTokens from "../../secrets/nexus-users-token.json";
-import globalSetup from './globalSetup';
-import globalTeardown from './globalTeardown';
-import { Utility } from '../common/fixtures/utils';
+import { ApiTestCase, ParentConfig } from './types/api.types';
 
-export interface FunctionArgs {
-  [key: string]: any;
-}
-
-export interface RunFunction {
-  functionName: string;
-  args: FunctionArgs;
-}
-
-export interface ApiTestCase {
-  environment: string;
-  service: string;
-  testStep?: string;
-  testName?: string;
-  uri: string;
-  queryParams: string;
-  method: string;
-  replacePayloadAsObject?: boolean;
-  payload?: any;
-  assertions?: AssertionEntry;
-  extract?: { [key: string]: string };
-  extractFirst?: { [key: string]: string };
-  validateExtractContains?: { [key: string]: string };
-  validateExtract?: { [key: string]: string };
-  validateExtractToBeNotNull?: { [key: string]: string };
-  validateExtractToBeApprox?: {
-    [globalKey: string]: {
-      expected: string | number;
-      tolerance: number;
-    };
-  };
-  polling?: {
-    extractRelative: {
-      WhereKey: string;
-      Equals: any;
-      Findkey: string;
-    };
-    expectedValue: any;
-    intervalMs: number;
-    timeoutMs: number;
-  };
-  extractRelative?: {
-    [globalVar: string]: {
-      whereKey: string;
-      equals: any;
-      extractKey: string;
-    };
-  };
-  extractRelativeMultipleCondition?: {
-    [globalVar: string]: {
-      conditions: {
-        path: string;
-        equals: any;
-      }[];
-      extractKey: string;
-    };
-  };
-  labels?: string[];
-  runFunctions?: RunFunction[];
-  extractObject?: { [key: string]: string };
-}
-
-
-
-export type AssertionEntry =
-  | { status: number }
-  | { assertEquals: { [key: string]: string | number } }
-  | { assertNotEquals: { [key: string]: string | number } }
-  | { assertNull: { [key: string]: string } }
-  | { assertNotNull: { [key: string]: string } }
-  | { assertResponse: { filePath: string, value: any } }
-  | { assertValuesAreEqual: (string | number)[] }
-  | { assertLength: (string | number)[] };
-
-export interface ParentConfig {
-  headers: { [key: string]: string };
-  user: string;
-  testFiles: string[];
-  coreService: { baseURL: { [key: string]: string }, testCaseName: string };
-  notificationService: { baseURL: { [key: string]: string }, testCaseName: string };
-  reportingService: { baseURL: { [key: string]: string }, testCaseName: string };
-  nexusService: { baseURL: { [key: string]: string }, testCaseName: string };
-  currentDemandService: { baseURL: { [key: string]: string }, testCaseName: string };
-  dataForgeService: { baseURL: { [key: string]: string }, testCaseName: string };
-}
-
-export let response: any;
+let response: any;
 const parentConfig = loadJSON<ParentConfig>(path.resolve(__dirname, 'parent-config.json'));
-const tagsToRun = process.env.tag ? [process.env.tag] : (parentConfig as any).tagsToRun;
+export const tagsToRun = process.env.tag ? [process.env.tag] : (parentConfig as any).tagsToRun;
 
 function populateGlobalStore(request) {
-  // Utility.getNexusFakeToken(parentConfig.user + "", request);
   globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
 }
-// globalSetup()
 populateGlobalStore(request);
 
 let testCaseFiles
+testCaseFiles = parentConfig.testFiles;
+let runAllInParallel = parentConfig.ForceAllParallel;
 
-// if (!process.env.CI) {
-//   const testCasesFolder = path.resolve(__dirname, 'testcases');
-
-//   function getAllFilePathsRecursively(folderPath: string, basePath: string): string[] {
-//     const filePaths: string[] = [];
-//     const items = fs.readdirSync(folderPath);
-
-//     items.forEach(item => {
-//       const fullPath = path.resolve(folderPath, item);
-//       if (fs.statSync(fullPath).isDirectory()) {
-//         // Recursively fetch files from the nested folder
-//         filePaths.push(...getAllFilePathsRecursively(fullPath, basePath));
-//       } else if (fs.statSync(fullPath).isFile()) {
-//         // Add relative path instead of full path
-//         filePaths.push(path.relative(basePath, fullPath));
-//       }
-//     });
-
-//     return filePaths;
-//   }
-
-//   testCaseFiles = getAllFilePathsRecursively(testCasesFolder, __dirname);
-// }
-// else {
-testCaseFiles = parentConfig.testFiles
+export interface SerialTestCases {
+  [testName: string]: ApiTestCase[];
+}
+export const serialTestCases: SerialTestCases = {};
 
 testCaseFiles.forEach(testCasePath => {
-  console.log("Current Testcase", testCasePath)
   const rawTestData = loadJSON<{ [testName: string]: ApiTestCase[] }>(
     path.resolve(__dirname, testCasePath)
   );
 
   for (const [testName, steps] of Object.entries(rawTestData)) {
-    let caseLabels: string[] = [];
-    try {
-      caseLabels = (steps[0] as any).labels || [];
-    } catch (error) {
-      console.error(`Test case "${testCasePath}" does not have the correct format.: ${error}`);
+    if (typeof steps[0]?.runInParallel !== "undefined") {
+      if (!steps[0].runInParallel && !runAllInParallel) {
+      if (!serialTestCases.hasOwnProperty(testName)) {
+        serialTestCases[testName] = steps;
+      }
     }
+  } 
+  }
+});
 
-    const isIncluded: boolean =
-      tagsToRun.length === 0 ||
-      caseLabels
-        .map((l: string) => l.toLowerCase())
-        .some((label: string) => tagsToRun.map((tag: string) => tag.toLowerCase()).includes(label));
+  console.log("Starting Serial test execution");
+  if (Object.keys(serialTestCases).length > 0) {
+    let testCaseCount = 0;
+    test.describe('Serial Test Cases', () => {
+      Object.entries(serialTestCases).forEach(([testCasePath, steps]) => {
+        
+        for (const [testName, testSteps] of Object.entries({ [testCasePath]: steps })) {
+            let caseLabels: string[] = [];
+            try {
+              caseLabels = (testSteps[0] as any).labels || [];
+            } catch (error) {
+              console.error(`Test case "${testCasePath}" does not have the correct format.: ${error}`);
+            }
 
-    if (!isIncluded) {
-      console.log(`Skipping test "${testName}" due to tag filtering`);
-      continue;
-    }
+            const isIncluded: boolean =
+              tagsToRun.length === 0 ||
+              caseLabels
+                .map((l: string) => l.toLowerCase())
+                .some((label: string) => tagsToRun.map((tag: string) => tag.toLowerCase()).includes(label));
 
-    test.describe.parallel(testCasePath, () => {
-      test(testName, async () => {
-        console.log("================================================================================");
+            if (!isIncluded) {
+              console.log(`Skipping test "${testName}" due to tag filtering`);
+              continue;
+            }
+
+            test(testName, async ({ request }) => {
+              const requestContext = request; // use existing request object
+              await coreExecutionFlow(testName, testSteps, caseLabels, requestContext);
+            });
+            testCaseCount++;
+            console.log(`Completed test case number : ${testCaseCount} - ${testName}`);
+          
+        }
+      })
+      ;
+    });
+  }  
+
+export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], caseLabels: string[], requestContext: any)   {
+          console.log("================================================================================");
         console.log(`STARTING TEST: ${testName}`);
         console.log(`Labels: ${caseLabels.join(", ")}`);
         console.log("================================================================================");
@@ -180,20 +97,20 @@ testCaseFiles.forEach(testCasePath => {
         for (const step of steps) {
           const stepName = step.testStep || step.testName || "Unnamed Step";
           console.log(`--- Executing step: ${stepName} ---`);
-
+          process.env.envName = "qa";
           let baseUrl: string | undefined;
           if (step.service === "coreService") {
-            baseUrl = parentConfig.coreService.baseURL[process.env.ENV];
+            baseUrl = parentConfig.coreService.baseURL[process.env.envName];
           } else if (step.service === "notificationService") {
-            baseUrl = parentConfig.notificationService.baseURL[process.env.ENV];
+            baseUrl = parentConfig.notificationService.baseURL[process.env.envName];
           } else if (step.service === "reportingService") {
-            baseUrl = parentConfig.reportingService.baseURL[process.env.ENV];
+            baseUrl = parentConfig.reportingService.baseURL[process.env.envName];
           } else if (step.service === "nexusService") {
-            baseUrl = parentConfig.nexusService.baseURL[process.env.ENV];
+            baseUrl = parentConfig.nexusService.baseURL[process.env.envName];
           } else if (step.service === "currentDemandService") {
-            baseUrl = parentConfig.currentDemandService.baseURL[process.env.ENV];
+            baseUrl = parentConfig.currentDemandService.baseURL[process.env.envName];
           } else if (step.service === "dataForgeService") {
-            baseUrl = parentConfig.dataForgeService.baseURL[process.env.ENV];
+            baseUrl = parentConfig.dataForgeService.baseURL[process.env.envName];
           }
 
           const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
@@ -349,18 +266,7 @@ testCaseFiles.forEach(testCasePath => {
 
         console.log(`ENDING TEST: ${testName}`);
         console.log("================================================================================\n");
-      });
-    });
-
-    // tes.afterAll(async () => {
-    //   globalTeardown()
-    // })
-
-  }
-});
-
-// globalTeardown()
-
+}
 
 function postProcessInterpolatedPayload(obj: any): any {
   if (obj === null || typeof obj !== 'object') return obj;

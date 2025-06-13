@@ -1,6 +1,7 @@
 {
   "Create Scenario for growthRate projection_with Constant Value": [
     {
+      "runInParallel": false,
       "testStep": "Projection_growthRate with constant_Get a forecast to delete before proceding for Demand SBA",
       "environment": "qa",
       "labels": [
@@ -170,6 +171,7 @@
   ],
   "validate_calculation_growthRate projection_with Constant Value": [
     {
+      "runInParallel": false,
       "testStep": "Projection_growthRate_Constant_Calculate Forecast",
       "environment": "qa",
       "labels": [
@@ -276,6 +278,7 @@
   ],
   "validate_save_adjustment_forProjection_growthRate_Constant": [
     {
+      "runInParallel": false,
       "testStep": "Projection_growthRate_Constant_Save Adjustment",
       "environment": "qa",
       "labels": [
@@ -389,6 +392,7 @@
   ],
   "validate_saved_values_growthRate_ConstantValue_GetKpi": [
     {
+            "runInParallel": false,
       "testStep": "Validate update for growthRate_ConstantValue SavedData",
       "environment": "qa",
       "labels": [

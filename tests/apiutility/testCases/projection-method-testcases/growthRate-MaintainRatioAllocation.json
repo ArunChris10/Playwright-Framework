@@ -1,6 +1,7 @@
 {
   "Create Scenario for growthRate projection_with Maintain Ration": [
     {
+            "runInParallel": false,
       "testStep": "Projection_growthRate with Maintain Ration_Get a forecast to delete before proceding for Demand SBA",
       "environment": "qa",
       "labels": [
@@ -170,6 +171,7 @@
   ],
   "validate_calculation_growthRate projection_with Maintain Ration": [
     {
+            "runInParallel": false,
       "testStep": "Projection_growthRate_Maintain Ration_Calculate Forecast",
       "environment": "qa",
       "labels": [
@@ -276,6 +278,7 @@
   ],
   "validate_save_adjustment_forProjection_growthRate_MaintainRatio": [
     {
+            "runInParallel": false,
       "testStep": "Projection_growthRate_Maintain Ration_Save Adjustment",
       "environment": "qa",
       "labels": [
@@ -389,6 +392,7 @@
   ],
   "validate_saved_values_growthRate_MaintainRatio_GetKpi": [
     {
+            "runInParallel": false,
       "testStep": "Validate update for growthRate_MaintainRatio SavedData",
       "environment": "qa",
       "labels": [

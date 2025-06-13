@@ -1,6 +1,7 @@
 {
   "Create Scenario for regression projection_with TimeRolling": [
     {
+            "runInParallel": false,
       "testStep": "Projection_regression with TimeRolling_Get a forecast to delete before proceding for Demand SBA",
       "environment": "qa",
       "labels": [
@@ -164,6 +165,7 @@
   ],
   "validate_calculation_regression projection_with TimeRolling": [
     {
+            "runInParallel": false,
       "testStep": "Projection_regression_TimeRolling_Calculate Forecast",
       "environment": "qa",
       "labels": [
@@ -270,6 +272,7 @@
   ],
   "validate_save_adjustment_forProjection_regression_TimeRolling": [
     {
+            "runInParallel": false,
       "testStep": "Projection_regression_TimeRolling_Save Adjustment",
       "environment": "qa",
       "labels": [
@@ -383,6 +386,7 @@
   ],
   "validate_saved_values_regression_TimeRolling_GetKpi": [
     {
+            "runInParallel": false,
       "testStep": "Validate update for regression_TimeRolling SavedData",
       "environment": "qa",
       "labels": [

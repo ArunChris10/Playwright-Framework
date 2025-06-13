@@ -11,7 +11,7 @@ import commonData from "../ufm-be/constants/common.json";
 import { UfmUtility } from "../ufm-be/fixtures/ufm-utils";
 import { interpolateHeadersObject } from '../apiutility/utils/commonUtil'
 import { loadJSON } from '../apiutility/utils/jsonUtils';
-import { ParentConfig } from '../apiutility/api.test'
+import { ParentConfig } from '../apiutility/types/api.types';
 import { Utility } from "../common/fixtures/utils";
 
 export default async function globalSetup() {

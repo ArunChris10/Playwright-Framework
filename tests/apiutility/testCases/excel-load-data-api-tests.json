@@ -79,10 +79,10 @@
         ],
         "scenarios": [
           {
-            "listHistoricals_scenario_id": "{{scenario_id}}",
-            "listHistoricals_scenario_ver": "{{scenario_version_timestamp}}",
-            "listHistoricals_actual_scenario_id": "{{actual_template_id}}",
-            "listHistoricals_forecast_scenario_id": "{{forecast_template_id}}",
+            "scenario_id": "{{listHistoricals_scenario_id}}",
+            "scenario_ver": "{{listHistoricals_scenario_version_timestamp}}",
+            "actual_scenario_id": "{{listHistoricals_actual_template_id}}",
+            "forecast_scenario_id": "{{listHistoricals_forecast_template_id}}",
             "type": "scenarios"
           }
         ],

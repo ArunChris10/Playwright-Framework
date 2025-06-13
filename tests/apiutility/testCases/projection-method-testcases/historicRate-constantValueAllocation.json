@@ -1,6 +1,7 @@
 {
   "Create Scenario for historic rate projection_with Constant Value": [
     {
+            "runInParallel": false,
       "testStep": "Projection_hist with constant_Get a forecast to delete before proceding for Demand SBA",
       "environment": "qa",
       "labels": [
@@ -164,6 +165,7 @@
   ],
   "validate_calculation_historic rate projection_with Constant Value": [
     {
+            "runInParallel": false,
       "testStep": "Projection_Hist_Constant_Calculate Forecast",
       "environment": "qa",
       "labels": [
@@ -270,6 +272,7 @@
   ],
   "validate_save_adjustment_forProjection_Hist_Constant": [
     {
+            "runInParallel": false,
       "testStep": "Projection_Hist_Constant_Save Adjustment",
       "environment": "qa",
       "labels": [
@@ -383,6 +386,7 @@
   ],
   "validate_saved_values_historic_ConstantValue_GetKpi": [
     {
+      "runInParallel": false,
       "testStep": "Validate update for historic_ConstantValue SavedData",
       "environment": "qa",
       "labels": [
