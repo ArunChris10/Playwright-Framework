@@ -52,6 +52,7 @@
     "testCases/projection-method-testcases/growthRate-TimeRollingAllocation.json", 
     "testCases/projection-method-testcases/growthRate-MaintainRatioAllocation.json",
     "testCases/projection-method-testcases/growthRate-constantValueAllocation.json",
+    "testCases/excel-load-data-api-time-granularity.json",
     "testCases/data-science-demand-metric-ssdm-edit.json",
     "testCases/filters-ssdm-api-tests.json",
     "testCases/progress-status-ssdm.api-tests.json",
@@ -62,14 +63,16 @@
   "currentDemandService": {
     "baseURL": {
       "qa": "https://scenario.qa.ibg.walmart.com",
-      "dev": "https://scenario.dev.ibg.walmart.com"
+      "dev": "https://scenario.dev.ibg.walmart.com",
+      "stg": "https://scenario.stg.ibg.walmart.com"
     },
     "get-demand-scenario-forecast-by-slot": "/api/demandscenarios/currentDemand/"
   },
   "coreService": {
     "baseURL": {
       "qa": "https://ibg-ufm-core-service.qa.ibg.walmart.com",
-      "dev": "https://ibg-ufm-core-service.dev.ibg.walmart.com"
+      "dev": "https://ibg-ufm-core-service.dev.ibg.walmart.com",
+      "stg": "https://ibg-ufm-core-service.stg.ibg.walmart.com"
     },
     "getScreenId": "/filter/screen_details?",
     "listHistoricals": "/scenario/list-historicals?",
@@ -92,6 +95,7 @@
     "publish-data-science": "/data-science/upload",
     "get-data-science-info": "/scenario/data-science/info",
     "download":"/validation/download",
+    "getDimensions":"/metadata/dimensions/mappings",    
     "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
     "applyChangesOnSSDM":"/sandbox/v1/get-mykpi",
     "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions"
@@ -99,27 +103,32 @@
   "notificationService": {
     "baseURL": {
       "qa": "https://api.notifications.qa.ibg.walmart.com/api/v3/",
-      "dev": "https://api.notifications.dev.ibg.walmart.com/api/v3/"
+      "dev": "https://api.notifications.dev.ibg.walmart.com/api/v3/",
+      "stg": "https://api.notifications.stg.ibg.walmart.com/api/v3/"
     },
     "notifications": "notifications/?"
   },
   "nexusService": {
     "baseURL": {
       "qa": "https://nexus-wizard-preference-manager.api.qa.walmart.com/api/v1",
-      "dev": "https://nexus-wizard-preference-manager.api.dev.walmart.com/api/v1"
+      "dev": "https://nexus-wizard-preference-manager.api.dev.walmart.com/api/v1",
+      "stg": "https://nexus-wizard-preference-manager.api.stg.walmart.com/api/v1"
     },
-    "create-nexus-preference": "/apps/preferences/configurations"
+    "create-nexus-preference": "/apps/preferences/configurations",
+    "getDefaultDrivers": "/apps/IBG/preferences/SavedView/entityTypes/dimValId/entityValue"
   },
   "reportingService": {
     "baseURL": {
       "qa": "https://ibg-ufm-reporting-proxy.qa.ibg.walmart.com",
-      "dev": "https://ibg-ufm-reporting-proxy.dev.ibg.walmart.com"
+      "dev": "https://ibg-ufm-reporting-proxy.dev.ibg.walmart.com",
+      "stg": "https://ibg-ufm-reporting-proxy.stg.ibg.walmart.com"
     },
     "scenarios": "/scenarios"
   },
   "dataForgeService": {
     "baseURL": {
-      "qa": "https://ibg-ufm-dataforge-service.qa.ibg.walmart.com"
+      "qa": "https://ibg-ufm-dataforge-service.qa.ibg.walmart.com",
+      "stg": "https://ibg-ufm-reporting-proxy.stg.ibg.walmart.com"
     },
     "actualMissingNode": "/v1/actual_missing/nodes",
     "actualMissingNodeIncorrect": "/v1/actual_missing/nodes/incorrect"
