@@ -20,6 +20,7 @@ export class NodeCRUDValidation {
   readonly deleteConfirmationLocator: (deleteDialog: Locator) => Locator;
   readonly deleteTextLocator: (deleteDialog: Locator) => Locator;
   readonly topBarHeaderDiv: Locator;
+  readonly baseNodeVariableName: string;
 
   constructor(page: Page, landingPage: LandingPageValidation) {
     this.page = page;
@@ -33,11 +34,12 @@ export class NodeCRUDValidation {
     this.alertLocator = page.locator('.Alert-module_contentContainer__U-5Wu');
     this.textValueLocator = (textbox: Locator) => textbox.locator(':scope > span:first-child');
     this.errorMsgLocator = (input: Locator) => input.locator('xpath=parent::div/following-sibling::div/span');
-    this.suggestionBoxButtons = page.locator('.suggestion-box > button');
+    this.suggestionBoxButtons = page.locator('.suggestion-box > div:nth-child(2) > div > button:not([disabled])');
     this.deleteDialogLocator = page.getByRole('dialog');
     this.deleteConfirmationLocator = (deleteDialog: Locator) => deleteDialog.locator('h2');
     this.deleteTextLocator = (deleteDialog: Locator) => deleteDialog.locator('div:nth-child(2)');
     this.topBarHeaderDiv = page.locator('div[class*="top-bar"] > div');
+    this.baseNodeVariableName = process.env.baseNodeName as string;
   }
 
   /**
@@ -232,7 +234,7 @@ export class NodeCRUDValidation {
     } else if (textBoxName === nodeCrudDialog.fields.calculationText) {
       input = this.getTextInputBox(textBoxName);
       await input.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-      await this.fillInputBoxWithAutosuggestions(nodeCrudDialog.fields.calculationText, [nodeCrudDialog.fields.token1, nodeCrudDialog.fields.token2]);
+      await this.fillAndValidateTextInputBox(nodeCrudDialog.fields.calculationText, this.baseNodeVariableName);
       await input.fill("");
       expectedErrorMsg = nodeCrudDialog.messages.calculationTextRequired;
     } else {
@@ -252,37 +254,29 @@ export class NodeCRUDValidation {
   }
 
   /**
-   * Fills a text input box by typing a value, selecting the first autosuggestion for each token.
+   * Fills a text input box by typing the base node variable name and selecting the first autosuggestion.
    * @param headerText The header text to locate the input box.
-   * @param tokens Array of tokens to type and select from autosuggestions.
    */
-  async fillInputBoxWithAutosuggestions(headerText: string, tokens: string[]) {
+  async fillInputBoxWithAutosuggestions(headerText: string) {
     const input = this.getTextInputBox(headerText);
     await input.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     await input.fill(""); 
 
-    for (let i = 0; i < tokens.length; i++) {
-      const token = tokens[i];
-      await input.fill(token);
-
-      let suggestionAppeared = false;
-      for (let retry = 0; retry < 3; retry++) {
-        const suggestion = this.suggestionBoxButtons.first();
-        if (await suggestion.isVisible({ timeout: TIMEOUT_FE_WAIT }).catch(() => false)) {
-          await suggestion.click();
-          suggestionAppeared = true;
-          break;
-        }
-        
-        await this.page.waitForTimeout(500);
+    //const inputText = "#" + this.baseNodeVariableName;
+    const inputText = nodeCrudDialog.fields.inputText;
+    let suggestionAppeared = false;
+    for (let retry = 0; retry < 5; retry++) {
+      await input.fill(inputText);
+      const suggestion = this.suggestionBoxButtons.first();
+      if (await suggestion.isVisible({ timeout: TIMEOUT_FE_WAIT }).catch(() => false)) {
+        await suggestion.click();
+        suggestionAppeared = true;
+        break;
       }
-      if (!suggestionAppeared) {
-        throw new Error(`Autosuggestion did not appear for token: ${token}`);
-      }
-
-      if (i < tokens.length - 1) {
-        await input.fill(' + ');
-      }
+      await this.page.waitForTimeout(TIMEOUT_FE_WAIT);
+    }
+    if (!suggestionAppeared) {
+      throw new Error(`Autosuggestion did not appear for node variable name: ${inputText}`);
     }
   }
 
@@ -290,7 +284,10 @@ export class NodeCRUDValidation {
    * Fills all required fields in the create node dialog for calculated node type.
    * @param metricNameValue The metric name value.
    */
-  async fillAllRequiredCalculatedNodeTypeFields(metricNameValue: string, isCreate: boolean = true) {
+  async fillAllRequiredCalculatedNodeTypeFields(
+    metricNameValue: string,
+    isCreate: boolean = true
+  ) {
     const offset = isCreate ? 1 : 0;
     await this.fillAndValidateInputByPlaceholder(nodeCrudDialog.fields.metricName, metricNameValue);
     await this.fillAndValidateInputByPlaceholder(nodeCrudDialog.fields.valueType, nodeCrudDialog.fields.valueTypeValue);
@@ -298,9 +295,9 @@ export class NodeCRUDValidation {
     await this.selectAndValidateDropdownField(offset + 1, filterOptions[0].data.channel.option);
     await this.selectAndValidateDropdownField(offset + 2, filterOptions[0].data.department.option);
     await this.selectAndValidateDropdownField(offset + 3, filterOptions[0].data.entity.option);
-    await this.fillInputBoxWithAutosuggestions(nodeCrudDialog.fields.calculationText, [nodeCrudDialog.fields.token1, nodeCrudDialog.fields.token2]);
     await this.selectAndValidateDropdownField(offset + 4, nodeCrudDialog.fields.causalFunctionValue, true);
-    await this.fillInputBoxWithAutosuggestions(nodeCrudDialog.fields.aggregationText, [nodeCrudDialog.fields.token1, nodeCrudDialog.fields.token2]);
+    await this.fillAndValidateTextInputBox(nodeCrudDialog.fields.calculationText, "123");
+    await this.fillInputBoxWithAutosuggestions(nodeCrudDialog.fields.aggregationText);
   }
 
   /**
@@ -317,7 +314,7 @@ export class NodeCRUDValidation {
     await this.selectAndValidateDropdownField(offset + 3, filterOptions[0].data.channel.option);
     await this.selectAndValidateDropdownField(offset + 4, filterOptions[0].data.department.option);
     await this.selectAndValidateDropdownField(offset + 5, filterOptions[0].data.entity.option);
-    await this.fillInputBoxWithAutosuggestions(nodeCrudDialog.fields.aggregationText, [nodeCrudDialog.fields.token1, nodeCrudDialog.fields.token2]);
+    await this.fillInputBoxWithAutosuggestions(nodeCrudDialog.fields.aggregationText);
   }
 
   /**
@@ -342,11 +339,19 @@ export class NodeCRUDValidation {
    * Handles the save flow and validates that the node is created and alert is shown.
    * @param metricNameValue The metric name value to verify node is created.
    */
-  async saveCreateNodeFlow(metricNameValue: string) {
-    await this.getByTextValue(nodeCrudDialog.buttons.saveChanges).click();
+  async saveCreateNodeFlow(metricNameValue: string, isCreate: boolean = true) {
+    const saveButton = this.getByTextValue(nodeCrudDialog.buttons.saveChanges);
+    await saveButton.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await expect(saveButton).toBeEnabled({ timeout: TIMEOUT_FE_WAIT });
+    await saveButton.click();
     await this.alertLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     const alertMsg = await this.alertLocator.textContent();
-    expect(alertMsg?.trim()).toBe(metricNameValue + " " + nodeCrudDialog.messages.createAlertMessage);
+    if (isCreate) {
+      expect(alertMsg?.trim()).toBe(metricNameValue + " " + nodeCrudDialog.messages.createAlertMessage);
+    } else {
+      expect(alertMsg?.trim()).toBe(metricNameValue + " " + nodeCrudDialog.messages.editAlertMessage);
+    }
+    await this.getButtonByAriaLabel(nodeCrudDialog.buttons.closeAlert).click();
     const created = await this.landingPage._verifySearch(
       metricNameValue,
       testData.dataFieldAttributeMetricName,
@@ -478,7 +483,10 @@ export class NodeCRUDValidation {
     const confirmDeleteButton = this.getByTextValue(nodeCrudDialog.buttons.delete);
     await confirmDeleteButton.click();
     await this.deleteDialogLocator.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT });
-    await this.landingPage.searchBox.fill(metricNameValue);
+    await this.alertLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    const alertMsg = await this.alertLocator.textContent();
+    expect(alertMsg?.trim()).toBe(metricNameValue + " " + nodeCrudDialog.messages.deleteAlertMessage);
+    await this.getButtonByAriaLabel(nodeCrudDialog.buttons.closeAlert).click();
     const deleted = await this.landingPage._verifySearch(
       metricNameValue,
       testData.dataFieldAttributeMetricName,
@@ -556,7 +564,7 @@ export class NodeCRUDValidation {
 
     const updatedName2 = `${metricNameValue}_EDIT2`;
     await this.fillAndValidateInputByPlaceholder(nodeCrudDialog.fields.metricName, updatedName2);
-    await this.saveCreateNodeFlow(updatedName2);
+    await this.saveCreateNodeFlow(updatedName2, false);
 
     await this.deleteNode(updatedName2);
   }
@@ -569,6 +577,72 @@ export class NodeCRUDValidation {
     const metricNameValue = await this.createNode(nodeType);
     await this.validateDeleteDialogAndCancel(metricNameValue);
     await this.deleteNode(metricNameValue);
+  }
+
+  /**
+   * Creates an input node named "AutomationBaseNode"
+   * Saves the node, then opens it for edit and returns the Node Variable Name.
+   * @returns {Promise<string>} The Node Variable Name of the created node.
+   */
+  async createBaseInputNodeAndGetVariableName(): Promise<string> {
+    const metricNameValue = "AutomationBaseNode";
+    await this.landingPage.searchBox.click();
+    await this.landingPage.searchBox.fill(metricNameValue);
+
+    const found = await this.landingPage._verifySearch(
+      metricNameValue,
+      testData.dataFieldAttributeMetricName,
+      true
+    );
+
+    if (found) {
+      const nodeRow = this.page.getByText(metricNameValue).first();
+      await nodeRow.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.more).first().click();
+      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.edit.toLowerCase()).click();
+      await this.validateDialogHeaderVisible(nodeCrudDialog.dialogHeaders.input);
+      const nodeVariableInput = this.getFieldInputByLabel(nodeCrudDialog.fields.nodeVariableName);
+      await nodeVariableInput.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+      const nodeVariableName = await nodeVariableInput.inputValue();
+      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.closePanel).click();
+      await this.landingPage.searchBox.click();
+      await this.landingPage.searchBox.fill("");
+      return nodeVariableName;
+    }
+
+    await this.landingPage.searchBox.click();
+    await this.landingPage.searchBox.fill("");
+    await this.getButtonByAriaLabel(nodeCrudDialog.buttons.more).first().click();
+    await this.getButtonByAriaLabel(nodeCrudDialog.buttons.add.toLowerCase()).click();
+    await this.validateDialogHeaderVisible(nodeCrudDialog.dialogHeaders.createNode);
+
+    await this.selectAndValidateDropdownField(0, nodeCrudDialog.dialogHeaders.input, true);
+    await this.fillAndValidateInputByPlaceholder(nodeCrudDialog.fields.metricName, metricNameValue);
+    await this.fillAndValidateInputByPlaceholder(nodeCrudDialog.fields.valueType, nodeCrudDialog.fields.valueTypeValue);
+    await this.selectAndValidateDropdownField(1, filterOptions[0].data.owner.option, true);
+    await this.selectAndValidateDropdownField(2, nodeCrudDialog.fields.viewerValue);
+    await this.selectAndValidateDropdownField(3, filterOptions[0].data.month.actuals, true);
+    await this.selectAndValidateDropdownField(4, filterOptions[0].data.channel.option);
+    await this.selectAndValidateDropdownField(5, filterOptions[0].data.department.option);
+    await this.selectAndValidateDropdownField(6, filterOptions[0].data.entity.option);
+
+    await this.saveCreateNodeFlow(metricNameValue, true);
+
+    await this.landingPage.searchBox.click();
+    await this.landingPage.searchBox.fill(metricNameValue);
+    const nodeRowAfterCreate = this.page.getByText(metricNameValue).first();
+    await nodeRowAfterCreate.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await this.getButtonByAriaLabel(nodeCrudDialog.buttons.more).first().click();
+    await this.getButtonByAriaLabel(nodeCrudDialog.buttons.edit.toLowerCase()).click();
+    await this.validateDialogHeaderVisible(nodeCrudDialog.dialogHeaders.input);
+
+    const nodeVariableInput = this.getFieldInputByLabel(nodeCrudDialog.fields.nodeVariableName);
+    await nodeVariableInput.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    const nodeVariableName = await nodeVariableInput.inputValue();
+    await this.getButtonByAriaLabel(nodeCrudDialog.buttons.closePanel).click();
+    await this.landingPage.searchBox.click();
+    await this.landingPage.searchBox.fill("");
+    return nodeVariableName;
   }
 }
 

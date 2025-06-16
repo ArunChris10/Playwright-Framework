@@ -44,12 +44,11 @@
             "viewer": "Viewer",
             "viewerValue": "CORE_SERVICES",
             "nodeVariableName": "Node Variable Name",
-            "calculationText": "Calculation Text",
+            "calculationText": "Calculation Formula",
             "causalFunction": "Causal Function",
             "causalFunctionValue": "year_to_date",
-            "aggregationText": "Aggregation Text",
-            "token1": "#total",
-            "token2": "#segment"
+            "aggregationText": "Aggregation Formula",
+            "inputText":"#UFM"
         },
         "buttons": {
             "saveChanges": "Save Changes",
@@ -59,7 +58,8 @@
             "more": "More",
             "add": "add",
             "edit": "edit",
-            "closePanel": "Close Panel"
+            "closePanel": "Close Panel",
+            "closeAlert": "Close"
         },
         "dialogHeaders": {
             "createNode": "Create Node",
@@ -75,6 +75,7 @@
             "editingAffectsNodes": "Editing this node will affect other nodes.",
             "createAlertMessage":"Created",
             "editAlertMessage": "Edited",
+            "deleteAlertMessage":"Deleted",
             "calculationAggregationMessage": " Only Num/functions/formula or select node by typing #_ | example : #[node1] + #[Node2]"
         },
         "deleteConfirmation": {
