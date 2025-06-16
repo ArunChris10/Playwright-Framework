@@ -2392,9 +2392,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "lastToLastYearAbsoluteValue": "rowData.202604.lastToLastYearAbsolute",
-                "lastToLastYearPercentValue": "rowData.202604.lastToLastYearPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "lastToLastYearAbsoluteValue": "rowData.{{dynamicMonth}}.lastToLastYearAbsolute",
+                "lastToLastYearPercentValue": "rowData.{{dynamicMonth}}.lastToLastYearPercent"
             },
             "assertions": [
                 {
