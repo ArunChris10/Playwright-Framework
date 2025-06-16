@@ -184,7 +184,11 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
                   }
                   console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
                 } else {
-                  throw new Error(`Could not find relative value where "${whereKey}" == "${equals}"`);
+                    if (responseBody !== null) {
+                    console.error('Response Body at failure:');
+                    console.error(JSON.stringify(responseBody, null, 2));
+                    }
+                    throw new Error(`Could not find relative value where "${whereKey}" == "${equals}"`);
                 }
               }
             }

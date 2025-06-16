@@ -1,7 +1,7 @@
 tools:
   sonarscanner: "4.8.0.2856"
-  nodejs: 16.18.0
-  npm: 8.19.2
+  nodejs: 18.19.0  
+  npm: 9.9.0   
 
 useSecretStore: true
 envs:
@@ -269,6 +269,7 @@ flows:
       - call: send_slack_msg
 
   setup:
+    - npm config set strict-ssl false
     - npm install
     - npx playwright install chromium
     - echo '{}' > secrets/nexus-users-token.json
