@@ -170,6 +170,80 @@
   ],
   "layer-1 of calculate, save & GetKpi": [
     {
+      "testStep": "Get baseline value before procceding with any adjustment",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Get baseline value before procceding with any adjustment",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+        "scenario_version": "{{io_scenario_version_multiLayerSave}}",
+        "dim_id": 11,
+        "dim_val_id": 110026,
+        "classification_id": 11,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "returnedunitsuom_input",
+            "storereturns_input"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            }
+          ],
+          "month": [
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}"
+          ]
+        },
+        "isApplied": false
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "driver1_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver1_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        },
+        "driver2_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver2_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        }
+      }
+    },
+    {
       "testStep": "Calculate Forecast for_multiLayerSave-Layer1",
       "environment": "qa",
       "labels": [
@@ -364,11 +438,83 @@
           "whereKey": "driver",
           "equals": "storereturns_input",
           "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver1_layer1_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver1_layer1_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver2_layer1_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver2_layer1_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver1_layer1_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver1_layer1_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        },
+        "driver2_layer1_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver2_layer1_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
         }
       },
       "validateExtractToBeApprox": {
         "driver1_layer1_month1_KPIData": {
           "expected": "{{layer1_driver1_forecast}}",
+          "tolerance": 0.2
+        },
+        "driver1_layer1_month1_previous_KPIData": {
+          "expected": "{{driver1_month1_baseline}}",
+          "tolerance": 1
+        },
+        "driver1_layer1_month2_previous_KPIData": {
+          "expected": "{{driver1_month2_baseline}}",
+          "tolerance": 1
+        },
+        "driver2_layer1_month1_previous_KPIData": {
+          "expected": "{{driver2_month1_baseline}}",
+          "tolerance": 1
+        },
+        "driver2_layer1_month2_previous_KPIData": {
+          "expected": "{{driver2_month2_baseline}}",
+          "tolerance": 1
+        },
+        "driver1_layer1_month1_baseline": {
+          "expected": "{{driver1_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver1_layer1_month2_baseline": {
+          "expected": "{{driver1_month2_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_layer1_month1_baseline": {
+          "expected": "{{driver2_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_layer1_month2_baseline": {
+          "expected": "{{driver2_month2_baseline}}",
           "tolerance": 0.2
         }
       }
@@ -616,6 +762,46 @@
           "whereKey": "driver",
           "equals": "storereturns_input",
           "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver1_layer2_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver1_layer2_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver2_layer2_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver2_layer2_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver1_layer2_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver1_layer2_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        },
+        "driver2_layer2_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver2_layer2_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
         }
       },
       "validateExtractToBeApprox": {
@@ -634,6 +820,38 @@
         "driver2_layer2_month2_KPIData": {
           "expected": "{{layer2_driver1_month2_forecast}}",
           "tolerance": 1
+        },
+        "driver1_layer2_month1_previous_KPIData": {
+          "expected": "{{driver1_layer1_month1_KPIData}}",
+          "tolerance": 1
+        },
+        "driver1_layer2_month2_previous_KPIData": {
+          "expected": "{{driver1_month2_baseline}}",
+          "tolerance": 1
+        },
+        "driver2_layer2_month1_previous_KPIData": {
+          "expected": "{{driver2_month1_baseline}}",
+          "tolerance": 1
+        },
+        "driver2_layer2_month2_previous_KPIData": {
+          "expected": "{{driver2_month2_baseline}}",
+          "tolerance": 1
+        },
+        "driver1_layer2_month1_baseline": {
+          "expected": "{{driver1_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver1_layer2_month2_baseline": {
+          "expected": "{{driver1_month2_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_layer2_month1_baseline": {
+          "expected": "{{driver2_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_layer2_month2_baseline": {
+          "expected": "{{driver2_month2_baseline}}",
+          "tolerance": 0.2
         }
       }
     }
@@ -900,6 +1118,26 @@
           "whereKey": "driver",
           "equals": "storereturns_input",
           "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver1_layer3_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver1_layer3_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        },
+        "driver2_layer3_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver2_layer3_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
         }
       },
       "validateExtractToBeApprox": {
@@ -934,6 +1172,22 @@
         "driver2_layer3_month2_previous_KPIData": {
           "expected": "{{driver2_layer2_month2_KPIData}}",
           "tolerance": 1
+        },
+        "driver1_layer3_month1_baseline": {
+          "expected": "{{driver1_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver1_layer3_month2_baseline": {
+          "expected": "{{driver1_month2_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_layer3_month1_baseline": {
+          "expected": "{{driver2_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_layer3_month2_baseline": {
+          "expected": "{{driver2_month2_baseline}}",
+          "tolerance": 0.2
         }
       }
     }
@@ -1030,6 +1284,26 @@
           "whereKey": "driver",
           "equals": "storereturns_input",
           "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver1_DeleteLayer2_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver1_DeleteLayer2_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        },
+        "driver2_DeleteLayer2_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver2_DeleteLayer2_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
         }
       },
       "validateExtractToBeApprox": {
@@ -1048,6 +1322,22 @@
         "driver2_DeleteLayer2_month2_previous_KPIData": {
           "expected": "{{driver2_layer1_month2_KPIData}}",
           "tolerance": 1
+        },
+        "driver1_DeleteLayer2_month1_baseline": {
+          "expected": "{{driver1_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver1_DeleteLayer2_month2_baseline": {
+          "expected": "{{driver1_month2_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_DeleteLayer2_month1_baseline": {
+          "expected": "{{driver2_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_DeleteLayer2_month2_baseline": {
+          "expected": "{{driver2_month2_baseline}}",
+          "tolerance": 0.2
         }
       }
     }
