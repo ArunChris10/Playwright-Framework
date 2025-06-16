@@ -1,6 +1,6 @@
 import { expect, FrameLocator, Locator, Page } from "@playwright/test";
 import { Utility } from "../../common/fixtures/utils";
-import {Buttons, ScenarioSection} from "../types/excel.page.types";
+import {Buttons, ExcelUIElements, ScenarioSection} from "../types/excel.page.types";
 
 export class ExcelPage {
   readonly page: Page;
@@ -31,6 +31,7 @@ export class ExcelPage {
   readonly scenarioSection: ScenarioSection
 
   readonly buttons: Buttons;
+  readonly excelUIElements: ExcelUIElements;
 
   constructor(page: Page) {
     this.page = page;
@@ -86,8 +87,19 @@ export class ExcelPage {
       download: this.mainIframe.getByRole("button", { name: "Download" }),
       refresh: this.mainIframe.getByRole("button", { name: "Refresh "}),
       clear: this.mainIframe.getByRole("button", { name: "Clear" }),
+      settings: this.mainIframe.getByTestId("SwitchToSettings"),
+      back: this.mainIframe.getByTestId("BackToFilters"),
+      moreRefreshOptions: this.mainIframe.getByRole("button", { name: "More Refresh Options" }),
+      refreshAll: this.mainIframe.getByRole("menuitem", { name: "Refresh All" })
     }
 
+    this.excelUIElements = {
+      buttons: {
+        newSheet: this.parentIframe.getByRole("button", { name: "New Sheet "}),
+        deleteSheet: this.parentIframe.getByRole("menuitem", { name: "Delete" }),
+        ok: this.parentIframe.getByRole("button", { name: "OK" })
+      }
+    }
   }
 
   async getTableData() {
@@ -109,6 +121,25 @@ export class ExcelPage {
     await this.nameBox.fill(cell);
     await this.page.keyboard.press("Enter");
     return this.formulaBar.textContent();
+  }
+
+  // Unlike getCelData, the assert version of the method waits until the table updates with the possible text
+  async assertCellHasText(cell: string, text: string): Promise<void> {
+    await this.nameBox.click();
+    await this.nameBox.fill(cell);
+    await this.page.keyboard.press("Enter");
+
+    await expect(this.formulaBar.getByText(text)).toBeVisible()
+  }
+
+  async getCellTextAfterLoad(cell: string): Promise<string | null> {
+    const loadingText = "Loading..."
+    const loadingCell = "A1"
+
+    await this.assertCellHasText(loadingCell, loadingText)
+    await this.formulaBar.getByText(loadingText).waitFor({ state: "hidden" })
+
+    return this.getCellData(cell);
   }
 
   async setCellData(cell: string, value: string): Promise<void> {
@@ -319,5 +350,34 @@ export class ExcelPage {
     await this.mainIframe.getByText("Show Months").click();
     await this.mainIframe.getByText("Show Quarters").click();
     await this.mainIframe.getByText("Show Halves").click();
+  }
+
+  async doDownload(businessArea?: string, scenario?: string) {
+    await this.buttons.clear.click();
+    await this.selectBusinessArea(businessArea);
+
+    await this.selectSavedView();
+    await this.selectScenario(scenario)
+
+    await expect(this.buttons.download).toBeEnabled();
+
+    await this.buttons.download.click();
+  }
+
+  async switchToSheet(name: string): Promise<void> {
+    const sheet = this.parentIframe.getByRole("tab", { name })
+    await sheet.click();
+  }
+
+  async deleteSheet(name: string): Promise<void> {
+    const sheet = this.parentIframe.getByRole("tab", { name })
+    await sheet.click({ button: "right" });
+    await this.excelUIElements.buttons.deleteSheet.click();
+    await this.excelUIElements.buttons.ok.click();
+  }
+
+
+  getRefreshSwitchForTab(tabName: string): Locator {
+    return this.mainIframe.locator(`button[aria-labelledby="${tabName}"]`)
   }
 }
