@@ -11,7 +11,7 @@ test.describe(
         test.beforeAll(async ({ pageFactory }) => {
             await pageFactory.loginExcel().login();
             excelPage = pageFactory.excel();
-            // await excelPage.getStarted();
+            await excelPage.getStarted();
         });
 
         test.afterAll(async () => {
