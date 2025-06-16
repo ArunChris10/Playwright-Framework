@@ -29,6 +29,11 @@ export class AddDriverPage {
         return true
     }
 
+    async waitForKPITableLoad() {
+        await this.page.waitForSelector('[data-testid="forecast-table"]', { state: 'visible', timeout: 100000 });
+        return true
+    }
+
     async inputDriverName(driverName: string) {
         await this.page.locator(this.searchDriverField).fill(driverName).then(async () => {
             await this.page.waitForTimeout(1000)
@@ -45,7 +50,7 @@ export class AddDriverPage {
         });
         await this.page.waitForSelector(`//div[@class="noncalculated"]//parent::*//parent::*//strong[contains(text(),"${driverName}")] `, { state: 'attached' });
         await this.page.waitForTimeout(2000);
-        await this.page.getByRole('option', { name: `${driverName} input View in` }).getByLabel(`${driverName}`).check();
+        await this.page.getByRole('option', { name: `${driverName} input View in` }).getByLabel(`${driverName}`).first().check();
     }
 
     async searchAndApplyDrivers(driverNames: string[]) {

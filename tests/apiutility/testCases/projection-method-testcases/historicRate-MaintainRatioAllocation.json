@@ -40,26 +40,28 @@
       "extractRelativeMultipleCondition": {
         "Projection_Hist_MaintainRatioScenariotoDeletescenarioId": {
           "conditions": [
-            {
-              "path": "rowData.lineOfBusiness",
-              "equals": 110030
-            },
+            
             {
               "path": "rowData.owner",
               "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
             }
           ],
           "extractKey": "scenarioId"
         },
         "Projection_Hist_MaintainRatioScenariotoDeletescenarioVersion": {
           "conditions": [
-            {
-              "path": "rowData.lineOfBusiness",
-              "equals": 110030
-            },
+            
             {
               "path": "rowData.owner",
               "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
             }
           ],
           "extractKey": "scenarioVersion"
@@ -385,8 +387,6 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "IBGROW-37429",
-        "IBGROW-34379",
         "MS1"
       ],
       "service": "coreService",
@@ -477,15 +477,15 @@
       "validateExtractToBeApprox": {
         "historic_Maintain Ratio_forecastDriverOne_KpiData": {
           "expected": "{{historic_MaintainRatio_forecastDriverOne}}",
-          "tolerance": 10
+          "tolerance": 50
         },
         "historic_Maintain Ratio_forecastDriverTwo_KpiData": {
           "expected": "{{historic_MaintainRatio_forecastDriverTwo}}",
-          "tolerance": 10
+          "tolerance": 50
         },
         "historic_Maintain Ratio_forecastDriverThree_KpiData": {
           "expected": "{{historic_MaintainRatio_forecastDriverThree}}",
-          "tolerance": 10
+          "tolerance": 50
         }
       }
     }

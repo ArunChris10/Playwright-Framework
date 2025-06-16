@@ -16,8 +16,8 @@ if (!process.env.tag) {
 }
 const grepPattern = process.env.REPO_NAME
   ? new RegExp(
-      "(?=.*" + process.env.tag + ")(?=.*@" + process.env.REPO_NAME + ")"
-    )
+    "(?=.*" + process.env.tag + ")(?=.*@" + process.env.REPO_NAME + ")"
+  )
   : new RegExp("" + process.env.tag);
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -31,18 +31,20 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 0 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? undefined : undefined,
+  workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: process.env.CI
     ? [
-        ["html", { outputFolder: `playwright-report/${process.env.APP_NAME}` }],
-        ["@walmartlabs/testburst-playwright-js-reporter"],
-      ]
+      ["html", { outputFolder: `playwright-report/${process.env.APP_NAME}` }],
+      ["@walmartlabs/testburst-playwright-js-reporter"],
+    ]
     : "html",
   //reporter: "html",
   //reporter: 'allure-playwright',
   /* maximum time each test can run for */
   timeout: 5 * 60 * 1000,
+  globalTeardown: './tests/apiutility/globalTeardown.ts',
+  globalSetup: './tests/apiutility/globalSetup.ts',
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -181,32 +183,31 @@ export default defineConfig({
           "Content-Type": "application/json",
         },
       },
-      
+
     },
     {
-        name: "excel-fe",
-        // dependencies: ["ui-setup"],
-        testMatch: /excel-fe.*.spec.ts/,
-        grep: [new RegExp(process.env.tag + "")],
-        use: {
-          ...devices["Desktop Chrome"],
-          headless: false,
-          launchOptions: {
-            args: ["--ignore-certificate-errors", "--start-fullscreen"],
-          },
-          permissions: ["clipboard-read", "clipboard-write"]
+      name: "excel-fe",
+      // dependencies: ["ui-setup"],
+      testMatch: /excel-fe.*.spec.ts/,
+      grep: [new RegExp(process.env.tag + "")],
+      use: {
+        ...devices["Desktop Chrome"],
+        headless: false,
+        launchOptions: {
+          args: ["--ignore-certificate-errors", "--start-fullscreen"],
+        },
+        permissions: ["clipboard-read", "clipboard-write"]
+      },
+    },
+    {
+      name: "apiutility",
+      dependencies: ["api-setup"],
+      testMatch: /api.test.*.ts/,
+      use: {
+        extraHTTPHeaders: {
+          Authorization: `Bearer ${nexusTokens[process.env.ufmUser + ""]}`,
         },
       },
-      {
-        name: "apiutility",
-        dependencies: ["api-setup"],
-        testMatch: /api.test.*.ts/,
-        grep: [new RegExp(process.env.tag + "")],
-        use: {
-          extraHTTPHeaders: {
-            Authorization: `Bearer ${nexusTokens[process.env.ufmUser + ""]}`,
-          },
-        },
-      },
+    },
   ],
 });

@@ -14,6 +14,13 @@ import { equal } from 'assert';
  */
 export function findAllValuesByKey(obj: any, path: string): any[] {
   const results: any[] = [];
+
+  // Special case: "$" means return the entire object
+  if (path === "$") {
+    results.push(obj);
+    return results;
+  }
+
   const pathSegments = path.split(".");
 
   function traverse(current: any, remainingPath: string[]) {
@@ -36,6 +43,7 @@ export function findAllValuesByKey(obj: any, path: string): any[] {
   traverse(obj, pathSegments);
   return results;
 }
+
 
 export function findFirstValueByKey(obj: any, path: string): string[] {
   const results: any[] = [];
@@ -248,7 +256,8 @@ export interface MatchedNode {
   fullPath: string;
 }
 
-export function findRelativeValueMultiCondition(
+//old Implementation of findRelativeValueMultiCondition
+/* export function findRelativeValueMultiCondition(
   data: any,
   conditions: { path: string; equals: any }[],
   extractKey: string
@@ -287,6 +296,52 @@ export function findRelativeValueMultiCondition(
 
   console.warn(`No match found for conditions`);
   return undefined;
+} */
+
+  export function findRelativeValueMultiCondition(data: any,conditions: { path: string; equals: any }[], extractKey: string): any {
+  let consumedKeys;
+  let matchedResponse: any[] = [];
+  let dataMatched = false;
+  for (const condition of conditions) {
+    const { path, equals } = condition;
+    const fullPathParsedKey = path.split(/\./);
+    for (const curParsedKey of fullPathParsedKey){
+        if (data[curParsedKey] != undefined){
+            data = data[curParsedKey];
+        }
+        else if (Array.isArray(data)){
+          for (const curRow of data){
+              if (curRow[curParsedKey] == equals){
+                matchedResponse.push(curRow);
+                dataMatched = true;
+              }
+              else if (typeof curRow[curParsedKey] === 'object' ){
+                const nextKeyIndex = fullPathParsedKey.indexOf(curParsedKey) + 1;
+                const nextKey = fullPathParsedKey[nextKeyIndex];
+                matchedResponse.push({
+                   ...(nextKey !== undefined && curRow[curParsedKey] && typeof curRow[curParsedKey] === 'object'
+                  ? { [nextKey]: curRow[curParsedKey][nextKey] }
+                  : {}),
+                  parent: curRow
+                });
+                dataMatched = true;
+              }
+          }
+          if (dataMatched){
+          data = matchedResponse.slice();
+          dataMatched=false;
+          matchedResponse.length=0
+          }
+        }
+    }
+  }
+
+  if (data[0].parent){
+  return data[0].parent[extractKey]
+  }
+  else{
+  return data[0]
+  }
 }
 
 /**
@@ -373,6 +428,7 @@ export function findRelativeFlexibleValue(
 
 
 export function getNestedValueFromRoot(obj: any, path: string): MatchedNode | undefined {
+
   const keys = path.split('.');
   let current = obj;
   let parent: any = null;
@@ -395,6 +451,7 @@ export function getNestedValueFromRoot(obj: any, path: string): MatchedNode | un
           if (result) return result;
         }
         return undefined;
+
       }
     } else if (typeof current === 'object') {
       parent = current;
@@ -406,6 +463,7 @@ export function getNestedValueFromRoot(obj: any, path: string): MatchedNode | un
 
   return { value: current, parent, key: keys[keys.length - 1], fullPath };
 }
+
 
 
 

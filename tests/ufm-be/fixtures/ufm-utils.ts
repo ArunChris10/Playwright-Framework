@@ -9,6 +9,7 @@ import inputNodes from "../testdata/inputnodes.json";
 import endpoints from "../testdata/statusendpoints.json";
 import { ForecastUtility } from "./forecast-utils";
 import { SOTUtility } from "./SOTUtility";
+import mappingData from "../constants/mapping.json"
 
 export class UfmUtility {
   private static readonly mappingfilepath: string =
@@ -517,4 +518,46 @@ export class UfmUtility {
     getKpiData.payloads.filters = filter;
     return getKpiData.payloads;
   }
+
+  static async getMappingValue(
+      searchCriteria: Record<string, any>,
+      returnKey: string
+    ) {
+      const found = mappingData.find((item: any) =>
+        Object.entries(searchCriteria).every(
+          ([key, value]) => item[key] === value
+        )
+      );
+      return found ? found[returnKey] : undefined;
+    }
+
+    /**
+ * Compares calculated and API node values for all months and nodes.
+ * @param comparisonObj - { [month: string]: { calculatedNodes: Record<string, number>, apiNodeValues: Record<string, number> } }
+ * @param tolerance - Allowed difference between forecasts.
+ * @throws Error if any node/month pair mismatches beyond tolerance.
+ */
+static async compareNodeValuesByMonth(
+  comparisonObj: Record<string, { calculatedNodes: Record<string, number>, apiNodeValues: Record<string, number> }>,
+  tolerance: number = 0.5
+) {
+  const mismatches: string[] = [];
+  for (const monthKey in comparisonObj) {
+    const { calculatedNodes, apiNodeValues } = comparisonObj[monthKey];
+    for (const node in calculatedNodes) {
+      if (apiNodeValues[node] !== undefined) {
+        const diff = Math.abs(calculatedNodes[node] - apiNodeValues[node]);
+        if (diff > tolerance) {
+          mismatches.push(
+            `Mismatch for ${node} (${monthKey}): calculated=${calculatedNodes[node]}, api=${apiNodeValues[node]}, diff=${diff}`
+          );
+        }
+      }
+    }
+  }
+
+  // Use Playwright's expect for assertion
+  expect(mismatches, mismatches.join('\n')).toHaveLength(0);
+
+}
 }
