@@ -152,7 +152,7 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
                     console.error('Response Body at failure:');
                     console.error(JSON.stringify(responseBody, null, 2));
                   }
-                  throw new Error(`Key ${step.extract[globalVar]} not found`);
+                  throw new Error(`Key ${step.extract[globalVar]} not found, response body: ${JSON.stringify(responseBody)}`);
                 }
                 globalStore.setValue(globalVar, value);
                 console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
