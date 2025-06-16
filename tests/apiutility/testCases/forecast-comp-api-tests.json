@@ -180,10 +180,10 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
-                "vsLyDifferenceValue": "rowData.202604.vsLyDifference",
-                "vsLyPercentValue": "rowData.202604.vsLyPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsLyAbsoluteValue": "rowData.{{dynamicMonth}}.vsLyAbsolute",
+                "vsLyDifferenceValue": "rowData.{{dynamicMonth}}.vsLyDifference",
+                "vsLyPercentValue": "rowData.{{dynamicMonth}}.vsLyPercent"
             },
             "assertions": [
                 {
@@ -348,13 +348,13 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
-                "vsLyDifferenceValue": "rowData.202604.vsLyDifference",
-                "vsLyPercentValue": "rowData.202604.vsLyPercent",
-                "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
-                "vsPriorDifferenceValue": "rowData.202604.vsPriorDifference",
-                "vsPriorPercentValue": "rowData.202604.vsPriorPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsLyAbsoluteValue": "rowData.{{dynamicMonth}}.vsLyAbsolute",
+                "vsLyDifferenceValue": "rowData.{{dynamicMonth}}.vsLyDifference",
+                "vsLyPercentValue": "rowData.{{dynamicMonth}}.vsLyPercent",
+                "vsPriorAbsoluteValue": "rowData.{{dynamicMonth}}.vsPriorAbsolute",
+                "vsPriorDifferenceValue": "rowData.{{dynamicMonth}}.vsPriorDifference",
+                "vsPriorPercentValue": "rowData.{{dynamicMonth}}.vsPriorPercent"
             },
             "assertions": [
                 {
@@ -506,9 +506,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
-                "vsLyDifferenceValue": "rowData.202604.vsLyDifference"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsLyAbsoluteValue": "rowData.{{dynamicMonth}}.vsLyAbsolute",
+                "vsLyDifferenceValue": "rowData.{{dynamicMonth}}.vsLyDifference"
             },
             "assertions": [
                 {
@@ -659,9 +659,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
-                "vsLyPercentValue": "rowData.202604.vsLyPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsLyAbsoluteValue": "rowData.{{dynamicMonth}}.vsLyAbsolute",
+                "vsLyPercentValue": "rowData.{{dynamicMonth}}.vsLyPercent"
             },
             "assertions": [
                 {
@@ -812,9 +812,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
-                "vsLyPercentValue": "rowData.202604.vsLyPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsLyAbsoluteValue": "rowData.{{dynamicMonth}}.vsLyAbsolute",
+                "vsLyPercentValue": "rowData.{{dynamicMonth}}.vsLyPercent"
             },
             "assertions": [
                 {
@@ -965,9 +965,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
-                "vsPriorPercentValue": "rowData.202604.vsPriorPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsPriorAbsoluteValue": "rowData.{{dynamicMonth}}.vsPriorAbsolute",
+                "vsPriorPercentValue": "rowData.{{dynamicMonth}}.vsPriorPercent"
             },
             "assertions": [
                 {
@@ -1119,9 +1119,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
-                "vsPriorPercentValue": "rowData.202604.vsPriorPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsPriorAbsoluteValue": "rowData.{{dynamicMonth}}.vsPriorAbsolute",
+                "vsPriorPercentValue": "rowData.{{dynamicMonth}}.vsPriorPercent"
             },
             "assertions": [
                 {
@@ -1276,10 +1276,10 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
-                "vsPriorDifferenceValue": "rowData.202604.vsPriorDifference",
-                "vsPriorPercentValue": "rowData.202604.vsPriorPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsPriorAbsoluteValue": "rowData.{{dynamicMonth}}.vsPriorAbsolute",
+                "vsPriorDifferenceValue": "rowData.{{dynamicMonth}}.vsPriorDifference",
+                "vsPriorPercentValue": "rowData.{{dynamicMonth}}.vsPriorPercent"
             },
             "assertions": [
                 {
@@ -1428,9 +1428,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
-                "vsPriorDifferenceValue": "rowData.202604.vsPriorDifference"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsPriorAbsoluteValue": "rowData.{{dynamicMonth}}.vsPriorAbsolute",
+                "vsPriorDifferenceValue": "rowData.{{dynamicMonth}}.vsPriorDifference"
             },
             "assertions": [
                 {
@@ -1585,10 +1585,10 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "lastToLastYearAbsoluteValue": "rowData.202604.lastToLastYearAbsolute",
-                "lastToLastYearDifferenceValue": "rowData.202604.lastToLastYearDifference",
-                "lastToLastYearPercentValue": "rowData.202604.lastToLastYearPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "lastToLastYearAbsoluteValue": "rowData.{{dynamicMonth}}.lastToLastYearAbsolute",
+                "lastToLastYearDifferenceValue": "rowData.{{dynamicMonth}}.lastToLastYearDifference",
+                "lastToLastYearPercentValue": "rowData.{{dynamicMonth}}.lastToLastYearPercent"
             },
             "assertions": [
                 {
@@ -1765,16 +1765,16 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
-                "vsLyDifferenceValue": "rowData.202604.vsLyDifference",
-                "vsLyPercentValue": "rowData.202604.vsLyPercent",
-                "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
-                "vsPriorDifferenceValue": "rowData.202604.vsPriorDifference",
-                "vsPriorPercentValue": "rowData.202604.vsPriorPercent",
-                "lastToLastYearAbsoluteValue": "rowData.202604.lastToLastYearAbsolute",
-                "lastToLastYearDifferenceValue": "rowData.202604.lastToLastYearDifference",
-                "lastToLastYearPercentValue": "rowData.202604.lastToLastYearPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsLyAbsoluteValue": "rowData.{{dynamicMonth}}.vsLyAbsolute",
+                "vsLyDifferenceValue": "rowData.{{dynamicMonth}}.vsLyDifference",
+                "vsLyPercentValue": "rowData.{{dynamicMonth}}.vsLyPercent",
+                "vsPriorAbsoluteValue": "rowData.{{dynamicMonth}}.vsPriorAbsolute",
+                "vsPriorDifferenceValue": "rowData.{{dynamicMonth}}.vsPriorDifference",
+                "vsPriorPercentValue": "rowData.{{dynamicMonth}}.vsPriorPercent",
+                "lastToLastYearAbsoluteValue": "rowData.{{dynamicMonth}}.lastToLastYearAbsolute",
+                "lastToLastYearDifferenceValue": "rowData.{{dynamicMonth}}.lastToLastYearDifference",
+                "lastToLastYearPercentValue": "rowData.{{dynamicMonth}}.lastToLastYearPercent"
             },
             "assertions": [
                 {
@@ -1929,9 +1929,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "lastToLastYearAbsoluteValue": "rowData.202604.lastToLastYearAbsolute",
-                "lastToLastYearDifferenceValue": "rowData.202604.lastToLastYearDifference"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "lastToLastYearAbsoluteValue": "rowData.{{dynamicMonth}}.lastToLastYearAbsolute",
+                "lastToLastYearDifferenceValue": "rowData.{{dynamicMonth}}.lastToLastYearDifference"
             },
             "assertions": [
                 {
@@ -1954,7 +1954,8 @@
             "labels": [
                 "smoke",
                 "forecast_comp",
-                "IBGROW-38900"
+                "IBGROW-38900",
+                "IBGROW-39031"
             ],
             "service": "coreService",
             "uri": "getKpiV2",
@@ -2082,9 +2083,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "lastToLastYearAbsoluteValue": "rowData.202604.lastToLastYearAbsolute",
-                "lastToLastYearPercentValue": "rowData.202604.lastToLastYearPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "lastToLastYearAbsoluteValue": "rowData.{{dynamicMonth}}.lastToLastYearAbsolute",
+                "lastToLastYearPercentValue": "rowData.{{dynamicMonth}}.lastToLastYearPercent"
             },
             "assertions": [
                 {
@@ -2107,7 +2108,10 @@
             "labels": [
                 "smoke",
                 "forecast_comp",
-                "IBGROW-38900"
+                "IBGROW-38900",
+                "IBGROW-39025",
+                "IBGROW-39030",
+                "testing_forecast_comp"
             ],
             "service": "coreService",
             "uri": "getKpiV2",
@@ -2235,9 +2239,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "lastToLastYearAbsoluteValue": "rowData.202604.lastToLastYearAbsolute",
-                "lastToLastYearPercentValue": "rowData.202604.lastToLastYearPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "lastToLastYearAbsoluteValue": "rowData.{{dynamicMonth}}.lastToLastYearAbsolute",
+                "lastToLastYearPercentValue": "rowData.{{dynamicMonth}}.lastToLastYearPercent"
             },
             "assertions": [
                 {

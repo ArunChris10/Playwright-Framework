@@ -183,17 +183,17 @@ testCaseFiles.forEach(testCasePath => {
 
           let baseUrl: string | undefined;
           if (step.service === "coreService") {
-            baseUrl = parentConfig.coreService.baseURL[process.env.ENV];
+            baseUrl = parentConfig.coreService.baseURL[process.env.envName];
           } else if (step.service === "notificationService") {
-            baseUrl = parentConfig.notificationService.baseURL[process.env.ENV];
+            baseUrl = parentConfig.notificationService.baseURL[process.env.envName];
           } else if (step.service === "reportingService") {
-            baseUrl = parentConfig.reportingService.baseURL[process.env.ENV];
+            baseUrl = parentConfig.reportingService.baseURL[process.env.envName];
           } else if (step.service === "nexusService") {
-            baseUrl = parentConfig.nexusService.baseURL[process.env.ENV];
+            baseUrl = parentConfig.nexusService.baseURL[process.env.envName];
           } else if (step.service === "currentDemandService") {
-            baseUrl = parentConfig.currentDemandService.baseURL[process.env.ENV];
+            baseUrl = parentConfig.currentDemandService.baseURL[process.env.envName];
           } else if (step.service === "dataForgeService") {
-            baseUrl = parentConfig.dataForgeService.baseURL[process.env.ENV];
+            baseUrl = parentConfig.dataForgeService.baseURL[process.env.envName];
           }
 
           const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
