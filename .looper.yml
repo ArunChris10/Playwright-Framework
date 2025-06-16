@@ -130,11 +130,6 @@ flows:
         - var(APP_NAME = 'UFM')
         - call: runUFMBeTests
     - if: | #search ufm app name here
-        %{app =~ UFM_REPOS}
-      then:
-        - var(APP_NAME = 'UFM')
-        - call: runUFMBeTests_apiFramework
-    - if: | #search ufm app name here
         %{app =~ CDF_REPOS}
       then:
         - var(APP_NAME = 'CDF')
