@@ -186,7 +186,7 @@ flows:
     try:
       - echo "Running UFM API Regression testcases using new framework"
       - call: setup
-      - RUNID=$testrunid ENV=$envr TEST=apiFramework npm run tests:apiutilityParallel
+      - RUNID=$testrunid ENV=$envr TEST=apiFramework npm run tests:apiutility
       - var(TEST_RESULT =true)
     finally:
       - call: reporter
