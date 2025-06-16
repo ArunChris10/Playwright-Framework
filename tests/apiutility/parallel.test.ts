@@ -29,7 +29,6 @@ let testCaseFiles
 testCaseFiles = parentConfig.testFiles;
 let runAllInParallel = parentConfig.ForceAllParallel;
 
-
 export interface ParallelTestCases {
   [testName: string]: ApiTestCase[];
 }
@@ -41,7 +40,7 @@ testCaseFiles.forEach(testCasePath => {
   );
 
   for (const [testName, steps] of Object.entries(rawTestData)) {
-    if (typeof steps[0]?.runInParallel == "undefined" || steps[0]?.runInParallel && !runAllInParallel) {
+    if (typeof steps[0]?.runInParallel == "undefined" || steps[0]?.runInParallel) {
       if (!parallelTestCases.hasOwnProperty(testName)) {
       parallelTestCases[testName] = steps;
       }
@@ -95,10 +94,12 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
         console.log(`Labels: ${caseLabels.join(", ")}`);
         console.log("================================================================================");
 
-        for (const step of steps) {
+        process.env.envName = process.env.envName || 'qa';
+        let failedStepIndex = -1;
+        for (let i = 0; i < steps.length; i++) {
+          const step = steps[i];
           const stepName = step.testStep || step.testName || "Unnamed Step";
           console.log(`--- Executing step: ${stepName} ---`);
-          process.env.envName = "qa"
           let baseUrl: string | undefined;
           if (step.service === "coreService") {
             baseUrl = parentConfig.coreService.baseURL[process.env.envName];
@@ -114,7 +115,7 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
             baseUrl = parentConfig.dataForgeService.baseURL[process.env.envName];
           }
 
-          const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
+          const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);  
           const resolvedBaseUrl = baseUrl + parentConfig[step.service][step.uri] + interpolate(step.queryParams);
 
           const requestContext = await request.newContext({
@@ -133,138 +134,177 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
           console.log("Request Payload:");
           console.log(JSON.stringify(payload, null, 2));
 
-          let response = await executeRequest(step.method, requestContext, "", payload);
+          try {
+            let response = await executeRequest(step.method, requestContext, "", payload);
 
-          console.log(`Response Status: ${response.status()}`);
-          if (response.status() !== 204) {
-            responseBody = await response.json();
-            console.log("Response Body:");
-            console.log(JSON.stringify(responseBody, null, 2));
-          }
-
-          if (step.extract) {
-            for (const globalVar in step.extract) {
-              const value = findAllValuesByKey(responseBody, interpolate(step.extract[globalVar].replace(/^body\./, '')));
-              if (!value || value.length === 0) throw new Error(`Key ${step.extract[globalVar]} not found`);
-              globalStore.setValue(globalVar, value);
-              console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
+            console.log(`Response Status: ${response.status()}`);
+            if (response.status() !== 204) {
+              responseBody = await response.json();
+              console.log("Response Body:");
+              console.log(JSON.stringify(responseBody, null, 2));
             }
-          }
 
-          if (step.extractFirst) {
-            for (const globalVar in step.extractFirst) {
-              const value = findFirstValueByKey(responseBody, step.extractFirst[globalVar].replace(/^body\./, ''));
-              if (!value) throw new Error(`Key ${step.extractFirst[globalVar]} not found`);
-              globalStore.setValue(globalVar, value);
-              console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
-            }
-          }
-
-          if (step.extractRelative) {
-            for (const globalVar in step.extractRelative) {
-              const { whereKey, equals, extractKey } = step.extractRelative[globalVar];
-              const value = findRelativeValue(responseBody, interpolate(whereKey), interpolate(equals), interpolate(extractKey));
-              if (value !== undefined) {
-                if (globalVar.includes('asString')) {
-                  globalStore.setValue(globalVar, value.toString());
-                } else {
-                  globalStore.setValue(globalVar, value);
+            if (step.extract) {
+              for (const globalVar in step.extract) {
+                const value = findAllValuesByKey(responseBody, interpolate(step.extract[globalVar].replace(/^body\./, '')));
+                if (!value || value.length === 0) {
+                  if (responseBody !== null) {
+                    console.error('Response Body at failure:');
+                    console.error(JSON.stringify(responseBody, null, 2));
+                  }
+                  throw new Error(`Key ${step.extract[globalVar]} not found`);
                 }
+                globalStore.setValue(globalVar, value);
                 console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
-              } else {
-                throw new Error(`Could not find relative value where "${whereKey}" == "${equals}"`);
               }
             }
-          }
-
-          if (step.extractRelativeMultipleCondition) {
-            for (const globalVar in step.extractRelativeMultipleCondition) {
-              const { conditions, extractKey } = step.extractRelativeMultipleCondition?.[globalVar] ?? {};
-              if (conditions && extractKey) {
-                const result = findRelativeValueMultiCondition(responseBody, conditions, extractKey);
-                globalStore.setValue(globalVar, result);
-              } else {
-                console.warn(`No valid extractRelative config found for globalVar: ${globalVar}`);
+            if (step.extractFirst) {
+              for (const globalVar in step.extractFirst) {
+                const value = findFirstValueByKey(responseBody, step.extractFirst[globalVar].replace(/^body\./, ''));
+                if (!value) {
+                  if (responseBody !== null) {
+                    console.error('Response Body at failure:');
+                    console.error(JSON.stringify(responseBody, null, 2));
+                  }
+                  throw new Error(`Key ${step.extractFirst[globalVar]} not found`);
+                }
+                globalStore.setValue(globalVar, value);
+                console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
               }
             }
-          }
-
-          if (step.extractObject) {
-            for (const globalVar in step.extractObject) {
-              const value = findFirstValueByKeyObject(responseBody, interpolate(step.extractObject[globalVar].replace(/^body\./, '')));
-              if (!value || value.length === 0) throw new Error(`Key ${step.extractObject[globalVar]} not found`);
-              globalStore.setValue(globalVar, value);
-              console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
-            }
-          }
-
-          if (step.validateExtract) {
-            for (const globalKey in step.validateExtract) {
-              const expected = interpolate(step.validateExtract[globalKey]);
-              const actual = globalStore[globalKey];
-              validateExtractedValues(actual, expected, globalKey);
-              console.log(`Validated ${globalKey}: actual = ${actual}, expected = ${expected}`);
-            }
-          }
-
-          if (step.validateExtractToBeNotNull) {
-            for (const key in step.validateExtractToBeNotNull) {
-              const globalKey = step.validateExtractToBeNotNull[key];
-              const actual = globalStore.getValue(globalKey);
-              if (actual === null || actual === undefined) {
-                throw new Error(`Expected ${globalKey} to be not null or undefined, but got ${actual}`);
+            if (step.extractRelative) {
+              for (const globalVar in step.extractRelative) {
+                const { whereKey, equals, extractKey } = step.extractRelative[globalVar];
+                const value = findRelativeValue(responseBody, interpolate(whereKey), interpolate(equals), interpolate(extractKey));
+                if (value !== undefined) {
+                  if (globalVar.includes('asString')) {
+                    globalStore.setValue(globalVar, value.toString());
+                  } else {
+                    globalStore.setValue(globalVar, value);
+                  }
+                  console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
+                } else {
+                  throw new Error(`Could not find relative value where "${whereKey}" == "${equals}"`);
+                }
               }
-              console.log(`Validated ${globalKey} is not null or undefined: actual = ${actual}`);
             }
-          }
-
-          if (step.validateExtractContains) {
-            console.log("Validating extracted values being contained:");
-            for (const globalKey in step.validateExtractContains) {
-              const expected = interpolate(step.validateExtractContains[globalKey]);
-              const actual = globalStore.getValue(globalKey);
-              validateExtractedValuesContains(actual, expected, globalKey);
-              console.log(`Validated ${globalKey}: actual = ${actual}, expected = ${expected}`);
-            }
-          }
-
-          if (step.runFunctions) {
-            console.log("Validating extracted values being contained:");
-            for (let singleFunction in step.runFunctions) {
-              const { functionName, args } = step.runFunctions[singleFunction];
-              await runFunctions(functionName, [args], responseBody);
-            }
-          }
-
-          if (step.assertions) {
-            console.log("Running assertions:");
-            await validateAssertions(response, responseBody, [step.assertions].flat(), step);
-            console.log("Assertions passed");
-          }
-
-          if (step.method.toUpperCase() === 'POST' && step.polling) {
-            response = await pollForExpectedResponse(requestContext, resolvedBaseUrl, interpolateObject(step.polling), step.method, payload);
-          }
-
-          if (step.validateExtractToBeApprox) {
-            console.log("Validating extracted values to be approximately equal:");
-            for (const globalKey in step.validateExtractToBeApprox) {
-              const { expected, tolerance } = step.validateExtractToBeApprox[globalKey];
-              const actual = globalStore.getValue(globalKey);
-              const interpolatedExpected = Number(interpolate(expected));
-              const interpolatedActual = Number(actual);
-              if (isNaN(interpolatedExpected) || isNaN(interpolatedActual)) {
-                throw new Error(`Cannot compare non-numeric values for ${globalKey}: actual=${actual}, expected=${expected}`);
+            if (step.extractRelativeMultipleCondition) {
+              for (const globalVar in step.extractRelativeMultipleCondition) {
+                const { conditions, extractKey } = step.extractRelativeMultipleCondition?.[globalVar] ?? {};
+                if (conditions && extractKey) {
+                  const result = findRelativeValueMultiCondition(responseBody, conditions, extractKey);
+                  globalStore.setValue(globalVar, result);
+                } else {
+                  console.warn(`No valid extractRelative config found for globalVar: ${globalVar}`);
+                }
               }
-              const diff = Math.abs(interpolatedActual - interpolatedExpected);
-              if (diff > tolerance) {
-                throw new Error(`Value for ${globalKey} (${interpolatedActual}) is not within ${tolerance} of expected (${interpolatedExpected})`);
-              }
-              console.log(`Validated ${globalKey}: actual = ${interpolatedActual}, expected ≈ ${interpolatedExpected}, tolerance = ${tolerance}`);
             }
+            if (step.extractObject) {
+              for (const globalVar in step.extractObject) {
+                const value = findFirstValueByKeyObject(responseBody, interpolate(step.extractObject[globalVar].replace(/^body\./, '')));
+                if (!value || value.length === 0) {
+                  if (responseBody !== null) {
+                    console.error('Response Body at failure:');
+                    console.error(JSON.stringify(responseBody, null, 2));
+                  }
+                  throw new Error(`Key ${step.extractObject[globalVar]} not found`);
+                }
+                globalStore.setValue(globalVar, value);
+                console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
+              }
+            }
+            if (step.validateExtract) {
+              for (const globalKey in step.validateExtract) {
+                const expected = interpolate(step.validateExtract[globalKey]);
+                const actual = globalStore.getValue(globalKey);
+                validateExtractedValues(actual, expected, globalKey);
+                console.log(`Validated ${globalKey}: actual = ${actual}, expected = ${expected}`);
+              }
+            }
+            if (step.validateExtractToBeNotNull) {
+              for (const key in step.validateExtractToBeNotNull) {
+                const globalKey = step.validateExtractToBeNotNull[key];
+                const actual = globalStore.getValue(globalKey);
+                if (actual === null || actual === undefined) {
+                  if (responseBody !== null) {
+                    console.error('Response Body at failure:');
+                    console.error(JSON.stringify(responseBody, null, 2));
+                  }
+                  throw new Error(`Expected ${globalKey} to be not null or undefined, but got ${actual}`);
+                }
+                console.log(`Validated ${globalKey} is not null or undefined: actual = ${actual}`);
+              }
+            }
+            if (step.validateExtractContains) {
+              console.log("Validating extracted values being contained:");
+              for (const globalKey in step.validateExtractContains) {
+                const expected = interpolate(step.validateExtractContains[globalKey]);
+                const actual = globalStore.getValue(globalKey);
+                validateExtractedValuesContains(actual, expected, globalKey);
+                console.log(`Validated ${globalKey}: actual = ${actual}, expected = ${expected}`);
+              }
+            }
+            if (step.runFunctions) {
+              console.log("Validating extracted values being contained:");
+              for (let singleFunction in step.runFunctions) {
+                const { functionName, args } = step.runFunctions[singleFunction];
+                await runFunctions(functionName, [args], responseBody);
+              }
+            }
+            if (step.assertions) {
+              console.log("Running assertions:");
+              await validateAssertions(response, responseBody, [step.assertions].flat(), step);
+              console.log("Assertions passed");
+            }
+            if (step.method.toUpperCase() === 'POST' && step.polling) {
+              response = await pollForExpectedResponse(requestContext, resolvedBaseUrl, interpolateObject(step.polling), step.method, payload);
+            }
+            if (step.validateExtractToBeApprox) {
+              console.log("Validating extracted values to be approximately equal:");
+              for (const globalKey in step.validateExtractToBeApprox) {
+                const { expected, tolerance } = step.validateExtractToBeApprox[globalKey];
+                const actual = globalStore.getValue(globalKey);
+                const interpolatedExpected = Number(interpolate(expected));
+                const interpolatedActual = Number(actual);
+                if (isNaN(interpolatedExpected) || isNaN(interpolatedActual)) {
+                  if (responseBody !== null) {
+                    console.error('Response Body at failure:');
+                    console.error(JSON.stringify(responseBody, null, 2));
+                  }
+                  throw new Error(`Cannot compare non-numeric values for ${globalKey}: actual=${actual}, expected=${expected}`);
+                }
+                const diff = Math.abs(interpolatedActual - interpolatedExpected);
+                if (diff > tolerance) {
+                  if (responseBody !== null) {
+                    console.error('Response Body at failure:');
+                    console.error(JSON.stringify(responseBody, null, 2));
+                  }
+                  throw new Error(`Value for ${globalKey} (${interpolatedActual}) is not within ${tolerance} of expected (${interpolatedExpected})`);
+                }
+                console.log(`Validated ${globalKey}: actual = ${interpolatedActual}, expected ≈ ${interpolatedExpected}, tolerance = ${tolerance}`);
+              }
+            }
+          } catch (err) {
+            failedStepIndex = i;
+            console.error(`Step failed: ${stepName}`);
+            if (responseBody !== null) {
+              console.error('Response Body at failure:');
+              console.error(JSON.stringify(responseBody, null, 2));
+            }
+            console.error(err);
+            // Rethrow the error to ensure Playwright marks the test as failed
+            throw err;
           }
         }
-
+        if (failedStepIndex !== -1 && failedStepIndex < steps.length - 1) {
+          const skippedSteps = steps.slice(failedStepIndex + 1).map(s => s.testStep || s.testName || "Unnamed Step");
+          console.log(`The following steps did not run due to failure in step '${steps[failedStepIndex].testStep || steps[failedStepIndex].testName || "Unnamed Step"}':`);
+          skippedSteps.forEach(name => {
+            console.error(`FAILED (skipped due to previous failure): ${name}`);
+          });
+          // Explicitly fail the test for skipped steps as well
+          throw new Error(`Test aborted after step '${steps[failedStepIndex].testStep || steps[failedStepIndex].testName || "Unnamed Step"}'. Skipped and failed steps: ${skippedSteps.join(", ")}`);
+        }
         console.log(`ENDING TEST: ${testName}`);
         console.log("================================================================================\n");
 }

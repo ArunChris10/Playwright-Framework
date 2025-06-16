@@ -5,8 +5,9 @@
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
   },
-  "tagsToRun": [],
+  "tagsToRun": [""],
   "ForceAllParallel":true,
+  "ForceAllSerial":false,
   "testFiles": [  
     "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save-demand-node.json",
@@ -58,7 +59,8 @@
     "testCases/filters-ssdm-api-tests.json",
     "testCases/progress-status-ssdm.api-tests.json",
     "testCases/calculate-additive-nodes-constant-value.json",
-    "testCases/calculate-additive-nodes-percent-rolling.json"
+    "testCases/calculate-additive-nodes-percent-rolling.json",
+    "testCases/validator/validator.json"
   ],
   "currentDemandService": {
     "baseURL": {

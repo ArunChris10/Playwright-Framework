@@ -82,7 +82,8 @@ export interface ParentConfig {
   nexusService: { baseURL: { [key: string]: string }, testCaseName: string };
   currentDemandService: { baseURL: { [key: string]: string }, testCaseName: string };
   dataForgeService: { baseURL: { [key: string]: string }, testCaseName: string };
-  ForceAllParallel : boolean
+  ForceAllParallel : boolean;
+  ForceAllSerial : boolean;
 }
 
 export let response: any;

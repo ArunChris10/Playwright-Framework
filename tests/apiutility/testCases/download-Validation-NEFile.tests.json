@@ -16,7 +16,7 @@
       "payload": {
         "doc_id": "10611748438977"
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         },
@@ -50,7 +50,7 @@
       "payload": {
         "doc_id": "1061174843898"
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 400
         }
@@ -73,7 +73,7 @@
       "payload": {
         "doc_id": "10611748438977"
       },
-      "assertion": [
+      "assertions": [
         {
           "status": 200
         }

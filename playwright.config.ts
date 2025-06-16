@@ -201,8 +201,20 @@ export default defineConfig({
     },
     {
       name: "apiutility",
+      name: "apiutilityParallel",
       dependencies: ["api-setup"],
       testMatch: /api.test.*.ts/,
+      testMatch: /parallel.test.*.ts/,
+      use: {
+        extraHTTPHeaders: {
+          Authorization: `Bearer ${nexusTokens[process.env.ufmUser + ""]}`,
+        },
+      },
+    },
+        {
+      name: "apiutilitySerial",
+      dependencies: ["api-setup"],
+      testMatch: /serial.test.*.ts/,
       use: {
         extraHTTPHeaders: {
           Authorization: `Bearer ${nexusTokens[process.env.ufmUser + ""]}`,

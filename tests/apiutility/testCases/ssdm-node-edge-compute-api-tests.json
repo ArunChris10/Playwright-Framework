@@ -5,7 +5,7 @@
       "environment": "qa",
       "labels": ["smoke", "computeSsdm"],
       "service": "coreService",
-      "uri": "getScenarioId",
+      "uri": "getKpi",
       "testName": "get scenario id for SSDM",
       "queryParams": "",
       "method": "GET",

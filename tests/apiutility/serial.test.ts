@@ -27,7 +27,7 @@ populateGlobalStore(request);
 
 let testCaseFiles
 testCaseFiles = parentConfig.testFiles;
-let runAllInParallel = parentConfig.ForceAllParallel;
+/* let runAllInParallel = parentConfig.ForceAllParallel; */
 
 export interface SerialTestCases {
   [testName: string]: ApiTestCase[];
@@ -41,7 +41,7 @@ testCaseFiles.forEach(testCasePath => {
 
   for (const [testName, steps] of Object.entries(rawTestData)) {
     if (typeof steps[0]?.runInParallel !== "undefined") {
-      if (!steps[0].runInParallel && !runAllInParallel) {
+      if (!steps[0].runInParallel ) {
       if (!serialTestCases.hasOwnProperty(testName)) {
         serialTestCases[testName] = steps;
       }
@@ -80,9 +80,7 @@ testCaseFiles.forEach(testCasePath => {
               await coreExecutionFlow(testName, testSteps, caseLabels, requestContext);
             });
             testCaseCount++;
-            console.log(`Completed test case number : ${testCaseCount} - ${testName}`);
-          
-        }
+            }
       })
       ;
     });
@@ -97,7 +95,6 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
         for (const step of steps) {
           const stepName = step.testStep || step.testName || "Unnamed Step";
           console.log(`--- Executing step: ${stepName} ---`);
-          process.env.envName = "qa";
           let baseUrl: string | undefined;
           if (step.service === "coreService") {
             baseUrl = parentConfig.coreService.baseURL[process.env.envName];

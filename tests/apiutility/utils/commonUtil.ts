@@ -218,7 +218,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
       try {
         expect(response.status()).toEqual(statusCode);
       } catch (err: any) {
-        throw new Error(`Assertion failed for status: ${err.message}`);
+        throw new Error(`Assertion failed for status: ${err.message} Responsebody: ${JSON.stringify(responseBody)}`);
       }
     } else {
       for (let i = 0; i <= Object.keys(arrayOfAssertion).length; i++) {

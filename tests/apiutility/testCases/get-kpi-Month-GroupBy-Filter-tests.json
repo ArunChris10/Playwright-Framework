@@ -32,7 +32,7 @@
                     ]
                 }
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 }
@@ -161,7 +161,7 @@
                 },
                 "isApplied": true
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 },
@@ -297,7 +297,7 @@
                 },
                 "isApplied": true
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 },
@@ -466,7 +466,7 @@
                 },
                 "isApplied": true
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 },
