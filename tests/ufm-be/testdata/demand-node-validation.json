@@ -1,0 +1,12 @@
+{
+    "lobName" : "CONSOLIDATED DEMAND",
+    "baName"  : "DEMAND",
+    "filter" : [
+        {
+          "dim_id" : 2,
+          "dim_val_ids" : [20002, 20004, 20010, 20011, 20012, 20013],
+          "children" : []
+        }
+      ]
+
+}
