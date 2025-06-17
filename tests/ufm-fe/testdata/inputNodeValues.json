@@ -15,8 +15,11 @@
                 ],
                 "inputAdditiveNonAdditiveDrivers": [
                     "COGS (Input)",
-                    "Other Cost of Goods Sold",
                     "Cost of Goods Sold"
+                ],
+                "combinationDrivers":[
+                    "COGS (Input)",
+                    "Returned Units (UOM)"
                 ],
                 "noOfMonth": 2,
                 "allocationMethod": "Maintain ratio",
