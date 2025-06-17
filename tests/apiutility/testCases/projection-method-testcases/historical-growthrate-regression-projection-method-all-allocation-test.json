@@ -767,7 +767,7 @@
       ]
     }
   ],
-  "validate_save_adjustment_forProjection_Hist_EqualDistb": [
+  "validate_save_adjustment_for_growth_Projection_Hist_EqualDistb": [
     {
       "testStep": "Projection_Hist_EqualDistb_Save Adjustment",
       "environment": "qa",
@@ -1680,7 +1680,7 @@
       ]
     }
   ],
-  "validate_save_adjustment_forProjection_Hist_TimeRolling": [
+  "validate_save_adjustment_for_growth_Projection_Hist_TimeRolling": [
     {
       "testStep": "Projection_Hist_TimeRolling_Save Adjustment",
       "environment": "qa",
@@ -3667,7 +3667,7 @@
       ]
     }
   ],
-  "validate_save_adjustment_forProjection_Hist_TimeRolling": [
+  "validate_save_adjustment_for_hist_Projection_Hist_TimeRolling": [
     {
             "runInParallel": false,
       "testStep": "Projection_Hist_TimeRolling_Save Adjustment",
