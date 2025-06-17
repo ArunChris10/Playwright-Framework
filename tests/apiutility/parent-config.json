@@ -57,7 +57,8 @@
     "testCases/filters-ssdm-api-tests.json",
     "testCases/progress-status-ssdm.api-tests.json",
     "testCases/calculate-additive-nodes-constant-value.json",
-    "testCases/calculate-additive-nodes-percent-rolling.json"
+    "testCases/calculate-additive-nodes-percent-rolling.json",
+    "testCases/calculate-saveajustment-multiLayer-test.json"
   ],
   "currentDemandService": {
     "baseURL": {
