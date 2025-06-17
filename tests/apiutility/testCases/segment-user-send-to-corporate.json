@@ -4071,5 +4071,77 @@
         "timeoutMs": 600000
       }
     }
+  ],
+
+  "verify submit to corporate for all forecast": [
+    {
+      "testStep": "get forecast status for Customer & revenue Org",
+      "testName": "get forecast status for Review Customer & revenue Org",
+      "environment": "dev",
+      "labels": ["smoke", "MS2","IBG-38448"],
+      "service": "coreService",
+      "uri": "getIndividualStatus",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {"dim_id":13,"dim_val_id":130001,"classification_id":12},
+      "extract": {
+        "submit_scenario_id": "scenarioId",
+        "submit_scenario_version": "scenarioVersion"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Send Forecast Scenario to corporate ",
+      "testName": "send to corporate",
+      "environment": "qa",
+      "labels": ["smoke", "MS2","IBG-38448"],
+      "service": "coreService",
+      "uri": "sendToBAReview",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario":{"scenario_id":"{{submit_scenario_id}}",
+        "scenario_version":"{{submit_scenario_version}}",
+      "scenario_status":24,"dim_id":13,"dim_val_id":130001}},
+     
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation submit to corporate FORECAST",
+      "environment": "dev",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Customer & revenue Marketing FORECAST",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {"dim_id":13,"dim_val_id":130001,"template_id":4,"classification_id":12},
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.organization",
+          "Equals": 120002,
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 24,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    }
   ]
 }
