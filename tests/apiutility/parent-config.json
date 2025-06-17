@@ -78,7 +78,7 @@
     "getScreenId": "/filter/screen_details?",
     "listHistoricals": "/scenario/list-historicals?",
     "snapshots": "/archive/",
-    "ssdmMyKpi":"/sandbox/v1/get-mykpi"
+    "ssdmMyKpi":"/sandbox/v1/get-mykpi",
     "getDataScienceInfo": "/scenario/data-science/info",
     "allocateData": "/allocate-data",
     "saveAdjustment": "/adjustment/",
