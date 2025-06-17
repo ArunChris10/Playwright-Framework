@@ -1,0 +1,109 @@
+{
+  "check_for_value_type_ssdm_myKpi": [
+    {
+      "testStep": "Add drivers in ssdm myKpi and check the value type is recieved as $",
+      "environment": "qa",
+      "labels": ["smoke","regression", "ssdmMyKpi"],
+      "service": "coreService",
+      "uri": "ssdmMyKpi",
+      "testName": "Check the value type is recieved as $ in ssdm myKpi",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "dim_id": 13,
+        "dim_val_id": 130001,
+        "classification_id": 12,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": ["month"],
+          "pivot_index": ["node_id"],
+          "period_view": ["month"],
+          "nodes": ["sot07mandr"],
+          "template_include_headers": [
+            { "name": "Driver" },
+            {
+              "name": "{{dynamicMonth-4}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth-3}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth-2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth-1}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+1}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+3}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+4}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+5}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+6}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+7}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            { "name": "", "columnsMenuParams": "fixedColumns" },
+            { "name": "Allocation Method", "columnsMenuParams": "action" },
+            { "name": "Forecast", "editable": false }
+          ],
+          "month": [
+            "{{dynamicMonth-4}}",
+            "{{dynamicMonth-3}}",
+            "{{dynamicMonth-2}}",
+            "{{dynamicMonth-1}}",
+            "{{dynamicMonth}}",
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}",
+            "{{dynamicMonth+3}}",
+            "{{dynamicMonth+4}}",
+            "{{dynamicMonth+5}}",
+            "{{dynamicMonth+6}}",
+            "{{dynamicMonth+7}}"
+          ]
+        },
+        "scenario_id": "{{getkpi_scenario_id}}",
+        "scenario_version": "{{getkpi_scenario_version}}",
+        "doc_id": "{{doc_id}}",
+        "ds_type": "{{ds_type}}",
+        "utilisedBy": "SSDM"
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "path": "$.val_type",
+          "equals": "$"
+        }
+      ]
+    }
+  ]
+}
