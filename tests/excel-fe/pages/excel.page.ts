@@ -21,6 +21,7 @@ export class ExcelPage {
   readonly scenario: Locator;
   readonly loadDataButton: Locator;
   readonly addComparedScenario: Locator;
+  readonly addDriver: Locator;
   readonly baselineCombobox: Locator;
   readonly comparedWithCombobox: Locator;
   readonly resetDateRange: Locator;
@@ -61,13 +62,17 @@ export class ExcelPage {
     this.drivers = this.mainIframe.getByText("Drivers");
     this.scenario = this.mainIframe.getByText("Scenarios");
     this.loadDataButton = this.mainIframe.getByTestId("LoadDataButton");
-    this.addComparedScenario = this.mainIframe.getByText("Add", {exact: true});
-    this.addComparedScenario = this.mainIframe.getByText("Add driver", {exact: true});
-    this.baselineCombobox = this.mainIframe.locator('#baselineCombobox, [aria-labelledby="baselineCombobox"]');
-    this.comparedWithCombobox = this.mainIframe.locator('#comparedWithCombobox, [aria-labelledby="comparedWithCombobox"]');
     this.addComparedScenario = this.mainIframe.getByText("Add", {
       exact: true,
     });
+    this.addDriver = this.mainIframe.getByText("Add driver", { exact: true });
+    this.baselineCombobox = this.mainIframe.locator(
+      '#baselineCombobox, [aria-labelledby="baselineCombobox"]'
+    );
+    this.comparedWithCombobox = this.mainIframe.locator(
+      '#comparedWithCombobox, [aria-labelledby="comparedWithCombobox"]'
+    );
+
     this.baselineCombobox = this.mainIframe.locator(
       '#baselineCombobox, [aria-labelledby="baselineCombobox"]'
     );
@@ -148,6 +153,34 @@ export class ExcelPage {
     await this.page.keyboard.press("Enter");
     await this.page.keyboard.type(value);
     await this.page.keyboard.press("Enter");
+  }
+
+  async getCellColor(cell: string): Promise<string | null> {
+    await this.nameBox.click();
+    await this.nameBox.fill(cell);
+    await this.page.keyboard.press("Enter");
+
+    const cellElement = this.mainIframe.locator(`[data-cell="${cell}"]`);
+    await expect(cellElement).toBeVisible();
+
+    return cellElement.evaluate((el) => {
+      function rgbToHex(rgb: string) {
+        const result = rgb.match(/\d+/g);
+        if (!result) return null;
+        return (
+          "#" +
+          result
+            .slice(0, 3)
+            .map((x) => {
+              const hex = parseInt(x).toString(16).toUpperCase();
+              return hex.length === 1 ? "0" + hex : hex;
+            })
+            .join("")
+        );
+      }
+      const bg = window.getComputedStyle(el).backgroundColor;
+      return rgbToHex(bg);
+    });
   }
 
   async getStarted() {

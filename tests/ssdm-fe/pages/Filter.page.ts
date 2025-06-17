@@ -28,7 +28,7 @@ export class FilterFunctionality {
     async clickOnFiltersButton() {
         await this.btnFilter.isVisible();
         await this.btnFilter.click();
-
+        await expect(this.searchBar).toBeVisible();
     }
     async clickOnApplyChanges() {
         await this.btnApplyChanges.isVisible();
