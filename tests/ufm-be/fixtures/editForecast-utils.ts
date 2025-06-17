@@ -1,6 +1,7 @@
 import { expect } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
 import editForecast from "../testdata/editForecast.json"
+import multiLayerAdjustmentData  from "../testdata/multiLayerAdjustmentdata.json";
 import { UfmUtility } from "./ufm-utils";
 import adjustmentData from "../testdata/adjustment.json"
 import getKpiData from "../testdata/getKpi.json";
@@ -23,15 +24,15 @@ import { SOTUtility } from "./SOTUtility";
 
 let currentFlow = "";
 export interface Root {
-    display_nodes: any[];
-    scenario_id: number;
-    dim_val_id: number;
-    dim_id: number;
-    preview: boolean;
-    edits: any;
-    filters: any[];
-    period_view: string;
-    adjustment_id: number;
+  display_nodes: any[];
+  scenario_id: number;
+  dim_val_id: number;
+  dim_id: number;
+  preview: boolean;
+  edits: any;
+  filters: any[];
+  period_view: string;
+  adjustment_id: number;
 }
 
 /**
@@ -44,10 +45,10 @@ export interface Root {
  * @property {Allocation} allocation - The allocation.
  */
 export interface Edit {
-    node_var_name: string;
-    node_dimension: NodeDimension;
-    data: any;
-    allocation: Allocation;
+  node_var_name: string;
+  node_dimension: NodeDimension;
+  data: any;
+  allocation: Allocation;
 }
 
 /**
@@ -66,153 +67,154 @@ export interface NodeDimension { }
  * @property {any} offset - The offset.
  */
 export interface Allocation {
-    method: number;
-    interval: any;
-    offset: any;
+  method: number;
+  interval: any;
+  offset: any;
 }
 
 /**
  * Represents an edit forecast utility.
  */
 export class EditForecastUtility {
-    /**
-     * Creates an allocation payload.
-     *
-     * @param {string} lobName - The line of business name.
-     * @param {number} scenarioId - The scenario ID.
-     * @param {number} allocation_method - The allocation method.
-     * @param {string[]} additiveOrNonAdditive - The additive or non-additive nodes.
-     * @param {NodeDimension} node_dimension - The node dimension.
-     * @param {Object} request - The request object.
-     * @returns {Promise<{ obj: Root; baselineValuesMap: Record<string, number[]>; months: string[] }>} A promise that resolves to the payload object.
-     */
+  /**
+   * Creates an allocation payload.
+   *
+   * @param {string} lobName - The line of business name.
+   * @param {number} scenarioId - The scenario ID.
+   * @param {number} allocation_method - The allocation method.
+   * @param {string[]} additiveOrNonAdditive - The additive or non-additive nodes.
+   * @param {NodeDimension} node_dimension - The node dimension.
+   * @param {Object} request - The request object.
+   * @returns {Promise<{ obj: Root; baselineValuesMap: Record<string, number[]>; months: string[] }>} A promise that resolves to the payload object.
+   */
 
-    static async createAllocationPayload(
-        lobName: string,
-        scenarioId: number,
-        allocation_method: number,
-        additiveOrNonAdditive,
-        node_dimension,
-        filters,
-        request
-    ) {
-        let obj = {} as Root;
-        let edit: Edit[] = [];
+  static async createAllocationPayload(
+    lobName: string,
+    scenarioId: number,
+    allocation_method: number,
+    additiveOrNonAdditive,
+    node_dimension,
+    filters,
+    request
+  ) {
+    let obj = {} as Root;
+    let edit: Edit[] = [];
 
-        let months: string[] = [];
-        let baselineValuesMap: Record<string, number[]> = {};
+    let months: string[] = [];
+    let baselineValuesMap: Record<string, number[]> = {};
 
-        if (editForecast.testData[lobName]) {
-            let lobData = editForecast.testData[lobName];
-            let allocation = {} as Allocation;
-            allocation.method = allocation_method;
+    if (editForecast.testData[lobName]) {
+      let lobData = editForecast.testData[lobName];
+      let allocation = {} as Allocation;
+      allocation.method = allocation_method;
 
-            if (additiveOrNonAdditive.includes("Additive") && lobData.AdditiveNodes) {
-                for (const node of lobData.AdditiveNodes) {
-                    await this.processNodeData(node, months, edit, node_dimension, allocation);
-                }
-                let affectingNodes = lobData.AffectingNodes?.Additive || [];
-                await this.processAffectingNodes(affectingNodes, lobName, scenarioId, months, baselineValuesMap, node_dimension, filters, obj, request);
-            }
-
-            if (additiveOrNonAdditive.includes("NonAdditive") && lobData.NonAdditiveNodes) {
-                for (const node of lobData.NonAdditiveNodes) {
-                    await this.processNodeData(node, months, edit, node_dimension, allocation);
-                }
-                let affectingNodes = lobData.AffectingNodes?.NonAdditive || [];
-                await this.processAffectingNodes(affectingNodes, lobName, scenarioId, months, baselineValuesMap, node_dimension,filters,obj, request);
-            }
+      if (additiveOrNonAdditive.includes("Additive") && lobData.AdditiveNodes) {
+        for (const node of lobData.AdditiveNodes) {
+          await this.processNodeData(node, months, edit, node_dimension, allocation);
         }
+        let affectingNodes = lobData.AffectingNodes?.Additive || [];
+        await this.processAffectingNodes(affectingNodes, lobName, scenarioId, months, baselineValuesMap, node_dimension, filters, obj, request);
+      }
 
-        Utility.logIt({ baselineValuesMap });
-
-        obj.scenario_id = scenarioId;
-        obj.dim_val_id = await UfmUtility.getMapping(lobName, "dim_val_id");
-        obj.dim_id = 11;
-        obj.edits = edit;
-        obj.filters = filters;
-        obj.period_view = "month";
-        obj.preview = true;
-        obj.adjustment_id = editForecast.testData[lobName]?.adjustmentId;
-  
-        return { obj, baselineValuesMap, months };
+      if (additiveOrNonAdditive.includes("NonAdditive") && lobData.NonAdditiveNodes) {
+        for (const node of lobData.NonAdditiveNodes) {
+          await this.processNodeData(node, months, edit, node_dimension, allocation);
+        }
+        let affectingNodes = lobData.AffectingNodes?.NonAdditive || [];
+        await this.processAffectingNodes(affectingNodes, lobName, scenarioId, months, baselineValuesMap, node_dimension, filters, obj, request);
+      }
     }
 
-    /**
-     * Processes the node data.
-     *
-     * @param {string} node - The node name.
-     * @param {string[]} months - The months array.
-     * @param {Edit[]} edit - The edit array.
-     * @param {NodeDimension} node_dimension - The node dimension.
-     * @param {Allocation} allocation - The allocation object.
-     */
-    private static async processNodeData(
-        node: string,
-        months: string[],
-        edit: Edit[],
-        node_dimension: NodeDimension,
-        allocation: Allocation
-    ) {
-        let data: Record<string, number> = {};
+    Utility.logIt({ baselineValuesMap });
 
-        for (let i = 0; i < 3; i++) {
-            let monthYear = (parseInt(await Utility.getMonthYear()) + i + 1).toString();
-            months.push(monthYear);
-            data[monthYear] = (data[monthYear] || 0) + await Utility.randomInt(1, 5000);
-        }
+    obj.scenario_id = scenarioId;
+    obj.dim_val_id = await UfmUtility.getMapping(lobName, "dim_val_id");
+    obj.dim_id = 11;
+    obj.edits = edit;
+    obj.filters = filters;
+    obj.period_view = "month";
+    obj.preview = true;
+    obj.adjustment_id = editForecast.testData[lobName]?.adjustmentId;
 
-        const existingEdit = edit.find(e => e.node_var_name === node);
-        if (existingEdit) {
-            existingEdit.data = { ...existingEdit.data, ...data };
-        } else {
-            edit.push({
-                node_var_name: node,
-                node_dimension: node_dimension,
-                data: data,
-                allocation: allocation,
-            });
-        }
+    return { obj, baselineValuesMap, months };
+  }
+
+
+  /**
+   * Processes the node data.
+   *
+   * @param {string} node - The node name.
+   * @param {string[]} months - The months array.
+   * @param {Edit[]} edit - The edit array.
+   * @param {NodeDimension} node_dimension - The node dimension.
+   * @param {Allocation} allocation - The allocation object.
+   */
+  private static async processNodeData(
+    node: string,
+    months: string[],
+    edit: Edit[],
+    node_dimension: NodeDimension,
+    allocation: Allocation
+  ) {
+    let data: Record<string, number> = {};
+
+    for (let i = 0; i < 3; i++) {
+      let monthYear = (parseInt(await Utility.getMonthYear()) + i + 1).toString();
+      months.push(monthYear);
+      data[monthYear] = (data[monthYear] || 0) + await Utility.randomInt(1, 5000);
     }
 
-    /**
-     * Processes the affecting nodes.
-     *
-     * @param {string[]} affectingNodes - The array of affecting nodes.
-     * @param {string} lobName - The line of business name.
-     * @param {number} scenarioId - The scenario ID.
-     * @param {string[]} months - The months array.
-     * @param {Record<string, number[]>} baselineValuesMap - The baseline values map.
-     * @param {Root} obj - The root object.
-     * @param {Object} request - The request object.
-     */
-    private static async processAffectingNodes(
-        affectingNodes: string[],
-        lobName: string,
-        scenarioId: number,
-        months: string[],
-        baselineValuesMap: Record<string, number[]>,
-        node_dimension,
-        filters: any[],
-        obj: Root,
-        request: any
-    ) {
-        for (const node of affectingNodes) {
-            let kpiResponse = await this.getKpiForecast(lobName, scenarioId, months, node_dimension, node, filters,request);
-            baselineValuesMap[node] = [];
-            for (const month of months) {
-                const row = kpiResponse.rowData.find((row: any) => {
-                    if (node_dimension && Object.keys(node_dimension).length > 0) {
-                        const key = Object.keys(node_dimension)[0]; 
-                        return row[month] !== undefined && row[key] === node_dimension[key];
-                    }
-                    return row[month] !== undefined;
-                });
-                baselineValuesMap[node].push(row[month]?.baseline || null);
-            }
-        }
-        obj.display_nodes = [...(obj.display_nodes || []), ...affectingNodes];
+    const existingEdit = edit.find(e => e.node_var_name === node);
+    if (existingEdit) {
+      existingEdit.data = { ...existingEdit.data, ...data };
+    } else {
+      edit.push({
+        node_var_name: node,
+        node_dimension: node_dimension,
+        data: data,
+        allocation: allocation,
+      });
     }
+  }
+
+  /**
+   * Processes the affecting nodes.
+   *
+   * @param {string[]} affectingNodes - The array of affecting nodes.
+   * @param {string} lobName - The line of business name.
+   * @param {number} scenarioId - The scenario ID.
+   * @param {string[]} months - The months array.
+   * @param {Record<string, number[]>} baselineValuesMap - The baseline values map.
+   * @param {Root} obj - The root object.
+   * @param {Object} request - The request object.
+   */
+  static async processAffectingNodes(
+    affectingNodes: string[],
+    lobName: string,
+    scenarioId: number,
+    months: string[],
+    baselineValuesMap: Record<string, number[]>,
+    node_dimension,
+    filters: any[],
+    obj: Root,
+    request: any
+  ) {
+    for (const node of affectingNodes) {
+      let kpiResponse = await this.getKpiForecast(lobName, scenarioId, months, node_dimension, node, filters, request);
+      baselineValuesMap[node] = [];
+      for (const month of months) {
+        const row = kpiResponse.rowData.find((row: any) => {
+          if (node_dimension && Object.keys(node_dimension).length > 0) {
+            const key = Object.keys(node_dimension)[0];
+            return row[month] !== undefined && row[key] === node_dimension[key];
+          }
+          return row[month] !== undefined;
+        });
+        baselineValuesMap[node].push(row[month]?.baseline || null);
+      }
+    }
+    obj.display_nodes = [...(obj.display_nodes || []), ...affectingNodes];
+  }
 
   /**
    * Gets the KPI forecast.
@@ -231,12 +233,8 @@ export class EditForecastUtility {
     node_dimension,
     inputNodes,
     filter,
-    request
+    request,
   ) {
-    // If monthYear is empty or not provided, generate months around current
-    if (!monthYear || (Array.isArray(monthYear) && monthYear.length === 0)) {
-      monthYear = await Utility.generateMonthsAroundCurrent();
-    }
     const endpointURL = `${process.env.apiBaseURLUFM}${getKpiData.endpoint}`;
     let kpiPayload = await this.createKpiPayloadNodeLevel(
       lobName,
@@ -279,9 +277,9 @@ export class EditForecastUtility {
       "dim_val_id"
     );
     getKpiData.payloads.additional_filters.template_include_headers = [
-  ...getKpiData.payloads.additional_filters.template_include_headers,
-  ...(await SOTUtility.templateIncludeHeaders(monthYear))
-];
+      ...getKpiData.payloads.additional_filters.template_include_headers,
+      ...(await SOTUtility.templateIncludeHeaders(monthYear))
+    ];
     getKpiData.payloads.additional_filters.month = monthYear;
 
     getKpiData.payloads.additional_filters.nodes = Array.isArray(nodes)
@@ -299,6 +297,118 @@ export class EditForecastUtility {
     getKpiData.payloads.filters = filter;
     return getKpiData.payloads;
   }
+
+  static async getRequiredValuesfromKPI(
+    affectingNodes: string[],
+    lobName: string,
+    scenarioId: number,
+    months,
+    valuesMap: Record<string, number[]>,
+    node_dimension,
+    filters: any[],
+    request: any,
+    valueKey: string,
+    adjustment_id?: number
+  ) {
+    for (const node of affectingNodes) {
+      let kpiResponse = await this.getKpiForecast(lobName, scenarioId, months, node_dimension, node, filters, request);
+      valuesMap[node] = [];
+      
+      for (const month of months) {
+        const row = kpiResponse.rowData.find((row: any) => {
+          if (node_dimension && Object.keys(node_dimension).length > 0) {
+            const key = Object.keys(node_dimension)[0];
+            return row[month] !== undefined && row[key] === node_dimension[key];
+          }
+          return row[month] !== undefined;
+        });
+        valuesMap[node].push(row[month]?.[valueKey] || null);
+      }
+    }
+    return valuesMap;
+  }
+
+  static async createAllocationPayloadfor1Year(
+    lobName: string,
+    scenarioId: number,
+    allocation_method: number,
+    node_dimension,
+    months,
+    filters
+  ) {
+    let obj = {} as Root;
+    let edit: Edit[] = [];
+
+    if (multiLayerAdjustmentData.testData[lobName]) {
+      let lobData = multiLayerAdjustmentData.testData[lobName];
+      let allocation = {} as Allocation;
+      allocation.method = allocation_method;
+
+      let data: Record<string, number> = {};
+        months.forEach(async (monthYear) => {
+          data[monthYear] = (data[monthYear] || 0) + await Utility.randomInt(1, 5000);
+        });
+      for (const node of lobData.Nodes) {
+        const existingEdit = edit.find(e => e.node_var_name === node);
+        if (existingEdit) {
+          existingEdit.data = { ...existingEdit.data, ...data };
+        } else {
+          edit.push({
+            node_var_name: node,
+            node_dimension: node_dimension,
+            data: data,
+            allocation: allocation,
+          });
+        }
+      }
+    }
+
+    obj.scenario_id = scenarioId;
+    obj.dim_val_id = await UfmUtility.getMapping(lobName, "dim_val_id");
+    obj.dim_id = 11;
+    obj.edits = edit;
+    obj.filters = filters;
+    obj.period_view = "month";
+    obj.preview = true;
+    obj.display_nodes = [];
+    obj.adjustment_id = multiLayerAdjustmentData.testData[lobName]?.adjustmentId;
+    Utility.logIt("THIS-----" + JSON.stringify(obj));
+    return { obj, months };
+  }
+
+  static async validateForecastOnCalculate(
+    responseBody: any[],
+    obj: Root,
+    ratioMap: Record<string, Record<string, number>> = {} // Optional parameter for node and month ratios
+  ) {
+    for (const responseNode of responseBody) {
+      const { node_var_name, edits: responseEdits } = responseNode;
+
+      // Validate the edits (month and forecast values) for nodes present in obj.edits
+      const payloadNode = obj.edits.find(
+        (edit) => edit.node_var_name === node_var_name
+      );
+      if (payloadNode) {
+        for (const [month, edit] of Object.entries(
+          responseEdits as Record<string, { forecast: number }>
+        )) {
+          const forecastValue = edit.forecast;
+
+          // Adjust the expected value by multiplying with the respective month ratio
+          const expectedValue =
+            payloadNode.data[month] * (ratioMap[node_var_name]?.[month] || 1); // Default ratio is 1 if not found
+          const lowerBound = expectedValue * 0.99; // 1% less
+          const upperBound = expectedValue * 1.01; // 1% more
+          expect(forecastValue).toBeGreaterThanOrEqual(lowerBound);
+          expect(forecastValue).toBeLessThanOrEqual(upperBound);
+            Utility.logIt(
+            `Forecast value for month ${month} matches for node ${node_var_name}: forecastValue=${forecastValue}, expectedValue=${expectedValue}`
+            );
+        }
+
+      }
+      }
+    }
 
   /**
    * Validates the forecast response.
@@ -386,7 +496,6 @@ export class EditForecastUtility {
     scenario_version,
     lobName,
     allocationMethod,
-    additiveOrNonAdditive: string[],
     node_dimension: NodeDimension = {},
     obj,
     request
