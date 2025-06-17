@@ -96,7 +96,7 @@
       "method": "POST",
       "payload": {
         "type": 3,
-        "name": "apiUtilityAutomation {{randomNumber}}",
+        "name": "Equal_Distribution_Growth_Rate_{{randomNumber}}",
         "classification_id": 12,
         "dim_id": 11,
         "dim_val_id": 110030
@@ -151,7 +151,7 @@
       "polling": {
         "extractRelative": {
           "WhereKey": "rowData.name",
-          "Equals": "apiUtilityAutomation {{randomNumber}}",
+          "Equals": "Equal_Distribution_Growth_Rate_{{randomNumber}}",
           "Findkey": "rowData.forecastStatus.statusCode"
         },
         "expectedValue": 21,
