@@ -26,17 +26,17 @@ test.describe('Verify user is able to do calculate and save post uploading file 
   let drivers = testData[0].driver.combinationDrivers;
   let editedValues;
 
-  test.beforeEach(async ({ page }) => {
+  /* test.beforeEach(async ({ page }) => {
     await signinUtility.SignIn(page); // Centralized sign-in before each test
     objpageFactory = new PageFactory(page);
   });
-
-  /* test.beforeAll(async ({ pageFactory, request }) => {
+ */
+  test.beforeAll(async ({ pageFactory, request }) => {
     objpageFactory = pageFactory;
-    scenarioId = await ForecastUtility.createForecast(data.LOB, request);
+    scenarioId = await ForecastUtility.createForecast(testData[0].LOB, request);
 
     let currentForecast = await UfmUtility.getCurrentForecastList(
-      data.LOB,
+      testData[0].LOB,
       request
     );
 
@@ -52,10 +52,10 @@ test.describe('Verify user is able to do calculate and save post uploading file 
       scenario_details["scenarioId"],
       scenario_details["scenarioVersion"],
       commonData.ba_dim_id,
-      await UfmUtility.getMapping(data.LOB, "dim_val_id"),
+      await UfmUtility.getMapping(testData[0].LOB, "dim_val_id"),
       request
     );
-  })  */
+  })  
 
 
   test(`Verify excel edits reflect on KPI table on UI on upload`, async () => {
