@@ -4,7 +4,9 @@
             "lobName": "MERCHOPS",
             "Nodes": [
                 "momerchandisesales",
-                "mowarehouseallowances"
+                "mowarehouseallowances",
+                "mobuyingallowances",
+                "mototalallowances"
             ],
             "adjustmentId": 1747131515456
         }

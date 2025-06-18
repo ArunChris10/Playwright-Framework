@@ -379,10 +379,10 @@ export class EditForecastUtility {
     kpiResponses: Record<string, any>,
     affectingNodes: string[],
     months,
-    valuesMap: Record<string, number[]>,
     node_dimension,
     valueKey: string
   ) {
+    let valuesMap: Record<string, number[]> = {};
     for (const node of affectingNodes) {
       valuesMap[node] = [];
       const kpiResponse = kpiResponses[node];
@@ -400,7 +400,48 @@ export class EditForecastUtility {
     return valuesMap;
   }
 
-  
+  /**
+   * Compares two values maps and returns the differences.
+   * @param mapA First baseline values map.
+   * @param mapB Second baseline values map.
+   * @returns An object with nodes as keys and arrays of differences for each month.
+   */
+  static compareTwoResponseMaps(
+    mapA: Record<string, number[]>,
+    mapB: Record<string, number[]>,
+    tolerance: number = 0.01 // 1% default tolerance
+  ) {
+    const result: Record<string, (number | null)[]> = {};
+    let isEqual = true;
+    const allNodes = new Set([...Object.keys(mapA), ...Object.keys(mapB)]);
+    for (const node of allNodes) {
+      const arrA = mapA[node] || [];
+      const arrB = mapB[node] || [];
+      const maxLength = Math.max(arrA.length, arrB.length);
+      result[node] = [];
+      for (let i = 0; i < maxLength; i++) {
+        const valA = arrA[i] ?? null;
+        const valB = arrB[i] ?? null;
+        if (valA !== null && valB !== null) {
+          const diff = valA - valB;
+          const allowed = Math.abs(valB) * tolerance;
+          if (Math.abs(diff) <= allowed) {
+            result[node][i] = 0;
+          } else {
+            result[node][i] = diff;
+            isEqual = false;
+          }
+        } else if (valA === null && valB === null) {
+          result[node][i] = 0;
+        } else {
+          result[node][i] = null;
+          isEqual = false;
+        }
+      }
+      Utility.logIt(`Differences for node ${node}: ${JSON.stringify(result[node])}`);
+    }
+    return isEqual ;
+  }
 
   static async createAllocationPayloadfor1Year(
     lobName: string,
@@ -454,7 +495,9 @@ export class EditForecastUtility {
     responseBody: any[],
     obj: Root,
     ratioMap: Record<string, Record<string, number>> = {} // Optional parameter for node and month ratios
-  ) {
+  ): Promise<Record<string, number[]>> {
+    const forecastValuesMap: Record<string, number[]> = {};
+
     for (const responseNode of responseBody) {
       const { node_var_name, edits: responseEdits } = responseNode;
 
@@ -463,6 +506,7 @@ export class EditForecastUtility {
         (edit) => edit.node_var_name === node_var_name
       );
       if (payloadNode) {
+        forecastValuesMap[node_var_name] = [];
         for (const [month, edit] of Object.entries(
           responseEdits as Record<string, { forecast: number }>
         )) {
@@ -475,14 +519,15 @@ export class EditForecastUtility {
           const upperBound = expectedValue * 1.01; // 1% more
           expect(forecastValue).toBeGreaterThanOrEqual(lowerBound);
           expect(forecastValue).toBeLessThanOrEqual(upperBound);
-            Utility.logIt(
+          Utility.logIt(
             `Forecast value for month ${month} matches for node ${node_var_name}: forecastValue=${forecastValue}, expectedValue=${expectedValue}`
-            );
+          );
+          forecastValuesMap[node_var_name].push(forecastValue);
         }
-
-      }
       }
     }
+    return forecastValuesMap;
+  }
 
   /**
    * Validates the forecast response.
