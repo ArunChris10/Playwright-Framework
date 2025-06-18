@@ -5,6 +5,7 @@ import multiLayerAdjustmentData  from "../testdata/multiLayerAdjustmentdata.json
 import { UfmUtility } from "./ufm-utils";
 import adjustmentData from "../testdata/adjustment.json"
 import getKpiData from "../testdata/getKpi.json";
+import getAdjustmentKpiData from "../testdata/getKpiForAdjustment.json";
 import { SOTUtility } from "./SOTUtility";
 
 /**
@@ -234,16 +235,27 @@ export class EditForecastUtility {
     inputNodes,
     filter,
     request,
+    adjustment_id? : number
   ) {
+    let kpiPayload;
     const endpointURL = `${process.env.apiBaseURLUFM}${getKpiData.endpoint}`;
-    let kpiPayload = await this.createKpiPayloadNodeLevel(
+    if(adjustment_id === null){kpiPayload = await this.createKpiPayloadNodeLevel(
       lobName,
       scenario_details,
       filter,
       monthYear,
       inputNodes,
       node_dimension
-    );
+    );}
+    else{kpiPayload = await this.createKpiPayloadPostAdjustment(
+      lobName,
+      scenario_details,
+      filter,
+      monthYear,
+      inputNodes,
+      node_dimension,
+      adjustment_id
+    );}
     Utility.logIt({ kpiPayload });
     let apiResponse = await request.post(endpointURL, {
       data: kpiPayload,
@@ -298,22 +310,82 @@ export class EditForecastUtility {
     return getKpiData.payloads;
   }
 
-  static async getRequiredValuesfromKPI(
+   static async createKpiPayloadPostAdjustment(
+    lobName,
+    scenario_details,
+    filter,
+    monthYear,
+    nodes,
+    node_dimension,
+    adjustment_id
+  ) {
+    getAdjustmentKpiData.payloads.scenario_id = scenario_details["scenarioId"];
+    getAdjustmentKpiData.payloads.scenario_version = scenario_details["scenarioVersion"];
+
+    getAdjustmentKpiData.payloads.dim_val_id = await UfmUtility.getMapping(
+      lobName,
+      "dim_val_id"
+    );
+    getAdjustmentKpiData.payloads.additional_filters.template_include_headers = [
+      ...getAdjustmentKpiData.payloads.additional_filters.template_include_headers,
+      ...(await SOTUtility.templateIncludeHeaders(monthYear))
+    ];
+    getAdjustmentKpiData.payloads.additional_filters.month = monthYear;
+
+    getAdjustmentKpiData.payloads.additional_filters.nodes = Array.isArray(nodes)
+      ? nodes
+      : [nodes];
+    if (node_dimension && Object.keys(node_dimension).length > 0) {
+      const key = Object.keys(node_dimension)[0];
+      if (!getAdjustmentKpiData.payloads.additional_filters.pivot_index?.includes(key)) {
+        getAdjustmentKpiData.payloads.additional_filters.pivot_index = [
+          ...(getAdjustmentKpiData.payloads.additional_filters.pivot_index || []),
+          key,
+        ];
+      }
+    }
+    getAdjustmentKpiData.payloads.filters = filter;
+    getAdjustmentKpiData.payloads.adjustment_id = adjustment_id;
+    return getAdjustmentKpiData.payloads;
+  }
+
+  static async getKpiResponsesForNodes(
     affectingNodes: string[],
     lobName: string,
     scenarioId: number,
     months,
-    valuesMap: Record<string, number[]>,
     node_dimension,
     filters: any[],
     request: any,
-    valueKey: string,
     adjustment_id?: number
   ) {
+    const kpiResponses: Record<string, any> = {};
     for (const node of affectingNodes) {
-      let kpiResponse = await this.getKpiForecast(lobName, scenarioId, months, node_dimension, node, filters, request);
+      kpiResponses[node] = await this.getKpiForecast(
+        lobName,
+        scenarioId,
+        months,
+        node_dimension,
+        node,
+        filters,
+        request,
+        adjustment_id
+      );
+    }
+    return kpiResponses;
+  }
+
+  static captureValuesFromKpiResponses(
+    kpiResponses: Record<string, any>,
+    affectingNodes: string[],
+    months,
+    valuesMap: Record<string, number[]>,
+    node_dimension,
+    valueKey: string
+  ) {
+    for (const node of affectingNodes) {
       valuesMap[node] = [];
-      
+      const kpiResponse = kpiResponses[node];
       for (const month of months) {
         const row = kpiResponse.rowData.find((row: any) => {
           if (node_dimension && Object.keys(node_dimension).length > 0) {
@@ -327,6 +399,8 @@ export class EditForecastUtility {
     }
     return valuesMap;
   }
+
+  
 
   static async createAllocationPayloadfor1Year(
     lobName: string,
