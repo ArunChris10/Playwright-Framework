@@ -18,14 +18,6 @@ Object.entries(testData).forEach(([lobName, testData]) => {
   let node_dimension: NodeDimension = {};
   let node_filters: filters = [];
   let scenario_details = [];
-  let baselineValuesMap: Record<string, number[]> = {};
-  let forecastValuesMap: Record<string, number[]> = {};
-  let layer1_forecastValueMap: Record<string, number[]> = {};
-  let layer2_forecastValueMap: Record<string, number[]> = {};
-  let layer1_previousValueMap: Record<string, number[]> = {};
-  let layer2_previousValueMap: Record<string, number[]> = {};
-  let layer1_baselineValueMap: Record<string, number[]> = {};
-  let layer2_baselineValueMap: Record<string, number[]> = {};
   let baselineValue_default;
   let layer1_baselineValue;
   let layer1_actualForecastValue;
