@@ -35,6 +35,7 @@
     "testCases/ssdm-node-edge-get-drivers-api-tests.json",
     "testCases/ssdm-node-edge-publish-api-tests.json",
     "testCases/NodesCases/nodeshRefresh-api-tests.json",
+    "testCases/ssdm-myKpi-valuetype-tests.json",
     "testCases/download-Validation-NEFile.tests.json",
     "testCases/get-kpi-Month-GroupBy-Filter-tests.json",
     "testCases/drivers-api-tests.json",
@@ -49,7 +50,8 @@
     "testCases/progress-status-ssdm.api-tests.json",
     "testCases/calculate-additive-nodes-constant-value.json",
     "testCases/calculate-additive-nodes-percent-rolling.json",
-    "testCases/validator/validator.json"
+    "testCases/validator/validator.json",
+    "testCases/calculate-saveajustment-multiLayer-test.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -68,6 +70,7 @@
     "getScreenId": "/filter/screen_details?",
     "listHistoricals": "/scenario/list-historicals?",
     "snapshots": "/archive/",
+    "ssdmMyKpi":"/sandbox/v1/get-mykpi",
     "getDataScienceInfo": "/scenario/data-science/info",
     "allocateData": "/allocate-data",
     "saveAdjustment": "/adjustment/",
@@ -89,7 +92,8 @@
     "getDimensions":"/metadata/dimensions/mappings",    
     "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
     "applyChangesOnSSDM":"/sandbox/v1/get-mykpi",
-    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions"
+    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions",
+    "createUserScenario": "/scenario/create-user-scenario"
   },
   "notificationService": {
     "baseURL": {

@@ -8,6 +8,7 @@ import { RollingForecastCalendar } from "./rolling-forecast-Calendar.page";
 import { UpdatePageCalendarView } from "./update-page-calendar-view";
 import { DataScienceReviewPage } from './data-science-review.page';
 import { SnapshotsForecast } from './snapshots-forecast.page';
+import {ExcelUtility} from './excelutility.page';
 
 export class UFMPageFactory {
 
@@ -49,6 +50,10 @@ export class UFMPageFactory {
 
   snapshotsPage() {
     return new SnapshotsForecast(this.page);
+  }
+
+  excelUtility() {
+    return new ExcelUtility(this.page);
   }
 
 }

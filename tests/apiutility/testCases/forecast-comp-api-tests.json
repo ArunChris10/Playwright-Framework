@@ -1,45 +1,28 @@
 {
     "validate_forecast_comparison": [
         {
-            "testStep": "Get forecast for KPI filters",
+            "testStep": "Create forecast",
             "environment": "qa",
             "labels": [
                 "smoke",
-                "forecast_comp"
+                "forecast_comp",
+                "IBGROW-38568"
             ],
             "service": "coreService",
-            "uri": "getForecast",
-            "testName": "Get forecast for KPI filters for forecast comparison",
+            "uri": "createUserScenario",
+            "testName": "Create forecast for forecast comparison",
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "unit": "Millions",
-                "dim_id": 12,
-                "dim_val_id": 120006,
+                "type": 3,
+                "name": "Forecast Automation",
                 "classification_id": 12,
-                "template_id": 1,
-                "filters": [],
-                "additional_filters": {
-                    "template_include_headers": [
-                        {
-                            "name": "vs LY",
-                            "format": "percent"
-                        },
-                        {
-                            "name": "vs Plan",
-                            "format": "absolute"
-                        }
-                    ]
-                }
+                "dim_id": 11,
+                "dim_val_id": 110009
             },
-            "assertions": [
-                {
-                    "status": 200
-                }
-            ],
             "extractFirst": {
-                "getkpi2_scenario_id": "rowData.scenarioId",
-                "getkpi2_scenario_version": "rowData.scenarioVersion"
+                "getkpi2_scenario_id": "scenario.scenario_id",
+                "getkpi2_scenario_version": "scenario.scenario_version_timestamp"
             }
         },
         {
@@ -180,10 +163,10 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
-                "vsLyDifferenceValue": "rowData.202604.vsLyDifference",
-                "vsLyPercentValue": "rowData.202604.vsLyPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsLyAbsoluteValue": "rowData.{{dynamicMonth}}.vsLyAbsolute",
+                "vsLyDifferenceValue": "rowData.{{dynamicMonth}}.vsLyDifference",
+                "vsLyPercentValue": "rowData.{{dynamicMonth}}.vsLyPercent"
             },
             "assertions": [
                 {
@@ -348,13 +331,13 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
-                "vsLyDifferenceValue": "rowData.202604.vsLyDifference",
-                "vsLyPercentValue": "rowData.202604.vsLyPercent",
-                "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
-                "vsPriorDifferenceValue": "rowData.202604.vsPriorDifference",
-                "vsPriorPercentValue": "rowData.202604.vsPriorPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsLyAbsoluteValue": "rowData.{{dynamicMonth}}.vsLyAbsolute",
+                "vsLyDifferenceValue": "rowData.{{dynamicMonth}}.vsLyDifference",
+                "vsLyPercentValue": "rowData.{{dynamicMonth}}.vsLyPercent",
+                "vsPriorAbsoluteValue": "rowData.{{dynamicMonth}}.vsPriorAbsolute",
+                "vsPriorDifferenceValue": "rowData.{{dynamicMonth}}.vsPriorDifference",
+                "vsPriorPercentValue": "rowData.{{dynamicMonth}}.vsPriorPercent"
             },
             "assertions": [
                 {
@@ -506,9 +489,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
-                "vsLyDifferenceValue": "rowData.202604.vsLyDifference"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsLyAbsoluteValue": "rowData.{{dynamicMonth}}.vsLyAbsolute",
+                "vsLyDifferenceValue": "rowData.{{dynamicMonth}}.vsLyDifference"
             },
             "assertions": [
                 {
@@ -659,9 +642,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
-                "vsLyPercentValue": "rowData.202604.vsLyPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsLyAbsoluteValue": "rowData.{{dynamicMonth}}.vsLyAbsolute",
+                "vsLyPercentValue": "rowData.{{dynamicMonth}}.vsLyPercent"
             },
             "assertions": [
                 {
@@ -812,9 +795,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
-                "vsLyPercentValue": "rowData.202604.vsLyPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsLyAbsoluteValue": "rowData.{{dynamicMonth}}.vsLyAbsolute",
+                "vsLyPercentValue": "rowData.{{dynamicMonth}}.vsLyPercent"
             },
             "assertions": [
                 {
@@ -965,9 +948,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
-                "vsPriorPercentValue": "rowData.202604.vsPriorPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsPriorAbsoluteValue": "rowData.{{dynamicMonth}}.vsPriorAbsolute",
+                "vsPriorPercentValue": "rowData.{{dynamicMonth}}.vsPriorPercent"
             },
             "assertions": [
                 {
@@ -1119,9 +1102,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
-                "vsPriorPercentValue": "rowData.202604.vsPriorPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsPriorAbsoluteValue": "rowData.{{dynamicMonth}}.vsPriorAbsolute",
+                "vsPriorPercentValue": "rowData.{{dynamicMonth}}.vsPriorPercent"
             },
             "assertions": [
                 {
@@ -1276,10 +1259,10 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
-                "vsPriorDifferenceValue": "rowData.202604.vsPriorDifference",
-                "vsPriorPercentValue": "rowData.202604.vsPriorPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsPriorAbsoluteValue": "rowData.{{dynamicMonth}}.vsPriorAbsolute",
+                "vsPriorDifferenceValue": "rowData.{{dynamicMonth}}.vsPriorDifference",
+                "vsPriorPercentValue": "rowData.{{dynamicMonth}}.vsPriorPercent"
             },
             "assertions": [
                 {
@@ -1428,9 +1411,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
-                "vsPriorDifferenceValue": "rowData.202604.vsPriorDifference"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsPriorAbsoluteValue": "rowData.{{dynamicMonth}}.vsPriorAbsolute",
+                "vsPriorDifferenceValue": "rowData.{{dynamicMonth}}.vsPriorDifference"
             },
             "assertions": [
                 {
@@ -1585,10 +1568,10 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "lastToLastYearAbsoluteValue": "rowData.202604.lastToLastYearAbsolute",
-                "lastToLastYearDifferenceValue": "rowData.202604.lastToLastYearDifference",
-                "lastToLastYearPercentValue": "rowData.202604.lastToLastYearPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "lastToLastYearAbsoluteValue": "rowData.{{dynamicMonth}}.lastToLastYearAbsolute",
+                "lastToLastYearDifferenceValue": "rowData.{{dynamicMonth}}.lastToLastYearDifference",
+                "lastToLastYearPercentValue": "rowData.{{dynamicMonth}}.lastToLastYearPercent"
             },
             "assertions": [
                 {
@@ -1765,16 +1748,16 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "vsLyAbsoluteValue": "rowData.202604.vsLyAbsolute",
-                "vsLyDifferenceValue": "rowData.202604.vsLyDifference",
-                "vsLyPercentValue": "rowData.202604.vsLyPercent",
-                "vsPriorAbsoluteValue": "rowData.202604.vsPriorAbsolute",
-                "vsPriorDifferenceValue": "rowData.202604.vsPriorDifference",
-                "vsPriorPercentValue": "rowData.202604.vsPriorPercent",
-                "lastToLastYearAbsoluteValue": "rowData.202604.lastToLastYearAbsolute",
-                "lastToLastYearDifferenceValue": "rowData.202604.lastToLastYearDifference",
-                "lastToLastYearPercentValue": "rowData.202604.lastToLastYearPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "vsLyAbsoluteValue": "rowData.{{dynamicMonth}}.vsLyAbsolute",
+                "vsLyDifferenceValue": "rowData.{{dynamicMonth}}.vsLyDifference",
+                "vsLyPercentValue": "rowData.{{dynamicMonth}}.vsLyPercent",
+                "vsPriorAbsoluteValue": "rowData.{{dynamicMonth}}.vsPriorAbsolute",
+                "vsPriorDifferenceValue": "rowData.{{dynamicMonth}}.vsPriorDifference",
+                "vsPriorPercentValue": "rowData.{{dynamicMonth}}.vsPriorPercent",
+                "lastToLastYearAbsoluteValue": "rowData.{{dynamicMonth}}.lastToLastYearAbsolute",
+                "lastToLastYearDifferenceValue": "rowData.{{dynamicMonth}}.lastToLastYearDifference",
+                "lastToLastYearPercentValue": "rowData.{{dynamicMonth}}.lastToLastYearPercent"
             },
             "assertions": [
                 {
@@ -1929,9 +1912,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "lastToLastYearAbsoluteValue": "rowData.202604.lastToLastYearAbsolute",
-                "lastToLastYearDifferenceValue": "rowData.202604.lastToLastYearDifference"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "lastToLastYearAbsoluteValue": "rowData.{{dynamicMonth}}.lastToLastYearAbsolute",
+                "lastToLastYearDifferenceValue": "rowData.{{dynamicMonth}}.lastToLastYearDifference"
             },
             "assertions": [
                 {
@@ -1954,7 +1937,8 @@
             "labels": [
                 "smoke",
                 "forecast_comp",
-                "IBGROW-38900"
+                "IBGROW-38900",
+                "IBGROW-39031"
             ],
             "service": "coreService",
             "uri": "getKpiV2",
@@ -2082,9 +2066,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "lastToLastYearAbsoluteValue": "rowData.202604.lastToLastYearAbsolute",
-                "lastToLastYearPercentValue": "rowData.202604.lastToLastYearPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "lastToLastYearAbsoluteValue": "rowData.{{dynamicMonth}}.lastToLastYearAbsolute",
+                "lastToLastYearPercentValue": "rowData.{{dynamicMonth}}.lastToLastYearPercent"
             },
             "assertions": [
                 {
@@ -2107,7 +2091,10 @@
             "labels": [
                 "smoke",
                 "forecast_comp",
-                "IBGROW-38900"
+                "IBGROW-38900",
+                "IBGROW-39025",
+                "IBGROW-39030",
+                "testing_forecast_comp"
             ],
             "service": "coreService",
             "uri": "getKpiV2",
@@ -2235,9 +2222,9 @@
                 "isApplied": true
             },
             "extract": {
-                "forecastValue": "rowData.202604.forecast",
-                "lastToLastYearAbsoluteValue": "rowData.202604.lastToLastYearAbsolute",
-                "lastToLastYearPercentValue": "rowData.202604.lastToLastYearPercent"
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "lastToLastYearAbsoluteValue": "rowData.{{dynamicMonth}}.lastToLastYearAbsolute",
+                "lastToLastYearPercentValue": "rowData.{{dynamicMonth}}.lastToLastYearPercent"
             },
             "assertions": [
                 {
@@ -2251,6 +2238,710 @@
                         "expected": "{{lastToLastYearPercentValue}}",
                         "acceptedDifference": 0.1000
                     }
+                }
+            ]
+        },
+        {
+            "testStep": "Verify default benchmark is Value($) for VS LLY",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "forecast_comp",
+                "IBGROW-39033"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "Verify default benchmark is Value($) for VS LLY in forecast comparison",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
+                "dim_id": 11,
+                "dim_val_id": 110009,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [
+                    {
+                        "dim_id": 24,
+                        "dim_val_ids": [
+                            240002
+                        ],
+                        "children": []
+                    }
+                ],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "membershipincome_input"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Last To Last Year",
+                            "format": "absolute"
+                        },
+                        {
+                            "name": "{{dynamicMonth-4}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-2}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+2}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+4}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+5}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+6}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+7}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": false
+                        },
+                        {
+                            "name": "Value",
+                            "editable": false
+                        }
+                    ],
+                    "month": [
+                        "{{dynamicMonth-4}}",
+                        "{{dynamicMonth-3}}",
+                        "{{dynamicMonth-2}}",
+                        "{{dynamicMonth-1}}",
+                        "{{dynamicMonth}}",
+                        "{{dynamicMonth+1}}",
+                        "{{dynamicMonth+2}}",
+                        "{{dynamicMonth+3}}",
+                        "{{dynamicMonth+4}}",
+                        "{{dynamicMonth+5}}",
+                        "{{dynamicMonth+6}}",
+                        "{{dynamicMonth+7}}"
+                    ]
+                },
+                "isApplied": true
+            },
+            "extract": {
+                "valType": "rowData.val_type"
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "equals": {
+                        "actual": "{{valType}}",
+                        "expected": "$"
+                    }
+                }
+            ]
+        },
+        {
+            "testStep": "Verify benchmark selection is removed across refresh and get kpi after applying benchmark",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "forecast_comp",
+                "benchmark_refresh",
+                "IBGROW-39029",
+                "regression"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "Verify that after refresh, benchmark/comparisons are removed from get kpi response",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
+                "dim_id": 11,
+                "dim_val_id": 110011,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "costperpackage"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Driver"
+                        },
+                        {
+                            "name": "{{dynamicMonth-4}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-2}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+2}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+4}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+5}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+6}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+7}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": true
+                        },
+                        {
+                            "name": "Value",
+                            "editable": true
+                        }
+                    ],
+                    "month": [
+                        "{{dynamicMonth-4}}",
+                        "{{dynamicMonth-3}}",
+                        "{{dynamicMonth-2}}",
+                        "{{dynamicMonth-1}}",
+                        "{{dynamicMonth}}",
+                        "{{dynamicMonth+1}}",
+                        "{{dynamicMonth+2}}",
+                        "{{dynamicMonth+3}}",
+                        "{{dynamicMonth+4}}",
+                        "{{dynamicMonth+5}}",
+                        "{{dynamicMonth+6}}",
+                        "{{dynamicMonth+7}}"
+                    ]
+                },
+                "isApplied": true
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertNoComparisonHeaders": {
+                        "jsonPath": "additional_filters.template_include_headers",
+                        "notContains": [
+                            "vs LY",
+                            "vs Prior",
+                            "Last To Last Year"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "testStep": "Verify rowData is empty when node data is empty",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "forecast_comp_error",
+                "empty_data"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "Verify rowData is empty if node data is empty",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{scenario_id}}",
+                "scenario_version": "{{scenario_version}}",
+                "dim_id": 11,
+                "dim_val_id": 110009,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "gmvreturnsshippedrate"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Driver"
+                        },
+                        {
+                            "name": "202601",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202602",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202603",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202604",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202605",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202606",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202607",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202608",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202609",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202610",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202611",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202612",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": true
+                        },
+                        {
+                            "name": "Value",
+                            "editable": true
+                        }
+                    ],
+                    "month": [
+                        "202601",
+                        "202602",
+                        "202603",
+                        "202604",
+                        "202605",
+                        "202606",
+                        "202607",
+                        "202608",
+                        "202609",
+                        "202610",
+                        "202611",
+                        "202612"
+                    ]
+                }
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "equals": {
+                        "actual": "rowData",
+                        "expected": []
+                    }
+                }
+            ]
+        },
+        {
+            "testStep": "Ensure the API returns updated values without full reload when benchmark is changed",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "forecast_comp",
+                "regression",
+                "IBGROW-39024"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "API returns updated values without full reload on benchmark change",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
+                "dim_id": 11,
+                "dim_val_id": 110009,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [
+                    {
+                        "dim_id": 24,
+                        "dim_val_ids": [240002],
+                        "children": []
+                    }
+                ],
+                "additional_filters": {
+                    "pivot_cols": ["month"],
+                    "pivot_index": ["node_id"],
+                    "period_view": ["month"],
+                    "nodes": ["membershipincome_input"],
+                    "template_include_headers": [
+                        { "name": "vs LY", "format": "absolute" },
+                        { "name": "vs LY", "format": "percent" },
+                        { "name": "vs Prior", "format": "absolute" },
+                        { "name": "vs Prior", "format": "percent" },
+                        { "name": "{{dynamicMonth}}", "columnsMenuParams": "middleColumns" }
+                    ],
+                    "month": ["{{dynamicMonth}}"]
+                },
+                "isApplied": true,
+                "benchmark": "vs LY"
+            },
+            "assertions": [
+                { "status": 200 },
+                {
+                    "assertNotNull": {
+                        "jsonPath1": "rowData.{{dynamicMonth}}.vsLyAbsolute",
+                        "jsonPath2": "rowData.{{dynamicMonth}}.vsLyPercent"
+                    }
+                }
+            ],
+            "steps": [
+                {
+                    "action": "changeBenchmark",
+                    "benchmark": "vs Prior"
+                },
+                {
+                    "assertNotNull": {
+                        "jsonPath1": "rowData.{{dynamicMonth}}.vsPriorAbsolute",
+                        "jsonPath2": "rowData.{{dynamicMonth}}.vsPriorPercent"
+                    }
+                }
+            ]
+        },
+        {
+            "testStep": "Ensure the API returns fresh data on each benchmark selection",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "forecast_comp",
+                "regression",
+                "IBGROW-39023"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "API returns fresh data on each benchmark selection",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
+                "dim_id": 11,
+                "dim_val_id": 110009,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [
+                    {
+                        "dim_id": 24,
+                        "dim_val_ids": [240002],
+                        "children": []
+                    }
+                ],
+                "additional_filters": {
+                    "pivot_cols": ["month"],
+                    "pivot_index": ["node_id"],
+                    "period_view": ["month"],
+                    "nodes": ["membershipincome_input"],
+                    "template_include_headers": [
+                        { "name": "vs LY", "format": "absolute" },
+                        { "name": "{{dynamicMonth}}", "columnsMenuParams": "middleColumns" }
+                    ],
+                    "month": ["{{dynamicMonth}}"]
+                },
+                "isApplied": true,
+                "benchmark": "vs LY"
+            },
+            "assertions": [
+                { "status": 200 },
+                {
+                    "assertNotNull": {
+                        "jsonPath1": "rowData.{{dynamicMonth}}.vsLyAbsolute"
+                    }
+                }
+            ],
+            "steps": [
+                {
+                    "action": "selectBenchmark",
+                    "benchmark": "vs Prior"
+                },
+                {
+                    "assertNotNull": {
+                        "jsonPath1": "rowData.{{dynamicMonth}}.vsPriorAbsolute"
+                    }
+                },
+                {
+                    "action": "selectBenchmark",
+                    "benchmark": "Last To Last Year"
+                },
+                {
+                    "assertNotNull": {
+                        "jsonPath1": "rowData.{{dynamicMonth}}.lastToLastYearAbsolute"
+                    }
+                }
+            ]
+        },
+        {
+            "testStep": "Verify that the Last To Last Year(%diff) sign in api response",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "forecast_comp",
+                "IBGROW-39026"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "Verify that the Last To Last Year(%diff) sign in api response is in forecast comparision",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{getkpi2_scenario_id}}",
+                "scenario_version": "{{getkpi2_scenario_version}}",
+                "dim_id": 11,
+                "dim_val_id": 110009,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [
+                    {
+                        "dim_id": 24,
+                        "dim_val_ids": [
+                            240002
+                        ],
+                        "children": []
+                    }
+                ],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "membershipincome_input"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Last To Last Year",
+                            "format": "absolute"
+                        },
+                        {
+                            "name": "Last To Last Year",
+                            "format": "percent"
+                        },
+                        {
+                            "name": "{{dynamicMonth-4}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-2}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+2}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+4}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+5}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+6}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+7}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": false
+                        },
+                        {
+                            "name": "Value",
+                            "editable": false
+                        }
+                    ],
+                    "month": [
+                        "{{dynamicMonth-4}}",
+                        "{{dynamicMonth-3}}",
+                        "{{dynamicMonth-2}}",
+                        "{{dynamicMonth-1}}",
+                        "{{dynamicMonth}}",
+                        "{{dynamicMonth+1}}",
+                        "{{dynamicMonth+2}}",
+                        "{{dynamicMonth+3}}",
+                        "{{dynamicMonth+4}}",
+                        "{{dynamicMonth+5}}",
+                        "{{dynamicMonth+6}}",
+                        "{{dynamicMonth+7}}"
+                    ]
+                },
+                "isApplied": true
+            },
+            "extract": {
+                "forecastValue": "rowData.{{dynamicMonth}}.forecast",
+                "lastToLastYearAbsoluteValue": "rowData.{{dynamicMonth}}.lastToLastYearAbsolute",
+                "lastToLastYearPercentValue": "rowData.{{dynamicMonth}}.lastToLastYearPercent"
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertResponseByCalculationForSign": {
+                        "value1": "{{forecastValue}}",
+                        "value2": "{{lastToLastYearAbsoluteValue}}",
+                        "sign": "%",
+                        "expected": "{{lastToLastYearPercentValue}}",
+                        "acceptedDifference": 0.1000
+                     }
                 }
             ]
         }

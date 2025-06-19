@@ -54,7 +54,7 @@ export function validateExtractedValuesContains(actual: any, expected: any, key:
 
 export async function getPayloadByTestCaseName(testCase: any): Promise<any> {
   let filePathOfPayload;
-  testCase.assertion.forEach(assertionArray => {
+  testCase.assertions.forEach(assertionArray => {
     if (assertionArray.assertResponse) {
       filePathOfPayload = assertionArray.assertResponse.filePath;
     }
@@ -146,7 +146,9 @@ export function deepPartialMatch(
     // If one is an array and the other isn't, no match
     return false;
   }
-
+  if (expected !== actual) {
+    console.log(`Expected: ${expected}, Actual: ${actual}`);
+  }
   // Primitive comparison (string, number, etc.)
   return expected === actual;
 }
@@ -365,6 +367,14 @@ export async function validateAssertions(response: any, responseBody: any, asser
           } catch (err: any) {
             throw new Error(`Assertion failed for assertResponseByCalculation: ${err.message}`);
           }
+        } else if(arrayOfAssertion.assertResponseByCalculationForSign) {
+          const sign = arrayOfAssertion.assertResponseByCalculationForSign.sign; // Get the operation type
+          try {
+            expect(sign).toEqual('%');
+          } catch (err: any) {
+            throw new Error(`Assertion failed for assertResponseByCalculationForSign: ${err.message}`);
+          }
+
         } else if (arrayOfAssertion.assertLength) {
           const jsonPath = interpolate(arrayOfAssertion.assertLength.jsonPath); // Interpolate the JSON path
           const expectedLength = parseFloat(interpolate(arrayOfAssertion.assertLength.expectedLength));
