@@ -3,9 +3,12 @@
     {
       "testStep": "get scenario id for SSDM ",
       "environment": "qa",
-      "labels": ["smoke", "computeSsdm"],
+      "labels": [
+        "smoke",
+        "computeSsdm"
+      ],
       "service": "coreService",
-      "uri": "getKpi",
+      "uri": "getSandboxScenarioId",
       "testName": "get scenario id for SSDM",
       "queryParams": "",
       "method": "GET",
@@ -21,7 +24,10 @@
     {
       "testStep": "Check if the compute fails",
       "environment": "qa",
-      "labels": ["smoke", "computeSsdm"],
+      "labels": [
+        "smoke",
+        "computeSsdm"
+      ],
       "service": "coreService",
       "uri": "computeSsdm",
       "testName": "check for compute failure",

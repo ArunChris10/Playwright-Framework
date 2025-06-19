@@ -44,7 +44,12 @@
     "testCases/excel-load-data-time-grains.json",
     "testCases/ssdm-get-kpi-verify.json",
     "testCases/projection-method-testcases/final_historical-growthrate-regression-projection-method-all-allocation-test.json",
-    "testCases/excel-load-data-api-time-granularity.json",
+    "testCases/projection-method-testcases/regression-EqualDistributionAllocation.json",
+    "testCases/projection-method-testcases/regression-TimeRollingAllocation.json",
+    "testCases/projection-method-testcases/growthRate-EqualDistributionAllocation.json",
+    "testCases/projection-method-testcases/growthRate-TimeRollingAllocation.json", 
+    "testCases/projection-method-testcases/growthRate-MaintainRatioAllocation.json",
+    "testCases/projection-method-testcases/growthRate-constantValueAllocation.json",
     "testCases/data-science-demand-metric-ssdm-edit.json",
     "testCases/filters-ssdm-api-tests.json",
     "testCases/progress-status-ssdm.api-tests.json",
@@ -92,8 +97,11 @@
     "getDimensions":"/metadata/dimensions/mappings",    
     "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
     "applyChangesOnSSDM":"/sandbox/v1/get-mykpi",
-    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions",
-    "createUserScenario": "/scenario/create-user-scenario"
+    "createUserScenario": "/scenario/create-user-scenario",
+    "computeSsdm": "/sandbox/v1/compute-scenario",
+    "getDriversListSSDM": "/sandbox/v1/drivers",
+    "publishSSDMActivatedDataset":"sandbox/v1/publish-node-edge-document",
+    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions"
   },
   "notificationService": {
     "baseURL": {

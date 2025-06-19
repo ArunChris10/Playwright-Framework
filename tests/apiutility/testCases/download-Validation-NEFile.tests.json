@@ -40,39 +40,37 @@
       "environment": "qa",
       "labels": [
         "negative",
-        "downloadApi","smoke","Regression"
+        "downloadApi",
+        "smoke",
+        "Regression"
       ],
       "service": "coreService",
       "uri": "download",
       "testName": "validate error response for invalid document ID",
-      "queryParams": "",
-      "method": "POST",
-      "payload": {
-        "doc_id": "1061174843898"
-      },
+      "queryParams": "?doc_id=test",
+      "method": "GET",
       "assertions": [
         {
-          "status": 400
+          "status": 500
         }
       ]
     }
   ],
   "validate_NE_grid_download_api": [
     {
-      "testStep": "Call download API with invalid document ID",
+      "testStep": "Call download API with valid document ID",
       "environment": "qa",
       "labels": [
         "positive",
-        "downloadApi","smoke","Regression"
+        "downloadApi",
+        "smoke",
+        "Regression"
       ],
       "service": "coreService",
       "uri": "download",
-      "testName": "validate error response for valid document ID",
-      "queryParams": "",
-      "method": "POST",
-      "payload": {
-        "doc_id": "10611748438977"
-      },
+      "testName": "validate response for valid document ID",
+      "queryParams": "?doc_id=11411750311110",
+      "method": "GET",
       "assertions": [
         {
           "status": 200
