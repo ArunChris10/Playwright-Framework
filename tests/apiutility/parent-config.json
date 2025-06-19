@@ -103,7 +103,8 @@
     "createUserScenario": "/scenario/create-user-scenario",
     "computeSsdm": "/sandbox/v1/compute-scenario",
     "getDriversListSSDM": "/sandbox/v1/drivers",
-    "publishSSDMActivatedDataset":"sandbox/v1/publish-node-edge-document"
+    "publishSSDMActivatedDataset":"sandbox/v1/publish-node-edge-document",
+    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions"
   },
   "notificationService": {
     "baseURL": {
