@@ -18,7 +18,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
   let node_dimension: NodeDimension = {};
   let node_filters: filters = [];
 
-  test.describe("Verify Calculate & Save API", { tag: "@Smoke @Regression @adjustment" }, () => {
+  test.describe("Verify Calculate & Save API", { tag: "@Smoke @Regression @CalSaveAdjustment" }, () => {
 
     test.beforeAll(async ({ request }) => {
       if (
@@ -59,7 +59,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
 
       // Validate through assertions
       await EditForecastUtility.validateForecastResponse(responseBody, obj, baselineValuesMap, months);
-      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, obj, request);
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod,  node_dimension, obj, request);
 
       await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
       await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
@@ -84,7 +84,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       let responseBody = await Utility.assertAndLog(response);
       //Adding Assertions
       await EditForecastUtility.validateForecastResponse(responseBody, obj, baselineValuesMap, months);
-      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, obj, request);
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod,  node_dimension, obj, request);
 
       await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
       await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
@@ -112,7 +112,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       //Adding Assertions for calculate
       await EditForecastUtility.validateForecastResponse(responseBody, obj, baselineValuesMap, months);
       // Save & Validate the Adjustment
-      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, obj, request);
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod,  node_dimension, obj, request);
 
       await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
       await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
@@ -145,7 +145,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
 
       // Save & Validate the Adjustment
 
-      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, obj, request);
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, node_dimension, obj, request);
 
       await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
       await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
@@ -172,7 +172,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       await Utility.assertAndLog(response);
 
       // Save & Validate the Adjustment
-      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, obj, request);
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod,  node_dimension, obj, request);
 
       await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
       await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
@@ -209,7 +209,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       await EditForecastUtility.validateForecastResponse(responseBody, secondEditObj, baselineValuesMap, months);
 
       // Save & Validate the Adjustment
-      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, secondEditObj, request);
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod,  node_dimension, secondEditObj, request);
 
       await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
       await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
@@ -276,7 +276,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
 
       // Save & Validate the Adjustment
 
-      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, obj, request);
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod,  node_dimension, obj, request);
 
       await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
       await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
@@ -342,7 +342,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
 
       // Save & Validate the Adjustment
 
-      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, secondEditObj, request);
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod,  node_dimension, secondEditObj, request);
 
       await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
       await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
@@ -369,7 +369,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
 
       // Save & Validate the Adjustment
 
-      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, obj, request);
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod,  node_dimension, obj, request);
 
       await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
       await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
@@ -398,7 +398,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       await EditForecastUtility.validateForecastResponse(responseBody, obj, baselineValuesMap, months);
       // Save & Validate the Adjustment
 
-      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, obj, request);
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod,  node_dimension, obj, request);
 
       await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
       await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
@@ -442,7 +442,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
         }
       });
 
-      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, obj, request);
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod,  node_dimension, obj, request);
 
       await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
       await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);
@@ -495,7 +495,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       let secondEditResponseBody = await Utility.assertAndLog(response1);
       await EditForecastUtility.validateForecastResponse(secondEditResponseBody, secondEditObj, baselineValuesMap, months, ratioMap);
 
-      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod, inputNodesType, node_dimension, secondEditObj, request);
+      let saveResponse = await EditForecastUtility.createAdjustment(scenarioId, scenarioVersion, lobName, allocationMethod,  node_dimension, secondEditObj, request);
 
       await expect.soft(saveResponse.message).toEqual(adjustmentData.successMessage);
       await expect.soft(saveResponse.adjustment_metadata.adjustment_name).toEqual(adjustmentData.payloads.adjustment_metadata.adjustment_name);

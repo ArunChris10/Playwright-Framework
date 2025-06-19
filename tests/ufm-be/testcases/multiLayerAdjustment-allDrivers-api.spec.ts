@@ -47,11 +47,11 @@ Object.entries(testData).forEach(([lobName, testData]) => {
         testData.lobName,
         "Input", request);
       //console.log("driverList:", JSON.stringify(driverList, null, 2));
-      // Getting forecast details
+      /* // Getting forecast details
       [scenario_details] = await ForecastUtility.getOrCreateForecastIfNotExists(
         testData.lobName,
         request
-      );
+      ); */
 
       const createdScenarioId = await ForecastUtility.createForecast(lobName, request);
       let currentForecast = await UfmUtility.getCurrentForecastList(
@@ -66,10 +66,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
 
       scenarioId = scenario_details["scenarioId"];
       scenarioVersion = scenario_details["scenarioVersion"];
-      /* driverList = await UfmUtility.getDriverList(
-        testData.lobName,
-        "Input", request)
-        console.log("driverList:", JSON.stringify(driverList, null, 2)); */
+      
 
     });
 
