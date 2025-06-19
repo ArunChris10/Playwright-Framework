@@ -1,6 +1,7 @@
 {
   "Validate-calculate-save-non-additive-node-workflow": [
     {
+            "runInParallel": false,
       "testStep": "Get a forecast to delete before proceding for IO SBA",
       "environment": "qa",
       "labels": [

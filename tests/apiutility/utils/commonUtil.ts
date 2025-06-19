@@ -1,7 +1,8 @@
 import { expect } from '@playwright/test';
 import { globalStore } from '../globalStore';
-import { AssertionEntry, ApiTestCase } from '../api.test';
-import { findAllValuesByKey } from '../utils/jsonUtils';
+import { JSONPath } from 'jsonpath-plus';
+import {AssertionEntry,ApiTestCase} from '../types/api.types';
+import { findAllValuesByKey} from '../utils/jsonUtils';
 import fs from 'fs';
 import path from 'path';
 import { awaitvalidateDriversContainsData as validateDriversContainsData, replaceNodeNames } from '../helperFunctions/helperFunctions'
@@ -219,7 +220,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
       try {
         expect(response.status()).toEqual(statusCode);
       } catch (err: any) {
-        throw new Error(`Assertion failed for status: ${err.message}`);
+        throw new Error(`Assertion failed for status: ${err.message} Responsebody: ${JSON.stringify(responseBody)}`);
       }
     } else {
       for (let i = 0; i <= Object.keys(arrayOfAssertion).length; i++) {

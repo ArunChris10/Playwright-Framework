@@ -5,8 +5,10 @@
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
   },
-  "tagsToRun": ["getDriversListSSDM"],
-  "testFiles": [
+  "tagsToRun": [""],
+  "ForceAllParallel":true,
+  "ForceAllSerial":false,
+  "testFiles": [  
     "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save.json",
@@ -38,15 +40,10 @@
     "testCases/get-kpi-Month-GroupBy-Filter-tests.json",
     "testCases/drivers-api-tests.json",
     "testCases/actual-missing-nodes-api-tests.json",
-    "testCases/projection-method-testcases/historicRate-constantValueAllocation.json",
-    "testCases/projection-method-testcases/historicRate-MaintainRatioAllocation.json",
-    "testCases/projection-method-testcases/historicRate-EqualDistributionAllocation.json",
-    "testCases/projection-method-testcases/historicRate-TimeRollingAllocation.json",
-    "testCases/projection-method-testcases/regression-MaintainRatioAllocation.json",
-    "testCases/projection-method-testcases/regression-constantValueAllocation.json",
     "testCases/excel-load-data-api-time-granularity.json",
     "testCases/excel-load-data-time-grains.json",
     "testCases/ssdm-get-kpi-verify.json",
+    "testCases/projection-method-testcases/final_historical-growthrate-regression-projection-method-all-allocation-test.json",
     "testCases/projection-method-testcases/regression-EqualDistributionAllocation.json",
     "testCases/projection-method-testcases/regression-TimeRollingAllocation.json",
     "testCases/projection-method-testcases/growthRate-EqualDistributionAllocation.json",
@@ -58,6 +55,7 @@
     "testCases/progress-status-ssdm.api-tests.json",
     "testCases/calculate-additive-nodes-constant-value.json",
     "testCases/calculate-additive-nodes-percent-rolling.json",
+    "testCases/validator/validator.json",
     "testCases/calculate-saveajustment-multiLayer-test.json"
   ],
   "currentDemandService": {
@@ -99,7 +97,6 @@
     "getDimensions":"/metadata/dimensions/mappings",    
     "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
     "applyChangesOnSSDM":"/sandbox/v1/get-mykpi",
-    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions",
     "createUserScenario": "/scenario/create-user-scenario",
     "computeSsdm": "/sandbox/v1/compute-scenario",
     "getDriversListSSDM": "/sandbox/v1/drivers",

@@ -1,6 +1,7 @@
 {
   "validate_datascience3_adjustment_nondemand": [
     {
+            "runInParallel": false,
       "testStep": "Get Scenario details from dataScience info",
       "environment": "qa",
       "labels": [
