@@ -779,4 +779,23 @@ export class Utility {
     }
     return result;
   }
+
+  /**
+   * Generates an array of 12 months starting from the current month in 'YYYYMM' format.
+   *
+   * @param currentDate - The reference date (default: now)
+   * @returns {Promise<string[]>} Array of 12 months in 'YYYYMM' format, starting from the current month
+   */
+  public static async generateNextMonths(tillMonth,currentDate: Date = new Date()): Promise<string[]> {
+    let result: string[] = [];
+    // Increment year by 1 for the starting date
+    let date = new Date(currentDate.getFullYear() + 1, currentDate.getMonth(), 1);
+    for (let i = 0; i < tillMonth; i++) {
+      const y = date.getFullYear();
+      const m = (date.getMonth() + 1).toString().padStart(2, "0");
+      result.push(`${y}${m}`);
+      date.setMonth(date.getMonth() + 1);
+    }
+    return result;
+  }
 }
