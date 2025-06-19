@@ -66,9 +66,9 @@ async function deleteAllForecastsForAutomationUser() {
       await ForecastUtility.deleteAllforecastofUser(
         request,
         allLobs[i],
-        "LB-ibg-ufm-auto" // Make sure this env variable is set to the automation user
+        process.env.ufmUser // Make sure this env variable is set to the automation user
       );
-      console.log(`Deleted all forecasts for user LB-ibg-ufm-auto in LOB: ${allLobs[i]}`);
+      console.log(`Deleted all forecasts for user ${process.env.ufmUser} in LOB: ${allLobs[i]}`);
     } catch (err) {
       console.error(`Error deleting forecasts for LOB ${allLobs[i]}:`, err);
     }
