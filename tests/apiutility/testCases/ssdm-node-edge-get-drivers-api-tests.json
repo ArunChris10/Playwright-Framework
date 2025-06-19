@@ -3,7 +3,10 @@
     {
       "testStep": "get drivers list for SSDM ",
       "environment": "qa",
-      "labels": ["smoke", "getDriversListSSDM"],
+      "labels": [
+        "smoke",
+        "getDriversListSSDM"
+      ],
       "service": "coreService",
       "uri": "getDriversListSSDM",
       "testName": "get drivers list for SSDM",

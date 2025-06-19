@@ -3,7 +3,10 @@
     {
       "testStep": "Publish the node edge for activated dataset",
       "environment": "qa",
-      "labels": ["smoke", "publishSSDMActivatedDataset"],
+      "labels": [
+        "smoke",
+        "publishSSDMActivatedDataset"
+      ],
       "service": "coreService",
       "uri": "publishSSDMActivatedDataset",
       "testName": "Publish the node edge for activated dataset",
