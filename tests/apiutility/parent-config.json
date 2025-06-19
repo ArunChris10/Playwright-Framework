@@ -100,8 +100,7 @@
     "getDimensions":"/metadata/dimensions/mappings",    
     "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
     "applyChangesOnSSDM":"/sandbox/v1/get-mykpi",
-    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions",
-    "createUserScenario": "/scenario/create-user-scenario"
+    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions"
   },
   "notificationService": {
     "baseURL": {
