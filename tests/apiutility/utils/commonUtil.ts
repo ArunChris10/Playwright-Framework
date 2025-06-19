@@ -53,7 +53,7 @@ export function validateExtractedValuesContains(actual: any, expected: any, key:
 
 export async function getPayloadByTestCaseName(testCase: any): Promise<any> {
   let filePathOfPayload;
-  testCase.assertion.forEach(assertionArray => {
+  testCase.assertions.forEach(assertionArray => {
     if (assertionArray.assertResponse) {
       filePathOfPayload = assertionArray.assertResponse.filePath;
     }
@@ -145,7 +145,9 @@ export function deepPartialMatch(
     // If one is an array and the other isn't, no match
     return false;
   }
-
+  if (expected !== actual) {
+    console.log(`Expected: ${expected}, Actual: ${actual}`);
+  }
   // Primitive comparison (string, number, etc.)
   return expected === actual;
 }

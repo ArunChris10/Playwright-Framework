@@ -14,7 +14,7 @@ let viewName: string | number = "views" + Date.now();
 
 test.describe(
   "Verify user is able to create edit and delete savedViews",
-  { tag: "@Smoke @savedViews" },
+  { tag: "@Smoke @savedViews @Regression" },
   () => {
     let objpageFactory: PageFactory;
 
@@ -66,7 +66,7 @@ test.describe(
 
     test(
       `Check if user able to create a view for scenario from lob: ${lob}`,
-      { tag: "@createView" },
+      { tag: "@createView @Regression" },
       async () => {
         await test.step("Go To UFM Page", async () => {
           await objpageFactory
@@ -180,7 +180,7 @@ test.describe(
       }
     );
 
-    test("Check if system warns user when provided duplicate name", async () => {
+    test("Check if system warns user when provided duplicate name",{ tag: "@createView @Regression @Smoke" }, async () => {
       await test.step("Click on Create new view", async () => {
         await objpageFactory
           .ufmPageFactory()
@@ -240,7 +240,7 @@ test.describe(
 
     test(
       `Create views with header changes(filters,units)`,
-      { tag: "@createView" },
+      { tag: "@createView @Regression @Smoke" },
       async () => {
         await test.step("Go To UFM Page", async () => {
           await objpageFactory
@@ -419,7 +419,7 @@ test.describe(
 
     test(
       `Check if user able to create a view with numeric name for scenario from lob: ${lob}`,
-      { tag: "@createView" },
+      { tag: "@createView @Smoke @Regression" },
       async () => {
         viewName = Math.floor(Math.random() * 90000) + 10000;
 
@@ -510,7 +510,7 @@ test.describe(
 
     test(
       `Retrieve if user views exist, create one if not, and validate name and icon`,
-      { tag: "@getUserViews" },
+      { tag: "@getUserViews @Smoke @Regression" },
       async () => {
         await test.step("Go To UFM Page", async () => {
           await objpageFactory
@@ -621,7 +621,7 @@ test.describe(
 
     test(
       `Check if user able to delete a view for scenario from lob: ${lob}`,
-      { tag: "@deleteView" },
+      { tag: "@deleteView @Smoke @Regression" },
       async () => {
         await test.step("Click on Saved views Dropdown", async () => {
           await objpageFactory
@@ -664,7 +664,7 @@ test.describe(
 
     test(
       `Edit views with special characters`,
-      { tag: "@editViews" },
+      { tag: "@editViews @Smoke @Regression" },
       async () => {
         const randomName = `View_${Math.random()
           .toString(36)
@@ -796,7 +796,7 @@ test.describe(
     );
     test(
       `Edit views and verify the edits`,
-      { tag: "@editViews @verify" },
+      { tag: "@editViews @verify @Smoke @Regression" },
       async () => {
         const randomName = `View_${Math.random()
           .toString(36)
@@ -914,7 +914,7 @@ test.describe(
 
     test(
       `Check if user able to create a view with duplicate name for scenario from lob: ${lob}`,
-      { tag: "@createView @duplicateViewName" },
+      { tag: "@createView @duplicateViewName @Smoke @Regression" },
       async () => {
         viewName = testData.viewName;
 
@@ -1085,7 +1085,7 @@ test.describe(
     );
     test(
       `Check if a view is edited successfully`,
-      { tag: "@editViews @success" },
+      { tag: "@editViews @success @Smoke @Regression" },
       async () => {
         await test.step("Go To UFM Page", async () => {
           await objpageFactory
@@ -1177,7 +1177,7 @@ test.describe(
 
     test(
       `Check if user able to create a view with very long view name`,
-      { tag: "@createView @longViewName" },
+      { tag: "@createView @longViewName @Smoke @Regression" },
       async () => {
         viewName = "View_" + "x".repeat(255);
 
@@ -1303,7 +1303,7 @@ test.describe(
     );
     test(
       `Check if user able to edit a view by giving a very long view name`,
-      { tag: "@editView @longViewName" },
+      { tag: "@editView @longViewName @Smoke @Regression" },
       async () => {
         viewName = "View_" + "y".repeat(255);
 
@@ -1412,7 +1412,7 @@ test.describe(
     );
     test(
       `Check if user able to create a view with unique name`,
-      { tag: "@createView @uniqueName" },
+      { tag: "@createView @uniqueName @Smoke @Regression" },
       async () => {
 
         viewName = `${Math.random().toString(36).substring(2, 10)}_${Date.now()}`;
@@ -1517,7 +1517,7 @@ test.describe(
     );
     test(
       `Check if user able to switch between views`,
-      { tag: "@switchView" },
+      { tag: "@switchView @Smoke @Regression" },
       async () => {
 
         viewName = `${Math.random().toString(36).substring(2, 10)}_${Date.now()}`;
@@ -1658,7 +1658,7 @@ test.describe(
     
     test(
       `Check if the view created in LOB A is not reflecting in LOB B`,
-      { tag: "@switchViewBetweenLobs" },
+      { tag: "@switchViewBetweenLobs @Smoke @Regression" },
       async () => {
 
         viewName = `${Math.random().toString(36).substring(2, 10)}_${Date.now()}`;
@@ -1784,7 +1784,7 @@ test.describe(
       });
       }
     );
-    test("Check if views are empty", { tag: "@emptyViews" }, async ({ page }) => {
+    test("Check if views are empty", { tag: "@emptyViews @Smoke @Regression" }, async ({ page }) => {
       await test.step("Go To UFM Page", async () => {
         await objpageFactory
           .ufmPageFactory()
@@ -1930,4 +1930,356 @@ test.describe(
         expect(savedViewsHeader).toEqual(viewName);
       });
     });
+    test(
+      `Check if a user view can be saved as a new view from a global view`,
+      { tag: "@saveAsNewView @globalView @Smoke @Regression" },
+      async () => {
+  
+        viewName = `${Math.random().toString(36).substring(2, 10)}_${Date.now()}`;
+  
+        await test.step("Go To UFM Page", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .organisationSelection()
+            .navigate();
+        });
+  
+        await test.step(`Click on ${testData.orgName} Organization`, async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .organisationSelection()
+            .selectOrganisation(testData.orgName);
+        });
+  
+        await test.step(`Click on Open ${testData.orgName} Forecast`, async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .currentForecast()
+            .clickOpenForecastByName(scenario_details["name"]);
+        });
+        const globalViewsCount = await objpageFactory
+        .ufmPageFactory()
+        .openCurrentForecast()
+        .getGlobalViewTilePresence();
+        if(globalViewsCount >0 ) {
+          
+          await test.step("Select a view tile", async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .selectGlobalViewTile();
+          });
+  
+        await test.step("Validate KPI landing page is loaded", async () => {
+          expect(
+            await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .waitForPageLoad()
+          ).toBeTruthy();
+        });
+  
+        await objpageFactory
+          .ufmPageFactory()
+          .openCurrentForecast()
+          .clickOnDriver();
+  
+        await test.step("Validate driver modal opens upon clicking Drivers chip", async () => {
+          expect(
+            await objpageFactory
+              .ufmPageFactory()
+              .addDriverPage()
+              .waitForPageLoad()
+          ).toBeTruthy();
+        });
+  
+        await test.step("Search and add drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .searchAndApplyDrivers(testData.driver.inputDrivers);
+        });
+  
+        await test.step("Click on apply drivers", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .addDriverPage()
+            .clickOnApplyDrivers();
+        });
+  
+        await test.step("Click on Save View", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnSaveAsNew();
+        });
+  
+        await test.step("Input a name in save view text field", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .inputSaveViewsAs(viewName);
+        });
+  
+        await test.step("Click on Save", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnSave();
+        });
+  
+        await test.step("Wait for View Saved Successfull snackbar", async () => {
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .waitForSaveViewSuccessMessage();
+        });
+  
+        await test.step("Validate the header of saved views dropDown", async () => {
+          let savedViewsHeader = await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .getSavedViewsDropdownHeader();
+  
+          expect(savedViewsHeader).toEqual(viewName);
+        });
+      }
+      });
+      test(
+        `Check if user able to switch between views and overwrite changes`,
+        { tag: "@switchView @overwrite @Smoke @Regression" },
+        async () => {
+  
+          viewName = `${Math.random().toString(36).substring(2, 10)}_${Date.now()}`;
+  
+          await test.step("Go To UFM Page", async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .organisationSelection()
+              .navigate();
+          });
+  
+          await test.step(`Click on ${testData.orgName} Organization`, async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .organisationSelection()
+              .selectOrganisation(testData.orgName);
+          });
+  
+          await test.step(`Click on Open ${testData.orgName} Forecast`, async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .currentForecast()
+              .clickOpenForecastByName(scenario_details["name"]);
+          });
+
+          await test.step("Select a view tile", async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .selectViewTile();
+          });
+    
+          await test.step("Validate KPI landing page is loaded", async () => {
+            expect(
+              await objpageFactory
+                .ufmPageFactory()
+                .openCurrentForecast()
+                .waitForPageLoad()
+            ).toBeTruthy();
+          });
+    
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnDriver();
+    
+          await test.step("Validate driver modal opens upon clicking Drivers chip", async () => {
+            expect(
+              await objpageFactory
+                .ufmPageFactory()
+                .addDriverPage()
+                .waitForPageLoad()
+            ).toBeTruthy();
+          });
+    
+          await test.step("Search and add drivers", async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .addDriverPage()
+              .searchAndApplyDrivers(testData.driver.inputDrivers);
+          });
+    
+          await test.step("Click on apply drivers", async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .addDriverPage()
+              .clickOnApplyDrivers();
+          });
+          await test.step("Validate KPI landing page is loaded", async () => {
+            expect(
+              await objpageFactory
+                .ufmPageFactory()
+                .openCurrentForecast()
+                .waitForPageLoad()
+            ).toBeTruthy();
+          });
+          await test.step("Click on the views dropdown", async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .clickOnSavedViewsDropdown();
+          });
+          await test.step("switch to a different view", async () => {
+            let savedViewsHeader = await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .getSavedViewsDropdownHeader();
+  
+            await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .switchToFirstView(savedViewsHeader);
+          });
+          await test.step("Validate the unsaved view modal", async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .validateUnsavedViewModal();
+          });
+          await test.step("Validate if the view was overwritten", async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .clickOnOverwrite();
+
+              let savedViewsHeader = await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .getSavedViewsDropdownHeader();
+
+              await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .getSavedViewsDropdownHeader();
+    
+            expect(savedViewsHeader).not.toEqual(viewName);
+          });
+        }
+      );
+      test(
+        `Check if user able to switch between views and cancel changes`,
+        { tag: "@switchView @cancel @Smoke @Regression" },
+        async () => {
+  
+          viewName = `${Math.random().toString(36).substring(2, 10)}_${Date.now()}`;
+  
+          await test.step("Go To UFM Page", async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .organisationSelection()
+              .navigate();
+          });
+  
+          await test.step(`Click on ${testData.orgName} Organization`, async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .organisationSelection()
+              .selectOrganisation(testData.orgName);
+          });
+  
+          await test.step(`Click on Open ${testData.orgName} Forecast`, async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .currentForecast()
+              .clickOpenForecastByName(scenario_details["name"]);
+          });
+
+          await test.step("Select a view tile", async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .selectViewTile();
+          });
+    
+          await test.step("Validate KPI landing page is loaded", async () => {
+            expect(
+              await objpageFactory
+                .ufmPageFactory()
+                .openCurrentForecast()
+                .waitForPageLoad()
+            ).toBeTruthy();
+          });
+    
+          await objpageFactory
+            .ufmPageFactory()
+            .openCurrentForecast()
+            .clickOnDriver();
+    
+          await test.step("Validate driver modal opens upon clicking Drivers chip", async () => {
+            expect(
+              await objpageFactory
+                .ufmPageFactory()
+                .addDriverPage()
+                .waitForPageLoad()
+            ).toBeTruthy();
+          });
+    
+          await test.step("Search and add drivers", async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .addDriverPage()
+              .searchAndApplyDrivers(testData.driver.inputDrivers);
+          });
+    
+          await test.step("Click on apply drivers", async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .addDriverPage()
+              .clickOnApplyDrivers();
+          });
+          await test.step("Validate KPI landing page is loaded", async () => {
+            expect(
+              await objpageFactory
+                .ufmPageFactory()
+                .openCurrentForecast()
+                .waitForPageLoad()
+            ).toBeTruthy();
+          });
+          await test.step("Click on the views dropdown and switch view", async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .clickOnSavedViewsDropdown();
+            
+            let savedViewsHeader = await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .getSavedViewsDropdownHeader();
+
+              await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .switchToFirstView(savedViewsHeader);
+
+              await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .validateUnsavedViewModal();
+
+              await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .clickOnCancel();
+
+             let newSavedViewsHeader = await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .getSavedViewsDropdownHeader();
+    
+            expect(newSavedViewsHeader).toEqual(savedViewsHeader);
+          });
+        }
+      );
+
 });
