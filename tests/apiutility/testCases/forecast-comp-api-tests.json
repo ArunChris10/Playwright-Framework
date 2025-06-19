@@ -1,47 +1,28 @@
 {
     "validate_forecast_comparison": [
         {
-            "testStep": "Get forecast for KPI filters",
+            "testStep": "Create forecast",
             "environment": "qa",
             "labels": [
                 "smoke",
                 "forecast_comp",
-                "IBGROW-39033",
-                "empty_data"
+                "IBGROW-38568"
             ],
             "service": "coreService",
-            "uri": "getForecast",
-            "testName": "Get forecast for KPI filters for forecast comparison",
+            "uri": "createUserScenario",
+            "testName": "Create forecast for forecast comparison",
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "unit": "Millions",
-                "dim_id": 12,
-                "dim_val_id": 120006,
+                "type": 3,
+                "name": "Forecast Automation",
                 "classification_id": 12,
-                "template_id": 1,
-                "filters": [],
-                "additional_filters": {
-                    "template_include_headers": [
-                        {
-                            "name": "vs LY",
-                            "format": "percent"
-                        },
-                        {
-                            "name": "vs Plan",
-                            "format": "absolute"
-                        }
-                    ]
-                }
+                "dim_id": 11,
+                "dim_val_id": 110009
             },
-            "assertions": [
-                {
-                    "status": 200
-                }
-            ],
             "extractFirst": {
-                "getkpi2_scenario_id": "rowData.scenarioId",
-                "getkpi2_scenario_version": "rowData.scenarioVersion"
+                "getkpi2_scenario_id": "scenario.scenario_id",
+                "getkpi2_scenario_version": "scenario.scenario_version_timestamp"
             }
         },
         {
