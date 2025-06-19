@@ -144,9 +144,9 @@ export class LandingPageValidation {
   }
 
   /**
-   * Private helper for search validation.
+   * Helper for search validation.
    */
-  private async _verifySearch(searchterm: string, dataFieldAttribute: string, exact: boolean, negative: boolean = false) {
+  async _verifySearch(searchterm: string, dataFieldAttribute: string, exact: boolean, negative: boolean = false) {
     await this.searchBox.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     await this.searchBox.click();
     await this.searchBox.fill(searchterm);
@@ -161,26 +161,35 @@ export class LandingPageValidation {
     }
 
     if (negative) {
-      // Negative search: ensure no results contain the search term
       if (resultElements.length === 0) {
         expect(resultElements.length).toBe(0);
+        return true;
       } else {
         for (const value of searchValues) {
           expect(value).not.toContain(searchterm);
         }
+        return true; 
       }
     } else {
-      // Positive search: ensure all results match or contain the search term
       if (resultElements.length > 0) {
+        let found = false;
         for (const value of searchValues) {
           if (exact) {
+            if (value === searchterm || (value && value.includes(searchterm))) {
+              found = true;
+            }
             expect(value === searchterm || (value && value.includes(searchterm))).toBeTruthy();
           } else {
+            if (value && value.includes(searchterm)) {
+              found = true;
+            }
             expect(value).toContain(searchterm);
           }
         }
+        return found;
       } else {
         Logger.log(`No rows found for the search term: ${searchterm}`);
+        return false;
       }
     }
   }
