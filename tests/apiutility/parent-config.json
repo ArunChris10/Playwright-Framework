@@ -109,7 +109,6 @@
     "computeSsdm": "/sandbox/v1/compute-scenario",
     "getDriversListSSDM": "/sandbox/v1/drivers",
     "publishSSDMActivatedDataset":"sandbox/v1/publish-node-edge-document",
-    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions",   
     "createScenario":"/create-user-scenario",
     "sendToBAReview":"/adjustment/status/v2",     
     "getIndividualStatus":"get-individual-status"
