@@ -13,6 +13,11 @@ export class ExcelPage {
   readonly uploadTypeCombobox: Locator;
   readonly businessArea: Locator;
   readonly drivers: Locator;
+  readonly filters: Locator;
+  readonly channel: Locator;
+  readonly storeCoreMP: Locator;
+  readonly stores: Locator;
+  readonly digital: Locator;
   readonly dateRangePicker: Locator;
   readonly dimensions: Locator;
   readonly btnHasText: Function;
@@ -28,6 +33,7 @@ export class ExcelPage {
   readonly backToFiltersNavigation: Locator;
   readonly uploadTextField: Locator;
   readonly uploadTextArea: Locator;
+  readonly bannerDismiss: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -55,6 +61,11 @@ export class ExcelPage {
       this.mainIframe.locator("button").filter({ hasText: text });
     this.savedView = this.mainIframe.getByText("Saved Views");
     this.drivers = this.mainIframe.getByText("Drivers");
+    this.drivers = this.mainIframe.getByText("Filters");
+    this.drivers = this.mainIframe.getByText("Channel");
+    this.storeCoreMP = this.mainIframe.getByTestId("ChevronDown-Store_Core_MP");
+    this.stores = this.mainIframe.getByTestId("ChevronDown-Stores");
+    this.digital = this.mainIframe.getByTestId("ChevronDown-Digital");
     this.scenario = this.mainIframe.getByText("Scenarios");
     this.loadDataButton = this.mainIframe.getByTestId("LoadDataButton");
     this.addComparedScenario = this.mainIframe.getByText("Add", {
@@ -76,6 +87,7 @@ export class ExcelPage {
     );
     this.clearBtn = this.mainIframe.getByTestId("ClearButton");
     this.resetDateRange = this.mainIframe.getByText("Reset date range");
+    this.bannerDismiss = this.mainIframe.getByText("Dismiss");
     this.uploadTextField = this.mainIframe.locator('input[type="text"]');
     this.uploadTextArea = this.mainIframe.locator("textarea");
   }
@@ -173,6 +185,16 @@ export class ExcelPage {
 
   async selectDrivers() {
     await this.drivers.click();
+    await this.page.waitForTimeout(1000);
+  }
+
+  async selectFilters() {
+    await this.filters.click();
+    await this.channel.click();
+    await this.storeCoreMP.click();
+    await this.stores.click();
+    await this.digital.click();
+    await this.mainIframe.getByRole("checkbox", { name: "Digital" }).click();
     await this.page.waitForTimeout(1000);
   }
 
