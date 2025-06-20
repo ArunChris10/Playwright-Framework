@@ -162,7 +162,7 @@ export function interpolateHeaders(value: any): any {
 
 
 export function interpolate(value: any): any {
-  if (typeof value === 'string' && !value.includes("AsObject")) {
+  if (typeof value === 'string' && !value.includes("AsObject") &&!value.includes('-roundoff')) {
     return value.replace(/\{\{(.*?)\}\}/g, (_, key) => {
       const trimmedKey = key.trim();
       if (globalStore.getValue) {
@@ -171,7 +171,7 @@ export function interpolate(value: any): any {
       return globalStore[trimmedKey] ?? '';
     });
   }
-  else if (typeof value === 'string' && value.includes("AsObject")) {
+  else if (typeof value === 'string' && (value.includes("AsObject") || value.includes('-roundoff}}'))) {
     const fullMatch = value.match(/^{{\s*(.*?)\s*}}$/);
     if (fullMatch) {
       // Whole string is a placeholder, return raw value from globalStore
