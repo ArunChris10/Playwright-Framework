@@ -453,14 +453,13 @@ export async function runFunctions(functionName: string, params: any, payload?) 
     case 'replaceNodeNames':
       let param1 = interpolate(params[0][0])
       let param2 = interpolate(params[0][1])
-      await replaceNodeNames(param1, param2);
+      await replaceNodeNames(param1, param2,false);
       break;
     case 'validateReportWithUFM':
       let reportNodesDataAsObject = interpolate(params[0][0])
       let UfmDataAsObject = interpolate(params[0][1])
       await validateReportWithUFM(reportNodesDataAsObject, UfmDataAsObject)
-      let reportNodesDataAsObjectForBQ = interpolate("{{reportNodesDataAsObject}}")
-      await validateNodesDataWithBQ(reportNodesDataAsObjectForBQ, "higherGrain")
+      break;
     default:
       throw new Error(`Function "${functionName}" is not recognized.`);
   }

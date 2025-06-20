@@ -104,9 +104,17 @@ type MappingEntry = {
   child_name: string;
 };
 
-export async function replaceNodeNames(json1: any[], json2: any): Promise<NodeEntry[]> {
-  const outputPathWithoutReplacement = path.join(__dirname, 'null_reportWithoutReplacement.json');
-  fs.writeFileSync(outputPathWithoutReplacement, JSON.stringify(json1, null, 2), 'utf-8');
+export async function replaceNodeNames(json1: any[], json2: any, isReturning?: boolean): Promise<NodeEntry[]> {
+  let isHigherGrain: boolean = true;
+  if (json1[0].nodeName.includes("Channel")){
+    isHigherGrain = false
+  }
+  let fileprefix = isHigherGrain ? 'higherGrain' : 'lowerGrain';
+
+  if (!isReturning) {
+     const outputPathWithoutReplacement = path.join(__dirname, fileprefix + '-null_reportWithoutReplacement.json');
+    fs.writeFileSync(outputPathWithoutReplacement, JSON.stringify(json1, null, 2), 'utf-8');
+  }
   const idToNameMap = new Map<string, string>();
 
   // Flatten json2
@@ -158,11 +166,13 @@ export async function replaceNodeNames(json1: any[], json2: any): Promise<NodeEn
   });
 
   // Output file
-  const outputPath = path.join(__dirname, 'null_report.json');
+  if (!isReturning) {
+  const outputPath = path.join(__dirname, fileprefix+'-null_report.json');
   fs.writeFileSync(outputPath, JSON.stringify(updatedJson, null, 2), 'utf-8');
   console.log(`Report written to: ${outputPath}`);
   console.log("================================================== Report Preview ==================================================");
-  return updatedJson;
+  }
+return updatedJson;
 }
 
 type ReportEntry = {
@@ -252,6 +262,11 @@ export async function validateReportWithUFM(
   responseRows: any[]
 ){
   const reportResult: Record<string, unknown>[] = [];
+  let isHigherGrain: boolean = true;
+  if (nodes[0].nodeName.includes("Channel")){
+    isHigherGrain = false
+  }
+  let fileprefix = isHigherGrain ? 'higherGrain' : 'lowerGrain';
   let responseData = responseRows[0].rowData
   const result = nodes.map((node) => {
       const driverMatch = responseData.find((res) =>
@@ -288,9 +303,9 @@ export async function validateReportWithUFM(
         }
       });
   });
-  const outputPath = path.join(__dirname, 'UFMExcel_report.json');
+  const outputPath = path.join(__dirname, fileprefix+ ' UFMExcel_report.json');
   let mappingdata = interpolate("{{dimensionDataAsObject}}")
-  let mappedReport =await replaceNodeNames(reportResult,mappingdata);
+  let mappedReport =await replaceNodeNames(reportResult,mappingdata,true);
   fs.writeFileSync(outputPath, JSON.stringify(mappedReport, null, 2), 'utf-8');
   //let htmlReport = await generateHTMLReport(mappedReport);
   //const outputPathHTMLReport = path.join(__dirname, 'UFMExcel_report.html');
