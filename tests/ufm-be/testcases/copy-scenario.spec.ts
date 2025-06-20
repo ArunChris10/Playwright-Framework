@@ -35,7 +35,8 @@ test.describe("Copy Scenario API E2E", () => {
       await test.step("Fetch scenarios with forecast status Draft or Change Requested", async () => {
         const scenarios = await ScenarioUtils.getScenariosWithStatus(
           request,
-          editableStatus
+          editableStatus,
+          "MERCHANDISING OPERATIONS"
         );
         expect(scenarios.length).toBeGreaterThan(1);
         sourceScenario = scenarios[0];
@@ -131,12 +132,13 @@ test.describe("Copy Scenario API E2E", () => {
       });
 
       await test.step("Poll target scenario status until copy completes or max attempts reached", async () => {
-        let isProcessComplete = ScenarioUtils.pollScenariosStatus(
+        let isProcessComplete = await ScenarioUtils.pollScenariosStatus(
           request,
           10, // retry attempts
           5000, // interval in milliseconds;
           targetScenario,
-          editableStatus
+          editableStatus,
+          "MERCHANDISING OPERATIONS"
         );
         expect(isProcessComplete).toBeTruthy();
       });
