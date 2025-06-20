@@ -67,6 +67,7 @@ export class OpenCurrentForecast {
   readonly detailsAfterExpandingChevronIcon: Locator
   readonly customGrowthRateInput: Locator
   readonly growthRatePercentInput: Locator
+  readonly copyForecast: Locator
 
   constructor(page: Page) {
     this.page = page;
@@ -78,9 +79,7 @@ export class OpenCurrentForecast {
     this.KPITable = page.getByTestId('forecast-table')
     this.saveChangesLoader = page.locator('//div[contains(@class,"Adjustment")]//span[@role="status"]')
     this.customCheckbox = '//div[contains(@class,"editable-cell-border")]//span'
-    this.actionButton = this.page.locator(
-      '//div[@class="table-container"]//button[contains(text(),"Actions")]'
-    );
+    this.actionButton = page.getByText('Actions');
     this.chooseDifferentDriverButton = page.getByText(
       "Create new view"
     );
@@ -148,6 +147,7 @@ export class OpenCurrentForecast {
     this.viewDriver = this.page.locator('//div[contains(@class,"chip-alignment")]//child::button[contains(@class,"drivers")]');
     this.customGrowthRateInput = this.page.locator("//*[@value='CUSTOM']")
     this.growthRatePercentInput = this.page.locator("//input[@data-testid='projectionmethod-growthrate-percentage-id']")
+    this.copyForecast = page.getByText("Copy forecast data");
   }
 
   async clickOnOpenButton() {

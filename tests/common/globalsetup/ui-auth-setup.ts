@@ -36,7 +36,7 @@ setup("Login to UFM using LabCredentials", { tag: "@UFM , @IBG , @faketoken" }, 
   }
   const loginPage = new LoginPage(page);
   await loginPage.login(ufmUser);
-  await page.waitForURL(/appBaseURL/);
+  await page.waitForURL(new RegExp(`^${appBaseURL}`));
   const homePage: Home = new Home(page);
   await homePage.checkIfHomepageIsVisible();
   await homePage.open("Unified Financial Model")

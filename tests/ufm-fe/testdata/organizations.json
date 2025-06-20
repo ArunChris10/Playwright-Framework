@@ -1,0 +1,40 @@
+{
+    "organizations": [
+        {
+            "name": "Customer & revenue",
+            "lob": "CONNECT"
+        },
+        {
+            "name": "Ecommerce",
+            "lob": "ECOMMERCE"
+        },
+        {
+            "name": "Health & wellness",
+            "lob": "OPTICAL"
+        },
+        {
+            "name": "Operations",
+            "lob": "FUEL"
+        },
+        {
+            "name": "Segment",
+            "lob": "SEGMENT"
+        },
+        {
+            "name": "Supply chain",
+            "lob": "FULFILLMENT"
+        },
+        {
+            "name": "Merchandising finance",
+            "lob": "SCHEDULED"
+        },
+        {
+            "name": "Merchandising operations",
+            "lob": "MERCHOPS"
+        },
+        {
+            "name": "Demand",
+            "lob": "CONSOLIDATED DEMAND"
+        }
+    ]
+}
