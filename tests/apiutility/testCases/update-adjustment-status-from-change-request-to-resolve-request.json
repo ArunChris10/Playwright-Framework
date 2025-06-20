@@ -1,0 +1,439 @@
+{
+  "Validation update adjustment status from change request to resolve request": [
+    {
+      "testStep": "Get a forecast to delete before proceding for Merch ops",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS2","IBG-39617","IBG-39616"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get a forecast to delete before proceding for Merch ops",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "MerchOpsDeletescenarioId_multipltLayerSave": {
+          "conditions": [
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
+        "MerchOpsDeletescenarioVersion_multipltLayerSave": {
+          "conditions": [
+          
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
+      }
+    },
+    {
+      "testStep": "Delete MerchOps SBA forecast before proceding_multiLayerSave",
+      "environment": "qa",
+      "labels": [
+        "smoke","MS2","IBG-39617","IBG-39616"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Delete a MerchOps MerchOps before proceding_multiLayerSave",
+      "queryParams": "/{{MerchOpsDeletescenarioId_multipltLayerSave}}/{{MerchOpsDeletescenarioVersion_multipltLayerSave}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110029
+      }
+    },
+    {
+      "testStep": "Create Forecast Scenario for MerchOps SBA_multiLayerSave",
+      "environment": "qa",
+      "labels": [
+       "smoke","MS2","IBG-39617","IBG-39616"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast- MerchOps SBA_multiLayerSave",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "MerchOps_Update_Adjustment_status_{{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110029
+      },
+      "extract": {
+        "MerchOps_scenario_id": "scenario.scenario_id",
+        "MerchOps_scenario_version": "scenario.scenario_version_timestamp"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of MerchOps FORECAST_multiLayerSave",
+      "environment": "qa",
+      "labels": [
+        "smoke","MS2","IBG-39617","IBG-39616"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of MerchOps FORECAST_multiLayerSave",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "MerchOps_Update_Adjustment_status_{{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "Calculate Forecast to create adjustment",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS2","IBG-39617","IBG-39616"
+      ],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Calculate Forecast for_multiLayerSave-Layer1",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{MerchOps_scenario_id}}",
+        "dim_val_id": 110029,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "momerchandisesales",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 150
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1747131515456
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Save Adjustment",
+      "environment": "qa",
+      "labels": [
+        "smoke","MS2","IBG-39617","IBG-39616"
+      ],
+      "service": "coreService",
+      "uri": "saveAdjustment",
+      "testName": "Verify Save works_mutliLayerSave-Layer1",
+      "queryParams": "",
+      "method": "PATCH",
+      "payload": {
+        "adjustment_metadata": {
+          "adjustment_name": "test Adjustment",
+          "adjustment_reason": "",
+          "adjustment_type": 73,
+          "is_duplicated": false,
+          "is_update": false,
+          "is_create": true,
+          "adjustment_edits": 3,
+          "scenario_id": "{{MerchOps_scenario_id}}",
+          "scenario_version_timestamp": "{{MerchOps_scenario_version}}"
+        },
+        "allocation_request": {
+          "display_nodes": [],
+          "scenario_id": "{{MerchOps_scenario_id}}",
+          "dim_val_id": 110029,
+          "dim_id": 11,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "momerchandisesales",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 150
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+        },
+        "dim_val_id": 110029
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "New adjustment created successfully!!",
+            "jsonPath2": "adjustment_metadata.adjustment_name",
+            "value2": "test Adjustment"
+          },
+          "assertNotNull": {
+            "jsonPath1": "adjustment_metadata.adjustment_id",
+            "jsonPath2": "adjustment_metadata.created_by",
+            "jsonPath3": "adjustment_metadata.created_at"
+          }
+        }
+      ],
+      "extract": {
+        "level1_save_adjustmentId": "adjustment_metadata.adjustment_id"
+      }
+    },
+    {
+      "testStep": "Send Forecast Scenario to BA Review for UFM Merchandising operations org MO_MERCHOPS forecast",
+      "testName": "Validate Send Forecast Scenario to BA Review UFM Merchandising operations org  MO_MERCHOPS forecast",
+      "environment": "dev",
+      "labels": ["smoke", "MS2","IBG-39617","IBG-39616"],
+      "service": "coreService",
+      "uri": "sendToBAReview",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario":{"scenario_id":"{{MerchOps_scenario_id}}",
+        "scenario_version":"{{MerchOps_scenario_version}}",
+        "scenario_status":22,"dim_id":11,"dim_val_id":110029}},
+     
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of UFM Merchandising operations org MO_MERCHOPS forecast",
+      "environment": "dev",
+      "labels": [
+        "smoke","MS2","IBG-39616","IBG-39617"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of UFM Merchandising operations org MO_MERCHOPS forecast",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "classification_id": 12,
+        "template_id": 2,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "MerchOps_Update_Adjustment_status_{{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 22,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    }
+  ,
+  {
+    "testStep": "update the status to change request through BA screen",
+    "environment": "qa",
+    "labels": [
+      "smoke","MS2","IBG-39617","IBG-39616"
+    ],
+    "service": "coreService",
+    "uri": "sendToBAReview",
+    "testName": "update the status to change request through BA screen",
+    "queryParams": "",
+    "method": "POST",
+    "payload": {
+        "adjustments":{
+        "adjustment_id":"{{level1_save_adjustmentId}}",
+        "status":25,"comments":"Update status to changes requested"}
+    },
+    "assertions": [
+      {
+        "status": 200
+      },
+      {
+        "assertEquals": {
+          "jsonPath1": "adjustment_status.initial_status",
+          "value1": 21,
+          "jsonPath2": "adjustment_status.end_status",
+          "value2": 25,
+          "jsonPath3": "adjustment_status.comments",
+          "value3": "Update status to changes requested"
+        }
+      }
+    ]
+  },
+  {
+    "testStep": "Get all adjustmnet details after updating the status to change request",
+    "environment": "qa",
+    "labels": [
+      "smoke","MS2","IBG-39617","IBG-39616"
+    ],
+    "service": "coreService",
+    "uri": "saveAdjustment",
+    "testName": "Get all adjustmnet details",
+    "queryParams": "?scenario_id={{MerchOps_scenario_id}}&scenario_version_timestamp={{MerchOps_scenario_version}}",
+    "method": "GET",
+    "payload": {},
+    "assertions": [
+      {
+        "status": 200
+      }
+    ],
+    "extractRelative": {
+      "Adjustment_status_after_BA_send_to_change_request": {
+          "whereKey": "adjustment_id",
+          "equals": "{{level1_save_adjustmentId}}",
+          "extractKey": "adjustment_status"
+        }
+      },
+      "validateExtract": {
+        "Adjustment_status_after_BA_send_to_change_request":25
+  }
+}    ,
+{
+  "testStep": "update the adjustment status to resolve request through LOB screen",
+  "environment": "qa",
+  "labels": [
+    "smoke","MS2","IBG-39617","IBG-39616"
+  ],
+  "service": "coreService",
+  "uri": "sendToBAReview",
+  "testName": "update the status to resolve request through LOB screen",
+  "queryParams": "",
+  "method": "POST",
+  "payload": {
+    "adjustments": {
+      "adjustment_id":"{{level1_save_adjustmentId}}",
+      "status":27,
+      "comments":"Update status to resolve request"
+      },
+      "scenario":
+      {"scenario_status":21,
+      "scenario_id":"{{MerchOps_scenario_id}}",
+      "scenario_version":"{{MerchOps_scenario_version}}"
+      }
+      },
+  "assertions": [
+    {
+      "status": 200
+    },
+    {
+      "assertEquals": {
+        "jsonPath1": "adjustment_status.initial_status",
+        "value1": 25,
+        "jsonPath2": "adjustment_status.end_status",
+        "value2": 27
+      }
+    }
+  ]
+}
+  ]
+}
