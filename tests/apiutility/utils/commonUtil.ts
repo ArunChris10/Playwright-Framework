@@ -5,7 +5,9 @@ import {AssertionEntry,ApiTestCase} from '../types/api.types';
 import { findAllValuesByKey} from '../utils/jsonUtils';
 import fs from 'fs';
 import path from 'path';
-import { awaitvalidateDriversContainsData as validateDriversContainsData, replaceNodeNames } from '../helperFunctions/helperFunctions'
+import { awaitvalidateDriversContainsData as validateDriversContainsData, replaceNodeNames,validateReportWithUFM } from '../helperFunctions/helperFunctions'
+
+import { validateNodesDataWithBQ } from '../helperFunctions/bigQueryHelper';
 
 export function generateRandomNumber(length: number): number {
   if (length <= 0) {
@@ -453,6 +455,12 @@ export async function runFunctions(functionName: string, params: any, payload?) 
       let param2 = interpolate(params[0][1])
       await replaceNodeNames(param1, param2);
       break;
+    case 'validateReportWithUFM':
+      let reportNodesDataAsObject = interpolate(params[0][0])
+      let UfmDataAsObject = interpolate(params[0][1])
+      await validateReportWithUFM(reportNodesDataAsObject, UfmDataAsObject)
+      let reportNodesDataAsObjectForBQ = interpolate("{{reportNodesDataAsObject}}")
+      await validateNodesDataWithBQ(reportNodesDataAsObjectForBQ, "higherGrain")
     default:
       throw new Error(`Function "${functionName}" is not recognized.`);
   }
