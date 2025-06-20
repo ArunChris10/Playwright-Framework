@@ -49,6 +49,10 @@
     "testCases/progress-status-ssdm.api-tests.json",
     "testCases/calculate-additive-nodes-constant-value.json",
     "testCases/calculate-additive-nodes-percent-rolling.json",
+    "testCases/calculate-saveajustment-multiLayer-test.json",
+    "testCases/copy-scenario-multiple-targets-test.json",
+    "testCases/copy-scenario-submitted-scenario-source-test.json",
+    "testCases/copy-scenario-historical-scenario-source-test.json",
     "testCases/validator/validator.json",
     "testCases/calculate-saveajustment-multiLayer-test.json"
    "testCases/calculate-saveajustment-multiLayer-test.json",
@@ -61,6 +65,14 @@
       "stg": "https://scenario.stg.ibg.walmart.com"
     },
     "get-demand-scenario-forecast-by-slot": "/api/demandscenarios/currentDemand/"
+  },
+  "utilityService": {
+    "baseURL": {
+      "qa": "https://ibg-ufm-utility-service.qa.ibg.walmart.com",
+      "dev": "https://ibg-ufm-utility-service.dev.ibg.walmart.com",
+      "stg": "https://ibg-ufm-utility-service.stg.ibg.walmart.com"
+    },
+    "copyScenario": "/v1/copy-scenario/"
   },
   "coreService": {
     "baseURL": {
@@ -93,6 +105,7 @@
     "getDimensions":"/metadata/dimensions/mappings",    
     "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
     "applyChangesOnSSDM":"/sandbox/v1/get-mykpi",
+    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions",
     "createUserScenario": "/scenario/create-user-scenario",
     "computeSsdm": "/sandbox/v1/compute-scenario",
     "getDriversListSSDM": "/sandbox/v1/drivers",
@@ -101,6 +114,7 @@
     "createScenario":"/create-user-scenario",
     "sendToBAReview":"/adjustment/status/v2",     
     "getIndividualStatus":"get-individual-status"
+
   },
   "notificationService": {
     "baseURL": {
