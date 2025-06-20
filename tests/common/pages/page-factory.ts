@@ -8,6 +8,7 @@ import { SSDMPageFactory } from "../../ssdm-fe/pages/ssdm-page-factory";
 import { ForecastComparisonPageFactory } from "../../ufm-fe/pages/forecast-compare.page";
 import { ExcelPage } from "../../excel-fe/pages/excel.page";
 import { LoginExcelPage } from "./login-excel.page";
+import {DriversPage} from "../../excel-fe/pages/drivers.page";
 
 export class PageFactory {
     private readonly page: Page;
@@ -46,6 +47,10 @@ export class PageFactory {
 
     excel() {
         return new ExcelPage(this.page);
+    }
+
+    excelDrivers() {
+        return new DriversPage(this.page)
     }
 
     quit() {
