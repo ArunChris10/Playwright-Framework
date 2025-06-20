@@ -1,0 +1,199 @@
+{
+  "Validate Forecast month is actual post MEC ": [
+    {
+      "testStep": "Create Forecast Scenario for Optical SBA_PostMECActualize",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast- Optical SBA_PostMECActualize",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "apiUtilityAutomation {{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110016
+      },
+      "extract": {
+        "OpticalScenarioIdToView": "scenario.scenario_version_timestamp",
+        "OpticalScenarioVersionToView": "scenario.scenario_id"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Optical FORECAST_PostMECActualize",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Optical FORECAST_PostMECActualize",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120003,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "apiUtilityAutomation {{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "runInParallel": false,
+      "testStep": "Get Visual Indicator Actual Sync month",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1",
+        "IBGROW-33386",
+        "IBGROW-37431"
+      ],
+      "service": "coreService",
+      "uri": "visualIndicator",
+      "testName": "Get Visual Indicator Actual Sync month",
+      "queryParams": "?classification_id=12",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "actualSyncTime": {
+          "whereKey": "dataset_type",
+          "equals": "Actuals updated",
+          "extractKey": "actual_sync_time"
+        }
+      },
+      "convertStringToInteger": {
+        "VisualIndicatorForecastSyncMonth": "{{actualSyncTime}}"
+      }
+    },
+    {
+      "testStep": "Validate expected month to be actual post MEC",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-39768",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Validate expected month to be actual post MEC - GetKpi",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{OpticalScenarioIdToView}}",
+        "scenario_version": "{{OpticalScenarioVersionToView}}",
+        "dim_id": 11,
+        "dim_val_id": 110026,
+        "classification_id": 12,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "warehouseallowances_input"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            },
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": true
+            },
+            {
+              "name": "Value",
+              "editable": true
+            }
+          ],
+          "month": [
+            "{{dynamicMonth-3}}",
+            "{{dynamicMonth-2}}",
+            "{{dynamicMonth-1}}",
+            "{{dynamicMonth}}",
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}"
+          ]
+        },
+        "isApplied": true
+      },
+      "assertions": {
+        "status": 200
+      },
+      "extractRelative": {
+        "getSyncMonthHeader": {
+          "whereKey": "driver",
+          "equals": "warehouseallowances_input",
+          "extractKey": "rowData.{{VisualIndicatorForecastSyncMonth}}.month_alias"
+        },
+        "getNextToSyncMonthHeader": {
+          "whereKey": "driver",
+          "equals": "warehouseallowances_input",
+          "extractKey": "rowData.{{VisualIndicatorForecastSyncMonth+1}}.month_alias"
+        }
+      },
+      "validateExtract": {
+        "getSyncMonthHeader": "actuals",
+        "getNextToSyncMonthHeader": "forecast"
+      }
+    }
+    
+  ]
+}
