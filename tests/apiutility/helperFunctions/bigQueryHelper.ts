@@ -91,13 +91,13 @@ export class BigQueryHelper {
 
 export async function validateNodesDataWithBQ(datObj: any[],queryToExecute:string) {
     let results : any[] = []
-    let higherGrainQuery = `SELECT sum(value) FROM \`wmt-ibg-qa.ibg_ufm.ALL_SCENARIOS\`
+    let higherGrainQuery = `SELECT value FROM \`wmt-ibg-qa.ibg_ufm.ALL_SCENARIOS\`
                             where node_var_name = '{{nodeName}}'
                             AND month = {{FY}}
                             And scenario_id = {{scenario_id}}
                             and version = {{version}}`
 
-    let lowerGrainQuery = `SELECT sum(value) FROM \`wmt-ibg-qa.ibg_ufm.ALL_SCENARIOS\`
+    let lowerGrainQuery = `SELECT value FROM \`wmt-ibg-qa.ibg_ufm.ALL_SCENARIOS\`
                             where node_var_name = '{{nodeName}}'
                             AND month = {{FY}}
                             And scenario_id = {{scenario_id}}
@@ -155,19 +155,23 @@ export async function validateNodesDataWithBQ(datObj: any[],queryToExecute:strin
         console.log('BigQueryHelper created successfully');
         try{
         const rows = await bq.runQuery(queryString);
-            if (!(rows.length > 0)){
-            results.push({
-            nodeName: nodeName,
-            emptyFields: emptyFY,
-            dataMatches: "Data does not exists in GCP and Excel plugin"
-            });
-            }
-            else if (!(rows.length < 0)){
+            if ((rows.length > 0)){
             results.push({
             nodeName: nodeName,
             emptyFields: emptyFY,
             dataMatches: "Data exists in GCP but not in excel plugin"
             });
+            console.log('Data exists in BQ but not in excel plugin for query : ', queryString);
+            console.log('Data in BQ:', rows);  
+          }
+            else if ((rows.length <= 0)){
+            results.push({
+            nodeName: nodeName,
+            emptyFields: emptyFY,
+            dataMatches: "Data does not exists in BQ and Excel plugin"
+            });
+            console.log('No data found for query:', queryString);
+            console.log('Data in BQ:', rows); 
             }
         console.log('Query executed successfully:', queryString);
         } catch (error) {
