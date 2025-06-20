@@ -51,6 +51,8 @@
     "testCases/calculate-additive-nodes-percent-rolling.json",
     "testCases/validator/validator.json",
     "testCases/calculate-saveajustment-multiLayer-test.json"
+   "testCases/calculate-saveajustment-multiLayer-test.json",
+    "testCases/update-adjustment-status-from-change-request-to-resolve-request.json"
   ],
   "currentDemandService": {
     "baseURL": {
