@@ -82,6 +82,7 @@ export interface ParentConfig {
   nexusService: { baseURL: { [key: string]: string }, testCaseName: string };
   currentDemandService: { baseURL: { [key: string]: string }, testCaseName: string };
   dataForgeService: { baseURL: { [key: string]: string }, testCaseName: string };
+  utilityService: { baseURL: { [key: string]: string }, testCaseName: string };
   ForceAllParallel : boolean;
   ForceAllSerial : boolean;
 }

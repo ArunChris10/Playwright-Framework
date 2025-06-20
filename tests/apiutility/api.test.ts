@@ -113,6 +113,8 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
             baseUrl = parentConfig.currentDemandService.baseURL[process.env.envName];
           } else if (step.service === "dataForgeService") {
             baseUrl = parentConfig.dataForgeService.baseURL[process.env.envName];
+          } else if (step.service === "utilityService"){
+            baseUrl = parentConfig.utilityService.baseURL[process.env.envName];
           }
 
           const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);  
@@ -128,7 +130,6 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
 
           let responseBody = null;
           let payload = await postProcessInterpolatedPayload(step.payload);
-
           payload = interpolateObject(payload);
 
           console.log("Request Payload:");
@@ -321,10 +322,14 @@ function postProcessInterpolatedPayload(obj: any): any {
   for (const key in obj) {
     const value = obj[key];
 
-    if (key.includes('scenario_id') || key.includes('scenario_version') || key.includes('"scenario_version_timestamp"')) {
+    if ((key.includes('scenario_id') || key.includes('scenario_version') || key.includes('"scenario_version_timestamp"')) && !key.includes('-tostring')){
       const rawValue = globalStore.getValue(value.replace('{{', '').replace('}}', ''));
       const numericValue = Number(rawValue);
       processed[key] = isNaN(numericValue) ? rawValue : numericValue;
+    } else if (key.includes('-tostring')) {
+      const newKey = key.split("-")[0];
+      const rawValue = globalStore.getValue(value.replace('{{', '').replace('}}', ''));
+      processed[newKey] = rawValue ? rawValue.toString() : rawValue;
     } else if (Array.isArray(value)) {
       processed[key] = value.map(item => {
         if (typeof item === 'string' && item.includes("scenario_id")) {
