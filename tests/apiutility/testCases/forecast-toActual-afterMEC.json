@@ -20,8 +20,8 @@
         "dim_val_id": 110016
       },
       "extract": {
-        "OpticalScenarioIdToView": "scenario.scenario_version_timestamp",
-        "OpticalScenarioVersionToView": "scenario.scenario_id"
+        "OpticalScenarioVersionToView": "scenario.scenario_version_timestamp",
+        "OpticalScenarioIdToView": "scenario.scenario_id"
       },
       "assertions": [
         {
@@ -84,8 +84,7 @@
       "labels": [
         "smoke",
         "MS1",
-        "IBGROW-33386",
-        "IBGROW-37431"
+        "IBGROW-39768"
       ],
       "service": "coreService",
       "uri": "visualIndicator",
@@ -104,7 +103,7 @@
           "extractKey": "actual_sync_time"
         }
       },
-      "convertStringToInteger": {
+      "getNextMonth": {
         "VisualIndicatorForecastSyncMonth": "{{actualSyncTime}}"
       }
     },
@@ -125,7 +124,7 @@
         "scenario_id": "{{OpticalScenarioIdToView}}",
         "scenario_version": "{{OpticalScenarioVersionToView}}",
         "dim_id": 11,
-        "dim_val_id": 110026,
+        "dim_val_id": 110016,
         "classification_id": 12,
         "template_id": 3,
         "filters": [],
@@ -181,12 +180,12 @@
         "getSyncMonthHeader": {
           "whereKey": "driver",
           "equals": "warehouseallowances_input",
-          "extractKey": "rowData.{{VisualIndicatorForecastSyncMonth}}.month_alias"
+          "extractKey": "{{actualSyncTime}}.month_alias"
         },
         "getNextToSyncMonthHeader": {
           "whereKey": "driver",
           "equals": "warehouseallowances_input",
-          "extractKey": "rowData.{{VisualIndicatorForecastSyncMonth+1}}.month_alias"
+          "extractKey": "{{VisualIndicatorForecastSyncMonth}}.month_alias"
         }
       },
       "validateExtract": {
@@ -194,6 +193,5 @@
         "getNextToSyncMonthHeader": "forecast"
       }
     }
-    
   ]
 }

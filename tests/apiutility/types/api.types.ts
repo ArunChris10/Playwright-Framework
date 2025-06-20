@@ -57,7 +57,7 @@ export type AssertionEntry =
       extractKey: string;
     };
   };
-  convertStringToInteger?: { [globalVar: string]: string };
+  getNextMonth?: { [globalVar: string]: string };
   labels?: string[];
   runFunctions?: RunFunction[];
   extractObject?: { [key: string]: string };
