@@ -534,22 +534,30 @@
         }
       ],
       "extractRelativeMultipleCondition": {
-        "Projection_Hist_EqualDistbScenariotoDeletescenarioId": {
+        "Projection_GrowthRate_EqualDistbScenariotoDeletescenarioId": {
           "conditions": [
             
             {
               "path": "rowData.owner",
               "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
             }
           ],
           "extractKey": "scenarioId"
         },
-        "Projection_Hist_EqualDistbScenariotoDeletescenarioVersion": {
+        "Projection_GrowthRate_EqualDistbScenariotoDeletescenarioVersion": {
           "conditions": [
             
             {
               "path": "rowData.owner",
               "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
             }
           ],
           "extractKey": "scenarioVersion"
@@ -565,7 +573,7 @@
       "service": "coreService",
       "uri": "Forecast",
       "testName": "Projection_Hist_EqualDistb_Delete a IO forecast before proceding",
-      "queryParams": "/{{Projection_Hist_EqualDistbScenariotoDeletescenarioId}}/{{Projection_Hist_EqualDistbScenariotoDeletescenarioVersion}}",
+      "queryParams": "/{{Projection_GrowthRate_EqualDistbScenariotoDeletescenarioId}}/{{Projection_GrowthRate_EqualDistbScenariotoDeletescenarioVersion}}",
       "method": "DELETE",
       "payload": {
         "dim_id": 11,
