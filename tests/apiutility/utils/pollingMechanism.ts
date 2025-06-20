@@ -1,6 +1,6 @@
 import { APIRequestContext } from '@playwright/test';
 import { findRelativeValue } from './jsonUtils';
-import {response} from '../api.test';
+import {response} from '../../apiutility/types/api.types';
 
 export async function pollForExpectedResponse(
     requestContext: APIRequestContext,

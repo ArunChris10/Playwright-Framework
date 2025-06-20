@@ -37,8 +37,11 @@ export class OpenCurrentForecast {
   readonly savedViewsDropDownHeader: Locator
   readonly saveViewButton: Locator
   readonly saveViewModal: Locator
+  readonly unsaveViewModal: Locator
   readonly saveViewAsModal: Locator
   readonly saveButtonLocatorString: string
+  readonly overwriteButtonLocatorString: string
+  readonly overwriteButton: Locator
   readonly cancelButtonLocatorString: string
   readonly cancelButton: Locator
   readonly saveViewSnackBar: Locator;
@@ -64,6 +67,7 @@ export class OpenCurrentForecast {
   readonly detailsAfterExpandingChevronIcon: Locator
   readonly customGrowthRateInput: Locator
   readonly growthRatePercentInput: Locator
+  readonly copyForecast: Locator
 
   constructor(page: Page) {
     this.page = page;
@@ -75,9 +79,7 @@ export class OpenCurrentForecast {
     this.KPITable = page.getByTestId('forecast-table')
     this.saveChangesLoader = page.locator('//div[contains(@class,"Adjustment")]//span[@role="status"]')
     this.customCheckbox = '//div[contains(@class,"editable-cell-border")]//span'
-    this.actionButton = this.page.locator(
-      '//div[@class="table-container"]//button[contains(text(),"Actions")]'
-    );
+    this.actionButton = page.getByText('Actions');
     this.chooseDifferentDriverButton = page.getByText(
       "Create new view"
     );
@@ -115,11 +117,14 @@ export class OpenCurrentForecast {
     this.savedViewsDropDownMenu = this.page.locator('//div[contains(@class,"SavedViewMenu_menu")]')
     this.saveViewButton = this.page.getByText('Save View')
     this.saveViewModal = this.page.locator('//h2[text()="Save view"]//ancestor::div[@role="dialog"]')
+    this.unsaveViewModal = this.page.locator('//h2[text()="Unsaved Changes"]//ancestor::div[@role="dialog"]')
     this.saveViewAsModal = this.page.locator('//h2[text()="Save view as"]//ancestor::div[@role="dialog"]')
     this.saveButtonLocatorString = "//button[text()='Save']"
-    this.cancelButtonLocatorString = "//button[text()='Cancel']"
+    this.overwriteButtonLocatorString = "//button[@data-testid='close-confirmation-leave-button']"
+    this.cancelButtonLocatorString = "//button[@data-testid='close-confirmation-cancel-button']"
 
     this.saveButton = this.page.locator(this.saveButtonLocatorString)
+    this.overwriteButton = this.page.locator(this.overwriteButtonLocatorString)
     this.cancelButton = this.page.locator(this.cancelButtonLocatorString)
     this.saveViewSnackBar = this.page.getByText("View saved successfully.")
     this.deleteViewSnackBar = this.page.getByText("View deleted successfully.")
@@ -142,6 +147,7 @@ export class OpenCurrentForecast {
     this.viewDriver = this.page.locator('//div[contains(@class,"chip-alignment")]//child::button[contains(@class,"drivers")]');
     this.customGrowthRateInput = this.page.locator("//*[@value='CUSTOM']")
     this.growthRatePercentInput = this.page.locator("//input[@data-testid='projectionmethod-growthrate-percentage-id']")
+    this.copyForecast = page.getByText("Copy forecast data");
   }
 
   async clickOnOpenButton() {
@@ -541,6 +547,22 @@ export class OpenCurrentForecast {
     return await this.saveButton.isDisabled() ? false : true;
 
   }
+  async clickOnOverwrite() {
+    if (!await this.overwriteButton.isDisabled()) {
+      return await this.overwriteButton.click();
+    }
+
+    return await this.overwriteButton.isDisabled() ? false : true;
+
+  }
+  async clickOnCancel() {
+    if (!await this.cancelButton.isDisabled()) {
+      return await this.cancelButton.click();
+    }
+
+    return await this.cancelButton.isDisabled() ? false : true;
+
+  }
 
   async getDriverMonthForecastValue(colIdMap) {
     for (let key of colIdMap.keys()) {
@@ -599,7 +621,7 @@ export class OpenCurrentForecast {
 
     for (let i = 0; i < count; i++) {
       const menuItem = menuItems.nth(i);
-      const menuItemName = await menuItem.getAttribute('name');
+      const menuItemName = await menuItem.textContent();
       if (menuItemName?.trim() !== viewName) {
         await menuItem.click();
         return;
@@ -620,6 +642,13 @@ export class OpenCurrentForecast {
     expect(inputText).toEqual('Untitled View')
     expect(await this.saveViewModal.locator(this.cancelButtonLocatorString).isVisible()).toBeTruthy()
     expect(await this.saveViewModal.locator(this.saveButtonLocatorString).isVisible()).toBeTruthy()
+  }
+  async validateUnsavedViewModal() {
+
+    let unsavedViewModalContainer = this.unsaveViewModal;
+
+    expect(unsavedViewModalContainer).toContainText('Unsaved Changes');
+    expect(unsavedViewModalContainer).toContainText('You have unsaved changes. Are you sure you want to proceed?');
   }
 
   async inputSaveViews(name) {
@@ -681,7 +710,7 @@ async getGlobalViewTilePresence(): Promise<number> {
       this.createNewViewButton.waitFor({ state: 'visible' }),
       this.DriversButton.waitFor({ state: 'visible' }),
   ]);
-  const globalViews = await this.page.locator(`//span[@aria-label="Global view"]`);
+  const globalViews = await this.page.locator(`//span[@aria-label="Shared view"]`);
   const count = await globalViews.count();
   return count;
 }
@@ -701,6 +730,15 @@ async selectViewTile(): Promise<void> {
   ]);
   const privateViews = await this.page.locator(`//span[@aria-label="Private view"]`);
   const firstView = privateViews.first();
+  await firstView.click();
+}
+async selectGlobalViewTile(): Promise<void> {
+  await Promise.race([
+      this.createNewViewButton.waitFor({ state: 'visible' }),
+      this.DriversButton.waitFor({ state: 'visible' }),
+  ]);
+  const globalViews = await this.page.locator(`//span[@aria-label="Shared view"]`);
+  const firstView = globalViews.first();
   await firstView.click();
 }
   async checkDuplicateViewMessage() {

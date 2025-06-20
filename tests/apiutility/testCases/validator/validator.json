@@ -1,6 +1,7 @@
 {
   "validate_drivers_contains_data": [
     {
+      "runInParallel": false,
       "testStep": "Get forecast for scenario id and scenario version",
       "environment": "qa",
       "labels": ["smoke","validator"],

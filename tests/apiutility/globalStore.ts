@@ -79,7 +79,7 @@ export const globalStore = {
     if (key === 'dynamicYear') {
       const currentYear = new Date().getFullYear();
       const minYear = currentYear + 1;
-      const maxYear = currentYear + 60;
+      const maxYear = currentYear + 999;
       return Math.floor(Math.random() * (maxYear - minYear + 1)) + minYear;
     }
 

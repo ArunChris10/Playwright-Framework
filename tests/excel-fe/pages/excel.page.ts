@@ -13,6 +13,11 @@ export class ExcelPage {
   readonly uploadTypeCombobox: Locator;
   readonly businessArea: Locator;
   readonly drivers: Locator;
+  readonly filters: Locator;
+  readonly channel: Locator;
+  readonly storeCoreMP: Locator;
+  readonly stores: Locator;
+  readonly digital: Locator;
   readonly dateRangePicker: Locator;
   readonly dimensions: Locator;
   readonly btnHasText: Function;
@@ -20,6 +25,7 @@ export class ExcelPage {
   readonly scenario: Locator;
   readonly loadDataButton: Locator;
   readonly addComparedScenario: Locator;
+  readonly addDriver: Locator;
   readonly baselineCombobox: Locator;
   readonly comparedWithCombobox: Locator;
   readonly clearBtn: Locator;
@@ -27,6 +33,7 @@ export class ExcelPage {
   readonly backToFiltersNavigation: Locator;
   readonly uploadTextField: Locator;
   readonly uploadTextArea: Locator;
+  readonly bannerDismiss: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -54,15 +61,24 @@ export class ExcelPage {
       this.mainIframe.locator("button").filter({ hasText: text });
     this.savedView = this.mainIframe.getByText("Saved Views");
     this.drivers = this.mainIframe.getByText("Drivers");
+    this.drivers = this.mainIframe.getByText("Filters");
+    this.drivers = this.mainIframe.getByText("Channel");
+    this.storeCoreMP = this.mainIframe.getByTestId("ChevronDown-Store_Core_MP");
+    this.stores = this.mainIframe.getByTestId("ChevronDown-Stores");
+    this.digital = this.mainIframe.getByTestId("ChevronDown-Digital");
     this.scenario = this.mainIframe.getByText("Scenarios");
     this.loadDataButton = this.mainIframe.getByTestId("LoadDataButton");
-    this.addComparedScenario = this.mainIframe.getByText("Add", {exact: true});
-    this.addComparedScenario = this.mainIframe.getByText("Add driver", {exact: true});
-    this.baselineCombobox = this.mainIframe.locator('#baselineCombobox, [aria-labelledby="baselineCombobox"]');
-    this.comparedWithCombobox = this.mainIframe.locator('#comparedWithCombobox, [aria-labelledby="comparedWithCombobox"]');
     this.addComparedScenario = this.mainIframe.getByText("Add", {
       exact: true,
     });
+    this.addDriver = this.mainIframe.getByText("Add driver", { exact: true });
+    this.baselineCombobox = this.mainIframe.locator(
+      '#baselineCombobox, [aria-labelledby="baselineCombobox"]'
+    );
+    this.comparedWithCombobox = this.mainIframe.locator(
+      '#comparedWithCombobox, [aria-labelledby="comparedWithCombobox"]'
+    );
+
     this.baselineCombobox = this.mainIframe.locator(
       '#baselineCombobox, [aria-labelledby="baselineCombobox"]'
     );
@@ -71,6 +87,7 @@ export class ExcelPage {
     );
     this.clearBtn = this.mainIframe.getByTestId("ClearButton");
     this.resetDateRange = this.mainIframe.getByText("Reset date range");
+    this.bannerDismiss = this.mainIframe.getByText("Dismiss");
     this.uploadTextField = this.mainIframe.locator('input[type="text"]');
     this.uploadTextArea = this.mainIframe.locator("textarea");
   }
@@ -102,6 +119,34 @@ export class ExcelPage {
     await this.page.keyboard.press("Enter");
     await this.page.keyboard.type(value);
     await this.page.keyboard.press("Enter");
+  }
+
+  async getCellColor(cell: string): Promise<string | null> {
+    await this.nameBox.click();
+    await this.nameBox.fill(cell);
+    await this.page.keyboard.press("Enter");
+
+    const cellElement = this.mainIframe.locator(`[data-cell="${cell}"]`);
+    await expect(cellElement).toBeVisible();
+
+    return cellElement.evaluate((el) => {
+      function rgbToHex(rgb: string) {
+        const result = rgb.match(/\d+/g);
+        if (!result) return null;
+        return (
+          "#" +
+          result
+            .slice(0, 3)
+            .map((x) => {
+              const hex = parseInt(x).toString(16).toUpperCase();
+              return hex.length === 1 ? "0" + hex : hex;
+            })
+            .join("")
+        );
+      }
+      const bg = window.getComputedStyle(el).backgroundColor;
+      return rgbToHex(bg);
+    });
   }
 
   async getStarted() {
@@ -140,6 +185,16 @@ export class ExcelPage {
 
   async selectDrivers() {
     await this.drivers.click();
+    await this.page.waitForTimeout(1000);
+  }
+
+  async selectFilters() {
+    await this.filters.click();
+    await this.channel.click();
+    await this.storeCoreMP.click();
+    await this.stores.click();
+    await this.digital.click();
+    await this.mainIframe.getByRole("checkbox", { name: "Digital" }).click();
     await this.page.waitForTimeout(1000);
   }
 

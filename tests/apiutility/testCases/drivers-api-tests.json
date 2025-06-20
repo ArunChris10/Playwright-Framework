@@ -26,7 +26,7 @@
                 "utilityObj": {},
                 "isApplied": true
             },
-            "assertion": [
+            "assertions": [
                 {
                     "status": 200
                 },
