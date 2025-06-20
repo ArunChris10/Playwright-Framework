@@ -298,7 +298,7 @@ export async function validateReportWithUFM(
           reportResult.push({
             nodeName: node.nodeName,
             FY: key,
-            isExcelMatchingUFMData: "No Key found in UFM"
+            isExcelMatchingUFMData: "No Key actuals found in UFM"
           });
         }
       });
