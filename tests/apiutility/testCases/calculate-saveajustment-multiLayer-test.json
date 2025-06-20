@@ -166,9 +166,7 @@
         "intervalMs": 5000,
         "timeoutMs": 600000
       }
-    }
-  ],
-  "layer-1 of calculate, save & GetKpi": [
+    },
     {
       "testStep": "Get baseline value before procceding with any adjustment",
       "environment": "qa",
@@ -518,9 +516,7 @@
           "tolerance": 0.2
         }
       }
-    }
-  ],
-  "layer-2 of calculate, save & GetKpi": [
+    },
     {
       "testStep": "Calculate Forecast for_multiLayerSave-Layer2",
       "environment": "qa",
@@ -854,9 +850,7 @@
           "tolerance": 0.2
         }
       }
-    }
-  ],
-  "layer-3 of calculate, save & GetKpi": [
+    },
     {
       "testStep": "Calculate Forecast for_multiLayerSave-Layer3",
       "environment": "qa",
@@ -1190,9 +1184,7 @@
           "tolerance": 0.2
         }
       }
-    }
-  ],
-  "Delete Layer-2 Adjustment and validate GetKpi": [
+    },
     {
       "testStep": "Delete Layer-2 Adjustment",
       "environment": "qa",
