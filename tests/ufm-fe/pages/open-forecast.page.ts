@@ -73,6 +73,10 @@ export class OpenCurrentForecast {
   readonly copyScenarioSourceForecastDropdown: Locator;
   readonly copyScenarioDestinationForecastDropdown: Locator;
   readonly copyDataButton: Locator;
+  readonly dateRangeComponent: Locator;
+  readonly dateRangeDropdown: Locator;
+  readonly monthSelector: Locator;
+  readonly modalBackdrop: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -158,6 +162,10 @@ export class OpenCurrentForecast {
     this.copyScenarioSourceForecastDropdown = page.getByRole('button', { name: 'Source forecast' }).first();
     this.copyScenarioDestinationForecastDropdown = page.getByRole('button', { name: 'Source forecast' }).nth(1);
     this.copyDataButton = page.getByText('Copy data');
+    this.dateRangeComponent = page.getByLabel('Load data to another').getByTestId('date-range-component');
+    this.dateRangeDropdown = page.locator('.MuiCardContent-root > button:nth-child(3)');
+    this.monthSelector = page.locator('button').filter({ hasText: 'May' });
+    this.modalBackdrop = page.locator('div:nth-child(2) > .MuiBackdrop-root');
   }
 
   async clickOnOpenButton() {
@@ -221,7 +229,25 @@ export class OpenCurrentForecast {
     await this.copyData.click();
     await this.page.waitForTimeout(5000);
   }
+  async clickOnDateRangeComponent() {
+    await this.dateRangeComponent.locator('div').first().click();
+  }
 
+  async clickOnDateRangeDropdown() {
+    await this.dateRangeDropdown.click();
+  }
+
+  async selectMonth(monthName: string) {
+    await this.page.locator('button').filter({ hasText: monthName }).click();
+  }
+
+  async clickModalBackdrop() {
+    await this.modalBackdrop.click();
+  }
+
+  async verifyDateRangeComponentIsVisible() {
+    await expect(this.dateRangeComponent).toBeVisible();
+  }
   async clickOnBreadcrum(sbaName: string) {
     await this.page.getByText(`UFM ${sbaName}`).click();
   }
@@ -237,7 +263,6 @@ export class OpenCurrentForecast {
   async clickOnChooseDifferentDriver() {
     await this.DriversButton.isVisible() ? await this.DriversButton.click() : await this.chooseDifferentDriverButton.click()
   }
-
   async clickOnChooseDriver() {
     await this.DriversButton.waitFor({ state: "visible" });
     await this.DriversButton.click();
