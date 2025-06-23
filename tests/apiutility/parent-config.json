@@ -58,7 +58,8 @@
     "testCases/validator/validator.json",
     "testCases/calculate-saveajustment-multiLayer-test.json",
     "testCases/copy-scenario-draft-source-select-drivers.json",
-    "testCases/copy-scenario-historical-source-select-drivers.json"
+    "testCases/copy-scenario-historical-source-select-drivers.json",
+    "testCases/primaryDataUpdate-onSegmentReview-test.json"
   ],
   "currentDemandService": {
     "baseURL": {
