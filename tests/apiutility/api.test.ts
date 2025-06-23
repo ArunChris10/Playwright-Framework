@@ -1,7 +1,7 @@
 import { test, request } from '@playwright/test';
 import path from 'path';
 import { globalStore } from './globalStore';
-import { findFirstValueByKeyObject, findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey, findRelativeValueMultiCondition, findRelativeFlexibleValue } from './utils/jsonUtils';
+import { findFirstValueByKeyObject, findAllValuesByKey, findRelativeValue, loadJSON, findNthValueByKey, findRelativeValueMultiCondition, findRelativeFlexibleValue } from './utils/jsonUtils';
 import { executeRequest } from './utils/requestExecutor';
 import {
   interpolateHeadersObject,
@@ -161,7 +161,7 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
             }
             if (step.extractFirst) {
               for (const globalVar in step.extractFirst) {
-                const value = findFirstValueByKey(responseBody, step.extractFirst[globalVar].replace(/^body\./, ''));
+                const value = findNthValueByKey(responseBody, step.extractFirst[globalVar].replace(/^body\./, ''),1);
                 if (!value) {
                   if (responseBody !== null) {
                     console.error('Response Body at failure:');
@@ -173,6 +173,15 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
                 console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
               }
             }
+            
+            if (step.extractSecond) {
+              for (const globalVar in step.extractSecond) {
+                const value = findNthValueByKey(responseBody, step.extractSecond[globalVar].replace(/^body\./, ''), 2); // Pass the nth occurrence as the third argument
+                if (!value) throw new Error(`Key ${step.extractSecond[globalVar]} not found`);
+                globalStore.setValue(globalVar, value);
+                console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
+              }
+              }
             if (step.extractRelative) {
               for (const globalVar in step.extractRelative) {
                 const { whereKey, equals, extractKey } = step.extractRelative[globalVar];

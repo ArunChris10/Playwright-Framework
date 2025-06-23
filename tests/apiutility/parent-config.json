@@ -59,6 +59,7 @@
     "testCases/calculate-saveajustment-multiLayer-test.json",
     "testCases/copy-scenario-draft-source-select-drivers.json",
     "testCases/copy-scenario-historical-source-select-drivers.json"
+    "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json.json"
   ],
   "currentDemandService": {
     "baseURL": {
