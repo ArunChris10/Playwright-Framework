@@ -193,15 +193,28 @@ export class OpenCurrentForecast {
     }
   }
 
-  async getAlertMessage(): Promise<string> {
+  async getAlertMessage(expectedMessage: string, errorMessage:string, timeout = 60000): Promise<string> {
     const alertMessageLocator = this.page.locator('.Alert-module_content__1Vy5h');
-    await alertMessageLocator.waitFor({ state: 'visible', timeout: 30000 });
-    const alertMessage = await alertMessageLocator.textContent();
-    if (!alertMessage) {
-        throw new Error("Alert message not found or empty.");
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < timeout) {
+        await alertMessageLocator.waitFor({ state: 'visible', timeout: 5000 });
+        const alertMessage = await alertMessageLocator.textContent();
+        const trimmedMessage = alertMessage?.trim();
+
+        if (trimmedMessage === errorMessage) {
+            return trimmedMessage;
+        }
+
+        if (trimmedMessage === expectedMessage) {
+            return trimmedMessage;
+        }
+
+        await this.page.waitForTimeout(1000);
     }
-    return alertMessage.trim(); 
-  }
+
+    throw new Error(`Alert message did not change to the expected value within ${timeout}ms.`);
+}
   
   async clickTargetForecastDropdown(targetSelection: string) {
     const secondDropdown = this.page.locator(

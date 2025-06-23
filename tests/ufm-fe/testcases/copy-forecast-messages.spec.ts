@@ -8,11 +8,12 @@ test.describe('Verify user is able to test Copy Forecast Messages', { tag: "@Smo
     let scenario_details;
     let currentForecast;
     let selectedSourceOptionName;
+    let errorMessage;
 
     test.beforeAll(async ({ pageFactory }) => {
         objpageFactory = pageFactory;
     });
-    test('Check if the user is able to test message Data load from TestE2E has started.', { tag: "@CopyForecastMessages" }, async ({ page, request }) => {
+    test('Check if the user is able to test CopyForecast messages in Target Forecast after Data Load Started.', { tag: "@CopyForecastMessages" }, async ({ page, request }) => {
         test.setTimeout(300000);
 
         await test.step('Go To UFM Page', async () => {
@@ -62,9 +63,15 @@ test.describe('Verify user is able to test Copy Forecast Messages', { tag: "@Smo
         await test.step(`Click on Copy Forecast button`, async () => {
             await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCopyForecastButton();
         });
-        await test.step(`Check if message is correct`, async () => {
-            const actualMessage = await objpageFactory.ufmPageFactory().openCurrentForecast().getAlertMessage();
+        await test.step(`Check if Data Load Started message after Copy Forecast button is correct`, async () => {
             const expectedMessage = `Data load from ${selectedSourceOptionName} has started. This process may take up to 10 minutes. You’ll be notified once it’s complete.`;
+            errorMessage = `Something went wrong while copying data from ${selectedSourceOptionName}. Please try again later.`
+            const actualMessage = await objpageFactory.ufmPageFactory().openCurrentForecast().getAlertMessage(expectedMessage, errorMessage);
+            expect(actualMessage).toBe(expectedMessage);
+        });
+        await test.step(`Check if message after Data Load Started is correct`, async () => {
+            const expectedMessage = `Your data has been successfully loaded from ${selectedSourceOptionName}. You can now review the updates in the forecast table`;
+            const actualMessage = await objpageFactory.ufmPageFactory().openCurrentForecast().getAlertMessage(expectedMessage, errorMessage);
             expect(actualMessage).toBe(expectedMessage);
         });
     });
