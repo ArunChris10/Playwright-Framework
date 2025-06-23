@@ -131,6 +131,10 @@ export class CurrentForecast {
     await this.page.getByText(`Send to ${sbaName} review`).click()
   }
 
+  async isSendToReviewEnabled(sbaName) {
+    return await this.page.getByText(`Send to ${sbaName} review`).isVisible()
+  }
+
   async clickOnRecallForecast() {
     await this.recallForecast.click()
   }
