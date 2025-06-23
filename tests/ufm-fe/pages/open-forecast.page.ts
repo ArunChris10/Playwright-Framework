@@ -67,7 +67,12 @@ export class OpenCurrentForecast {
   readonly detailsAfterExpandingChevronIcon: Locator
   readonly customGrowthRateInput: Locator
   readonly growthRatePercentInput: Locator
+  readonly copyData: Locator
+  readonly forecastDropdown: Locator
   readonly copyForecast: Locator
+  readonly copyScenarioSourceForecastDropdown: Locator;
+  readonly copyScenarioDestinationForecastDropdown: Locator;
+  readonly copyDataButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -132,7 +137,7 @@ export class OpenCurrentForecast {
     this.notificationIcon = this.page.locator('//*[@data-testid="notification-count"]')
     this.firstChevronIcon = this.page.locator('//*[@data-testid="agGridColumnGroup-id"]//*[@row-index="0"]//*[@class="ag-icon ag-icon-tree-closed"]')
     this.detailsAfterExpandingChevronIcon = this.page.locator('//*[@class="ag-details-row-auto-height ag-details-row"]')
-   
+
     this.notificationTitle = this.page.locator('//*[@class="notificationTitle"]//*[text()="Notifications"]')
     this.searchNotificationInput = this.page.getByPlaceholder("Search Notifications")
     this.selectProjectionMethodButton = this.page.locator("//*[@data-testid='AutoCompleteWithInputIcon-id']")
@@ -147,11 +152,74 @@ export class OpenCurrentForecast {
     this.viewDriver = this.page.locator('//div[contains(@class,"chip-alignment")]//child::button[contains(@class,"drivers")]');
     this.customGrowthRateInput = this.page.locator("//*[@value='CUSTOM']")
     this.growthRatePercentInput = this.page.locator("//input[@data-testid='projectionmethod-growthrate-percentage-id']")
+    this.forecastDropdown = page.getByText("Select forecast");
+    this.copyData = page.getByText("Copy data");
     this.copyForecast = page.getByText("Copy forecast data");
+    this.copyScenarioSourceForecastDropdown = page.getByRole('button', { name: 'Source forecast' }).first();
+    this.copyScenarioDestinationForecastDropdown = page.getByRole('button', { name: 'Source forecast' }).nth(1);
+    this.copyDataButton = page.getByText('Copy data');
   }
 
   async clickOnOpenButton() {
     await this.btnOpenCurrentForecast.first().click();
+  }
+  
+  async clickOnOpenCopyForecastDataButton() {
+    await this.copyForecast.click();
+  }
+
+  async clickSourceForecastDropdown(sourceName: string) {
+    await this.forecastDropdown.first().click();
+    await this.page.waitForTimeout(5000);
+    
+    const dropdownOptions = this.page.locator('li[role="option"]');
+    const optionCount = await dropdownOptions.count();
+
+    for (let i = 2; i < optionCount; i++) {
+      const optionText = await dropdownOptions.nth(i).textContent();
+      if (optionText?.trim() !== sourceName) {
+        await dropdownOptions.nth(i).click();
+        await this.page.waitForTimeout(3000);
+        return optionText?.trim();
+      }
+    }
+  }
+
+  async getAlertMessage(): Promise<string> {
+    const alertMessageLocator = this.page.locator('.Alert-module_content__1Vy5h');
+    await alertMessageLocator.waitFor({ state: 'visible', timeout: 30000 });
+    const alertMessage = await alertMessageLocator.textContent();
+    if (!alertMessage) {
+        throw new Error("Alert message not found or empty.");
+    }
+    return alertMessage.trim(); 
+  }
+  
+  async clickTargetForecastDropdown(targetSelection: string) {
+    const secondDropdown = this.page.locator(
+      '//span[text()="Destination forecast"]/following::div[@role="button"][1]'
+    );
+    await secondDropdown.click();
+    await this.page.waitForTimeout(5000);
+    
+    const dropdownOptions = this.page.locator('li[role="option"]');
+
+    const optionCount = await dropdownOptions.count();
+
+    for (let i = 0; i < optionCount; i++) {
+        const optionText = await dropdownOptions.nth(i).textContent();
+        if (optionText?.trim() === targetSelection) {
+            await dropdownOptions.nth(i).click();
+            await this.page.waitForTimeout(3000);
+            return;
+        }
+    }
+  }
+
+  async clickOnCopyForecastButton() {
+    await this.page.mouse.click(0, 0);
+    await this.copyData.click();
+    await this.page.waitForTimeout(5000);
   }
 
   async clickOnBreadcrum(sbaName: string) {
@@ -168,7 +236,6 @@ export class OpenCurrentForecast {
 
   async clickOnChooseDifferentDriver() {
     await this.DriversButton.isVisible() ? await this.DriversButton.click() : await this.chooseDifferentDriverButton.click()
-
   }
 
   async clickOnChooseDriver() {
@@ -179,7 +246,7 @@ export class OpenCurrentForecast {
   async clickOnDriver(): Promise<void> {
     const chooseDriverButton = await this.page.locator('button[aria-label="Please save your changes before adding more drivers."]'); // Use aria-label to locate the button
     await chooseDriverButton.click();
-}
+  }
 
   async waitForKPITableToLoad(state: "attached" | "detached" | "visible" | "hidden" | undefined = "visible") {
     await this.KPITable.waitFor({ state: state })
@@ -443,23 +510,20 @@ export class OpenCurrentForecast {
     return cell;
   }
 
-  async selectHistoricalRateProjection()
-  {
+  async selectHistoricalRateProjection() {
     await this.growthRateInput.click();
     await this.historicalRateInput.click();
     await this.applyButton.click();
   }
 
-  async selectCustomGrowthRateProjection(growthRatePercentInputValue : string)
-  {
+  async selectCustomGrowthRateProjection(growthRatePercentInputValue: string) {
     await this.growthRateInput.click();
     await this.customGrowthRateInput.click();
     await this.growthRatePercentInput.fill(growthRatePercentInputValue);
     await this.applyButton.click();
   }
 
-  async selectRegressionProjection(noOfyears : string)
-  {
+  async selectRegressionProjection(noOfyears: string) {
     await this.selectRegressionMethod.click();
     await this.noOfYearsInput.fill(noOfyears);
     await this.applyButton.click();
@@ -687,6 +751,35 @@ export class OpenCurrentForecast {
     await this.deleteButton.click()
   }
 
+  async clickOnCopyForecastDataButton() {
+    await this.copyForecast.click()
+  }
+
+  async selectSourceForecastDropdown(sourceForecastName: string) {
+    await this.copyScenarioSourceForecastDropdown.click();
+    await this.page.getByRole('option', { name: sourceForecastName, exact: true }).click();
+    await this.page.keyboard.press("Escape");
+  }
+
+  async selectDestinationForecastDropdown(destinationForecastName: string) {
+    await this.copyScenarioDestinationForecastDropdown.click();
+    await this.page.getByRole('option', { name: destinationForecastName, exact: true }).click();
+    await this.page.keyboard.press("Escape");
+  }
+
+  async clickOnCopyDataButton() {
+    await this.copyDataButton.click();
+  }
+
+  async waitForMessage(message: string) {
+    await expect(this.page.getByText(message)).toBeVisible();
+  }
+
+  async getEditableInputCellCount() {
+    const spans = this.page.locator(this.customCheckbox);
+    return await spans.count();
+  }
+
   async getViewTilePresence(viewName) {
     await Promise.race([
       this.createNewViewButton.waitFor({ state: 'visible' }),
@@ -697,83 +790,83 @@ export class OpenCurrentForecast {
 
   async getUserViewTilePresence(): Promise<number> {
     await Promise.race([
-        this.createNewViewButton.waitFor({ state: 'visible' }),
-        this.DriversButton.waitFor({ state: 'visible' }),
+      this.createNewViewButton.waitFor({ state: 'visible' }),
+      this.DriversButton.waitFor({ state: 'visible' }),
     ]);
     const privateViews = await this.page.locator(`//span[@aria-label="Private view"]`);
     const count = await privateViews.count();
     return count;
-}
+  }
 
-async getGlobalViewTilePresence(): Promise<number> {
-  await Promise.race([
+  async getGlobalViewTilePresence(): Promise<number> {
+    await Promise.race([
       this.createNewViewButton.waitFor({ state: 'visible' }),
       this.DriversButton.waitFor({ state: 'visible' }),
-  ]);
-  const globalViews = await this.page.locator(`//span[@aria-label="Shared view"]`);
-  const count = await globalViews.count();
-  return count;
-}
+    ]);
+    const globalViews = await this.page.locator(`//span[@aria-label="Shared view"]`);
+    const count = await globalViews.count();
+    return count;
+  }
 
-async clickOnSaveAsNew(): Promise<void> {
-  const saveViewButton = await this.page.locator('button.KPIPageHeader_splitsavebuttonsecondpart__OJYnq'); // Adjust selector if necessary
-  await saveViewButton.click();
+  async clickOnSaveAsNew(): Promise<void> {
+    const saveViewButton = await this.page.locator('button.KPIPageHeader_splitsavebuttonsecondpart__OJYnq'); // Adjust selector if necessary
+    await saveViewButton.click();
 
-  const saveAsNewOption = await this.page.locator('//span[contains(@class, "KPIPageHeader_menuItem") and text()="Save as new"]'); // Adjusted selector for more specificity
-  await saveAsNewOption.click();
-}
+    const saveAsNewOption = await this.page.locator('//span[contains(@class, "KPIPageHeader_menuItem") and text()="Save as new"]'); // Adjusted selector for more specificity
+    await saveAsNewOption.click();
+  }
 
-async selectViewTile(): Promise<void> {
-  await Promise.race([
+  async selectViewTile(): Promise<void> {
+    await Promise.race([
       this.createNewViewButton.waitFor({ state: 'visible' }),
       this.DriversButton.waitFor({ state: 'visible' }),
-  ]);
-  const privateViews = await this.page.locator(`//span[@aria-label="Private view"]`);
-  const firstView = privateViews.first();
-  await firstView.click();
-}
-async selectGlobalViewTile(): Promise<void> {
-  await Promise.race([
+    ]);
+    const privateViews = await this.page.locator(`//span[@aria-label="Private view"]`);
+    const firstView = privateViews.first();
+    await firstView.click();
+  }
+  async selectGlobalViewTile(): Promise<void> {
+    await Promise.race([
       this.createNewViewButton.waitFor({ state: 'visible' }),
       this.DriversButton.waitFor({ state: 'visible' }),
-  ]);
-  const globalViews = await this.page.locator(`//span[@aria-label="Shared view"]`);
-  const firstView = globalViews.first();
-  await firstView.click();
-}
+    ]);
+    const globalViews = await this.page.locator(`//span[@aria-label="Shared view"]`);
+    const firstView = globalViews.first();
+    await firstView.click();
+  }
   async checkDuplicateViewMessage() {
     return await this.duplicateViewMessage.isVisible()
   }
-async waitForPageLoad(): Promise<boolean> {
-  await this.page.waitForSelector('.ag-header-container', { state: 'visible', timeout: 60000 });
-  return true;
-}
+  async waitForPageLoad(): Promise<boolean> {
+    await this.page.waitForSelector('.ag-header-container', { state: 'visible', timeout: 60000 });
+    return true;
+  }
 
 
-async verifyChevronIsReset() {
-  await this.firstChevronIcon.waitFor({ state: 'visible' });
-  await expect(this.detailsAfterExpandingChevronIcon).toBeHidden();
-}
+  async verifyChevronIsReset() {
+    await this.firstChevronIcon.waitFor({ state: 'visible' });
+    await expect(this.detailsAfterExpandingChevronIcon).toBeHidden();
+  }
 
-async expandChevronIcon() {
-  await this.firstChevronIcon.waitFor({ state: 'visible' });  
-  await this.firstChevronIcon.click();
-  await expect(this.detailsAfterExpandingChevronIcon).toBeVisible();
-}
+  async expandChevronIcon() {
+    await this.firstChevronIcon.waitFor({ state: 'visible' });
+    await this.firstChevronIcon.click();
+    await expect(this.detailsAfterExpandingChevronIcon).toBeVisible();
+  }
 
-async navigateBackToOrganization(organizationName: string): Promise<void> {
-  await this.page.locator(`//*[@itemprop="name"][contains(text(),"${organizationName}")]`).click(); 
-}
+  async navigateBackToOrganization(organizationName: string): Promise<void> {
+    await this.page.locator(`//*[@itemprop="name"][contains(text(),"${organizationName}")]`).click();
+  }
 
-async getDriversFromGrid() {
-const rowCount: number = await this.page.$$eval(
-  "div.ag-pinned-left-cols-container > div",
-  (divs) => divs.length
-);
-return rowCount;
-}
-async isDuplicateViewMessageVisible(): Promise<boolean> {
-const duplicateMessage = await this.page.locator('text=This name is already in use. Please choose a different one.');
-return await duplicateMessage.isVisible();
-}
+  async getDriversFromGrid() {
+    const rowCount: number = await this.page.$$eval(
+      "div.ag-pinned-left-cols-container > div",
+      (divs) => divs.length
+    );
+    return rowCount;
+  }
+  async isDuplicateViewMessageVisible(): Promise<boolean> {
+    const duplicateMessage = await this.page.locator('text=This name is already in use. Please choose a different one.');
+    return await duplicateMessage.isVisible();
+  }
 }
