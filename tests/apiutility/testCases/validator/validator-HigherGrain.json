@@ -1,0 +1,425 @@
+{
+  "validate_drivers_contains_data": [
+    {
+      "testStep": "Get forecast for scenario id and scenario version",
+      "environment": "qa",
+      "labels": ["smoke","validator"],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Validate create forecast",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "classification_id": 12,
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "template_id": 1
+      },
+      "extractRelative": 
+      {
+        "node_validator_asString_scenario_version_timestamp": {
+          "whereKey": "rowData.name",
+          "equals": "Forecast 1",
+          "extractKey": "rowData.scenarioVersion"
+        },
+        "node_validator_asString_scenario_id": {
+          "whereKey": "rowData.name",
+          "equals": "Forecast 1",
+          "extractKey": "rowData.scenarioId"
+        },
+        "node_validator_scenario_version_timestamp": {
+          "whereKey": "rowData.name",
+          "equals": "Forecast 1",
+          "extractKey": "rowData.scenarioVersion"
+        },
+        "node_validator_scenario_id": {
+          "whereKey": "rowData.name",
+          "equals": "Forecast 1",
+          "extractKey": "rowData.scenarioId"
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Get Default drivers",
+      "environment": "stage",
+      "labels": ["validator"],
+      "service": "nexusService",
+      "uri": "getDefaultDrivers",
+      "testName": "Get Default drivers",
+      "queryParams": "/110029/tagType/default/tagValue/1",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractObject": {
+        "driversReplaceAsObject": "preferenceConfigs.preferenceConfig.config.drivers"
+      }
+    },
+    {
+      "testStep": "check Default drivers for data",
+      "environment": "qa",
+      "labels": ["validator"],
+      "service": "reportingService",
+      "uri": "scenarios",
+      "testName": "check Default drivers for data",
+      "queryParams": "",
+      "method": "POST",
+      "replacePayloadAsObject":true,
+      "payload": {
+        "node_var_names": "{{driversReplaceAsObject}}",
+        "scenarios": [
+          {
+            "scenario_id": "{{node_validator_asString_scenario_id}}",
+            "scenario_ver": "{{node_validator_asString_scenario_version_timestamp}}",
+            "type": "scenarios"
+          }
+        ],
+        "filters": {},
+        "hierarchy_names": [
+          "MP_CHANNEL_LEVELS",
+          "SBU"
+        ],
+        "periods": [
+          "{{dynamicMonth-24}}",
+          "{{dynamicMonth-23}}",
+          "{{dynamicMonth-22}}",
+          "{{dynamicMonth-21}}",
+          "{{dynamicMonth-20}}",
+          "{{dynamicMonth-19}}",
+          "{{dynamicMonth-18}}",
+          "{{dynamicMonth-17}}",
+          "{{dynamicMonth-16}}",
+          "{{dynamicMonth-15}}",
+          "{{dynamicMonth-14}}",
+          "{{dynamicMonth-13}}",
+          "{{dynamicMonth-12}}",
+          "{{dynamicMonth-11}}",
+          "{{dynamicMonth-10}}",
+          "{{dynamicMonth-9}}",
+          "{{dynamicMonth-8}}",
+          "{{dynamicMonth-7}}",
+          "{{dynamicMonth-6}}",
+          "{{dynamicMonth-5}}",
+          "{{dynamicMonth-4}}",
+          "{{dynamicMonth-3}}",
+          "{{dynamicMonth-2}}",
+          "{{dynamicMonth-1}}",
+          "{{dynamicMonth}}",
+          "{{dynamicMonth+1}}",
+          "{{dynamicMonth+2}}",
+          "{{dynamicMonth+3}}",
+          "{{dynamicMonth+4}}",
+          "{{dynamicMonth+5}}",
+          "{{dynamicMonth+6}}",
+          "{{dynamicMonth+7}}",
+          "{{dynamicMonth+8}}",
+          "{{dynamicMonth+9}}",
+          "{{dynamicMonth+10}}",
+          "{{dynamicMonth+11}}",
+          "{{dynamicMonth+12}}",
+          "{{dynamicMonth+13}}",
+          "{{dynamicMonth+14}}",
+          "{{dynamicMonth+15}}",
+          "{{dynamicMonth+16}}",
+          "{{dynamicMonth+17}}",
+          "{{dynamicMonth+18}}",
+          "{{dynamicMonth+19}}",
+          "{{dynamicMonth+20}}",
+          "{{dynamicMonth+21}}",
+          "{{dynamicMonth+22}}",
+          "{{dynamicMonth+23}}",
+          "{{dynamicMonth+24}}",
+          "{{dynamicMonth+25}}",
+          "{{dynamicMonth+26}}",
+          "{{dynamicMonth+27}}",
+          "{{dynamicMonth+28}}",
+          "{{dynamicMonth+29}}",
+          "{{dynamicMonth+30}}",
+          "{{dynamicMonth+31}}",
+          "{{dynamicMonth+32}}",
+          "{{dynamicMonth+33}}",
+          "{{dynamicMonth+34}}",
+          "{{dynamicMonth+35}}",
+          "{{dynamicMonth+36}}",
+          "{{dynamicMonth+37}}",
+          "{{dynamicMonth+38}}",
+          "{{dynamicMonth+39}}",
+          "{{dynamicMonth+40}}",
+          "{{dynamicMonth+41}}",
+          "{{dynamicMonth+42}}",
+          "{{dynamicMonth+43}}",
+          "{{dynamicMonth+44}}",
+          "{{dynamicMonth+45}}",
+          "{{dynamicMonth+46}}",
+          "{{dynamicMonth+47}}",
+          "{{dynamicMonth+48}}",
+          "{{dynamicMonth+49}}",
+          "{{dynamicMonth+50}}",
+          "{{dynamicMonth+51}}",
+          "{{dynamicMonth+52}}",
+          "{{dynamicMonth+53}}",
+          "{{dynamicMonth+54}}",
+          "{{dynamicMonth+55}}",
+          "{{dynamicMonth+56}}",
+          "{{dynamicMonth+57}}",
+          "{{dynamicMonth+58}}",
+          "{{dynamicMonth+59}}"
+        ],
+        "period_type": "month",
+        "period_levels": [],
+        "dimensions": [
+          ],
+        "pivot_rows":[
+          "node_var_name"
+        ],
+        "pivot_columns": [
+          "month",
+          "scenario_id"
+        ]
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "runFunctions": [
+        {
+          "functionName": "validateDriversContainsData"
+        }
+      ]
+    },    
+    {
+      "testStep": "Get mappings for drivers data",
+      "environment": "stage",
+      "labels": ["validator"],
+      "service": "coreService",
+      "uri": "getDimensions",
+      "testName": "Get mappings for drivers data",
+      "queryParams": "?dim_val_id=110029&dim_id=11&classification_id=12",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],            
+      "extract": {
+                "dimensionDataAsObject": "$"
+            },
+      "runFunctions": [
+        {
+          "functionName": "replaceNodeNames",
+          "args": ["{{reportNodesDataAsObject}}", "{{dimensionDataAsObject}}"]
+        }
+      ]
+    },
+    {
+      "runInParallel": false,
+      "testStep": "Get KPI to fetch the data from UI",
+      "environment": "qa",
+      "labels": ["smoke","validator"],
+      "service": "coreService",
+      "uri": "getKpiV2",
+      "testName": "Validate create forecast",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{node_validator_scenario_id}}",
+        "scenario_version": "{{node_validator_scenario_version_timestamp}}",
+        "dim_id": 11,
+        "dim_val_id": 110029,
+        "classification_id": 12,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+        "pivot_index": [
+            "node_id"
+        ],
+          "period_view": [
+            "month"
+          ],
+      "nodes": "{{driversReplaceAsObject}}",
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            },
+            {
+              "name": "202601",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "202602",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "202603",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "202604",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "202605",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "202606",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "202607",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "202608",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "202609",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "202610",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "202611",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "202612",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": true
+            },
+            {
+              "name": "Value",
+              "editable": true
+            }
+          ],
+          "month": [
+            "{{dynamicMonth-24}}",
+          "{{dynamicMonth-23}}",
+          "{{dynamicMonth-22}}",
+          "{{dynamicMonth-21}}",
+          "{{dynamicMonth-20}}",
+          "{{dynamicMonth-19}}",
+          "{{dynamicMonth-18}}",
+          "{{dynamicMonth-17}}",
+          "{{dynamicMonth-16}}",
+          "{{dynamicMonth-15}}",
+          "{{dynamicMonth-14}}",
+          "{{dynamicMonth-13}}",
+          "{{dynamicMonth-12}}",
+          "{{dynamicMonth-11}}",
+          "{{dynamicMonth-10}}",
+          "{{dynamicMonth-9}}",
+          "{{dynamicMonth-8}}",
+          "{{dynamicMonth-7}}",
+          "{{dynamicMonth-6}}",
+          "{{dynamicMonth-5}}",
+          "{{dynamicMonth-4}}",
+          "{{dynamicMonth-3}}",
+          "{{dynamicMonth-2}}",
+          "{{dynamicMonth-1}}",
+          "{{dynamicMonth}}",
+          "{{dynamicMonth+1}}",
+          "{{dynamicMonth+2}}",
+          "{{dynamicMonth+3}}",
+          "{{dynamicMonth+4}}",
+          "{{dynamicMonth+5}}",
+          "{{dynamicMonth+6}}",
+          "{{dynamicMonth+7}}",
+          "{{dynamicMonth+8}}",
+          "{{dynamicMonth+9}}",
+          "{{dynamicMonth+10}}",
+          "{{dynamicMonth+11}}",
+          "{{dynamicMonth+12}}",
+          "{{dynamicMonth+13}}",
+          "{{dynamicMonth+14}}",
+          "{{dynamicMonth+15}}",
+          "{{dynamicMonth+16}}",
+          "{{dynamicMonth+17}}",
+          "{{dynamicMonth+18}}",
+          "{{dynamicMonth+19}}",
+          "{{dynamicMonth+20}}",
+          "{{dynamicMonth+21}}",
+          "{{dynamicMonth+22}}",
+          "{{dynamicMonth+23}}",
+          "{{dynamicMonth+24}}",
+          "{{dynamicMonth+25}}",
+          "{{dynamicMonth+26}}",
+          "{{dynamicMonth+27}}",
+          "{{dynamicMonth+28}}",
+          "{{dynamicMonth+29}}",
+          "{{dynamicMonth+30}}",
+          "{{dynamicMonth+31}}",
+          "{{dynamicMonth+32}}",
+          "{{dynamicMonth+33}}",
+          "{{dynamicMonth+34}}",
+          "{{dynamicMonth+35}}",
+          "{{dynamicMonth+36}}",
+          "{{dynamicMonth+37}}",
+          "{{dynamicMonth+38}}",
+          "{{dynamicMonth+39}}",
+          "{{dynamicMonth+40}}",
+          "{{dynamicMonth+41}}",
+          "{{dynamicMonth+42}}",
+          "{{dynamicMonth+43}}",
+          "{{dynamicMonth+44}}",
+          "{{dynamicMonth+45}}",
+          "{{dynamicMonth+46}}",
+          "{{dynamicMonth+47}}",
+          "{{dynamicMonth+48}}",
+          "{{dynamicMonth+49}}",
+          "{{dynamicMonth+50}}",
+          "{{dynamicMonth+51}}",
+          "{{dynamicMonth+52}}",
+          "{{dynamicMonth+53}}",
+          "{{dynamicMonth+54}}",
+          "{{dynamicMonth+55}}",
+          "{{dynamicMonth+56}}",
+          "{{dynamicMonth+57}}",
+          "{{dynamicMonth+58}}",
+          "{{dynamicMonth+59}}"
+          ]
+        },
+        "isApplied": true
+      },
+      "extract": {
+        "UfmDataAsObject": "$"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "runFunctions": [
+        {
+          "functionName": "validateReportWithUFM",
+          "args": ["{{reportNodesDataAsObject}}", "{{UfmDataAsObject}}"]
+        }
+      ]
+    }
+  ]
+}

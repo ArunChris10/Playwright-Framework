@@ -5,10 +5,12 @@
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
   },
-  "tagsToRun": [""],
-  "ForceAllParallel":true,
-  "ForceAllSerial":false,
-  "testFiles": [  
+  "tagsToRun": [
+    ""
+  ],
+  "ForceAllParallel": true,
+  "ForceAllSerial": false,
+  "testFiles": [
     "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save.json",
@@ -54,7 +56,9 @@
     "testCases/copy-scenario-submitted-scenario-source-test.json",
     "testCases/copy-scenario-historical-scenario-source-test.json",
     "testCases/validator/validator.json",
-    "testCases/calculate-saveajustment-multiLayer-test.json"
+    "testCases/calculate-saveajustment-multiLayer-test.json",
+    "testCases/copy-scenario-draft-source-select-drivers.json",
+    "testCases/copy-scenario-historical-source-select-drivers.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -81,7 +85,7 @@
     "getScreenId": "/filter/screen_details?",
     "listHistoricals": "/scenario/list-historicals?",
     "snapshots": "/archive/",
-    "ssdmMyKpi":"/sandbox/v1/get-mykpi",
+    "ssdmMyKpi": "/sandbox/v1/get-mykpi",
     "getDataScienceInfo": "/scenario/data-science/info",
     "allocateData": "/allocate-data",
     "saveAdjustment": "/adjustment/",
@@ -99,15 +103,15 @@
     "publish-data-science-aop": "/data-science/aop/upload",
     "publish-data-science": "/data-science/upload",
     "get-data-science-info": "/scenario/data-science/info",
-    "download":"/validation/download",
-    "getDimensions":"/metadata/dimensions/mappings",    
+    "download": "/validation/download",
+    "getDimensions": "/metadata/dimensions/mappings",
     "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
-    "applyChangesOnSSDM":"/sandbox/v1/get-mykpi",
-    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions",
+    "applyChangesOnSSDM": "/sandbox/v1/get-mykpi",
+    "getPublishedVersionsProgressStatus": "/sandbox/v1/get-published-versions",
     "createUserScenario": "/scenario/create-user-scenario",
     "computeSsdm": "/sandbox/v1/compute-scenario",
     "getDriversListSSDM": "/sandbox/v1/drivers",
-    "publishSSDMActivatedDataset":"sandbox/v1/publish-node-edge-document"
+    "publishSSDMActivatedDataset": "sandbox/v1/publish-node-edge-document"
   },
   "notificationService": {
     "baseURL": {
