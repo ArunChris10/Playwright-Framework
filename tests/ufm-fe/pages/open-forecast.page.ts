@@ -67,6 +67,8 @@ export class OpenCurrentForecast {
   readonly detailsAfterExpandingChevronIcon: Locator
   readonly customGrowthRateInput: Locator
   readonly growthRatePercentInput: Locator
+  readonly copyData: Locator
+  readonly forecastDropdown: Locator
   readonly copyForecast: Locator
   readonly copyScenarioSourceForecastDropdown: Locator;
   readonly copyScenarioDestinationForecastDropdown: Locator;
@@ -150,6 +152,8 @@ export class OpenCurrentForecast {
     this.viewDriver = this.page.locator('//div[contains(@class,"chip-alignment")]//child::button[contains(@class,"drivers")]');
     this.customGrowthRateInput = this.page.locator("//*[@value='CUSTOM']")
     this.growthRatePercentInput = this.page.locator("//input[@data-testid='projectionmethod-growthrate-percentage-id']")
+    this.forecastDropdown = page.getByText("Select forecast");
+    this.copyData = page.getByText("Copy data");
     this.copyForecast = page.getByText("Copy forecast data");
     this.copyScenarioSourceForecastDropdown = page.getByRole('button', { name: 'Source forecast' }).first();
     this.copyScenarioDestinationForecastDropdown = page.getByRole('button', { name: 'Source forecast' }).nth(1);
@@ -158,6 +162,64 @@ export class OpenCurrentForecast {
 
   async clickOnOpenButton() {
     await this.btnOpenCurrentForecast.first().click();
+  }
+  
+  async clickOnOpenCopyForecastDataButton() {
+    await this.copyForecast.click();
+  }
+
+  async clickSourceForecastDropdown(sourceName: string) {
+    await this.forecastDropdown.first().click();
+    await this.page.waitForTimeout(5000);
+    
+    const dropdownOptions = this.page.locator('li[role="option"]');
+    const optionCount = await dropdownOptions.count();
+
+    for (let i = 2; i < optionCount; i++) {
+      const optionText = await dropdownOptions.nth(i).textContent();
+      if (optionText?.trim() !== sourceName) {
+        await dropdownOptions.nth(i).click();
+        await this.page.waitForTimeout(3000);
+        return optionText?.trim();
+      }
+    }
+  }
+
+  async getAlertMessage(): Promise<string> {
+    const alertMessageLocator = this.page.locator('.Alert-module_content__1Vy5h');
+    await alertMessageLocator.waitFor({ state: 'visible', timeout: 30000 });
+    const alertMessage = await alertMessageLocator.textContent();
+    if (!alertMessage) {
+        throw new Error("Alert message not found or empty.");
+    }
+    return alertMessage.trim(); 
+  }
+  
+  async clickTargetForecastDropdown(targetSelection: string) {
+    const secondDropdown = this.page.locator(
+      '//span[text()="Destination forecast"]/following::div[@role="button"][1]'
+    );
+    await secondDropdown.click();
+    await this.page.waitForTimeout(5000);
+    
+    const dropdownOptions = this.page.locator('li[role="option"]');
+
+    const optionCount = await dropdownOptions.count();
+
+    for (let i = 0; i < optionCount; i++) {
+        const optionText = await dropdownOptions.nth(i).textContent();
+        if (optionText?.trim() === targetSelection) {
+            await dropdownOptions.nth(i).click();
+            await this.page.waitForTimeout(3000);
+            return;
+        }
+    }
+  }
+
+  async clickOnCopyForecastButton() {
+    await this.page.mouse.click(0, 0);
+    await this.copyData.click();
+    await this.page.waitForTimeout(5000);
   }
 
   async clickOnBreadcrum(sbaName: string) {
@@ -174,7 +236,6 @@ export class OpenCurrentForecast {
 
   async clickOnChooseDifferentDriver() {
     await this.DriversButton.isVisible() ? await this.DriversButton.click() : await this.chooseDifferentDriverButton.click()
-
   }
 
   async clickOnChooseDriver() {
