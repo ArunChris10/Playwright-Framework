@@ -272,7 +272,42 @@ export class OpenCurrentForecast {
     const chooseDriverButton = await this.page.locator('button[aria-label="Please save your changes before adding more drivers."]'); // Use aria-label to locate the button
     await chooseDriverButton.click();
   }
+  async clickChannelButton() {
+  await this.page.getByRole('button', { name: 'Channel' }).click();
+}
 
+async clickDepartmentButton() {
+  await this.page.getByRole('button', { name: 'Department' }).click();
+}
+
+async expandIbgTotalOption() {
+  await this.page.locator('div').filter({ hasText: /^IBG_TOTAL$/ }).locator('path').first().click();
+}
+
+async selectIbgTotalCheckbox() {
+  await this.page.getByLabel('IBG_TOTAL').check();
+}
+
+async selectConsumablesCheckbox() {
+  await this.page.getByLabel('CONSUMABLES').check();
+}
+
+// Methods to verify chips are visible
+async verifyIbgTotalChip() {
+  await expect(this.page.locator('div').filter({ hasText: /^IBG_TOTAL$/ }).nth(2)).toBeVisible();
+}
+
+async verifyConsumablesChip() {
+  await expect(this.page.locator('div').filter({ hasText: /^CONSUMABLES$/ }).nth(2)).toBeVisible();
+}
+
+async clickIbgTotalChip() {
+  await this.page.locator('div').filter({ hasText: /^IBG_TOTAL$/ }).nth(2).click();
+}
+
+async clickConsumablesChip() {
+  await this.page.locator('div').filter({ hasText: /^CONSUMABLES$/ }).nth(2).click();
+}
   async waitForKPITableToLoad(state: "attached" | "detached" | "visible" | "hidden" | undefined = "visible") {
     await this.KPITable.waitFor({ state: state })
   }
