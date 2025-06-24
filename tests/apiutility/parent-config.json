@@ -42,7 +42,6 @@
     "testCases/get-kpi-Month-GroupBy-Filter-tests.json",
     "testCases/drivers-api-tests.json",
     "testCases/actual-missing-nodes-api-tests.json",
-    "testCases/excel-load-data-api-time-granularity.json",
     "testCases/excel-load-data-time-grains.json",
     "testCases/ssdm-get-kpi-verify.json",
     "testCases/projection-method-testcases/final_historical-growthrate-regression-projection-method-all-allocation-test.json",
