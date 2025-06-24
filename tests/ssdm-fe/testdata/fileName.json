@@ -48,7 +48,7 @@
             "causalFunction": "Causal Function",
             "causalFunctionValue": "year_to_date",
             "aggregationText": "Aggregation Formula",
-            "inputText":"#UFM"
+            "inputChildNode": "#UFM"
         },
         "buttons": {
             "saveChanges": "Save Changes",
@@ -76,13 +76,25 @@
             "createAlertMessage":"Created",
             "editAlertMessage": "Edited",
             "deleteAlertMessage":"Deleted",
-            "calculationAggregationMessage": " Only Num/functions/formula or select node by typing #_ | example : #[node1] + #[Node2]"
+            "calculationAggregationMessage": " Only Num/functions/formula or select node by typing #_ | example : #[node1] + #[Node2]",
+            "aggregationInvalidMessage": "Invalid aggregation (Incomplete aggregation)",
+            "calculationInvalidMessage": "Invalid calculation (Incomplete calculation)"
         },
         "deleteConfirmation": {
             "message": "Are you sure?",
             "subMessage1": "This action cannot be undone(No nodes dependent on this node)",
             "subMessage2": "Deleting this node affects the following nodes -",
             "subMessage3": "It will create 1 validation errors"
+        }
+    },
+    "driverTreeSummary": {
+        "buttons": {
+            "pageName": "Driver Tree Summary"
+        },
+        "sections": {
+            "validationSummary": "Validation Summary",
+            "warnings": "Warnings",
+            "orphanNode": "Orphan Node"
         }
     },
     "filterOptions": [
