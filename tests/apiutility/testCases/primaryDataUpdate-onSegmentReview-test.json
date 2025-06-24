@@ -686,7 +686,7 @@
       }
     },
     {
-      "testStep": "Validate Adjustment via getKpi-primaryDataupdate",
+      "testStep": "Validate save adjustment values on BA review-primaryDataupdate",
       "environment": "qa",
       "labels": [
         "smoke",
@@ -694,14 +694,14 @@
       ],
       "service": "coreService",
       "uri": "getKpi",
-      "testName": "Validate saved data for drivers- primnaryDataUpdate",
+      "testName": "Validate save adjustment values on BA review- primnaryDataUpdate",
       "queryParams": "",
       "method": "POST",
       "payload": {
         "scenario_id": "{{merchOps_scenario_id_Primarydataupdate}}",
         "scenario_version": "{{merchOps_scenario_version_Primarydataupdate}}",
         "dim_id": 11,
-        "dim_val_id": 110029,
+        "dim_val_id": 120010,
         "classification_id": 11,
         "template_id": 3,
         "filters": [],
@@ -734,8 +734,7 @@
             "{{dynamicMonth+6}}"
           ]
         },
-        "isApplied": false,
-        "adjustment_id": "{{updatePrimaryData_AdjustmentId}}"
+        "isApplied": false
       },
       "assertions": [
         {
