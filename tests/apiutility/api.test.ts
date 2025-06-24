@@ -1,7 +1,7 @@
 import { test, request } from '@playwright/test';
 import path from 'path';
 import { globalStore } from './globalStore';
-import { findFirstValueByKeyObject, findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey, findRelativeValueMultiCondition, findRelativeFlexibleValue } from './utils/jsonUtils';
+import { findFirstValueByKeyObject, findAllValuesByKey, findRelativeValue, loadJSON, findNthValueByKey, findRelativeValueMultiCondition, findRelativeFlexibleValue } from './utils/jsonUtils';
 import { executeRequest } from './utils/requestExecutor';
 import {
   interpolateHeadersObject,
@@ -113,6 +113,8 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
             baseUrl = parentConfig.currentDemandService.baseURL[process.env.envName];
           } else if (step.service === "dataForgeService") {
             baseUrl = parentConfig.dataForgeService.baseURL[process.env.envName];
+          } else if (step.service === "utilityService"){
+            baseUrl = parentConfig.utilityService.baseURL[process.env.envName];
           }
 
           const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);  
@@ -128,7 +130,6 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
 
           let responseBody = null;
           let payload = await postProcessInterpolatedPayload(step.payload);
-
           payload = interpolateObject(payload);
 
           console.log("Request Payload:");
@@ -160,7 +161,7 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
             }
             if (step.extractFirst) {
               for (const globalVar in step.extractFirst) {
-                const value = findFirstValueByKey(responseBody, step.extractFirst[globalVar].replace(/^body\./, ''));
+                const value = findNthValueByKey(responseBody, step.extractFirst[globalVar].replace(/^body\./, ''),1);
                 if (!value) {
                   if (responseBody !== null) {
                     console.error('Response Body at failure:');
@@ -172,6 +173,15 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
                 console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
               }
             }
+            
+            if (step.extractSecond) {
+              for (const globalVar in step.extractSecond) {
+                const value = findNthValueByKey(responseBody, step.extractSecond[globalVar].replace(/^body\./, ''), 2); // Pass the nth occurrence as the third argument
+                if (!value) throw new Error(`Key ${step.extractSecond[globalVar]} not found`);
+                globalStore.setValue(globalVar, value);
+                console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
+              }
+              }
             if (step.extractRelative) {
               for (const globalVar in step.extractRelative) {
                 const { whereKey, equals, extractKey } = step.extractRelative[globalVar];
@@ -332,10 +342,14 @@ function postProcessInterpolatedPayload(obj: any): any {
   for (const key in obj) {
     const value = obj[key];
 
-    if (key.includes('scenario_id') || key.includes('scenario_version') || key.includes('"scenario_version_timestamp"')) {
+    if ((key.includes('scenario_id') || key.includes('scenario_version') || key.includes('"scenario_version_timestamp"')) && !key.includes('-tostring')){
       const rawValue = globalStore.getValue(value.replace('{{', '').replace('}}', ''));
       const numericValue = Number(rawValue);
       processed[key] = isNaN(numericValue) ? rawValue : numericValue;
+    } else if (key.includes('-tostring')) {
+      const newKey = key.split("-")[0];
+      const rawValue = globalStore.getValue(value.replace('{{', '').replace('}}', ''));
+      processed[newKey] = rawValue ? rawValue.toString() : rawValue;
     } else if (Array.isArray(value)) {
       processed[key] = value.map(item => {
         if (typeof item === 'string' && item.includes("scenario_id")) {

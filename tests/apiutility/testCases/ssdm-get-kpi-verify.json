@@ -19,8 +19,7 @@
                 }
             ],
             "extractFirst": {
-                "getkpi_scenario_id": "scenario_id",
-                "getkpi_scenario_version": "scenario_version_timestamp"
+                "getkpi_scenario_id": "scenario_id"
             }
         },
         {
@@ -46,6 +45,33 @@
             }
         },
         {
+            "testStep": "Get Scenario version of sandbox scenario",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "SSDMKPI"
+            ],
+            "service": "coreService",
+            "uri": "computeSsdm",
+            "testName": "Get Scenario version of sandbox scenario",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{getkpi_scenario_id}}",
+                "doc_id": "{{extracted_doc_id}}",
+                "classification_id": 12,
+                "ds_type": "Activated"
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ],
+            "extractFirst": {
+                "scenario_version": "scenario_version"
+            }
+        },
+        {
             "testStep": "Verify get kpi response has no filters if none of the filters is applied on drivers on SSDM",
             "environment": "qa",
             "labels": [
@@ -54,7 +80,7 @@
                 "IBGROW-38815"
             ],
             "service": "coreService",
-            "uri": "getKpi",
+            "uri": "applyChangesOnSSDM",
             "testName": "Verify get kpi response has no filters if none of the filters is applied on drivers on SSDM",
             "queryParams": "",
             "method": "POST",
@@ -158,22 +184,22 @@
                     ]
                 },
                 "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
+                "scenario_version": "{{scenario_version}}",
                 "doc_id": "{{extracted_doc_id}}",
                 "ds_type": "Activated",
                 "utilisedBy": "SSDM"
             },
             "extractFirst": {
-                "department": "rowData.department"
+                "rowDatas": "rowData"
             },
             "assertions": [
                 {
                     "status": 200
                 },
                 {
-                    "assertLength": {
-                        "jsonPath": "{{department}}",
-                        "expectedLength": 0
+                    "assertNotEquals": {
+                        "jsonPath": "rowDatas",
+                        "value": "department"
                     }
                 }
             ]
@@ -187,7 +213,7 @@
                 "IBGROW-38817"
             ],
             "service": "coreService",
-            "uri": "getKpi",
+            "uri": "applyChangesOnSSDM",
             "testName": "Verify get kpi response has filters if filters is applied on drivers on SSDM",
             "queryParams": "",
             "method": "POST",
@@ -300,7 +326,7 @@
                     ]
                 },
                 "scenario_id": "{{getkpi_scenario_id}}",
-                "scenario_version": "{{getkpi_scenario_version}}",
+                "scenario_version": "{{scenario_version}}",
                 "doc_id": "{{extracted_doc_id}}",
                 "ds_type": "Activated",
                 "utilisedBy": "SSDM"

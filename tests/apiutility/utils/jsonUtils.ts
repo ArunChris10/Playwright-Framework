@@ -42,7 +42,7 @@ export function findAllValuesByKey(obj: any, path: string): any[] {
 }
 
 
-export function findFirstValueByKey(obj: any, path: string): string[] {
+export function findNthValueByKey(obj: any, path: string, n: number): string | undefined {
   const results: any[] = [];
   const pathSegments = path.split(".");
 
@@ -64,7 +64,7 @@ export function findFirstValueByKey(obj: any, path: string): string[] {
   }
 
   traverse(obj, pathSegments);
-  return results.length > 0 ? results[0].toString() : results;
+  return results.length >= n ? results[n - 1]?.toString() : undefined;
 }
 
 export function findFirstValueByKeyObject(obj: any, path: string): any[] {

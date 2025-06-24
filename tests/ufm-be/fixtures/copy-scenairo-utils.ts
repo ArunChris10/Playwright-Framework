@@ -3,19 +3,19 @@ import commonData from "../constants/common.json";
 import { UfmUtility } from "./ufm-utils";
 
 export class ScenarioUtils {
-  static async getScenariosWithStatus(request, statusCodes: number[]) {
-    const merchDimvalId = await UfmUtility.getMappingValue(
-      { parent_name: "MERCHANDISING OPERATIONS" },
+  static async getScenariosWithStatus(request, statusCodes: number[], parent_name) {
+    const dimvalId = await UfmUtility.getMappingValue(
+      { parent_name: parent_name },
       "parent_id"
     );
-    const merchDimId = await UfmUtility.getMappingValue(
-      { parent_name: "MERCHANDISING OPERATIONS" },
+    const dimId = await UfmUtility.getMappingValue(
+      { parent_name: parent_name },
       "parent_dim_id"
     );
     const apiPayload = {
       unit: "Millions",
-      dim_id: merchDimId,
-      dim_val_id: merchDimvalId,
+      dim_id: dimId,
+      dim_val_id: dimvalId,
       classification_id: commonData.classification_id,
       template_id: 1,
       filters: [],
@@ -40,14 +40,16 @@ export class ScenarioUtils {
     retry,
     interval,
     scenario,
-    statusCodes: number[]
+    statusCodes: number[],
+    parent_name: string
   ) {
     let isProcessComplete = false;
     let exec = 0;
     while (exec < retry && !isProcessComplete) {
       const scenarios = await ScenarioUtils.getScenariosWithStatus(
         request,
-        statusCodes
+        statusCodes,
+        parent_name
       );
       const targetScenarioStatus = scenarios.find(
         (s) => s.scenarioId === scenario.scenarioId
