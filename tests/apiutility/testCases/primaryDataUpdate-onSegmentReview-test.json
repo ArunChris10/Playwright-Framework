@@ -686,6 +686,194 @@
       }
     },
     {
+      "testStep": "Validate Adjustment via getKpi-primaryDataupdate",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Validate saved data for drivers- primnaryDataUpdate",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{merchOps_scenario_id_Primarydataupdate}}",
+        "scenario_version": "{{merchOps_scenario_version_Primarydataupdate}}",
+        "dim_id": 11,
+        "dim_val_id": 110029,
+        "classification_id": 11,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "momerchandisesales",
+            "mowarehouseallowances"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            }
+          ],
+          "month": [
+            "{{dynamicMonth}}",
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}",
+            "{{dynamicMonth+3}}",
+            "{{dynamicMonth+4}}",
+            "{{dynamicMonth+5}}",
+            "{{dynamicMonth+6}}"
+          ]
+        },
+        "isApplied": false,
+        "adjustment_id": "{{updatePrimaryData_AdjustmentId}}"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "driver1_month_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth}}.forecast"
+        },
+        "driver1_month1_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver1_month2_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver1_month3_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+3}}.forecast"
+        },
+        "driver1_month4_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+4}}.forecast"
+        },
+        "driver1_month5_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+5}}.forecast"
+        },
+        "driver1_month6_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+6}}.forecast"
+        },
+        "driver2_month_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth}}.forecast"
+        },
+        "driver2_month1_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver2_month2_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver2_month3_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+3}}.forecast"
+        },
+        "driver2_month4_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+4}}.forecast"
+        },
+        "driver2_month5_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+5}}.forecast"
+        },
+        "driver2_month6_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+6}}.forecast"
+        }
+      },
+      "validateExtractToBeApprox": {
+        "driver1_month_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month1_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month1_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month2_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month2_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month3_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month3_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month4_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month4_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month5_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month5_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month6_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month6_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month1_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month1_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month2_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month2_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month3_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month3_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month4_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month4_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month5_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month5_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month6_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month6_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        }
+      }
+    },
+    {
       "testStep": "Send MerchOps Forecast for Segment Review- updatePrimaryData",
       "environment": "qa",
       "labels": [
