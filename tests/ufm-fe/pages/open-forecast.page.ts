@@ -176,7 +176,7 @@ export class OpenCurrentForecast {
     await this.copyForecast.click();
   }
 
-  async clickSourceForecastDropdown(sourceName: string) {
+  async clickSourceForecastDropdown(sourceName: string, isCurrentSource: boolean) {
     await this.forecastDropdown.first().click();
     await this.page.waitForTimeout(5000);
     
@@ -185,10 +185,39 @@ export class OpenCurrentForecast {
 
     for (let i = 2; i < optionCount; i++) {
       const optionText = await dropdownOptions.nth(i).textContent();
-      if (optionText?.trim() !== sourceName) {
-        await dropdownOptions.nth(i).click();
-        await this.page.waitForTimeout(3000);
-        return optionText?.trim();
+      if ((isCurrentSource && optionText?.trim() === sourceName) || (!isCurrentSource && optionText?.trim() !== sourceName)) 
+      {
+          await dropdownOptions.nth(i).click();
+          await this.page.waitForTimeout(3000);
+          return optionText?.trim();
+      }
+    }
+  }
+  
+  async clickTargetForecastDropdown(targetSelection: string, isCurrentTarget: boolean) {
+    const secondDropdown = this.page.locator(
+      '//span[text()="Destination forecast"]/following::div[@role="button"][1]'
+    );
+    await secondDropdown.click();
+    await this.page.waitForTimeout(5000);
+    
+    const dropdownOptions = this.page.locator('li[role="option"]');
+    
+    const optionCount = await dropdownOptions.count();
+    
+    for (let i = 0; i < optionCount; i++) {
+      const optionText = await dropdownOptions.nth(i).textContent();
+
+      const trimmedOptionText = optionText?.trim();
+
+      if (!trimmedOptionText || trimmedOptionText === "Select forecast") {
+          continue;
+      }
+      if ((isCurrentTarget && trimmedOptionText === targetSelection) || (!isCurrentTarget && trimmedOptionText !== targetSelection)) 
+      {
+          await dropdownOptions.nth(i).click();
+          await this.page.waitForTimeout(3000);
+          return trimmedOptionText;
       }
     }
   }
@@ -214,27 +243,6 @@ export class OpenCurrentForecast {
     }
 
     throw new Error(`Alert message did not change to the expected value within ${timeout}ms.`);
-}
-  
-  async clickTargetForecastDropdown(targetSelection: string) {
-    const secondDropdown = this.page.locator(
-      '//span[text()="Destination forecast"]/following::div[@role="button"][1]'
-    );
-    await secondDropdown.click();
-    await this.page.waitForTimeout(5000);
-    
-    const dropdownOptions = this.page.locator('li[role="option"]');
-
-    const optionCount = await dropdownOptions.count();
-
-    for (let i = 0; i < optionCount; i++) {
-        const optionText = await dropdownOptions.nth(i).textContent();
-        if (optionText?.trim() === targetSelection) {
-            await dropdownOptions.nth(i).click();
-            await this.page.waitForTimeout(3000);
-            return;
-        }
-    }
   }
 
   async clickOnCopyForecastButton() {
