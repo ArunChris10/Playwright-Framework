@@ -1,4 +1,3 @@
-// globalSetup.ts
 import path from 'path';
 import { globalStore } from '../apiutility/globalStore';
 import { request, expect, APIRequestContext } from '@playwright/test';
@@ -39,5 +38,3 @@ export default async function globalSetup() {
 
   console.log('globalSetup completed');
 };
-
-

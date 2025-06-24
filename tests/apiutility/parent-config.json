@@ -6,60 +6,13 @@
     "user_id": "LB-ibg-ufm-auto"
   },
   "tagsToRun": [
-    ""
+    "patchy"
   ],
   "ForceAllParallel": true,
   "ForceAllSerial": false,
   "testFiles": [
-    "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
-    "testCases/data-science-review-testcases/data-science-calculate-save-demand-node.json",
-    "testCases/data-science-review-testcases/data-science-calculate-save.json",
-    "testCases/data-science-review-testcases/aop-calculate-save.json",
-    "testCases/data-science-review-testcases/calculate-save-non-additive-node-api-test.json",
-    "testCases/data-science-review-testcases/data-science-calculate-save-demand-input-and-calculated.json",
-    "testCases/data-science-review-testcases/aop-calculate-save-demand-input-and-calculated.json",
-    "testCases/data-science-review-testcases/publish_aop_to_current_demand_slot.json",
-    "testCases/data-science-review-testcases/publish_data_science_to_current_demand_slot.json",
-    "testCases/calculate-saveajustment-api-tests.json",
-    "testCases/create-view-api-tests.json",
-    "testCases/excel-load-data-api-tests.json",
-    "testCases/excel-load-data-api-aggregation-tests.json",
-    "testCases/forecast-calender-api.json",
-    "testCases/forecast-cycle-api-tests.json",
-    "testCases/get-my-kpi-api-tests.json",
-    "testCases/scenario-snapshots-api-tests.json",
-    "testCases/visual-indicator-api.json",
-    "testCases/forecast-comp-api-tests.json",
-    "testCases/forecast-comp-api-error-tests.json",
-    "testCases/activated-latest-timestamp-tests.json",
-    "testCases/published-versions-api-tests.json",
-    "testCases/ssdm-node-edge-compute-api-tests.json",
-    "testCases/ssdm-node-edge-get-drivers-api-tests.json",
-    "testCases/ssdm-node-edge-publish-api-tests.json",
-    "testCases/NodesCases/nodeshRefresh-api-tests.json",
-    "testCases/ssdm-myKpi-valuetype-tests.json",
-    "testCases/download-Validation-NEFile.tests.json",
-    "testCases/get-kpi-Month-GroupBy-Filter-tests.json",
-    "testCases/drivers-api-tests.json",
-    "testCases/actual-missing-nodes-api-tests.json",
-    "testCases/excel-load-data-time-grains.json",
-    "testCases/ssdm-get-kpi-verify.json",
-    "testCases/projection-method-testcases/final_historical-growthrate-regression-projection-method-all-allocation-test.json",
-    "testCases/data-science-demand-metric-ssdm-edit.json",
-    "testCases/filters-ssdm-api-tests.json",
-    "testCases/progress-status-ssdm.api-tests.json",
-    "testCases/calculate-additive-nodes-constant-value.json",
-    "testCases/calculate-additive-nodes-percent-rolling.json",
-    "testCases/calculate-saveajustment-multiLayer-test.json",
-    "testCases/copy-scenario-multiple-targets-test.json",
-    "testCases/copy-scenario-submitted-scenario-source-test.json",
-    "testCases/copy-scenario-historical-scenario-source-test.json",
-    "testCases/validator/validator.json",
-    "testCases/update-adjustment-status-from-change-request-to-resolve-request.json",
-    "testCases/copy-scenario-draft-source-select-drivers.json",
-    "testCases/copy-scenario-historical-source-select-drivers.json",
-    "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json"
-
+    "testCases/data-science-review-testcases/patchy-allocate-api-tests.json"
+    
   ],
   "currentDemandService": {
     "baseURL": {
