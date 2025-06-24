@@ -42,17 +42,9 @@ export function findAllValuesByKey(obj: any, path: string): any[] {
 }
 
 
-export function findFirstValueByKey(obj: any, path: string): any {
+export function findNthValueByKey(obj: any, path: string, n: number): string | undefined {
   const results: any[] = [];
-  
-  // Handle bracket notation for arrays
-  const pathSegments = path.split(".").flatMap(segment => {
-    const bracketMatch = segment.match(/^([^[]+)\[(\d+)\]$/);
-    if (bracketMatch) {
-      return [bracketMatch[1], bracketMatch[2]];
-    }
-    return segment;
-  });
+  const pathSegments = path.split(".");
 
   function traverse(current: any, remainingPath: string[]) {
     if (remainingPath.length === 0) {
@@ -63,17 +55,8 @@ export function findFirstValueByKey(obj: any, path: string): any {
     const [key, ...restPath] = remainingPath;
 
     if (Array.isArray(current)) {
-      // If key is numeric, treat as array index
-      if (!isNaN(Number(key))) {
-        const index = Number(key);
-        if (index >= 0 && index < current.length) {
-          traverse(current[index], restPath);
-        }
-      } else {
-        // Otherwise traverse all items in array
-        for (const item of current) {
-          traverse(item, remainingPath);
-        }
+      for (const item of current) {
+        traverse(item, remainingPath); // don't consume key yet, we are still at array level
       }
     } else if (current && typeof current === "object" && key in current) {
       traverse(current[key], restPath);
@@ -81,7 +64,7 @@ export function findFirstValueByKey(obj: any, path: string): any {
   }
 
   traverse(obj, pathSegments);
-  return results.length > 0 ? results[0] : undefined;
+  return results.length >= n ? results[n - 1]?.toString() : undefined;
 }
 
 export function findFirstValueByKeyObject(obj: any, path: string): any[] {
