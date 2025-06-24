@@ -5,7 +5,7 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "IBGROW-39766",
+        "IBGROW-40175",
         "MS3"
       ],
       "service": "coreService",
