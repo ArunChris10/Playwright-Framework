@@ -175,7 +175,7 @@
       "method": "POST",
       "payload": {
         "display_nodes": [],
-        "scenario_id": "{{scenario_id}}",
+        "scenario_id": "{{getkpi2_scenario_id}}",
         "dim_val_id": 110015,
         "dim_id": 11,
         "preview": true,
