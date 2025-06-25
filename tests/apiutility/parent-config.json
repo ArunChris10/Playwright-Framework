@@ -62,7 +62,8 @@
     "testCases/copy-scenario-draft-source-select-drivers.json",
     "testCases/copy-scenario-historical-source-select-drivers.json",
     "testCases/primaryDataUpdate-onSegmentReview-test.json",
-    "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json"
+    "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json",
+    "testCases/patchy-allocate-api-tests.json"
 
   ],
   "currentDemandService": {
