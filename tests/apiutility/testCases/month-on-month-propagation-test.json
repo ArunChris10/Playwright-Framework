@@ -1,0 +1,411 @@
+{
+  "validate_Validate Month-to-Month Propagation": [
+    {
+      "testStep": "Get a forecast to delete before proceding for MerchOps SBA_monthtomonthProp",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-40175",
+        "MS3"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get a forecast to delete before proceding_monthtomonthProp",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "MerchOpsToDeletescenarioId_monthtomonthProp": {
+          "conditions": [
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
+        "MerchOpsToDeletescenarioVersion_monthtomonthProp": {
+          "conditions": [
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
+      }
+    },
+    {
+      "testStep": "Delete MerchOps SBA forecast before proceding_monthtomonthProp",
+      "environment": "qa",
+      "labels": [
+        "smoke"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Delete a forecast before proceding",
+      "queryParams": "/{{MerchOpsToDeletescenarioId_monthtomonthProp}}/{{MerchOpsToDeletescenarioVersion_monthtomonthProp}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110029
+      }
+    },
+    {
+      "testStep": "Create Forecast Scenario for MerchOps SBA_monthtomonthProp",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast- MerchOps SBA_monthtomonthProp",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "PrimaryDataUpdate {{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110029
+      },
+      "extract": {
+        "merchOps_scenario_version_monthtomonthProp": "scenario.scenario_version_timestamp",
+        "merchOps_scenario_id_monthtomonthProp": "scenario.scenario_id"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of MerchOps FORECAST_monthtomonthProp",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of MerchOps FORECAST_monthtomonthProp",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "PrimaryDataUpdate {{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "Calculate Forecast for_monthTomonthProp",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Calculate Forecast formonth",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{merchOps_scenario_id_monthtomonthProp}}",
+        "dim_val_id": 110029,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "moreceiptsatretail",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth}}": 500,
+              "{{dynamicMonth+1}}": 500
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1747131515456
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "driver1_month_monthtomonth_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "moreceiptsatretail",
+          "extractKey": "edits.{{dynamicMonth}}.forecast"
+        },
+        "driver1_month1_monthtomonth_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "moreceiptsatretail",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        }
+      }
+    },
+    {
+      "testStep": "Save Adjustment_monthtomonth",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "saveAdjustment",
+      "testName": "Verify Save works_monthtomonth",
+      "queryParams": "",
+      "method": "PATCH",
+      "payload": {
+        "adjustment_metadata": {
+          "adjustment_name": "test Adjustment",
+          "adjustment_reason": "",
+          "adjustment_type": 73,
+          "is_duplicated": false,
+          "is_update": false,
+          "is_create": true,
+          "adjustment_edits": 3,
+          "scenario_id": "{{merchOps_scenario_id_monthtomonthProp}}",
+          "scenario_version_timestamp": "{{merchOps_scenario_version_monthtomonthProp}}"
+        },
+        "allocation_request": {
+          "display_nodes": [],
+          "scenario_id": "{{merchOps_scenario_id_monthtomonthProp}}",
+          "dim_val_id": 110029,
+          "dim_id": 11,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "moreceiptsatretail",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth}}": 500,
+                "{{dynamicMonth+1}}": 500
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+        },
+        "dim_val_id": 110029
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "New adjustment created successfully!!",
+            "jsonPath2": "adjustment_metadata.adjustment_name",
+            "value2": "test Adjustment"
+          },
+          "assertNotNull": {
+            "jsonPath1": "adjustment_metadata.adjustment_id",
+            "jsonPath2": "adjustment_metadata.created_by",
+            "jsonPath3": "adjustment_metadata.created_at"
+          }
+        }
+      ],
+      "extract": {
+        "monthtomonth_AdjustmentId": "adjustment_metadata.adjustment_id"
+      }
+    },
+    {
+      "testStep": "Validate Adjustment via getKpi-monthtomonth",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Validate saved data for drivers- primnaryDataUpdate",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{merchOps_scenario_id_monthtomonthProp}}",
+        "scenario_version": "{{merchOps_scenario_version_monthtomonthProp}}",
+        "dim_id": 11,
+        "dim_val_id": 110029,
+        "classification_id": 11,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "moreceiptsatretail",
+            "moendinginventoryatretail",
+            "mobeginventoryatretail"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            }
+          ],
+          "month": [
+            "{{dynamicMonth}}",
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}",
+            "{{dynamicMonth+3}}",
+            "{{dynamicMonth+4}}"
+          ]
+        },
+        "isApplied": false
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "receipt_month_OnSave": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth}}.forecast"
+        },
+        "receipt_month1_OnSave": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "beginning_month1_OnSave": {
+          "whereKey": "driver",
+          "equals": "mobeginventoryatretail",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "beginning_month2_OnSave": {
+          "whereKey": "driver",
+          "equals": "mobeginventoryatretail",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "beginning_month3_OnSave": {
+          "whereKey": "driver",
+          "equals": "mobeginventoryatretail",
+          "extractKey": "{{dynamicMonth+3}}.forecast"
+        },
+        "ending_month_OnSave": {
+          "whereKey": "driver",
+          "equals": "moendinginventoryatretail",
+          "extractKey": "{{dynamicMonth}}.forecast"
+        },
+        "ending_month1_OnSave": {
+          "whereKey": "driver",
+          "equals": "moendinginventoryatretail",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "ending_month2_OnSave": {
+          "whereKey": "driver",
+          "equals": "moendinginventoryatretail",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        }
+      },
+      "validateExtractToBeApprox": {
+        "receipt_month_OnSave": {
+          "expected": "{{driver1_month_monthtomonth_Forecast}}",
+          "tolerance": 0.2
+        },
+        "receipt_month1_OnSave": {
+          "expected": "{{driver1_month_monthtomonth_Forecast}}",
+          "tolerance": 0.2
+        },
+        "beginning_month1_OnSave": {
+          "expected": "{{ending_month_OnSave}}",
+          "tolerance": 0
+        },
+        "beginning_month2_OnSave": {
+          "expected": "{{ending_month1_OnSave}}",
+          "tolerance": 0
+        },
+        "beginning_month3_OnSave": {
+          "expected": "{{ending_month2_OnSave}}",
+          "tolerance": 0
+        }
+      }
+    }
+  ]
+}

@@ -69,6 +69,7 @@ export type AssertionEntry =
       extractKey: string;
     };
   };
+  getNextMonth?: { [globalVar: string]: string };
   labels?: string[];
   runFunctions?: RunFunction[];
   extractObject?: { [key: string]: string };
