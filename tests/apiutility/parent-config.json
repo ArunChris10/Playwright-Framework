@@ -11,7 +11,7 @@
   "ForceAllParallel": true,
   "ForceAllSerial": false,
   "testFiles": [
-    "testCases/data-science-review-testcases/patchy-allocate-api-tests.json",
+    "testCases/patchy-allocate-api-tests.json",
     "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save.json",
@@ -63,7 +63,7 @@
     "testCases/copy-scenario-historical-source-select-drivers.json",
     "testCases/primaryDataUpdate-onSegmentReview-test.json",
     "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json",
-    "testCases/patchy-allocate-api-tests.json"
+    
 
   ],
   "currentDemandService": {
