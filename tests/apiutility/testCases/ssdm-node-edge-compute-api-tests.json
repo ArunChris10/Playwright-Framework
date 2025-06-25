@@ -45,5 +45,52 @@
         }
       ]
     }
+  ],
+   "check_for_compute_success": [
+    {
+      "testStep": "get scenario id for SSDM ",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "computeSsdm"
+      ],
+      "service": "coreService",
+      "uri": "getSandboxScenarioId",
+      "testName": "get scenario id for SSDM",
+      "queryParams": "",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractFirst": {
+        "getkpi4_scenario_id": "scenario_id"
+      }
+    },
+    {
+      "testStep": "Check if the compute succeeds",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "computeSsdm"
+      ],
+      "service": "coreService",
+      "uri": "computeSsdm",
+      "testName": "check for compute success",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "classification_id": 12,
+        "doc_id": 11401749728531,
+        "ds_type": "Activated",
+        "scenario_id": "{{getkpi4_scenario_id}}"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
   ]
 }
