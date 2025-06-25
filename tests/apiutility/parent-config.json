@@ -59,7 +59,9 @@
     "testCases/update-adjustment-status-from-change-request-to-resolve-request.json",
     "testCases/copy-scenario-draft-source-select-drivers.json",
     "testCases/copy-scenario-historical-source-select-drivers.json",
-    "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json"
+    "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json",
+    "testCases/ssdm-node-edge-publish-latest-test.json",
+    "testCases/ssdm-node-edge-publish-latest-failure-test.json"
 
   ],
   "currentDemandService": {
@@ -114,6 +116,7 @@
     "computeSsdm": "/sandbox/v1/compute-scenario",
     "getDriversListSSDM": "/sandbox/v1/drivers",
     "publishSSDMActivatedDataset":"sandbox/v1/publish-node-edge-document",
+    "publishSSDMLatestDataset": "sandbox/v1/publish-node-edge-document",
     "createScenario":"/create-user-scenario",
     "sendToBAReview":"/adjustment/status/v2",     
     "getIndividualStatus":"get-individual-status"
