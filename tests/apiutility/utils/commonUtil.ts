@@ -377,7 +377,39 @@ export async function validateAssertions(response: any, responseBody: any, asser
             throw new Error(`Assertion failed for assertResponseByCalculationForSign: ${err.message}`);
           }
 
-        } else if (arrayOfAssertion.assertLength) {
+        } else if (arrayOfAssertion.assertResponseByAllocationMissingMonth) {
+          const baseMonth202709 = parseFloat(
+            interpolate(
+              arrayOfAssertion.assertResponseByAllocationMissingMonth
+                .baseMonth202709
+            )
+          ); // Interpolate
+          const baseMonth202710 = parseFloat(
+            interpolate(
+              arrayOfAssertion.assertResponseByAllocationMissingMonth
+                .baseMonth202710
+            )
+          ); // Interpolate the JSON path
+          const updatedMonth202709 = parseFloat(
+            interpolate(
+              arrayOfAssertion.assertResponseByAllocationMissingMonth
+                .updatedMonth202709
+            )
+          ); // Interpolate the JSON path
+          const updatedMonth202710 = parseFloat(
+            interpolate(
+              arrayOfAssertion.assertResponseByAllocationMissingMonth
+                .updatedMonth202710
+            )
+          ); // Interpolate the JSON path
+          try {
+            expect(updatedMonth202709).toBeGreaterThan(baseMonth202709); // Validate the length
+            expect(baseMonth202710).toBeUndefined(); // Validate the length
+            expect(updatedMonth202710).toBeUndefined(); // Validate the length
+          } catch (err: any) {
+            throw new Error(`Assertion failed for assertLength`);
+          }
+        }else if (arrayOfAssertion.assertLength) {
           const jsonPath = interpolate(arrayOfAssertion.assertLength.jsonPath); // Interpolate the JSON path
           const expectedLength = parseFloat(interpolate(arrayOfAssertion.assertLength.expectedLength));
           try {
