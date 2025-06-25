@@ -61,8 +61,8 @@
     "testCases/copy-scenario-draft-source-select-drivers.json",
     "testCases/copy-scenario-historical-source-select-drivers.json",
     "testCases/primaryDataUpdate-onSegmentReview-test.json",
-    "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json"
-
+    "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json",
+    "testCases/month-on-month-propagation-test.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -115,11 +115,10 @@
     "createUserScenario": "/scenario/create-user-scenario",
     "computeSsdm": "/sandbox/v1/compute-scenario",
     "getDriversListSSDM": "/sandbox/v1/drivers",
-    "publishSSDMActivatedDataset":"sandbox/v1/publish-node-edge-document",
-    "createScenario":"/create-user-scenario",
-    "sendToBAReview":"/adjustment/status/v2",     
-    "getIndividualStatus":"get-individual-status"
-
+    "publishSSDMActivatedDataset": "sandbox/v1/publish-node-edge-document",
+    "createScenario": "/create-user-scenario",
+    "sendToBAReview": "/adjustment/status/v2",
+    "getIndividualStatus": "get-individual-status"
   },
   "notificationService": {
     "baseURL": {
