@@ -30,7 +30,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
 
   test.describe("Verify Calculate & Save API for multiple adjustments", { tag: "@Smoke @Regression @patchycellupdate" }, () => {
 
-   /*  test.beforeAll(async ({ request }) => {
+   test.beforeAll(async ({ request }) => {
       if (
         (await ForecastUtility.countOfScenario(
           testData.lobName,
@@ -60,15 +60,13 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       );
       scenarioId = scenario_details["scenarioId"];
       scenarioVersion = scenario_details["scenarioVersion"];
-    }); */
+    }); 
 
     test.describe.configure({ timeout: 500_000, mode: "serial" });
 
     test(`Verify allocation method is working fine on edited blank cells - ${lobName}`, async ({
       request,
     }) => {
-      scenarioId = 10681750919667;
-      scenarioVersion = 1750919668;
       inputMonths = await Utility.generateNextMonths(7);
       let baseline_KpiResponse = await EditForecastUtility.getKpiResponsesForNodes(
         testData.patchyDataNode,
