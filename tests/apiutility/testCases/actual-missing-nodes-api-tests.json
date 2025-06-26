@@ -14,7 +14,7 @@
             "queryParams": "",
             "method": "GET",
  
-            "assertion": [
+            "assertions": [
                     {
                         "status": 200
                     },
@@ -55,7 +55,7 @@
             "queryParams": "",
             "method": "GET",
 
-            "assertion": [
+            "assertions": [
                     {
                         "status": 400
                     },

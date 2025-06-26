@@ -1,6 +1,7 @@
 {
     "validate_forecast_calendar_cycle_and_deadline": [
       {
+        "runInParallel": false,
         "testStep": "Get forecast Calendar API",
         "environment": "qa",
         "labels": ["smoke", "IBGROW-36277", "IBGROW-36151", "MS1","MS2"],
@@ -126,6 +127,7 @@
     ],
     "validate_update_forecast_cycle_and_verification": [
       {
+        "runInParallel": false,
         "testStep": "Verify update forecast cycle API",
         "environment": "qa",
         "labels": ["smoke", "BG-36270", "MS2"],
@@ -194,6 +196,7 @@
   
     "validate_delete_forecast_cycle_and_404_check": [
       {
+        "runInParallel": false,
         "testStep": "Delete Forecast Calendar cycle",
         "environment": "qa",
         "labels": ["smoke", "IBGROW-36275", "IBGROW-36153", "MS1","MS2"],
@@ -231,6 +234,7 @@
   
     "validate_forecast_cycle_recreation_and_cleanup": [
       {
+              "runInParallel": false,
         "testStep": "Create Forecast Cycle for generating new cycle data",
         "environment": "qa",
         "labels": ["smoke", "BG-36274", "IBGROW-36272", "MS2"],

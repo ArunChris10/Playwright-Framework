@@ -1,6 +1,7 @@
   {
     "validate_aop3_adjustment_workflow": [
       {
+              "runInParallel": false,
         "testStep": "Get AOP Scenario Details from DataScience Info",
         "environment": "qa",
         "labels": [

@@ -43,6 +43,10 @@ export class CurrentForecast {
   readonly filterOptions: Locator;
   readonly modalUFMFilters: Locator;
   readonly nofilterSetList: Locator;
+  readonly deleteForecast:Locator;
+  readonly deleteForecastLabel:Locator;
+  readonly deleteForecastButton:Locator;
+  readonly deleteForecastModalTitle:Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -108,6 +112,10 @@ export class CurrentForecast {
     this.recallForecast = page.getByText('Recall forecast', { exact: true })
     this.recallForecastHeader = page.locator("//h2[contains(text(),'Recall forecast')]")
     this.sendingForReview = page.getByText('Sending for review', { exact: false });
+    this.deleteForecast = page.getByText('Delete forecast');
+    this.deleteForecastLabel = page.locator('//[@id="react-aria-12"]');
+    this.deleteForecastButton= page.locator('//[@data-testid="recall-button"]');
+    this.deleteForecastModalTitle= page.locator('//[@data-testid="modal-title"]');
   }
 
   async gotoOrganisationSelection() {
@@ -121,6 +129,10 @@ export class CurrentForecast {
 
   async clickOnSendToReview(sbaName) {
     await this.page.getByText(`Send to ${sbaName} review`).click()
+  }
+
+  async isSendToReviewEnabled(sbaName) {
+    return await this.page.getByText(`Send to ${sbaName} review`).isVisible()
   }
 
   async clickOnRecallForecast() {
@@ -354,7 +366,7 @@ export class CurrentForecast {
   async clickOnOpenParticularForecast(LOB: string) {
     let forecastParentElement = this.page
       .locator(
-        `//div[contains(@class,'CurrentForecast_card-container')]//div[contains(text(),"${LOB}")]/parent::div`
+        `//div[contains(@class,'CurrentForecast_card-container')]//div[(text()="${LOB}")]/parent::div`
       )
       .first();
 
@@ -399,6 +411,24 @@ export class CurrentForecast {
 
     expect(foreCastHeader).toEqual(scenarioName);
   }
+
+  async clickOpenFirstForecastByName(scenarioName: string) {
+    const forecastParentElement = this.page.locator(
+        `//span[text()="${scenarioName}"]/ancestor::div[@role="row"]`
+    ).first();
+
+    await forecastParentElement.waitFor({ state: 'visible', timeout: 30000 });
+    const forecastRowID = await forecastParentElement.getAttribute("row-id");
+
+    const LOBForecast = this.page.locator(
+        `//div[contains(@class,'CurrentForecast_card-container')]//div[@row-id=${forecastRowID}]`
+    );
+
+    await LOBForecast.locator(this.open).click();
+
+    const foreCastHeader = await this.forecastHeader.innerText();
+    expect(foreCastHeader).toEqual(scenarioName);
+}
 
 
   async clickOnParticularForecastEllipses(scenarioName: string) {
@@ -479,5 +509,14 @@ export class CurrentForecast {
   async getEmptyFilterSetListMessage() {
     const  emptyFilterSetList = await this.nofilterSetList.innerText();
     expect(emptyFilterSetList).toBe("You don’t have any filter sets created yet.")
+  }
+
+  async deleteForecastByName(forecastName: string)
+  {
+    await expect(this.deleteForecast).toBeVisible();
+    await this.deleteForecast.click();
+    await expect(this.deleteForecastLabel).toBeVisible();
+    await expect(this.deleteForecastModalTitle).toContainText(forecastName);
+    await this.deleteForecastButton.click();
   }
 }

@@ -10,13 +10,16 @@
                     "Other Cost of Goods Sold"
                 ],
                 "inputAdditiveDrivers": [
-                    "Returned Units (UOM)",
-                    "Allocation % (Merchandise Income)"
+                    "Merchandise Income Plug"
+                    
                 ],
                 "inputAdditiveNonAdditiveDrivers": [
                     "COGS (Input)",
-                    "Other Cost of Goods Sold",
                     "Cost of Goods Sold"
+                ],
+                "combinationDrivers":[
+                    "COGS (Input)",
+                    "Returned Units (UOM)"
                 ],
                 "noOfMonth": 2,
                 "allocationMethod": "Maintain ratio",
@@ -32,7 +35,8 @@
                 "inputDriver": ["Financial Services Income"],
                 "noOfMonth": 2,
                 "allocationMethod": ["Constant value", "Maintain ratio","Equal distribution","Percent on time/rolling"],
-                "noOfYears":3
+                "noOfYears":3,
+                "growthRatePercentYear":"55"
             }
         }
     ],

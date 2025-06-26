@@ -11,21 +11,23 @@ import commonData from "../ufm-be/constants/common.json";
 import { UfmUtility } from "../ufm-be/fixtures/ufm-utils";
 import { interpolateHeadersObject } from '../apiutility/utils/commonUtil'
 import { loadJSON } from '../apiutility/utils/jsonUtils';
-import { ParentConfig } from '../apiutility/api.test'
+import { ParentConfig } from '../apiutility/types/api.types';
 import { Utility } from "../common/fixtures/utils";
+import deleteAllForecastsForAutomationUser from '../apiutility/globalTeardown';
 
 export default async function globalSetup() {
 
   process.env.apiBaseURLUFM = 'https://ibg-ufm-core-service.qa.ibg.walmart.com';
 
   console.log('Global Setup (runs once before all tests)');
+
   const parentConfig = loadJSON<ParentConfig>(path.resolve(__dirname, 'parent-config.json'));
   // await Utility.getNexusFakeToken(parentConfig.user + "", request);
   globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
   const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
-
+  await deleteAllForecastsForAutomationUser();
   globalStore.setValue('randomNumber', generateRandomNumber(4));
-  globalStore.setValue('randomDateOffset', generateRandomNumber(1));
+  globalStore.setValue('randomDateOffset', generateRandomNumber(2));
   const randomDateOffset = globalStore.getValue('randomDateOffset');
   globalStore.setValue('deadlineDate', getRandomFutureDateTimeWithOffset(randomDateOffset, 0));
   globalStore.setValue('updatedDeadlineDate', getRandomFutureDateTimeWithOffset(randomDateOffset, 10));
@@ -37,4 +39,5 @@ export default async function globalSetup() {
 
   console.log('globalSetup completed');
 };
+
 

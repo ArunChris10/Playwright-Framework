@@ -1,0 +1,14 @@
+{
+    "testData": {
+        "MERCHOPS": {
+            "lobName": "MERCHOPS",
+            "Nodes": [
+                "momerchandisesales",
+                "mowarehouseallowances",
+                "mobuyingallowances",
+                "mototalallowances"
+            ],
+            "adjustmentId": 1747131515456
+        }
+    }
+}

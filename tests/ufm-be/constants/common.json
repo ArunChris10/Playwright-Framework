@@ -57,7 +57,12 @@
   "Input_Driver_Type": 49,
   "All_Driver_Type": 48,
 
-  "defaultDriverSetNames" :{
-    "MERCHOPS":"Merch Ops Default Driver Set"
-  }
+  "defaultDriverSetNames": {
+    "MERCHOPS": "Merch Ops Default Driver Set"
+  },
+
+  "defaultInputValue": 1000,
+  "merchOpsInputNodes": ["moinventoryshrinkadjustmentcost", "momonthendaccrual"],
+  "ecommerceInputNodes": ["membershipincome_input","otherincome_input"],
+  "crossInputNodes": ["otherincome_input", "membershipincome_input"]
 }

@@ -37,7 +37,11 @@ export class OpenCurrentForecast {
   readonly savedViewsDropDownHeader: Locator
   readonly saveViewButton: Locator
   readonly saveViewModal: Locator
+  readonly unsaveViewModal: Locator
+  readonly saveViewAsModal: Locator
   readonly saveButtonLocatorString: string
+  readonly overwriteButtonLocatorString: string
+  readonly overwriteButton: Locator
   readonly cancelButtonLocatorString: string
   readonly cancelButton: Locator
   readonly saveViewSnackBar: Locator;
@@ -59,6 +63,20 @@ export class OpenCurrentForecast {
   readonly doneButtonOnRollingPercentage: Locator
   readonly viewDriver: Locator
   readonly btnApplyChanges: Locator
+  readonly firstChevronIcon: Locator
+  readonly detailsAfterExpandingChevronIcon: Locator
+  readonly customGrowthRateInput: Locator
+  readonly growthRatePercentInput: Locator
+  readonly copyData: Locator
+  readonly forecastDropdown: Locator
+  readonly copyForecast: Locator
+  readonly copyScenarioSourceForecastDropdown: Locator;
+  readonly copyScenarioDestinationForecastDropdown: Locator;
+  readonly copyDataButton: Locator;
+  readonly dateRangeComponent: Locator;
+  readonly dateRangeDropdown: Locator;
+  readonly monthSelector: Locator;
+  readonly modalBackdrop: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -70,9 +88,7 @@ export class OpenCurrentForecast {
     this.KPITable = page.getByTestId('forecast-table')
     this.saveChangesLoader = page.locator('//div[contains(@class,"Adjustment")]//span[@role="status"]')
     this.customCheckbox = '//div[contains(@class,"editable-cell-border")]//span'
-    this.actionButton = this.page.locator(
-      '//div[@class="table-container"]//button[contains(text(),"Actions")]'
-    );
+    this.actionButton = page.getByText('Actions');
     this.chooseDifferentDriverButton = page.getByText(
       "Create new view"
     );
@@ -110,33 +126,149 @@ export class OpenCurrentForecast {
     this.savedViewsDropDownMenu = this.page.locator('//div[contains(@class,"SavedViewMenu_menu")]')
     this.saveViewButton = this.page.getByText('Save View')
     this.saveViewModal = this.page.locator('//h2[text()="Save view"]//ancestor::div[@role="dialog"]')
+    this.unsaveViewModal = this.page.locator('//h2[text()="Unsaved Changes"]//ancestor::div[@role="dialog"]')
+    this.saveViewAsModal = this.page.locator('//h2[text()="Save view as"]//ancestor::div[@role="dialog"]')
     this.saveButtonLocatorString = "//button[text()='Save']"
-    this.cancelButtonLocatorString = "//button[text()='Cancel']"
+    this.overwriteButtonLocatorString = "//button[@data-testid='close-confirmation-leave-button']"
+    this.cancelButtonLocatorString = "//button[@data-testid='close-confirmation-cancel-button']"
 
     this.saveButton = this.page.locator(this.saveButtonLocatorString)
+    this.overwriteButton = this.page.locator(this.overwriteButtonLocatorString)
     this.cancelButton = this.page.locator(this.cancelButtonLocatorString)
     this.saveViewSnackBar = this.page.getByText("View saved successfully.")
     this.deleteViewSnackBar = this.page.getByText("View deleted successfully.")
     this.deleteButton = this.page.locator('//button[text()="Delete"]')
     this.notificationIcon = this.page.locator('//*[@data-testid="notification-count"]')
+    this.firstChevronIcon = this.page.locator('//*[@data-testid="agGridColumnGroup-id"]//*[@row-index="0"]//*[@class="ag-icon ag-icon-tree-closed"]')
+    this.detailsAfterExpandingChevronIcon = this.page.locator('//*[@class="ag-details-row-auto-height ag-details-row"]')
+
     this.notificationTitle = this.page.locator('//*[@class="notificationTitle"]//*[text()="Notifications"]')
     this.searchNotificationInput = this.page.getByPlaceholder("Search Notifications")
     this.selectProjectionMethodButton = this.page.locator("//*[@data-testid='AutoCompleteWithInputIcon-id']")
     this.historicalRateInput = this.page.locator("//*[@value='HISTORICAL']")
     this.growthRateInput = this.page.locator("//*[text()='Growth Rate']")
-    this.selectProjectionMethodButton = this.page.locator("//*[text()='Regression']")
+    this.selectRegressionMethod = this.page.locator("//*[text()='Regression']")
     this.noOfYearsInput = this.page.locator("//*[data-testid='projectionmethod-regression-noofyears-id']")
     this.rollingPercentageInput = this.page.locator("//*[@data-testid='input-field']")
     this.rollingPercentageOffsetInput = this.page.locator("//*[@data-testid='offset-field']")
     this.doneButtonOnRollingPercentage = this.page.getByText("Done")
     this.applyButton = this.page.getByText("Apply")
     this.viewDriver = this.page.locator('//div[contains(@class,"chip-alignment")]//child::button[contains(@class,"drivers")]');
+    this.customGrowthRateInput = this.page.locator("//*[@value='CUSTOM']")
+    this.growthRatePercentInput = this.page.locator("//input[@data-testid='projectionmethod-growthrate-percentage-id']")
+    this.forecastDropdown = page.getByText("Select forecast");
+    this.copyData = page.getByText("Copy data");
+    this.copyForecast = page.getByText("Copy forecast data");
+    this.copyScenarioSourceForecastDropdown = page.getByRole('button', { name: 'Source forecast' }).first();
+    this.copyScenarioDestinationForecastDropdown = page.getByRole('button', { name: 'Source forecast' }).nth(1);
+    this.copyDataButton = page.getByText('Copy data');
+    this.dateRangeComponent = page.getByLabel('Load data to another').getByTestId('date-range-component');
+    this.dateRangeDropdown = page.locator('.MuiCardContent-root > button:nth-child(3)');
+    this.monthSelector = page.locator('button').filter({ hasText: 'May' });
+    this.modalBackdrop = page.locator('div:nth-child(2) > .MuiBackdrop-root');
   }
 
   async clickOnOpenButton() {
     await this.btnOpenCurrentForecast.first().click();
   }
+  
+  async clickOnOpenCopyForecastDataButton() {
+    await this.copyForecast.click();
+  }
 
+  async clickSourceForecastDropdown(sourceName: string, isCurrentSource: boolean) {
+    await this.forecastDropdown.first().click();
+    await this.page.waitForTimeout(5000);
+    
+    const dropdownOptions = this.page.locator('li[role="option"]');
+    const optionCount = await dropdownOptions.count();
+
+    for (let i = 2; i < optionCount; i++) {
+      const optionText = await dropdownOptions.nth(i).textContent();
+      if ((isCurrentSource && optionText?.trim() === sourceName) || (!isCurrentSource && optionText?.trim() !== sourceName)) 
+      {
+          await dropdownOptions.nth(i).click();
+          await this.page.waitForTimeout(3000);
+          return optionText?.trim();
+      }
+    }
+  }
+  
+  async clickTargetForecastDropdown(targetSelection: string, isCurrentTarget: boolean) {
+    const secondDropdown = this.page.locator(
+      '//span[text()="Destination forecast"]/following::div[@role="button"][1]'
+    );
+    await secondDropdown.click();
+    await this.page.waitForTimeout(5000);
+    
+    const dropdownOptions = this.page.locator('li[role="option"]');
+    
+    const optionCount = await dropdownOptions.count();
+    
+    for (let i = 0; i < optionCount; i++) {
+      const optionText = await dropdownOptions.nth(i).textContent();
+
+      const trimmedOptionText = optionText?.trim();
+
+      if (!trimmedOptionText || trimmedOptionText === "Select forecast") {
+          continue;
+      }
+      if ((isCurrentTarget && trimmedOptionText === targetSelection) || (!isCurrentTarget && trimmedOptionText !== targetSelection)) 
+      {
+          await dropdownOptions.nth(i).click();
+          await this.page.waitForTimeout(3000);
+          return trimmedOptionText;
+      }
+    }
+  }
+
+  async getAlertMessage(expectedMessage: string, errorMessage:string, timeout = 60000): Promise<string> {
+    const alertMessageLocator = this.page.locator('.Alert-module_content__1Vy5h');
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < timeout) {
+        await alertMessageLocator.waitFor({ state: 'visible', timeout: 5000 });
+        const alertMessage = await alertMessageLocator.textContent();
+        const trimmedMessage = alertMessage?.trim();
+
+        if (trimmedMessage === errorMessage) {
+            return trimmedMessage;
+        }
+
+        if (trimmedMessage === expectedMessage) {
+            return trimmedMessage;
+        }
+
+        await this.page.waitForTimeout(1000);
+    }
+
+    throw new Error(`Alert message did not change to the expected value within ${timeout}ms.`);
+  }
+
+  async clickOnCopyForecastButton() {
+    await this.page.mouse.click(0, 0);
+    await this.copyData.click();
+    await this.page.waitForTimeout(5000);
+  }
+  async clickOnDateRangeComponent() {
+    await this.dateRangeComponent.locator('div').first().click();
+  }
+
+  async clickOnDateRangeDropdown() {
+    await this.dateRangeDropdown.click();
+  }
+
+  async selectMonth(monthName: string) {
+    await this.page.locator('button').filter({ hasText: monthName }).click();
+  }
+
+  async clickModalBackdrop() {
+    await this.modalBackdrop.click();
+  }
+
+  async verifyDateRangeComponentIsVisible() {
+    await expect(this.dateRangeComponent).toBeVisible();
+  }
   async clickOnBreadcrum(sbaName: string) {
     await this.page.getByText(`UFM ${sbaName}`).click();
   }
@@ -151,9 +283,7 @@ export class OpenCurrentForecast {
 
   async clickOnChooseDifferentDriver() {
     await this.DriversButton.isVisible() ? await this.DriversButton.click() : await this.chooseDifferentDriverButton.click()
-
   }
-
   async clickOnChooseDriver() {
     await this.DriversButton.waitFor({ state: "visible" });
     await this.DriversButton.click();
@@ -162,8 +292,43 @@ export class OpenCurrentForecast {
   async clickOnDriver(): Promise<void> {
     const chooseDriverButton = await this.page.locator('button[aria-label="Please save your changes before adding more drivers."]'); // Use aria-label to locate the button
     await chooseDriverButton.click();
+  }
+  async clickChannelButton() {
+  await this.page.getByRole('button', { name: 'Channel' }).click();
 }
 
+async clickDepartmentButton() {
+  await this.page.getByRole('button', { name: 'Department' }).click();
+}
+
+async expandIbgTotalOption() {
+  await this.page.locator('div').filter({ hasText: /^IBG_TOTAL$/ }).locator('path').first().click();
+}
+
+async selectIbgTotalCheckbox() {
+  await this.page.getByLabel('IBG_TOTAL').check();
+}
+
+async selectConsumablesCheckbox() {
+  await this.page.getByLabel('CONSUMABLES').check();
+}
+
+// Methods to verify chips are visible
+async verifyIbgTotalChip() {
+  await expect(this.page.locator('div').filter({ hasText: /^IBG_TOTAL$/ }).nth(2)).toBeVisible();
+}
+
+async verifyConsumablesChip() {
+  await expect(this.page.locator('div').filter({ hasText: /^CONSUMABLES$/ }).nth(2)).toBeVisible();
+}
+
+async clickIbgTotalChip() {
+  await this.page.locator('div').filter({ hasText: /^IBG_TOTAL$/ }).nth(2).click();
+}
+
+async clickConsumablesChip() {
+  await this.page.locator('div').filter({ hasText: /^CONSUMABLES$/ }).nth(2).click();
+}
   async waitForKPITableToLoad(state: "attached" | "detached" | "visible" | "hidden" | undefined = "visible") {
     await this.KPITable.waitFor({ state: state })
   }
@@ -415,15 +580,31 @@ export class OpenCurrentForecast {
     return cell;
   }
 
-  async selectHistoricalRateProjection()
-  {
+  async getCellForGivenInputCell(DriverName) {
+    const { col_id, row_id } = await this.getForecastInputCellForGivenDriver(DriverName);
+    if (!col_id || !row_id) {
+      throw new Error("col_id or row_id is undefined");
+    }
+    const xpath = `//*[@row-id="${row_id}"]/*[contains(@col-id,"${col_id}")]//span`;
+    const cell = this.page.locator(xpath);
+    await cell.waitFor({ state: 'visible' });
+    return cell;
+  }
+
+  async selectHistoricalRateProjection() {
     await this.growthRateInput.click();
     await this.historicalRateInput.click();
     await this.applyButton.click();
   }
 
-  async selectRegressionProjection(noOfyears : string)
-  {
+  async selectCustomGrowthRateProjection(growthRatePercentInputValue: string) {
+    await this.growthRateInput.click();
+    await this.customGrowthRateInput.click();
+    await this.growthRatePercentInput.fill(growthRatePercentInputValue);
+    await this.applyButton.click();
+  }
+
+  async selectRegressionProjection(noOfyears: string) {
     await this.selectRegressionMethod.click();
     await this.noOfYearsInput.fill(noOfyears);
     await this.applyButton.click();
@@ -469,7 +650,7 @@ export class OpenCurrentForecast {
   }
 
   async waitForCalculationSuccessMessage() {
-    await this.calculationSuccessfulMessage.waitFor({ state: "visible" });
+    await this.calculationSuccessfulMessage.first().waitFor({ state: "visible" });
   }
 
   async clickOnSaveChanges() {
@@ -509,6 +690,22 @@ export class OpenCurrentForecast {
     }
 
     return await this.saveButton.isDisabled() ? false : true;
+
+  }
+  async clickOnOverwrite() {
+    if (!await this.overwriteButton.isDisabled()) {
+      return await this.overwriteButton.click();
+    }
+
+    return await this.overwriteButton.isDisabled() ? false : true;
+
+  }
+  async clickOnCancel() {
+    if (!await this.cancelButton.isDisabled()) {
+      return await this.cancelButton.click();
+    }
+
+    return await this.cancelButton.isDisabled() ? false : true;
 
   }
 
@@ -563,6 +760,22 @@ export class OpenCurrentForecast {
     await this.savedViewsDropDownMenu.locator(`//button[@aria-label="Delete view"]`).click()
   }
 
+  async switchToFirstView(viewName) {
+    const menuItems = this.savedViewsDropDownMenu.locator('button[role="menuitem"]');
+    const count = await menuItems.count();
+
+    for (let i = 0; i < count; i++) {
+      const menuItem = menuItems.nth(i);
+      const menuItemName = await menuItem.textContent();
+      if (menuItemName?.trim() !== viewName) {
+        await menuItem.click();
+        return;
+      }
+    }
+
+    throw new Error(`No view found that is different from the provided view name: ${viewName}`);
+  }
+
   async validateSaveViewModal() {
 
     let saveViewModalContainer = this.saveViewModal
@@ -575,9 +788,20 @@ export class OpenCurrentForecast {
     expect(await this.saveViewModal.locator(this.cancelButtonLocatorString).isVisible()).toBeTruthy()
     expect(await this.saveViewModal.locator(this.saveButtonLocatorString).isVisible()).toBeTruthy()
   }
+  async validateUnsavedViewModal() {
+
+    let unsavedViewModalContainer = this.unsaveViewModal;
+
+    expect(unsavedViewModalContainer).toContainText('Unsaved Changes');
+    expect(unsavedViewModalContainer).toContainText('You have unsaved changes. Are you sure you want to proceed?');
+  }
 
   async inputSaveViews(name) {
     await this.saveViewModal.locator('//input').fill(name)
+  }
+
+  async inputSaveViewsAs(name) {
+    await this.saveViewAsModal.locator('//input').fill(name)
   }
 
   async waitForSaveViewSuccessMessage() {
@@ -608,6 +832,35 @@ export class OpenCurrentForecast {
     await this.deleteButton.click()
   }
 
+  async clickOnCopyForecastDataButton() {
+    await this.copyForecast.click()
+  }
+
+  async selectSourceForecastDropdown(sourceForecastName: string) {
+    await this.copyScenarioSourceForecastDropdown.click();
+    await this.page.getByRole('option', { name: sourceForecastName, exact: true }).click();
+    await this.page.keyboard.press("Escape");
+  }
+
+  async selectDestinationForecastDropdown(destinationForecastName: string) {
+    await this.copyScenarioDestinationForecastDropdown.click();
+    await this.page.getByRole('option', { name: destinationForecastName, exact: true }).click();
+    await this.page.keyboard.press("Escape");
+  }
+
+  async clickOnCopyDataButton() {
+    await this.copyDataButton.click();
+  }
+
+  async waitForMessage(message: string) {
+    await expect(this.page.getByText(message)).toBeVisible();
+  }
+
+  async getEditableInputCellCount() {
+    const spans = this.page.locator(this.customCheckbox);
+    return await spans.count();
+  }
+
   async getViewTilePresence(viewName) {
     await Promise.race([
       this.createNewViewButton.waitFor({ state: 'visible' }),
@@ -618,39 +871,83 @@ export class OpenCurrentForecast {
 
   async getUserViewTilePresence(): Promise<number> {
     await Promise.race([
-        this.createNewViewButton.waitFor({ state: 'visible' }),
-        this.DriversButton.waitFor({ state: 'visible' }),
+      this.createNewViewButton.waitFor({ state: 'visible' }),
+      this.DriversButton.waitFor({ state: 'visible' }),
     ]);
     const privateViews = await this.page.locator(`//span[@aria-label="Private view"]`);
     const count = await privateViews.count();
     return count;
-}
+  }
 
-async selectViewTile(): Promise<void> {
-  await Promise.race([
+  async getGlobalViewTilePresence(): Promise<number> {
+    await Promise.race([
       this.createNewViewButton.waitFor({ state: 'visible' }),
       this.DriversButton.waitFor({ state: 'visible' }),
-  ]);
-  const privateViews = await this.page.locator(`//span[@aria-label="Private view"]`);
-  const firstView = privateViews.first();
-  await firstView.click();
-}
+    ]);
+    const globalViews = await this.page.locator(`//span[@aria-label="Shared view"]`);
+    const count = await globalViews.count();
+    return count;
+  }
+
+  async clickOnSaveAsNew(): Promise<void> {
+    const saveViewButton = await this.page.locator('button.KPIPageHeader_splitsavebuttonsecondpart__OJYnq'); // Adjust selector if necessary
+    await saveViewButton.click();
+
+    const saveAsNewOption = await this.page.locator('//span[contains(@class, "KPIPageHeader_menuItem") and text()="Save as new"]'); // Adjusted selector for more specificity
+    await saveAsNewOption.click();
+  }
+
+  async selectViewTile(): Promise<void> {
+    await Promise.race([
+      this.createNewViewButton.waitFor({ state: 'visible' }),
+      this.DriversButton.waitFor({ state: 'visible' }),
+    ]);
+    const privateViews = await this.page.locator(`//span[@aria-label="Private view"]`);
+    const firstView = privateViews.first();
+    await firstView.click();
+  }
+  async selectGlobalViewTile(): Promise<void> {
+    await Promise.race([
+      this.createNewViewButton.waitFor({ state: 'visible' }),
+      this.DriversButton.waitFor({ state: 'visible' }),
+    ]);
+    const globalViews = await this.page.locator(`//span[@aria-label="Shared view"]`);
+    const firstView = globalViews.first();
+    await firstView.click();
+  }
   async checkDuplicateViewMessage() {
     return await this.duplicateViewMessage.isVisible()
   }
-async waitForPageLoad(): Promise<boolean> {
-  await this.page.waitForSelector('.ag-header-container', { state: 'visible', timeout: 60000 });
-  return true;
-}
-async getDriversFromGrid() {
-  const rowCount: number = await this.page.$$eval(
-    "div.ag-pinned-left-cols-container > div",
-    (divs) => divs.length
-  );
-  return rowCount;
-}
-async isDuplicateViewMessageVisible(): Promise<boolean> {
-  const duplicateMessage = await this.page.locator('text=This name is already in use. Please choose a different one.');
-  return await duplicateMessage.isVisible();
-}
+  async waitForPageLoad(): Promise<boolean> {
+    await this.page.waitForSelector('.ag-header-container', { state: 'visible', timeout: 60000 });
+    return true;
+  }
+
+
+  async verifyChevronIsReset() {
+    await this.firstChevronIcon.waitFor({ state: 'visible' });
+    await expect(this.detailsAfterExpandingChevronIcon).toBeHidden();
+  }
+
+  async expandChevronIcon() {
+    await this.firstChevronIcon.waitFor({ state: 'visible' });
+    await this.firstChevronIcon.click();
+    await expect(this.detailsAfterExpandingChevronIcon).toBeVisible();
+  }
+
+  async navigateBackToOrganization(organizationName: string): Promise<void> {
+    await this.page.locator(`//*[@itemprop="name"][contains(text(),"${organizationName}")]`).click();
+  }
+
+  async getDriversFromGrid() {
+    const rowCount: number = await this.page.$$eval(
+      "div.ag-pinned-left-cols-container > div",
+      (divs) => divs.length
+    );
+    return rowCount;
+  }
+  async isDuplicateViewMessageVisible(): Promise<boolean> {
+    const duplicateMessage = await this.page.locator('text=This name is already in use. Please choose a different one.');
+    return await duplicateMessage.isVisible();
+  }
 }

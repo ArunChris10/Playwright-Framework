@@ -1,7 +1,7 @@
 tools:
   sonarscanner: "4.8.0.2856"
   nodejs: 16.18.0
-  npm: 8.19.2
+  npm: 8.19.2   
 
 useSecretStore: true
 envs:
@@ -129,11 +129,6 @@ flows:
       then:
         - var(APP_NAME = 'UFM')
         - call: runUFMBeTests
-    - if: | #search ufm app name here
-        %{app =~ UFM_REPOS}
-      then:
-        - var(APP_NAME = 'UFM')
-        - call: runUFMBeTests_apiFramework
     - if: | #search ufm app name here
         %{app =~ CDF_REPOS}
       then:

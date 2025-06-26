@@ -1,6 +1,7 @@
 {
   "validate_aop2_demand_adjustment_workflow": [
     {
+            "runInParallel": false,
       "testStep": "Fetch Scenario Details from DataScience Info",
       "environment": "qa",
       "labels": ["smoke", "Pre-Req", "IBGROW-35039", "IBGROW-34989", "MS2"],

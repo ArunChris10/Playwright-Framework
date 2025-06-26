@@ -1,8 +1,8 @@
 {
   "row_data": [
     {
-      "Period": "{{dynamicMonthStr-1}}",
-      "Scenario Name": "{{scenario_id}}",
+      "Month": "{{dynamicMonthStr-1}}",
+      "Scenario Name": "{{listHistoricals_scenario_id}}",
       "grossprofit": "*",
       "momerchandisesales": "*",
       "mowarehouseallowances": "*",
@@ -10,8 +10,8 @@
       "mototalallowances": "*"
     },
     {
-      "Period": "{{dynamicMonthStr}}",
-      "Scenario Name": "{{scenario_id}}",
+      "Month": "{{dynamicMonthStr}}",
+      "Scenario Name": "{{listHistoricals_scenario_id}}",
       "grossprofit": "*",
       "momerchandisesales": "*",
       "mowarehouseallowances": "*",
@@ -19,8 +19,8 @@
       "mototalallowances": "*"
     },
     {
-      "Period": "{{dynamicMonthStr+1}}",
-      "Scenario Name": "{{scenario_id}}",
+      "Month": "{{dynamicMonthStr+1}}",
+      "Scenario Name": "{{listHistoricals_scenario_id}}",
       "grossprofit": "*",
       "momerchandisesales": "*",
       "mowarehouseallowances": "*",
@@ -31,40 +31,45 @@
   "metadata": {
     "cut_off_date": "*",
     "node_details": {
-      "momerchandisesales": {
-        "nodeId": "101_MOMERCHSALES",
-        "nodeVar": "momerchandisesales",
-        "nodeName": "Merchandise Sales (MO)",
-        "nodeType": "input",
-        "nodeValType": "$"
-      },
       "mototalallowances": {
         "nodeId": "104_MOBA",
         "nodeVar": "mototalallowances",
         "nodeName": "Total Allowances (MO)",
         "nodeType": "calculated",
-        "nodeValType": "$"
+        "nodeValType": "$",
+        "node_owner": ""
       },
       "mobuyingallowances": {
         "nodeId": "102_MOBA",
         "nodeVar": "mobuyingallowances",
         "nodeName": "Buying Allowances (MO)",
         "nodeType": "input",
-        "nodeValType": "$"
+        "nodeValType": "$",
+        "node_owner": "110029"
       },
       "mowarehouseallowances": {
         "nodeId": "103_MOBA",
         "nodeVar": "mowarehouseallowances",
         "nodeName": "Warehouse Allowances (MO)",
         "nodeType": "input",
-        "nodeValType": "$"
+        "nodeValType": "$",
+        "node_owner": "110029"
       },
       "grossprofit": {
         "nodeId": "4000_UFM",
         "nodeVar": "grossprofit",
         "nodeName": "Gross Profit",
         "nodeType": "calculated",
-        "nodeValType": "$"
+        "nodeValType": "$",
+        "node_owner": ""
+      },
+      "momerchandisesales": {
+        "nodeId": "101_MOMERCHSALES",
+        "nodeVar": "momerchandisesales",
+        "nodeName": "Merchandise Sales (MO)",
+        "nodeType": "input",
+        "nodeValType": "$",
+        "node_owner": "110029"
       }
     }
   }

@@ -1,9 +1,13 @@
 {
-  "validate_create_and_poll_forecast for node refresh": [
+  "validate_visualIndicator_OnRefresh": [
     {
+      "runInParallel": false,
       "testStep": "Get a forecast to delete before proceding for demand SBA",
       "environment": "qa",
-      "labels": ["smoke","MS3"],
+      "labels": [
+        "smoke",
+        "MS3"
+      ],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get a forecast to delete before proceding",
@@ -18,14 +22,14 @@
         "filters": [],
         "additional_filters": {
           "template_include_headers": [
-        {
-          "name": "vs LY",
-          "format": "percent"
-        },
-        {
-          "name": "vs Plan",
-          "format": "absolute"
-        }
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
           ]
         }
       },
@@ -34,29 +38,43 @@
           "status": 200
         }
       ],
-      
       "extractRelativeMultipleCondition": {
-      "DemandToDeletescenarioId": {
-        "conditions": [
-          { "path": "rowData.lineOfBusiness", "equals": 110030 },
-          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
-        ],
-        "extractKey": "scenarioId"
-      },
+        "DemandToDeletescenarioId": {
+          "conditions": [
+         
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
         "DemandToDeletescenarioVersion": {
-        "conditions": [
-          { "path": "rowData.lineOfBusiness", "equals": 110030 },
-          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
-        ],
-        "extractKey": "scenarioVersion"
+          "conditions": [
+            
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
       }
-
-    }
-  },
+    },
     {
       "testStep": "Delete demand SBA forecast before proceding",
       "environment": "qa",
-      "labels": ["smoke"],
+      "labels": [
+        "smoke"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "testName": "Delete a forecast before proceding",
@@ -147,7 +165,10 @@
     {
       "testStep": "Get a forecast to delete before proceding for segment SBA",
       "environment": "qa",
-      "labels": ["smoke","MS3"],
+      "labels": [
+        "smoke",
+        "MS3"
+      ],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get a forecast to delete before proceding",
@@ -162,14 +183,14 @@
         "filters": [],
         "additional_filters": {
           "template_include_headers": [
-        {
-          "name": "vs LY",
-          "format": "percent"
-        },
-        {
-          "name": "vs Plan",
-          "format": "absolute"
-        }
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
           ]
         }
       },
@@ -179,27 +200,42 @@
         }
       ],
       "extractRelativeMultipleCondition": {
-      "SegmentToDeletescenarioId": {
-        "conditions": [
-          { "path": "rowData.lineOfBusiness", "equals": 110021 },
-          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
-        ],
-        "extractKey": "scenarioId"
-      },
+        "SegmentToDeletescenarioId": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110021
+            },
+          
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
         "SegmentToDeletescenarioVersion": {
-        "conditions": [
-          { "path": "rowData.lineOfBusiness", "equals": 110021 },
-          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
-        ],
-        "extractKey": "scenarioVersion"
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110021
+            },
+           
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
       }
-
-    }
     },
     {
       "testStep": "Delete segment SBA forecast before proceding",
       "environment": "qa",
-      "labels": ["smoke"],
+      "labels": [
+        "smoke"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "testName": "Delete a forecast before proceding",
@@ -288,9 +324,85 @@
       }
     },
     {
+      "testStep": "Create Forecast Scenario for Optical SBA-1",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast- Optical SBA-1",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "OpticalData {{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110016
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of Optical FORECAST-1",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of Optical FORECAST-1",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120003,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "OpticalData {{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
       "testStep": "Get a forecast to delete before proceding for Optical SBA",
       "environment": "qa",
-      "labels": ["smoke","MS3"],
+      "labels": [
+        "smoke",
+        "MS3"
+      ],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get a forecast to delete before proceding",
@@ -305,14 +417,14 @@
         "filters": [],
         "additional_filters": {
           "template_include_headers": [
-        {
-          "name": "vs LY",
-          "format": "percent"
-        },
-        {
-          "name": "vs Plan",
-          "format": "absolute"
-        }
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
           ]
         }
       },
@@ -322,27 +434,42 @@
         }
       ],
       "extractRelativeMultipleCondition": {
-      "OpticalToDeletescenarioId": {
-        "conditions": [
-          { "path": "rowData.lineOfBusiness", "equals": 110016 },
-          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
-        ],
-        "extractKey": "scenarioId"
-      },
+        "OpticalToDeletescenarioId": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110016
+            },
+           
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
         "OpticalToDeletescenarioVersion": {
-        "conditions": [
-          { "path": "rowData.lineOfBusiness", "equals": 110016 },
-          { "path": "rowData.owner", "equals": "LB-ibg-ufm-auto" }
-        ],
-        "extractKey": "scenarioVersion"
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110016
+            },
+          
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
       }
-
-    }
     },
     {
       "testStep": "Delete Optic SBA forecast before proceding",
       "environment": "qa",
-      "labels": ["smoke"],
+      "labels": [
+        "smoke"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "testName": "Delete a forecast before proceding",
@@ -470,17 +597,18 @@
       ],
       "extractRelativeMultipleCondition": {
         "optical_scenario_id_2": {
-        "conditions": [
-          { "path": "rowData.name", "equals": "apiUtilityAutomation {{randomNumber}}" }
-        ],
-        "extractKey": "scenarioId"
+          "conditions": [
+            {
+              "path": "rowData.name",
+              "equals": "apiUtilityAutomation {{randomNumber}}"
+            }
+          ],
+          "extractKey": "scenarioId"
+        }
       }
-
-    }
-    }
-  ],
-  "validate_NodeRefresh": [
+    },
     {
+      "runInParallel": false,
       "testStep": "Edit Segment Forecast",
       "environment": "qa",
       "labels": [
@@ -715,14 +843,14 @@
         "filters": [],
         "additional_filters": {
           "template_include_headers": [
-        {
-          "name": "vs LY",
-          "format": "percent"
-        },
-        {
-          "name": "vs Plan",
-          "format": "absolute"
-        }
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
           ]
         }
       },
@@ -949,6 +1077,101 @@
       }
     },
     {
+      "testStep": "Extract the Before refresh data for unrefreshed scenario",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-37429",
+        "IBGROW-34379",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Extract the Before refresh data for unrefreshed scenario",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{optical_scenario_id_unrefresh}}",
+        "scenario_version": "{{optical_scenario_version_unrefresh}}",
+        "dim_id": 11,
+        "dim_val_id": 110016,
+        "classification_id": 12,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "pharmacyincentiveexpensepk0203",
+            "fieldincentiveexpensepk0202",
+            "grossgmv",
+            "longtermbonuspk0201"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            },
+            {
+              "name": "{{dynamicMonth+2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": true
+            },
+            {
+              "name": "Value",
+              "editable": true
+            }
+          ],
+          "month": [
+            "{{dynamicMonth+2}}"
+          ]
+        },
+        "isApplied": true
+      },
+      "assertions": {
+        "status": 200
+      },
+      "extractRelative": {
+        "fieldIncentiveExpenseUnRefreshData": {
+          "whereKey": "driver",
+          "equals": "fieldincentiveexpensepk0202",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "longTermBonusUnRefreshData": {
+          "whereKey": "driver",
+          "equals": "longtermbonuspk0201",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "pharmacyincentiveexpenseUnRefreshData": {
+          "whereKey": "driver",
+          "equals": "pharmacyincentiveexpensepk0203",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "grossGMVUnRefreshData": {
+          "whereKey": "driver",
+          "equals": "grossgmv",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        }
+      }
+    },
+    {
       "testStep": "Hit Refresh API in optical SBA",
       "environment": "qa",
       "labels": [
@@ -963,9 +1186,7 @@
       "service": "coreService",
       "queryParams": "",
       "payload": {
-        "target_scenarios": 
-          "{{optical_scenario_id}}"
-        
+        "target_scenarios": "{{optical_scenario_id}}"
       },
       "assertions": [
         {
@@ -1047,36 +1268,160 @@
       },
       "extractRelative": {
         "fieldIncentiveExpenseRefreshData": {
-          "whereKey": "rowData.driver",
+          "whereKey": "driver",
           "equals": "fieldincentiveexpensepk0202",
           "extractKey": "{{dynamicMonth+2}}.forecast"
         },
         "longTermBonusRefreshData": {
-          "whereKey": "rowData.driver",
+          "whereKey": "driver",
           "equals": "longtermbonuspk0201",
           "extractKey": "{{dynamicMonth+2}}.forecast"
         },
         "pharmacyincentiveexpenseRefreshData": {
-          "whereKey": "rowData.driver",
+          "whereKey": "driver",
           "equals": "pharmacyincentiveexpensepk0203",
           "extractKey": "{{dynamicMonth+2}}.forecast"
         },
         "grossGMVRefreshData": {
-          "whereKey": "rowData.driver",
+          "whereKey": "driver",
           "equals": "grossgmv",
           "extractKey": "{{dynamicMonth+2}}.forecast"
         }
       },
-      "validateExtractContains": {
-        "fieldIncentiveExpenseRefreshData": "{{fieldincentiveexpenseEdit}}",
-        "longTermBonusRefreshData": "{{longtermbonusEdit}}",
-        "pharmacyincentiveexpenseRefreshData": "{{pharmacyincentiveexpenseEdit}}",
-        "grossGMVRefreshData": "{{grossGMVEdit}}"
+      "validateExtractToBeApprox": {
+        "fieldIncentiveExpenseRefreshData": {
+          "expected": "{{fieldincentiveexpenseEdit}}",
+          "tolerance": 100
+        },
+        "longTermBonusRefreshData": {
+          "expected": "{{longtermbonusEdit}}",
+          "tolerance": 100
+        },
+        "pharmacyincentiveexpenseRefreshData": {
+          "expected": "{{pharmacyincentiveexpenseEdit}}",
+          "tolerance": 100
+        },
+        "grossGMVRefreshData": {
+          "expected": "{{grossGMVEdit}}",
+          "tolerance": 100
+        }
       }
-    }
-  ],
-  "validate_visualIndicator_OnRefresh": [
+    },
     {
+      "testStep": "Check the data is not updated for unrefreshed scenario",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-33387",
+        "IBGROW-37430",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Verify if the refresh done in one scenario is not affecting any other scenario the other forecast should remain unaffected",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{optical_scenario_id_unrefresh}}",
+        "scenario_version": "{{optical_scenario_version_unrefresh}}",
+        "dim_id": 11,
+        "dim_val_id": 110016,
+        "classification_id": 12,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "pharmacyincentiveexpensepk0203",
+            "fieldincentiveexpensepk0202",
+            "grossgmv",
+            "longtermbonuspk0201"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            },
+            {
+              "name": "{{dynamicMonth+2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": true
+            },
+            {
+              "name": "Value",
+              "editable": true
+            }
+          ],
+          "month": [
+            "{{dynamicMonth+2}}"
+          ]
+        },
+        "isApplied": true
+      },
+      "assertions": {
+        "status": 200
+      },
+      "extractRelative": {
+        "fieldIncentiveExpenseRefreshData": {
+          "whereKey": "driver",
+          "equals": "fieldincentiveexpensepk0202",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "longTermBonusRefreshData": {
+          "whereKey": "driver",
+          "equals": "longtermbonuspk0201",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "pharmacyincentiveexpenseRefreshData": {
+          "whereKey": "driver",
+          "equals": "pharmacyincentiveexpensepk0203",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "grossGMVRefreshData": {
+          "whereKey": "driver",
+          "equals": "grossgmv",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        }
+      },
+      "validateExtractToBeApprox": {
+        "fieldIncentiveExpenseRefreshData": {
+          "expected": "{{fieldIncentiveExpenseUnRefreshData}}",
+          "tolerance": 100
+        },
+        "longTermBonusRefreshData": {
+          "expected": "{{longTermBonusUnRefreshData}}",
+          "tolerance": 100
+        },
+        "pharmacyincentiveexpenseRefreshData": {
+          "expected": "{{pharmacyincentiveexpenseUnRefreshData}}",
+          "tolerance": 100
+        },
+        "grossGMVRefreshData": {
+          "expected": "{{grossGMVUnRefreshData}}",
+          "tolerance": 100
+        }
+      }
+    },
+    {
+      "runInParallel": false,
       "testStep": "Validate Visual Indicator timestamp for async refresh",
       "environment": "qa",
       "labels": [

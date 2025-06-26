@@ -1,0 +1,30 @@
+{
+  "check_for_publishing_ssdm_node_edge_latest": [
+    {
+      "testStep": "Publish the node edge for latest dataset",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "publishSSDMLatestDataset",
+        "IBGROW-38097"
+      ],
+      "service": "coreService",
+      "uri": "publishSSDMLatestDataset",
+      "testName": "Publish the node edge for latest dataset",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "doc_id": 12461747981295,
+        "ds_type": "Latest"
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "messageContains": "Publish started successfully"
+        }
+      ]
+    }
+  ]
+}

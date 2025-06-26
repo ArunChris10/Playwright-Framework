@@ -1,0 +1,1337 @@
+{
+  "createScenario_for_multi Layer Save": [
+    {
+      "testStep": "Get a forecast to delete before proceding for IO SBA - multi-layer save scenario",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS3"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get a forecast to delete before proceding for Io SBA - multi-layer save scenario",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120009,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "IOtoDeletescenarioId_multipltLayerSave": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110026
+            },
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
+        "IOtoDeletescenarioVersion_multipltLayerSave": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110026
+            },
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
+      }
+    },
+    {
+      "testStep": "Delete IO SBA forecast before proceding_multiLayerSave",
+      "environment": "qa",
+      "labels": [
+        "smoke"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Delete a IO forecast before proceding_multiLayerSave",
+      "queryParams": "/{{IOtoDeletescenarioId_multipltLayerSave}}/{{IOtoDeletescenarioVersion_multipltLayerSave}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110026
+      }
+    },
+    {
+      "testStep": "Create Forecast Scenario for IO SBA_multiLayerSave",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast- IO SBA_multiLayerSave",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "apiUtilityAutomation {{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110026
+      },
+      "extract": {
+        "io_scenario_id_multiLayerSave": "scenario.scenario_id",
+        "io_scenario_version_multiLayerSave": "scenario.scenario_version_timestamp"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of IO FORECAST_multiLayerSave",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of IO FORECAST_multiLayerSave",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120009,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "apiUtilityAutomation {{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "Get baseline value before procceding with any adjustment",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Get baseline value before procceding with any adjustment",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+        "scenario_version": "{{io_scenario_version_multiLayerSave}}",
+        "dim_id": 11,
+        "dim_val_id": 110026,
+        "classification_id": 11,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "returnedunitsuom_input",
+            "storereturns_input"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            }
+          ],
+          "month": [
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}"
+          ]
+        },
+        "isApplied": false
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "driver1_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver1_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        },
+        "driver2_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver2_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        }
+      }
+    },
+    {
+      "testStep": "Calculate Forecast for_multiLayerSave-Layer1",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Calculate Forecast for_multiLayerSave-Layer1",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+        "dim_val_id": 110026,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "returnedunitsuom_input",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 150
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1747131515456
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "layer1_driver1_forecast": {
+          "whereKey": "node_var_name",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        }
+      },
+      "validateExtractToBeNotNull": [
+        "layer1_driver1_forecast"
+      ]
+    },
+    {
+      "testStep": "Save Adjustment_multiLayerSave-Layer1",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "saveAdjustment",
+      "testName": "Verify Save works_mutliLayerSave-Layer1",
+      "queryParams": "",
+      "method": "PATCH",
+      "payload": {
+        "adjustment_metadata": {
+          "adjustment_name": "test Adjustment",
+          "adjustment_reason": "",
+          "adjustment_type": 73,
+          "is_duplicated": false,
+          "is_update": false,
+          "is_create": true,
+          "adjustment_edits": 3,
+          "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+          "scenario_version_timestamp": "{{io_scenario_version_multiLayerSave}}"
+        },
+        "allocation_request": {
+          "display_nodes": [],
+          "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+          "dim_val_id": 110026,
+          "dim_id": 11,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "returnedunitsuom_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 150
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+        },
+        "dim_val_id": 110026
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "New adjustment created successfully!!",
+            "jsonPath2": "adjustment_metadata.adjustment_name",
+            "value2": "test Adjustment"
+          },
+          "assertNotNull": {
+            "jsonPath1": "adjustment_metadata.adjustment_id",
+            "jsonPath2": "adjustment_metadata.created_by",
+            "jsonPath3": "adjustment_metadata.created_at"
+          }
+        }
+      ],
+      "extract": {
+        "level1_save_adjustmentId": "adjustment_metadata.adjustment_id"
+      }
+    },
+    {
+      "testStep": "Validate Adjustment via getKpi-layer1",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Validate saved data for drivers- GetKpi-layer1",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+        "scenario_version": "{{io_scenario_version_multiLayerSave}}",
+        "dim_id": 11,
+        "dim_val_id": 110026,
+        "classification_id": 11,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "returnedunitsuom_input",
+            "storereturns_input"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            }
+          ],
+          "month": [
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}"
+          ]
+        },
+        "isApplied": false,
+        "adjustment_id": "{{level1_save_adjustmentId}}"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "driver1_layer1_month1_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver1_layer1_month2_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver2_layer1_month1_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver2_layer1_month2_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver1_layer1_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver1_layer1_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver2_layer1_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver2_layer1_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver1_layer1_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver1_layer1_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        },
+        "driver2_layer1_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver2_layer1_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        }
+      },
+      "validateExtractToBeApprox": {
+        "driver1_layer1_month1_KPIData": {
+          "expected": "{{layer1_driver1_forecast}}",
+          "tolerance": 0.2
+        },
+        "driver1_layer1_month1_previous_KPIData": {
+          "expected": "{{driver1_month1_baseline}}",
+          "tolerance": 1
+        },
+        "driver1_layer1_month2_previous_KPIData": {
+          "expected": "{{driver1_month2_baseline}}",
+          "tolerance": 1
+        },
+        "driver2_layer1_month1_previous_KPIData": {
+          "expected": "{{driver2_month1_baseline}}",
+          "tolerance": 1
+        },
+        "driver2_layer1_month2_previous_KPIData": {
+          "expected": "{{driver2_month2_baseline}}",
+          "tolerance": 1
+        },
+        "driver1_layer1_month1_baseline": {
+          "expected": "{{driver1_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver1_layer1_month2_baseline": {
+          "expected": "{{driver1_month2_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_layer1_month1_baseline": {
+          "expected": "{{driver2_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_layer1_month2_baseline": {
+          "expected": "{{driver2_month2_baseline}}",
+          "tolerance": 0.2
+        }
+      }
+    },
+    {
+      "testStep": "Calculate Forecast for_multiLayerSave-Layer2",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Calculate Forecast for_multiLayerSave-Layer2",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+        "dim_val_id": 110026,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "returnedunitsuom_input",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 275,
+              "{{dynamicMonth+2}}": 275
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          },
+          {
+            "node_var_name": "storereturns_input",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 275,
+              "{{dynamicMonth+2}}": 275
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1747131515456
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "layer2_driver1_month1_forecast": {
+          "whereKey": "node_var_name",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        },
+        "layer2_driver1_month2_forecast": {
+          "whereKey": "node_var_name",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "edits.{{dynamicMonth+2}}.forecast"
+        },
+        "layer2_driver2_month1_forecast": {
+          "whereKey": "node_var_name",
+          "equals": "storereturns_input",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        },
+        "layer2_driver2_month2_forecast": {
+          "whereKey": "node_var_name",
+          "equals": "storereturns_input",
+          "extractKey": "edits.{{dynamicMonth+2}}.forecast"
+        }
+      },
+      "validateExtractToBeNotNull": [
+        "layer2_driver1_month1_forecast",
+        "layer2_driver1_month2_forecast",
+        "layer2_driver2_month1_forecast",
+        "layer2_driver2_month2_forecast"
+      ]
+    },
+    {
+      "testStep": "Save Adjustment_multiLayerSave-Layer2",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "saveAdjustment",
+      "testName": "Verify Save works_mutliLayerSave-Layer2",
+      "queryParams": "",
+      "method": "PATCH",
+      "payload": {
+        "adjustment_metadata": {
+          "adjustment_name": "test Adjustment-level2",
+          "adjustment_reason": "",
+          "adjustment_type": 73,
+          "is_duplicated": false,
+          "is_update": false,
+          "is_create": true,
+          "adjustment_edits": 3,
+          "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+          "scenario_version_timestamp": "{{io_scenario_version_multiLayerSave}}"
+        },
+        "allocation_request": {
+          "display_nodes": [],
+          "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+          "dim_val_id": 110026,
+          "dim_id": 11,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "returnedunitsuom_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 275,
+                "{{dynamicMonth+2}}": 275
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "storereturns_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 275,
+                "{{dynamicMonth+2}}": 275
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+        },
+        "dim_val_id": 110026
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "New adjustment created successfully!!",
+            "jsonPath2": "adjustment_metadata.adjustment_name",
+            "value2": "test Adjustment-level2"
+          },
+          "assertNotNull": {
+            "jsonPath1": "adjustment_metadata.adjustment_id",
+            "jsonPath2": "adjustment_metadata.created_by",
+            "jsonPath3": "adjustment_metadata.created_at"
+          }
+        }
+      ],
+      "extract": {
+        "level2_save_adjustmentId": "adjustment_metadata.adjustment_id"
+      }
+    },
+    {
+      "testStep": "Validate Adjustment via getKpi-layer2",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Validate saved data for drivers- GetKpi-layer2",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+        "scenario_version": "{{io_scenario_version_multiLayerSave}}",
+        "dim_id": 11,
+        "dim_val_id": 110026,
+        "classification_id": 11,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "returnedunitsuom_input",
+            "storereturns_input"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            }
+          ],
+          "month": [
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}"
+          ]
+        },
+        "isApplied": false,
+        "adjustment_id": "{{level2_save_adjustmentId}}"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "driver1_layer2_month1_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver1_layer2_month2_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver2_layer2_month1_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver2_layer2_month2_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver1_layer2_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver1_layer2_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver2_layer2_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver2_layer2_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver1_layer2_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver1_layer2_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        },
+        "driver2_layer2_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver2_layer2_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        }
+      },
+      "validateExtractToBeApprox": {
+        "driver1_layer2_month1_KPIData": {
+          "expected": "{{layer2_driver1_month1_forecast}}",
+          "tolerance": 1
+        },
+        "driver1_layer2_month2_KPIData": {
+          "expected": "{{layer2_driver1_month2_forecast}}",
+          "tolerance": 1
+        },
+        "driver2_layer2_month1_KPIData": {
+          "expected": "{{layer2_driver1_month1_forecast}}",
+          "tolerance": 1
+        },
+        "driver2_layer2_month2_KPIData": {
+          "expected": "{{layer2_driver1_month2_forecast}}",
+          "tolerance": 1
+        },
+        "driver1_layer2_month1_previous_KPIData": {
+          "expected": "{{driver1_layer1_month1_KPIData}}",
+          "tolerance": 1
+        },
+        "driver1_layer2_month2_previous_KPIData": {
+          "expected": "{{driver1_month2_baseline}}",
+          "tolerance": 1
+        },
+        "driver2_layer2_month1_previous_KPIData": {
+          "expected": "{{driver2_month1_baseline}}",
+          "tolerance": 1
+        },
+        "driver2_layer2_month2_previous_KPIData": {
+          "expected": "{{driver2_month2_baseline}}",
+          "tolerance": 1
+        },
+        "driver1_layer2_month1_baseline": {
+          "expected": "{{driver1_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver1_layer2_month2_baseline": {
+          "expected": "{{driver1_month2_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_layer2_month1_baseline": {
+          "expected": "{{driver2_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_layer2_month2_baseline": {
+          "expected": "{{driver2_month2_baseline}}",
+          "tolerance": 0.2
+        }
+      }
+    },
+    {
+      "testStep": "Calculate Forecast for_multiLayerSave-Layer3",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Calculate Forecast for_multiLayerSave-Layer3",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+        "dim_val_id": 110026,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "returnedunitsuom_input",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 500,
+              "{{dynamicMonth+2}}": 500
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          },
+          {
+            "node_var_name": "storereturns_input",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 500,
+              "{{dynamicMonth+2}}": 500
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1747131515456
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "layer3_driver1_month1_forecast": {
+          "whereKey": "node_var_name",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        },
+        "layer3_driver1_month2_forecast": {
+          "whereKey": "node_var_name",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "edits.{{dynamicMonth+2}}.forecast"
+        },
+        "layer3_driver2_month1_forecast": {
+          "whereKey": "node_var_name",
+          "equals": "storereturns_input",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        },
+        "layer3_driver2_month2_forecast": {
+          "whereKey": "node_var_name",
+          "equals": "storereturns_input",
+          "extractKey": "edits.{{dynamicMonth+2}}.forecast"
+        }
+      },
+      "validateExtractToBeNotNull": [
+        "layer3_driver1_month1_forecast",
+        "layer3_driver1_month2_forecast",
+        "layer3_driver2_month1_forecast",
+        "layer3_driver2_month2_forecast"
+      ]
+    },
+    {
+      "testStep": "Save Adjustment_multiLayerSave-Layer3",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "saveAdjustment",
+      "testName": "Verify Save works_mutliLayerSave-Layer3",
+      "queryParams": "",
+      "method": "PATCH",
+      "payload": {
+        "adjustment_metadata": {
+          "adjustment_name": "test Adjustment-level3",
+          "adjustment_reason": "",
+          "adjustment_type": 73,
+          "is_duplicated": false,
+          "is_update": false,
+          "is_create": true,
+          "adjustment_edits": 3,
+          "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+          "scenario_version_timestamp": "{{io_scenario_version_multiLayerSave}}"
+        },
+        "allocation_request": {
+          "display_nodes": [],
+          "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+          "dim_val_id": 110026,
+          "dim_id": 11,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "returnedunitsuom_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 500,
+                "{{dynamicMonth+2}}": 500
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "storereturns_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 500,
+                "{{dynamicMonth+2}}": 500
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+        },
+        "dim_val_id": 110026
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "New adjustment created successfully!!",
+            "jsonPath2": "adjustment_metadata.adjustment_name",
+            "value2": "test Adjustment-level3"
+          },
+          "assertNotNull": {
+            "jsonPath1": "adjustment_metadata.adjustment_id",
+            "jsonPath2": "adjustment_metadata.created_by",
+            "jsonPath3": "adjustment_metadata.created_at"
+          }
+        }
+      ],
+      "extract": {
+        "level3_save_adjustmentId": "adjustment_metadata.adjustment_id"
+      }
+    },
+    {
+      "testStep": "Validate Adjustment via getKpi-layer3",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Validate saved data for drivers- GetKpi-layer3",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+        "scenario_version": "{{io_scenario_version_multiLayerSave}}",
+        "dim_id": 11,
+        "dim_val_id": 110026,
+        "classification_id": 11,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "returnedunitsuom_input",
+            "storereturns_input"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            }
+          ],
+          "month": [
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}"
+          ]
+        },
+        "isApplied": false,
+        "adjustment_id": "{{level3_save_adjustmentId}}"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "driver1_layer3_month1_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver1_layer3_month2_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver2_layer3_month1_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver2_layer3_month2_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver1_layer3_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver1_layer3_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver2_layer3_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver2_layer3_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver1_layer3_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver1_layer3_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        },
+        "driver2_layer3_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver2_layer3_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        }
+      },
+      "validateExtractToBeApprox": {
+        "driver1_layer3_month1_KPIData": {
+          "expected": "{{layer3_driver1_month1_forecast}}",
+          "tolerance": 1
+        },
+        "driver1_layer3_month2_KPIData": {
+          "expected": "{{layer3_driver1_month2_forecast}}",
+          "tolerance": 1
+        },
+        "driver2_layer3_month1_KPIData": {
+          "expected": "{{layer3_driver1_month1_forecast}}",
+          "tolerance": 1
+        },
+        "driver2_layer3_month2_KPIData": {
+          "expected": "{{layer3_driver1_month2_forecast}}",
+          "tolerance": 1
+        },
+        "driver1_layer3_month1_previous_KPIData": {
+          "expected": "{{driver1_layer2_month1_KPIData}}",
+          "tolerance": 1
+        },
+        "driver1_layer3_month2_previous_KPIData": {
+          "expected": "{{driver1_layer2_month2_KPIData}}",
+          "tolerance": 1
+        },
+        "driver2_layer3_month1_previous_KPIData": {
+          "expected": "{{driver2_layer2_month1_KPIData}}",
+          "tolerance": 1
+        },
+        "driver2_layer3_month2_previous_KPIData": {
+          "expected": "{{driver2_layer2_month2_KPIData}}",
+          "tolerance": 1
+        },
+        "driver1_layer3_month1_baseline": {
+          "expected": "{{driver1_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver1_layer3_month2_baseline": {
+          "expected": "{{driver1_month2_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_layer3_month1_baseline": {
+          "expected": "{{driver2_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_layer3_month2_baseline": {
+          "expected": "{{driver2_month2_baseline}}",
+          "tolerance": 0.2
+        }
+      }
+    },
+    {
+      "testStep": "Delete Layer-2 Adjustment",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "saveAdjustment",
+      "testName": "Delete Layer-2 Adjustment",
+      "queryParams": "{{level2_save_adjustmentId}}?scenario_id={{io_scenario_id_multiLayerSave}}&scenario_version_timestamp={{io_scenario_version_multiLayerSave}}",
+      "method": "DELETE",
+      "payload": {},
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Validate get KPI after deleting Layer-2 Adjustment",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName":  "Validate get KPI after deleting Layer-2 Adjustment",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{io_scenario_id_multiLayerSave}}",
+        "scenario_version": "{{io_scenario_version_multiLayerSave}}",
+        "dim_id": 11,
+        "dim_val_id": 110026,
+        "classification_id": 11,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "returnedunitsuom_input",
+            "storereturns_input"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            }
+          ],
+          "month": [
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}"
+          ]
+        },
+        "isApplied": false,
+        "adjustment_id": "{{level3_save_adjustmentId}}"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "driver1_DeleteLayer2_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver1_DeleteLayer2_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver2_DeleteLayer2_month1_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.previous"
+        },
+        "driver2_DeleteLayer2_month2_previous_KPIData": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.previous"
+        },
+        "driver1_DeleteLayer2_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver1_DeleteLayer2_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "returnedunitsuom_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        },
+        "driver2_DeleteLayer2_month1_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+1}}.baseline"
+        },
+        "driver2_DeleteLayer2_month2_baseline": {
+          "whereKey": "driver",
+          "equals": "storereturns_input",
+          "extractKey": "{{dynamicMonth+2}}.baseline"
+        }
+      },
+      "validateExtractToBeApprox": {
+        "driver1_DeleteLayer2_month1_previous_KPIData": {
+          "expected": "{{driver1_layer1_month1_KPIData}}",
+          "tolerance": 1
+        },
+        "driver1_DeleteLayer2_month2_previous_KPIData": {
+          "expected": "{{driver1_layer1_month2_KPIData}}",
+          "tolerance": 1
+        },
+        "driver2_DeleteLayer2_month1_previous_KPIData": {
+          "expected": "{{driver2_layer1_month1_KPIData}}",
+          "tolerance": 1
+        },
+        "driver2_DeleteLayer2_month2_previous_KPIData": {
+          "expected": "{{driver2_layer1_month2_KPIData}}",
+          "tolerance": 1
+        },
+        "driver1_DeleteLayer2_month1_baseline": {
+          "expected": "{{driver1_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver1_DeleteLayer2_month2_baseline": {
+          "expected": "{{driver1_month2_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_DeleteLayer2_month1_baseline": {
+          "expected": "{{driver2_month1_baseline}}",
+          "tolerance": 0.2
+        },
+        "driver2_DeleteLayer2_month2_baseline": {
+          "expected": "{{driver2_month2_baseline}}",
+          "tolerance": 0.2
+        }
+      }
+    }
+  ]
+}

@@ -47,7 +47,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["scenario_id", "period"],
+        "pivot_rows": ["scenario_id", "month"],
         "pivot_columns": ["node_var_name"]
       },
       "extractFirst": {
@@ -80,7 +80,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["scenario_id", "period"],
+        "pivot_rows": ["scenario_id", "month"],
         "pivot_columns": ["node_var_name"]
       },
       "extractFirst": {
@@ -125,7 +125,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["scenario_id", "period"],
+        "pivot_rows": ["scenario_id", "month"],
         "pivot_columns": ["node_var_name"]
       },
       "extractFirst": {
@@ -163,7 +163,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["scenario_id", "period"],
+        "pivot_rows": ["scenario_id", "month"],
         "pivot_columns": ["node_var_name"]
       },
       "extractFirst": {
@@ -196,7 +196,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["scenario_id", "period"],
+        "pivot_rows": ["scenario_id", "month"],
         "pivot_columns": ["node_var_name"]
       },
       "extractFirst": {
