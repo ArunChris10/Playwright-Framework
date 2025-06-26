@@ -68,7 +68,7 @@
     "testCases/month-on-month-propagation-test.json",
     "testCases/calculate-save-additive-non-additive-nodes-equal-distriubution.json",
     "testCases/patchy-cell-edit-api-tests.json",
-    "testCases/allocation-excludes-missing-months-tests.json"
+    "testCases/allocation-excludes-missing-months.json"
   ],
   "currentDemandService": {
     "baseURL": {

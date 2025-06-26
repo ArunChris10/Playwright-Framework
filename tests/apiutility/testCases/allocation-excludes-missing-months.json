@@ -205,7 +205,7 @@
       "uri": "saveAdjustment",
       "testName": "Send request for save-adjustment",
       "queryParams": "",
-      "method": "post",
+      "method": "patch",
       "payload": {
         "adjustment_metadata": {
           "adjustment_name": "year update",
@@ -219,17 +219,15 @@
           "scenario_version_timestamp": "{{getkpi2_scenario_version}}"
         },
         "allocation_request": {
-          "display_nodes": [],
-          "scenario_id": "{{getkpi2_scenario_id}}",
-          "dim_val_id": 110015,
           "dim_id": 11,
-          "preview": false,
+          "dim_val_id": 110015,
+          "display_nodes": [],
           "edits": [
             {
               "node_var_name": "outsourcingundefined",
               "node_dimension": {},
               "data": {
-                "2027": 596928.17
+                "2027": 596928
               },
               "allocation": {
                 "interval": null,
@@ -239,9 +237,14 @@
             }
           ],
           "filters": [],
-          "period_view": "month"
+          "period_view": "year",
+          "preview": false,
+          "scenario_id": "{{getkpi2_scenario_id}}"
         },
         "dim_val_id": 110015
+      },
+       "extract": {
+        "adjustment_id": "adjustment_metadata.adjustment_id"
       },
       "assertions": [
         {
