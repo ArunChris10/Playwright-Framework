@@ -423,7 +423,6 @@
                         "node_id",
                         "channel",
                         "department",
-                        "location",
                         "reporting",
                         "business_area"
                     ],
@@ -439,9 +438,6 @@
                         },
                         {
                             "name": "Department"
-                        },
-                        {
-                            "name": "Location"
                         },
                         {
                             "name": "Reporting"
@@ -486,14 +482,33 @@
                 },
                 "isApplied": true
             },
+            "extractRelative": {
+                "grain1Value": {
+                    "whereKey": "rowData.channel",
+                    "equals": 60009,
+                    "extractKey": "rowData.202611.forecast"
+                },
+                "grain2Value": {
+                    "whereKey": "rowData.channel",
+                    "equals": 60028,
+                    "extractKey": "rowData.202611.forecast"
+                }
+            },
             "assertions": [
                 {
                     "status": 200
+                },
+                {
+                    "assertSum": {
+                        "values": [
+                            "{{grain1Value}}",
+                            "{{grain2Value}}"
+                        ],
+                        "expected": 100,
+                        "acceptedDifference": 0.1000
+                    }
                 }
-            ],
-            "extractFirst": {
-                "202611Values": "rowData.202611.forecast"
-            }
+            ]
         },
         {
             "testStep": "Delete scenario",
