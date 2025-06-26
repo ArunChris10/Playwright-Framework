@@ -419,6 +419,24 @@ export async function validateAssertions(response: any, responseBody: any, asser
           } catch (err: any) {
             throw new Error(`Assertion failed for assertLength`);
           }
+        } else if (arrayOfAssertion.assertSum) {
+            const values = arrayOfAssertion.assertSum.values
+              .map((value: any) => parseFloat(interpolate(value)))
+              .filter((value: number) => !isNaN(value)); // Filter out NaN values
+            
+            const expected = parseFloat(interpolate(arrayOfAssertion.assertSum.expected));
+            
+            const sum = values.reduce((acc, cur) => acc + cur, 0); // Calculate the sum of all values
+            
+            // Calculate the difference and validate
+            const difference = Math.abs(expected - sum);
+            const acceptedDifference = parseFloat(arrayOfAssertion.assertSum.acceptedDifference);
+
+            try {
+              expect(difference).toBeLessThanOrEqual(acceptedDifference);
+            } catch (err: any) {
+              throw new Error(`Assertion failed for assertSum: ${err.message}`);
+            }
         }
 
         const firstKey = Object.keys(arrayOfAssertion)[0];
