@@ -970,7 +970,7 @@
         "scenario_id": "{{defaultPrimaryData_scenario_id}}",
         "dim_id": 11,
         "dim_val_id": 110029,
-        "classification_id": 11,
+        "classification_id": 12,
         "template_id": 3,
         "filters": [],
         "additional_filters": {
