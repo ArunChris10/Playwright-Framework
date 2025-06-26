@@ -77,6 +77,8 @@ export class OpenCurrentForecast {
   readonly dateRangeDropdown: Locator;
   readonly monthSelector: Locator;
   readonly modalBackdrop: Locator;
+  readonly ReviewOpen: Locator;
+  readonly driverExplorationTab: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -166,6 +168,8 @@ export class OpenCurrentForecast {
     this.dateRangeDropdown = page.locator('.MuiCardContent-root > button:nth-child(3)');
     this.monthSelector = page.locator('button').filter({ hasText: 'May' });
     this.modalBackdrop = page.locator('div:nth-child(2) > .MuiBackdrop-root');
+    this.ReviewOpen = page.locator('//div[contains(@class, "reviewer-business-progress-container")]//button[text()="Open"]');
+    this.driverExplorationTab= page.getByText('Driver Exploration');
   }
 
   async clickOnOpenButton() {

@@ -1,24 +1,30 @@
 {
-  "validate_excel_load_data listHistoricals": [
+  "validate_excel_load_data": [
     {
-      "testStep": "Extract scenario version from listHistoricals API",
+      "testStep": "Extract scenario",
       "environment": "qa",
       "labels": ["smoke", "regression"],
       "service": "coreService",
-      "uri": "listHistoricals",
+      "uri": "getForecast",
       "testName": "Get scenarios for excel",
-      "queryParams": "dim_val_id=120010&dim_id=12&data_level=11&classification_id=12",
-      "method": "GET",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "classification_id": 12,
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "template_id": 1
+      },
       "assertions": [
         {
           "status": 200
         }
       ],
       "extractFirst": {
-        "listHistoricals_scenario_version_timestamp": "row_data.scenario_version_timestamp",
-        "listHistoricals_scenario_id": "row_data.scenario_id",
-        "listHistoricals_actual_template_id": "row_data.actual_template_id",
-        "listHistoricals_forecast_template_id": "row_data.forecast_template_id"
+        "listHistoricals_scenario_version_timestamp": "rowData.scenarioVersion",
+        "listHistoricals_scenario_id": "rowData.scenarioId",
+        "listHistoricals_actual_template_id": "rowData.ATS",
+        "listHistoricals_forecast_template_id": "rowData.FTS"
       }
     },
     {
