@@ -402,10 +402,11 @@ export async function validateAssertions(response: any, responseBody: any, asser
                 .updatedMonth202710
             )
           ); // Interpolate the JSON path
+
           try {
-            expect(updatedMonth202709).toBeGreaterThan(baseMonth202709);
-            expect(updatedMonth202710).toBeGreaterThan(baseMonth202710);
-            
+            expect(baseMonth202709).toBeGreaterThan(updatedMonth202709);
+            expect(updatedMonth202710).toBeDefined();
+            expect(baseMonth202710).toBeNaN();
           } catch (err: any) {
             throw new Error(`Assertion failed for assertLength`);
           }

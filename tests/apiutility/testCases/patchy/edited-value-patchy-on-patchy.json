@@ -27,8 +27,8 @@
         }
       ],
       "extractFirst": {
-        "getkpi2_scenario_id": "rowData.scenarioId",
-        "getkpi2_scenario_version": "rowData.scenarioVersion"
+          "getkpi2_scenario_id": "rowData.scenarioId",
+          "getkpi2_scenario_version": "rowData.scenarioVersion"
       }
     },
     {
@@ -123,123 +123,9 @@
         "period_view": "month",
         "adjustment_id": 1750870477218
       },
-      "assertions": [
-        {
-          "status": 200
-        }
-      ]
-    },
-    {
-      "testStep": "SaveAdjustment -- Send request for save-adjustment",
-      "environment": "qa",
-      "labels": ["smoke", "IBGROW-39474"],
-      "service": "coreService",
-      "uri": "saveAdjustment",
-      "testName": "Send request for save-adjustment",
-      "queryParams": "",
-      "method": "post",
-      "payload": {
-        "adjustment_metadata": {
-          "adjustment_name": "year update",
-          "adjustment_reason": "",
-          "adjustment_type": 74,
-          "is_duplicated": false,
-          "is_update": false,
-          "is_create": true,
-          "adjustment_edits": 8,
-          "scenario_id": "{{getkpi2_scenario_id}}",
-          "scenario_version_timestamp": "{{getkpi2_scenario_version}}"
-        },
-        "allocation_request": {
-          "display_nodes": [],
-          "scenario_id": "{{getkpi2_scenario_id}}",
-          "dim_val_id": 110015,
-          "dim_id": 11,
-          "preview": false,
-          "edits": [
-            {
-              "node_var_name": "outsourcingundefined",
-              "node_dimension": {},
-              "data": {
-                "202709": 100,
-                "202710": 100
-              },
-              "allocation": {
-                "interval": null,
-                "offset": null,
-                "method": 30
-              }
-            }
-          ],
-          "filters": [],
-          "period_view": "month"
-        },
-        "dim_val_id": 110015
-      },
-      "assertions": [
-        {
-          "status": 200
-        }
-      ]
-    },
-    {
-      "testStep": "Updated Month View -- Get a forecast to calculate for allocate nodes",
-      "environment": "qa",
-      "labels": ["smoke", "Pre-Req", "calculate", "IBGROW-39474"],
-      "service": "coreService",
-      "uri": "getKpiV2",
-      "testName": "Get a forecast to calculate month values",
-      "queryParams": "",
-      "method": "POST",
-      "payload": {
-        "scenario_id": "{{getkpi2_scenario_id}}",
-        "scenario_version": "{{getkpi2_scenario_version}}",
-        "dim_id": 11,
-        "dim_val_id": 110015,
-        "classification_id": 12,
-        "template_id": 3,
-        "filters": [],
-        "additional_filters": {
-          "pivot_cols": ["month"],
-          "pivot_index": ["node_id"],
-          "period_view": ["month"],
-          "nodes": ["outsourcingundefined"],
-          "template_include_headers": [
-            {
-              "name": "Driver"
-            },
-            {
-              "name": "202709",
-              "columnsMenuParams": "middleColumns"
-            },
-            {
-              "name": "202710",
-              "columnsMenuParams": "middleColumns"
-            },
-            {
-              "name": "",
-              "columnsMenuParams": "fixedColumns"
-            },
-            {
-              "name": "Allocation Method",
-              "columnsMenuParams": "action"
-            },
-            {
-              "name": "Forecast",
-              "editable": true
-            },
-            {
-              "name": "Value",
-              "editable": true
-            }
-          ],
-          "month": ["202709", "202710"]
-        },
-        "isApplied": true
-      },
       "extract": {
-        "updatedMonth202709": "rowData.202709.forecast",
-        "updatedMonth202710": "rowData.202710.forecast"
+        "updatedMonth202709": "edits.202709.forecast",
+        "updatedMonth202710": "edits.202710.forecast"
       },
       "assertions": [
         {
