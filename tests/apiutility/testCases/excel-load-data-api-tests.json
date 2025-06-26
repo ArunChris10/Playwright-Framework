@@ -1,24 +1,30 @@
 {
-  "validate_excel_load_data listHistoricals": [
+  "validate_excel_load_data": [
     {
-      "testStep": "Extract scenario version from listHistoricals API",
+      "testStep": "Extract scenario",
       "environment": "qa",
-      "labels": ["smoke", "regression", "listHistoricals"],
+      "labels": ["smoke", "regression"],
       "service": "coreService",
-      "uri": "listHistoricals",
+      "uri": "getForecast",
       "testName": "Get scenarios for excel",
-      "queryParams": "dim_val_id=120010&dim_id=12&data_level=11&classification_id=12",
-      "method": "GET",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "classification_id": 12,
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "template_id": 1
+      },
       "assertions": [
         {
           "status": 200
         }
       ],
       "extractFirst": {
-        "listHistoricals_scenario_version_timestamp": "row_data.scenario_version_timestamp",
-        "listHistoricals_scenario_id": "row_data.scenario_id",
-        "listHistoricals_actual_template_id": "row_data.actual_template_id",
-        "listHistoricals_forecast_template_id": "row_data.forecast_template_id"
+        "listHistoricals_scenario_version_timestamp": "rowData.scenarioVersion",
+        "listHistoricals_scenario_id": "rowData.scenarioId",
+        "listHistoricals_actual_template_id": "rowData.ATS",
+        "listHistoricals_forecast_template_id": "rowData.FTS"
       }
     },
     {
@@ -79,10 +85,10 @@
         ],
         "scenarios": [
           {
-            "listHistoricals_scenario_id": "{{scenario_id}}",
-            "listHistoricals_scenario_ver": "{{scenario_version_timestamp}}",
-            "listHistoricals_actual_scenario_id": "{{actual_template_id}}",
-            "listHistoricals_forecast_scenario_id": "{{forecast_template_id}}",
+            "scenario_id": "{{listHistoricals_scenario_id}}",
+            "scenario_ver": "{{listHistoricals_scenario_version_timestamp}}",
+            "actual_scenario_id": "{{listHistoricals_actual_template_id}}",
+            "forecast_scenario_id": "{{listHistoricals_forecast_template_id}}",
             "type": "scenarios"
           }
         ],
@@ -106,7 +112,7 @@
         "period_levels": [],
         "dimensions": ["channel_l3", "channel_l2", "channel_l1"],
         "pivot_rows": ["node_var_name", "channel_l3", "channel_l1", "channel_l2"],
-        "pivot_columns": ["period", "scenario_id"]
+        "pivot_columns": ["month", "scenario_id"]
       },
       "assertions": [
         {
@@ -159,7 +165,7 @@
           "department_l0",
           "department"
         ],
-        "pivot_columns": ["period"]
+        "pivot_columns": ["month"]
       },
       "assertions": [
         {
@@ -174,7 +180,7 @@
       "testStep": "Validate scenarios API - node order columns",
       "testName": "Validate scenarios API - node order columns",
       "environment": "qa",
-      "labels": ["regression", "IBGROW-38257", "elliot"],
+      "labels": ["smoke", "regression", "IBGROW-38257", "elliot"],
       "service": "reportingService",
       "uri": "scenarios",
       "queryParams": "",
@@ -205,7 +211,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["period", "scenario_id"],
+        "pivot_rows": ["month", "scenario_id"],
         "pivot_columns": ["node_var_name"]
       },
       "assertions": [
@@ -221,7 +227,7 @@
       "testStep": "Validate scenarios API - 422 missing nodeIds",
       "testName": "Validate scenarios API - 422 missing nodeIds",
       "environment": "qa",
-      "labels": ["regression", "IBGROW-37168", "elliot"],
+      "labels": ["smoke", "regression", "IBGROW-37168", "elliot"],
       "service": "reportingService",
       "uri": "scenarios",
       "queryParams": "",
@@ -242,7 +248,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["period", "scenario_id"],
+        "pivot_rows": ["month", "scenario_id"],
         "pivot_columns": ["node_var_name"]
       },
       "assertions": [
@@ -255,7 +261,7 @@
       "testStep": "Validate scenarios API - 422 missing scenarios",
       "testName": "Validate scenarios API - 422 missing scenarios",
       "environment": "qa",
-      "labels": ["regression", "IBGROW-37168", "elliot"],
+      "labels": ["smoke", "regression", "IBGROW-37168", "elliot"],
       "service": "reportingService",
       "uri": "scenarios",
       "queryParams": "",
@@ -267,7 +273,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["period", "scenario_id"],
+        "pivot_rows": ["month", "scenario_id"],
         "pivot_columns": ["node_var_name"]
       },
       "assertions": [
@@ -280,7 +286,7 @@
       "testStep": "Validate scenarios API - invalid date",
       "testName": "Validate scenarios API - invalid date",
       "environment": "qa",
-      "labels": ["regression", "IBGROW-37181", "elliot"],
+      "labels": ["smoke", "regression", "IBGROW-37181", "elliot"],
       "service": "reportingService",
       "uri": "scenarios",
       "queryParams": "",
@@ -301,7 +307,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["period", "scenario_id"],
+        "pivot_rows": ["month", "scenario_id"],
         "pivot_columns": ["node_var_name"]
       },
       "assertions": [
@@ -340,7 +346,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": ["department_l0", "department"],
-        "pivot_rows": ["period", "scenario_id", "node_var_name", "department_l0"],
+        "pivot_rows": ["month", "scenario_id", "node_var_name", "department_l0"],
         "pivot_columns": ["department"]
       },
       "assertions": [
@@ -351,7 +357,7 @@
                 {
                   "1": null,
                   "2": "*",
-                  "Period": "{{dynamicMonthStr}}",
+                  "Month": "{{dynamicMonthStr}}",
                   "Scenario Name": "{{listHistoricals_scenario_id}}",
                   "Node Name": "grossprofit",
                   "SBU": 20002
@@ -359,7 +365,7 @@
                 {
                   "1": "*",
                   "2": null,
-                  "Period": "{{dynamicMonthStr}}",
+                  "Month": "{{dynamicMonthStr}}",
                   "Scenario Name": "{{listHistoricals_scenario_id}}",
                   "Node Name": "grossprofit",
                   "SBU": 20004

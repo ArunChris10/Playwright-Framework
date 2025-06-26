@@ -167,9 +167,7 @@
         "timeoutMs": 600000
       }
     }
-  ],
-  "validate_calculation_for_various_node_types": [
-    {
+  ,{
       "testStep": "Calculate Forecast for #, %, and $ Node Types",
       "environment": "qa",
       "labels": [
@@ -265,8 +263,7 @@
         "forecastDriverFour"
       ]
     }
-  ],
-  "validate_save_adjustment_for_various_node_types": [
+ ,
     {
       "testStep": "Save Adjustment for Node Types (#, %, $)",
       "environment": "qa",

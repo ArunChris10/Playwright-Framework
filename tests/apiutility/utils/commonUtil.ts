@@ -1,10 +1,13 @@
 import { expect } from '@playwright/test';
 import { globalStore } from '../globalStore';
-import { AssertionEntry, ApiTestCase } from '../api.test';
-import { findAllValuesByKey } from '../utils/jsonUtils';
+import { JSONPath } from 'jsonpath-plus';
+import {AssertionEntry,ApiTestCase} from '../types/api.types';
+import { findAllValuesByKey} from '../utils/jsonUtils';
 import fs from 'fs';
 import path from 'path';
-import { awaitvalidateDriversContainsData as validateDriversContainsData, replaceNodeNames } from '../helperFunctions/helperFunctions'
+import { awaitvalidateDriversContainsData as validateDriversContainsData, replaceNodeNames,validateReportWithUFM } from '../helperFunctions/helperFunctions'
+
+import { validateNodesDataWithBQ } from '../helperFunctions/bigQueryHelper';
 
 export function generateRandomNumber(length: number): number {
   if (length <= 0) {
@@ -53,7 +56,7 @@ export function validateExtractedValuesContains(actual: any, expected: any, key:
 
 export async function getPayloadByTestCaseName(testCase: any): Promise<any> {
   let filePathOfPayload;
-  testCase.assertion.forEach(assertionArray => {
+  testCase.assertions.forEach(assertionArray => {
     if (assertionArray.assertResponse) {
       filePathOfPayload = assertionArray.assertResponse.filePath;
     }
@@ -145,7 +148,9 @@ export function deepPartialMatch(
     // If one is an array and the other isn't, no match
     return false;
   }
-
+  if (expected !== actual) {
+    console.log(`Expected: ${expected}, Actual: ${actual}`);
+  }
   // Primitive comparison (string, number, etc.)
   return expected === actual;
 }
@@ -159,7 +164,7 @@ export function interpolateHeaders(value: any): any {
 
 
 export function interpolate(value: any): any {
-  if (typeof value === 'string' && !value.includes("AsObject")) {
+  if (typeof value === 'string' && !value.includes("AsObject") &&!value.includes('-roundoff')) {
     return value.replace(/\{\{(.*?)\}\}/g, (_, key) => {
       const trimmedKey = key.trim();
       if (globalStore.getValue) {
@@ -168,7 +173,7 @@ export function interpolate(value: any): any {
       return globalStore[trimmedKey] ?? '';
     });
   }
-  else if (typeof value === 'string' && value.includes("AsObject")) {
+  else if (typeof value === 'string' && (value.includes("AsObject") || value.includes('-roundoff}}'))) {
     const fullMatch = value.match(/^{{\s*(.*?)\s*}}$/);
     if (fullMatch) {
       // Whole string is a placeholder, return raw value from globalStore
@@ -217,7 +222,7 @@ export async function validateAssertions(response: any, responseBody: any, asser
       try {
         expect(response.status()).toEqual(statusCode);
       } catch (err: any) {
-        throw new Error(`Assertion failed for status: ${err.message}`);
+        throw new Error(`Assertion failed for status: ${err.message} Responsebody: ${JSON.stringify(responseBody)}`);
       }
     } else {
       for (let i = 0; i <= Object.keys(arrayOfAssertion).length; i++) {
@@ -364,6 +369,14 @@ export async function validateAssertions(response: any, responseBody: any, asser
           } catch (err: any) {
             throw new Error(`Assertion failed for assertResponseByCalculation: ${err.message}`);
           }
+        } else if(arrayOfAssertion.assertResponseByCalculationForSign) {
+          const sign = arrayOfAssertion.assertResponseByCalculationForSign.sign; // Get the operation type
+          try {
+            expect(sign).toEqual('%');
+          } catch (err: any) {
+            throw new Error(`Assertion failed for assertResponseByCalculationForSign: ${err.message}`);
+          }
+
         } else if (arrayOfAssertion.assertLength) {
           const jsonPath = interpolate(arrayOfAssertion.assertLength.jsonPath); // Interpolate the JSON path
           const expectedLength = parseFloat(interpolate(arrayOfAssertion.assertLength.expectedLength));
@@ -372,6 +385,24 @@ export async function validateAssertions(response: any, responseBody: any, asser
           } catch (err: any) {
             throw new Error(`Assertion failed for assertLength`);
           }
+        } else if (arrayOfAssertion.assertSum) {
+            const values = arrayOfAssertion.assertSum.values
+              .map((value: any) => parseFloat(interpolate(value)))
+              .filter((value: number) => !isNaN(value)); // Filter out NaN values
+            
+            const expected = parseFloat(interpolate(arrayOfAssertion.assertSum.expected));
+            
+            const sum = values.reduce((acc, cur) => acc + cur, 0); // Calculate the sum of all values
+            
+            // Calculate the difference and validate
+            const difference = Math.abs(expected - sum);
+            const acceptedDifference = parseFloat(arrayOfAssertion.assertSum.acceptedDifference);
+
+            try {
+              expect(difference).toBeLessThanOrEqual(acceptedDifference);
+            } catch (err: any) {
+              throw new Error(`Assertion failed for assertSum: ${err.message}`);
+            }
         }
 
         const firstKey = Object.keys(arrayOfAssertion)[0];
@@ -440,7 +471,12 @@ export async function runFunctions(functionName: string, params: any, payload?) 
     case 'replaceNodeNames':
       let param1 = interpolate(params[0][0])
       let param2 = interpolate(params[0][1])
-      await replaceNodeNames(param1, param2);
+      await replaceNodeNames(param1, param2,false);
+      break;
+    case 'validateReportWithUFM':
+      let reportNodesDataAsObject = interpolate(params[0][0])
+      let UfmDataAsObject = interpolate(params[0][1])
+      await validateReportWithUFM(reportNodesDataAsObject, UfmDataAsObject)
       break;
     default:
       throw new Error(`Function "${functionName}" is not recognized.`);

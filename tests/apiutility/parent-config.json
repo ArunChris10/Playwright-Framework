@@ -5,7 +5,9 @@
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
   },
-  "tagsToRun": [],
+  "tagsToRun": [""],
+  "ForceAllParallel": true,
+  "ForceAllSerial": false,
   "testFiles": [
     "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save-demand-node.json",
@@ -33,32 +35,37 @@
     "testCases/ssdm-node-edge-get-drivers-api-tests.json",
     "testCases/ssdm-node-edge-publish-api-tests.json",
     "testCases/NodesCases/nodeshRefresh-api-tests.json",
+    "testCases/ssdm-myKpi-valuetype-tests.json",
     "testCases/download-Validation-NEFile.tests.json",
     "testCases/get-kpi-Month-GroupBy-Filter-tests.json",
     "testCases/drivers-api-tests.json",
     "testCases/actual-missing-nodes-api-tests.json",
-    "testCases/projection-method-testcases/historicRate-constantValueAllocation.json",
-    "testCases/projection-method-testcases/historicRate-MaintainRatioAllocation.json",
-    "testCases/projection-method-testcases/historicRate-EqualDistributionAllocation.json",
-    "testCases/projection-method-testcases/historicRate-TimeRollingAllocation.json",
-    "testCases/projection-method-testcases/regression-MaintainRatioAllocation.json",
-    "testCases/projection-method-testcases/regression-constantValueAllocation.json",
-    "testCases/excel-load-data-api-time-granularity.json",
     "testCases/excel-load-data-time-grains.json",
     "testCases/ssdm-get-kpi-verify.json",
-    "testCases/projection-method-testcases/regression-EqualDistributionAllocation.json",
-    "testCases/projection-method-testcases/regression-TimeRollingAllocation.json",
-    "testCases/projection-method-testcases/growthRate-EqualDistributionAllocation.json",
-    "testCases/projection-method-testcases/growthRate-TimeRollingAllocation.json", 
-    "testCases/projection-method-testcases/growthRate-MaintainRatioAllocation.json",
-    "testCases/projection-method-testcases/growthRate-constantValueAllocation.json",
-    "testCases/excel-load-data-api-time-granularity.json",
+    "testCases/projection-method-testcases/final_historical-growthrate-regression-projection-method-all-allocation-test.json",
     "testCases/data-science-demand-metric-ssdm-edit.json",
     "testCases/filters-ssdm-api-tests.json",
     "testCases/progress-status-ssdm.api-tests.json",
     "testCases/calculate-additive-nodes-constant-value.json",
     "testCases/calculate-additive-nodes-percent-rolling.json",
-    "testCases/forecast/edit-forecast-name-test.json"
+    "testCases/forecast/edit-forecast-name-test.json",
+    "testCases/calculate-saveajustment-multiLayer-test.json",
+    "testCases/copy-scenario-multiple-targets-test.json",
+    "testCases/copy-scenario-submitted-scenario-source-test.json",
+    "testCases/copy-scenario-historical-scenario-source-test.json",
+    "testCases/forecast-toActual-afterMEC.json",
+    "testCases/validator/validator-HigherGrain.json",
+    "testCases/validator/validator-lowerGrain.json",
+    "testCases/update-adjustment-status-from-change-request-to-resolve-request.json",
+    "testCases/copy-scenario-draft-source-select-drivers.json",
+    "testCases/copy-scenario-historical-source-select-drivers.json",
+    "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json",
+    "testCases/ssdm-node-edge-publish-latest-test.json",
+    "testCases/ssdm-node-edge-publish-latest-failure-test.json",
+    "testCases/primaryDataUpdate-onSegmentReview-test.json",
+    "testCases/month-on-month-propagation-test.json",
+    "testCases/calculate-save-additive-non-additive-nodes-equal-distriubution.json",
+    "testCases/patchy-cell-edit-api-tests.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -67,6 +74,14 @@
       "stg": "https://scenario.stg.ibg.walmart.com"
     },
     "get-demand-scenario-forecast-by-slot": "/api/demandscenarios/currentDemand/"
+  },
+  "utilityService": {
+    "baseURL": {
+      "qa": "https://ibg-ufm-utility-service.qa.ibg.walmart.com",
+      "dev": "https://ibg-ufm-utility-service.dev.ibg.walmart.com",
+      "stg": "https://ibg-ufm-utility-service.stg.ibg.walmart.com"
+    },
+    "copyScenario": "/v1/copy-scenario/"
   },
   "coreService": {
     "baseURL": {
@@ -77,6 +92,7 @@
     "getScreenId": "/filter/screen_details?",
     "listHistoricals": "/scenario/list-historicals?",
     "snapshots": "/archive/",
+    "ssdmMyKpi": "/sandbox/v1/get-mykpi",
     "getDataScienceInfo": "/scenario/data-science/info",
     "allocateData": "/allocate-data",
     "saveAdjustment": "/adjustment/",
@@ -95,12 +111,20 @@
     "publish-data-science-aop": "/data-science/aop/upload",
     "publish-data-science": "/data-science/upload",
     "get-data-science-info": "/scenario/data-science/info",
-    "download":"/validation/download",
-    "getDimensions":"/metadata/dimensions/mappings",    
+    "download": "/validation/download",
+    "getDimensions": "/metadata/dimensions/mappings",
     "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
-    "applyChangesOnSSDM":"/sandbox/v1/get-mykpi",
-    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions",
-    "editForecastName":"/scenario/forecast-name"
+    "applyChangesOnSSDM": "/sandbox/v1/get-mykpi",
+    "getPublishedVersionsProgressStatus": "/sandbox/v1/get-published-versions",
+    "editForecastName": "/scenario/forecast-name",
+    "createUserScenario": "/scenario/create-user-scenario",
+    "computeSsdm": "/sandbox/v1/compute-scenario",
+    "getDriversListSSDM": "/sandbox/v1/drivers",
+    "publishSSDMActivatedDataset": "sandbox/v1/publish-node-edge-document",
+    "publishSSDMLatestDataset": "sandbox/v1/publish-node-edge-document",
+    "createScenario": "/create-user-scenario",
+    "sendToBAReview": "/adjustment/status/v2",
+    "getIndividualStatus": "get-individual-status"
   },
   "notificationService": {
     "baseURL": {

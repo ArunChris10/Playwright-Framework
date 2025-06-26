@@ -1,0 +1,1297 @@
+{
+  "validate_primary data update on Segment Submission": [
+    {
+      "testStep": "Get a forecast to delete before proceding for Optical SBA_Primarydataupdate",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-39766",
+        "MS3"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get a forecast to delete before proceding_Primarydataupdate",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "MerchOpsToDeletescenarioId_Primarydataupdate": {
+          "conditions": [
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
+        "MerchOpsToDeletescenarioVersion_Primarydataupdate": {
+          "conditions": [
+            {
+              "path": "rowData.owner",
+              "equals": "LB-ibg-ufm-auto"
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
+      }
+    },
+    {
+      "testStep": "Delete Optic SBA forecast before proceding_Primarydataupdate",
+      "environment": "qa",
+      "labels": [
+        "smoke"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Delete a forecast before proceding",
+      "queryParams": "/{{MerchOpsToDeletescenarioId_Primarydataupdate}}/{{MerchOpsToDeletescenarioVersion_Primarydataupdate}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110029
+      }
+    },
+    {
+      "testStep": "Create Forecast Scenario for MerchOps SBA_Primarydataupdate",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate create forecast- MerchOps SBA_Primarydataupdate",
+      "queryParams": "/create-user-scenario",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "PrimaryDataUpdate {{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110029
+      },
+      "extract": {
+        "merchOps_scenario_version_Primarydataupdate": "scenario.scenario_version_timestamp",
+        "merchOps_scenario_id_Primarydataupdate": "scenario.scenario_id"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Poll creation of MerchOps FORECAST_Primarydataupdate",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll creation of MerchOps FORECAST_Primarydataupdate",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "PrimaryDataUpdate {{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "runInParallel": false,
+      "testStep": "Get base forecast primary data_Primarydataupdate",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-39766",
+        "MS1"
+      ],
+      "testName": "Get base forecast primary data_Primarydataupdate",
+      "service": "coreService",
+      "uri": "listHistoricals",
+      "queryParams": "dim_id=11&classification_id=12&dim_val_id=110029&data_level=11&include_primary=true",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractFirst": {
+        "defaultPrimaryData_scenario_id": "row_data.scenario_id"
+      }
+    },
+    {
+      "testStep": "Calculate Forecast for_updatePrimaryData",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Calculate Forecast for_updatePrimaryData",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{merchOps_scenario_id_Primarydataupdate}}",
+        "dim_val_id": 110029,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "momerchandisesales",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth}}": 500,
+              "{{dynamicMonth+1}}": 500,
+              "{{dynamicMonth+2}}": 500,
+              "{{dynamicMonth+3}}": 500,
+              "{{dynamicMonth+4}}": 500,
+              "{{dynamicMonth+5}}": 500,
+              "{{dynamicMonth+6}}": 500
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          },
+          {
+            "node_var_name": "mowarehouseallowances",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth}}": 900,
+              "{{dynamicMonth+1}}": 900,
+              "{{dynamicMonth+2}}": 900,
+              "{{dynamicMonth+3}}": 900,
+              "{{dynamicMonth+4}}": 900,
+              "{{dynamicMonth+5}}": 900,
+              "{{dynamicMonth+6}}": 900
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1747131515456
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "driver1_month_updatePrimaryData_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "momerchandisesales",
+          "extractKey": "edits.{{dynamicMonth}}.forecast"
+        },
+        "driver1_month1_updatePrimaryData_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "momerchandisesales",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        },
+        "driver1_month2_updatePrimaryData_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "momerchandisesales",
+          "extractKey": "edits.{{dynamicMonth+2}}.forecast"
+        },
+        "driver1_month3_updatePrimaryData_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "momerchandisesales",
+          "extractKey": "edits.{{dynamicMonth+3}}.forecast"
+        },
+        "driver1_month4_updatePrimaryData_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "momerchandisesales",
+          "extractKey": "edits.{{dynamicMonth+4}}.forecast"
+        },
+        "driver1_month5_updatePrimaryData_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "momerchandisesales",
+          "extractKey": "edits.{{dynamicMonth+5}}.forecast"
+        },
+        "driver1_month6_updatePrimaryData_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "momerchandisesales",
+          "extractKey": "edits.{{dynamicMonth+6}}.forecast"
+        },
+        "driver2_month_updatePrimaryData_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "mowarehouseallowances",
+          "extractKey": "edits.{{dynamicMonth}}.forecast"
+        },
+        "driver2_month1_updatePrimaryData_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "mowarehouseallowances",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        },
+        "driver2_month2_updatePrimaryData_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "mowarehouseallowances",
+          "extractKey": "edits.{{dynamicMonth+2}}.forecast"
+        },
+        "driver2_month3_updatePrimaryData_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "mowarehouseallowances",
+          "extractKey": "edits.{{dynamicMonth+3}}.forecast"
+        },
+        "driver2_month4_updatePrimaryData_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "mowarehouseallowances",
+          "extractKey": "edits.{{dynamicMonth+4}}.forecast"
+        },
+        "driver2_month5_updatePrimaryData_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "mowarehouseallowances",
+          "extractKey": "edits.{{dynamicMonth+5}}.forecast"
+        },
+        "driver2_month6_updatePrimaryData_Forecast": {
+          "whereKey": "node_var_name",
+          "equals": "mowarehouseallowances",
+          "extractKey": "edits.{{dynamicMonth+6}}.forecast"
+        }
+      }
+    },
+    {
+      "testStep": "Save Adjustment_multiLayerSave-Layer1",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "saveAdjustment",
+      "testName": "Verify Save works_mutliLayerSave-Layer1",
+      "queryParams": "",
+      "method": "PATCH",
+      "payload": {
+        "adjustment_metadata": {
+          "adjustment_name": "test Adjustment",
+          "adjustment_reason": "",
+          "adjustment_type": 73,
+          "is_duplicated": false,
+          "is_update": false,
+          "is_create": true,
+          "adjustment_edits": 3,
+          "scenario_id": "{{merchOps_scenario_id_Primarydataupdate}}",
+          "scenario_version_timestamp": "{{merchOps_scenario_version_Primarydataupdate}}"
+        },
+        "allocation_request": {
+          "display_nodes": [],
+          "scenario_id": "{{merchOps_scenario_id_Primarydataupdate}}",
+          "dim_val_id": 110029,
+          "dim_id": 11,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "momerchandisesales",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth}}": 500,
+                "{{dynamicMonth+1}}": 500,
+                "{{dynamicMonth+2}}": 500,
+                "{{dynamicMonth+3}}": 500,
+                "{{dynamicMonth+4}}": 500,
+                "{{dynamicMonth+5}}": 500,
+                "{{dynamicMonth+6}}": 500
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "mowarehouseallowances",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth}}": 900,
+                "{{dynamicMonth+1}}": 900,
+                "{{dynamicMonth+2}}": 900,
+                "{{dynamicMonth+3}}": 900,
+                "{{dynamicMonth+4}}": 900,
+                "{{dynamicMonth+5}}": 900,
+                "{{dynamicMonth+6}}": 900
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+        },
+        "dim_val_id": 110029
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "New adjustment created successfully!!",
+            "jsonPath2": "adjustment_metadata.adjustment_name",
+            "value2": "test Adjustment"
+          },
+          "assertNotNull": {
+            "jsonPath1": "adjustment_metadata.adjustment_id",
+            "jsonPath2": "adjustment_metadata.created_by",
+            "jsonPath3": "adjustment_metadata.created_at"
+          }
+        }
+      ],
+      "extract": {
+        "updatePrimaryData_AdjustmentId": "adjustment_metadata.adjustment_id"
+      }
+    },
+    {
+      "testStep": "Validate Adjustment via getKpi-primaryDataupdate",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Validate saved data for drivers- primnaryDataUpdate",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{merchOps_scenario_id_Primarydataupdate}}",
+        "scenario_version": "{{merchOps_scenario_version_Primarydataupdate}}",
+        "dim_id": 11,
+        "dim_val_id": 110029,
+        "classification_id": 11,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "momerchandisesales",
+            "mowarehouseallowances"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            }
+          ],
+          "month": [
+            "{{dynamicMonth}}",
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}",
+            "{{dynamicMonth+3}}",
+            "{{dynamicMonth+4}}",
+            "{{dynamicMonth+5}}",
+            "{{dynamicMonth+6}}"
+          ]
+        },
+        "isApplied": false,
+        "adjustment_id": "{{updatePrimaryData_AdjustmentId}}"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "driver1_month_OnSave_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth}}.forecast"
+        },
+        "driver1_month1_OnSave_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver1_month2_OnSave_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver1_month3_OnSave_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+3}}.forecast"
+        },
+        "driver1_month4_OnSave_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+4}}.forecast"
+        },
+        "driver1_month5_OnSave_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+5}}.forecast"
+        },
+        "driver1_month6_OnSave_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+6}}.forecast"
+        },
+        "driver2_month_OnSave_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth}}.forecast"
+        },
+        "driver2_month1_OnSave_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver2_month2_OnSave_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver2_month3_OnSave_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+3}}.forecast"
+        },
+        "driver2_month4_OnSave_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+4}}.forecast"
+        },
+        "driver2_month5_OnSave_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+5}}.forecast"
+        },
+        "driver2_month6_OnSave_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+6}}.forecast"
+        }
+      },
+      "validateExtractToBeApprox": {
+        "driver1_month_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month_updatePrimaryData_Forecast}}",
+          "tolerance": 0.2
+        },
+        "driver1_month1_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month1_updatePrimaryData_Forecast}}",
+          "tolerance": 0.2
+        },
+        "driver1_month2_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month2_updatePrimaryData_Forecast}}",
+          "tolerance": 0.2
+        },
+        "driver1_month3_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month3_updatePrimaryData_Forecast}}",
+          "tolerance": 0.2
+        },
+        "driver1_month4_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month4_updatePrimaryData_Forecast}}",
+          "tolerance": 0.2
+        },
+        "driver1_month5_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month5_updatePrimaryData_Forecast}}",
+          "tolerance": 0.2
+        },
+        "driver1_month6_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month6_updatePrimaryData_Forecast}}",
+          "tolerance": 0.2
+        },
+        "driver2_month_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month_updatePrimaryData_Forecast}}",
+          "tolerance": 0.2
+        },
+        "driver2_month1_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month1_updatePrimaryData_Forecast}}",
+          "tolerance": 0.2
+        },
+        "driver2_month2_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month2_updatePrimaryData_Forecast}}",
+          "tolerance": 0.2
+        },
+        "driver2_month3_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month3_updatePrimaryData_Forecast}}",
+          "tolerance": 0.2
+        },
+        "driver2_month4_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month4_updatePrimaryData_Forecast}}",
+          "tolerance": 0.2
+        },
+        "driver2_month5_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month5_updatePrimaryData_Forecast}}",
+          "tolerance": 0.2
+        },
+        "driver2_month6_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month6_updatePrimaryData_Forecast}}",
+          "tolerance": 0.2
+        }
+      }
+    },
+    {
+      "testStep": "Send MerchOps Forecast for BA Review- updatePrimaryData",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "testName": "Send MerchOps SBA forecast to BA review- updatePrimaryData",
+      "uri": "saveAdjustment",
+      "method": "POST",
+      "service": "coreService",
+      "queryParams": "status/v2",
+      "payload": {
+        "scenario": {
+          "scenario_id": "{{merchOps_scenario_id_Primarydataupdate}}",
+          "scenario_version": "{{merchOps_scenario_version_Primarydataupdate}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110029
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "scenario_status.status",
+            "value1": 22
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Poll BA Submission of MerchOps FORECAST - updatePrimaryData",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll BA Submission of MerchOps FORECAST - updatePrimaryData",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.scenarioId",
+          "Equals": "{{merchOps_scenario_id_Primarydataupdate}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 22,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "Validate save adjustment values on BA review-primaryDataupdate",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Validate save adjustment values on BA review- primnaryDataUpdate",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{merchOps_scenario_id_Primarydataupdate}}",
+        "scenario_version": "{{merchOps_scenario_version_Primarydataupdate}}",
+        "dim_id": 11,
+        "dim_val_id": 120010,
+        "classification_id": 11,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "momerchandisesales",
+            "mowarehouseallowances"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            }
+          ],
+          "month": [
+            "{{dynamicMonth}}",
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}",
+            "{{dynamicMonth+3}}",
+            "{{dynamicMonth+4}}",
+            "{{dynamicMonth+5}}",
+            "{{dynamicMonth+6}}"
+          ]
+        },
+        "isApplied": false
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "driver1_month_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth}}.forecast"
+        },
+        "driver1_month1_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver1_month2_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver1_month3_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+3}}.forecast"
+        },
+        "driver1_month4_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+4}}.forecast"
+        },
+        "driver1_month5_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+5}}.forecast"
+        },
+        "driver1_month6_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+6}}.forecast"
+        },
+        "driver2_month_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth}}.forecast"
+        },
+        "driver2_month1_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver2_month2_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver2_month3_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+3}}.forecast"
+        },
+        "driver2_month4_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+4}}.forecast"
+        },
+        "driver2_month5_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+5}}.forecast"
+        },
+        "driver2_month6_OnBAReview_updatePrimaryData": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+6}}.forecast"
+        }
+      },
+      "validateExtractToBeApprox": {
+        "driver1_month_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month1_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month1_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month2_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month2_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month3_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month3_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month4_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month4_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month5_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month5_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month6_OnSave_updatePrimaryData": {
+          "expected": "{{driver1_month6_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month1_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month1_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month2_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month2_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month3_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month3_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month4_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month4_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month5_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month5_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month6_OnSave_updatePrimaryData": {
+          "expected": "{{driver2_month6_OnBAReview_updatePrimaryData}}",
+          "tolerance": 0.2
+        }
+      }
+    },
+    {
+      "testStep": "Send MerchOps Forecast for Segment Review- updatePrimaryData",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "testName": "Send MerchOps SBA forecast to Segment review- updatePrimaryData",
+      "uri": "saveAdjustment",
+      "method": "POST",
+      "service": "coreService",
+      "queryParams": "status/v2",
+      "payload": {
+        "scenario": {
+          "scenario_id": "{{merchOps_scenario_id_Primarydataupdate}}",
+          "scenario_version": "{{merchOps_scenario_version_Primarydataupdate}}",
+          "scenario_status": 23,
+          "dim_id": 11,
+          "dim_val_id": 110029
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "scenario_status.status",
+            "value1": 23
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Poll Segment Submission of MerchOps FORECAST - updatePrimaryData",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll Segment Submission of MerchOps FORECAST - updatePrimaryData",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.scenarioId",
+          "Equals": "{{merchOps_scenario_id_Primarydataupdate}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 23,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "Extract the updated data post Segment submission for MerchOps SBA",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+       "IBGROW-39766",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Extract the updated data post Segment submission for MerchOps SBA",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "scenario_id": "{{defaultPrimaryData_scenario_id}}",
+        "dim_id": 11,
+        "dim_val_id": 110029,
+        "classification_id": 11,
+        "template_id": 3,
+        "filters": [],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "momerchandisesales",
+            "mowarehouseallowances"
+          ],
+          "template_include_headers": [
+            {
+              "name": "Driver"
+            },
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": true
+            },
+            {
+              "name": "Value",
+              "editable": true
+            }
+          ],
+          "month": [
+            "{{dynamicMonth}}",
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}",
+            "{{dynamicMonth+3}}",
+            "{{dynamicMonth+4}}",
+            "{{dynamicMonth+5}}",
+            "{{dynamicMonth+6}}"
+          ]
+        },
+        "isApplied": true
+      },
+      "assertions": {
+        "status": 200
+      },
+      "extractRelative": {
+        "driver1_month_OnSegmentReview_updatedForecast": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth}}.forecast"
+        },
+        "driver1_month1_OnSegmentReview_updatedForecast": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver1_month2_OnSegmentReview_updatedForecast": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver1_month3_OnSegmentReview_updatedForecast": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+3}}.forecast"
+        },
+        "driver1_month4_OnSegmentReview_updatedForecast": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+4}}.forecast"
+        },
+        "driver1_month5_OnSegmentReview_updatedForecast": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+5}}.forecast"
+        },
+        "driver1_month6_OnSegmentReview_updatedForecast": {
+          "whereKey": "driver",
+          "equals": "momerchandisesales",
+          "extractKey": "{{dynamicMonth+6}}.forecast"
+        },
+        "driver2_month_OnSegmentReview_updatedForecast": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth}}.forecast"
+        },
+        "driver2_month1_OnSegmentReview_updatedForecast": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+1}}.forecast"
+        },
+        "driver2_month2_OnSegmentReview_updatedForecast": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+2}}.forecast"
+        },
+        "driver2_month3_OnSegmentReview_updatedForecast": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+3}}.forecast"
+        },
+        "driver2_month4_OnSegmentReview_updatedForecast": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+4}}.forecast"
+        },
+        "driver2_month5_OnSegmentReview_updatedForecast": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+5}}.forecast"
+        },
+        "driver2_month6_OnSegmentReview_updatedForecast": {
+          "whereKey": "driver",
+          "equals": "mowarehouseallowances",
+          "extractKey": "{{dynamicMonth+6}}.forecast"
+        }
+      },
+      "validateExtractToBeApprox": {
+        "driver1_month_OnSegmentReview_updatedForecast": {
+          "expected": "{{driver1_month_OnSave_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month1_OnSegmentReview_updatedForecast": {
+          "expected": "{{driver1_month1_OnSave_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month2_OnSegmentReview_updatedForecast": {
+          "expected": "{{driver1_month2_OnSave_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month3_OnSegmentReview_updatedForecast": {
+          "expected": "{{driver1_month3_OnSave_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month4_OnSegmentReview_updatedForecast": {
+          "expected": "{{driver1_month4_OnSave_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month5_OnSegmentReview_updatedForecast": {
+          "expected": "{{driver1_month5_OnSave_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver1_month6_OnSegmentReview_updatedForecast": {
+          "expected": "{{driver1_month6_OnSave_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month_OnSegmentReview_updatedForecast": {
+          "expected": "{{driver2_month_OnSave_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month1_OnSegmentReview_updatedForecast": {
+          "expected": "{{driver2_month1_OnSave_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month2_OnSegmentReview_updatedForecast": {
+          "expected": "{{driver2_month2_OnSave_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month3_OnSegmentReview_updatedForecast": {
+          "expected": "{{driver2_month3_OnSave_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month4_OnSegmentReview_updatedForecast": {
+          "expected": "{{driver2_month4_OnSave_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month5_OnSegmentReview_updatedForecast": {
+          "expected": "{{driver2_month5_OnSave_updatePrimaryData}}",
+          "tolerance": 0.2
+        },
+        "driver2_month6_OnSegmentReview_updatedForecast": {
+          "expected": "{{driver2_month6_OnSave_updatePrimaryData}}",
+          "tolerance": 0.2
+        }
+      }
+    },
+    {
+      "testStep": "Get MerchOps forecast in Segment Finance screen",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS3"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get MerchOps forecast in Segment Finance screen",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 13,
+        "dim_val_id": 130001,
+        "classification_id": 12,
+        "template_id": 4,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "SegmentFinance_MerchOpsScenarioid": {
+          "conditions": [
+            {
+              "path": "rowData.organization",
+              "equals": 120010
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
+        "SegmentFinance_MerchOpsScenarioVersion": {
+          "conditions": [
+            {
+              "path": "rowData.organization",
+              "equals": 120010
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
+      }
+    },
+    {
+      "testStep": "Send MerchOps Forecast for ChangeRequest- cleanup-updatePrimaryData",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS1"
+      ],
+      "testName": "Send MerchOps Forecast for ChangeRequest- cleanup-updatePrimaryData",
+      "uri": "saveAdjustment",
+      "method": "POST",
+      "service": "coreService",
+      "queryParams": "status/v2",
+      "payload": {
+        "scenario": {
+          "scenario_id": "{{SegmentFinance_MerchOpsScenarioid}}",
+          "scenario_version": "{{SegmentFinance_MerchOpsScenarioVersion}}",
+          "scenario_status": 25,
+          "dim_id": 13,
+          "dim_val_id": 130001
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "scenario_status.status",
+            "value1": 25
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Poll CR Submission of MerchOps FORECAST - updatePrimaryData",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Pre-Req"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll CR Submission of MerchOps FORECAST - updatePrimaryData",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.scenarioId",
+          "Equals": "{{merchOps_scenario_id_Primarydataupdate}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 25,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    }
+  ]
+}

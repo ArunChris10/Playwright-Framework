@@ -1,5 +1,6 @@
 import { expect, FrameLocator, Locator, Page } from "@playwright/test";
 import { Utility } from "../../common/fixtures/utils";
+import {Buttons, ExcelUIElements, ScenarioSection} from "../types/excel.page.types";
 
 export class ExcelPage {
   readonly page: Page;
@@ -13,6 +14,11 @@ export class ExcelPage {
   readonly uploadTypeCombobox: Locator;
   readonly businessArea: Locator;
   readonly drivers: Locator;
+  readonly filters: Locator;
+  readonly channel: Locator;
+  readonly storeCoreMP: Locator;
+  readonly stores: Locator;
+  readonly digital: Locator;
   readonly dateRangePicker: Locator;
   readonly dimensions: Locator;
   readonly btnHasText: Function;
@@ -20,13 +26,19 @@ export class ExcelPage {
   readonly scenario: Locator;
   readonly loadDataButton: Locator;
   readonly addComparedScenario: Locator;
+  readonly addDriver: Locator;
   readonly baselineCombobox: Locator;
   readonly comparedWithCombobox: Locator;
-  readonly clearBtn: Locator;
   readonly resetDateRange: Locator;
   readonly backToFiltersNavigation: Locator;
   readonly uploadTextField: Locator;
   readonly uploadTextArea: Locator;
+  readonly bannerDismiss: Locator;
+
+  readonly scenarioSection: ScenarioSection
+
+  readonly buttons: Buttons;
+  readonly excelUIElements: ExcelUIElements;
 
   constructor(page: Page) {
     this.page = page;
@@ -54,25 +66,57 @@ export class ExcelPage {
       this.mainIframe.locator("button").filter({ hasText: text });
     this.savedView = this.mainIframe.getByText("Saved Views");
     this.drivers = this.mainIframe.getByText("Drivers");
+    this.drivers = this.mainIframe.getByText("Filters");
+    this.drivers = this.mainIframe.getByText("Channel");
+    this.storeCoreMP = this.mainIframe.getByTestId("ChevronDown-Store_Core_MP");
+    this.stores = this.mainIframe.getByTestId("ChevronDown-Stores");
+    this.digital = this.mainIframe.getByTestId("ChevronDown-Digital");
     this.scenario = this.mainIframe.getByText("Scenarios");
     this.loadDataButton = this.mainIframe.getByTestId("LoadDataButton");
-    this.addComparedScenario = this.mainIframe.getByText("Add", {exact: true});
-    this.addComparedScenario = this.mainIframe.getByText("Add driver", {exact: true});
-    this.baselineCombobox = this.mainIframe.locator('#baselineCombobox, [aria-labelledby="baselineCombobox"]');
-    this.comparedWithCombobox = this.mainIframe.locator('#comparedWithCombobox, [aria-labelledby="comparedWithCombobox"]');
     this.addComparedScenario = this.mainIframe.getByText("Add", {
       exact: true,
     });
+    this.addDriver = this.mainIframe.getByText("Add driver", { exact: true });
     this.baselineCombobox = this.mainIframe.locator(
       '#baselineCombobox, [aria-labelledby="baselineCombobox"]'
     );
     this.comparedWithCombobox = this.mainIframe.locator(
       '#comparedWithCombobox, [aria-labelledby="comparedWithCombobox"]'
     );
-    this.clearBtn = this.mainIframe.getByTestId("ClearButton");
+
+    this.baselineCombobox = this.mainIframe.locator(
+      '#baselineCombobox, [aria-labelledby="baselineCombobox"]'
+    );
+    this.comparedWithCombobox = this.mainIframe.locator(
+      '#comparedWithCombobox, [aria-labelledby="comparedWithCombobox"]'
+    );
     this.resetDateRange = this.mainIframe.getByText("Reset date range");
+    this.bannerDismiss = this.mainIframe.getByText("Dismiss");
     this.uploadTextField = this.mainIframe.locator('input[type="text"]');
     this.uploadTextArea = this.mainIframe.locator("textarea");
+
+    this.scenarioSection = {
+      textbox: this.mainIframe.locator(`input[type="text"][value=""]`),
+      checkboxes: this.mainIframe.getByRole("checkbox")
+    }
+
+    this.buttons = {
+      download: this.mainIframe.getByRole("button", { name: "Download" }),
+      refresh: this.mainIframe.getByRole("button", { name: "Refresh "}),
+      clear: this.mainIframe.getByRole("button", { name: "Clear" }),
+      settings: this.mainIframe.getByTestId("SwitchToSettings"),
+      back: this.mainIframe.getByTestId("BackToFilters"),
+      moreRefreshOptions: this.mainIframe.getByRole("button", { name: "More Refresh Options" }),
+      refreshAll: this.mainIframe.getByRole("menuitem", { name: "Refresh All" })
+    }
+
+    this.excelUIElements = {
+      buttons: {
+        newSheet: this.parentIframe.getByRole("button", { name: "New Sheet "}),
+        deleteSheet: this.parentIframe.getByRole("menuitem", { name: "Delete" }),
+        ok: this.parentIframe.getByRole("button", { name: "OK" })
+      }
+    }
   }
 
   async getTableData() {
@@ -96,12 +140,59 @@ export class ExcelPage {
     return this.formulaBar.textContent();
   }
 
+  // Unlike getCelData, the assert version of the method waits until the table updates with the possible text
+  async assertCellHasText(cell: string, text: string): Promise<void> {
+    await this.nameBox.click();
+    await this.nameBox.fill(cell);
+    await this.page.keyboard.press("Enter");
+
+    await expect(this.formulaBar.getByText(text)).toBeVisible()
+  }
+
+  async getCellTextAfterLoad(cell: string): Promise<string | null> {
+    const loadingText = "Loading..."
+    const loadingCell = "A1"
+
+    await this.assertCellHasText(loadingCell, loadingText)
+    await this.formulaBar.getByText(loadingText).waitFor({ state: "hidden" })
+
+    return this.getCellData(cell);
+  }
+
   async setCellData(cell: string, value: string): Promise<void> {
     await this.nameBox.click();
     await this.nameBox.fill(cell);
     await this.page.keyboard.press("Enter");
     await this.page.keyboard.type(value);
     await this.page.keyboard.press("Enter");
+  }
+
+  async getCellColor(cell: string): Promise<string | null> {
+    await this.nameBox.click();
+    await this.nameBox.fill(cell);
+    await this.page.keyboard.press("Enter");
+
+    const cellElement = this.mainIframe.locator(`[data-cell="${cell}"]`);
+    await expect(cellElement).toBeVisible();
+
+    return cellElement.evaluate((el) => {
+      function rgbToHex(rgb: string) {
+        const result = rgb.match(/\d+/g);
+        if (!result) return null;
+        return (
+          "#" +
+          result
+            .slice(0, 3)
+            .map((x) => {
+              const hex = parseInt(x).toString(16).toUpperCase();
+              return hex.length === 1 ? "0" + hex : hex;
+            })
+            .join("")
+        );
+      }
+      const bg = window.getComputedStyle(el).backgroundColor;
+      return rgbToHex(bg);
+    });
   }
 
   async getStarted() {
@@ -143,6 +234,16 @@ export class ExcelPage {
     await this.page.waitForTimeout(1000);
   }
 
+  async selectFilters() {
+    await this.filters.click();
+    await this.channel.click();
+    await this.storeCoreMP.click();
+    await this.stores.click();
+    await this.digital.click();
+    await this.mainIframe.getByRole("checkbox", { name: "Digital" }).click();
+    await this.page.waitForTimeout(1000);
+  }
+
   async selectSavedView(savedView?: string) {
     await this.savedView.click();
     if (savedView) {
@@ -155,11 +256,25 @@ export class ExcelPage {
 
   async selectScenario(scenario?: string) {
     await this.scenario.click();
+    await this.scenarioSection.textbox.click();
+
     if (scenario) {
       await this.mainIframe.getByRole("checkbox", { name: scenario }).click();
     } else {
-      await this.mainIframe.getByRole("checkbox").first().click();
+      await this.scenarioSection.checkboxes.first().click();
     }
+
+    await this.page.keyboard.press("Escape");
+    await this.scenario.click();
+  }
+
+  async selectNthScenario(index: number) {
+    await this.scenario.click();
+    await this.scenarioSection.textbox.click();
+
+    await this.scenarioSection.checkboxes.nth(index).click();
+
+    await this.page.keyboard.press("Escape");
     await this.scenario.click();
   }
 
@@ -210,7 +325,7 @@ export class ExcelPage {
   }
 
   async clearSelections() {
-    await this.clearBtn.click();
+    await this.buttons.clear.click();
   }
 
   async clickElementByRole(role: string) {
@@ -290,5 +405,34 @@ export class ExcelPage {
     await this.mainIframe.getByText("Show Months").click();
     await this.mainIframe.getByText("Show Quarters").click();
     await this.mainIframe.getByText("Show Halves").click();
+  }
+
+  async doDownload(businessArea?: string, scenario?: string) {
+    await this.buttons.clear.click();
+    await this.selectBusinessArea(businessArea);
+
+    await this.selectSavedView();
+    await this.selectScenario(scenario)
+
+    await expect(this.buttons.download).toBeEnabled();
+
+    await this.buttons.download.click();
+  }
+
+  async switchToSheet(name: string): Promise<void> {
+    const sheet = this.parentIframe.getByRole("tab", { name })
+    await sheet.click();
+  }
+
+  async deleteSheet(name: string): Promise<void> {
+    const sheet = this.parentIframe.getByRole("tab", { name })
+    await sheet.click({ button: "right" });
+    await this.excelUIElements.buttons.deleteSheet.click();
+    await this.excelUIElements.buttons.ok.click();
+  }
+
+
+  getRefreshSwitchForTab(tabName: string): Locator {
+    return this.mainIframe.locator(`button[aria-labelledby="${tabName}"]`)
   }
 }

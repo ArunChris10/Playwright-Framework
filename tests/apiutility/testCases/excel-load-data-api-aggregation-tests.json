@@ -1,24 +1,30 @@
 {
   "validate_excel_load_data_aggregation": [
     {
-      "testStep": "Extract scenario version from listHistoricals API",
+      "testStep": "Extract scenario",
       "environment": "qa",
-      "labels": ["smoke", "regression", "listHistoricals"],
+      "labels": ["smoke", "regression"],
       "service": "coreService",
-      "uri": "listHistoricals",
+      "uri": "getForecast",
       "testName": "Get scenarios for excel",
-      "queryParams": "dim_val_id=120010&dim_id=12&data_level=11&classification_id=12",
-      "method": "GET",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "classification_id": 12,
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "template_id": 1
+      },
       "assertions": [
         {
           "status": 200
         }
       ],
       "extractFirst": {
-        "excel_scenario_version_timestamp": "row_data.scenario_version_timestamp",
-        "excel_scenario_id": "row_data.scenario_id",
-        "excel_actual_template_id": "row_data.actual_template_id",
-        "excel_forecast_template_id": "row_data.forecast_template_id"
+        "excel_scenario_version_timestamp": "rowData.scenarioVersion",
+        "excel_scenario_id": "rowData.scenarioId",
+        "excel_actual_template_id": "rowData.ATS",
+        "excel_forecast_template_id": "rowData.FTS"
       }
     },
     {
@@ -47,7 +53,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["scenario_id", "period"],
+        "pivot_rows": ["scenario_id", "month"],
         "pivot_columns": ["node_var_name"]
       },
       "extractFirst": {
@@ -80,7 +86,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["scenario_id", "period"],
+        "pivot_rows": ["scenario_id", "month"],
         "pivot_columns": ["node_var_name"]
       },
       "extractFirst": {
@@ -125,7 +131,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["scenario_id", "period"],
+        "pivot_rows": ["scenario_id", "month"],
         "pivot_columns": ["node_var_name"]
       },
       "extractFirst": {
@@ -163,7 +169,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["scenario_id", "period"],
+        "pivot_rows": ["scenario_id", "month"],
         "pivot_columns": ["node_var_name"]
       },
       "extractFirst": {
@@ -196,7 +202,7 @@
         "period_type": "month",
         "period_levels": [],
         "dimensions": [],
-        "pivot_rows": ["scenario_id", "period"],
+        "pivot_rows": ["scenario_id", "month"],
         "pivot_columns": ["node_var_name"]
       },
       "extractFirst": {

@@ -12,69 +12,73 @@ import { LockPublishFunctionality } from "./lock.publish.page";
 import { NewPublishedNodeEdgeFunctionality } from "./new-published-NE-visibility.page";
 import { ViewTimestampFunctionality } from "./actual-forecast-timestamp.page";
 import { AsyncPublishFunctionality } from "./publish-async-process.page";
-import { LandingPageValidation } from "./landing.page"
-
+import { LandingPageValidation } from "./landing.page";
+import { NodeCRUDValidation } from "./node-crud-operations.page";
 
 export class SSDMPageFactory {
-    
+  private readonly page: Page;
 
-    private readonly page: Page;
-    constructor(page: Page) {
-      this.page = page;
-    }
-  
-    uploadFile() {
-        return new UploadFunctionality(this.page);
-    }
-
-    validateFile() {
-      return new ValidateFunctionality(this.page);
+  constructor(page: Page) {
+    this.page = page;
   }
 
-    computeFile(){
-      return new ComputeFunctionality(this.page);
-    }
+  uploadFile() {
+    return new UploadFunctionality(this.page);
+  }
 
-    review(){
-      return new ReviewFunctionality(this.page);
-    }
+  validateFile() {
+    return new ValidateFunctionality(this.page);
+  }
 
-    drivers(){
-      return new DriversFunctionality(this.page);
-    }
+  computeFile() {
+    return new ComputeFunctionality(this.page);
+  }
 
-    removeDrivers(){
-      return new RemoveFunctionality(this.page);
-    }
+  review() {
+    return new ReviewFunctionality(this.page);
+  }
 
-    applyFilter(){
-      return new FilterFunctionality(this.page);
-    }
+  drivers() {
+    return new DriversFunctionality(this.page);
+  }
 
-    pickDataset(){
-      return new PickDatasetFunctionality(this.page);
-    }
+  removeDrivers() {
+    return new RemoveFunctionality(this.page);
+  }
 
-    nodeEdgeGrid(){
-      return new nodeEdgeGridFunctionality(this.page);
-    }
+  applyFilter() {
+    return new FilterFunctionality(this.page);
+  }
 
-    lockPublish(){
-      return new LockPublishFunctionality(this.page);    
-    }
+  pickDataset() {
+    return new PickDatasetFunctionality(this.page);
+  }
 
-    newPublishedNE(){
-      return new NewPublishedNodeEdgeFunctionality(this.page);
-    }
+  nodeEdgeGrid() {
+    return new nodeEdgeGridFunctionality(this.page);
+  }
 
-    viewTimestamp(){
-      return new ViewTimestampFunctionality(this.page);
-    }
+  lockPublish() {
+    return new LockPublishFunctionality(this.page);
+  }
 
-    asyncPublishProcess(){
-      return new AsyncPublishFunctionality(this.page);
-    }
-    landingPage(){
-      return new LandingPageValidation(this.page)
-    }
+  newPublishedNE() {
+    return new NewPublishedNodeEdgeFunctionality(this.page);
+  }
+
+  viewTimestamp() {
+    return new ViewTimestampFunctionality(this.page);
+  }
+
+  asyncPublishProcess() {
+    return new AsyncPublishFunctionality(this.page);
+  }
+
+  landingPage() {
+    return new LandingPageValidation(this.page);
+  }
+
+  nodeCRUDValidation() {
+    return new NodeCRUDValidation(this.page, this.landingPage());
+  }
 }

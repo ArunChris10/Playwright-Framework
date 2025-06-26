@@ -1,0 +1,35 @@
+{
+  "check_for_publishing_ssdm_node_edge_with_latest_ds": [
+    {
+      "testStep": "Verify user sees error message when trying to publish NE again with latest datasets if publish is ongoing",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "publishSSDMLatestDataset",
+        "IBGROW-38081"
+      ],
+      "service": "coreService",
+      "uri": "publishSSDMLatestDataset",
+      "testName": "Error shown when publishing NE again with latest datasets while publish is ongoing",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "doc_id": 12461747981295,
+        "ds_type": "Latest"
+      },
+      "assertions": [
+        {
+          "status": 400
+        },
+        {
+          "assertKeyTypes": {
+            "errorMessage": "string"
+          }
+        },
+        {
+          "errorMessageContains": "Another publish is in progress. Please try again in a few minutes."
+        }
+      ]
+    }
+  ]
+}
