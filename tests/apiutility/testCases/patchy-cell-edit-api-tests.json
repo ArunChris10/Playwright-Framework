@@ -1,7 +1,7 @@
 {
     "validate_cell_edits": [
         {
-            "testStep": "Create source scenario",
+            "testStep": "Create scenario",
             "environment": "qa",
             "labels": [
                 "smoke",
@@ -204,8 +204,10 @@
                     "status": 200
                 }
             ],
-            "extractFirst": {
-                "202610ValueAfter": "rowData.202610.forecast"
+            "extract": {
+                "202610ValueAfter": "rowData.202610.forecast",
+                "202611ValueAfter": "rowData.202611.forecast",
+                "202612ValueAfter": "rowData.202612.forecast"
             }
         },
         {
@@ -281,8 +283,15 @@
                     "status": 200
                 },
                 {
-                    "jsonPath": "$.rowData.2026Q4.forecast",
-                    "equals": "{{202610ValueAfter}}"
+                    "assertSum": {
+                        "values": [
+                            "{{202610ValueAfter}}",
+                            "{{202611ValueAfter}}",
+                            "{{202612ValueAfter}}"
+                        ],
+                        "expected": "{{2026Q4ValueAfter}}",
+                        "acceptedDifference": 0.1000
+                    }
                 }
             ]
         },
@@ -484,6 +493,24 @@
             ],
             "extractFirst": {
                 "202611Values": "rowData.202611.forecast"
+            }
+        },
+        {
+            "testStep": "Delete scenario",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "regression",
+                "cell-edit"
+            ],
+            "service": "coreService",
+            "uri": "Forecast",
+            "testName": "Delete created scenario",
+            "queryParams": "/{{scenarioId}}/{{scenarioVersion}}",
+            "method": "DELETE",
+            "payload": {
+                "dim_id": 11,
+                "dim_val_id": 110021
             }
         }
     ]
