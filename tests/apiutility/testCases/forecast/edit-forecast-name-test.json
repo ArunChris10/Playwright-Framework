@@ -1,5 +1,5 @@
 {
-  "edit forecase name": [
+  "edit forecast name": [
     {
       "testStep": "Get current forecast",
       "environment": "qa",
