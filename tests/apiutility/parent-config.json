@@ -66,8 +66,8 @@
     "testCases/primaryDataUpdate-onSegmentReview-test.json",
     "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json",
     "testCases/month-on-month-propagation-test.json",
+    "testCases/calculate-save-additive-non-additive-nodes-equal-distriubution.json",
     "testCases/patchy-cell-edit-api-tests.json"
-
   ],
   "currentDemandService": {
     "baseURL": {
