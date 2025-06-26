@@ -57,7 +57,8 @@
     "testCases/filters-ssdm-api-tests.json",
     "testCases/progress-status-ssdm.api-tests.json",
     "testCases/calculate-additive-nodes-constant-value.json",
-    "testCases/calculate-additive-nodes-percent-rolling.json"
+    "testCases/calculate-additive-nodes-percent-rolling.json",
+    "testCases/forecast/edit-forecast-name-test.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -86,6 +87,7 @@
     "getForecastCalendar": "/forecast_calendar/",
     "visualIndicator": "/scenario/scenario-composition",
     "Forecast": "/scenario",
+    "createForecast": "/scenario/create-user-scenario",
     "getKpiV2": "/reports/get-mykpi/v2",
     "getTimestamp": "/sandbox/v1/get-datasets-timestamp",
     "getPublishedVersions": "/sandbox/v1/get-published-versions",
@@ -97,7 +99,8 @@
     "getDimensions":"/metadata/dimensions/mappings",    
     "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
     "applyChangesOnSSDM":"/sandbox/v1/get-mykpi",
-    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions"
+    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions",
+    "editForecastName":"/scenario/forecast-name"
   },
   "notificationService": {
     "baseURL": {
