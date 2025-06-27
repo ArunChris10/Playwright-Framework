@@ -5,9 +5,7 @@
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
   },
-  "tagsToRun": [
-    ""
-  ],
+  "tagsToRun": [],
   "ForceAllParallel": true,
   "ForceAllSerial": false,
   "testFiles": [
@@ -67,6 +65,8 @@
     "testCases/month-on-month-propagation-test.json",
     "testCases/calculate-save-additive-non-additive-nodes-equal-distriubution.json",
     "testCases/patchy-cell-edit-api-tests.json"
+   "testCases/patchy-cell-edit-api-tests.json",
+    "testCases/create-multiple-scenario-tests.json"
   ],
   "currentDemandService": {
     "baseURL": {
