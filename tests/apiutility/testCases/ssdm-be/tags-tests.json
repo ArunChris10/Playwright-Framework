@@ -89,7 +89,7 @@
   ],
   "Update an existing tag": [
     {
-      "testStep": "Update a new tag",
+      "testStep": "Update an existing tag",
       "environment": "dev",
       "labels": ["smoke", "Tags"],
       "service": "ssdmService",
