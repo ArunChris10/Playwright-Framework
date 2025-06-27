@@ -1,0 +1,532 @@
+{
+    "validate_cell_edits": [
+        {
+            "testStep": "Create scenario",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "regression",
+                "cell-edit"
+            ],
+            "service": "coreService",
+            "uri": "createUserScenario",
+            "testName": "Create a new scenario",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "dim_id": 11,
+                "dim_val_id": 110019,
+                "classification_id": 12,
+                "type": 3,
+                "name": "Test Forecast Cell Edit Check"
+            },
+            "extractFirst": {
+                "scenarioId": "scenario.scenario_id",
+                "scenarioVersion": "scenario.scenario_version_timestamp"
+            }
+        },
+        {
+            "testStep": "Allocate Data",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "regression",
+                "cell-edit"
+            ],
+            "service": "coreService",
+            "uri": "allocateData",
+            "testName": "Allocate Data Constant Value",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "display_nodes": [],
+                "scenario_id": "{{scenarioId}}",
+                "dim_val_id": 110019,
+                "dim_id": 11,
+                "preview": true,
+                "edits": [
+                    {
+                        "node_var_name": "managedspecialtyrxcount",
+                        "node_dimension": {},
+                        "data": {
+                            "202610": 10000
+                        },
+                        "allocation": {
+                            "interval": null,
+                            "offset": null,
+                            "method": 30
+                        }
+                    }
+                ],
+                "filters": [],
+                "period_view": "month",
+                "adjustment_id": 1750929264582
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ]
+        },
+        {
+            "testStep": "Save Adjustment",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "regression",
+                "cell-edit"
+            ],
+            "service": "coreService",
+            "uri": "saveAdjustment",
+            "testName": "Save Adjustment",
+            "queryParams": "",
+            "method": "PATCH",
+            "payload": {
+                "adjustment_metadata": {
+                    "adjustment_name": "Test",
+                    "adjustment_reason": "",
+                    "adjustment_type": 73,
+                    "is_duplicated": false,
+                    "is_update": false,
+                    "is_create": true,
+                    "adjustment_edits": 1,
+                    "scenario_id": "{{scenarioId}}",
+                    "scenario_version_timestamp": "{{scenarioVersion}}"
+                },
+                "allocation_request": {
+                    "display_nodes": [],
+                    "scenario_id": "{{scenarioId}}",
+                    "dim_val_id": 110019,
+                    "dim_id": 11,
+                    "preview": false,
+                    "edits": [
+                        {
+                            "node_var_name": "managedspecialtyrxcount",
+                            "node_dimension": {},
+                            "data": {
+                                "202610": 10000
+                            },
+                            "allocation": {
+                                "interval": null,
+                                "offset": null,
+                                "method": 30
+                            }
+                        }
+                    ],
+                    "filters": [],
+                    "period_view": "month"
+                },
+                "dim_val_id": 110019
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ]
+        },
+        {
+            "testStep": "Get my kpi for months",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "regression",
+                "cell-edit"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "Get my kpi for months",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{scenarioId}}",
+                "scenario_version": "{{scenarioVersion}}",
+                "dim_id": 11,
+                "dim_val_id": 110019,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "managedspecialtyrxcount"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Driver"
+                        },
+                        {
+                            "name": "202610",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202611",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202612",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": true
+                        },
+                        {
+                            "name": "Value",
+                            "editable": true
+                        }
+                    ],
+                    "month": [
+                        "202610",
+                        "202611",
+                        "202612"
+                    ]
+                },
+                "isApplied": true
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ],
+            "extract": {
+                "202610ValueAfter": "rowData.202610.forecast",
+                "202611ValueAfter": "rowData.202611.forecast",
+                "202612ValueAfter": "rowData.202612.forecast"
+            }
+        },
+        {
+            "testStep": "Get my kpi for quarter",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "regression",
+                "cell-edit"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "Get my kpi for quarter",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{scenarioId}}",
+                "scenario_version": "{{scenarioVersion}}",
+                "dim_id": 11,
+                "dim_val_id": 110019,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id"
+                    ],
+                    "period_view": [
+                        "quarter"
+                    ],
+                    "nodes": [
+                        "managedspecialtyrxcount"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Driver"
+                        },
+                        {
+                            "name": "2026Q4",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": true
+                        },
+                        {
+                            "name": "Value",
+                            "editable": true
+                        }
+                    ],
+                    "quarter": [
+                        "2026Q4"
+                    ]
+                },
+                "isApplied": true
+            },
+            "extractFirst": {
+                "2026Q4ValueAfter": "rowData.2026Q4.forecast"
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertSum": {
+                        "values": [
+                            "{{202610ValueAfter}}",
+                            "{{202611ValueAfter}}",
+                            "{{202612ValueAfter}}"
+                        ],
+                        "expected": "{{2026Q4ValueAfter}}",
+                        "acceptedDifference": 0.1000
+                    }
+                }
+            ]
+        },
+        {
+            "testStep": "Allocate Data for patchy",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "regression",
+                "cell-edit"
+            ],
+            "service": "coreService",
+            "uri": "allocateData",
+            "testName": "Allocate Data Constant Value for patchy",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "display_nodes": [],
+                "scenario_id": "{{scenarioId}}",
+                "dim_val_id": 110019,
+                "dim_id": 11,
+                "preview": true,
+                "edits": [
+                    {
+                        "node_var_name": "managedspecialtyrxcount",
+                        "node_dimension": {},
+                        "data": {
+                            "202611": 100
+                        },
+                        "allocation": {
+                            "interval": null,
+                            "offset": null,
+                            "method": 30
+                        }
+                    }
+                ],
+                "filters": [],
+                "period_view": "month",
+                "adjustment_id": "{{scenarioId}}"
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ]
+        },
+        {
+            "testStep": "Save Adjustment for patchy",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "regression",
+                "cell-edit"
+            ],
+            "service": "coreService",
+            "uri": "saveAdjustment",
+            "testName": "Save Adjustment for patchy",
+            "queryParams": "",
+            "method": "PATCH",
+            "payload": {
+                "adjustment_metadata": {
+                    "adjustment_name": "Test adjustment for patchy",
+                    "adjustment_reason": "",
+                    "adjustment_type": 73,
+                    "is_duplicated": false,
+                    "is_update": false,
+                    "is_create": true,
+                    "adjustment_edits": 1,
+                    "scenario_id": "{{scenarioId}}",
+                    "scenario_version_timestamp": "{{scenarioVersion}}"
+                },
+                "allocation_request": {
+                    "display_nodes": [],
+                    "scenario_id": "{{scenarioId}}",
+                    "dim_val_id": 110019,
+                    "dim_id": 11,
+                    "preview": false,
+                    "edits": [
+                        {
+                            "node_var_name": "managedspecialtyrxcount",
+                            "node_dimension": {},
+                            "data": {
+                                "202611": 100
+                            },
+                            "allocation": {
+                                "interval": null,
+                                "offset": null,
+                                "method": 30
+                            }
+                        }
+                    ],
+                    "filters": [],
+                    "period_view": "month"
+                },
+                "dim_val_id": 110019
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ]
+        },
+        {
+            "testStep": "Get my kpi for months after patchy edit",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "regression",
+                "cell-edit"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "Get my kpi for months after patchy edit",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{scenarioId}}",
+                "scenario_version": "{{scenarioVersion}}",
+                "dim_id": 11,
+                "dim_val_id": 110019,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id",
+                        "channel",
+                        "department",
+                        "reporting",
+                        "business_area"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "managedspecialtyrxcount"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Channel"
+                        },
+                        {
+                            "name": "Department"
+                        },
+                        {
+                            "name": "Reporting"
+                        },
+                        {
+                            "name": "Business Area"
+                        },
+                        {
+                            "name": "202610",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202611",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "202612",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": true
+                        },
+                        {
+                            "name": "Value",
+                            "editable": true
+                        }
+                    ],
+                    "month": [
+                        "202610",
+                        "202611",
+                        "202612"
+                    ]
+                },
+                "isApplied": true
+            },
+            "extractRelative": {
+                "grain1Value": {
+                    "whereKey": "rowData.channel",
+                    "equals": 60009,
+                    "extractKey": "rowData.202611.forecast"
+                },
+                "grain2Value": {
+                    "whereKey": "rowData.channel",
+                    "equals": 60028,
+                    "extractKey": "rowData.202611.forecast"
+                }
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertSum": {
+                        "values": [
+                            "{{grain1Value}}",
+                            "{{grain2Value}}"
+                        ],
+                        "expected": 100,
+                        "acceptedDifference": 0.1000
+                    }
+                }
+            ]
+        },
+        {
+            "testStep": "Delete scenario",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "regression",
+                "cell-edit"
+            ],
+            "service": "coreService",
+            "uri": "Forecast",
+            "testName": "Delete created scenario",
+            "queryParams": "/{{scenarioId}}/{{scenarioVersion}}",
+            "method": "DELETE",
+            "payload": {
+                "dim_id": 11,
+                "dim_val_id": 110021
+            }
+        }
+    ]
+}

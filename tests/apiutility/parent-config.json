@@ -5,7 +5,7 @@
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
   },
-  "tagsToRun": [""],
+  "tagsToRun": [],
   "ForceAllParallel": true,
   "ForceAllSerial": false,
   "testFiles": [
@@ -67,7 +67,9 @@
     "testCases/patchy-cell-edit-api-tests.json",
     "testCases/patchy/edited-value-patchy-on-patchy.json",
     "testCases/patchy-dependent-nodes-tests.json",
-    "testCases/patchy-multiple-dependent-nodes-tests.json"
+    "testCases/patchy-multiple-dependent-nodes-tests.json",
+    "testCases/create-multiple-scenario-tests.json",
+    "testCases/patchy/edited-value-patchy-on-patchy.json"
 
   ],
   "currentDemandService": {
@@ -122,6 +124,7 @@
     "computeSsdm": "/sandbox/v1/compute-scenario",
     "getDriversListSSDM": "/sandbox/v1/drivers",
     "publishSSDMActivatedDataset":"sandbox/v1/publish-node-edge-document",
+    "publishSSDMLatestDataset": "sandbox/v1/publish-node-edge-document",
     "createScenario":"/create-user-scenario",
     "sendToBAReview":"/adjustment/status/v2",     
     "getIndividualStatus":"get-individual-status"

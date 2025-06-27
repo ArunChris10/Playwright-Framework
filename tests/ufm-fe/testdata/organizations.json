@@ -36,5 +36,15 @@
             "name": "Demand",
             "lob": "CONSOLIDATED DEMAND"
         }
+    ],
+    "SBAorganization": [
+        {
+            "name": "Health & wellness"
+        }
+    ],
+    "BAorganization": [
+        {
+            "name": "Wmt_us_segment_finance"
+        }
     ]
 }
