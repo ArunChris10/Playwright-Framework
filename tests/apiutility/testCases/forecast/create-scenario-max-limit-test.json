@@ -1,0 +1,313 @@
+{
+  "verify creating a scenario is not allowed after max limit reached": [
+    {
+      "testStep": "Create Forecast Scenario 1",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-38439", "create-scenario"
+      ],
+      "service": "coreService",
+      "uri": "createForecast",
+      "testName": "Validate create forecast",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "test-1{{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110027
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "Scenario created successfully"
+          }
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "scenario_id_1": {
+          "conditions": [],
+          "extractKey": "scenario.scenario_id"
+        },
+        "scenario_version_1": {
+          "conditions": [],
+          "extractKey": "scenario.scenario_version_timestamp"
+        }
+      }
+    },
+     {
+      "testStep": "Create Forecast Scenario 2",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-38439", "create-scenario"
+      ],
+      "service": "coreService",
+      "uri": "createForecast",
+      "testName": "Validate create forecast",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "test-2{{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110027
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "Scenario created successfully"
+          }
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "scenario_id_2": {
+          "conditions": [],
+          "extractKey": "scenario.scenario_id"
+        },
+        "scenario_version_2": {
+          "conditions": [],
+          "extractKey": "scenario.scenario_version_timestamp"
+        }
+      }
+    },
+     {
+      "testStep": "Create Forecast Scenario 3",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-38439", "create-scenario"],
+      "service": "coreService",
+      "uri": "createForecast",
+      "testName": "Validate create forecast",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "test-3{{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110027
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "Scenario created successfully"
+          }
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "scenario_id_3": {
+          "conditions": [],
+          "extractKey": "scenario.scenario_id"
+        },
+        "scenario_version_3": {
+          "conditions": [],
+          "extractKey": "scenario.scenario_version_timestamp"
+        }
+      }
+    },
+     {
+      "testStep": "Create Forecast Scenario 4",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-38439", "create-scenario"],
+      "service": "coreService",
+      "uri": "createForecast",
+      "testName": "Validate create forecast",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "test-4{{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110027
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "Scenario created successfully"
+          }
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "scenario_id_4": {
+          "conditions": [],
+          "extractKey": "scenario.scenario_id"
+        },
+        "scenario_version_4": {
+          "conditions": [],
+          "extractKey": "scenario.scenario_version_timestamp"
+        }
+      }
+    },
+    {
+      "testStep": "Create Forecast Scenario 5",
+      "environment": "qa",
+      "labels": [ "smoke", "regression", "IBGROW-38439", "create-scenario"],
+      "service": "coreService",
+      "uri": "createForecast",
+      "testName": "Validate create forecast",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "test-5{{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110027
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "Scenario created successfully"
+          }
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "scenario_id_5": {
+          "conditions": [],
+          "extractKey": "scenario.scenario_id"
+        },
+        "scenario_version_5": {
+          "conditions": [],
+          "extractKey": "scenario.scenario_version_timestamp"
+        }
+      }
+    },
+    {
+      "testStep": "Create Forecast Scenario 6 - should fail",
+      "environment": "qa",
+      "labels": [ "smoke", "regression", "IBGROW-38439", "create-scenario"],
+      "service": "coreService",
+      "uri": "createForecast",
+      "testName": "Validate create forecast",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "type": 3,
+        "name": "test-6{{randomNumber}}",
+        "classification_id": 12,
+        "dim_id": 11,
+        "dim_val_id": 110027
+      },
+      "assertions": [
+        {
+          "status": 406
+        }
+      ]
+    },
+    {
+      "testStep": "Deleting the Forecast Scenario 1",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-38439", "create-scenario", "clean-up-created-scenarios"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate deleting the forecast scenario",
+      "queryParams": "/{{scenario_id_1}}/{{scenario_version_1}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110027
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Deleting the Forecast Scenario 2",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-38439", "create-scenario", "clean-up-created-scenarios"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate deleting the forecast scenario",
+      "queryParams": "/{{scenario_id_2}}/{{scenario_version_2}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110027
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Deleting the Forecast Scenario 3",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-38439", "create-scenario", "clean-up-created-scenarios"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate deleting the forecast scenario",
+      "queryParams": "/{{scenario_id_3}}/{{scenario_version_3}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110027
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Deleting the Forecast Scenario 4",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-38439", "create-scenario", "clean-up-created-scenarios"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate deleting the forecast scenario",
+      "queryParams": "/{{scenario_id_4}}/{{scenario_version_4}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110027
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Deleting the Forecast Scenario 5",
+      "environment": "qa",
+      "labels": ["smoke", "regression", "IBGROW-38439", "create-scenario", "clean-up-created-scenarios"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate deleting the forecast scenario",
+      "queryParams": "/{{scenario_id_5}}/{{scenario_version_5}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110027
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}
