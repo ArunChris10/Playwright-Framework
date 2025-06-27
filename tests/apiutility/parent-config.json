@@ -5,9 +5,7 @@
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
   },
-  "tagsToRun": [
-    ""
-  ],
+  "tagsToRun": [],
   "ForceAllParallel": true,
   "ForceAllSerial": false,
   "testFiles": [

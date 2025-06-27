@@ -377,6 +377,40 @@ export async function validateAssertions(response: any, responseBody: any, asser
             throw new Error(`Assertion failed for assertResponseByCalculationForSign: ${err.message}`);
           }
 
+        }  else if(arrayOfAssertion.assertResponseByPatchyNonPatchyMonth) {
+          const baseMonth202709 = parseFloat(
+            interpolate(
+              arrayOfAssertion.assertResponseByPatchyNonPatchyMonth
+                .baseMonth202709
+            )
+          ); // Interpolate
+          const baseMonth202710 = parseFloat(
+            interpolate(
+              arrayOfAssertion.assertResponseByPatchyNonPatchyMonth
+                .baseMonth202710
+            )
+          ); // Interpolate the JSON path
+          const updatedMonth202709 = parseFloat(
+            interpolate(
+              arrayOfAssertion.assertResponseByPatchyNonPatchyMonth
+                .updatedMonth202709
+            )
+          ); // Interpolate the JSON path
+          const updatedMonth202710 = parseFloat(
+            interpolate(
+              arrayOfAssertion.assertResponseByPatchyNonPatchyMonth
+                .updatedMonth202710
+            )
+          ); // Interpolate the JSON path
+
+          try {
+            expect(baseMonth202709).toBeGreaterThan(updatedMonth202709);
+            expect(updatedMonth202710).toBeDefined();
+            expect(baseMonth202710).toBeNaN();
+          } catch (err: any) {
+            throw new Error(`Assertion failed for assertLength`);
+          }
+
         } else if (arrayOfAssertion.assertLength) {
           const jsonPath = interpolate(arrayOfAssertion.assertLength.jsonPath); // Interpolate the JSON path
           const expectedLength = parseFloat(interpolate(arrayOfAssertion.assertLength.expectedLength));
@@ -385,6 +419,24 @@ export async function validateAssertions(response: any, responseBody: any, asser
           } catch (err: any) {
             throw new Error(`Assertion failed for assertLength`);
           }
+        } else if (arrayOfAssertion.assertSum) {
+            const values = arrayOfAssertion.assertSum.values
+              .map((value: any) => parseFloat(interpolate(value)))
+              .filter((value: number) => !isNaN(value)); // Filter out NaN values
+            
+            const expected = parseFloat(interpolate(arrayOfAssertion.assertSum.expected));
+            
+            const sum = values.reduce((acc, cur) => acc + cur, 0); // Calculate the sum of all values
+            
+            // Calculate the difference and validate
+            const difference = Math.abs(expected - sum);
+            const acceptedDifference = parseFloat(arrayOfAssertion.assertSum.acceptedDifference);
+
+            try {
+              expect(difference).toBeLessThanOrEqual(acceptedDifference);
+            } catch (err: any) {
+              throw new Error(`Assertion failed for assertSum: ${err.message}`);
+            }
         }
 
         const firstKey = Object.keys(arrayOfAssertion)[0];
