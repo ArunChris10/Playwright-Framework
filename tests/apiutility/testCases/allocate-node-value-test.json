@@ -29,7 +29,7 @@
     {
       "testStep": "Call allocate to calculate",
       "environment": "qa",
-      "labels": ["@Smoke", "nodesApi", "validate_allocate_calculate"],
+      "labels": ["@Smoke", "validate_allocate_calculate"],
       "service": "coreService",
       "uri": "allocateData",
       "testName": "validate allocate calculate",
