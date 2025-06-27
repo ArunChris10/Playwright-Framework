@@ -65,6 +65,7 @@
     "testCases/month-on-month-propagation-test.json",
     "testCases/calculate-save-additive-non-additive-nodes-equal-distriubution.json",
     "testCases/patchy-cell-edit-api-tests.json",
+    "testCases/create-multiple-scenario-tests.json",
     "testCases/patchy/edited-value-patchy-on-patchy.json",
     "testCases/SSDM-BE/tags-tests.json",
     "testCases/SSDM-Be/attribute-tests.json"
