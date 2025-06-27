@@ -204,7 +204,7 @@
                         "node_var_name": "uompctofscannednet_input",
                         "node_dimension": {},
                         "data": {
-                            "202610": 1
+                            "202610": 100
                         },
                         "allocation": {
                             "interval": null,
@@ -216,7 +216,7 @@
                         "node_var_name": "allocationpctmerchandiseincome_input",
                         "node_dimension": {},
                         "data": {
-                            "202610": 2
+                            "202610": 200
                         },
                         "allocation": {
                             "interval": null,
