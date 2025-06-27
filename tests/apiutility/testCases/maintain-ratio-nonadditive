@@ -64,12 +64,12 @@
       }
     },
     {
-      "testStep": "Editing and Calculating the additive nodes",
+      "testStep": "Editing and Calculating the non additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_calculate", "additive_calculate_save"],
+      "labels": ["smoke", "nonadditive_maintainratio_calculate"],
       "service": "coreService",
       "uri": "allocateData",
-      "testName": "Calculating the additive nodes",
+      "testName": "Calculating the non additive nodes",
       "queryParams": "",
       "method": "POST",
       "payload": {
