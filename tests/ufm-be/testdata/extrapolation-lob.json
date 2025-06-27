@@ -1,5 +1,7 @@
 {
-    "endpoint": "/reports/get-mykpi",
+    
+     "getDriverEndpoint": "/scenario/scenario-composition",
+     "endpoint": "/reports/get-mykpi",
     "testData": {
         "MERCHOPS": {
             "lobName": "SCHEDULED",

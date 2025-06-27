@@ -16,7 +16,6 @@ test.describe(
         request,
       }) => {
         const nexusTokens = await Utility.getNexusFakeToken(user, request);
-
         // Make a GET request for the visual-indicator
         const responseBody = await test.step(
           "Make a GET request for getting updated dates",
@@ -38,12 +37,12 @@ test.describe(
           const datasetTypes = responseBody.map((obj: any) => obj.dataset_type);
           const ids = responseBody.map((obj: any) => obj.id);
 
-          // Check for dataset_type
+        // Check for dataset_type
           testdatafile.visual_indicator_response.forEach((expected) => {
             expect(datasetTypes).toContainEqual(expected.dataset_type);
           });
 
-          // Check for ids
+        // Check for ids
           testdatafile.visual_indicator_response.forEach((expected) => {
             expect(ids).toContainEqual(expected.id);
           });

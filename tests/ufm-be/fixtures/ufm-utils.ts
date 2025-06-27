@@ -249,6 +249,37 @@ export class UfmUtility {
   }
 
   /**
+   * Retrieves the list of defauls nodes for a given line of business.
+   *
+   * @param {string} lobName - The name of the line of business.
+   * @param {Request} request - The request object.
+   * @returns {Promise<string[]>} - A promise that resolves to an array of input node names.
+   */
+  static async getDefaultDriverList(lobName, driverType, request) {
+    const endpointURL = `${process.env.apiBaseURLUFM}${inputNodes.endpoint}`;
+    let response;
+
+    Utility.logIt(`Find input nodes for ${lobName} scenario`);
+    inputNodes.payloads.dim_val_id = await UfmUtility.getMapping(
+      lobName,
+      "dim_val_id"
+    );
+    if (driverType == "Input")
+      inputNodes.payloads.driver_type = commonData.Input_Driver_Type;
+    else inputNodes.payloads.driver_type = commonData.All_Driver_Type;
+   
+      response = await request.post(endpointURL, {
+        data: inputNodes.defaultDriverPayloads,
+      });
+    // asserting the response
+    await expect.soft(response).toBeOK();
+    let responseBody = await response.json();
+    const drivers = responseBody.preferenceConfigs[0]?.preferenceConfig?.config?.drivers || [];
+    Utility.logIt(`Drivers for ${lobName}: ${drivers}`);
+    return drivers;
+  }
+
+  /**
    * Retrieves the list of input nodes for a given line of business.
    *
    * @param {string} lobName - The name of the line of business.

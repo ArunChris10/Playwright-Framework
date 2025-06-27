@@ -2,6 +2,7 @@ import { expect, test } from "../../common/fixtures/test-hook";
 import commonData from "../constants/common.json";
 import { AdjustmentUtility } from "../fixtures/adjustment-utils";
 import getKpiData from "../testdata/getKpi.json";
+import getDriverData from "../testdata/extrapolation-lob.json";
 import { testData } from "../testdata/extrapolation-lob.json";
 import { ForecastUtility } from "../fixtures/forecast-utils";
 import { UfmUtility } from "../fixtures/ufm-utils";

@@ -56,6 +56,7 @@ export function getPreviousAndNextData(
       const alias = data?.month_alias;
       const value = data?.[alias] ?? null;
       previousMap.set(key, { type: alias, value });
+      console.log(`Previous Key: ${key}, Alias: ${alias}, Value: ${value}`);
     }
   }
 
@@ -66,8 +67,10 @@ export function getPreviousAndNextData(
       const alias = data?.month_alias;
       const value = data?.[alias] ?? null;
       nextMap.set(key, { type: alias, value });
+      console.log(`Next Key: ${key}, Alias: ${alias}, Value: ${value}`);
     }
   }
-
+  console.log('Previous Map:', Array.from(previousMap.entries()));
+  console.log('Next Map:', Array.from(nextMap.entries()));
   return { previousMap, nextMap };
 }
