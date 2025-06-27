@@ -5,13 +5,10 @@
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
   },
-  "tagsToRun": [
-    "patchy"
-  ],
+  "tagsToRun": [""],
   "ForceAllParallel": true,
   "ForceAllSerial": false,
   "testFiles": [
-    "testCases/patchy-allocate-api-tests.json",
     "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save-demand-node.json",
     "testCases/data-science-review-testcases/data-science-calculate-save.json",
@@ -61,9 +58,16 @@
     "testCases/update-adjustment-status-from-change-request-to-resolve-request.json",
     "testCases/copy-scenario-draft-source-select-drivers.json",
     "testCases/copy-scenario-historical-source-select-drivers.json",
-    "testCases/primaryDataUpdate-onSegmentReview-test.json",
     "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json",
-    
+    "testCases/ssdm-node-edge-publish-latest-test.json",
+    "testCases/ssdm-node-edge-publish-latest-failure-test.json",
+    "testCases/primaryDataUpdate-onSegmentReview-test.json",
+    "testCases/month-on-month-propagation-test.json",
+    "testCases/calculate-save-additive-non-additive-nodes-equal-distriubution.json",
+    "testCases/patchy-cell-edit-api-tests.json",
+    "testCases/patchy/edited-value-patchy-on-patchy.json",
+    "testCases/patchy-dependent-nodes-tests.json",
+    "testCases/patchy-multiple-dependent-nodes-tests.json"
 
   ],
   "currentDemandService": {
