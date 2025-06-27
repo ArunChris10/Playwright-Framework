@@ -166,8 +166,8 @@
         "intervalMs": 5000,
         "timeoutMs": 600000
       }
-    }
-  ,{
+    },
+    {
       "testStep": "Calculate Forecast for #, %, and $ Node Types",
       "environment": "qa",
       "labels": [
@@ -262,8 +262,7 @@
         "forecastDriverThree",
         "forecastDriverFour"
       ]
-    }
- ,
+    },
     {
       "testStep": "Save Adjustment for Node Types (#, %, $)",
       "environment": "qa",
@@ -331,6 +330,146 @@
                 "interval": null,
                 "offset": null,
                 "method": 29
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+        },
+        "dim_val_id": 110026
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "New adjustment created successfully!!",
+            "jsonPath2": "adjustment_metadata.adjustment_name",
+            "value2": "test Adjustment"
+          },
+          "assertNotNull": {
+            "jsonPath1": "adjustment_metadata.adjustment_id",
+            "jsonPath2": "adjustment_metadata.created_by",
+            "jsonPath3": "adjustment_metadata.created_at"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Calculate Forecast for for Nonadditive- % rolling",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-36529",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Verify calculation for for Nonadditive- % rolling",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [
+          "merchandiseincomeallocatedtoentity",
+          "merchandiseincomecalculated"
+        ],
+        "scenario_id": "{{io_scenario_id_multipltNodes}}",
+        "dim_val_id": 110026,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "allocationpctmerchandiseincome_input",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+3}}": 6.52
+            },
+            "allocation": {
+              "interval": 2,
+              "offset": 3,
+              "method": 32
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1747131515456
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "nonadditiveNode": {
+          "whereKey": "node_var_name",
+          "equals": "allocationpctmerchandiseincome_input",
+          "extractKey": "edits.{{dynamicMonth+3}}.forecast"
+        },
+        "NonAdditiveinputNodeOne": {
+          "whereKey": "node_var_name",
+          "equals": "merchandiseincomeallocatedtoentity",
+          "extractKey": "edits.{{dynamicMonth+3}}.forecast"
+        },
+        "NonAdditiveinputNodeTwo": {
+          "whereKey": "node_var_name",
+          "equals": "merchandiseincomecalculated",
+          "extractKey": "edits.{{dynamicMonth+3}}.forecast"
+        }
+      },
+      "validateExtractToBeNotNull": [
+        "nonadditiveNode",
+        "NonAdditiveinputNodeOne",
+        "NonAdditiveinputNodeTwo"
+      ]
+    },
+    {
+      "testStep": "Save Adjustment for Nonadditive- % rolling",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-36528",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "saveAdjustment",
+      "testName": "Verify Save works correctly for for Nonadditive- % rolling",
+      "queryParams": "",
+      "method": "PATCH",
+      "payload": {
+        "adjustment_metadata": {
+          "adjustment_name": "test Adjustment",
+          "adjustment_reason": "",
+          "adjustment_type": 73,
+          "is_duplicated": false,
+          "is_update": false,
+          "is_create": true,
+          "adjustment_edits": 3,
+          "scenario_id": "{{io_scenario_id_multipltNodes}}",
+          "scenario_version_timestamp": "{{io_scenario_version_multipleNodes}}"
+        },
+        "allocation_request": {
+          "display_nodes": [
+            "merchandiseincomeallocatedtoentity",
+            "merchandiseincomecalculated"
+          ],
+          "scenario_id": "{{io_scenario_id_multipltNodes}}",
+          "dim_val_id": 110026,
+          "dim_id": 11,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "allocationpctmerchandiseincome_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+3}}": 6.52
+              },
+              "allocation": {
+                "interval": 2,
+                "offset": 3,
+                "method": 32
               }
             }
           ],
