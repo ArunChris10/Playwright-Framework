@@ -1,0 +1,149 @@
+{
+  "Get_all_tags_in_the_system": [
+    {
+      "testStep": "Fetch All Tags",
+      "environment": "dev",
+      "labels": ["smoke", "Tags"],
+      "service": "ssdmService",
+      "uri": "getAlltags",
+      "testName": "Get all Tags",
+      "queryParams": "",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+          {
+      "assertNotNull": {
+        "jsonPath": "$..tag_name"
+      }
+    }
+      ],
+       "extractFirst": {
+                "fetch_all_tags_tagKey": "tag_key"
+       }
+    }
+  ],
+   "Get_specific_tag_in_the_system": [
+    {
+      "testStep": "Fetch specify tag",
+      "environment": "dev",
+      "labels": ["smoke", "Tags"],
+      "service": "ssdmService",
+      "uri": "getAlltags",
+      "testName": "Get specific Tags",
+      "queryParams": "/{{fetch_all_tags_tagKey}}",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ],
+  "Get_specific_tag_in_the_system with incorrect tag key": [
+    {
+      "testStep": "Fetch specific tag with incorrect tag key",
+      "environment": "dev",
+      "labels": ["smoke", "Tags"],
+      "service": "ssdmService",
+      "uri": "getAlltags",
+      "testName": "Get all Tags",
+      "queryParams": "/12000",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 409
+        }
+      ]
+    }
+  ],
+  "Create a new tag": [
+    {
+      "testStep": "Create a new tag",
+      "environment": "dev",
+      "labels": ["smoke", "Tags"],
+      "service": "ssdmService",
+      "uri": "getAlltags",
+      "testName": "Create a Tag",
+      "queryParams": "",
+      "method": "Post",
+      "payload":{
+        "tag_name": "ibg_AutomationTagTest"
+     },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+        "assertEquals": {
+          "jsonPath": "tag_name",
+          "value": "ibg_AutomationTagTest"
+        }
+      }
+     ],"extractFirst": {
+                "fetch_tagKey_Create": "tag_key"
+       }
+
+    }
+  ],
+  "Update an existing tag": [
+    {
+      "testStep": "Update a new tag",
+      "environment": "dev",
+      "labels": ["smoke", "Tags"],
+      "service": "ssdmService",
+      "uri": "getAlltags",
+      "testName": "Update a Tags",
+      "queryParams": "",
+      "method": "Patch",
+      "payload":{
+        "tag_name": "ibg_AutomationTagtest_Updated",
+        "tag_key" : "{{fetch_tagKey_Create}}"
+     },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+        "assertEquals": {
+          "jsonPath": "tag_name",
+          "value": "ibg_AutomationTagtest_Updated"
+        }
+      }
+     ]
+
+    }
+  ],
+  "Update an invalid tag": [
+    {
+      "testStep": "Update an invalid tag",
+      "environment": "dev",
+      "labels": ["smoke", "Tags"],
+      "service": "ssdmService",
+      "uri": "getAlltags",
+      "testName": "Update an invalid Tag",
+      "queryParams": "",
+      "method": "Patch",
+      "payload":{
+        "tag_name": "ibg_AutomationTagtest_Updated",
+        "tag_key" : "20000"
+     },
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+        "assertEquals": {
+          "jsonPath": "detail",
+          "value": "Invalid TAG_KEY 20000"
+        }
+      }
+     ]
+
+    }
+  ]
+
+
+
+  }

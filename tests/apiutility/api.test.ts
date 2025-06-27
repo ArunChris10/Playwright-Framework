@@ -115,6 +115,8 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
             baseUrl = parentConfig.dataForgeService.baseURL[process.env.envName];
           } else if (step.service === "utilityService"){
             baseUrl = parentConfig.utilityService.baseURL[process.env.envName];
+          } else if (step.service === "ssdmService"){
+            baseUrl = parentConfig.ssdmService.baseURL[step.environment];
           }
 
           const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);  

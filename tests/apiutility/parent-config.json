@@ -5,7 +5,7 @@
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
   },
-  "tagsToRun": [],
+  "tagsToRun": [""],
   "ForceAllParallel": true,
   "ForceAllSerial": false,
   "testFiles": [
@@ -65,11 +65,9 @@
     "testCases/month-on-month-propagation-test.json",
     "testCases/calculate-save-additive-non-additive-nodes-equal-distriubution.json",
     "testCases/patchy-cell-edit-api-tests.json",
-
-    "testCases/create-multiple-scenario-tests.json",
-
-    "testCases/patchy/edited-value-patchy-on-patchy.json"
-
+    "testCases/patchy/edited-value-patchy-on-patchy.json",
+    "testCases/SSDM-BE/tags-tests.json",
+    "testCases/SSDM-Be/attribute-tests.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -161,5 +159,14 @@
     },
     "actualMissingNode": "/v1/actual_missing/nodes",
     "actualMissingNodeIncorrect": "/v1/actual_missing/nodes/incorrect"
-  }
+  },
+   "ssdmService":
+    {
+      "baseURL" :{
+        "dev":"https://ibg-node-hub-service-dev.ibg-ufm.k8s.glb.us.walmart.net",
+        "qa" :"https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net"
+      },
+      "getAlltags" : "/api/tags",
+      "getAllAttributes" : "/api/attributes"
+    }
 }
