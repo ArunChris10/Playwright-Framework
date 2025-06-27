@@ -1,0 +1,349 @@
+{
+    "verify calculate and save for additive and patchy nodes": [
+        {
+            "testStep": "Get a forecast to calculate for additive and pachy nodes",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "additive_patchy_allocation"
+            ],
+            "service": "coreService",
+            "uri": "getForecast",
+            "testName": "Get a forecast",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "unit": "Millions",
+                "dim_id": 12,
+                "dim_val_id": 120011,
+                "classification_id": 12,
+                "template_id": 1,
+                "filters": [],
+                "additional_filters": {
+                    "template_include_headers": [
+                        {
+                            "name": "vs LY",
+                            "format": "percent"
+                        },
+                        {
+                            "name": "vs Plan",
+                            "format": "absolute"
+                        }
+                    ]
+                }
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ],
+            "extractRelativeMultipleCondition": {
+                "scenario_id": {
+                    "conditions": [
+                        {
+                            "path": "rowData.lineOfBusiness",
+                            "equals": 110030
+                        },
+                        {
+                            "path": "rowData.forecastStatus.statusCode",
+                            "equals": 21
+                        }
+                    ],
+                    "extractKey": "scenarioId"
+                },
+                "scenarioVersion": {
+                    "conditions": [
+                        {
+                            "path": "rowData.lineOfBusiness",
+                            "equals": 110030
+                        },
+                        {
+                            "path": "rowData.forecastStatus.statusCode",
+                            "equals": 21
+                        }
+                    ],
+                    "extractKey": "scenarioVersion"
+                }
+            }
+        },
+        {
+            "testStep": "Editing and Calculating the additive and patchy data",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "additive_patchy_allocation"
+            ],
+            "service": "coreService",
+            "uri": "allocateData",
+            "testName": "Calculating the additive and patchy nodes",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "display_nodes": [
+                    "financialservicesincome"
+                ],
+                "scenario_id": "{{scenario_id}}",
+                "dim_id": 11,
+                "dim_val_id": 110030,
+                "preview": true,
+                "edits": [
+                    {
+                        "node_var_name": "financialservicesincome",
+                        "node_dimension": {},
+                        "data": {
+                            "{{dynamicMonth+3}}": 101172355,
+                            "{{dynamicMonth+7}}": 1
+                        },
+                        "allocation": {
+                            "interval": null,
+                            "offset": null,
+                            "method": 31
+                        }
+                    }
+                ],
+                "filters": [],
+                "period_view": "month",
+                "adjustment_id": 1748928560523
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertNotNull": {
+                        "jsonPath1": "node_var_name"
+                    }
+                }
+            ]
+        },
+        {
+            "testStep": "Saving the adjustment after calculating the additive and patchy nodes",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "additive_non_additive_calculate_equal_distribution"
+            ],
+            "service": "coreService",
+            "uri": "saveAdjustment",
+            "testName": "Save the calculation",
+            "queryParams": "",
+            "method": "PATCH",
+            "payload": {
+                "adjustment_metadata": {
+                    "adjustment_name": "demo_test_additive_non_additive {{randomNumber}}",
+                    "adjustment_reason": "",
+                    "adjustment_type": 74,
+                    "is_duplicated": false,
+                    "is_update": false,
+                    "is_create": true,
+                    "adjustment_edits": 16,
+                    "scenario_id": "{{scenario_id}}",
+                    "scenario_version_timestamp": "{{scenarioVersion}}"
+                },
+                "allocation_request": {
+                    "display_nodes": [],
+                    "scenario_id": "{{scenario_id}}",
+                    "dim_val_id": 110030,
+                    "dim_id": 11,
+                    "preview": false,
+                    "edits": [
+                        {
+                            "node_var_name": "financialservicesincome",
+                            "node_dimension": {},
+                            "data": {
+                                "{{dynamicMonth+3}}": 100,
+                                "{{dynamicMonth+7}}": 1
+                            },
+                            "allocation": {
+                                "interval": null,
+                                "offset": null,
+                                "method": 30
+                            }
+                        }
+                    ],
+                    "filters": [],
+                    "period_view": "month"
+                },
+                "dim_val_id": 110030
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertEquals": {
+                        "jsonPath1": "message",
+                        "value1": "New adjustment created successfully!!"
+                    }
+                }
+            ],
+            "extract": {
+                "adjustmentId": "adjustment_metadata.adjustment_id"
+            }
+        },
+        {
+            "testStep": "Validate Adjustment via getKpi",
+            "environment": "qa",
+            "labels": [
+                "additive_non_additive_calculate_equal_distribution",
+                "MS1"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "Validate saved data for drivers",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{scenario_id}}",
+                "scenario_version": "{{scenarioVersion}}",
+                "dim_id": 11,
+                "dim_val_id": 110030,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id",
+                        "channel",
+                        "department",
+                        "location"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "financialservicesincome"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Channel"
+                        },
+                        {
+                            "name": "Department"
+                        },
+                        {
+                            "name": "Location"
+                        },
+                        {
+                            "name": "Driver"
+                        },
+                        {
+                            "name": "{{dynamicMonth+3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+7}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": true
+                        },
+                        {
+                            "name": "Value",
+                            "editable": true
+                        }
+                    ],
+                    "month": [
+                        "{{dynamicMonth+3}}",
+                        "{{dynamicMonth+7}}"
+                    ]
+                },
+                "isApplied": false
+            },
+            "extractRelativeMultipleCondition": {
+                "driver_value": {
+                    "conditions": [
+                        {
+                            "path": "rowData.channel",
+                            "equals": 60002
+                        },
+                        {
+                            "path": "rowData.department",
+                            "equals": 3
+                        },
+                        {
+                            "path": "rowData.location",
+                            "equals": 17001111
+                        }
+                    ],
+                    "extractKey": "rowData.{{dynamicMonth+3}}.forecast"
+                },
+                "patchy_value_1": {
+                    "conditions": [
+                        {
+                            "path": "rowData.channel",
+                            "equals": 60002
+                        },
+                        {
+                            "path": "rowData.department",
+                            "equals": 3
+                        },
+                        {
+                            "path": "rowData.location",
+                            "equals": 17001111
+                        }
+                    ],
+                    "extractKey": "rowData.{{dynamicMonth+7}}.forecast"
+                },
+                "patchy_value_2": {
+                    "conditions": [
+                        {
+                            "path": "rowData.channel",
+                            "equals": 60002
+                        },
+                        {
+                            "path": "rowData.department",
+                            "equals": -999
+                        },
+                        {
+                            "path": "rowData.location",
+                            "equals": 17001111
+                        }
+                    ],
+                    "extractKey": "rowData.{{dynamicMonth+7}}.forecast"
+                }
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertValuesAreEqual": [
+                        "{{patchy_value_1}}",
+                        "{{patchy_value_2}}"
+                    ]
+                }
+            ]
+        }, {
+                "testStep": "Delete Adjustment",
+                "environment": "qa",
+                "labels": [
+                  "smoke",
+                  "non_additive_patchy_allocation"
+                ],
+                "service": "coreService",
+                "uri": "saveAdjustment",
+                "testName": "Delete Adjustment",
+                "queryParams": "{{adjustmentId}}?scenario_id={{scenario_id}}&scenario_version_timestamp={{scenarioVersion}}",
+                "method": "DELETE",
+                "payload": {},
+                "assertions": [
+                  {
+                    "status": 200
+                  }
+                ]
+            }
+    ]
+}
