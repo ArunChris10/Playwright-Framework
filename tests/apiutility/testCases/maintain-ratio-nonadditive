@@ -1,0 +1,106 @@
+{
+  "verify calculate and save for additive nodes in a SBA": [
+    {
+      "testStep": "Get a forecast to calculate for non additive nodes",
+      "environment": "qa",
+      "labels": ["smoke", "nonadditive_maintainratio_calculate"],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get a forecast to calculate for non additive",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120009,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "scenario_id": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110027
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
+        "scenarioVersion": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110027
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
+      }
+    },
+    {
+      "testStep": "Editing and Calculating the additive nodes",
+      "environment": "qa",
+      "labels": ["smoke", "additive_calculate", "additive_calculate_save"],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Calculating the additive nodes",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{scenario_id}}",
+        "dim_val_id": 110027,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "unitsperorder_input",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 87
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1750919071251
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}
