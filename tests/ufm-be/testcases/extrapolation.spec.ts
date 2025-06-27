@@ -70,8 +70,17 @@ Object.entries(testData).forEach(([lob, testData]) => {
         expect(getAllAdjustments).toEqual([])
 
       });
-    
-
+      
+      let GetDefaultDriverResponse;
+      // test(`Get default driver for LOB - ${testData.lobName}`, async ({ request }) => {
+      //    GetDefaultDriverResponse = await UfmUtility.getDriverList(
+      //     lob,
+      //     "Input",
+      //     request
+      //   );
+      //   console.log("GetDefaultDriverResponse:", GetDefaultDriverResponse);
+      // });
+      
       test(`Verify if the API is returning Actuals, forecast, and extrapolated forecast dates`, async ({request,}) => {
         const endpointURL = `${process.env.apiBaseURLUFM}${testdatafile.endpoint}`;
         Utility.logIt(endpointURL);
@@ -98,7 +107,7 @@ Object.entries(testData).forEach(([lob, testData]) => {
           await test.step("Make a Post Request for getting the forecast data", async () => {
             Utility.logIt("Make a Post Request for getting the forecast data");
            
-            let monthYear = await Utility.getFiscalYearMonthList();
+            let monthYear = await Utility.generateMonthArray(actualSyncTime);
             const endpointURL = `${process.env.apiBaseURLUFM}${getKpiData.endpoint}`;
           
             let kpiPayload = await UfmUtility.kpiPayload(
@@ -106,25 +115,24 @@ Object.entries(testData).forEach(([lob, testData]) => {
               scenario_details,
               [],
               monthYear,
-              "mopostaudit"
+              ["allocationpctmerchandiseincome_input"]
             );
             apiResponse = await request.post(endpointURL, {data: kpiPayload,});
+            console.log("KPI API Response JSON:", await apiResponse.json());
           });
 
-          const kpiResponseBody: { rowData: RowData[] } = await apiResponse.json();
-
-          if (!kpiResponseBody.rowData?.length) {
-            console.error("No rowData found in response.");
-            return;
-          }
-      
+         const kpiResponseBody: { rowData: RowData[] } = await apiResponse.json();
+         
+            if (!kpiResponseBody.rowData?.length) {
+              console.error("No rowData found in response.");
+            } 
           const row = kpiResponseBody.rowData[0];
           const { previousMap, nextMap } = getPreviousAndNextData(row, actualSyncTime);
           const mismatches = comparePreviousAndNext(previousMap, nextMap);
       
           console.log("Non-matching value pairs:");
           console.table(mismatches);
-        
+      });
       
       test(`Teardown for deleting forecast for lob - ${testData.lobName}`, async ({
         request,
@@ -139,7 +147,7 @@ Object.entries(testData).forEach(([lob, testData]) => {
         );
       });
     });
-  });
+ 
 })
 
 
