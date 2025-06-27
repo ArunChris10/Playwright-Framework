@@ -62,12 +62,14 @@
     "testCases/ssdm-node-edge-publish-latest-test.json",
     "testCases/ssdm-node-edge-publish-latest-failure-test.json",
     "testCases/primaryDataUpdate-onSegmentReview-test.json",
+    "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json",
     "testCases/month-on-month-propagation-test.json",
     "testCases/calculate-save-additive-non-additive-nodes-equal-distriubution.json",
     "testCases/patchy-cell-edit-api-tests.json",
     "testCases/create-multiple-scenario-tests.json",
-    "testCases/patchy/edited-value-patchy-on-patchy.json"
-    "testCases/allocation-excludes-missing-months.json"
+    "testCases/patchy/edited-value-patchy-on-patchy.json",
+    "testCases/allocation-excludes-missing-months.json",
+    "testCases/allocate-node-value-test.json"
   ],
   "currentDemandService": {
     "baseURL": {
