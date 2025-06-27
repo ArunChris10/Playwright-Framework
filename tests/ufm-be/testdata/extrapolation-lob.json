@@ -1,0 +1,15 @@
+{
+    "endpoint": "/reports/get-mykpi",
+    "testData": {
+        "MERCHOPS": {
+            "lobName": "SCHEDULED",
+            "Nodes": [
+                "momerchandisesales",
+                "mowarehouseallowances",
+                "mobuyingallowances",
+                "mototalallowances"
+            ]
+           
+        }
+    }
+}
