@@ -2,7 +2,8 @@ import { MonthData, MonthValue, RowData, DiffResult } from '../type/types';
 
 export function comparePreviousAndNext(
   previousMap: Map<string, MonthValue>,
-  nextMap: Map<string, MonthValue>
+  nextMap: Map<string, MonthValue>,
+  driver :string
 ): DiffResult[] {
   const diffs: DiffResult[] = [];
 
@@ -29,10 +30,11 @@ export function comparePreviousAndNext(
       });
 
       // Soft assert for logging differences
-      console.assert(
-      prevData.value === nextData.value,
-      `Soft Assert Failed: Value mismatch for keys ${prevKey} and ${nextKey}. Previous Value: ${prevData.value}, Next Value: ${nextData.value}`
-      );
+      if (prevData.value !== nextData.value) {
+        console.warn(
+          `Soft Assert: Value mismatch for keys ${prevKey} and ${nextKey}. Driver: ${driver}. Previous Value: ${prevData.value}, Next Value: ${nextData.value}`
+        );
+      }
     }
   }
 

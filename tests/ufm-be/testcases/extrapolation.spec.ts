@@ -21,10 +21,11 @@ Object.entries(testData).forEach(([lob, testData]) => {
   let getAllAdjustmentsCountAfter;
   let responseBody;
   let actualSyncTime;
+  let GetDefaultDriverResponse,GetKPIAapiResponse, apiResponseBody;
 
   test.describe(
-    "Verify adjustments API",
-    { tag: "@Smoke @Regression @extrapolation123" },
+    "Verify Extrapolation logic",
+    { tag: "@Smoke @Regression @extrapolation" },
     async () => {
       test.describe.configure({ timeout: 500_000, mode: "serial" });
       test(`Getting or creating forecast for LOB - ${testData.lobName}`, async ({
@@ -70,9 +71,8 @@ Object.entries(testData).forEach(([lob, testData]) => {
 
         expect(getAllAdjustments).toEqual([])
 
-      });
+      });      
       
-      let GetDefaultDriverResponse;
       test(`Get default driver for LOB - ${testData.lobName}`, async ({ request }) => {
          GetDefaultDriverResponse = await UfmUtility.getDefaultDriverList(
           testData.lobName,        
@@ -103,8 +103,7 @@ Object.entries(testData).forEach(([lob, testData]) => {
 
       console.log("Actuals value:", actualSyncTime); // Outputs: 202602
       });
-
-      let GetKPIAapiResponse, apiResponseBody;
+      
       test(`Get Kpi for given driver and validate the extrapolation`, async ({ request }) => {
         let monthYear = await Utility.generateMonthArray(actualSyncTime); // get 12 months before and 12 months after values for given actual sync time
         const endpointURL = `${process.env.apiBaseURLUFM}${getKpiData.endpoint}`;
@@ -130,13 +129,14 @@ Object.entries(testData).forEach(([lob, testData]) => {
           }
 
           const row = kpiResponseBody.rowData[0];
-          const { previousMap, nextMap } = getPreviousAndNextData(row, actualSyncTime);
-          const mismatches = comparePreviousAndNext(previousMap, nextMap);
+            const { previousMap, nextMap } = getPreviousAndNextData(row, actualSyncTime);
+          const mismatches = comparePreviousAndNext(previousMap, nextMap,driver);
 
           console.log(`Non-matching value pairs for driver ${driver}:`);
           console.table(mismatches);
         }
       });
+
       test(`Teardown for deleting forecast for lob - ${testData.lobName}`, async ({
         request,
       }) => {
