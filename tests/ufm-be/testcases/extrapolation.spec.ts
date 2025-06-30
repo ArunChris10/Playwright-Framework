@@ -74,7 +74,7 @@ Object.entries(testData).forEach(([lob, testData]) => {
       let GetDefaultDriverResponse;
       test(`Get default driver for LOB - ${testData.lobName}`, async ({ request }) => {
          GetDefaultDriverResponse = await UfmUtility.getDefaultDriverList(
-          lob,        
+          testData.lobName,        
           request
         );
         console.log("GetDefaultDriverResponse:", GetDefaultDriverResponse);
