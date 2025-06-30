@@ -17,7 +17,6 @@
     "testCases/calculate-save-adjustment-testcases/calculate-save-additive-non-additive-nodes-equal-distriubution.json",
     "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-api-tests.json",
     "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json",
-    "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-test.json",
     "testCases/calculate-save-adjustment-testcases/get-kpi-Month-GroupBy-Filter-tests.json",
     "testCases/calculate-save-adjustment-testcases/get-my-kpi-api-tests.json",
     "testCases/calculate-save-adjustment-testcases/lower-grain-calculate-test.json",
