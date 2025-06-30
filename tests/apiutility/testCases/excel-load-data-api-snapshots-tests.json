@@ -6,6 +6,7 @@
             "labels": [
                 "smoke",
                 "snapshots",
+                "excelplugin"
             ],
             "service": "coreService",
             "uri": "snapshots",

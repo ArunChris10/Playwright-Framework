@@ -3,7 +3,12 @@
     {
       "testStep": "Get a forecast to calculate for nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_nonadditive_calculate"],
+      "labels": [
+        "smoke",
+        "additive_nonadditive_calculate",
+        "calculations",
+        "adjustments"
+      ],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get a forecast to calculate for additive nodes",
@@ -66,7 +71,11 @@
     {
       "testStep": "Editing and Calculating the nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_calculate", "additive_calculate_save"],
+      "labels": [
+        "smoke",
+        "additive_calculate",
+        "additive_calculate_save"
+      ],
       "service": "coreService",
       "uri": "allocateData",
       "testName": "Calculating the additive nodes",
@@ -92,7 +101,7 @@
             }
           },
           {
-            "node_var_name":"shippingexpenseplug_input",
+            "node_var_name": "shippingexpenseplug_input",
             "node_dimension": {},
             "data": {
               "{{dynamicMonth+1}}": 86

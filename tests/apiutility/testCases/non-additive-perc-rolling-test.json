@@ -3,7 +3,12 @@
     {
       "testStep": "Get a forecast to calculate for a non additive node",
       "environment": "qa",
-      "labels": ["smoke", "non_additive_perc_rolling"],
+      "labels": [
+        "smoke",
+        "non_additive_perc_rolling",
+        "calculations",
+        "adjustments"
+      ],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get a forecast to calculate at lower grain",
@@ -81,8 +86,14 @@
           {
             "node_var_name": "unitsperorder_input",
             "node_dimension": {},
-            "data": { "{{dynamicMonth+1}}": 3 },
-            "allocation": { "interval": 1, "offset": 1, "method": 32 }
+            "data": {
+              "{{dynamicMonth+1}}": 3
+            },
+            "allocation": {
+              "interval": 1,
+              "offset": 1,
+              "method": 32
+            }
           }
         ],
         "filters": [],

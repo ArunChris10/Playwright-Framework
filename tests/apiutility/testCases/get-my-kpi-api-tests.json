@@ -3,7 +3,13 @@
     {
       "testStep": "Get forecast for KPI filters",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-36348","MS3"],
+      "labels": [
+        "smoke",
+        "IBGROW-36348",
+        "MS3",
+        "adjustments",
+        "excelplugin"
+      ],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get forecast for KPI filters",
@@ -42,7 +48,11 @@
     {
       "testStep": "Call getMyKPI API without filters",
       "environment": "qa",
-      "labels": ["smoke","IBGROW-36348","MS3"],
+      "labels": [
+        "smoke",
+        "IBGROW-36348",
+        "MS3"
+      ],
       "service": "coreService",
       "uri": "getKpi",
       "testName": "validate getMyKPI API before filter",
@@ -57,33 +67,100 @@
         "template_id": 3,
         "filters": [],
         "additional_filters": {
-          "pivot_cols": ["month"],
-          "pivot_index": ["node_id"],
-          "period_view": ["month"],
-          "nodes": ["membershipincome_input"],
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "membershipincome_input"
+          ],
           "template_include_headers": [
-            { "name": "Driver" },
-            { "name": "{{dynamicMonth-4}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth-3}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth-2}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth-1}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth+1}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth+2}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth+3}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth+4}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth+5}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth+6}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth+7}}", "columnsMenuParams": "middleColumns" },
-            { "name": "", "columnsMenuParams": "fixedColumns" },
-            { "name": "Allocation Method", "columnsMenuParams": "action" },
-            { "name": "Forecast", "editable": false },
-            { "name": "Value", "editable": false }
+            {
+              "name": "Driver"
+            },
+            {
+              "name": "{{dynamicMonth-4}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth-3}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth-2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth-1}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+1}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+3}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+4}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+5}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+6}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+7}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": false
+            },
+            {
+              "name": "Value",
+              "editable": false
+            }
           ],
           "month": [
-            "{{dynamicMonth-4}}", "{{dynamicMonth-3}}", "{{dynamicMonth-2}}", "{{dynamicMonth-1}}",
-            "{{dynamicMonth}}", "{{dynamicMonth+1}}", "{{dynamicMonth+2}}", "{{dynamicMonth+3}}",
-            "{{dynamicMonth+4}}", "{{dynamicMonth+5}}", "{{dynamicMonth+6}}", "{{dynamicMonth+7}}"
+            "{{dynamicMonth-4}}",
+            "{{dynamicMonth-3}}",
+            "{{dynamicMonth-2}}",
+            "{{dynamicMonth-1}}",
+            "{{dynamicMonth}}",
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}",
+            "{{dynamicMonth+3}}",
+            "{{dynamicMonth+4}}",
+            "{{dynamicMonth+5}}",
+            "{{dynamicMonth+6}}",
+            "{{dynamicMonth+7}}"
           ]
         },
         "isApplied": true
@@ -100,7 +177,11 @@
     {
       "testStep": "Call getMyKPI API with filter applied",
       "environment": "qa",
-      "labels": ["smoke","IBGROW-36348","MS3"],
+      "labels": [
+        "smoke",
+        "IBGROW-36348",
+        "MS3"
+      ],
       "service": "coreService",
       "uri": "getKpi",
       "testName": "validate getMyKPI API after filter",
@@ -116,38 +197,107 @@
         "filters": [
           {
             "dim_id": 24,
-            "dim_val_ids": [240002],
+            "dim_val_ids": [
+              240002
+            ],
             "children": []
           }
         ],
         "additional_filters": {
-          "pivot_cols": ["month"],
-          "pivot_index": ["node_id"],
-          "period_view": ["month"],
-          "nodes": ["membershipincome_input"],
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "membershipincome_input"
+          ],
           "template_include_headers": [
-            { "name": "Driver" },
-            { "name": "{{dynamicMonth-4}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth-3}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth-2}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth-1}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth+1}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth+2}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth+3}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth+4}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth+5}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth+6}}", "columnsMenuParams": "middleColumns" },
-            { "name": "{{dynamicMonth+7}}", "columnsMenuParams": "middleColumns" },
-            { "name": "", "columnsMenuParams": "fixedColumns" },
-            { "name": "Allocation Method", "columnsMenuParams": "action" },
-            { "name": "Forecast", "editable": false },
-            { "name": "Value", "editable": false }
+            {
+              "name": "Driver"
+            },
+            {
+              "name": "{{dynamicMonth-4}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth-3}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth-2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth-1}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+1}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+3}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+4}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+5}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+6}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+7}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": false
+            },
+            {
+              "name": "Value",
+              "editable": false
+            }
           ],
           "month": [
-            "{{dynamicMonth-4}}", "{{dynamicMonth-3}}", "{{dynamicMonth-2}}", "{{dynamicMonth-1}}",
-            "{{dynamicMonth}}", "{{dynamicMonth+1}}", "{{dynamicMonth+2}}", "{{dynamicMonth+3}}",
-            "{{dynamicMonth+4}}", "{{dynamicMonth+5}}", "{{dynamicMonth+6}}", "{{dynamicMonth+7}}"
+            "{{dynamicMonth-4}}",
+            "{{dynamicMonth-3}}",
+            "{{dynamicMonth-2}}",
+            "{{dynamicMonth-1}}",
+            "{{dynamicMonth}}",
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}",
+            "{{dynamicMonth+3}}",
+            "{{dynamicMonth+4}}",
+            "{{dynamicMonth+5}}",
+            "{{dynamicMonth+6}}",
+            "{{dynamicMonth+7}}"
           ]
         },
         "isApplied": true
@@ -160,11 +310,11 @@
           "status": 200
         },
         {
-        "assertApproxEquals": {
-        "jsonPath": "{{foreCastBeforeFilter}}",
-        "expected": "{{foreCastAfterFilter}}",
-        "acceptedDifference": 0.1000
-        }
+          "assertApproxEquals": {
+            "jsonPath": "{{foreCastBeforeFilter}}",
+            "expected": "{{foreCastAfterFilter}}",
+            "acceptedDifference": 0.1000
+          }
         }
       ]
     }

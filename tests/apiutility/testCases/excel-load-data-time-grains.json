@@ -5,7 +5,8 @@
             "environment": "qa",
             "labels": [
                 "smoke",
-                "fetchScenarios"
+                "fetchScenarios",
+                "excelplugin"
             ],
             "service": "coreService",
             "uri": "getForecast",

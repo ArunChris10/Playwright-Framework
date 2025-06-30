@@ -3,7 +3,12 @@
     {
       "testStep": "Get a forecast to calculate for additive and non-additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_non_additive_calculate_equal_distribution"],
+      "labels": [
+        "smoke",
+        "additive_non_additive_calculate_equal_distribution",
+        "calculations",
+        "adjustments"
+      ],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get a forecast to calculate at lower grain",
@@ -66,7 +71,10 @@
     {
       "testStep": "Editing and Calculating the additive and non additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_non_additive_calculate_equal_distribution"],
+      "labels": [
+        "smoke",
+        "additive_non_additive_calculate_equal_distribution"
+      ],
       "service": "coreService",
       "uri": "allocateData",
       "testName": "Calculating the additive and non additive nodes",
@@ -74,7 +82,7 @@
       "method": "POST",
       "payload": {
         "display_nodes": [
-           "financialservicesincome",
+          "financialservicesincome",
           "instorereturnspctofgrossgmv"
         ],
         "scenario_id": "{{scenario_id}}",
@@ -125,7 +133,10 @@
     {
       "testStep": "Saving the adjustment after calculating the additive and non additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_non_additive_calculate_equal_distribution"],
+      "labels": [
+        "smoke",
+        "additive_non_additive_calculate_equal_distribution"
+      ],
       "service": "coreService",
       "uri": "saveAdjustment",
       "testName": "Save the calculation for all the additive and non additive nodes in the SBA",

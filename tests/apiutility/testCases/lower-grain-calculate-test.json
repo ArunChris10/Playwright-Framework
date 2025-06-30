@@ -6,7 +6,9 @@
       "labels": [
         "smoke",
         "lower_grain_calculate",
-        "lower_grain_calculate_save"
+        "lower_grain_calculate_save",
+        "calculations",
+        "adjustments"
       ],
       "service": "coreService",
       "uri": "getForecast",
