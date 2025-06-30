@@ -322,7 +322,7 @@
       }
     },
     {
-      "testStep": "Save Adjustment_multiLayerSave-Layer1",
+      "testStep": "Save Adjustment_primaryDataUpdate",
       "environment": "qa",
       "labels": [
         "smoke",
@@ -330,7 +330,7 @@
       ],
       "service": "coreService",
       "uri": "saveAdjustment",
-      "testName": "Verify Save works_mutliLayerSave-Layer1",
+      "testName": "Save Adjustment_primaryDataUpdate",
       "queryParams": "",
       "method": "PATCH",
       "payload": {
@@ -465,8 +465,7 @@
             "{{dynamicMonth+6}}"
           ]
         },
-        "isApplied": false,
-        "adjustment_id": "{{updatePrimaryData_AdjustmentId}}"
+        "isApplied": false
       },
       "assertions": [
         {
@@ -873,6 +872,51 @@
       }
     },
     {
+      "testStep": "Capture Get progress tracker scenarioId_Primarydataupdate",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-39766",
+        "MS3"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Capture Get progress tracker scenarioId_Primarydataupdate",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "dim_id": 13,
+        "dim_val_id": 130001,
+        "template_id": 4,
+        "classification_id": 12
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "SegmentFinanceScenarioId_Primarydataupdate": {
+          "conditions": [
+            {
+              "path": "rowData.organization",
+              "equals": 120010
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
+        "SegmentFinanceScenarioVersion_Primarydataupdate": {
+          "conditions": [
+            {
+              "path": "rowData.organization",
+              "equals": 120010
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
+      }
+    },
+    {
       "testStep": "Send MerchOps Forecast for Segment Review- updatePrimaryData",
       "environment": "qa",
       "labels": [
@@ -886,11 +930,11 @@
       "queryParams": "status/v2",
       "payload": {
         "scenario": {
-          "scenario_id": "{{merchOps_scenario_id_Primarydataupdate}}",
-          "scenario_version": "{{merchOps_scenario_version_Primarydataupdate}}",
+          "scenario_id": "{{SegmentFinance_MerchOpsScenarioid}}",
+          "scenario_version": "{{SegmentFinance_MerchOpsScenarioVersion}}",
           "scenario_status": 23,
-          "dim_id": 11,
-          "dim_val_id": 110029
+          "dim_id": 12,
+          "dim_val_id": 120010
         }
       },
       "assertions": [
@@ -918,24 +962,10 @@
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "unit": "Millions",
         "dim_id": 12,
         "dim_val_id": 120010,
-        "classification_id": 12,
-        "template_id": 1,
-        "filters": [],
-        "additional_filters": {
-          "template_include_headers": [
-            {
-              "name": "vs LY",
-              "format": "percent"
-            },
-            {
-              "name": "vs Plan",
-              "format": "absolute"
-            }
-          ]
-        }
+        "template_id": 2,
+        "classification_id": 12
       },
       "assertions": [
         {
@@ -958,7 +988,7 @@
       "environment": "qa",
       "labels": [
         "smoke",
-       "IBGROW-39766",
+        "IBGROW-39766",
         "MS1"
       ],
       "service": "coreService",
