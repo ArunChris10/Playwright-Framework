@@ -44,7 +44,7 @@ export default defineConfig({
   /* maximum time each test can run for */
   timeout: 5 * 60 * 1000,
   globalTeardown: './tests/apiutility/globalTeardown.ts',
-  globalSetup: './tests/apiutility/globalSetup.ts',
+  // globalSetup: './tests/apiutility/globalSetup.ts',
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
