@@ -82,12 +82,41 @@ export const globalStore = {
       const maxYear = currentYear + 999;
       return Math.floor(Math.random() * (maxYear - minYear + 1)) + minYear;
     }
-
+    const store = loadStore();
     if (key.includes("-lowercase")) {
       return this.store[key].toLowerCase();
     }
-
-    const store = loadStore();
+    if (key.includes("-tostring")) {
+      const splitKey = key.split("-")[0]
+      return store[splitKey].toString();
+    }
+    if (key.includes("-tonumber")) {
+      const splitKey = key.split("-")[0]
+      return Number(store[splitKey])
+    }
+    if (key.includes('-roundoff')) {
+      const baseKey = key.replace('-roundoff', '');
+      let value = store[baseKey];
+      
+      // Convert to number if it's a string
+      if (typeof value === 'string') {
+        value = parseFloat(value);
+      }
+      
+      // Apply roundoff logic
+      if (typeof value === 'number') {
+        const rounded5Decimal = Math.round(value * 100000) / 100000;
+        const roundedInteger = Math.round(rounded5Decimal);
+        
+        if (Math.abs(rounded5Decimal - roundedInteger) < 0.00001) {
+          return roundedInteger;
+        } else {
+          return rounded5Decimal;
+        }
+      }
+      
+      return value;
+    }
     return store[key];
   },
 

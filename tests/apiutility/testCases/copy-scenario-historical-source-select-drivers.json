@@ -1,0 +1,454 @@
+{
+    "verify copy scenario action for historical source scenario with selected drivers": [
+        {
+            "testStep": "Fetch historical scenario",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "copy_scenario_historical_source_select_drivers"
+            ],
+            "service": "coreService",
+            "uri": "listHistoricals",
+            "testName": "Get historical scenario",
+            "queryParams": "dim_val_id=110016&dim_id=12&data_level=11&classification_id=12",
+            "method": "GET",
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ],
+            "extractFirst": {
+                "historicalScenarioVersion": "row_data.scenario_version_timestamp",
+                "historicalScenarioId": "row_data.scenario_id",
+                "historicalActualTemplateId": "row_data.actual_template_id",
+                "historicalForecastTemplateId": "row_data.forecast_template_id"
+            }
+        },
+        {
+            "testStep": "Create target scenario",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "copy_scenario_historical_source_select_drivers"
+            ],
+            "service": "coreService",
+            "uri": "createUserScenario",
+            "testName": "Create a new scenario",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "dim_id": 11,
+                "dim_val_id": 110016,
+                "classification_id": 12,
+                "type": 3,
+                "name": "Test-target-{{randomNumber}}"
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ],
+            "extractFirst": {
+                "targetScenarioId": "scenario.scenario_id",
+                "targetScenarioVersion": "scenario.scenario_version_timestamp"
+            }
+        },
+        {
+            "testStep": "Poll the creation of target scenario",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "copy_scenario_historical_source_select_drivers"
+            ],
+            "service": "coreService",
+            "uri": "getForecast",
+            "testName": "Poll the creation of target scenario",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "unit": "Millions",
+                "dim_id": 12,
+                "dim_val_id": 120003,
+                "classification_id": 12,
+                "template_id": 1,
+                "filters": [],
+                "additional_filters": {
+                    "template_include_headers": [
+                        {
+                            "name": "vs LY",
+                            "format": "percent"
+                        },
+                        {
+                            "name": "vs Plan",
+                            "format": "absolute"
+                        }
+                    ]
+                }
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ],
+            "extractRelative": {
+                "targetATS": {
+                    "whereKey": "rowData.name",
+                    "equals": "Test-target-{{randomNumber}}",
+                    "extractKey": "rowData.ATS"
+                },
+                "targetFTS": {
+                    "whereKey": "rowData.name",
+                    "equals": "Test-target-{{randomNumber}}",
+                    "extractKey": "rowData.FTS"
+                }
+            },
+            "polling": {
+                "extractRelative": {
+                    "WhereKey": "rowData.name",
+                    "Equals": "Test-target-{{randomNumber}}",
+                    "Findkey": "rowData.forecastStatus.statusCode"
+                },
+                "expectedValue": 21,
+                "intervalMs": 5000,
+                "timeoutMs": 600000
+            }
+        },
+        {
+            "testStep": "Perform adjustment on target scenario",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "copy_scenario_historical_source_select_drivers"
+            ],
+            "service": "coreService",
+            "uri": "saveAdjustment",
+            "testName": "Make adjustment on target scenario",
+            "queryParams": "",
+            "method": "PATCH",
+            "payload": {
+                "adjustment_metadata": {
+                    "adjustment_name": "Test adjustment - {{randomNumber}}",
+                    "adjustment_reason": "Test adjustment - {{randomNumber}}",
+                    "adjustment_type": 74,
+                    "is_duplicated": false,
+                    "is_update": false,
+                    "is_create": true,
+                    "adjustment_edits": 1,
+                    "scenario_id": "{{targetScenarioId}}",
+                    "scenario_version_timestamp": "{{targetScenarioVersion}}"
+                },
+                "allocation_request": {
+                    "display_nodes": [],
+                    "scenario_id": "{{targetScenarioId}}",
+                    "dim_val_id": 110016,
+                    "dim_id": 11,
+                    "preview": false,
+                    "edits": [
+                        {
+                            "node_var_name": "warehouseallowances_input",
+                            "node_dimension": {},
+                            "data": {
+                                "{{dynamicMonth+1}}": 500
+                            },
+                            "allocation": {
+                                "interval": null,
+                                "offset": null,
+                                "method": 29
+                            }
+                        }
+                    ],
+                    "filters": [],
+                    "period_view": "month"
+                },
+                "dim_val_id": 110016
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ]
+        },
+        {
+            "testStep": "Fetch the node value from historical scenario",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "copy_scenario_historical_source_select_drivers"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "Fetch node value of historical scenario",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "baseURL": "",
+                "scenario_id": "{{historicalScenarioId}}",
+                "scenario_version": "{{historicalScenarioVersion}}",
+                "dim_id": 11,
+                "dim_val_id": 110016,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "warehouseallowances_input"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Driver"
+                        },
+                        {
+                            "name": "{{dynamicMonth+1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": true
+                        },
+                        {
+                            "name": "Value",
+                            "editable": true
+                        }
+                    ],
+                    "month": [
+                        "{{dynamicMonth+1}}"
+                    ]
+                },
+                "isApplied": true
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ],
+            "extractRelative": {
+                "source_driver_value": {
+                    "whereKey": "rowData.driver",
+                    "equals": "warehouseallowances_input",
+                    "extractKey": "rowData.{{dynamicMonth+1}}.forecast"
+                }
+            }
+        },
+        {
+            "testStep": "Initialize copy scenario from historical scenario (source) to target scenario",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "copy_scenario_historical_source_select_drivers"
+            ],
+            "service": "utilityService",
+            "uri": "copyScenario",
+            "testName": "Copy source scenario data to target",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "dim_val_id": 110016,
+                "dim_id": 11,
+                "source_scenario": {
+                    "scenario_id-tostring": "{{historicalScenarioId}}",
+                    "scenario_version-tostring": "{{historicalScenarioVersion}}",
+                    "type": "scenarios",
+                    "actual_scenario_id-tostring": "{{historicalActualTemplateId}}",
+                    "forecast_scenario_id-tostring": "{{historicalForecastTemplateId}}"
+                },
+                "target_scenario": [
+                    {
+                        "scenario_id": "{{targetScenarioId}}",
+                        "scenario_version": "{{targetScenarioVersion}}",
+                        "type": "scenarios",
+                        "actual_scenario_id": "{{targetATS}}",
+                        "forecast_scenario_id": "{{targetFTS}}"
+                    }
+                ],
+                "additional_filters": {
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "warehouseallowances_input"
+                    ],
+                    "month": [
+                        "{{dynamicMonth+1}}"
+                    ]
+                },
+                "filters": []
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ]
+        },
+        {
+            "testStep": "Poll the copy scenario process until its completed",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "copy_scenario_historical_source_select_drivers"
+            ],
+            "service": "coreService",
+            "uri": "getForecast",
+            "testName": "Poll the copy scenario process until its completed",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "unit": "Millions",
+                "dim_id": 12,
+                "dim_val_id": 120003,
+                "classification_id": 12,
+                "template_id": 1,
+                "filters": [],
+                "additional_filters": {
+                    "template_include_headers": [
+                        {
+                            "name": "vs LY",
+                            "format": "percent"
+                        },
+                        {
+                            "name": "vs Plan",
+                            "format": "absolute"
+                        }
+                    ]
+                }
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ],
+            "polling": {
+                "extractRelative": {
+                    "WhereKey": "rowData.name",
+                    "Equals": "Test-target-{{randomNumber}}",
+                    "Findkey": "rowData.forecastStatus.statusCode"
+                },
+                "expectedValue": 21,
+                "intervalMs": 5000,
+                "timeoutMs": 600000
+            }
+        },
+        {
+            "testStep": "Validate copied value in target scenario",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "copy_scenario_historical_source_select_drivers"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "Fetch target scenario and validate copied value",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "baseURL": "",
+                "scenario_id": "{{targetScenarioId}}",
+                "scenario_version": "{{targetScenarioVersion}}",
+                "dim_id": 11,
+                "dim_val_id": 110016,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "warehouseallowances_input"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Driver"
+                        },
+                        {
+                            "name": "{{dynamicMonth+1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": true
+                        },
+                        {
+                            "name": "Value",
+                            "editable": true
+                        }
+                    ],
+                    "month": [
+                        "{{dynamicMonth+1}}"
+                    ]
+                },
+                "isApplied": true
+            },
+            "extractRelative": {
+                "target_driver_value": {
+                    "whereKey": "rowData.driver",
+                    "equals": "warehouseallowances_input",
+                    "extractKey": "rowData.{{dynamicMonth+1}}.forecast"
+                }
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertValuesAreEqual": [
+                        "{{source_driver_value}}",
+                        "{{target_driver_value}}"
+                    ]
+                }
+            ]
+        },
+        {
+            "testStep": "Delete target scenario",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "copy_scenario_historical_source_select_drivers"
+            ],
+            "service": "coreService",
+            "uri": "Forecast",
+            "testName": "Delete the scenario",
+            "queryParams": "/{{targetScenarioId}}/{{targetScenarioVersion}}",
+            "method": "DELETE",
+            "payload": {
+                "dim_id": 11,
+                "dim_val_id": 110016
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ]
+        }
+    ]
+}

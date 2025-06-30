@@ -131,6 +131,10 @@ export class CurrentForecast {
     await this.page.getByText(`Send to ${sbaName} review`).click()
   }
 
+  async isSendToReviewEnabled(sbaName) {
+    return await this.page.getByText(`Send to ${sbaName} review`).isVisible()
+  }
+
   async clickOnRecallForecast() {
     await this.recallForecast.click()
   }
@@ -407,6 +411,24 @@ export class CurrentForecast {
 
     expect(foreCastHeader).toEqual(scenarioName);
   }
+
+  async clickOpenFirstForecastByName(scenarioName: string) {
+    const forecastParentElement = this.page.locator(
+        `//span[text()="${scenarioName}"]/ancestor::div[@role="row"]`
+    ).first();
+
+    await forecastParentElement.waitFor({ state: 'visible', timeout: 30000 });
+    const forecastRowID = await forecastParentElement.getAttribute("row-id");
+
+    const LOBForecast = this.page.locator(
+        `//div[contains(@class,'CurrentForecast_card-container')]//div[@row-id=${forecastRowID}]`
+    );
+
+    await LOBForecast.locator(this.open).click();
+
+    const foreCastHeader = await this.forecastHeader.innerText();
+    expect(foreCastHeader).toEqual(scenarioName);
+}
 
 
   async clickOnParticularForecastEllipses(scenarioName: string) {
