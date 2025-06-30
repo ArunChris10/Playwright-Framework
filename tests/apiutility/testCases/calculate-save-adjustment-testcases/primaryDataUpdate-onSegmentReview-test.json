@@ -6,7 +6,9 @@
       "labels": [
         "smoke",
         "IBGROW-39766",
-        "MS3"
+        "MS3",
+        "calculations",
+        "adjustments"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -958,7 +960,7 @@
       "environment": "qa",
       "labels": [
         "smoke",
-       "IBGROW-39766",
+        "IBGROW-39766",
         "MS1"
       ],
       "service": "coreService",

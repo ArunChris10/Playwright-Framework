@@ -27,7 +27,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
   let driverList
 
 
-  test.describe("Verify Calculate & Save API for multiple adjustments", { tag: "@Smoke @Regression @multiLayeradjustment" }, () => {
+  test.describe("Verify Calculate & Save API for multiple adjustments", { tag: "@Smoke @Regression @multiLayeradjustment @adjustments" }, () => {
 
     test.beforeAll(async ({ request }) => {
       if (
@@ -66,7 +66,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
 
       scenarioId = scenario_details["scenarioId"];
       scenarioVersion = scenario_details["scenarioVersion"];
-      
+
 
     });
 
@@ -161,13 +161,13 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       // Add assertions for calcuations
       let layer1_baselineComparisonResult = await EditForecastUtility.compareTwoResponseMaps(baselineValue_default, layer1_baselineValue)
       expect(layer1_baselineComparisonResult).toBeTruthy();
-      console.log("layer1_baselineComparisonResult",+layer1_baselineComparisonResult)
+      console.log("layer1_baselineComparisonResult", +layer1_baselineComparisonResult)
       let layer1_previousComparisonResult = await EditForecastUtility.compareTwoResponseMaps(baselineValue_default, layer1_actualPreviousValue)
       expect(layer1_previousComparisonResult).toBeTruthy();
-      console.log("layer1_previousComparisonResult",+layer1_previousComparisonResult)
+      console.log("layer1_previousComparisonResult", +layer1_previousComparisonResult)
       let layer1_forecastComparisonResult = await EditForecastUtility.compareTwoResponseMaps(layer1_calculateForecast, layer1_actualForecastValue)
       expect(layer1_forecastComparisonResult).toBeTruthy();
-      console.log("layer1_forecastComparisonResult",+layer1_forecastComparisonResult)
+      console.log("layer1_forecastComparisonResult", +layer1_forecastComparisonResult)
     });
 
     test(`Verify calculate & Save 2nd layer of adjustment is done for LoB - ${lobName}`, async ({
@@ -234,13 +234,13 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       // Add assertions for calcuations
       let layer2_baselineComparisonResult = await EditForecastUtility.compareTwoResponseMaps(baselineValue_default, layer1_baselineValue)
       expect(layer2_baselineComparisonResult).toBeTruthy();
-      console.log("layer2_baselineComparisonResult",+layer2_baselineComparisonResult);
+      console.log("layer2_baselineComparisonResult", +layer2_baselineComparisonResult);
       let layer2_previousComparisonResult = await EditForecastUtility.compareTwoResponseMaps(layer1_actualForecastValue, layer2_actualPreviousValue)
       expect(layer2_previousComparisonResult).toBeTruthy();
-      console.log("layer2_previousComparisonResult",+layer2_previousComparisonResult);
+      console.log("layer2_previousComparisonResult", +layer2_previousComparisonResult);
       let layer2_forecastComparisonResult = await EditForecastUtility.compareTwoResponseMaps(layer2_calculateForecast, layer2_actualForecastValue)
       expect(layer2_forecastComparisonResult).toBeTruthy();
-      console.log("layer2_forecastComparisonResult",+layer2_forecastComparisonResult);
+      console.log("layer2_forecastComparisonResult", +layer2_forecastComparisonResult);
     });
   });
 });

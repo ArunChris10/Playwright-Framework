@@ -7,7 +7,8 @@
         "smoke",
         "IBGROW-38035",
         "IBGROW-38022",
-        "MS1"
+        "MS1",
+        "snapshots"
       ],
       "service": "coreService",
       "uri": "snapshots",
@@ -40,7 +41,8 @@
         "smoke",
         "IBGROW-38034",
         "IBGROW-38023",
-        "MS1"
+        "MS1",
+        "snapshots"
       ],
       "service": "coreService",
       "uri": "snapshots",
@@ -73,7 +75,8 @@
         "smoke",
         "IBGROW-38033",
         "IBGROW-38024",
-        "MS1"
+        "MS1",
+        "snapshots"
       ],
       "service": "coreService",
       "uri": "snapshots",
@@ -105,7 +108,8 @@
       "labels": [
         "smoke",
         "pre-requisite",
-        "MS3"
+        "MS3",
+        "snapshots"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -295,7 +299,8 @@
       "testStep": "Call GET snapshot API and validate fields",
       "environment": "qa",
       "labels": [
-        "IBGROW-38029"
+        "IBGROW-38029",
+        "snapshots"
       ],
       "service": "coreService",
       "uri": "snapshots",
