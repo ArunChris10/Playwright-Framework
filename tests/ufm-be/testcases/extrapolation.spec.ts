@@ -20,6 +20,7 @@ Object.entries(testData).forEach(([lob, testData]) => {
   let getAllAdjustmentsCountBefore;
   let getAllAdjustmentsCountAfter;
   let responseBody;
+  let actualSyncTime;
 
   test.describe(
     "Verify adjustments API",
@@ -98,16 +99,16 @@ Object.entries(testData).forEach(([lob, testData]) => {
       const actuals = Array.isArray(responseBody) ? responseBody.find(item => item.dataset_type === "Actuals updated") : undefined;
 
       // Extract actual_sync_time
-      const actualSyncTime = actuals?.actual_sync_time;
+       actualSyncTime = actuals?.actual_sync_time;
 
       console.log("Actuals value:", actualSyncTime); // Outputs: 202602
-      let apiResponse, apiResponseBody;
-          // Call the Get KPI Forecast API with the filter and Node combination
-          await test.step("Make a Post Request for getting the forecast data", async () => {
-            Utility.logIt("Make a Post Request for getting the forecast data");
-           
-            let monthYear = await Utility.generateMonthArray(actualSyncTime);
-            const endpointURL = `${process.env.apiBaseURLUFM}${getKpiData.endpoint}`;
+      });
+
+      let GetKPIAapiResponse, apiResponseBody;
+      test(`Get Kpi for giver driver and validate the extrapolation`, async ({request,}) => {
+     
+          let monthYear = await Utility.generateMonthArray(actualSyncTime); // get 12 month before and 12 month after values for given actual sync time
+          const endpointURL = `${process.env.apiBaseURLUFM}${getKpiData.endpoint}`;
           
             let kpiPayload = await UfmUtility.kpiPayload(
               testData.lobName,
@@ -116,11 +117,11 @@ Object.entries(testData).forEach(([lob, testData]) => {
               monthYear,
               ["allocationpctmerchandiseincome_input"]
             );
-            apiResponse = await request.post(endpointURL, {data: kpiPayload,});
-            console.log("KPI API Response JSON:", await apiResponse.json());
-          });
+            GetKPIAapiResponse = await request.post(endpointURL, {data: kpiPayload,});
+            console.log("KPI API Response JSON:", await GetKPIAapiResponse.json());
+         
 
-         const kpiResponseBody: { rowData: RowData[] } = await apiResponse.json();
+         const kpiResponseBody: { rowData: RowData[] } = await GetKPIAapiResponse.json();
          
             if (!kpiResponseBody.rowData?.length) {
               console.error("No rowData found in response.");
@@ -147,6 +148,6 @@ Object.entries(testData).forEach(([lob, testData]) => {
       });
     });
  
-})
+  })
 
 

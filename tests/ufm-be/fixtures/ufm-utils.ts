@@ -256,7 +256,8 @@ export class UfmUtility {
    * @returns {Promise<string[]>} - A promise that resolves to an array of input node names.
    */
   static async getDefaultDriverList(lobName, request) {
-    const endpointURL = `${process.env.apiBaseURLUFM}${inputNodes.endpoint}`;
+     const endpointURL="https://nexus-wizard-preference-manager.api.qa.walmart.com/api/v1/apps/IBG/preferences/SavedView/entityTypes/dimValId/entityValue/110029/tagType/default/tagValue/1"
+   // const endpointURL = `${process.env.apiBaseURLUFM}${inputNodes.endpoint}`;
     let response;
 
     Utility.logIt(`Find input nodes for ${lobName} scenario`);
@@ -264,7 +265,7 @@ export class UfmUtility {
       lobName,
       "dim_val_id"
     );  
-      response = await request.post(endpointURL, {
+      response = await request.get(endpointURL, {
         data: inputNodes.defaultDriverPayloads,
       });
     // asserting the response
