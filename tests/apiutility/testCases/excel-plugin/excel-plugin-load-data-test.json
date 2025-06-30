@@ -1,16 +1,20 @@
 {
   "validate_excel_load-data": [
-   
     {
       "testStep": "Extract scenario version from get-report API",
       "environment": "qa",
-      "labels": ["smoke", "get-report","MS2"],
+      "labels": [
+        "smoke",
+        "get-report",
+        "MS2",
+        "excelplugin"
+      ],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get scenarios ID and version for excel",
       "queryParams": "",
       "method": "POST",
-      "payload":{
+      "payload": {
         "classification_id": 12,
         "dim_id": 12,
         "dim_val_id": 120010,
@@ -22,16 +26,21 @@
         }
       ],
       "extractFirst": {
-        "get_report_scenario_version_timestamp": "rowData.scenarioVersion",       
+        "get_report_scenario_version_timestamp": "rowData.scenarioVersion",
         "get_report_scenario_id": "rowData.scenarioId",
-        "get_report_forecast_scenario_id":"rowData.FTS",
-        "get_report_actual_scenario_id":"rowData.ATS"
+        "get_report_forecast_scenario_id": "rowData.FTS",
+        "get_report_actual_scenario_id": "rowData.ATS"
       }
     },
     {
       "testStep": "validate Load data with empty dimensions value",
       "environment": "qa",
-      "labels": ["smoke", "excel","IBG-37167","MS2"],
+      "labels": [
+        "smoke",
+        "excel",
+        "IBG-37167",
+        "MS2"
+      ],
       "service": "reportingService",
       "uri": "scenarios",
       "queryParams": "",
@@ -54,7 +63,7 @@
             "actual_scenario_id": "{{get_report_actual_scenario_id}}",
             "forecast_scenario_id": "{{get_report_forecast_scenario_id}}",
             "type": "scenarios"
-              }
+          }
         ],
         "filters": {
           "department": [
@@ -107,7 +116,12 @@
     {
       "testStep": "validate load data with valid payload contains all necessary parameter",
       "environment": "qa",
-      "labels": ["smoke", "excel","IBG-37163","MS2"],
+      "labels": [
+        "smoke",
+        "excel",
+        "IBG-37163",
+        "MS2"
+      ],
       "service": "reportingService",
       "uri": "scenarios",
       "queryParams": "",
@@ -128,22 +142,22 @@
             "actual_scenario_id": "{{get_report_actual_scenario_id}}",
             "forecast_scenario_id": "{{get_report_forecast_scenario_id}}",
             "type": "scenarios"
-            }
+          }
         ],
         "filters": {
           "channel": [
-        230002
+            230002
           ],
           "department": [
-        20002,
-        20004,
-        20005,
-        20007,
-        20010,
-        20009,
-        20011,
-        20012,
-        20013
+            20002,
+            20004,
+            20005,
+            20007,
+            20010,
+            20009,
+            20011,
+            20012,
+            20013
           ]
         },
         "hierarchy_names": [
@@ -200,7 +214,7 @@
             "value1": "grossprofit"
           }
         }
-      ]     
+      ]
     }
   ]
 }

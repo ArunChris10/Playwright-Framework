@@ -5,7 +5,9 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "MS3"
+        "MS3",
+        "calculations",
+        "adjustments"
       ],
       "service": "coreService",
       "uri": "getForecast",
