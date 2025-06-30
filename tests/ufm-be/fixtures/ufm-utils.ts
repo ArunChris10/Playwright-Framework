@@ -255,19 +255,15 @@ export class UfmUtility {
    * @param {Request} request - The request object.
    * @returns {Promise<string[]>} - A promise that resolves to an array of input node names.
    */
-  static async getDefaultDriverList(lobName, driverType, request) {
+  static async getDefaultDriverList(lobName, request) {
     const endpointURL = `${process.env.apiBaseURLUFM}${inputNodes.endpoint}`;
     let response;
 
     Utility.logIt(`Find input nodes for ${lobName} scenario`);
-    inputNodes.payloads.dim_val_id = await UfmUtility.getMapping(
+    inputNodes.defaultDriverPayloads.dim_val_id = await UfmUtility.getMapping(
       lobName,
       "dim_val_id"
-    );
-    if (driverType == "Input")
-      inputNodes.payloads.driver_type = commonData.Input_Driver_Type;
-    else inputNodes.payloads.driver_type = commonData.All_Driver_Type;
-   
+    );  
       response = await request.post(endpointURL, {
         data: inputNodes.defaultDriverPayloads,
       });

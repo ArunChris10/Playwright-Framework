@@ -202,6 +202,34 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
                 }
               }
             }
+            if (step.extractDelta) {
+              for (const globalVar in step.extractDelta) {
+                const { editOne, editTwo } = step.extractDelta[globalVar];
+                const valueOne = Number(interpolate(editOne));
+                const valueTwo = Number(interpolate(editTwo));
+                if (isNaN(valueOne) || isNaN(valueTwo)) {
+                  throw new Error(`extractDelta: One or both values are not numbers for ${globalVar}: editOne=${valueOne}, editTwo=${valueTwo}`);
+                }
+                const delta = valueTwo - valueOne;
+                globalStore.setValue(globalVar, delta);
+                console.log(`Extracted delta for ${globalVar}: ${delta} (editTwo: ${valueTwo} - editOne: ${valueOne})`);
+              }
+            }
+       
+            // calculateForecast: computes the sum of two extracted values and stores in globalStore
+            if (step.calculateForecast) {
+              for (const globalVar in step.calculateForecast) {
+                const { valueOne, valueTwo } = step.calculateForecast[globalVar];
+                const numOne = Number(interpolate(valueOne));
+                const numTwo = Number(interpolate(valueTwo));
+                if (isNaN(numOne) || isNaN(numTwo)) {
+                  throw new Error(`calculateForecast: One or both values are not numbers for ${globalVar}: valueOne=${numOne}, valueTwo=${numTwo}`);
+                }
+                const sum = numOne + numTwo;
+                globalStore.setValue(globalVar, sum);
+                console.log(`Calculated forecast for ${globalVar}: ${sum} (valueOne: ${numOne} + valueTwo: ${numTwo})`);
+              }
+            }
             if (step.extractRelativeMultipleCondition) {
               for (const globalVar in step.extractRelativeMultipleCondition) {
                 const { conditions, extractKey } = step.extractRelativeMultipleCondition?.[globalVar] ?? {};

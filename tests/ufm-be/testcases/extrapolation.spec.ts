@@ -9,8 +9,8 @@ import { UfmUtility } from "../fixtures/ufm-utils";
 import { Utility } from "../../common/fixtures/utils";
 import testdatafile from "../testdata/visual-indicator-api.json";
 import { getPreviousAndNextData,comparePreviousAndNext } from "../fixtures/extrapolation-utils";
-
 import { RowData } from '../type/types';
+
 Object.entries(testData).forEach(([lob, testData]) => {
 
   let scenario_details;
@@ -72,14 +72,13 @@ Object.entries(testData).forEach(([lob, testData]) => {
       });
       
       let GetDefaultDriverResponse;
-      // test(`Get default driver for LOB - ${testData.lobName}`, async ({ request }) => {
-      //    GetDefaultDriverResponse = await UfmUtility.getDriverList(
-      //     lob,
-      //     "Input",
-      //     request
-      //   );
-      //   console.log("GetDefaultDriverResponse:", GetDefaultDriverResponse);
-      // });
+      test(`Get default driver for LOB - ${testData.lobName}`, async ({ request }) => {
+         GetDefaultDriverResponse = await UfmUtility.getDefaultDriverList(
+          lob,        
+          request
+        );
+        console.log("GetDefaultDriverResponse:", GetDefaultDriverResponse);
+      });
       
       test(`Verify if the API is returning Actuals, forecast, and extrapolated forecast dates`, async ({request,}) => {
         const endpointURL = `${process.env.apiBaseURLUFM}${testdatafile.endpoint}`;
