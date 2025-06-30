@@ -73,6 +73,12 @@ export class OpenCurrentForecast {
   readonly copyScenarioSourceForecastDropdown: Locator;
   readonly copyScenarioDestinationForecastDropdown: Locator;
   readonly copyDataButton: Locator;
+  readonly dateRangeComponent: Locator;
+  readonly dateRangeDropdown: Locator;
+  readonly monthSelector: Locator;
+  readonly modalBackdrop: Locator;
+  readonly ReviewOpen: Locator;
+  readonly driverExplorationTab: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -158,6 +164,12 @@ export class OpenCurrentForecast {
     this.copyScenarioSourceForecastDropdown = page.getByRole('button', { name: 'Source forecast' }).first();
     this.copyScenarioDestinationForecastDropdown = page.getByRole('button', { name: 'Source forecast' }).nth(1);
     this.copyDataButton = page.getByText('Copy data');
+    this.dateRangeComponent = page.getByLabel('Load data to another').getByTestId('date-range-component');
+    this.dateRangeDropdown = page.locator('.MuiCardContent-root > button:nth-child(3)');
+    this.monthSelector = page.locator('button').filter({ hasText: 'May' });
+    this.modalBackdrop = page.locator('div:nth-child(2) > .MuiBackdrop-root');
+    this.ReviewOpen = page.locator('//div[contains(@class, "reviewer-business-progress-container")]//button[text()="Open"]');
+    this.driverExplorationTab= page.getByText('Driver Exploration');
   }
 
   async clickOnOpenButton() {
@@ -168,7 +180,7 @@ export class OpenCurrentForecast {
     await this.copyForecast.click();
   }
 
-  async clickSourceForecastDropdown(sourceName: string) {
+  async clickSourceForecastDropdown(sourceName: string, isCurrentSource: boolean) {
     await this.forecastDropdown.first().click();
     await this.page.waitForTimeout(5000);
     
@@ -177,25 +189,16 @@ export class OpenCurrentForecast {
 
     for (let i = 2; i < optionCount; i++) {
       const optionText = await dropdownOptions.nth(i).textContent();
-      if (optionText?.trim() !== sourceName) {
-        await dropdownOptions.nth(i).click();
-        await this.page.waitForTimeout(3000);
-        return optionText?.trim();
+      if ((isCurrentSource && optionText?.trim() === sourceName) || (!isCurrentSource && optionText?.trim() !== sourceName)) 
+      {
+          await dropdownOptions.nth(i).click();
+          await this.page.waitForTimeout(3000);
+          return optionText?.trim();
       }
     }
   }
-
-  async getAlertMessage(): Promise<string> {
-    const alertMessageLocator = this.page.locator('.Alert-module_content__1Vy5h');
-    await alertMessageLocator.waitFor({ state: 'visible', timeout: 30000 });
-    const alertMessage = await alertMessageLocator.textContent();
-    if (!alertMessage) {
-        throw new Error("Alert message not found or empty.");
-    }
-    return alertMessage.trim(); 
-  }
   
-  async clickTargetForecastDropdown(targetSelection: string) {
+  async clickTargetForecastDropdown(targetSelection: string, isCurrentTarget: boolean) {
     const secondDropdown = this.page.locator(
       '//span[text()="Destination forecast"]/following::div[@role="button"][1]'
     );
@@ -203,17 +206,47 @@ export class OpenCurrentForecast {
     await this.page.waitForTimeout(5000);
     
     const dropdownOptions = this.page.locator('li[role="option"]');
-
+    
     const optionCount = await dropdownOptions.count();
-
+    
     for (let i = 0; i < optionCount; i++) {
-        const optionText = await dropdownOptions.nth(i).textContent();
-        if (optionText?.trim() === targetSelection) {
-            await dropdownOptions.nth(i).click();
-            await this.page.waitForTimeout(3000);
-            return;
-        }
+      const optionText = await dropdownOptions.nth(i).textContent();
+
+      const trimmedOptionText = optionText?.trim();
+
+      if (!trimmedOptionText || trimmedOptionText === "Select forecast") {
+          continue;
+      }
+      if ((isCurrentTarget && trimmedOptionText === targetSelection) || (!isCurrentTarget && trimmedOptionText !== targetSelection)) 
+      {
+          await dropdownOptions.nth(i).click();
+          await this.page.waitForTimeout(3000);
+          return trimmedOptionText;
+      }
     }
+  }
+
+  async getAlertMessage(expectedMessage: string, errorMessage:string, timeout = 60000): Promise<string> {
+    const alertMessageLocator = this.page.locator('.Alert-module_content__1Vy5h');
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < timeout) {
+        await alertMessageLocator.waitFor({ state: 'visible', timeout: 5000 });
+        const alertMessage = await alertMessageLocator.textContent();
+        const trimmedMessage = alertMessage?.trim();
+
+        if (trimmedMessage === errorMessage) {
+            return trimmedMessage;
+        }
+
+        if (trimmedMessage === expectedMessage) {
+            return trimmedMessage;
+        }
+
+        await this.page.waitForTimeout(1000);
+    }
+
+    throw new Error(`Alert message did not change to the expected value within ${timeout}ms.`);
   }
 
   async clickOnCopyForecastButton() {
@@ -221,7 +254,25 @@ export class OpenCurrentForecast {
     await this.copyData.click();
     await this.page.waitForTimeout(5000);
   }
+  async clickOnDateRangeComponent() {
+    await this.dateRangeComponent.locator('div').first().click();
+  }
 
+  async clickOnDateRangeDropdown() {
+    await this.dateRangeDropdown.click();
+  }
+
+  async selectMonth(monthName: string) {
+    await this.page.locator('button').filter({ hasText: monthName }).click();
+  }
+
+  async clickModalBackdrop() {
+    await this.modalBackdrop.click();
+  }
+
+  async verifyDateRangeComponentIsVisible() {
+    await expect(this.dateRangeComponent).toBeVisible();
+  }
   async clickOnBreadcrum(sbaName: string) {
     await this.page.getByText(`UFM ${sbaName}`).click();
   }
@@ -237,7 +288,6 @@ export class OpenCurrentForecast {
   async clickOnChooseDifferentDriver() {
     await this.DriversButton.isVisible() ? await this.DriversButton.click() : await this.chooseDifferentDriverButton.click()
   }
-
   async clickOnChooseDriver() {
     await this.DriversButton.waitFor({ state: "visible" });
     await this.DriversButton.click();
@@ -247,7 +297,42 @@ export class OpenCurrentForecast {
     const chooseDriverButton = await this.page.locator('button[aria-label="Please save your changes before adding more drivers."]'); // Use aria-label to locate the button
     await chooseDriverButton.click();
   }
+  async clickChannelButton() {
+  await this.page.getByRole('button', { name: 'Channel' }).click();
+}
 
+async clickDepartmentButton() {
+  await this.page.getByRole('button', { name: 'Department' }).click();
+}
+
+async expandIbgTotalOption() {
+  await this.page.locator('div').filter({ hasText: /^IBG_TOTAL$/ }).locator('path').first().click();
+}
+
+async selectIbgTotalCheckbox() {
+  await this.page.getByLabel('IBG_TOTAL').check();
+}
+
+async selectConsumablesCheckbox() {
+  await this.page.getByLabel('CONSUMABLES').check();
+}
+
+// Methods to verify chips are visible
+async verifyIbgTotalChip() {
+  await expect(this.page.locator('div').filter({ hasText: /^IBG_TOTAL$/ }).nth(2)).toBeVisible();
+}
+
+async verifyConsumablesChip() {
+  await expect(this.page.locator('div').filter({ hasText: /^CONSUMABLES$/ }).nth(2)).toBeVisible();
+}
+
+async clickIbgTotalChip() {
+  await this.page.locator('div').filter({ hasText: /^IBG_TOTAL$/ }).nth(2).click();
+}
+
+async clickConsumablesChip() {
+  await this.page.locator('div').filter({ hasText: /^CONSUMABLES$/ }).nth(2).click();
+}
   async waitForKPITableToLoad(state: "attached" | "detached" | "visible" | "hidden" | undefined = "visible") {
     await this.KPITable.waitFor({ state: state })
   }

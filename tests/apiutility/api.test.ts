@@ -286,6 +286,17 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
                 console.log(`Validated ${globalKey}: actual = ${actual}, expected = ${expected}`);
               }
             }
+            if (step.getNextMonth) {
+              for (const globalKey in step.getNextMonth) {
+              const value = interpolate(step.getNextMonth[globalKey]);
+              const intValue = parseInt(value, 10)+1; // Increment by 1 to get the next month
+              if (isNaN(intValue)) {
+                throw new Error(`Value for ${globalKey} is not a valid integer: ${value}`);
+              }
+              globalStore.setValue(globalKey, intValue);
+              console.log(`Converted and stored ${globalKey} as integer: ${intValue}`);
+              }
+            }
             if (step.runFunctions) {
               console.log("Validating extracted values being contained:");
               for (let singleFunction in step.runFunctions) {
