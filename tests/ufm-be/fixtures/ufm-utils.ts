@@ -547,6 +547,29 @@ export class UfmUtility {
     return getKpiData.payloads;
   }
 
+  static async kpiPayloadForSingleNode(
+    lobName,
+    scenario_details,
+    filter = [],
+    monthYear,
+    inputNodes
+  ) {
+    getKpiData.payloads.scenario_id = scenario_details["scenarioId"];
+    getKpiData.payloads.scenario_version = scenario_details["scenarioVersion"];
+
+    getKpiData.payloads.dim_val_id = await UfmUtility.getMapping(
+      lobName,
+      "dim_val_id"
+    );
+    getKpiData.payloads.additional_filters.template_include_headers[1] =
+      await SOTUtility.templateIncludeHeaders(monthYear);
+    getKpiData.payloads.additional_filters.month = monthYear;
+
+    getKpiData.payloads.additional_filters.nodes = inputNodes;
+    getKpiData.payloads.filters = filter;
+    return getKpiData.payloads;
+  }
+
   static async getMappingValue(
       searchCriteria: Record<string, any>,
       returnKey: string

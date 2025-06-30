@@ -110,7 +110,7 @@ Object.entries(testData).forEach(([lob, testData]) => {
 
         for (const driver of GetDefaultDriverResponse) {
           console.log(`Processing driver: ${driver}`);
-          let kpiPayload = await UfmUtility.kpiPayload(
+          let kpiPayload = await UfmUtility.kpiPayloadForSingleNode(
         testData.lobName,
         scenario_details,
         [],
