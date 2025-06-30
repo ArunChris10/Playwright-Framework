@@ -105,35 +105,38 @@ Object.entries(testData).forEach(([lob, testData]) => {
       });
 
       let GetKPIAapiResponse, apiResponseBody;
-      test(`Get Kpi for giver driver and validate the extrapolation`, async ({request,}) => {
-     
-          let monthYear = await Utility.generateMonthArray(actualSyncTime); // get 12 month before and 12 month after values for given actual sync time
-          const endpointURL = `${process.env.apiBaseURLUFM}${getKpiData.endpoint}`;
-          
-            let kpiPayload = await UfmUtility.kpiPayload(
-              testData.lobName,
-              scenario_details,
-              [],
-              monthYear,
-              ["allocationpctmerchandiseincome_input"]
-            );
-            GetKPIAapiResponse = await request.post(endpointURL, {data: kpiPayload,});
-            console.log("KPI API Response JSON:", await GetKPIAapiResponse.json());
-         
+      test(`Get Kpi for given driver and validate the extrapolation`, async ({ request }) => {
+        let monthYear = await Utility.generateMonthArray(actualSyncTime); // get 12 months before and 12 months after values for given actual sync time
+        const endpointURL = `${process.env.apiBaseURLUFM}${getKpiData.endpoint}`;
 
-         const kpiResponseBody: { rowData: RowData[] } = await GetKPIAapiResponse.json();
-         
-            if (!kpiResponseBody.rowData?.length) {
-              console.error("No rowData found in response.");
-            } 
+        for (const driver of GetDefaultDriverResponse) {
+          console.log(`Processing driver: ${driver}`);
+          let kpiPayload = await UfmUtility.kpiPayload(
+        testData.lobName,
+        scenario_details,
+        [],
+        monthYear,
+        [driver]
+          );
+
+          GetKPIAapiResponse = await request.post(endpointURL, { data: kpiPayload });
+          console.log(`KPI API Response JSON for driver ${driver}:`, await GetKPIAapiResponse.json());
+
+          const kpiResponseBody: { rowData: RowData[] } = await GetKPIAapiResponse.json();
+
+          if (!kpiResponseBody.rowData?.length) {
+        console.error(`No rowData found in response for driver ${driver}.`);
+        continue;
+          }
+
           const row = kpiResponseBody.rowData[0];
           const { previousMap, nextMap } = getPreviousAndNextData(row, actualSyncTime);
           const mismatches = comparePreviousAndNext(previousMap, nextMap);
-      
-          console.log("Non-matching value pairs:");
+
+          console.log(`Non-matching value pairs for driver ${driver}:`);
           console.table(mismatches);
+        }
       });
-      
       test(`Teardown for deleting forecast for lob - ${testData.lobName}`, async ({
         request,
       }) => {

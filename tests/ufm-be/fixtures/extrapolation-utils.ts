@@ -20,13 +20,19 @@ export function comparePreviousAndNext(
 
     if (prevData.value !== nextData.value) {
       diffs.push({
-        prevKey,
-        prevValue: prevData.value,
-        prevType: prevData.type,
-        nextKey,
-        nextValue: nextData.value,
-        nextType: nextData.type,
+      prevKey,
+      prevValue: prevData.value,
+      prevType: prevData.type,
+      nextKey,
+      nextValue: nextData.value,
+      nextType: nextData.type,
       });
+
+      // Soft assert for logging differences
+      console.assert(
+      prevData.value === nextData.value,
+      `Soft Assert Failed: Value mismatch for keys ${prevKey} and ${nextKey}. Previous Value: ${prevData.value}, Next Value: ${nextData.value}`
+      );
     }
   }
 
