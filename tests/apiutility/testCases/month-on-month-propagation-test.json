@@ -97,7 +97,7 @@
       "method": "POST",
       "payload": {
         "type": 3,
-        "name": "PrimaryDataUpdate {{randomNumber}}",
+        "name": "MonthOnMonth {{randomNumber}}",
         "classification_id": 12,
         "dim_id": 11,
         "dim_val_id": 110029
@@ -152,7 +152,7 @@
       "polling": {
         "extractRelative": {
           "WhereKey": "rowData.name",
-          "Equals": "PrimaryDataUpdate {{randomNumber}}",
+          "Equals": "MonthOnMonth {{randomNumber}}",
           "Findkey": "rowData.forecastStatus.statusCode"
         },
         "expectedValue": 21,
