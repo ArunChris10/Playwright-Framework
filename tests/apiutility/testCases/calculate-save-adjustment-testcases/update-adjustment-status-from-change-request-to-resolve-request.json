@@ -5,7 +5,10 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "MS2","IBG-39617","IBG-39616"
+        "MS2",
+        "IBG-39617",
+        "IBG-39616",
+        "adjustments"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -53,7 +56,6 @@
         },
         "MerchOpsDeletescenarioVersion_multipltLayerSave": {
           "conditions": [
-          
             {
               "path": "rowData.owner",
               "equals": "LB-ibg-ufm-auto"
@@ -71,7 +73,10 @@
       "testStep": "Delete MerchOps SBA forecast before proceding_multiLayerSave",
       "environment": "qa",
       "labels": [
-        "smoke","MS2","IBG-39617","IBG-39616"
+        "smoke",
+        "MS2",
+        "IBG-39617",
+        "IBG-39616"
       ],
       "service": "coreService",
       "uri": "Forecast",
@@ -87,7 +92,10 @@
       "testStep": "Create Forecast Scenario for MerchOps SBA_multiLayerSave",
       "environment": "qa",
       "labels": [
-       "smoke","MS2","IBG-39617","IBG-39616"
+        "smoke",
+        "MS2",
+        "IBG-39617",
+        "IBG-39616"
       ],
       "service": "coreService",
       "uri": "Forecast",
@@ -115,7 +123,10 @@
       "testStep": "Poll creation of MerchOps FORECAST_multiLayerSave",
       "environment": "qa",
       "labels": [
-        "smoke","MS2","IBG-39617","IBG-39616"
+        "smoke",
+        "MS2",
+        "IBG-39617",
+        "IBG-39616"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -163,7 +174,9 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "MS2","IBG-39617","IBG-39616"
+        "MS2",
+        "IBG-39617",
+        "IBG-39616"
       ],
       "service": "coreService",
       "uri": "allocateData",
@@ -204,7 +217,10 @@
       "testStep": "Save Adjustment",
       "environment": "qa",
       "labels": [
-        "smoke","MS2","IBG-39617","IBG-39616"
+        "smoke",
+        "MS2",
+        "IBG-39617",
+        "IBG-39616"
       ],
       "service": "coreService",
       "uri": "saveAdjustment",
@@ -274,16 +290,25 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM Merchandising operations org MO_MERCHOPS forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM Merchandising operations org  MO_MERCHOPS forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-39617","IBG-39616"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-39617",
+        "IBG-39616"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{MerchOps_scenario_id}}",
-        "scenario_version":"{{MerchOps_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110029}},
-     
+        "scenario": {
+          "scenario_id": "{{MerchOps_scenario_id}}",
+          "scenario_version": "{{MerchOps_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110029
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -294,7 +319,10 @@
       "testStep": "Poll creation of UFM Merchandising operations org MO_MERCHOPS forecast",
       "environment": "dev",
       "labels": [
-        "smoke","MS2","IBG-39616","IBG-39617"
+        "smoke",
+        "MS2",
+        "IBG-39616",
+        "IBG-39617"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -336,76 +364,83 @@
         "intervalMs": 5000,
         "timeoutMs": 600000
       }
-    }
-  ,
-  {
-    "testStep": "update the status to change request through BA screen",
-    "environment": "qa",
-    "labels": [
-      "smoke","MS2","IBG-39617","IBG-39616"
-    ],
-    "service": "coreService",
-    "uri": "sendToBAReview",
-    "testName": "update the status to change request through BA screen",
-    "queryParams": "",
-    "method": "POST",
-    "payload": {
-        "adjustments":{
-        "adjustment_id":"{{level1_save_adjustmentId}}",
-        "status":25,"comments":"Update status to changes requested"}
     },
-    "assertions": [
-      {
-        "status": 200
-      },
-      {
-        "assertEquals": {
-          "jsonPath1": "adjustment_status.initial_status",
-          "value1": 21,
-          "jsonPath2": "adjustment_status.end_status",
-          "value2": 25,
-          "jsonPath3": "adjustment_status.comments",
-          "value3": "Update status to changes requested"
+    {
+      "testStep": "update the status to change request through BA screen",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-39617",
+        "IBG-39616"
+      ],
+      "service": "coreService",
+      "uri": "sendToBAReview",
+      "testName": "update the status to change request through BA screen",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "adjustments": {
+          "adjustment_id": "{{level1_save_adjustmentId}}",
+          "status": 25,
+          "comments": "Update status to changes requested"
         }
-      }
-    ]
-  }  ,
-{
-  "testStep": "update the adjustment status to resolve request through LOB screen",
-  "environment": "qa",
-  "labels": [
-    "smoke","MS2","IBG-39617","IBG-39616"
-  ],
-  "service": "coreService",
-  "uri": "sendToBAReview",
-  "testName": "update the status to resolve request through LOB screen",
-  "queryParams": "",
-  "method": "POST",
-  "payload": {
-    "adjustments": {
-      "adjustment_id":"{{level1_save_adjustmentId}}",
-      "status":27,
-      "comments":"Update status to resolve request"
       },
-      "scenario":
-      {"scenario_status":21,
-      "scenario_id":"{{MerchOps_scenario_id}}",
-      "scenario_version":"{{MerchOps_scenario_version}}"
-      }
-      },
-  "assertions": [
-    {
-      "status": 200
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "adjustment_status.initial_status",
+            "value1": 21,
+            "jsonPath2": "adjustment_status.end_status",
+            "value2": 25,
+            "jsonPath3": "adjustment_status.comments",
+            "value3": "Update status to changes requested"
+          }
+        }
+      ]
     },
     {
-      "assertEquals": {
-        "jsonPath1": "adjustment_status.initial_status",
-        "value1": 25,
-        "jsonPath2": "adjustment_status.end_status",
-        "value2": 27
-      }
+      "testStep": "update the adjustment status to resolve request through LOB screen",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-39617",
+        "IBG-39616"
+      ],
+      "service": "coreService",
+      "uri": "sendToBAReview",
+      "testName": "update the status to resolve request through LOB screen",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "adjustments": {
+          "adjustment_id": "{{level1_save_adjustmentId}}",
+          "status": 27,
+          "comments": "Update status to resolve request"
+        },
+        "scenario": {
+          "scenario_status": 21,
+          "scenario_id": "{{MerchOps_scenario_id}}",
+          "scenario_version": "{{MerchOps_scenario_version}}"
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "adjustment_status.initial_status",
+            "value1": 25,
+            "jsonPath2": "adjustment_status.end_status",
+            "value2": 27
+          }
+        }
+      ]
     }
-  ]
-}
   ]
 }

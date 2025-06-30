@@ -5,7 +5,10 @@
             "environment": "qa",
             "labels": [
                 "smoke",
-                "kpiFilters","Regression"
+                "kpiFilters",
+                "Regression",
+                "adjustments",
+                "excelplugin"
             ],
             "service": "coreService",
             "uri": "getForecast",

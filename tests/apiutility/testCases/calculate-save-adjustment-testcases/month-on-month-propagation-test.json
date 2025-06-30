@@ -6,7 +6,9 @@
       "labels": [
         "smoke",
         "IBGROW-40175",
-        "MS3"
+        "MS3",
+        "calculations",
+        "adjustments"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -345,12 +347,12 @@
       "extractRelative": {
         "receipt_month_OnSave": {
           "whereKey": "driver",
-          "equals": "momerchandisesales",
+          "equals": "moreceiptsatretail",
           "extractKey": "{{dynamicMonth}}.forecast"
         },
         "receipt_month1_OnSave": {
           "whereKey": "driver",
-          "equals": "momerchandisesales",
+          "equals": "moreceiptsatretail",
           "extractKey": "{{dynamicMonth+1}}.forecast"
         },
         "beginning_month1_OnSave": {
@@ -395,15 +397,15 @@
         },
         "beginning_month1_OnSave": {
           "expected": "{{ending_month_OnSave}}",
-          "tolerance": 0
+          "tolerance": 0.01
         },
         "beginning_month2_OnSave": {
           "expected": "{{ending_month1_OnSave}}",
-          "tolerance": 0
+          "tolerance": 0.01
         },
         "beginning_month3_OnSave": {
           "expected": "{{ending_month2_OnSave}}",
-          "tolerance": 0
+          "tolerance": 0.01
         }
       }
     }

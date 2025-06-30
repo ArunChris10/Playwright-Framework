@@ -6,7 +6,9 @@
       "labels": [
         "smoke",
         "IBGROW-39766",
-        "MS3"
+        "MS3",
+        "calculations",
+        "adjustments"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -676,8 +678,8 @@
       ],
       "polling": {
         "extractRelative": {
-          "WhereKey": "rowData.scenarioId",
-          "Equals": "{{merchOps_scenario_id_Primarydataupdate}}",
+          "WhereKey": "rowData.name",
+          "Equals": "PrimaryDataUpdate {{randomNumber}}",
           "Findkey": "rowData.forecastStatus.statusCode"
         },
         "expectedValue": 22,
@@ -701,8 +703,8 @@
         "scenario_id": "{{merchOps_scenario_id_Primarydataupdate}}",
         "scenario_version": "{{merchOps_scenario_version_Primarydataupdate}}",
         "dim_id": 11,
-        "dim_val_id": 120010,
-        "classification_id": 11,
+        "dim_val_id": 110029,
+        "classification_id": 12,
         "template_id": 3,
         "filters": [],
         "additional_filters": {
@@ -944,8 +946,8 @@
       ],
       "polling": {
         "extractRelative": {
-          "WhereKey": "rowData.scenarioId",
-          "Equals": "{{merchOps_scenario_id_Primarydataupdate}}",
+          "WhereKey": "rowData.name",
+          "Equals": "PrimaryDataUpdate {{randomNumber}}",
           "Findkey": "rowData.forecastStatus.statusCode"
         },
         "expectedValue": 23,
@@ -958,7 +960,7 @@
       "environment": "qa",
       "labels": [
         "smoke",
-       "IBGROW-39766",
+        "IBGROW-39766",
         "MS1"
       ],
       "service": "coreService",
@@ -970,7 +972,7 @@
         "scenario_id": "{{defaultPrimaryData_scenario_id}}",
         "dim_id": 11,
         "dim_val_id": 110029,
-        "classification_id": 11,
+        "classification_id": 12,
         "template_id": 3,
         "filters": [],
         "additional_filters": {

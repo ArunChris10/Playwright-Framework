@@ -1,7 +1,7 @@
 {
   "validate_calculate_and_save_aop_demand_input_and_calculated_nodes_workflow": [
     {
-            "runInParallel": false,
+      "runInParallel": false,
       "testStep": "Fetch Scenario Details from DataScience Info",
       "environment": "qa",
       "labels": [

@@ -1,12 +1,13 @@
 {
-  "verify calculate is working when node is at lower grain": [
+  "verify calculate and save for additive and non additive nodes in a SBA": [
     {
-      "testStep": "Get a forecast to calculate at lower grain",
+      "testStep": "Get a forecast to calculate for additive and non-additive nodes",
       "environment": "qa",
       "labels": [
         "smoke",
-        "lower_grain_calculate",
-        "lower_grain_calculate_save"
+        "additive_non_additive_calculate_equal_distribution",
+        "calculations",
+        "adjustments"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -16,7 +17,7 @@
       "payload": {
         "unit": "Millions",
         "dim_id": 12,
-        "dim_val_id": 120003,
+        "dim_val_id": 120011,
         "classification_id": 12,
         "template_id": 1,
         "filters": [],
@@ -43,7 +44,7 @@
           "conditions": [
             {
               "path": "rowData.lineOfBusiness",
-              "equals": 110016
+              "equals": 110030
             },
             {
               "path": "rowData.forecastStatus.statusCode",
@@ -56,7 +57,7 @@
           "conditions": [
             {
               "path": "rowData.lineOfBusiness",
-              "equals": 110016
+              "equals": 110030
             },
             {
               "path": "rowData.forecastStatus.statusCode",
@@ -68,101 +69,127 @@
       }
     },
     {
-      "testStep": "Editing and Calculating the node at lower grain",
+      "testStep": "Editing and Calculating the additive and non additive nodes",
       "environment": "qa",
       "labels": [
         "smoke",
-        "lower_grain_calculate",
-        "lower_grain_calculate_save"
+        "additive_non_additive_calculate_equal_distribution"
       ],
       "service": "coreService",
       "uri": "allocateData",
-      "testName": "Calculate the node when it is  at lower grain",
+      "testName": "Calculating the additive and non additive nodes",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "display_nodes": [],
+        "display_nodes": [
+          "financialservicesincome",
+          "instorereturnspctofgrossgmv"
+        ],
         "scenario_id": "{{scenario_id}}",
-        "dim_val_id": 110016,
+        "dim_val_id": 110030,
         "dim_id": 11,
         "preview": true,
         "edits": [
           {
-            "node_var_name": "shippingrevenue_input",
-            "node_dimension": {
-              "department": 2,
-              "channel": 60002,
-              "location": 17001111
-            },
+            "node_var_name": "financialservicesincome",
+            "node_dimension": {},
             "data": {
-              "{{dynamicMonth+1}}": 27
+              "{{dynamicMonth+1}}": 101172355
             },
             "allocation": {
-              "method": 30
+              "interval": null,
+              "offset": null,
+              "method": 31
+            }
+          },
+          {
+            "node_var_name": "instorereturnspctofgrossgmv",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 1
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 31
             }
           }
         ],
         "filters": [],
         "period_view": "month",
-        "adjustment_id": 1748866906071
+        "adjustment_id": 1748928560523
       },
       "assertions": [
         {
           "status": 200
+        },
+        {
+          "assertNotNull": {
+            "jsonPath1": "node_var_name"
+          }
         }
       ]
     },
     {
-      "testStep": "Saving the adjustment after calculating the node at lower grain",
+      "testStep": "Saving the adjustment after calculating the additive and non additive nodes",
       "environment": "qa",
       "labels": [
         "smoke",
-        "lower_grain_calculate",
-        "lower_grain_calculate_save"
+        "additive_non_additive_calculate_equal_distribution"
       ],
       "service": "coreService",
       "uri": "saveAdjustment",
-      "testName": "Save the calculation for the node when it is  at lower grain",
+      "testName": "Save the calculation for all the additive and non additive nodes in the SBA",
       "queryParams": "",
       "method": "PATCH",
       "payload": {
         "adjustment_metadata": {
-          "adjustment_name": "demo_test {{randomNumber}}",
+          "adjustment_name": "demo_test_additive_non_additive {{randomNumber}}",
           "adjustment_reason": "",
           "adjustment_type": 74,
           "is_duplicated": false,
           "is_update": false,
           "is_create": true,
-          "adjustment_edits": 1,
+          "adjustment_edits": 16,
           "scenario_id": "{{scenario_id}}",
           "scenario_version_timestamp": "{{scenarioVersion}}"
         },
         "allocation_request": {
           "display_nodes": [],
           "scenario_id": "{{scenario_id}}",
-          "dim_val_id": 110016,
+          "dim_val_id": 110030,
           "dim_id": 11,
           "preview": false,
           "edits": [
             {
-              "node_var_name": "shippingrevenue_input",
-              "node_dimension": {
-                "department": 2,
-                "channel": 60002,
-                "location": 17001111
-              },
+              "node_var_name": "financialservicesincome",
+              "node_dimension": {},
               "data": {
-                "{{dynamicMonth+1}}": 27
+                "{{dynamicMonth+1}}": 101172355
               },
               "allocation": {
-                "method": 30
+                "interval": null,
+                "offset": null,
+                "method": 31
+              }
+            },
+            {
+              "node_var_name": "instorereturnspctofgrossgmv",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 1
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 31
               }
             }
           ],
           "filters": [],
           "period_view": "month"
         },
-        "dim_val_id": 110016
+        "dim_val_id": 110030
       },
       "assertions": [
         {

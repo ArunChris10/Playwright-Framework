@@ -249,6 +249,34 @@ export class UfmUtility {
   }
 
   /**
+   * Retrieves the list of defauls nodes for a given line of business.
+   *
+   * @param {string} lobName - The name of the line of business.
+   * @param {Request} request - The request object.
+   * @returns {Promise<string[]>} - A promise that resolves to an array of input node names.
+   */
+  static async getDefaultDriverList(lobName, request) {
+     const endpointURL="https://nexus-wizard-preference-manager.api.qa.walmart.com/api/v1/apps/IBG/preferences/SavedView/entityTypes/dimValId/entityValue/110029/tagType/default/tagValue/1"
+   // const endpointURL = `${process.env.apiBaseURLUFM}${inputNodes.endpoint}`;
+    let response;
+
+    Utility.logIt(`Find input nodes for ${lobName} scenario`);
+    inputNodes.defaultDriverPayloads.dim_val_id = await UfmUtility.getMapping(
+      lobName,
+      "dim_val_id"
+    );  
+      response = await request.get(endpointURL, {
+        data: inputNodes.defaultDriverPayloads,
+      });
+    // asserting the response
+    await expect.soft(response).toBeOK();
+    let responseBody = await response.json();
+    const drivers = responseBody.preferenceConfigs[0]?.preferenceConfig?.config?.drivers || [];
+    Utility.logIt(`Drivers for ${lobName}: ${drivers}`);
+    return drivers;
+  }
+
+  /**
    * Retrieves the list of input nodes for a given line of business.
    *
    * @param {string} lobName - The name of the line of business.
@@ -515,6 +543,29 @@ export class UfmUtility {
     getKpiData.payloads.additional_filters.month = monthYear;
 
     getKpiData.payloads.additional_filters.nodes = nodes;
+    getKpiData.payloads.filters = filter;
+    return getKpiData.payloads;
+  }
+
+  static async kpiPayloadForSingleNode(
+    lobName,
+    scenario_details,
+    filter = [],
+    monthYear,
+    inputNodes
+  ) {
+    getKpiData.payloads.scenario_id = scenario_details["scenarioId"];
+    getKpiData.payloads.scenario_version = scenario_details["scenarioVersion"];
+
+    getKpiData.payloads.dim_val_id = await UfmUtility.getMapping(
+      lobName,
+      "dim_val_id"
+    );
+    getKpiData.payloads.additional_filters.template_include_headers[1] =
+      await SOTUtility.templateIncludeHeaders(monthYear);
+    getKpiData.payloads.additional_filters.month = monthYear;
+
+    getKpiData.payloads.additional_filters.nodes = inputNodes;
     getKpiData.payloads.filters = filter;
     return getKpiData.payloads;
   }
