@@ -1,0 +1,484 @@
+{
+    "Validate user create and delete multiple scenario": [
+        {
+            "testStep": "Create Forecast Scenario for RA lob",
+            "environment": "qa",
+            "labels": [
+              "smoke", "Pre-Req","IBG-38438"
+            ],
+            "service": "coreService",
+            "uri": "Forecast",
+            "testName": "Create Forecast Scenario for RA lob",
+            "queryParams": "/create-user-scenario",
+            "method": "POST",
+            "payload": {
+              "type": 3,
+              "name": "Health_and_Wellness_RA_1st_{{randomNumber}}",
+              "classification_id": 12,
+              "dim_id": 11,
+              "dim_val_id": 110019
+            },
+            "extract": {
+              "Health_and_Wellness_RA_1st_scenario_id": "scenario.scenario_id",
+              "Health_and_Wellness_RA_1st_scenario_version": "scenario.scenario_version_timestamp"
+            },
+            "assertions": [
+              {
+                "status": 200
+              }
+            ]
+          },
+          {
+            "testStep": "Poll creation to check status for newly created scenario",
+            "environment": "qa",
+            "labels": [
+              "smoke",
+              "Pre-Req"
+            ],
+            "service": "coreService",
+            "uri": "getForecast",
+            "testName": "Poll creation to check status for newly created scenario",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+              "unit": "Millions",
+              "dim_id": 12,
+              "dim_val_id": 120003,
+              "classification_id": 12,
+              "template_id": 1,
+              "filters": [],
+              "additional_filters": {
+                "template_include_headers": [
+                  {
+                    "name": "vs LY",
+                    "format": "percent"
+                  },
+                  {
+                    "name": "vs Plan",
+                    "format": "absolute"
+                  }
+                ]
+              }
+            },
+            "assertions": [
+              {
+                "status": 200
+              }
+            ],
+            "polling": {
+              "extractRelative": {
+                "WhereKey": "rowData.name",
+                "Equals": "Health_and_Wellness_RA_1st_{{randomNumber}}",
+                "Findkey": "rowData.forecastStatus.statusCode"
+              },
+              "expectedValue": 21,
+              "intervalMs": 5000,
+              "timeoutMs": 600000
+            }
+        },
+        {
+            "testStep": "Create Forecast Scenario for RA lob",
+            "environment": "qa",
+            "labels": [
+              "smoke", "Pre-Req","IBG-38438"
+            ],
+            "service": "coreService",
+            "uri": "Forecast",
+            "testName": "Create Forecast Scenario for RA lob",
+            "queryParams": "/create-user-scenario",
+            "method": "POST",
+            "payload": {
+              "type": 3,
+              "name": "Health_and_Wellness_RA_2nd_{{randomNumber}}",
+              "classification_id": 12,
+              "dim_id": 11,
+              "dim_val_id": 110019
+            },
+            "extract": {
+              "Health_and_Wellness_RA_2nd_scenario_id": "scenario.scenario_id",
+              "Health_and_Wellness_RA_2nd_scenario_version": "scenario.scenario_version_timestamp"
+            },
+            "assertions": [
+              {
+                "status": 200
+              }
+            ]
+          },
+          {
+            "testStep": "Poll creation to check status for newly created scenario",
+            "environment": "qa",
+            "labels": [
+              "smoke",
+              "Pre-Req"
+            ],
+            "service": "coreService",
+            "uri": "getForecast",
+            "testName": "Poll creation to check status for newly created scenario",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+              "unit": "Millions",
+              "dim_id": 12,
+              "dim_val_id": 120003,
+              "classification_id": 12,
+              "template_id": 1,
+              "filters": [],
+              "additional_filters": {
+                "template_include_headers": [
+                  {
+                    "name": "vs LY",
+                    "format": "percent"
+                  },
+                  {
+                    "name": "vs Plan",
+                    "format": "absolute"
+                  }
+                ]
+              }
+            },
+            "assertions": [
+              {
+                "status": 200
+              }
+            ],
+            "polling": {
+              "extractRelative": {
+                "WhereKey": "rowData.name",
+                "Equals": "Health_and_Wellness_RA_2nd_{{randomNumber}}",
+                "Findkey": "rowData.forecastStatus.statusCode"
+              },
+              "expectedValue": 21,
+              "intervalMs": 5000,
+              "timeoutMs": 600000
+            }
+        },
+        {
+            "testStep": "Create Forecast Scenario for RA lob",
+            "environment": "qa",
+            "labels": [
+              "smoke", "Pre-Req","IBG-38438"
+            ],
+            "service": "coreService",
+            "uri": "Forecast",
+            "testName": "Create Forecast Scenario for RA lob",
+            "queryParams": "/create-user-scenario",
+            "method": "POST",
+            "payload": {
+              "type": 3,
+              "name": "Health_and_Wellness_RA_3rd_{{randomNumber}}",
+              "classification_id": 12,
+              "dim_id": 11,
+              "dim_val_id": 110019
+            },
+            "extract": {
+              "Health_and_Wellness_RA_3rd_scenario_id": "scenario.scenario_id",
+              "Health_and_Wellness_RA_3rd_scenario_version": "scenario.scenario_version_timestamp"
+            },
+            "assertions": [
+              {
+                "status": 200
+              }
+            ]
+          },
+          {
+            "testStep": "Poll creation to check status for newly created scenario",
+            "environment": "qa",
+            "labels": [
+              "smoke",
+              "Pre-Req"
+            ],
+            "service": "coreService",
+            "uri": "getForecast",
+            "testName": "Poll creation to check status for newly created scenario",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+              "unit": "Millions",
+              "dim_id": 12,
+              "dim_val_id": 120003,
+              "classification_id": 12,
+              "template_id": 1,
+              "filters": [],
+              "additional_filters": {
+                "template_include_headers": [
+                  {
+                    "name": "vs LY",
+                    "format": "percent"
+                  },
+                  {
+                    "name": "vs Plan",
+                    "format": "absolute"
+                  }
+                ]
+              }
+            },
+            "assertions": [
+              {
+                "status": 200
+              }
+            ],
+            "polling": {
+              "extractRelative": {
+                "WhereKey": "rowData.name",
+                "Equals": "Health_and_Wellness_RA_3rd_{{randomNumber}}",
+                "Findkey": "rowData.forecastStatus.statusCode"
+              },
+              "expectedValue": 21,
+              "intervalMs": 5000,
+              "timeoutMs": 600000
+            }
+        },
+        {
+            "testStep": "Create Forecast Scenario for RA lob",
+            "environment": "qa",
+            "labels": [
+              "smoke", "Pre-Req","IBG-38438"
+            ],
+            "service": "coreService",
+            "uri": "Forecast",
+            "testName": "Create Forecast Scenario for RA lob",
+            "queryParams": "/create-user-scenario",
+            "method": "POST",
+            "payload": {
+              "type": 3,
+              "name": "Health_and_Wellness_RA_4th_{{randomNumber}}",
+              "classification_id": 12,
+              "dim_id": 11,
+              "dim_val_id": 110019
+            },
+            "extract": {
+              "Health_and_Wellness_RA_4th_scenario_id": "scenario.scenario_id",
+              "Health_and_Wellness_RA_4th_scenario_version": "scenario.scenario_version_timestamp"
+            },
+            "assertions": [
+              {
+                "status": 200
+              }
+            ]
+          },
+          {
+            "testStep": "Poll creation to check status for newly created scenario",
+            "environment": "qa",
+            "labels": [
+              "smoke",
+              "Pre-Req"
+            ],
+            "service": "coreService",
+            "uri": "getForecast",
+            "testName": "Poll creation to check status for newly created scenario",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+              "unit": "Millions",
+              "dim_id": 12,
+              "dim_val_id": 120003,
+              "classification_id": 12,
+              "template_id": 1,
+              "filters": [],
+              "additional_filters": {
+                "template_include_headers": [
+                  {
+                    "name": "vs LY",
+                    "format": "percent"
+                  },
+                  {
+                    "name": "vs Plan",
+                    "format": "absolute"
+                  }
+                ]
+              }
+            },
+            "assertions": [
+              {
+                "status": 200
+              }
+            ],
+            "polling": {
+              "extractRelative": {
+                "WhereKey": "rowData.name",
+                "Equals": "Health_and_Wellness_RA_4th_{{randomNumber}}",
+                "Findkey": "rowData.forecastStatus.statusCode"
+              },
+              "expectedValue": 21,
+              "intervalMs": 5000,
+              "timeoutMs": 600000
+            }
+        },
+        {
+            "testStep": "Create Forecast Scenario for RA lob",
+            "environment": "qa",
+            "labels": [
+              "smoke", "Pre-Req","IBG-38438"
+            ],
+            "service": "coreService",
+            "uri": "Forecast",
+            "testName": "Create Forecast Scenario for RA lob",
+            "queryParams": "/create-user-scenario",
+            "method": "POST",
+            "payload": {
+              "type": 3,
+              "name": "Health_and_Wellness_RA_5th_{{randomNumber}}",
+              "classification_id": 12,
+              "dim_id": 11,
+              "dim_val_id": 110019
+            },
+            "extract": {
+              "Health_and_Wellness_RA_5th_scenario_id": "scenario.scenario_id",
+              "Health_and_Wellness_RA_5th_scenario_version": "scenario.scenario_version_timestamp"
+            },
+            "assertions": [
+              {
+                "status": 200
+              }
+            ]
+          },
+          {
+            "testStep": "Poll creation to check status for newly created scenario",
+            "environment": "qa",
+            "labels": [
+              "smoke",
+              "Pre-Req"
+            ],
+            "service": "coreService",
+            "uri": "getForecast",
+            "testName": "Poll creation to check status for newly created scenario",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+              "unit": "Millions",
+              "dim_id": 12,
+              "dim_val_id": 120003,
+              "classification_id": 12,
+              "template_id": 1,
+              "filters": [],
+              "additional_filters": {
+                "template_include_headers": [
+                  {
+                    "name": "vs LY",
+                    "format": "percent"
+                  },
+                  {
+                    "name": "vs Plan",
+                    "format": "absolute"
+                  }
+                ]
+              }
+            },
+            "assertions": [
+              {
+                "status": 200
+              }
+            ],
+            "polling": {
+              "extractRelative": {
+                "WhereKey": "rowData.name",
+                "Equals": "Health_and_Wellness_RA_5th_{{randomNumber}}",
+                "Findkey": "rowData.forecastStatus.statusCode"
+              },
+              "expectedValue": 21,
+              "intervalMs": 5000,
+              "timeoutMs": 600000
+            }
+        },
+        {
+            "testStep": "Delete first forecast",
+            "environment": "qa",
+            "labels": [
+              "smoke"
+            ],
+            "service": "coreService",
+            "uri": "Forecast",
+            "testName": "Delete first forecast",
+            "queryParams": "/{{Health_and_Wellness_RA_1st_scenario_id}}/{{Health_and_Wellness_RA_1st_scenario_version}}",
+            "method": "DELETE",
+            "payload": {
+              "dim_id": 11,
+              "dim_val_id": 110019
+            },
+            "assertions": [
+              {
+                "status": 200
+              }]
+          },
+          {
+            "testStep": "Delete second forecast",
+            "environment": "qa",
+            "labels": [
+              "smoke"
+            ],
+            "service": "coreService",
+            "uri": "Forecast",
+            "testName": "Delete second forecast",
+            "queryParams": "/{{Health_and_Wellness_RA_2nd_scenario_id}}/{{Health_and_Wellness_RA_2nd_scenario_version}}",
+            "method": "DELETE",
+            "payload": {
+              "dim_id": 11,
+              "dim_val_id": 110019
+            },
+            "assertions": [
+              {
+                "status": 200
+              }]
+          },
+          {
+            "testStep": "Delete third forecast",
+            "environment": "qa",
+            "labels": [
+              "smoke"
+            ],
+            "service": "coreService",
+            "uri": "Forecast",
+            "testName": "Delete first forecast",
+            "queryParams": "/{{Health_and_Wellness_RA_3rd_scenario_id}}/{{Health_and_Wellness_RA_3rd_scenario_version}}",
+            "method": "DELETE",
+            "payload": {
+              "dim_id": 11,
+              "dim_val_id": 110019
+            },
+            "assertions": [
+              {
+                "status": 200
+              }]
+          },
+          {
+            "testStep": "Delete forth forecast",
+            "environment": "qa",
+            "labels": [
+              "smoke"
+            ],
+            "service": "coreService",
+            "uri": "Forecast",
+            "testName": "Delete first forecast",
+            "queryParams": "/{{Health_and_Wellness_RA_4th_scenario_id}}/{{Health_and_Wellness_RA_4th_scenario_version}}",
+            "method": "DELETE",
+            "payload": {
+              "dim_id": 11,
+              "dim_val_id": 110019
+            },
+            "assertions": [
+              {
+                "status": 200
+              }]
+          },
+          {
+            "testStep": "Delete fifth forecast",
+            "environment": "qa",
+            "labels": [
+              "smoke"
+            ],
+            "service": "coreService",
+            "uri": "Forecast",
+            "testName": "Delete first forecast",
+            "queryParams": "/{{Health_and_Wellness_RA_5th_scenario_id}}/{{Health_and_Wellness_RA_5th_scenario_version}}",
+            "method": "DELETE",
+            "payload": {
+              "dim_id": 11,
+              "dim_val_id": 110019
+            },
+            "assertions": [
+              {
+                "status": 200
+              }]
+          }
+    ]
+}

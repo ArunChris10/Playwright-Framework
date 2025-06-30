@@ -5,9 +5,7 @@
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
   },
-  "tagsToRun": [
-    ""
-  ],
+  "tagsToRun": [],
   "ForceAllParallel": true,
   "ForceAllSerial": false,
   "testFiles": [
@@ -50,6 +48,7 @@
     "testCases/progress-status-ssdm.api-tests.json",
     "testCases/calculate-additive-nodes-constant-value.json",
     "testCases/calculate-additive-nodes-percent-rolling.json",
+    "testCases/segment-user-send-to-corporate.json",
     "testCases/copy-scenario-multiple-targets-test.json",
     "testCases/copy-scenario-submitted-scenario-source-test.json",
     "testCases/copy-scenario-historical-scenario-source-test.json",
@@ -64,7 +63,13 @@
     "testCases/primaryDataUpdate-onSegmentReview-test.json",
     "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json",
     "testCases/month-on-month-propagation-test.json",
-    "testCases/calculate-save-additive-non-additive-nodes-equal-distriubution.json"
+    "testCases/calculate-save-additive-non-additive-nodes-equal-distriubution.json",
+    "testCases/patchy-cell-edit-api-tests.json",
+    "testCases/create-multiple-scenario-tests.json",
+    "testCases/patchy/edited-value-patchy-on-patchy.json",
+    "testCases/allocation-excludes-missing-months.json",
+    "testCases/allocate-node-value-test.json"
+
   ],
   "currentDemandService": {
     "baseURL": {
@@ -112,15 +117,17 @@
     "download": "/validation/download",
     "getDimensions": "/metadata/dimensions/mappings",
     "getSandboxScenarioId": "/sandbox/v1/get-sandbox-scenario-id",
-    "applyChangesOnSSDM": "/sandbox/v1/get-mykpi",
-    "getPublishedVersionsProgressStatus": "/sandbox/v1/get-published-versions",
-    "createUserScenario": "/scenario/create-user-scenario",
+    "applyChangesOnSSDM":"/sandbox/v1/get-mykpi",
+    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions",
+    "createScenario":"/create-user-scenario",
+    "sendToBAReview":"/adjustment/status/v2", "createUserScenario": "/scenario/create-user-scenario",
     "computeSsdm": "/sandbox/v1/compute-scenario",
     "getDriversListSSDM": "/sandbox/v1/drivers",
     "publishSSDMActivatedDataset":"sandbox/v1/publish-node-edge-document",
+    "getPublishedVersionsProgressStatus":"/sandbox/v1/get-published-versions",
     "publishSSDMLatestDataset": "sandbox/v1/publish-node-edge-document",
     "createScenario":"/create-user-scenario",
-    "sendToBAReview":"/adjustment/status/v2",     
+    "sendToBAReview":"/adjustment/status/v2", 
     "getIndividualStatus":"get-individual-status"
 
   },

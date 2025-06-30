@@ -17,8 +17,8 @@ import deleteAllForecastsForAutomationUser from '../apiutility/globalTeardown';
 
 export default async function globalSetup() {
 
-  process.env.apiBaseURLUFM = 'https://ibg-ufm-core-service.qa.ibg.walmart.com';
-
+  process.env.apiBaseURLUFM = `https://ibg-ufm-core-service.${process.env.envName}.ibg.walmart.com`;
+  
   console.log('Global Setup (runs once before all tests)');
 
   const parentConfig = loadJSON<ParentConfig>(path.resolve(__dirname, 'parent-config.json'));
