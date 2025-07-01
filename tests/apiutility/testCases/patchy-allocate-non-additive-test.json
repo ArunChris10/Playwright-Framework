@@ -1,12 +1,12 @@
 {
-    "verify % rolling method is working for non additive nodes in a SBA": [
+    "Verify non-additive non-patchy and additive patchy allocate": [
       {
-        "testStep": "Get a forecast to calculate for a non additive node",
+        "testStep": "Get a scenario to calculate",
         "environment": "qa",
         "labels": ["smoke", "non_additive_patchy_allocation"],
         "service": "coreService",
         "uri": "getForecast",
-        "testName": "Get a forecast to calculate at lower grain",
+        "testName": "Get a scenario to calculate at lower grain",
         "queryParams": "",
         "method": "POST",
         "payload": {
@@ -60,7 +60,7 @@
         }
       },
       {
-        "testStep": "Editing and Calculating the non additive nodes",
+        "testStep": "Editing and Calculating the non additive nodes and additive node",
         "environment": "qa",
         "labels": [
           "smoke",
@@ -68,7 +68,7 @@
         ],
         "service": "coreService",
         "uri": "allocateData",
-        "testName": "Calculating the non-additive nodes for % rolling method",
+        "testName": "Calculating the non-additive nodes and patchy additive node",
         "queryParams": "",
         "method": "POST",
         "payload": {

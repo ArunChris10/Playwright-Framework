@@ -1,7 +1,7 @@
 {
     "verify calculate and save for additive and patchy nodes": [
         {
-            "testStep": "Get a forecast to calculate for additive and pachy nodes",
+            "testStep": "Get a forecast to calculate for additive and patchy nodes",
             "environment": "qa",
             "labels": [
                 "smoke",
@@ -182,7 +182,7 @@
             }
         },
         {
-            "testStep": "Validate Adjustment via getKpi",
+            "testStep": "Validate Adjustment via getKpi, where patchy is eq dist and non-patchy is user allocation method",
             "environment": "qa",
             "labels": [
                 "additive_non_additive_calculate_equal_distribution",
