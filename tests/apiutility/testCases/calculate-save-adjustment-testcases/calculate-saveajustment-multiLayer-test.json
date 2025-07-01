@@ -5,7 +5,9 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "MS3"
+        "MS3",
+        "calculations",
+        "adjustments"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -1213,7 +1215,7 @@
       ],
       "service": "coreService",
       "uri": "getKpi",
-      "testName":  "Validate get KPI after deleting Layer-2 Adjustment",
+      "testName": "Validate get KPI after deleting Layer-2 Adjustment",
       "queryParams": "",
       "method": "POST",
       "payload": {
