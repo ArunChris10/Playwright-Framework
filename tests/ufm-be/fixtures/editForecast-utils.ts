@@ -136,7 +136,7 @@ export class EditForecastUtility {
     obj.period_view = "month";
     obj.preview = true;
     obj.adjustment_id = editForecast.testData[lobName]?.adjustmentId;
-
+    console.log("Allocation Payload Object:", JSON.stringify(obj, null, 2));
     return { obj, baselineValuesMap, months };
   }
 
@@ -375,6 +375,34 @@ export class EditForecastUtility {
     return kpiResponses;
   }
 
+
+  /**
+   * Returns the first month key where the forecast value is an empty string.
+   * @param kpiResponse The KPI response object.
+   * @returns The first month key (e.g., "202610") with forecast as "", or undefined if not found.
+   */
+  static getFirstMonthWithEmptyForecast(kpiResponse: any, nodeNames: string[]): string[] {
+    const result: string[] = [];
+    for (const nodeName of nodeNames) {
+      const rows = kpiResponse[nodeName]?.rowData || [];
+      for (const row of rows) {
+        for (const key of Object.keys(row)) {
+          if (
+            row[key] &&
+            typeof row[key] === "object" &&
+            "forecast" in row[key] &&
+            (row[key].forecast === "" || row[key].forecast === null || typeof row[key].forecast === "undefined")
+          ) {
+            result.push(key);
+            break; // Only the first occurrence per node
+          }
+        }
+        if (result.length && result[result.length - 1]) break; // Stop after first for this node
+      }
+    }
+    return result;
+  }
+  
   static captureValuesFromKpiResponses(
     kpiResponses: Record<string, any>,
     affectingNodes: string[],
@@ -463,6 +491,7 @@ export class EditForecastUtility {
         months.forEach(async (monthYear) => {
           data[monthYear] = (data[monthYear] || 0) + await Utility.randomInt(1, 5000);
         });
+      let allNodes = lobData.Nodes
       for (const node of lobData.Nodes) {
         const existingEdit = edit.find(e => e.node_var_name === node);
         if (existingEdit) {
@@ -642,5 +671,95 @@ export class EditForecastUtility {
     });
 
     return await Utility.assertAndLog(response);
+  }
+
+  static async createAllocationPayloadForPatchyCell(
+    lobName: string,
+    scenarioId: number,
+    allocation_method: number,
+    node_dimension,
+    months,
+    filters,editedValue: number
+  ) {
+    let obj = {} as Root;
+    let edit: Edit[] = [];
+
+    if (multiLayerAdjustmentData.testData[lobName]) {
+      let lobData = multiLayerAdjustmentData.testData[lobName];
+      let allocation = {} as Allocation;
+      allocation.method = allocation_method;
+
+      let data: Record<string, number> = {};
+        months.forEach(async (monthYear) => {
+          data[monthYear] = (data[monthYear] || 0) + editedValue;
+        });
+      for (const node of lobData.patchyDataNode) {
+        const existingEdit = edit.find(e => e.node_var_name === node);
+        if (existingEdit) {
+          existingEdit.data = { ...existingEdit.data, ...data };
+        } else {
+          edit.push({
+            node_var_name: node,
+            node_dimension: node_dimension,
+            data: data,
+            allocation: allocation,
+          });
+        }
+      }
+    }
+
+    obj.scenario_id = scenarioId;
+    obj.dim_val_id = await UfmUtility.getMapping(lobName, "dim_val_id");
+    obj.dim_id = 11;
+    obj.edits = edit;
+    obj.filters = filters;
+    obj.period_view = "month";
+    obj.preview = true;
+    obj.display_nodes = [];
+    obj.adjustment_id = multiLayerAdjustmentData.testData[lobName]?.adjustmentId;
+    Utility.logIt("THIS-----" + JSON.stringify(obj));
+    return { obj, months };
+  }
+
+
+  static sumLowerGrainForecast(arr: Record<string, number[]>): number {
+    return Object.values(arr)
+      .flat()
+      .reduce((acc, curr) => acc + (typeof curr === 'number' && !isNaN(curr) ? curr : 0), 0);
+  }
+
+  
+  /**
+   * Fetches all forecast values for a given node and months from a KPI response.
+   * @param kpiResponse The KPI response object (with rowData array).
+   * @param nodeName The node name to filter by (e.g., "moecommreturnscogs").
+   * @param months Array of month keys (e.g., ["202606", "202607"]).
+   * @returns Record<string, number[]> where key is month and value is array of forecast values for that month for the given node.
+   */
+  static getForecastValuesForLowerGrains(
+    kpiResponse: any,
+    nodeNames: string[],
+    months: string[]
+  ): Record<string, number[]> {
+    const result: Record<string, number[]> = {};
+    for (const month of months) {
+      result[month] = [];
+    }
+
+    for (const nodeName of nodeNames) {
+      const rows = kpiResponse[nodeName]?.rowData || [];
+      for (const row of rows) {
+        for (const month of months) {
+          if (
+            row[month] &&
+            typeof row[month].forecast === "number" &&
+            !isNaN(row[month].forecast)
+          ) {
+            result[month].push(row[month].forecast);
+          }
+        }
+      }
+    }
+    return result;
   }
 }

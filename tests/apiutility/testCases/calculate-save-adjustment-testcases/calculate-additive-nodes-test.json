@@ -3,7 +3,13 @@
     {
       "testStep": "Get a forecast to calculate for additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_calculate", "additive_calculate_save"],
+      "labels": [
+        "smoke",
+        "additive_calculate",
+        "additive_calculate_save",
+        "calculations",
+        "adjustments"
+      ],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get a forecast to calculate at lower grain",
@@ -66,7 +72,11 @@
     {
       "testStep": "Editing and Calculating the additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_calculate", "additive_calculate_save"],
+      "labels": [
+        "smoke",
+        "additive_calculate",
+        "additive_calculate_save"
+      ],
       "service": "coreService",
       "uri": "allocateData",
       "testName": "Calculating the additive nodes",
@@ -290,7 +300,10 @@
     {
       "testStep": "Saving the adjustment after calculating the additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_calculate_save"],
+      "labels": [
+        "smoke",
+        "additive_calculate_save"
+      ],
       "service": "coreService",
       "uri": "saveAdjustment",
       "testName": "Save the calculation for all the additive nodes in the SBA",

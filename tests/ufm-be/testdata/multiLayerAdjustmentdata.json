@@ -8,7 +8,11 @@
                 "mobuyingallowances",
                 "mototalallowances"
             ],
-            "adjustmentId": 1747131515456
+            "adjustmentId": 1747131515456,
+            "patchyDataNode": ["moecommreturnscogs"],
+            "node_dimension": {
+                "department": 23
+            }
         }
     }
 }

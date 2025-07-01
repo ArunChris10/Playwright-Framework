@@ -1,9 +1,15 @@
 {
-  "verify calculate and save for additive and non additive nodes in a SBA": [
+  "verify calculate and save for additive nodes in a SBA": [
     {
-      "testStep": "Get a forecast to calculate for additive and non-additive nodes",
+      "testStep": "Get a forecast to calculate for additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_non_additive_calculate_equal_distribution"],
+      "labels": [
+        "smoke",
+        "additive_calculate_constant_value",
+        "additive_calculate_save_constant_value",
+        "calculations",
+        "adjustments"
+      ],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get a forecast to calculate at lower grain",
@@ -12,7 +18,7 @@
       "payload": {
         "unit": "Millions",
         "dim_id": 12,
-        "dim_val_id": 120011,
+        "dim_val_id": 120003,
         "classification_id": 12,
         "template_id": 1,
         "filters": [],
@@ -39,7 +45,7 @@
           "conditions": [
             {
               "path": "rowData.lineOfBusiness",
-              "equals": 110030
+              "equals": 110016
             },
             {
               "path": "rowData.forecastStatus.statusCode",
@@ -52,7 +58,7 @@
           "conditions": [
             {
               "path": "rowData.lineOfBusiness",
-              "equals": 110030
+              "equals": 110016
             },
             {
               "path": "rowData.forecastStatus.statusCode",
@@ -64,46 +70,47 @@
       }
     },
     {
-      "testStep": "Editing and Calculating the additive and non additive nodes",
+      "testStep": "Editing and Calculating the additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_non_additive_calculate_equal_distribution"],
+      "labels": [
+        "smoke",
+        "additive_calculate_constant_value",
+        "additive_calculate_save_constant_value"
+      ],
       "service": "coreService",
       "uri": "allocateData",
-      "testName": "Calculating the additive and non additive nodes",
+      "testName": "Calculating the additive nodes",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "display_nodes": [
-           "financialservicesincome",
-          "instorereturnspctofgrossgmv"
-        ],
+        "display_nodes": [],
         "scenario_id": "{{scenario_id}}",
-        "dim_val_id": 110030,
+        "dim_val_id": 110016,
         "dim_id": 11,
         "preview": true,
         "edits": [
           {
-            "node_var_name": "financialservicesincome",
+            "node_var_name": "promotionalallowances_input",
             "node_dimension": {},
             "data": {
-              "{{dynamicMonth+1}}": 101172355
+              "{{dynamicMonth+1}}": 21
             },
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 31
+              "method": 30
             }
           },
           {
-            "node_var_name": "instorereturnspctofgrossgmv",
+            "node_var_name": "othercostofgoodssold_input",
             "node_dimension": {},
             "data": {
-              "{{dynamicMonth+1}}": 1
+              "{{dynamicMonth+1}}": 21
             },
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 31
+              "method": 30
             }
           }
         ],
@@ -123,17 +130,20 @@
       ]
     },
     {
-      "testStep": "Saving the adjustment after calculating the additive and non additive nodes",
+      "testStep": "Saving the adjustment after calculating the additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_non_additive_calculate_equal_distribution"],
+      "labels": [
+        "smoke",
+        "additive_calculate_save_constant_value"
+      ],
       "service": "coreService",
       "uri": "saveAdjustment",
-      "testName": "Save the calculation for all the additive and non additive nodes in the SBA",
+      "testName": "Save the calculation for all the additive nodes in the SBA",
       "queryParams": "",
       "method": "PATCH",
       "payload": {
         "adjustment_metadata": {
-          "adjustment_name": "demo_test_additive_non_additive {{randomNumber}}",
+          "adjustment_name": "demo_test_additive {{randomNumber}}",
           "adjustment_reason": "",
           "adjustment_type": 74,
           "is_duplicated": false,
@@ -146,39 +156,39 @@
         "allocation_request": {
           "display_nodes": [],
           "scenario_id": "{{scenario_id}}",
-          "dim_val_id": 110030,
+          "dim_val_id": 110016,
           "dim_id": 11,
           "preview": false,
           "edits": [
             {
-              "node_var_name": "financialservicesincome",
+              "node_var_name": "promotionalallowances_input",
               "node_dimension": {},
               "data": {
-                "{{dynamicMonth+1}}": 101172355
+                "{{dynamicMonth+1}}": 21
               },
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 31
+                "method": 30
               }
             },
             {
-              "node_var_name": "instorereturnspctofgrossgmv",
+              "node_var_name": "othercostofgoodssold_input",
               "node_dimension": {},
               "data": {
-                "{{dynamicMonth+1}}": 1
+                "{{dynamicMonth+1}}": 21
               },
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 31
+                "method": 30
               }
             }
           ],
           "filters": [],
           "period_view": "month"
         },
-        "dim_val_id": 110030
+        "dim_val_id": 110016
       },
       "assertions": [
         {

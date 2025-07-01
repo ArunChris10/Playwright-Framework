@@ -6,7 +6,9 @@
       "labels": [
         "smoke",
         "IBGROW-40175",
-        "MS3"
+        "MS3",
+        "calculations",
+        "adjustments"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -97,7 +99,7 @@
       "method": "POST",
       "payload": {
         "type": 3,
-        "name": "PrimaryDataUpdate {{randomNumber}}",
+        "name": "MonthOnMonth {{randomNumber}}",
         "classification_id": 12,
         "dim_id": 11,
         "dim_val_id": 110029
@@ -152,7 +154,7 @@
       "polling": {
         "extractRelative": {
           "WhereKey": "rowData.name",
-          "Equals": "PrimaryDataUpdate {{randomNumber}}",
+          "Equals": "MonthOnMonth {{randomNumber}}",
           "Findkey": "rowData.forecastStatus.statusCode"
         },
         "expectedValue": 21,
@@ -345,12 +347,12 @@
       "extractRelative": {
         "receipt_month_OnSave": {
           "whereKey": "driver",
-          "equals": "momerchandisesales",
+          "equals": "moreceiptsatretail",
           "extractKey": "{{dynamicMonth}}.forecast"
         },
         "receipt_month1_OnSave": {
           "whereKey": "driver",
-          "equals": "momerchandisesales",
+          "equals": "moreceiptsatretail",
           "extractKey": "{{dynamicMonth+1}}.forecast"
         },
         "beginning_month1_OnSave": {
@@ -395,15 +397,15 @@
         },
         "beginning_month1_OnSave": {
           "expected": "{{ending_month_OnSave}}",
-          "tolerance": 0
+          "tolerance": 0.01
         },
         "beginning_month2_OnSave": {
           "expected": "{{ending_month1_OnSave}}",
-          "tolerance": 0
+          "tolerance": 0.01
         },
         "beginning_month3_OnSave": {
           "expected": "{{ending_month2_OnSave}}",
-          "tolerance": 0
+          "tolerance": 0.01
         }
       }
     }

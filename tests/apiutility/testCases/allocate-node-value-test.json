@@ -1,0 +1,88 @@
+{
+  "verify allocate calculate": [
+    {
+      "testStep": "create source scenario",
+      "environment": "qa",
+      "labels": ["smoke", "validate_allocate_calculate"],
+      "service": "coreService",
+      "uri": "createUserScenario",
+      "testName": "Create a new Scenario",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110013,
+        "classification_id": 12,
+        "type": 3,
+        "name": "Test-Filter-Source-{{randomNumber}}"
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractFirst": {
+        "sourceScenarioId": "scenario.scenario_id",
+        "sourceScenarioVersionTimestamp": "scenario.scenario_version_timestamp"
+      }
+    },
+    {
+      "testStep": "Call allocate to calculate",
+      "environment": "qa",
+      "labels": ["@Smoke", "validate_allocate_calculate"],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "validate allocate calculate",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{sourceScenarioId}}",
+        "dim_val_id": 110013,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "mpshippingexpense",
+            "node_dimension": { "department": 13, "channel": 60025 },
+            "data": { "202611": 100 },
+            "allocation": { "method": 30 }
+          },
+          {
+            "node_var_name": "mpshippingexpense",
+            "node_dimension": { "department": 8, "channel": 60025 },
+            "data": { "202612": 100 },
+            "allocation": { "method": 30 }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1751024732756
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Deleting the created Scenario",
+      "environment": "qa",
+      "labels": ["smoke", "validate_allocate_calculate"],
+      "service": "coreService",
+      "uri": "Forecast",
+      "testName": "Validate deleting the forecast scenario",
+      "queryParams": "/{{sourceScenarioId}}/{{sourceScenarioVersionTimestamp}}",
+      "method": "DELETE",
+      "payload": {
+        "dim_id": 11,
+        "dim_val_id": 110013
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

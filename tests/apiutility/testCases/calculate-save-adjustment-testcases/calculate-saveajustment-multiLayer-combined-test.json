@@ -5,7 +5,8 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "MS3"
+        "MS3",
+        "adjustments"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -53,7 +54,6 @@
         },
         "IOtoDeletescenarioVersion_multipltLayerSave": {
           "conditions": [
-          
             {
               "path": "rowData.owner",
               "equals": "LB-ibg-ufm-auto"
@@ -221,7 +221,7 @@
           "whereKey": "driver",
           "equals": "momerchandisesales",
           "extractKey": "{{dynamicMonth+2}}.baseline"
-        },  
+        },
         "driver2_month1_baseline": {
           "whereKey": "driver",
           "equals": "mowarehouseallowances",
@@ -471,7 +471,7 @@
           "extractKey": "{{dynamicMonth+2}}.baseline"
         }
       },
-      "extractDelta":{
+      "extractDelta": {
         "driver1_layer1_month1_delta": {
           "editOne": "{{driver1_layer1_month1_previous_KPIData}}",
           "editTwo": "{{driver1_layer1_month1_KPIData}}"
@@ -1195,7 +1195,7 @@
           "tolerance": 0.2
         }
       },
-      "extractDelta":{
+      "extractDelta": {
         "driver1_layer3_month1_delta": {
           "editOne": "{{driver1_layer3_month1_previous_KPIData}}",
           "editTwo": "{{driver1_layer3_month1_KPIData}}"
@@ -1242,7 +1242,7 @@
       ],
       "service": "coreService",
       "uri": "getKpi",
-      "testName":  "Validate get KPI after deleting Layer-2 Adjustment",
+      "testName": "Validate get KPI after deleting Layer-2 Adjustment",
       "queryParams": "",
       "method": "POST",
       "payload": {
@@ -1347,7 +1347,7 @@
           "extractKey": "{{dynamicMonth+2}}.baseline"
         }
       },
-      "calculateForecast":{
+      "calculateForecast": {
         "driver1_DeleteLayer2_month1_calForecast": {
           "valueOne": "{{driver1_DeleteLayer2_month1_previous_KPIData}}",
           "valueTwo": "{{driver1_layer3_month1_delta}}"
@@ -1399,19 +1399,19 @@
           "tolerance": 0.2
         },
         "driver1_DeleteLayer2_month1_forecast_KPIData": {
-          "expected" : "{{driver1_DeleteLayer2_month1_calForecast}}",
+          "expected": "{{driver1_DeleteLayer2_month1_calForecast}}",
           "tolerance": 1
         },
         "driver1_DeleteLayer2_month2_forecast_KPIData": {
-          "expected" : "{{driver1_DeleteLayer2_month2_calForecast}}",
+          "expected": "{{driver1_DeleteLayer2_month2_calForecast}}",
           "tolerance": 1
         },
         "driver2_DeleteLayer2_month1_forecast_KPIData": {
-          "expected" : "{{driver2_DeleteLayer2_month1_calForecast}}",
+          "expected": "{{driver2_DeleteLayer2_month1_calForecast}}",
           "tolerance": 1
         },
         "driver2_DeleteLayer2_month2_forecast_KPIData": {
-          "expected" : "{{driver2_DeleteLayer2_month2_calForecast}}",
+          "expected": "{{driver2_DeleteLayer2_month2_calForecast}}",
           "tolerance": 1
         }
       }
@@ -2462,8 +2462,6 @@
         }
       }
     },
-
-
     {
       "testStep": "update layer 2 ",
       "environment": "qa",
@@ -2609,17 +2607,40 @@
               }
             }
           ],
-          "filters":[    {
-            "dim_id": 1,
-              "dim_val_ids": [2, 4, 8, 13, 1, 80, 83, 93, 14, 17, 19, 20, 3, 9, 10, 11, 12, 16, 5, 6, 7, 18],
-            
-            "children": []
-          }
-        ],
-        "period_view": "month"
+          "filters": [
+            {
+              "dim_id": 1,
+              "dim_val_ids": [
+                2,
+                4,
+                8,
+                13,
+                1,
+                80,
+                83,
+                93,
+                14,
+                17,
+                19,
+                20,
+                3,
+                9,
+                10,
+                11,
+                12,
+                16,
+                5,
+                6,
+                7,
+                18
+              ],
+              "children": []
+            }
+          ],
+          "period_view": "month"
+        },
+        "dim_val_id": 110029
       },
-      "dim_val_id": 110029
-     },
       "assertions": [
         {
           "status": 200
@@ -2778,18 +2799,16 @@
         }
       ],
       "extractFirst": {
-                  "FirstAdjustmentID": "adjustment_id"
-              },
+        "FirstAdjustmentID": "adjustment_id"
+      },
       "extractSecond": {
-                  "SecondAdjustmentID": "adjustment_id"
-              },
+        "SecondAdjustmentID": "adjustment_id"
+      },
       "validateExtract": {
-                "{{FirstAdjustmentID}}": "{{level1_save_adjustmentId_updateDelete}}",
-                "{{SecondAdjustmentID}}": "{{level2_save_adjustmentId_updateDelete}}"
-       }
+        "{{FirstAdjustmentID}}": "{{level1_save_adjustmentId_updateDelete}}",
+        "{{SecondAdjustmentID}}": "{{level2_save_adjustmentId_updateDelete}}"
+      }
     },
-
-
     {
       "testStep": "Delete Layer-2 Adjustment",
       "environment": "qa",
