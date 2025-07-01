@@ -15,7 +15,7 @@
             "payload": {
                 "unit": "Millions",
                 "dim_id": 12,
-                "dim_val_id": 120011,
+                "dim_val_id": 120010,
                 "classification_id": 12,
                 "template_id": 1,
                 "filters": [],
@@ -42,7 +42,7 @@
                     "conditions": [
                         {
                             "path": "rowData.lineOfBusiness",
-                            "equals": 110030
+                            "equals": 110029
                         },
                         {
                             "path": "rowData.forecastStatus.statusCode",
@@ -55,7 +55,7 @@
                     "conditions": [
                         {
                             "path": "rowData.lineOfBusiness",
-                            "equals": 110030
+                            "equals": 110029
                         },
                         {
                             "path": "rowData.forecastStatus.statusCode",
@@ -80,15 +80,15 @@
             "method": "POST",
             "payload": {
                 "display_nodes": [
-                    "financialservicesincome"
+                    "mobuyingallowances"
                 ],
                 "scenario_id": "{{scenario_id}}",
                 "dim_id": 11,
-                "dim_val_id": 110030,
+                "dim_val_id": 110029,
                 "preview": true,
                 "edits": [
                     {
-                        "node_var_name": "financialservicesincome",
+                        "node_var_name": "mobuyingallowances",
                         "node_dimension": {},
                         "data": {
                             "{{dynamicMonth+3}}": 101172355,
@@ -121,7 +121,7 @@
             "environment": "qa",
             "labels": [
                 "smoke",
-                "additive_non_additive_calculate_equal_distribution"
+                "additive_patchy_allocation"
             ],
             "service": "coreService",
             "uri": "saveAdjustment",
@@ -143,12 +143,12 @@
                 "allocation_request": {
                     "display_nodes": [],
                     "scenario_id": "{{scenario_id}}",
-                    "dim_val_id": 110030,
+                    "dim_val_id": 110029,
                     "dim_id": 11,
                     "preview": false,
                     "edits": [
                         {
-                            "node_var_name": "financialservicesincome",
+                            "node_var_name": "mobuyingallowances",
                             "node_dimension": {},
                             "data": {
                                 "{{dynamicMonth+3}}": 100,
@@ -197,7 +197,7 @@
                 "scenario_id": "{{scenario_id}}",
                 "scenario_version": "{{scenarioVersion}}",
                 "dim_id": 11,
-                "dim_val_id": 110030,
+                "dim_val_id": 110029,
                 "classification_id": 12,
                 "template_id": 3,
                 "filters": [],
@@ -215,7 +215,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "financialservicesincome"
+                        "mobuyingallowances"
                     ],
                     "template_include_headers": [
                         {
@@ -267,15 +267,11 @@
                     "conditions": [
                         {
                             "path": "rowData.channel",
-                            "equals": 60002
+                            "equals": 60005
                         },
                         {
                             "path": "rowData.department",
-                            "equals": 3
-                        },
-                        {
-                            "path": "rowData.location",
-                            "equals": 17001111
+                            "equals": 1
                         }
                     ],
                     "extractKey": "rowData.{{dynamicMonth+3}}.forecast"
@@ -284,15 +280,11 @@
                     "conditions": [
                         {
                             "path": "rowData.channel",
-                            "equals": 60002
+                            "equals": 60005
                         },
                         {
                             "path": "rowData.department",
-                            "equals": 3
-                        },
-                        {
-                            "path": "rowData.location",
-                            "equals": 17001111
+                            "equals": 1
                         }
                     ],
                     "extractKey": "rowData.{{dynamicMonth+7}}.forecast"
@@ -301,15 +293,11 @@
                     "conditions": [
                         {
                             "path": "rowData.channel",
-                            "equals": 60002
+                            "equals": 60005
                         },
                         {
                             "path": "rowData.department",
-                            "equals": -999
-                        },
-                        {
-                            "path": "rowData.location",
-                            "equals": 17001111
+                            "equals": 80
                         }
                     ],
                     "extractKey": "rowData.{{dynamicMonth+7}}.forecast"
@@ -327,23 +315,23 @@
                 }
             ]
         }, {
-                "testStep": "Delete Adjustment",
-                "environment": "qa",
-                "labels": [
-                  "smoke",
-                  "non_additive_patchy_allocation"
-                ],
-                "service": "coreService",
-                "uri": "saveAdjustment",
-                "testName": "Delete Adjustment",
-                "queryParams": "{{adjustmentId}}?scenario_id={{scenario_id}}&scenario_version_timestamp={{scenarioVersion}}",
-                "method": "DELETE",
-                "payload": {},
-                "assertions": [
-                  {
+            "testStep": "Delete Adjustment",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "additive_patchy_allocation"
+            ],
+            "service": "coreService",
+            "uri": "saveAdjustment",
+            "testName": "Delete Adjustment",
+            "queryParams": "{{adjustmentId}}?scenario_id={{scenario_id}}&scenario_version_timestamp={{scenarioVersion}}",
+            "method": "DELETE",
+            "payload": {},
+            "assertions": [
+                {
                     "status": 200
-                  }
-                ]
-            }
+                }
+            ]
+        }
     ]
 }
