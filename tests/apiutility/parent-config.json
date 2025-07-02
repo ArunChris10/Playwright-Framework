@@ -88,7 +88,8 @@
     "testCases/allocate-node-value-test.json",
     "testCases/forecast/create-scenario-max-limit-test.json",
     "testCases/ssdm-node-edge-publish-latest-test.json",
-    "testCases/visual-indicator-api.json"
+    "testCases/visual-indicator-api.json",
+    "testCases/create-multiple-scenario-tests.json"
   ],
   "currentDemandService": {
     "baseURL": {
