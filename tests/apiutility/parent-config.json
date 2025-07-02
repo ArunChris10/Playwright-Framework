@@ -81,13 +81,15 @@
     "testCases/patchy-allocate-additive-test.json",
     "testCases/calculate-save-additive-non-additive-nodes-equal-distriubution.json",
     "testCases/patchy-cell-edit-api-tests.json",
-    "testCases/create-multiple-scenario-tests.json",
     "testCases/patchy/edited-value-patchy-on-patchy.json",
+    "testCases/patchy-dependent-nodes-tests.json",
+    "testCases/patchy-multiple-dependent-nodes-tests.json",
     "testCases/allocation-excludes-missing-months.json",
     "testCases/allocate-node-value-test.json",
     "testCases/forecast/create-scenario-max-limit-test.json",
     "testCases/ssdm-node-edge-publish-latest-test.json",
-    "testCases/visual-indicator-api.json"
+    "testCases/visual-indicator-api.json",
+    "testCases/create-multiple-scenario-tests.json"
   ],
   "currentDemandService": {
     "baseURL": {
