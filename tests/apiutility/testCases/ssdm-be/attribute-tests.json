@@ -24,7 +24,7 @@
        }
     }
   ],
-  "cretate a new attribute": [
+  "create a new attribute": [
     {
       "testStep": "Create a new attribute",
       "environment": "dev",
