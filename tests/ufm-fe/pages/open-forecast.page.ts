@@ -1,5 +1,6 @@
 import { Locator, Page, expect } from "@playwright/test";
 import { Utility } from "../../common/fixtures/utils";
+import debug from "debug";
 
 export class OpenCurrentForecast {
   readonly page: Page;
@@ -79,6 +80,7 @@ export class OpenCurrentForecast {
   readonly modalBackdrop: Locator;
   readonly ReviewOpen: Locator;
   readonly driverExplorationTab: Locator;
+  readonly dropdownGenericLoader: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -170,6 +172,8 @@ export class OpenCurrentForecast {
     this.modalBackdrop = page.locator('div:nth-child(2) > .MuiBackdrop-root');
     this.ReviewOpen = page.locator('//div[contains(@class, "reviewer-business-progress-container")]//button[text()="Open"]');
     this.driverExplorationTab= page.getByText('Driver Exploration');
+    
+  this.dropdownGenericLoader = page.locator('//div[@data-testid="skeleton"]');
   }
 
   async clickOnOpenButton() {
@@ -387,7 +391,7 @@ async clickConsumablesChip() {
               cell.push(info.colId)
               map.set(nodeName, cell)
             }
-            console.log(`➡️ Editing cell in column: ${info.rowIndex} ${info.colId} ${nodeName} `);
+            debug.log(`➡️ Editing cell in column: ${info.rowIndex} ${info.colId} ${nodeName} `);
             await this.page.mouse.click(0, 0);
             await this.page.waitForTimeout(50);
 
@@ -403,12 +407,12 @@ async clickConsumablesChip() {
               addCount += 1
             }
             catch (error) {
-              console.warn(`❌ Failed to click span[${i}]:`, error);
+              debug.log(`❌ Failed to click span[${i}]:`, error);
               continue
             }
           }
         }
-      } catch (error) { console.log("In Catch Block", error); continue }
+      } catch (error) { debug.log("In Catch Block", error); continue }
 
     }
 
@@ -528,7 +532,7 @@ async clickConsumablesChip() {
     let DriverRow = await this.page.locator(`//*[text()='${DriverName}']//following::div[@col-id='department'][1]//*[text()='${FilteredLowestGrain}']/ancestor::*[@role='row']`);
     let row_id = (await DriverRow.getAttribute("row-id"))?.split(".")?.[0];
 
-    console.log(`Edit the value for given driver ${DriverName}`);
+    debug.log(`Edit the value for given driver ${DriverName}`);
     let FirstforecastInputElement = await this.page.locator(`(//div[contains(@class,'editable-cell-border')])[1]`);
 
     let col_id = (await FirstforecastInputElement.getAttribute("col-id"))?.split(".")?.[0];
@@ -563,7 +567,7 @@ async clickConsumablesChip() {
     let DriverRow = await this.page.locator(`//*[text()='${DriverName}']//ancestor::*[@role='row']`);
     let row_id = await DriverRow.getAttribute("row-id");
 
-    console.log(`Edit the value for given driver ${DriverName}`);
+    debug.log(`Edit the value for given driver ${DriverName}`);
     let FirstforecastInputElement = await this.page.locator(`(//div[contains(@class,'editable-cell-border')])[3]`);
 
     let col_id = (await FirstforecastInputElement.getAttribute("col-id"))?.split(".")?.[0];
@@ -954,4 +958,138 @@ async clickConsumablesChip() {
     const duplicateMessage = await this.page.locator('text=This name is already in use. Please choose a different one.');
     return await duplicateMessage.isVisible();
   }
+
+  /**
+   * Gets dropdown options for the source forecast dropdown
+   * @returns Array of option elements
+   */
+  private async getSourceDropdownOptions() {
+    debug.log('Opening source dropdown...');
+    await this.copyScenarioSourceForecastDropdown.click();
+
+    await this.waitForDropdownLoaderToDisappear();
+    
+    const options = this.page.locator('li[role="option"]');
+    
+    return options;
+  }
+
+  /**
+   * Gets dropdown options for the destination forecast dropdown
+   * @returns Array of option elements
+   */
+  private async getDestinationDropdownOptions() {
+    debug.log('Opening destination dropdown...');
+    await this.copyScenarioDestinationForecastDropdown.click();
+  
+    await this.waitForDropdownLoaderToDisappear();
+    // Get all dropdown options
+    const options = this.page.locator('li[role="option"]');
+    
+    return options;
+  }
+
+  /**
+   * Core method that checks if a scenario is present in dropdown
+   * @param scenarioId - The scenario ID to check
+   * @param dropdownType - Type of dropdown
+   * @returns boolean indicating if the scenario is present in the dropdown
+   */
+  async isScenarioInDropdown(
+    scenarioId: string, 
+    dropdownType: 'source' | 'destination'
+  ): Promise<boolean> {
+    const options = dropdownType === 'source' 
+      ? await this.getSourceDropdownOptions() 
+      : await this.getDestinationDropdownOptions();
+    
+    const optionCount = await options.count();
+    
+    // Ensure we have options loaded
+    if (optionCount === 0) {
+      debug.log(`No dropdown options found for ${dropdownType} dropdown`);
+      return false;
+    }
+    
+    for (let i = 0; i < optionCount; i++) {
+      const dataValue = await options.nth(i).getAttribute('data-value');
+      if (dataValue?.toString() == scenarioId) {
+        return true; // Scenario found
+      }
+    }
+    
+    return false; // Scenario not found
+  }
+
+  /**
+   * Checks if a scenario is present in the SOURCE dropdown
+   * @param scenarioId - The scenario ID to check
+   * @returns boolean indicating if the scenario is present
+   */
+  async isScenarioInSourceDropdown(scenarioId: string): Promise<boolean> {
+    return this.isScenarioInDropdown(scenarioId, 'source');
+  }
+
+  /**
+   * Checks if a scenario is present in the DESTINATION dropdown
+   * @param scenarioId - The scenario ID to check
+   * @returns boolean indicating if the scenario is present
+   */
+  async isScenarioInDestinationDropdown(scenarioId: string): Promise<boolean> {
+    return this.isScenarioInDropdown(scenarioId, 'destination');
+  }
+
+  /**
+   * Checks if a scenario is NOT present in the SOURCE dropdown
+   * @param scenarioId - The scenario ID to check
+   * @returns boolean indicating if the scenario is absent
+   */
+  async isScenarioNotInSourceDropdown(scenarioId: string): Promise<boolean> {
+    return !(await this.isScenarioInDropdown(scenarioId, 'source'));
+  }
+
+  /**
+   * Checks if a scenario is NOT present in the DESTINATION dropdown
+   * @param scenarioId - The scenario ID to check
+   * @returns boolean indicating if the scenario is absent
+   */
+  async isScenarioNotInDestinationDropdown(scenarioId: string): Promise<boolean> {
+    return !(await this.isScenarioInDropdown(scenarioId, 'destination'));
+  }
+
+  /**
+   * Closes an open dropdown by clicking elsewhere on the page
+   */
+  async closeDropdown(): Promise<void> {
+    // Click somewhere neutral to close the dropdown
+    await this.page.mouse.click(0, 0);
+    await this.page.waitForTimeout(500); // Brief wait for dropdown to close
+  }
+
+
+
+
+async waitForDropdownLoaderToDisappear(): Promise<void> {
+  try {
+    
+    // Wait up to 3 seconds for at least one skeleton loader to appear
+    await this.dropdownGenericLoader.first().waitFor({ state: 'visible', timeout: 3000 });
+    
+    
+    // Wait for ALL skeleton loaders to be hidden using a function
+    await this.page.waitForFunction(
+      () => {
+        const skeletons = document.querySelectorAll('div[data-testid="skeleton"]');
+        return Array.from(skeletons).every(skeleton => 
+          window.getComputedStyle(skeleton).display === 'none' || 
+          !(skeleton as HTMLElement).offsetParent
+        );
+      },
+      { timeout: 10000 }
+    );
+    
+  } catch (error) {
+    //Dont do anything if the loader is not present
+  }
+}
 }

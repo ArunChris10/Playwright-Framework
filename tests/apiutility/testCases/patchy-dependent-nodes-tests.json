@@ -1,0 +1,227 @@
+{
+    "Verify allocation api shows error when editing parent node with a blank non additive dependent nodes": [
+        {
+            "testStep": "Get forecast for KPI filters",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "patchy_non_additive"
+            ],
+            "service": "coreService",
+            "uri": "getForecast",
+            "testName": "Get forecast for KPI filters",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "unit": "Millions",
+                "dim_id": 12,
+                "dim_val_id": 120007,
+                "classification_id": 12,
+                "template_id": 1,
+                "filters": [],
+                "additional_filters": {
+                    "template_include_headers": [
+                        {
+                            "name": "vs LY",
+                            "format": "percent"
+                        },
+                        {
+                            "name": "vs Plan",
+                            "format": "absolute"
+                        }
+                    ]
+                }
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ],
+            "extractFirst": {
+                "merchops_scenario_id": "rowData.scenarioId",
+                "merchops_scenario_version": "rowData.scenarioVersion"
+            }
+        },
+        {
+            "testStep": "Call getMyKPI API for patchy forecast month",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "patchy_non_additive"
+            ],
+            "service": "coreService",
+            "uri": "getKpiV2",
+            "testName": "validate getMyKPI API before filter",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "scenario_id": "{{merchops_scenario_id}}",
+                "scenario_version": "{{merchops_scenario_version}}",
+                "dim_id": 11,
+                "dim_val_id": 110011,
+                "classification_id": 12,
+                "template_id": 3,
+                "filters": [],
+                "additional_filters": {
+                    "pivot_cols": [
+                        "month"
+                    ],
+                    "pivot_index": [
+                        "node_id"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "costperdeliverysparkap",
+                        "sparkapdeliveryexpense",
+                        "deliveriessparkap"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "Driver"
+                        },
+                        {
+                            "name": "{{dynamicMonth-4}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-2}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth-1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+1}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+2}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+3}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+4}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+5}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+6}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "{{dynamicMonth+7}}",
+                            "columnsMenuParams": "middleColumns"
+                        },
+                        {
+                            "name": "",
+                            "columnsMenuParams": "fixedColumns"
+                        },
+                        {
+                            "name": "Allocation Method",
+                            "columnsMenuParams": "action"
+                        },
+                        {
+                            "name": "Forecast",
+                            "editable": false
+                        },
+                        {
+                            "name": "Value",
+                            "editable": false
+                        }
+                    ],
+                    "month": [
+                        "{{dynamicMonth-4}}",
+                        "{{dynamicMonth-3}}",
+                        "{{dynamicMonth-2}}",
+                        "{{dynamicMonth-1}}",
+                        "{{dynamicMonth}}",
+                        "{{dynamicMonth+1}}",
+                        "{{dynamicMonth+2}}",
+                        "{{dynamicMonth+3}}",
+                        "{{dynamicMonth+4}}",
+                        "{{dynamicMonth+5}}",
+                        "{{dynamicMonth+6}}",
+                        "{{dynamicMonth+7}}"
+                    ]
+                },
+                "isApplied": true
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "body.rowData": []
+                }
+            ]
+        },
+        {
+            "testStep": "Editing and Calculating the edited patchy dependent node",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "patchy_non_additive"
+            ],
+            "service": "coreService",
+            "uri": "allocateData",
+            "testName": "Editing and Calculating the edited patchy month",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "display_nodes": [
+                    "sparkapdeliveryexpense",
+                    "deliveriessparkap"
+                ],
+                "dim_val_id": 110011,
+                "dim_id": 11,
+                "preview": true,
+                "edits": [
+                    {
+                        "node_var_name": "costperdeliverysparkap",
+                        "node_dimension": {},
+                        "data": {
+                            "{{dynamicMonth}}": 100
+                        },
+                        "allocation": {
+                            "interval": null,
+                            "offset": null,
+                            "method": 29
+                        }
+                    }
+                ],
+                "filters": [],
+                "period_view": "month",
+                "scenario_id": "{{merchops_scenario_id}}",
+                "adjustment_id": "1750781623574"
+            },
+            "assertions": [
+                {
+                    "status": 404
+                },
+                {
+                    "assertEquals": {
+                    "message": "message",
+                    "value": " Cost per Delivery (Spark - AP) is using an aggregation formula with missing values. Please add data for the missing fields -  'Spark - AP Delivery Expense' and 'Deliveries (Spark - AP)' before calculating."
+                }
+            }
+            ]
+        }
+    ]
+}

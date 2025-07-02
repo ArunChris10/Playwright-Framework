@@ -1,0 +1,118 @@
+{
+  "edit forecast name": [
+    {
+      "testStep": "Get current forecast",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "regression",
+        "IBGROW-38453",
+        "edit-forecast-name"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get current forecast",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120001,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "scenario_id": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 120001
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
+        "scenario_version": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 120001
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        },
+        "scenario_name": {
+          "conditions": [
+            {
+              "path": "rowData.name",
+              "equals": 120001
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "name"
+        }
+      }
+    },
+    {
+      "testStep": "Edit Forecast Name",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "regression",
+        "IBGROW-38453",
+        "edit-forecast-name"
+      ],
+      "service": "coreService",
+      "uri": "editForecastName",
+      "testName": "Edit Forecast Name",
+      "queryParams": "",
+      "method": "PUT",
+      "payload": {
+        "scenario_ver_ts": "{{scenario_version}}",
+        "scenario_id":"{{scenario_id}}",
+        "forecast_name": "{{scenario_name}}-edited-{{randomNumber}}",
+        "dim_id": 12,
+        "dim_val_id": 120001
+      },
+      "assertion": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath": "message",
+            "value": "Forecast scenario name updated successfully"
+          }
+        }
+      ]
+    }
+  ]
+}
