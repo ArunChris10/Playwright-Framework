@@ -1,0 +1,100 @@
+{
+  "get_all_tags_in_the_system": [
+    {
+      "testStep": "Fetch All Attributes",
+      "environment": "dev",
+      "labels": ["smoke", "Test_Attribute"],
+      "service": "ssdmService",
+      "uri": "getAllAttributes",
+      "testName": "Get all attributes",
+      "queryParams": "",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+          {
+      "assertNotNull": {
+        "jsonPath": "$..attribute_name"
+      }
+    }
+      ],
+       "extractFirst": {
+                "fetch_all_attributes_attributeKey": "attribute_key"
+       }
+    }
+  ],
+  "create a new attribute": [
+    {
+      "testStep": "Create a new attribute",
+      "environment": "dev",
+      "labels": ["smoke", "Test_Attribute"],
+      "service": "ssdmService",
+      "uri": "getAllAttributes",
+      "testName": "Create a Attribute",
+      "queryParams": "",
+      "method": "Post",
+        "payload":{
+    "attribute_name": "Test_attribute_name",
+    "attribute_key": 0,
+    "attribute_type": "Test_attribute_type"
+  },
+      "assertions": [
+        {
+          "status": 200
+        }
+     ]
+
+    }
+  ],
+  "update an existing attribute": [
+    {
+      "testStep": "Update an existing attribute",
+      "environment": "dev",
+      "labels": ["smoke", "Test_Attribute"],
+      "service": "ssdmService",
+      "uri": "getAllAttributes",
+      "testName": "Update an Attribute",
+      "queryParams": "/{{fetch_all_attributes_attributeKey}}",
+      "method": "Patch",
+      "payload":{
+    "attribute_name": "Test_attribute_name_updated",
+    "attribute_key": "{{fetch_all_attributes_attributeKey}}",
+    "attribute_type": "Test_attribute_type_updated"
+  },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ],
+  "update an existing incorrect attribute": [
+    {
+      "testStep": "Update an existing incorrect attribute",
+      "environment": "dev",
+      "labels": ["smoke", "Test_Attribute"],
+      "service": "ssdmService",
+      "uri": "getAllAttributes",
+      "testName": "Update an incorrect Attribute",
+      "queryParams": "/5000",
+      "method": "Patch",
+      "payload":{
+    "attribute_name": "Test_attribute_name_updated",
+    "attribute_key": 0,
+    "attribute_type": "Test_attribute_type_updated"
+  },
+      "assertions": [
+      {
+        "status": 409
+      },
+      {
+        "assertEquals": {
+          "jsonPath": "detail",
+          "value": "Invalid ATTRIBUTE_KEY 5000"
+        }
+      }
+      ]
+    }
+  ]
+}
