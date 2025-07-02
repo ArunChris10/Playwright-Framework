@@ -295,7 +295,7 @@ export interface MatchedNode {
   return undefined;
 } */
 
-  export function findRelativeValueMultiCondition(data: any,conditions: { path: string; equals: any }[], extractKey: string): any {
+  export function findRelativeValueMultiCondition(data: any, conditions: { path: string; equals: any }[], extractKey: string): any {
   let consumedKeys;
   let matchedResponse: any[] = [];
   let dataMatched = false;
@@ -331,6 +331,21 @@ export interface MatchedNode {
           }
         }
     }
+  }
+
+  // Fix: If no match found or data is not an array, extract directly from root using extractKey
+  if (!Array.isArray(data) || data.length === 0 || data[0] === undefined) {
+    // Support dot notation in extractKey
+    const keys = extractKey.split('.');
+    let value = data;
+    for (const key of keys) {
+      if (value && typeof value === 'object') {
+        value = value[key];
+      } else {
+        return undefined;
+      }
+    }
+    return value;
   }
 
   if (data[0].parent){

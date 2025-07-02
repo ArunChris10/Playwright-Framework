@@ -1,51 +1,44 @@
 {
-    "validate_excel_load_data_time_grains ": [
+    "excel-load-data-api-snapshots-tests": [
         {
-            "testStep": "Fetch Scenario ID and Version from Forecast",
+            "testStep": "Get snapshots for excel",
             "environment": "qa",
             "labels": [
                 "smoke",
-                "fetchScenarios"
+                "snapshots",
+                "excelplugin"
             ],
             "service": "coreService",
-            "uri": "getForecast",
-            "testName": "Get forecast data to extract scenario ID",
+            "uri": "snapshots",
+            "testName": "Get snapshots for excel",
             "queryParams": "",
-            "method": "POST",
-            "payload": {
-                "dim_id": 12,
-                "dim_val_id": 120010,
-                "classification_id": 12,
-                "template_id": 1,
-                "filters": [],
-                "additional_filters": {}
-            },
+            "method": "GET",
             "assertions": [
                 {
                     "status": 200
                 }
             ],
             "extractFirst": {
-                "scenario_version_timestamp": "rowData.scenarioVersion",
-                "scenario_id": "rowData.scenarioId",
-                "forecast_template_id": "rowData.FTS",
-                "actual_template_id": "rowData.ATS"
+                "snapshot_id-lowercase": "snapshot_id",
+                "forecast_template_id": "forecast_template_id",
+                "actual_template_id": "actual_template_id"
             }
         },
         {
+            "testStep": "validate scenarios API 200",
             "environment": "qa",
             "labels": [
                 "smoke",
                 "excel",
-                "timegrains"
+                "Arun"
             ],
             "service": "reportingService",
             "uri": "scenarios",
-            "testName": "validate time grain excels data",
+            "testName": "validate scenarios API 200",
             "method": "POST",
             "queryParams": "",
             "payload": {
-                "node_var_names": [
+                "nodeIds": [
                     "momerchandisesales",
                     "moserviceincome",
                     "mocommissionincome",
@@ -93,9 +86,8 @@
                 ],
                 "scenarios": [
                     {
-                        "scenario_id": "{{scenario_id}}",
-                        "scenario_ver": "{{scenario_version_timestamp}}",
-                        "type": "scenarios",
+                        "scenarioId": "{{snapshot_id-lowercase}}",
+                        "type": "snapshots",
                         "forecast_template_id": "{{forecast_template_id}}",
                         "actual_template_id": "{{actual_template_id}}"
                     }
@@ -106,24 +98,34 @@
                     "SBU"
                 ],
                 "periods": [
-                    "2026"
+                    "202601",
+                    "202602",
+                    "202603",
+                    "202604",
+                    "202605",
+                    "202606",
+                    "202607",
+                    "202608",
+                    "202609",
+                    "202610",
+                    "202611",
+                    "202612"
                 ],
-                "period_type": "year",
-                "period_levels": [
-                    "half_year",
-                    "quarter",
-                    "month"
+                "aggregationLevel": "MONTH",
+                "dimensions": [
+                    "channel_l3",
+                    "channel_l2",
+                    "channel_l1"
                 ],
-                "dimensions": [],
                 "pivot_rows": [
-                    "node_var_name"
+                    "Node Name",
+                    "Channel L0",
+                    "Channel L1",
+                    "Channel L2"
                 ],
                 "pivot_columns": [
-                    "year",
-                    "half_year",
-                    "quarter",
-                    "month",
-                    "scenario_id"
+                    "Date",
+                    "Scenario Name"
                 ]
             },
             "assertions": [
@@ -132,26 +134,21 @@
                 },
                 {
                     "assertEquals": {
-                        "jsonPath1": "row_data.Node Name",
+                        "jsonPath1": "rowData.Node Name",
                         "value1": "mogrossprofit"
                     }
-                },
-                {
-                    "assertNotNull": {
-                        "jsonPath": "row_data.FY26.FY26 H2.FY26 Q4.Jan FY26"
-                    }
-                },
-                {
-                    "assertNotNull": {
-                        "jsonPath": "row_data.FY26.FY26 H2.FY26 Q4.Dec FY26"
-                    }
-                },
-                {
-                    "assertNotNull": {
-                        "jsonPath": "row_data.FY26.FY26 H2.FY26 Q4.Nov FY26"
-                    }
                 }
-            ]
+            ],
+            "extractRelative": {
+                "channel_l0": {
+                    "whereKey": "rowData.Node Name",
+                    "equals": "mogrossprofit",
+                    "extractKey": "Channel L0"
+                }
+            },
+            "validateExtract": {
+                "channel_l0": 230002
+            }
         }
     ]
 }

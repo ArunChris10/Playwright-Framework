@@ -1,0 +1,17 @@
+{
+    
+     "getDriverEndpoint": "/scenario/scenario-composition",
+     "endpoint": "/reports/get-mykpi",
+    "testData": {
+        "MERCHOPS": {
+            "lobName": "MERCHOPS",
+            "Nodes": [
+                "momerchandisesales",
+                "mowarehouseallowances",
+                "mobuyingallowances",
+                "mototalallowances"
+            ]
+           
+        }
+    }
+}

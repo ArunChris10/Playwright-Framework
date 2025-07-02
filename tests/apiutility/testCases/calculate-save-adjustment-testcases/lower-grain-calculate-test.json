@@ -1,9 +1,15 @@
 {
-  "verify calculate and save for additive nodes in a SBA": [
+  "verify calculate is working when node is at lower grain": [
     {
-      "testStep": "Get a forecast to calculate for additive nodes",
+      "testStep": "Get a forecast to calculate at lower grain",
       "environment": "qa",
-      "labels": ["smoke", "additive_calculate_constant_value", "additive_calculate_save_constant_value"],
+      "labels": [
+        "smoke",
+        "lower_grain_calculate",
+        "lower_grain_calculate_save",
+        "calculations",
+        "adjustments"
+      ],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get a forecast to calculate at lower grain",
@@ -64,12 +70,16 @@
       }
     },
     {
-      "testStep": "Editing and Calculating the additive nodes",
+      "testStep": "Editing and Calculating the node at lower grain",
       "environment": "qa",
-      "labels": ["smoke", "additive_calculate_constant_value", "additive_calculate_save_constant_value"],
+      "labels": [
+        "smoke",
+        "lower_grain_calculate",
+        "lower_grain_calculate_save"
+      ],
       "service": "coreService",
       "uri": "allocateData",
-      "testName": "Calculating the additive nodes",
+      "testName": "Calculate the node when it is  at lower grain",
       "queryParams": "",
       "method": "POST",
       "payload": {
@@ -80,63 +90,52 @@
         "preview": true,
         "edits": [
           {
-            "node_var_name": "promotionalallowances_input",
-            "node_dimension": {},
+            "node_var_name": "shippingrevenue_input",
+            "node_dimension": {
+              "department": 2,
+              "channel": 60002,
+              "location": 17001111
+            },
             "data": {
-              "{{dynamicMonth+1}}": 21
+              "{{dynamicMonth+1}}": 27
             },
             "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 30
-            }
-          },
-          {
-            "node_var_name": "othercostofgoodssold_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
               "method": 30
             }
           }
         ],
         "filters": [],
         "period_view": "month",
-        "adjustment_id": 1748928560523
+        "adjustment_id": 1748866906071
       },
       "assertions": [
         {
           "status": 200
-        },
-        {
-          "assertNotNull": {
-            "jsonPath1": "node_var_name"
-          }
         }
       ]
     },
     {
-      "testStep": "Saving the adjustment after calculating the additive nodes",
+      "testStep": "Saving the adjustment after calculating the node at lower grain",
       "environment": "qa",
-      "labels": ["smoke", "additive_calculate_save_constant_value"],
+      "labels": [
+        "smoke",
+        "lower_grain_calculate",
+        "lower_grain_calculate_save"
+      ],
       "service": "coreService",
       "uri": "saveAdjustment",
-      "testName": "Save the calculation for all the additive nodes in the SBA",
+      "testName": "Save the calculation for the node when it is  at lower grain",
       "queryParams": "",
       "method": "PATCH",
       "payload": {
         "adjustment_metadata": {
-          "adjustment_name": "demo_test_additive {{randomNumber}}",
+          "adjustment_name": "demo_test {{randomNumber}}",
           "adjustment_reason": "",
           "adjustment_type": 74,
           "is_duplicated": false,
           "is_update": false,
           "is_create": true,
-          "adjustment_edits": 16,
+          "adjustment_edits": 1,
           "scenario_id": "{{scenario_id}}",
           "scenario_version_timestamp": "{{scenarioVersion}}"
         },
@@ -148,26 +147,16 @@
           "preview": false,
           "edits": [
             {
-              "node_var_name": "promotionalallowances_input",
-              "node_dimension": {},
+              "node_var_name": "shippingrevenue_input",
+              "node_dimension": {
+                "department": 2,
+                "channel": 60002,
+                "location": 17001111
+              },
               "data": {
-                "{{dynamicMonth+1}}": 21
+                "{{dynamicMonth+1}}": 27
               },
               "allocation": {
-                "interval": null,
-                "offset": null,
-                "method": 30
-              }
-            },
-            {
-              "node_var_name": "othercostofgoodssold_input",
-              "node_dimension": {},
-              "data": {
-                "{{dynamicMonth+1}}": 21
-              },
-              "allocation": {
-                "interval": null,
-                "offset": null,
                 "method": 30
               }
             }

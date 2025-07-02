@@ -3,10 +3,16 @@
     {
       "testStep": "Get a forecast to calculate for additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_calculate", "additive_calculate_save"],
+      "labels": [
+        "smoke",
+        "additive_calculate",
+        "additive_calculate_save",
+        "calculations",
+        "adjustments"
+      ],
       "service": "coreService",
       "uri": "getForecast",
-      "testName": "Get a forecast to calculate for additive nodes",
+      "testName": "Get a forecast to calculate at lower grain",
       "queryParams": "",
       "method": "POST",
       "payload": {
@@ -66,7 +72,11 @@
     {
       "testStep": "Editing and Calculating the additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_calculate", "additive_calculate_save"],
+      "labels": [
+        "smoke",
+        "additive_calculate",
+        "additive_calculate_save"
+      ],
       "service": "coreService",
       "uri": "allocateData",
       "testName": "Calculating the additive nodes",
@@ -88,7 +98,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -100,7 +110,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -112,7 +122,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -124,7 +134,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -136,7 +146,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -148,7 +158,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -160,7 +170,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -172,7 +182,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -184,7 +194,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -196,7 +206,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -208,7 +218,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -220,7 +230,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -232,7 +242,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -244,7 +254,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -256,7 +266,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           },
           {
@@ -268,7 +278,7 @@
             "allocation": {
               "interval": null,
               "offset": null,
-              "method": 29
+              "method": 31
             }
           }
         ],
@@ -290,7 +300,10 @@
     {
       "testStep": "Saving the adjustment after calculating the additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_calculate_save"],
+      "labels": [
+        "smoke",
+        "additive_calculate_save"
+      ],
       "service": "coreService",
       "uri": "saveAdjustment",
       "testName": "Save the calculation for all the additive nodes in the SBA",
@@ -324,7 +337,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -336,7 +349,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -348,7 +361,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -360,7 +373,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -372,7 +385,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -384,7 +397,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -396,7 +409,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -408,7 +421,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -420,7 +433,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -432,7 +445,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -444,7 +457,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -456,7 +469,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -468,7 +481,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -480,7 +493,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -492,7 +505,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             },
             {
@@ -504,7 +517,7 @@
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 29
+                "method": 31
               }
             }
           ],

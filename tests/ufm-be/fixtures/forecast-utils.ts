@@ -54,7 +54,7 @@ export class ForecastUtility {
 
     //asserting the response
     let responseBody = await Utility.assertAndLog(response, isError);
-
+    console.log("Response Body to create:", responseBody);
     if (!isError) {
       expect
         .soft(responseBody.message)

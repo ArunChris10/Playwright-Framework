@@ -36,7 +36,7 @@ For any help in playwright please refer the playwright documentation below
           echo '{}' > secrets/nexus-user-storagestate.json
 
 - For the token files we don't have to add anything , this will be used during the runtime
-- For the ufm-secrets we need to add the lab accounts , please connect with any of the testers to get this data and add it into the file
+- For the ufm-secrets we need to add the lab accounts , get it from Akeyless path /Prod/WCNP/homeoffice/WMT_FIN_TECH_IBG/qa/ibg-testscripts-playwright
 
 ### Local Test Execution
 
