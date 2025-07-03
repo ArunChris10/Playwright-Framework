@@ -8,7 +8,7 @@
   "tagsToRun": [""],
   "ForceAllParallel": true,
   "ForceAllSerial": false,
-  "testFiles": [
+ "testFiles": [
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-constant-value.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-percent-rolling.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-test.json",
@@ -90,6 +90,7 @@
     "testCases/SSDM-BE/tags-tests.json",
     "testCases/SSDM-Be/attribute-tests.json"
   ],
+
   "currentDemandService": {
     "baseURL": {
       "qa": "https://scenario.qa.ibg.walmart.com",
