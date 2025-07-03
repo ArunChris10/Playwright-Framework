@@ -1,6 +1,6 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { testData, nodeCrudDialog, filterOptions } from '../testdata/fileName.json';
-import { TIMEOUT_FE_WAIT } from '../constants/timeout.json';
+import { TIMEOUT_FE_WAIT, TIMEOUT_FE_VISIBLE } from '../constants/timeout.json';
 import { LandingPageValidation } from "./landing.page";
 
 export class NodeCRUDValidation {
@@ -21,6 +21,8 @@ export class NodeCRUDValidation {
   readonly deleteTextLocator: (deleteDialog: Locator) => Locator;
   readonly topBarHeaderDiv: Locator;
   readonly baseNodeVariableName: string;
+  readonly inputsButton: Locator;
+  readonly calculationsButton: Locator;
 
   constructor(page: Page, landingPage: LandingPageValidation) {
     this.page = page;
@@ -40,6 +42,8 @@ export class NodeCRUDValidation {
     this.deleteTextLocator = (deleteDialog: Locator) => deleteDialog.locator('div:nth-child(2)');
     this.topBarHeaderDiv = page.locator('div[class*="top-bar"] > div');
     this.baseNodeVariableName = process.env.baseNodeName as string;
+    this.inputsButton = page.getByRole('button', { name: /\d+\s+Inputs/i });
+    this.calculationsButton = page.getByRole('button', { name: /\d+\s+Calculations/i });
   }
 
   /**
@@ -263,7 +267,7 @@ export class NodeCRUDValidation {
     await input.fill(""); 
 
     //const inputText = "#" + this.baseNodeVariableName;
-    const inputText = nodeCrudDialog.fields.inputText;
+    const inputText = nodeCrudDialog.fields.inputChildNode;
     let suggestionAppeared = false;
     for (let retry = 0; retry < 5; retry++) {
       await input.fill(inputText);
@@ -644,7 +648,204 @@ export class NodeCRUDValidation {
     await this.landingPage.searchBox.fill("");
     return nodeVariableName;
   }
+
+  /**
+   * Validates aggregation formula for different scenarios when user creates or edits a node of input or calculated type
+   * @param nodeType Node type: "Input" or "Calculated"
+   * @param scenario Which scenario to validate
+   * @param isCreate Whether the node is being created or edited (Optional)
+   */
+  async validateAggregationFormulaScenario(
+    nodeType: string,
+    scenario: number,
+    isCreate: boolean = true
+  ) {
+    if (nodeType === nodeCrudDialog.dialogHeaders.calculated)
+      await this.inputsButton.click(); //Deselect inputs button
+    else 
+      await this.calculationsButton.click(); //Deselect calculations button
+    
+    await this.getButtonByAriaLabel(nodeCrudDialog.buttons.more).first().click();
+    
+    if (isCreate) {
+      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.add.toLowerCase()).click();
+      await this.validateDialogHeaderVisible(nodeCrudDialog.dialogHeaders.createNode);
+      await this.selectAndValidateDropdownField(0, nodeType, true);
+    } else {
+      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.edit.toLowerCase()).click();
+      await this.validateDialogHeaderVisible(nodeType);
+    }
+    
+    let infoMsgLocator: Locator;
+    // Info message and input locator based on node type
+    if (nodeType === nodeCrudDialog.dialogHeaders.calculated)
+     infoMsgLocator = this.getByTextValue(nodeCrudDialog.messages.calculationAggregationMessage).nth(1);
+    else
+      infoMsgLocator = this.getByTextValue(nodeCrudDialog.messages.calculationAggregationMessage);
+    
+    await infoMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    expect(await infoMsgLocator.isVisible()).toBeTruthy();
+
+    // Prepare aggregation input locator
+    const aggregationInput = this.getTextInputBox(nodeCrudDialog.fields.aggregationText);
+    await aggregationInput.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+
+    let suggestionCount: number;
+
+    switch (scenario) {
+      case 1:
+        await aggregationInput.fill(nodeCrudDialog.fields.inputChildNode);
+        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+        suggestionCount = await this.suggestionBoxButtons.count();
+        expect(suggestionCount).toBeGreaterThan(0); 
+        if (suggestionCount > 0) {
+          await this.suggestionBoxButtons.first().click();
+        }
+        let currentValue = await aggregationInput.inputValue();
+        await aggregationInput.fill(`${currentValue} + 123`);
+        break;
+
+      case 2:
+        await aggregationInput.fill(nodeCrudDialog.fields.inputChildNode);
+        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+        suggestionCount = await this.suggestionBoxButtons.count();
+        expect(suggestionCount).toBeGreaterThan(0); 
+        if (suggestionCount > 0) {
+          await this.suggestionBoxButtons.first().click();
+        }
+        break;
+
+      case 3: 
+        await aggregationInput.fill('123 * 10');
+        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+        suggestionCount = await this.suggestionBoxButtons.count();
+        expect(suggestionCount).toBe(0); 
+        break;
+
+      case 4: 
+        await aggregationInput.fill('#T');
+        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+        suggestionCount = await this.suggestionBoxButtons.count();
+        expect(suggestionCount).toBe(0); 
+
+        await aggregationInput.fill('#To');
+        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+        suggestionCount = await this.suggestionBoxButtons.count();
+        expect(suggestionCount).toBe(0); 
+
+        const errorMsgLocator = this.errorMsgLocator(aggregationInput);
+        await errorMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+        const errorMsg = await errorMsgLocator.textContent();
+        expect(errorMsg?.trim()).toBe(nodeCrudDialog.messages.aggregationInvalidMessage);
+        break;
+
+      case 5: 
+        await aggregationInput.fill("");
+        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+        suggestionCount = await this.suggestionBoxButtons.count();
+        expect(suggestionCount).toBe(0); 
+        break;
+
+      default:
+        throw new Error('Invalid scenario number for aggregation type validation');
+    }
+  }
+
+  /**
+   * Validates calculation formula for different scenarios when user creates or edits a node of calculated type.
+   * @param scenario Which scenario to validate
+   * @param isCreate Whether the node is being created or edited (Optional)
+   */
+  async validateCalculationFormulaScenario(
+    scenario: number,
+    isCreate: boolean = true
+  ) {
+    await this.inputsButton.click(); //Deselect inputs button
+    await this.getButtonByAriaLabel(nodeCrudDialog.buttons.more).first().click();
+
+    if (isCreate) {
+      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.add.toLowerCase()).click();
+      await this.validateDialogHeaderVisible(nodeCrudDialog.dialogHeaders.createNode);
+      await this.selectAndValidateDropdownField(0, nodeCrudDialog.dialogHeaders.calculated, true);
+    } else {
+      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.edit.toLowerCase()).click();
+      await this.validateDialogHeaderVisible(nodeCrudDialog.dialogHeaders.calculated);
+    }
+
+    // Info message and input locator for calculation formula
+    const infoMsgLocator = this.getByTextValue(nodeCrudDialog.messages.calculationAggregationMessage).first();
+    await infoMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    expect(await infoMsgLocator.isVisible()).toBeTruthy();
+
+    // Prepare calculation input locator
+    const calculationInput = this.getTextInputBox(nodeCrudDialog.fields.calculationText);
+    await calculationInput.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+
+    let suggestionCount: number;
+    let errorMsgLocator: Locator;
+    let errorMsg: string | null;
+
+    switch (scenario) {
+      case 1:
+        await calculationInput.fill(nodeCrudDialog.fields.inputChildNode);
+        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+        suggestionCount = await this.suggestionBoxButtons.count();
+        expect(suggestionCount).toBeGreaterThan(0);
+        if (suggestionCount > 0) {
+          await this.suggestionBoxButtons.first().click();
+        }
+        let currentValue = await calculationInput.inputValue();
+        await calculationInput.fill(`${currentValue} + 123`);
+        break;
+
+      case 2:
+        await calculationInput.fill(nodeCrudDialog.fields.inputChildNode);
+        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+        suggestionCount = await this.suggestionBoxButtons.count();
+        expect(suggestionCount).toBeGreaterThan(0);
+        if (suggestionCount > 0) {
+          await this.suggestionBoxButtons.first().click();
+        }
+        break;
+
+      case 3:
+        await calculationInput.fill('123 * 10');
+        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+        suggestionCount = await this.suggestionBoxButtons.count();
+        expect(suggestionCount).toBe(0);
+        break;
+
+      case 4:
+        await calculationInput.fill('#T');
+        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+        suggestionCount = await this.suggestionBoxButtons.count();
+        expect(suggestionCount).toBe(0);
+
+        await calculationInput.fill('#To');
+        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+        suggestionCount = await this.suggestionBoxButtons.count();
+        expect(suggestionCount).toBe(0);
+
+        errorMsgLocator = this.errorMsgLocator(calculationInput);
+        await errorMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+        errorMsg = await errorMsgLocator.textContent();
+        expect(errorMsg?.trim()).toBe(nodeCrudDialog.messages.calculationInvalidMessage);
+        break;
+
+      case 5:
+        await calculationInput.fill("");
+        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+        suggestionCount = await this.suggestionBoxButtons.count();
+        expect(suggestionCount).toBe(0);
+
+        errorMsgLocator = this.errorMsgLocator(calculationInput);
+        errorMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+        errorMsg = await errorMsgLocator.textContent();
+        expect(errorMsg?.trim()).toBe(nodeCrudDialog.messages.calculationTextRequired);
+        break;
+
+      default:
+        throw new Error('Invalid scenario number for calculation type validation');
+    }
+  }
 }
-
-
-
