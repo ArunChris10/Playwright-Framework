@@ -1,0 +1,158 @@
+{
+    "validate_excel_load_data_time_grains ": [
+        {
+            "testStep": "Fetch Scenario ID and Version from Forecast",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "fetchScenarios",
+                "excelplugin"
+            ],
+            "service": "coreService",
+            "uri": "getForecast",
+            "testName": "Get forecast data to extract scenario ID",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "dim_id": 12,
+                "dim_val_id": 120010,
+                "classification_id": 12,
+                "template_id": 1,
+                "filters": [],
+                "additional_filters": {}
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ],
+            "extractFirst": {
+                "scenario_version_timestamp": "rowData.scenarioVersion",
+                "scenario_id": "rowData.scenarioId",
+                "forecast_template_id": "rowData.FTS",
+                "actual_template_id": "rowData.ATS"
+            }
+        },
+        {
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "excel",
+                "timegrains"
+            ],
+            "service": "reportingService",
+            "uri": "scenarios",
+            "testName": "validate time grain excels data",
+            "method": "POST",
+            "queryParams": "",
+            "payload": {
+                "node_var_names": [
+                    "momerchandisesales",
+                    "moserviceincome",
+                    "mocommissionincome",
+                    "moserviceandcommissionincome",
+                    "momobilephonecommissionincome",
+                    "moothermerchandiseincome",
+                    "mofinancialservicesincome",
+                    "moassociatepurchasediscount",
+                    "mocontrasales",
+                    "mootherdiscounttosales",
+                    "modiscounttosales",
+                    "moibgmlbaselinenetsales",
+                    "monetsales",
+                    "mohomeofficeinitiatedmarkdowns",
+                    "mostoreinitiatedmarkdowns",
+                    "momarkdownsnet",
+                    "moreceiptsatretail",
+                    "moreceiptsatcostwithoutcash",
+                    "mocoops",
+                    "modeals",
+                    "momonthendaccrual",
+                    "moothernonstorereceipts",
+                    "mocashcoop",
+                    "moreceiptsatcostwithcash",
+                    "moimupctwithoutcash",
+                    "moimupctwithcash",
+                    "moendinginventoryatcostinput",
+                    "mocummarginpct",
+                    "moendinginventoryatretail",
+                    "moendinginventoryatcostcalculated",
+                    "molevelofcalc",
+                    "moendinginventoryatcost",
+                    "mobeginventoryatcost",
+                    "mocostofgoodssold",
+                    "moshrink",
+                    "mopostaudit",
+                    "mobuyingallowances",
+                    "mowarehouseallowances",
+                    "moimportallowances",
+                    "moothercostofsales",
+                    "mototalallowances",
+                    "modcthrows",
+                    "mocostofsales",
+                    "mogrossprofit"
+                ],
+                "scenarios": [
+                    {
+                        "scenario_id": "{{scenario_id}}",
+                        "scenario_ver": "{{scenario_version_timestamp}}",
+                        "type": "scenarios",
+                        "forecast_template_id": "{{forecast_template_id}}",
+                        "actual_template_id": "{{actual_template_id}}"
+                    }
+                ],
+                "filters": {},
+                "hierarchy_names": [
+                    "MP_CHANNEL_LEVELS",
+                    "SBU"
+                ],
+                "periods": [
+                    "2026"
+                ],
+                "period_type": "year",
+                "period_levels": [
+                    "half_year",
+                    "quarter",
+                    "month"
+                ],
+                "dimensions": [],
+                "pivot_rows": [
+                    "node_var_name"
+                ],
+                "pivot_columns": [
+                    "year",
+                    "half_year",
+                    "quarter",
+                    "month",
+                    "scenario_id"
+                ]
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertEquals": {
+                        "jsonPath1": "row_data.Node Name",
+                        "value1": "mogrossprofit"
+                    }
+                },
+                {
+                    "assertNotNull": {
+                        "jsonPath": "row_data.FY26.FY26 H2.FY26 Q4.Jan FY26"
+                    }
+                },
+                {
+                    "assertNotNull": {
+                        "jsonPath": "row_data.FY26.FY26 H2.FY26 Q4.Dec FY26"
+                    }
+                },
+                {
+                    "assertNotNull": {
+                        "jsonPath": "row_data.FY26.FY26 H2.FY26 Q4.Nov FY26"
+                    }
+                }
+            ]
+        }
+    ]
+}

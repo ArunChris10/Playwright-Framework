@@ -1,0 +1,182 @@
+{
+  "verify calculate is working when node is at lower grain": [
+    {
+      "testStep": "Get a forecast to calculate at lower grain",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "lower_grain_calculate",
+        "lower_grain_calculate_save",
+        "calculations",
+        "adjustments"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get a forecast to calculate at lower grain",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120003,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "scenario_id": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110016
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
+        "scenarioVersion": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110016
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
+      }
+    },
+    {
+      "testStep": "Editing and Calculating the node at lower grain",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "lower_grain_calculate",
+        "lower_grain_calculate_save"
+      ],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Calculate the node when it is  at lower grain",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{scenario_id}}",
+        "dim_val_id": 110016,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "shippingrevenue_input",
+            "node_dimension": {
+              "department": 2,
+              "channel": 60002,
+              "location": 17001111
+            },
+            "data": {
+              "{{dynamicMonth+1}}": 27
+            },
+            "allocation": {
+              "method": 30
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1748866906071
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Saving the adjustment after calculating the node at lower grain",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "lower_grain_calculate",
+        "lower_grain_calculate_save"
+      ],
+      "service": "coreService",
+      "uri": "saveAdjustment",
+      "testName": "Save the calculation for the node when it is  at lower grain",
+      "queryParams": "",
+      "method": "PATCH",
+      "payload": {
+        "adjustment_metadata": {
+          "adjustment_name": "demo_test {{randomNumber}}",
+          "adjustment_reason": "",
+          "adjustment_type": 74,
+          "is_duplicated": false,
+          "is_update": false,
+          "is_create": true,
+          "adjustment_edits": 1,
+          "scenario_id": "{{scenario_id}}",
+          "scenario_version_timestamp": "{{scenarioVersion}}"
+        },
+        "allocation_request": {
+          "display_nodes": [],
+          "scenario_id": "{{scenario_id}}",
+          "dim_val_id": 110016,
+          "dim_id": 11,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "shippingrevenue_input",
+              "node_dimension": {
+                "department": 2,
+                "channel": 60002,
+                "location": 17001111
+              },
+              "data": {
+                "{{dynamicMonth+1}}": 27
+              },
+              "allocation": {
+                "method": 30
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+        },
+        "dim_val_id": 110016
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "New adjustment created successfully!!"
+          }
+        }
+      ]
+    }
+  ]
+}

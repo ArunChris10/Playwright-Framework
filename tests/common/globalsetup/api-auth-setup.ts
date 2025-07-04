@@ -1,5 +1,6 @@
 import { test as setup } from "../../common/fixtures/test-hook";
 import { Utility } from "../../common/fixtures/utils";
+import globalSetup from "../../apiutility/globalSetup";
 
 //This method gets the fake token from IBG FakeToken URL used for IBG Homepage
 setup(
@@ -18,5 +19,6 @@ setup(
     await Utility.logIt("Logging in with user -> " + process.env.ufmUser);
     await Utility.getNexusFakeToken(process.env.ufmUser + "", request);
     //await Utility.setmappings(request);
+    await globalSetup()
   }
 );

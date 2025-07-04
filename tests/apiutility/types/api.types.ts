@@ -22,6 +22,7 @@ export type AssertionEntry =
   assertions?: AssertionEntry;
   extract?: { [key: string]: string };
   extractFirst?: { [key: string]: string };
+  extractSecond?: { [key: string]: string };
   validateExtractContains?: { [key: string]: string };
   validateExtract?: { [key: string]: string };
   validateExtractToBeNotNull?: { [key: string]: string };
@@ -40,6 +41,17 @@ export type AssertionEntry =
     expectedValue: any;
     intervalMs: number;
     timeoutMs: number;
+  }; extractDelta?: {
+    [globalVar: string]: {
+      editOne: string;
+      editTwo: string;
+    };
+  };
+  calculateForecast?: {
+    [globalVar: string]: {
+      valueOne: string;
+      valueTwo: string;
+    };
   };
   extractRelative?: {
     [globalVar: string]: {
@@ -57,6 +69,7 @@ export type AssertionEntry =
       extractKey: string;
     };
   };
+  getNextMonth?: { [globalVar: string]: string };
   labels?: string[];
   runFunctions?: RunFunction[];
   extractObject?: { [key: string]: string };

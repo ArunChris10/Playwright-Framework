@@ -613,7 +613,42 @@ export class Utility {
     );
     return monthArray;
   }
+/**
+ * Generates a month array starting from the given Actuals_value in 'YYYYMM' format.
+ *
+ * @param {string} actualsValue - The starting month in 'YYYYMM' format.
+ * @returns {Promise<string[]>} Array of months in 'YYYYMM' format.
+ */
+public static async generateMonthArray(actualsValue: string): Promise<string[]> {
+  const result: string[] = [];
+  const startYear = parseInt(actualsValue.slice(0, 4), 10);
+  const startMonth = parseInt(actualsValue.slice(4), 10);
 
+  let date = new Date(startYear, startMonth - 1, 1);
+
+  // Generate previous 12 months
+  for (let i = 12; i > 0; i--) {
+    const prevDate = new Date(date.getFullYear(), date.getMonth() - i, 1);
+    const y = prevDate.getFullYear();
+    const m = (prevDate.getMonth() + 1).toString().padStart(2, "0");
+    result.push(`${y}${m}`);
+  }
+
+  // Add the current month
+  const y = date.getFullYear();
+  const m = (date.getMonth() + 1).toString().padStart(2, "0");
+  result.push(`${y}${m}`);
+
+  // Generate next 12 months
+  for (let i = 1; i <= 12; i++) {
+    const nextDate = new Date(date.getFullYear(), date.getMonth() + i, 1);
+    const y = nextDate.getFullYear();
+    const m = (nextDate.getMonth() + 1).toString().padStart(2, "0");
+    result.push(`${y}${m}`);
+  }
+
+  return result;
+}
   /**
    * @returns {string} The current fiscal year in the format "FYXX".
    */

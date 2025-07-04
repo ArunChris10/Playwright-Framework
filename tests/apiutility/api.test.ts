@@ -1,7 +1,7 @@
 import { test, request } from '@playwright/test';
 import path from 'path';
 import { globalStore } from './globalStore';
-import { findFirstValueByKeyObject, findAllValuesByKey, findRelativeValue, loadJSON, findFirstValueByKey, findRelativeValueMultiCondition, findRelativeFlexibleValue } from './utils/jsonUtils';
+import { findFirstValueByKeyObject, findAllValuesByKey, findRelativeValue, loadJSON, findNthValueByKey, findRelativeValueMultiCondition, findRelativeFlexibleValue } from './utils/jsonUtils';
 import { executeRequest } from './utils/requestExecutor';
 import {
   interpolateHeadersObject,
@@ -115,6 +115,8 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
             baseUrl = parentConfig.dataForgeService.baseURL[process.env.envName];
           } else if (step.service === "utilityService"){
             baseUrl = parentConfig.utilityService.baseURL[process.env.envName];
+          } else if (step.service === "ssdmService"){
+            baseUrl = parentConfig.ssdmService.baseURL[step.environment];
           }
 
           const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);  
@@ -140,10 +142,16 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
 
             console.log(`Response Status: ${response.status()}`);
             if (response.status() !== 204) {
+              try{
               responseBody = await response.json();
+              } catch{
+                responseBody = await response.text();
+              }
               console.log("Response Body:");
               console.log(JSON.stringify(responseBody, null, 2));
-            }
+              
+            
+          }
 
             if (step.extract) {
               for (const globalVar in step.extract) {
@@ -161,7 +169,7 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
             }
             if (step.extractFirst) {
               for (const globalVar in step.extractFirst) {
-                const value = findFirstValueByKey(responseBody, step.extractFirst[globalVar].replace(/^body\./, ''));
+                const value = findNthValueByKey(responseBody, step.extractFirst[globalVar].replace(/^body\./, ''),1);
                 if (!value) {
                   if (responseBody !== null) {
                     console.error('Response Body at failure:');
@@ -173,6 +181,15 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
                 console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
               }
             }
+            
+            if (step.extractSecond) {
+              for (const globalVar in step.extractSecond) {
+                const value = findNthValueByKey(responseBody, step.extractSecond[globalVar].replace(/^body\./, ''), 2); // Pass the nth occurrence as the third argument
+                if (!value) throw new Error(`Key ${step.extractSecond[globalVar]} not found`);
+                globalStore.setValue(globalVar, value);
+                console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
+              }
+              }
             if (step.extractRelative) {
               for (const globalVar in step.extractRelative) {
                 const { whereKey, equals, extractKey } = step.extractRelative[globalVar];
@@ -191,6 +208,34 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
                     }
                     throw new Error(`Could not find relative value where "${whereKey}" == "${equals}"`);
                 }
+              }
+            }
+            if (step.extractDelta) {
+              for (const globalVar in step.extractDelta) {
+                const { editOne, editTwo } = step.extractDelta[globalVar];
+                const valueOne = Number(interpolate(editOne));
+                const valueTwo = Number(interpolate(editTwo));
+                if (isNaN(valueOne) || isNaN(valueTwo)) {
+                  throw new Error(`extractDelta: One or both values are not numbers for ${globalVar}: editOne=${valueOne}, editTwo=${valueTwo}`);
+                }
+                const delta = valueTwo - valueOne;
+                globalStore.setValue(globalVar, delta);
+                console.log(`Extracted delta for ${globalVar}: ${delta} (editTwo: ${valueTwo} - editOne: ${valueOne})`);
+              }
+            }
+       
+            // calculateForecast: computes the sum of two extracted values and stores in globalStore
+            if (step.calculateForecast) {
+              for (const globalVar in step.calculateForecast) {
+                const { valueOne, valueTwo } = step.calculateForecast[globalVar];
+                const numOne = Number(interpolate(valueOne));
+                const numTwo = Number(interpolate(valueTwo));
+                if (isNaN(numOne) || isNaN(numTwo)) {
+                  throw new Error(`calculateForecast: One or both values are not numbers for ${globalVar}: valueOne=${numOne}, valueTwo=${numTwo}`);
+                }
+                const sum = numOne + numTwo;
+                globalStore.setValue(globalVar, sum);
+                console.log(`Calculated forecast for ${globalVar}: ${sum} (valueOne: ${numOne} + valueTwo: ${numTwo})`);
               }
             }
             if (step.extractRelativeMultipleCondition) {
@@ -247,6 +292,17 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
                 const actual = globalStore.getValue(globalKey);
                 validateExtractedValuesContains(actual, expected, globalKey);
                 console.log(`Validated ${globalKey}: actual = ${actual}, expected = ${expected}`);
+              }
+            }
+            if (step.getNextMonth) {
+              for (const globalKey in step.getNextMonth) {
+              const value = interpolate(step.getNextMonth[globalKey]);
+              const intValue = parseInt(value, 10)+1; // Increment by 1 to get the next month
+              if (isNaN(intValue)) {
+                throw new Error(`Value for ${globalKey} is not a valid integer: ${value}`);
+              }
+              globalStore.setValue(globalKey, intValue);
+              console.log(`Converted and stored ${globalKey} as integer: ${intValue}`);
               }
             }
             if (step.runFunctions) {

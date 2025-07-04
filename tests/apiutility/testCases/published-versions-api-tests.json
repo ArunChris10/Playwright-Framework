@@ -34,6 +34,32 @@
                     }
                 }
             ]
+        },
+        {
+          "testStep": "Verify test account user name is not visible if publish is initiated by test account",
+          "environment": "qa",
+          "labels": [
+            "smoke",
+            "IBGROW-38056",
+            "published-versions",
+            "test-account"
+          ],
+          "service": "coreService",
+          "uri": "getPublishedVersions",
+          "testName": "Verify in get published version api response test account user name is visible if publish is initiated by test account",
+          "queryParams": "",
+          "method": "GET",
+          "assertions": [
+            {
+              "status": 200
+            },
+            {
+              "assertContains": {
+                "jsonPath": "$.published_doc_list[*].published_by",
+                "expected": ["LB-ibg-ufm-auto"]
+              }
+            }
+          ]
         }
     ]
 }

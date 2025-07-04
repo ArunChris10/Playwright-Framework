@@ -37,9 +37,17 @@
                     "status": 200
                 }
             ],
-            "extractFirst": {
-                "getkpi2_scenario_id": "rowData.scenarioId",
-                "getkpi2_scenario_version": "rowData.scenarioVersion"
+            "extractRelative": {
+                "getkpi2_scenario_id": {
+                    "whereKey": "rowData.lineOfBusiness",
+                    "equals": 110009,
+                    "extractKey": "rowData.scenarioId"
+                },
+                "getkpi2_scenario_version": {
+                    "whereKey": "rowData.lineOfBusiness",
+                    "equals": 110009,
+                    "extractKey": "rowData.scenarioVersion"
+                }
             }
         },
         {
