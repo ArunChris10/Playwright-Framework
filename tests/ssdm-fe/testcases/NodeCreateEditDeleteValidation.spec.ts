@@ -15,11 +15,11 @@ test.describe(
       test.setTimeout(TIMEOUT_SSDM_FE);
       await signinUtility.SignIn(page);
       objpageFactory = new PageFactory(page);
-      // Create base input node and store its variable name for use in tests
+      /* Get the node variable name for each test
       process.env.baseNodeName = await objpageFactory
         .ssdmPageFactory()
         .nodeCRUDValidation()
-        .createBaseInputNodeAndGetVariableName();
+        .getNodeVariableName();*/
     });
 
     // Create, edit and delete test cases for Input node
