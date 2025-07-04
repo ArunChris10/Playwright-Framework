@@ -36,7 +36,7 @@
         "fields": {
             "nodeType": "Node Type",
             "metricName": "Metric Name",
-            "metricNameValue": "Automated Test Metric Name",
+            "metricNameValue": "COGS Plug",
             "metricId": "Metric ID",
             "valueType": "Value Type",
             "valueTypeValue": "$",
@@ -48,7 +48,7 @@
             "causalFunction": "Causal Function",
             "causalFunctionValue": "year_to_date",
             "aggregationText": "Aggregation Formula",
-            "inputChildNode": "#UFM"
+            "inputChildNode": "#cog"
         },
         "buttons": {
             "saveChanges": "Save Changes",
