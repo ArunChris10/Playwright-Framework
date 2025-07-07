@@ -1,5 +1,4 @@
 import { Locator, Page } from "@playwright/test";
-
 export class AddDriverPage {
 
 
@@ -51,6 +50,42 @@ export class AddDriverPage {
         await this.page.waitForSelector(`//div[@class="noncalculated"]//parent::*//parent::*//strong[contains(text(),"${driverName}")] `, { state: 'attached' });
         await this.page.waitForTimeout(2000);
         await this.page.getByRole('option', { name: `${driverName} input View in` }).getByLabel(`${driverName}`).first().check();
+    }
+
+    async onCheckDriverBasedOnName(driverName: string) {
+        const driverCheckbox = this.page.locator(`//label[contains(@class, 'Checkbox-module_label')]//span[contains(text(), "${driverName}")]`);
+        const isDriverVisible = await driverCheckbox.isVisible();
+    
+        if (isDriverVisible) {
+            await driverCheckbox.click();
+            console.log(`Driver "${driverName}" has been checked.`);
+        } else {
+            console.error(`Driver "${driverName}" not found or not visible.`);
+        }
+    }
+
+    async switchSelectedDriverOrder() {
+        const selectedDriversContainer = this.page.locator('//div[@class="customDriverSelected"]');
+        const firstDriverDragHandle = selectedDriversContainer.locator(
+            '//ul//li//button[contains(@class, "MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1yxmbwk")]'
+        ).first();
+        const secondDriverDragHandle = selectedDriversContainer.locator(
+            '//ul//li[last()]//button[contains(@class, "MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1yxmbwk")]'
+        ).first();
+        await firstDriverDragHandle.isVisible();
+        await secondDriverDragHandle.isVisible();
+        await firstDriverDragHandle.dragTo(secondDriverDragHandle);
+        console.log(`Switched order of drivers successfully.`);
+    }
+
+    async getFirstDriverName() {
+        const selectedDriversContainer = this.page.locator('//div[@class="customDriverSelected"]');
+        const firstDriverDragHandle = selectedDriversContainer.locator(
+            '//ul//li//div[contains(@class, "MuiListItemText-root css-1tsvksn")]'
+        ).first();
+        await firstDriverDragHandle.isVisible();
+        const firstDriverName = await firstDriverDragHandle.textContent();
+        return firstDriverName?.trim() || '';
     }
 
     async searchAndApplyDrivers(driverNames: string[]) {
