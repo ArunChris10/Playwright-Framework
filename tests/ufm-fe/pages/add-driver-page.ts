@@ -35,22 +35,6 @@ export class AddDriverPage {
         return true
     }
     /**
-     * Searches for drivers using the search input field
-     * @param searchTerm - The search term to use (defaults to 'a')
-     * @returns Promise<void>
-     */
-    async searchDrivers(searchTerm: string = "a"): Promise<void> {
-        // Click on the search drivers input field
-        await this.page.getByPlaceholder("Search drivers").click();
-
-        // Type a search term to get search results
-        await this.page.getByPlaceholder("Search drivers").fill(searchTerm);
-
-        // Wait for search results to load
-        await this.page.waitForTimeout(2000);
-    }
-
-    /**
      * Verifies that "View in driver tree" option exists in search results
      * @returns boolean indicating if "View in driver tree" option exists
      */
@@ -79,6 +63,29 @@ export class AddDriverPage {
         console.log('No "View in driver tree" option found in search results');
         return false;
     }
+    /**
+     * Verifies that recently searched drivers appear in the dropdown
+     * @param driverNames - Array of driver names to verify
+     * @returns boolean indicating if all recent search options exist
+     */
+    async verifyRecentSearchDriver(driverNames: string[]): Promise<boolean> {
+        let allDriversVisible = true;
+        
+        for (const driverName of driverNames) {
+            const recentSearchOption = this.page.getByRole('option', { name: driverName });
+            const isVisible = await recentSearchOption.isVisible();
+            
+            if (!isVisible) {
+                console.log(`Driver "${driverName}" not found in recent searches`);
+                allDriversVisible = false;
+            } else {
+                console.log(`Driver "${driverName}" found in recent searches`);
+            }
+        }
+        
+        return allDriversVisible;
+    }
+    
 
     async verifyFilterButtonIsVisible(): Promise<void> {
         await expect(this.FilterButton).toBeVisible();

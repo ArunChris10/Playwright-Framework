@@ -81,6 +81,7 @@ export class OpenCurrentForecast {
   readonly ReviewOpen: Locator;
   readonly driverExplorationTab: Locator;
   readonly dropdownGenericLoader: Locator;
+  readonly AlternateDriverButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -99,6 +100,7 @@ export class OpenCurrentForecast {
     this.duplicateViewMessage = page.getByText('This name is already in use. Please choose a different one.')
     this.addDriversButton = page.getByText("Add Drivers")
     this.DriversButton = page.locator("//button[text()='Drivers']")
+    this.AlternateDriverButton = page.getByLabel('Please save your changes');
     this.forecastInputCell =
       '//div[contains(@col-id,"forecast") and @role="gridcell"]';
     this.allocationMethodDropDown = this.page.locator(
@@ -201,6 +203,13 @@ export class OpenCurrentForecast {
       }
     }
   }
+  /**
+   * Clicks on the alternate driver button when save changes dialog appears
+   */
+  async clickOnAlternateDriverButton(): Promise<void> {
+    await this.AlternateDriverButton.click();
+  }
+
   
   async clickTargetForecastDropdown(targetSelection: string, isCurrentTarget: boolean) {
     const secondDropdown = this.page.locator(
@@ -293,8 +302,15 @@ export class OpenCurrentForecast {
     await this.DriversButton.isVisible() ? await this.DriversButton.click() : await this.chooseDifferentDriverButton.click()
   }
   async clickOnChooseDriver() {
-    await this.DriversButton.waitFor({ state: "visible" });
-    await this.DriversButton.click();
+    try {
+      // Try the regular driver button first
+      await this.DriversButton.waitFor({ state: 'visible', timeout: 5000 });
+      await this.DriversButton.click();
+    } catch (error) {
+      // If regular button fails, try the alternate button
+      console.log('Regular driver button not available, trying alternate button');
+      await this.clickOnAlternateDriverButton();
+    }
   }
 
   async clickOnDriver(): Promise<void> {
