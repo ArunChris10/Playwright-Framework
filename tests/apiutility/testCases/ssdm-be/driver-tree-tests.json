@@ -1,0 +1,247 @@
+{
+  "Get_all_Driver_Trees_in_the_system": [
+    {
+      "testStep": "Fetch All Driver Trees",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Trees","Regression",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Get all driver trees",
+      "queryParams": "",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertNotNull": {
+            "jsonPath": "driver_tree_key"
+          }
+        },
+        {
+          "assertNotNull": {
+            "jsonPath1": "driver_tree_name"
+          }
+        },
+        {
+          "assertNotNull": {
+            "jsonPath2": "driver_tree_description"
+          }
+        }
+      ]
+    }
+  ],
+  "Create_Get_Update_Delete_a_Driver_Tree_in_the_system": [
+    {
+      "testStep": "Create A Driver Tree",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Trees","Regression",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "createDriverTree",
+      "testName": "Create a driver trees",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "driver_tree_name": "create_driver_tree_name",
+        "driver_tree_description": "create_driver_tree_description"
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertNotNull": {
+            "jsonPath": "driver_tree_key"
+          }
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "driver_tree_name",
+            "value": "create_driver_tree_name"
+          }
+        },
+        {
+          "assertEquals": {
+            "jsonPath2": "driver_tree_description",
+            "value": "create_driver_tree_description"
+          }
+        }
+      ],
+      "extractFirst": {
+        "created_driver_key": "driver_tree_key"
+      }
+    },
+    {
+      "testStep": "Get A Specific Driver Tree for a valid Key",
+      "environment": "qa",
+      "labels": ["smoke", "Driver_Trees","Regression"],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Get a driver trees",
+      "queryParams": "{{created_driver_key}}",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+        {"assertEquals": {
+        "jsonPath": "driver_tree_key",
+        "value": "{{created_driver_key}}"
+      }
+    },
+    {
+      "assertEquals": {
+        "jsonPath10": "driver_tree_name",
+        "value": "create_driver_tree_name"
+      }
+    },
+  {
+    "assertEquals": {
+        "jsonPath11": "driver_tree_description",
+        "value": "create_driver_tree_description"
+      }
+    }
+
+  ]
+},
+    {
+      "testStep": "Get A Specific Driver Tree for an invalid Key",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Trees",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Get a driver tree with invalid Driver Tree Key",
+      "queryParams": "2000",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath3": "detail",
+            "value": "Invalid DRIVER_TREE_KEY 2000"
+          }
+        }
+        ]
+        },
+        {
+          "testStep": "Update A specific Driver Tree for a valid Key",
+          "environment": "qa",
+          "labels": [
+            "smoke",
+            "Driver_Trees",
+            "Regression"
+          ],
+          "service": "ssdmService",
+          "uri": "getAllDriverTrees",
+          "testName": "Update a driver tree with valid Driver Tree Key",
+          "queryParams": "{{created_driver_key}}",
+          "method": "PATCH",
+          "payload": {
+            "driver_tree_name": "create_driver_tree_name_updated",
+            "driver_tree_description": "create_driver_tree_description_updated"
+          },
+          "assertions": [
+            {
+              "status": 200
+            },
+            {
+              "assertEquals": {
+                "jsonPath8": "driver_tree_name",
+                "value": "create_driver_tree_name_updated"
+              }
+            },
+            {
+              "assertEquals": {
+                "jsonPath9": "driver_tree_description",
+                "value": "create_driver_tree_description_updated"
+              }
+            }
+          ]
+        },
+        {
+          "testStep": "Update A specific Driver Tree for an invalid Key",
+          "environment": "qa",
+          "labels": [
+            "smoke",
+            "Driver_Trees","Regression"
+          ],
+          "service": "ssdmService",
+          "uri": "getAllDriverTrees",
+          "testName": "Update a driver tree with invalid Driver Tree Key",
+          "queryParams": "2000",
+          "method": "PATCH",
+          "payload": {
+            "driver_tree_name": "create_driver_tree_name_updated",
+            "driver_tree_description": "create_driver_tree_description_updated"
+          },
+          "assertions": [
+            {
+              "status": 409
+            },
+            {
+              "assertEquals": {
+                "jsonPath6": "detail",
+                "value": "Invalid DRIVER_TREE_KEY 2000"
+              }
+            }
+          ]
+        },
+        {
+          "testStep": "Delete A specific Driver Tree for a valid Key",
+          "environment": "qa",
+          "labels": [
+            "smoke",
+            "Driver_Trees","Regression"
+          ],
+          "service": "ssdmService",
+          "uri": "getAllDriverTrees",
+          "testName": "Delete a driver tree with valid Driver Tree Key",
+          "queryParams": "{{created_driver_key}}",
+          "method": "DELETE",
+          
+          "assertions": [
+            {
+              "status": 200
+            }
+          ]
+        },
+        {
+          "testStep": "Delete A specific Driver Tree for an invalid Key",
+          "environment": "qa",
+          "labels": [
+            "smoke",
+            "Driver_Trees","Regression"
+          ],
+          "service": "ssdmService",
+          "uri": "getAllDriverTrees",
+          "testName": "Delete a driver tree with invalid Driver Tree Key",
+          "queryParams": "2000",
+          "method": "DELETE",
+          "assertions": [
+            {
+              "status": 409
+            },
+            {
+              "assertEquals": {
+                "jsonPath7": "detail",
+                "value": "Invalid DRIVER_TREE_KEY 2000"
+              }
+            }
+          ]
+        }   
+  ]
+}
