@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 export class AddDriverPage {
 
 
@@ -10,6 +10,7 @@ export class AddDriverPage {
     readonly applyDrivers: Locator;
     readonly driverSearchResult: string;
     readonly driversModalHeader: Locator;
+    readonly FilterButton: Locator
 
     constructor(page: Page) {
         this.page = page;
@@ -19,6 +20,7 @@ export class AddDriverPage {
         this.applyDrivers = page.getByText('Apply Drivers')
         this.driverSearchResult = 'span[data-testid="remainingWord"]'
         this.driversModalHeader = this.page.locator('.modalTitle', { hasText: 'Add drivers' })
+        this.FilterButton = page.getByTestId('filter-chip');
 
     }
 
@@ -31,6 +33,9 @@ export class AddDriverPage {
     async waitForKPITableLoad() {
         await this.page.waitForSelector('[data-testid="forecast-table"]', { state: 'visible', timeout: 100000 });
         return true
+    }
+    async verifyFilterButtonIsVisible(): Promise<void> {
+        await expect(this.FilterButton).toBeVisible();
     }
 
     async inputDriverName(driverName: string) {
