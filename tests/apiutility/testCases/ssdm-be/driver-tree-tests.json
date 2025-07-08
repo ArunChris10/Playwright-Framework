@@ -41,7 +41,7 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "Driver_Trees","Regression",
+        "Driver_Trees",
         "Regression"
       ],
       "service": "ssdmService",
@@ -222,10 +222,7 @@
         {
           "testStep": "Delete A specific Driver Tree for an invalid Key",
           "environment": "qa",
-          "labels": [
-            "smoke",
-            "Driver_Trees","Regression"
-          ],
+          "labels": ["smoke","Driver_Trees","Regression"],
           "service": "ssdmService",
           "uri": "getAllDriverTrees",
           "testName": "Delete a driver tree with invalid Driver Tree Key",
