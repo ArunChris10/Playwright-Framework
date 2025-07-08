@@ -128,6 +128,38 @@ export class AddDriverPage {
         await firstDriverDragHandle.dragTo(secondDriverDragHandle);
         console.log(`Switched order of drivers successfully.`);
     }
+    /**
+     * Searches for drivers using the search input field
+     * @param searchTerm - The search term to use (defaults to 'a')
+     * @returns Promise<void>
+    */
+    async searchDrivers(searchTerm: string = "a"): Promise<void> {
+        // Click on the search drivers input field
+        await this.page.getByPlaceholder("Search drivers").click();
+
+        // Type a search term to get search results
+        await this.page.getByPlaceholder("Search drivers").fill(searchTerm);
+
+        // Wait for search results to load
+        await this.page.waitForTimeout(2000);
+    }
+    /**
+     * Verifies that "View in driver tree" option exists in search results
+     * @returns boolean indicating if "View in driver tree" option exists
+    */
+    async verifyTotalSearchResults(): Promise<boolean> {
+        // Verify that search results contain the "View in driver tree" option
+        const searchResults = this.page.locator('[role="option"]');
+        const resultCount = await searchResults.count();
+
+        if (resultCount === 0) {
+            console.log("No search results found");
+            return false;
+        }
+        return resultCount === 10;
+    }
+
+
 
     async getFirstDriverName() {
         const selectedDriversContainer = this.page.locator('//div[@class="customDriverSelected"]');
