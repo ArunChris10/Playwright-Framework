@@ -34,6 +34,52 @@ export class AddDriverPage {
         await this.page.waitForSelector('[data-testid="forecast-table"]', { state: 'visible', timeout: 100000 });
         return true
     }
+    /**
+     * Searches for drivers using the search input field
+     * @param searchTerm - The search term to use (defaults to 'a')
+     * @returns Promise<void>
+     */
+    async searchDrivers(searchTerm: string = "a"): Promise<void> {
+        // Click on the search drivers input field
+        await this.page.getByPlaceholder("Search drivers").click();
+
+        // Type a search term to get search results
+        await this.page.getByPlaceholder("Search drivers").fill(searchTerm);
+
+        // Wait for search results to load
+        await this.page.waitForTimeout(2000);
+    }
+
+    /**
+     * Verifies that "View in driver tree" option exists in search results
+     * @returns boolean indicating if "View in driver tree" option exists
+     */
+    async verifyViewInDriverTreeOption(): Promise<boolean> {
+        // Verify that search results contain the "View in driver tree" option
+        const searchResults = this.page.locator('[role="option"]');
+        const resultCount = await searchResults.count();
+
+        if (resultCount === 0) {
+            console.log("No search results found");
+            return false;
+        }
+
+        // Check if any of the search results have the "View in driver tree" link
+        for (let i = 0; i < resultCount; i++) {
+            const result = searchResults.nth(i);
+            const viewInDriverTreeLink = result.getByTestId("viewInDriverTreeLink");
+            if (await viewInDriverTreeLink.isVisible()) {
+                console.log(
+                    `Found "View in driver tree" option in search result ${i + 1}`
+                );
+                return true;
+            }
+        }
+
+        console.log('No "View in driver tree" option found in search results');
+        return false;
+    }
+
     async verifyFilterButtonIsVisible(): Promise<void> {
         await expect(this.FilterButton).toBeVisible();
     }
