@@ -77,7 +77,8 @@
     "testCases/forecast/create-scenario-max-limit-test.json",
     "testCases/visual-indicator-api.json",
     "testCases/SSDM-BE/tags-tests.json",
-    "testCases/SSDM-Be/attribute-tests.json"
+    "testCases/SSDM-Be/attribute-tests.json",
+    "testCases/ssdm-node-edge-publish-latest-test.json"
   ],
   "currentDemandService": {
     "baseURL": {
