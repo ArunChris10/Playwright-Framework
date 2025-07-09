@@ -177,6 +177,23 @@ export class AddDriverPage {
         const firstDriverName = await firstDriverDragHandle.textContent();
         return firstDriverName?.trim() || '';
     }
+    /**
+     * Verifies that search results are immediately available in the driver search interface
+     * 
+     * @returns Promise<boolean> - Returns true if search results are found (search starts immediately),
+     *                            false if no results are found (search requires user input)
+     * 
+     */
+    async verifySearchStartsImmediately(): Promise<Boolean> {
+        // Locate all search result options in the dropdown/list
+        const searchResults = this.page.locator('[role="option"]');
+
+        // Count the number of search results present
+        const resultCount = await searchResults.count();
+
+        // Return true if results exist (search starts immediately), false otherwise
+        return resultCount !== 0;
+    }
 
     async searchAndApplyDrivers(driverNames: string[]) {
         for (const driverName of driverNames) {
