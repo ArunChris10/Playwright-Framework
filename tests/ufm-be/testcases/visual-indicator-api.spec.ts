@@ -15,16 +15,14 @@ test.describe(
       test(`FOR USER: ${user} Verify if the API is returning Actuals, forecast, and extrapolated forecast dates`, async ({
         request,
       }) => {
-        const nexusTokens = await Utility.getNexusFakeToken(user, request);
+
         // Make a GET request for the visual-indicator
         const responseBody = await test.step(
           "Make a GET request for getting updated dates",
           async () => {
             Utility.logIt("Make a GET request for getting updated dates");
             const response = await request.get(endpointURL, {
-              headers: {
-                Authorization: nexusTokens,
-              },
+
               params: { classification_id: testdatafile.classification_id },
             });
             await Utility.assertAndLog(response);
@@ -37,12 +35,12 @@ test.describe(
           const datasetTypes = responseBody.map((obj: any) => obj.dataset_type);
           const ids = responseBody.map((obj: any) => obj.id);
 
-        // Check for dataset_type
+          // Check for dataset_type
           testdatafile.visual_indicator_response.forEach((expected) => {
             expect(datasetTypes).toContainEqual(expected.dataset_type);
           });
 
-        // Check for ids
+          // Check for ids
           testdatafile.visual_indicator_response.forEach((expected) => {
             expect(ids).toContainEqual(expected.id);
           });
