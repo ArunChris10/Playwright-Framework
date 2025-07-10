@@ -14,6 +14,8 @@ import { ViewTimestampFunctionality } from "./actual-forecast-timestamp.page";
 import { AsyncPublishFunctionality } from "./publish-async-process.page";
 import { LandingPageValidation } from "./landing.page";
 import { NodeCRUDValidation } from "./node-crud-operations.page";
+import { CreateNewNode } from "./newnode.page";
+import { DriverTreeSummary } from "./driverTreeSummary.page";
 
 export class SSDMPageFactory {
   private readonly page: Page;
@@ -80,5 +82,13 @@ export class SSDMPageFactory {
 
   nodeCRUDValidation() {
     return new NodeCRUDValidation(this.page, this.landingPage());
+  }
+
+  createNewNodeModal(){
+    return new CreateNewNode(this.page);
+  }
+
+  driverTreeSummary() {
+    return new DriverTreeSummary(this.page);
   }
 }
