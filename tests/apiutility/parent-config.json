@@ -9,7 +9,7 @@
   "ForceAllParallel": true,
   "ForceAllSerial": false,
  "testFiles": [
-   "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-constant-value.json",
+     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-constant-value.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-percent-rolling.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-test.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-non-additve.json",
@@ -90,7 +90,8 @@
     "testCases/SSDM-BE/tags-tests.json",
     "testCases/SSDM-Be/attribute-tests.json",
     "testCases/SSDM-Be/driver-tree-tests.json",
-    "testCases/SSDM-Be/nodes-tests.json"
+    "testCases/SSDM-Be/nodes-tests.json",
+    "testCases/SSDM-Be/node-source-tests.json"
   ],
 
   "currentDemandService": {
@@ -195,7 +196,9 @@
       "getAllAttributes" : "/api/attributes",
       "getAllDriverTrees" :"/api/driver-trees/",
       "createDriverTree": "/api/driver-trees",
-      "getAllNodes" :"/api/nodes"
+      "getAllNodes" :"/api/nodes",
+      "nodeSource" : "/api/nodes"
+
 
     }
 }
