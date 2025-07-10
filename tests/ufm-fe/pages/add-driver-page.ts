@@ -29,6 +29,21 @@ export class AddDriverPage {
         await this.page.waitForSelector(this.driverNodeTree)
         return true
     }
+    /**
+     * Clicks on the filter chip button to open filter options
+     */
+    async clickFilterChip(): Promise<void> {
+        await this.FilterButton.click();
+    }
+
+    /**
+     * Applies the default filter selections and closes the filter panel
+     */
+    async applyDefaultFilters(): Promise<void> {
+        // Click on apply btn to close the filter chip with the default choices
+        await this.page.getByTestId('apply-btn').click();
+        await this.page.waitForTimeout(2000);
+    }
 
     async waitForKPITableLoad() {
         await this.page.waitForSelector('[data-testid="forecast-table"]', { state: 'visible', timeout: 100000 });
