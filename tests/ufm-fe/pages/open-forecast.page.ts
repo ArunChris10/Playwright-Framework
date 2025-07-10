@@ -947,6 +947,20 @@ async clickConsumablesChip() {
     return true;
   }
 
+  async switchKPILandingSelectedDriverOrder() {
+    const selectedDriversContainer = this.page.locator('//div[@class="kpiForecastTable"]');
+    const firstDriverDragHandle = selectedDriversContainer.locator(
+        '//div[contains(@class, "ag-drag-handle ag-row-drag")]'
+    ).first();
+    
+    const secondDriverDragHandle = selectedDriversContainer.locator(
+        '//div[contains(@class, "ag-drag-handle ag-row-drag")]'
+    ).last();
+    await firstDriverDragHandle.isVisible();
+    await secondDriverDragHandle.isVisible();
+    await firstDriverDragHandle.dragTo(secondDriverDragHandle);
+    console.log(`Switched order of drivers successfully.`);
+  }
 
   async verifyChevronIsReset() {
     await this.firstChevronIcon.waitFor({ state: 'visible' });

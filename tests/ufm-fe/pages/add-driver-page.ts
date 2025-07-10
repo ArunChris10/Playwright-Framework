@@ -165,9 +165,7 @@ export class AddDriverPage {
         }
         return resultCount === 10;
     }
-
-
-
+    
     async getFirstDriverName() {
         const selectedDriversContainer = this.page.locator('//div[@class="customDriverSelected"]');
         const firstDriverDragHandle = selectedDriversContainer.locator(
@@ -177,13 +175,24 @@ export class AddDriverPage {
         const firstDriverName = await firstDriverDragHandle.textContent();
         return firstDriverName?.trim() || '';
     }
+    
+    async getKPILandingFirstDriverName() {
+        const selectedDriversContainer = this.page.locator('//div[@class="kpiForecastTable"]');
+        const firstDriverDragHandle = selectedDriversContainer.locator(
+            '//div[contains(@class, "DimensionCellRenderer_cellContainer__RQDdD")]'
+        ).first();
+        await firstDriverDragHandle.isVisible();
+        const firstDriverName = await firstDriverDragHandle.textContent();
+        return firstDriverName?.trim() || '';
+    }
+
     /**
      * Verifies that search results are immediately available in the driver search interface
      * 
      * @returns Promise<boolean> - Returns true if search results are found (search starts immediately),
      *                            false if no results are found (search requires user input)
      * 
-     */
+    */
     async verifySearchStartsImmediately(): Promise<Boolean> {
         // Locate all search result options in the dropdown/list
         const searchResults = this.page.locator('[role="option"]');
@@ -207,6 +216,6 @@ export class AddDriverPage {
     }
 
     async clickOnApplyDrivers() {
-        await this.applyDrivers.click()
+        await this.applyDrivers.click();
     }
 }
