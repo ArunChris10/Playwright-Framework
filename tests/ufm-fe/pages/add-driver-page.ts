@@ -4,7 +4,7 @@ export class AddDriverPage {
 
 
     readonly page: Page;
-    readonly searchDriverField: string;
+    readonly searchDriverField: Locator;
     readonly driverNodeTree: string;
     readonly searchIcon: Locator;
     readonly applyDrivers: Locator;
@@ -14,7 +14,7 @@ export class AddDriverPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.searchDriverField = '//input[@placeholder="Search drivers"]'
+        this.searchDriverField = this.page.getByPlaceholder("Search drivers");
         this.driverNodeTree = '//div[contains(@class,"driverTreeNode")]'
         this.searchIcon = page.locator("//button[@aria-label='icon']")
         this.applyDrivers = page.getByText('Apply Drivers')
@@ -107,7 +107,7 @@ export class AddDriverPage {
     }
 
     async inputDriverName(driverName: string) {
-        await this.page.locator(this.searchDriverField).fill(driverName).then(async () => {
+        await this.searchDriverField.fill(driverName).then(async () => {
             await this.page.waitForTimeout(1000)
             await this.page.keyboard.press('Enter')
         })
@@ -136,6 +136,87 @@ export class AddDriverPage {
             console.error(`Driver "${driverName}" not found or not visible.`);
         }
     }
+    /**
+     * Clicks on the "View in Driver Tree" option for the first search result
+     * @returns Promise<string> - Returns the name of the driver for which "View in Driver Tree" was clicked
+     */
+    async clickOnViewInDriverTreeForFirstOption(): Promise<string> {
+        const searchResults = this.page.locator('[role="option"]');
+
+        const firstResult = searchResults.first();
+        
+        // Get the driver name from the first result
+        const viewInDriverTreeLink = firstResult.getByTestId('viewInDriverTreeLink');
+        await viewInDriverTreeLink.click();
+        
+        // Wait for the tree to load
+        await this.page.waitForTimeout(2000);
+
+        const driverName = await this.searchDriverField.inputValue();
+
+        if (!driverName) {
+            throw new Error("Could not get driver name from search field after clicking View in Driver Tree");
+        }
+        
+        console.log(`Extracted driver name from search field: "${driverName}"`);
+        return driverName.trim();
+        
+    }
+
+    /**
+     * Clicks on the driver label in the driver tree after viewing in tree
+     * @param driverName - The name of the driver to click
+     */
+    async clickOnDriverInTree(driverName: string): Promise<void> {
+        const driverLabel = this.page.locator('label').filter({ hasText: driverName });
+        await driverLabel.click();
+        console.log(`Clicked on driver "${driverName}" in the tree`);
+    }
+
+    /**
+     * Searches for drivers and clicks "View in Driver Tree" for the first result
+     * @param searchTerm - The search term to use
+     * @returns Promise<string> - Returns the name of the driver
+     */
+    async searchAndViewFirstDriverInTree(searchTerm: string): Promise<string> {
+        // Click on search field and enter search term
+        await this.searchDriverField.click();
+        await this.searchDriverField.fill(searchTerm);
+        
+        // Wait for search results to load
+        await this.page.waitForTimeout(2000);
+        
+        // Click "View in Driver Tree" for the first result and return driver name
+        const driverName = await this.clickOnViewInDriverTreeForFirstOption();
+
+        
+        return driverName;
+    }
+
+    /**
+     * Verifies that recently searched drivers appear when clicking the search box
+     * @returns Promise<boolean> - Returns true if recent searches are visible
+     */
+    async verifyRecentSearchesOnSearchBoxClick(): Promise<boolean> {
+        // Click on the search drivers input field
+        await this.searchDriverField.click();
+        
+        // Wait for dropdown to appear
+        await this.page.waitForTimeout(1000);
+        
+        // Check if there are any options visible (recent searches)
+        const searchOptions = this.page.locator('[role="option"]');
+        const optionCount = await searchOptions.count();
+        
+        if (optionCount > 0) {
+            console.log(`Found ${optionCount} recent search options`);
+            return true;
+        } else {
+            console.log("No recent search options found");
+            return false;
+        }
+    }
+
 
     async switchSelectedDriverOrder() {
         const selectedDriversContainer = this.page.locator('//div[@class="customDriverSelected"]');
@@ -157,10 +238,10 @@ export class AddDriverPage {
     */
     async searchDrivers(searchTerm: string = "a"): Promise<void> {
         // Click on the search drivers input field
-        await this.page.getByPlaceholder("Search drivers").click();
+        await this.searchDriverField.click();
 
         // Type a search term to get search results
-        await this.page.getByPlaceholder("Search drivers").fill(searchTerm);
+        await this.searchDriverField.fill(searchTerm);
 
         // Wait for search results to load
         await this.page.waitForTimeout(2000);
