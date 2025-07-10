@@ -49,12 +49,10 @@ lobList.forEach((lobName) => {
           await test.step("Make a Post Request for getting the forecast data", async () => {
             Utility.logIt("Make a Post Request for getting the forecast data");
             const endpointURL = `${process.env.apiBaseURLUFM}${getKpiData.endpoint}`;
-            let nexusTokens = await Utility.getNexusFakeToken(user, request);
             const inputNodes = await UfmUtility.getDriverList(
               lobName,
               "Input",
               request,
-              nexusTokens
             );
             let kpiPayload = await UfmUtility.kpiPayload(
               lobName,
@@ -64,9 +62,7 @@ lobList.forEach((lobName) => {
               inputNodes
             );
             apiResponse = await request.post(endpointURL, {
-              headers: {
-                Authorization: nexusTokens,
-              },
+
               data: kpiPayload,
             });
           });

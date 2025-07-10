@@ -37,30 +37,13 @@ async function deleteAllForecastsForAutomationUser() {
   let request = await createRequestContext(parentConfig, interpolatedHeader);
   // Use a static list of LOBs if commonData.lob_names does not exist
   const allLobs = [
-  "CONSOLIDATED DEMAND",
-  "INSTORE AND OTHER",
-  "SCHEDULED",
-  "UNSCHEDULED AND CORE",
-  "IB TRANSPORTATION",
-  "OB TRANSPORTATION",
-  "E2E DELIVERY",
-  "INNOVATION & AUTOMATION",
-  "CORE_SERVICES",
-  "LAST MILE DELIVERY",
-  "FULFILLMENT",
-  "SEGMENT",
-  "HOME OFFICE",
-  "OPERATIONS",
-  "REAL ESTATE",
-  "FUEL",
-  "RX",
-  "OPTICAL",
-  "ECOMMERCE",
-  "MARKETPLACE",
-  "CONNECT",
-  "MARKETING",
-  "DATA VENTURES"
-];// Add all relevant LOB names here
+    "CONSOLIDATED DEMAND",
+    "INSTORE AND OTHER",
+    "SCHEDULED",
+    "UNSCHEDULED AND CORE",
+    "MARKETPLACE",
+    "MERCHOPS"
+  ];// Add all relevant LOB names here
   for (let i = 0; i < allLobs.length; i++) {
     try {
       await ForecastUtility.deleteAllforecastofUser(
