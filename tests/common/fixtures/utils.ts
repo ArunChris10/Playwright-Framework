@@ -206,14 +206,9 @@ export class Utility {
   static async setmappings(request) {
     const endpointURL = `${process.env.apiBaseURLUFM}/metadata/dimensions/mappings`;
     this.logIt(endpointURL);
-    let nexusTokens = await Utility.getNexusFakeToken(
-      process.env.ufmUser + "",
-      request
-    );
+
     const responseData = await request.get(endpointURL, {
-      headers: {
-        Authorization: nexusTokens,
-      },
+
       params: {
         dimension_group_id: 7,
       },
@@ -613,42 +608,42 @@ export class Utility {
     );
     return monthArray;
   }
-/**
- * Generates a month array starting from the given Actuals_value in 'YYYYMM' format.
- *
- * @param {string} actualsValue - The starting month in 'YYYYMM' format.
- * @returns {Promise<string[]>} Array of months in 'YYYYMM' format.
- */
-public static async generateMonthArray(actualsValue: string): Promise<string[]> {
-  const result: string[] = [];
-  const startYear = parseInt(actualsValue.slice(0, 4), 10);
-  const startMonth = parseInt(actualsValue.slice(4), 10);
+  /**
+   * Generates a month array starting from the given Actuals_value in 'YYYYMM' format.
+   *
+   * @param {string} actualsValue - The starting month in 'YYYYMM' format.
+   * @returns {Promise<string[]>} Array of months in 'YYYYMM' format.
+   */
+  public static async generateMonthArray(actualsValue: string): Promise<string[]> {
+    const result: string[] = [];
+    const startYear = parseInt(actualsValue.slice(0, 4), 10);
+    const startMonth = parseInt(actualsValue.slice(4), 10);
 
-  let date = new Date(startYear, startMonth - 1, 1);
+    let date = new Date(startYear, startMonth - 1, 1);
 
-  // Generate previous 12 months
-  for (let i = 12; i > 0; i--) {
-    const prevDate = new Date(date.getFullYear(), date.getMonth() - i, 1);
-    const y = prevDate.getFullYear();
-    const m = (prevDate.getMonth() + 1).toString().padStart(2, "0");
+    // Generate previous 12 months
+    for (let i = 12; i > 0; i--) {
+      const prevDate = new Date(date.getFullYear(), date.getMonth() - i, 1);
+      const y = prevDate.getFullYear();
+      const m = (prevDate.getMonth() + 1).toString().padStart(2, "0");
+      result.push(`${y}${m}`);
+    }
+
+    // Add the current month
+    const y = date.getFullYear();
+    const m = (date.getMonth() + 1).toString().padStart(2, "0");
     result.push(`${y}${m}`);
+
+    // Generate next 12 months
+    for (let i = 1; i <= 12; i++) {
+      const nextDate = new Date(date.getFullYear(), date.getMonth() + i, 1);
+      const y = nextDate.getFullYear();
+      const m = (nextDate.getMonth() + 1).toString().padStart(2, "0");
+      result.push(`${y}${m}`);
+    }
+
+    return result;
   }
-
-  // Add the current month
-  const y = date.getFullYear();
-  const m = (date.getMonth() + 1).toString().padStart(2, "0");
-  result.push(`${y}${m}`);
-
-  // Generate next 12 months
-  for (let i = 1; i <= 12; i++) {
-    const nextDate = new Date(date.getFullYear(), date.getMonth() + i, 1);
-    const y = nextDate.getFullYear();
-    const m = (nextDate.getMonth() + 1).toString().padStart(2, "0");
-    result.push(`${y}${m}`);
-  }
-
-  return result;
-}
   /**
    * @returns {string} The current fiscal year in the format "FYXX".
    */
@@ -778,17 +773,17 @@ public static async generateMonthArray(actualsValue: string): Promise<string[]> 
   }
 
 
-    /**
-   * Generates an array of months in 'YYYYMM' format around the current month.
-   *
-   * @param monthsBefore - Number of months before the current month to include (default: 36)
-   * @param monthsAfter - Number of months after the current month to include (default: 18)
-   * @param currentDate - The reference date (default: now)
-   * @returns {Promise<string[]>} Array of months in 'YYYYMM' format, from (current - monthsBefore) to (current + monthsAfter)
-   *
-   * Example: If currentDate is June 2025, monthsBefore is 36, and monthsAfter is 18,
-   * the result will start 36 months before June 2025 and end 18 months after, inclusive.
-   */
+  /**
+ * Generates an array of months in 'YYYYMM' format around the current month.
+ *
+ * @param monthsBefore - Number of months before the current month to include (default: 36)
+ * @param monthsAfter - Number of months after the current month to include (default: 18)
+ * @param currentDate - The reference date (default: now)
+ * @returns {Promise<string[]>} Array of months in 'YYYYMM' format, from (current - monthsBefore) to (current + monthsAfter)
+ *
+ * Example: If currentDate is June 2025, monthsBefore is 36, and monthsAfter is 18,
+ * the result will start 36 months before June 2025 and end 18 months after, inclusive.
+ */
   public static async generateMonthsAroundCurrent(
     monthsBefore: number = 24,
     monthsAfter: number = 30,
@@ -821,7 +816,7 @@ public static async generateMonthArray(actualsValue: string): Promise<string[]> 
    * @param currentDate - The reference date (default: now)
    * @returns {Promise<string[]>} Array of 12 months in 'YYYYMM' format, starting from the current month
    */
-  public static async generateNextMonths(tillMonth,currentDate: Date = new Date()): Promise<string[]> {
+  public static async generateNextMonths(tillMonth, currentDate: Date = new Date()): Promise<string[]> {
     let result: string[] = [];
     // Increment year by 1 for the starting date
     let date = new Date(currentDate.getFullYear() + 1, currentDate.getMonth(), 1);

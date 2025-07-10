@@ -1,5 +1,5 @@
 {
-    "supplyChainDefaultDriver": {
-        "names": ["Alternate Hierarchies", "Driver Tree"]
+    "merchOpsDefaultDriver": {
+        "names": ["Driver Tree", "Alternate Hierarchies"]
     }
 }
