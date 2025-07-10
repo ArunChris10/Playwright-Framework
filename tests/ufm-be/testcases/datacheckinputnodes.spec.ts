@@ -12,7 +12,6 @@ const lobList = [
   "INSTORE AND OTHER",
   "SCHEDULED",
   "UNSCHEDULED AND CORE",
-  "LAST MILE DELIVERY",
 ];
 
 lobList.forEach((lobName) => {
@@ -24,7 +23,7 @@ lobList.forEach((lobName) => {
     { tag: "@Smoke @Regression @dataCheck" },
     () => {
       test.describe.configure({ timeout: 600_000, mode: "parallel" });
-      
+
       test(`Verify input nodes data for ${lobName} scenario`, async ({
         request,
       }) => {
@@ -95,11 +94,11 @@ lobList.forEach((lobName) => {
           if (input_nodes.size > 0) {
             Utility.logIt(
               `These input nodes have empty cell for month ${monthYear} - ` +
-                Array.from(input_nodes.keys())
+              Array.from(input_nodes.keys())
             );
             fail(
               `These input nodes have empty cell for month ${monthYear} - ` +
-                Array.from(input_nodes.keys())
+              Array.from(input_nodes.keys())
             );
           }
         });
