@@ -1,0 +1,236 @@
+{
+  "Get_all_Nodes_in_the_system": [
+    {
+      "testStep": "Fetch All Nodes",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Nodes",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Get all nodes",
+      "queryParams": "",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertNotNull": {
+            "jsonPath": "node_id"
+          }
+        },
+        {
+          "assertNotNull": {
+            "jsonPath1": "node_key"
+          }
+        },
+        {
+          "assertNotNull": {
+            "jsonPath2": "node_variable_name"
+          }
+        }
+      ]
+    }
+  ],
+  "Create_Get_Update_Delete_Node": [
+    {
+      "testStep": "Create Node",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Nodes",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Create Node",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+  "node_id" :"test Node Id MSFT QA {{randomNumber}}",
+  "metric_type": "Test Node Metric Type",
+  "level_type": "Test Level Type",
+  "level_type_value": "Test Level Type Value",
+  "node_name": "9 Serv 9_SERV_Trinanjan",
+  "node_variable_name": "Test Node Variable Name",
+  "value_type": "$"
+},
+      "assertions": [
+        {
+          "status": 200
+        },
+         
+        {
+          "assertEquals": {
+            "jsonPath2": "node_variable_name",
+            "value": "Test Node Variable Name"
+          }
+        },
+        {
+          "assertEquals": {
+            "jsonPath3": "metric_type",
+            "value": "Test Node Metric Type"
+          }
+        },
+        {
+          "assertEquals": {
+            "jsonPath4": "level_type",
+            "value": "Test Level Type"
+          }
+        },
+        {
+          "assertEquals": {
+            "jsonPath5": "level_type_value",
+            "value": "Test Level Type Value"
+          }
+        },
+        {
+          "assertEquals": {
+            "jsonPath6": "value_type",
+            "value": "$"
+          }
+        }
+      ],
+      "extractFirst": {
+        "created_node_key": "node_key"
+      }
+      
+    },
+     {
+      "testStep": "Update Node for a valid Node Key",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Nodes"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Update Node",
+      "queryParams": "/{{created_node_key}}",
+      "method": "PATCH",
+      "payload": {
+  "node_id" :"test Node Id MSFT QA {{randomNumber}}",
+  "metric_type": "Test Node Metric Type updated",
+  "level_type": "Test Level Type updated",
+  "level_type_value": "Test Level Type Value updated",
+  "node_name": "9 Serv 9_SERV_Trinanjan updated",
+  "node_variable_name": "Test Node Variable Name updated",
+  "value_type": "$$"
+},
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath8": "node_variable_name",
+            "value": "Test Node Variable Name updated"
+          }
+        },
+        {
+          "assertEquals": {
+            "jsonPath9": "metric_type",
+            "value": "Test Node Metric Type updated"
+          }
+        },
+        {
+          "assertEquals": {
+            "jsonPath10": "level_type",
+            "value": "Test Level Type updated"
+          }
+        },
+        {
+          "assertEquals": {
+            "jsonPath11": "level_type_value",
+            "value": "Test Level Type Value updated"
+          }
+        },
+        {
+          "assertEquals": {
+            "jsonPath12": "value_type",
+            "value": "$$"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Update Node for an invalid Node Key",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Nodes"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Update Node with invalid Node Key",
+      "queryParams": "/20000",
+      "method": "PATCH",
+      "payload": {
+  "node_id" :"test Node Id MSFT QA 123",
+  "metric_type": "Test Node Metric Type updated",
+  "level_type": "Test Level Type updated",
+  "level_type_value": "Test Level Type Value updated",
+  "node_name": "9 Serv 9_SERV_Trinanjan updated",
+  "node_variable_name": "Test Node Variable Name updated",
+  "value_type": "$$"
+      },
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath13": "detail",
+            "value": "Invalid NODE_KEY 20000"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Delete Node for an invalid Node Key",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Nodes"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Delete Node with invalid Node Key",
+      "queryParams": "/20000",
+      "method": "DELETE",
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath14": "detail",
+            "value": "Invalid NODE_KEY 20000"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Delete Node for an valid Node Key",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Nodes"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Delete Node with valid Node Key",
+      "queryParams": "/{{created_node_key}}",
+      "method": "DELETE",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}  
+

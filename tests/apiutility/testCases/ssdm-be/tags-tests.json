@@ -3,7 +3,7 @@
     {
       "testStep": "Fetch All Tags",
       "environment": "dev",
-      "labels": ["smoke", "Tags"],
+      "labels": ["smoke", "Tags","Regression"],
       "service": "ssdmService",
       "uri": "getAlltags",
       "testName": "Get all Tags",
@@ -28,7 +28,7 @@
     {
       "testStep": "Fetch specify tag",
       "environment": "dev",
-      "labels": ["smoke", "Tags"],
+      "labels": ["smoke", "Tags","Regression"],
       "service": "ssdmService",
       "uri": "getAlltags",
       "testName": "Get specific Tags",
@@ -45,7 +45,7 @@
     {
       "testStep": "Fetch specific tag with incorrect tag key",
       "environment": "dev",
-      "labels": ["smoke", "Tags"],
+      "labels": ["smoke", "Tags","Regression"],
       "service": "ssdmService",
       "uri": "getAlltags",
       "testName": "Get all Tags",
@@ -62,7 +62,7 @@
     {
       "testStep": "Create a new tag",
       "environment": "dev",
-      "labels": ["smoke", "Tags"],
+      "labels": ["smoke", "Tags","Regression"],
       "service": "ssdmService",
       "uri": "getAlltags",
       "testName": "Create a Tag",
@@ -91,7 +91,7 @@
     {
       "testStep": "Update an existing tag",
       "environment": "dev",
-      "labels": ["smoke", "Tags"],
+      "labels": ["smoke", "Tags","Regression"],
       "service": "ssdmService",
       "uri": "getAlltags",
       "testName": "Update a Tags",
@@ -119,7 +119,7 @@
     {
       "testStep": "Update an invalid tag",
       "environment": "dev",
-      "labels": ["smoke", "Tags"],
+      "labels": ["smoke", "Tags","Regression"],
       "service": "ssdmService",
       "uri": "getAlltags",
       "testName": "Update an invalid Tag",

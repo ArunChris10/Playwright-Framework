@@ -3,7 +3,7 @@
     {
       "testStep": "Fetch All Attributes",
       "environment": "dev",
-      "labels": ["smoke", "Test_Attribute"],
+      "labels": ["smoke", "Test_Attribute","Regression"],
       "service": "ssdmService",
       "uri": "getAllAttributes",
       "testName": "Get all attributes",
@@ -28,7 +28,7 @@
     {
       "testStep": "Create a new attribute",
       "environment": "dev",
-      "labels": ["smoke", "Test_Attribute"],
+      "labels": ["smoke", "Test_Attribute","Regression"],
       "service": "ssdmService",
       "uri": "getAllAttributes",
       "testName": "Create a Attribute",
@@ -51,7 +51,7 @@
     {
       "testStep": "Update an existing attribute",
       "environment": "dev",
-      "labels": ["smoke", "Test_Attribute"],
+      "labels": ["smoke", "Test_Attribute","Regression"],
       "service": "ssdmService",
       "uri": "getAllAttributes",
       "testName": "Update an Attribute",
@@ -73,7 +73,7 @@
     {
       "testStep": "Update an existing incorrect attribute",
       "environment": "dev",
-      "labels": ["smoke", "Test_Attribute"],
+      "labels": ["smoke", "Test_Attribute","Regression"],
       "service": "ssdmService",
       "uri": "getAllAttributes",
       "testName": "Update an incorrect Attribute",
