@@ -1,9 +1,9 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import commonData from "../constants/common.json";
-import { WorkflowUtility } from "../fixtures/workflow-utils";
-import { ForecastUtility } from "../fixtures/forecast-utils";
-import { UfmUtility } from "../fixtures/ufm-utils";
+import { expect, test } from "../tests/common/fixtures/test-hook";
+import { Utility } from "../tests/common/fixtures/utils";
+import commonData from "../tests/ufm-be/constants/common.json";
+import { WorkflowUtility } from "../tests/ufm-be/fixtures/workflow-utils";
+import { ForecastUtility } from "../tests/ufm-be/fixtures/forecast-utils";
+import { UfmUtility } from "../tests/ufm-be/fixtures/ufm-utils";
 
 const orgForSendingReview = "DEMAND";
 let dataForBAOverride = ["HOME OFFICE", "SEGMENT"]; // Give LOB & it's Org Name
@@ -78,7 +78,7 @@ test.describe("Verify Scenario Workflow",
                     break;
                 }
             }
-        });  
+        });
 
         test(`Verify user is able to recall scenario from ba review for LoB- ${dataForBARecall[0]}`, async ({ request }) => {
             let lobName = dataForBARecall[0];
@@ -115,29 +115,29 @@ test.describe("Verify Scenario Workflow",
                     expect(response.rowData[i].forecastStatus.statusCode).toBe(commonData.Draft)
                 }
             }
-        }); 
+        });
 
     });
 
-    orgForChnageReq.forEach((orgName) => {
-        test.describe("Verify Change Request Scenario Workflow",
-            { tag: "@Smoke @Regression @pallavi" },
-            async () => {
-                test.describe.configure({ timeout: 3000_000, mode: "serial" });
-    
-                test(`Verify BA user is able to change request LOB scenario ${orgName}`, async ({ request }) => {
-                 await WorkflowUtility.ChangeRequestFromBAPreRequisite(orgName,request);
-    
-                 console.log(`Submit ${orgName} LOB to Change Request from BA screen`);
-                 await WorkflowUtility.sendToChangeRequestFromBA(orgName,request);
-    
-                });
-    
-    
+orgForChnageReq.forEach((orgName) => {
+    test.describe("Verify Change Request Scenario Workflow",
+        { tag: "@Smoke @Regression" },
+        async () => {
+            test.describe.configure({ timeout: 3000_000, mode: "serial" });
+
+            test(`Verify BA user is able to change request LOB scenario ${orgName}`, async ({ request }) => {
+                await WorkflowUtility.ChangeRequestFromBAPreRequisite(orgName, request);
+
+                console.log(`Submit ${orgName} LOB to Change Request from BA screen`);
+                await WorkflowUtility.sendToChangeRequestFromBA(orgName, request);
+
             });
-    });
 
-test.describe("Verify Lock CDF",{tag : "@LockCDF @SegmentSubmission @DoNotRunInPipeline"},async () => {
+
+        });
+});
+
+test.describe("Verify Lock CDF", { tag: "@LockCDF @SegmentSubmission @DoNotRunInPipeline" }, async () => {
     test.describe.configure({ timeout: 3000_000, mode: "serial" });
 
     test.skip(`Verify Lock CDF `, async ({ request }) => {

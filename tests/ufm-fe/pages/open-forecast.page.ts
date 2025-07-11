@@ -81,6 +81,8 @@ export class OpenCurrentForecast {
   readonly ReviewOpen: Locator;
   readonly driverExplorationTab: Locator;
   readonly dropdownGenericLoader: Locator;
+  readonly AlternateDriverButton: Locator;
+  readonly filtersButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -99,6 +101,7 @@ export class OpenCurrentForecast {
     this.duplicateViewMessage = page.getByText('This name is already in use. Please choose a different one.')
     this.addDriversButton = page.getByText("Add Drivers")
     this.DriversButton = page.locator("//button[text()='Drivers']")
+    this.AlternateDriverButton = page.getByLabel('Please save your changes');
     this.forecastInputCell =
       '//div[contains(@col-id,"forecast") and @role="gridcell"]';
     this.allocationMethodDropDown = this.page.locator(
@@ -173,11 +176,19 @@ export class OpenCurrentForecast {
     this.ReviewOpen = page.locator('//div[contains(@class, "reviewer-business-progress-container")]//button[text()="Open"]');
     this.driverExplorationTab= page.getByText('Driver Exploration');
     
-  this.dropdownGenericLoader = page.locator('//div[@data-testid="skeleton"]');
+    this.dropdownGenericLoader = page.locator('//div[@data-testid="skeleton"]');
+    this.filtersButton = page.locator('//button[text()="Filters" and contains(@class, "KPIPageHeader_filters")]');
   }
 
   async clickOnOpenButton() {
     await this.btnOpenCurrentForecast.first().click();
+  }
+  /**
+   * Clicks on the Filters button (after drivers are applied)
+   */
+  async clickFiltersButton(): Promise<void> {
+    await this.filtersButton.waitFor({ state: 'visible', timeout: 5000 });
+    await this.filtersButton.click();
   }
   
   async clickOnOpenCopyForecastDataButton() {
@@ -201,6 +212,13 @@ export class OpenCurrentForecast {
       }
     }
   }
+  /**
+   * Clicks on the alternate driver button when save changes dialog appears
+   */
+  async clickOnAlternateDriverButton(): Promise<void> {
+    await this.AlternateDriverButton.click();
+  }
+
   
   async clickTargetForecastDropdown(targetSelection: string, isCurrentTarget: boolean) {
     const secondDropdown = this.page.locator(
@@ -293,8 +311,15 @@ export class OpenCurrentForecast {
     await this.DriversButton.isVisible() ? await this.DriversButton.click() : await this.chooseDifferentDriverButton.click()
   }
   async clickOnChooseDriver() {
-    await this.DriversButton.waitFor({ state: "visible" });
-    await this.DriversButton.click();
+    try {
+      // Try the regular driver button first
+      await this.DriversButton.waitFor({ state: 'visible', timeout: 5000 });
+      await this.DriversButton.click();
+    } catch (error) {
+      // If regular button fails, try the alternate button
+      console.log('Regular driver button not available, trying alternate button');
+      await this.clickOnAlternateDriverButton();
+    }
   }
 
   async clickOnDriver(): Promise<void> {
@@ -525,6 +550,73 @@ async clickConsumablesChip() {
     }
 
     return { updated_col_ids: updated_col_ids, old_col_ids: old_col_ids };
+  }
+  /**
+   * Gets all available filter options and returns them as an array
+   * @returns Promise<string[]> - Array of filter option names
+   */
+  async getAvailableFilterOptions(): Promise<string[]> {
+    const filterOptions: string[] = [];
+    
+    // Define the filter button names to check
+    const filterNames = ['Filter sets', 'Department', 'Location', 'Reporting', 'Business Area'];
+    
+    for (const filterName of filterNames) {
+      const filterButton = this.page.getByRole('button', { name: filterName });
+      if (await filterButton.isVisible()) {
+        filterOptions.push(filterName);
+      }
+    }
+    
+    return filterOptions;
+  }
+  /**
+   * Verifies that all expected filter options are visible
+   * @param expectedFilters - Array of expected filter names
+   * @returns Promise<boolean> - True if all filters are visible
+   */
+  async verifyFilterOptionsVisible(expectedFilters: string[]): Promise<boolean> {
+    let allFiltersVisible = true;
+    
+    for (const filterName of expectedFilters) {
+      const filterButton = this.page.getByRole('button', { name: filterName });
+      const isVisible = await filterButton.isVisible();
+      
+      if (!isVisible) {
+        console.log(`Filter "${filterName}" is not visible`);
+        allFiltersVisible = false;
+      } else {
+        console.log(`Filter "${filterName}" is visible`);
+      }
+    }
+    
+    return allFiltersVisible;
+  }
+  /**
+   * Compares two arrays of filter options to check if they are identical
+   * @param filtersBeforeDrivers - Filter options before applying drivers
+   * @param filtersAfterDrivers - Filter options after applying drivers
+   * @returns boolean - True if both arrays contain the same filters
+   */
+  async compareFilterOptions(filtersBeforeDrivers: string[], filtersAfterDrivers: string[]): Promise<boolean> {
+    if (filtersBeforeDrivers.length !== filtersAfterDrivers.length) {
+      console.log(`Filter count mismatch: Before (${filtersBeforeDrivers.length}) vs After (${filtersAfterDrivers.length})`);
+      return false;
+    }
+
+    // Sort both arrays to ensure order doesn't matter
+    const sortedBefore = [...filtersBeforeDrivers].sort();
+    const sortedAfter = [...filtersAfterDrivers].sort();
+
+    for (let i = 0; i < sortedBefore.length; i++) {
+      if (sortedBefore[i] !== sortedAfter[i]) {
+        console.log(`Filter mismatch at index ${i}: "${sortedBefore[i]}" vs "${sortedAfter[i]}"`);
+        return false;
+      }
+    }
+
+    console.log('All filter options match before and after applying drivers');
+    return true;
   }
 
   async fillForecastInputCellForGivenDriverWithlowestGrain(noOfCells, inputValue, DriverName, FilteredLowestGrain) {
@@ -931,6 +1023,30 @@ async clickConsumablesChip() {
     return true;
   }
 
+  async switchKPILandingSelectedDriverOrder() {
+    const selectedDriversContainer = this.page.locator('//div[@class="kpiForecastTable"]');
+    const firstDriverDragHandle = selectedDriversContainer.locator(
+        '//div[contains(@class, "ag-drag-handle ag-row-drag")]'
+    ).first();
+    
+    const secondDriverDragHandle = selectedDriversContainer.locator(
+        '//div[contains(@class, "ag-drag-handle ag-row-drag")]'
+    ).last();
+    await firstDriverDragHandle.isVisible();
+    await secondDriverDragHandle.isVisible();
+    await firstDriverDragHandle.dragTo(secondDriverDragHandle);
+    console.log(`Switched order of drivers successfully.`);
+  }
+
+  async getKPILandingFirstDriverName() {
+    const selectedDriversContainer = this.page.locator('//div[@class="kpiForecastTable"]');
+    const firstDriverDragHandle = selectedDriversContainer.locator(
+        '//div[contains(@class, "DimensionCellRenderer_cellContainer__RQDdD")]'
+    ).first();
+    await firstDriverDragHandle.isVisible();
+    const firstDriverName = await firstDriverDragHandle.textContent();
+    return firstDriverName?.trim() || '';
+  }
 
   async verifyChevronIsReset() {
     await this.firstChevronIcon.waitFor({ state: 'visible' });

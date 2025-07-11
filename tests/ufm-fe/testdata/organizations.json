@@ -46,5 +46,10 @@
         {
             "name": "Wmt_us_segment_finance"
         }
-    ]
+    ],
+    "demandOrganization": 
+    {
+        "name": "Demand",
+        "lob": "CONSOLIDATED DEMAND"
+    }
 }

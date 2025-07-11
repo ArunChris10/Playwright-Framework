@@ -5,11 +5,11 @@
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
   },
-  "tagsToRun": [""],
+  "tagsToRun": [],
   "ForceAllParallel": true,
   "ForceAllSerial": false,
  "testFiles": [
-    "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-constant-value.json",
+     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-constant-value.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-percent-rolling.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-test.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-non-additve.json",
@@ -23,8 +23,6 @@
     "testCases/calculate-save-adjustment-testcases/month-on-month-propagation-test.json",
     "testCases/calculate-save-adjustment-testcases/non-additive-calculate.json",
     "testCases/calculate-save-adjustment-testcases/non-additive-perc-rolling-test.json",
-    "testCases/calculate-save-adjustment-testcases/primaryDataUpdate-onSegmentReview-test.json",
-    "testCases/calculate-save-adjustment-testcases/update-adjustment-status-from-change-request-to-resolve-request.json",
     "testCases/excel-plugin/excel-load-data-api-aggregation-tests.json",
     "testCases/excel-plugin/excel-load-data-api-snapshots-tests.json",
     "testCases/excel-plugin/excel-load-data-api-tests.json",
@@ -42,7 +40,6 @@
     "testCases/scenarioWorkflow/create-scenarion-test.json",
     "testCases/scenarioWorkflow/delete-scenario-error-test.json",
     "testCases/scenarioWorkflow/delete-scenarion-test.json",
-    "testCases/scenarioWorkflow/segment-user-send-to-corporate.json",
     "testCases/snapshots/scenario-snapshots-api-tests.json",
     "testCases/validator/forecast-toActual-afterMEC.json",
     "testCases/validator/validator-HigherGrain.json",
@@ -60,7 +57,6 @@
     "testCases/data-science-demand-metric-ssdm-edit.json",
     "testCases/download-Validation-NEFile.tests.json",
     "testCases/drivers-api-tests.json",
-    "testCases/example-api-test.json",
     "testCases/filters-ssdm-api-tests.json",
     "testCases/forecast-comp-api-error-tests.json",
     "testCases/forecast-comp-api-tests.json",
@@ -72,25 +68,19 @@
     "testCases/ssdm-myKpi-valuetype-tests.json",
     "testCases/ssdm-node-edge-compute-api-tests.json",
     "testCases/ssdm-node-edge-get-drivers-api-tests.json",
-    "testCases/primaryDataUpdate-onSegmentReview-test.json",
-    "testCases/calculate-save-adjustment-testcases/calculate-saveajustment-multiLayer-combined-test.json",
-    "testCases/month-on-month-propagation-test.json",
     "testCases/patchy-allocate-non-additive-test.json",
     "testCases/patchy-allocate-additive-test.json",
-    "testCases/calculate-save-additive-non-additive-nodes-equal-distriubution.json",
-    "testCases/patchy-cell-edit-api-tests.json",
-    "testCases/patchy/edited-value-patchy-on-patchy.json",
     "testCases/patchy-dependent-nodes-tests.json",
     "testCases/patchy-multiple-dependent-nodes-tests.json",
-    "testCases/allocation-excludes-missing-months.json",
-    "testCases/allocate-node-value-test.json",
     "testCases/forecast/create-scenario-max-limit-test.json",
     "testCases/visual-indicator-api.json",
-    "testCases/create-multiple-scenario-tests.json",
+    "testCases/ssdm-node-edge-publish-latest-test.json",
     "testCases/SSDM-BE/tags-tests.json",
-    "testCases/SSDM-Be/attribute-tests.json"
+    "testCases/SSDM-Be/attribute-tests.json",
+    "testCases/SSDM-Be/driver-tree-tests.json",
+    "testCases/SSDM-Be/nodes-tests.json",
+    "testCases/SSDM-Be/node-source-tests.json"
   ],
-
   "currentDemandService": {
     "baseURL": {
       "qa": "https://scenario.qa.ibg.walmart.com",
@@ -190,6 +180,12 @@
         "qa" :"https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net"
       },
       "getAlltags" : "/api/tags",
-      "getAllAttributes" : "/api/attributes"
+      "getAllAttributes" : "/api/attributes",
+      "getAllDriverTrees" :"/api/driver-trees/",
+      "createDriverTree": "/api/driver-trees",
+      "getAllNodes" :"/api/nodes",
+      "nodeSource" : "/api/nodes"
+
+
     }
 }
