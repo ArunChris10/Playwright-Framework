@@ -78,7 +78,6 @@
       }
 
   ]
-
 },
 {
       "testStep": "Get Node Sources for a Valid Node",
@@ -105,7 +104,6 @@
         "value": "Test Sourcing Type Value"
       }
     }
-
   ]
 
 },
@@ -130,7 +128,6 @@
        }
 
   ]
-
 },
 {
       "testStep": "Update a Node Source for a valid Key",
@@ -163,7 +160,6 @@
     }
 
   ]
-
 },
 {
       "testStep": "Update a Node Source for an invalid Key",
@@ -189,7 +185,6 @@
       }
     ]
   },
-
   {
       "testStep": "Delete Node Sources for an Invalid Node but valid SourceId",
       "environment": "qa",
@@ -208,7 +203,6 @@
           "value": "Invalid NODE_KEY 2000"
         }
       }
-
   ]
 },
 {
@@ -245,17 +239,14 @@
         {
           "status": 200
         }
-
-  ],
+      ],
   "extractDelta": {
         "incorrect_source_id": {
           "editOne": "{{node_key}}",
           "editTwo": "{{created_source_id}}"
         }
       }
-
 },
-
 {
       "testStep": "Delete Node Sources for a Valid Node and SourceId but combination is invalid",
       "environment": "qa",
