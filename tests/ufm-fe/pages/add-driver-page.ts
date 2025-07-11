@@ -261,6 +261,32 @@ export class AddDriverPage {
         }
         return resultCount === 10;
     }
+
+    /**
+     * Verifies that checkbox exists in search result option
+     * @returns boolean indicating if checkbox exists
+    */
+    async verifyCheckboxResults(): Promise<boolean> {
+        const searchContainer = this.page.locator('//div[@class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAutocomplete-paper dropdown-container css-t4hinj"]');
+        const searchResults = searchContainer.locator('//ul//li//input[@type="checkbox"]');
+        const resultCount = await searchResults.count();
+
+        if (resultCount === 0) {
+            console.log("No checkboxes found");
+            return false;
+        }
+    
+        // verify checkbox exists in each search result
+        for (let i = 0; i < resultCount; i++) {
+            const checkbox = searchResults.nth(i);
+            const isVisible = await checkbox.isVisible();
+            if (!isVisible) {
+                return false;
+            }
+        }
+    
+        return true;
+    }
     
     async getFirstDriverName() {
         const selectedDriversContainer = this.page.locator('//div[@class="customDriverSelected"]');
@@ -272,16 +298,6 @@ export class AddDriverPage {
         return firstDriverName?.trim() || '';
     }
     
-    async getKPILandingFirstDriverName() {
-        const selectedDriversContainer = this.page.locator('//div[@class="kpiForecastTable"]');
-        const firstDriverDragHandle = selectedDriversContainer.locator(
-            '//div[contains(@class, "DimensionCellRenderer_cellContainer__RQDdD")]'
-        ).first();
-        await firstDriverDragHandle.isVisible();
-        const firstDriverName = await firstDriverDragHandle.textContent();
-        return firstDriverName?.trim() || '';
-    }
-
     /**
      * Verifies that search results are immediately available in the driver search interface
      * 

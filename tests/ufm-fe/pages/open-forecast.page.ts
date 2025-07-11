@@ -1038,6 +1038,16 @@ async clickConsumablesChip() {
     console.log(`Switched order of drivers successfully.`);
   }
 
+  async getKPILandingFirstDriverName() {
+    const selectedDriversContainer = this.page.locator('//div[@class="kpiForecastTable"]');
+    const firstDriverDragHandle = selectedDriversContainer.locator(
+        '//div[contains(@class, "DimensionCellRenderer_cellContainer__RQDdD")]'
+    ).first();
+    await firstDriverDragHandle.isVisible();
+    const firstDriverName = await firstDriverDragHandle.textContent();
+    return firstDriverName?.trim() || '';
+  }
+
   async verifyChevronIsReset() {
     await this.firstChevronIcon.waitFor({ state: 'visible' });
     await expect(this.detailsAfterExpandingChevronIcon).toBeHidden();

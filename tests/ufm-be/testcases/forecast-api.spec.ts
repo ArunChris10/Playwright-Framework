@@ -5,7 +5,7 @@ import { ForecastUtility } from "../fixtures/forecast-utils";
 import { UfmUtility } from "../fixtures/ufm-utils";
 import forecastData from "../testdata/forecast-api.json";
 
-const lobName = ["E2E DELIVERY"];
+const lobName = ["MARKETPLACE"];
 for (let i = 0; i < lobName.length; i++) {
   test.describe(
     "Verify create, edit and delete forecast API",
@@ -138,7 +138,12 @@ for (let i = 0; i < lobName.length; i++) {
   );
 }
 
-const lob = ["SEGMENT", "HOME OFFICE"];
+const lob = [
+  "CONSOLIDATED DEMAND",
+  "INSTORE AND OTHER",
+  "SCHEDULED",
+  "UNSCHEDULED AND CORE",
+  "MARKETPLACE"];
 lob.forEach((lobName) => {
   test.describe(
     "Verify create forecast API for multiple LOBs",

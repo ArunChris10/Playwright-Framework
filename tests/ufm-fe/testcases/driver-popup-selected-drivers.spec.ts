@@ -90,7 +90,7 @@ test.describe('Verify user is able to select drivers and switch orders', { tag: 
             await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad();        
         });
         await test.step(`Verify if the updated order is reflecting in the MyKPI table upon clicking apply`, async () => {
-            firstDriverNameAfterSwitch = await objpageFactory.ufmPageFactory().addDriverPage().getKPILandingFirstDriverName();
+            firstDriverNameAfterSwitch = await objpageFactory.ufmPageFactory().openCurrentForecast().getKPILandingFirstDriverName();
             expect(firstDriverNameAfterSwitch).toBe(lastDriverName);
         });
         await test.step(`Verify if user can change the order in MyKPI table after Apply`, async () => {
@@ -99,7 +99,7 @@ test.describe('Verify user is able to select drivers and switch orders', { tag: 
         });
         await test.step(`Verify first driver is now first driver`, async () => {
             const firstDriverName = driverNames[0];
-            firstDriverNameAfterSwitch = await objpageFactory.ufmPageFactory().addDriverPage().getKPILandingFirstDriverName();
+            firstDriverNameAfterSwitch = await objpageFactory.ufmPageFactory().openCurrentForecast().getKPILandingFirstDriverName();
             expect(firstDriverNameAfterSwitch).toBe(firstDriverName);
         });
     });
