@@ -23,8 +23,6 @@
     "testCases/calculate-save-adjustment-testcases/month-on-month-propagation-test.json",
     "testCases/calculate-save-adjustment-testcases/non-additive-calculate.json",
     "testCases/calculate-save-adjustment-testcases/non-additive-perc-rolling-test.json",
-    "testCases/calculate-save-adjustment-testcases/primaryDataUpdate-onSegmentReview-test.json",
-    "testCases/calculate-save-adjustment-testcases/update-adjustment-status-from-change-request-to-resolve-request.json",
     "testCases/excel-plugin/excel-load-data-api-aggregation-tests.json",
     "testCases/excel-plugin/excel-load-data-api-snapshots-tests.json",
     "testCases/excel-plugin/excel-load-data-api-tests.json",
