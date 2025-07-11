@@ -238,7 +238,13 @@
       "assertions": [
         {
           "status": 200
-        }
+        },
+        {
+      "assertEquals": {
+        "jsonPath1": "$",
+        "value": [true]
+      }
+    }
       ],
   "extractDelta": {
         "incorrect_source_id": {
