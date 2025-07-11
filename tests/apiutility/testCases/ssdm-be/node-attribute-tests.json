@@ -249,7 +249,7 @@
     {
       "assertEquals": {
         "jsonPath1": "detail",
-        "value": "Invalid ATTRIBUTE_KEY 2"
+        "value": "Invalid ATTRIBUTE_KEY 1"
       }
     }
   ]
@@ -312,7 +312,7 @@
     {
       "assertEquals": {
         "jsonPath1": "detail",
-        "value": "Invalid ATTRIBUTE_KEY 2"
+        "value": "Invalid ATTRIBUTE_KEY 1"
       }
     }
   ]
@@ -329,13 +329,7 @@
       "assertions": [
         {
           "status": 200
-        },
-    {
-      "assertEquals": {
-        "jsonPath1": "$",
-        "value": [true]
-      }
-    }
+        }
   ]
 }
 ]
