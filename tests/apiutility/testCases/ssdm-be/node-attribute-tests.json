@@ -84,7 +84,6 @@
       }
     }
   ]
-
 },
 {
       "testStep": "Create a Node Attribute for an valid Node Key but Invalid Attribute ID",
@@ -176,7 +175,6 @@
       }
     }
   ]
-
 },
 {
       "testStep": "Update a Node Attribute for an invalid Key",
@@ -201,7 +199,6 @@
       }
     }
   ]
-
 },
 {
       "testStep": "Update a Node Attribute for an invalid Attribute ID",
@@ -341,6 +338,5 @@
     }
   ]
 }
-
 ]
 }
