@@ -12,8 +12,8 @@ let partitionData;
 let newCreatedNodeData;
 
 test.describe(
-  'Validations tests for Missing Input & Grain mismatch',
-  { tag: "@Smoke @Regression @mytest" },
+  'Validations tests for Missing Input',
+  { tag: "@Smoke @Regression @MissingInputValidations" },
   async () => {
     let objpageFactory: PageFactory;
     test.describe.configure({ mode: 'parallel', timeout: 20000 });
@@ -69,7 +69,7 @@ test.describe(
     // Test: Verify Input missing error for New Node Variant creation from landing page - type Calculated
     test('Verify Input missing error for New Node Variant creation - Calculated Type', async () => {
 
-      await test.step('Click on Create New Node icon and select the Node Type as Input', async () => {
+      await test.step('Click on Create New Node icon and select the Node Type as Calculated', async () => {
         await objpageFactory.ssdmPageFactory().createNewNodeModal().clickNewNodeButton();
         await objpageFactory.ssdmPageFactory().createNewNodeModal().selectMandatoryDropdownValues(1, "Calculated");
         await objpageFactory.ssdmPageFactory().createNewNodeModal().page.waitForTimeout(2000);
