@@ -9,7 +9,7 @@
   "ForceAllParallel": true,
   "ForceAllSerial": false,
  "testFiles": [
-    "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-constant-value.json",
+      "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-constant-value.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-percent-rolling.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-test.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-non-additve.json",
@@ -80,7 +80,8 @@
     "testCases/ssdm-be/driver-tree-tests.json",
     "testCases/ssdm-be/nodes-tests.json",
     "testCases/ssdm-be/node-source-tests.json",
-    "testCases/ssdm-be/node-attribute-tests.json"
+    "testCases/ssdm-be/node-attribute-tests.json",
+    "testCases/ssdm-be/node_variant-attribute-tests.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -185,7 +186,8 @@
       "getAllDriverTrees" :"/api/driver-trees/",
       "createDriverTree": "/api/driver-trees",
       "getAllNodes" :"/api/nodes",
-      "nodeSource" : "/api/nodes"
+      "nodeSource" : "/api/nodes",
+      "getNodeVariants": "/api/driver-trees/2/versions/1/node-variants-metadata"
 
 
     }
