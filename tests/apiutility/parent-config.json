@@ -76,11 +76,14 @@
     "testCases/forecast/create-scenario-max-limit-test.json",
     "testCases/visual-indicator-api.json",
     "testCases/ssdm-node-edge-publish-latest-test.json",
-    "testCases/SSDM-BE/tags-tests.json",
-    "testCases/SSDM-Be/attribute-tests.json",
-    "testCases/SSDM-Be/driver-tree-tests.json",
-    "testCases/SSDM-Be/nodes-tests.json",
-    "testCases/SSDM-Be/node-source-tests.json"
+    "testCases/ssdm-be/tags-tests.json",
+    "testCases/ssdm-be/attribute-tests.json",
+    "testCases/ssdm-be/driver-tree-tests.json",
+    "testCases/ssdm-be/nodes-tests.json",
+    "testCases/ssdm-be/node-source-tests.json",
+    "testCases/ssdm-be/node-attribute-tests.json",
+    "testCases/ssdm-be/node_variant-attribute-tests.json",
+    "testCases/ssdm-be/driver-tree-version-tests.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -185,8 +188,7 @@
       "getAllDriverTrees" :"/api/driver-trees/",
       "createDriverTree": "/api/driver-trees",
       "getAllNodes" :"/api/nodes",
-      "nodeSource" : "/api/nodes"
-
-
-    }
+      "nodeSource" : "/api/nodes",
+      "getNodeVariants": "/api/driver-trees/2/versions/1/node-variants-metadata"
+}
 }

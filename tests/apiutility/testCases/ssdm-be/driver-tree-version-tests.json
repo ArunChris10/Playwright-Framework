@@ -1,0 +1,162 @@
+{
+  "Create_Get_Delete_Driver_Tree_Version": [
+    {
+      "testStep": "Fetch All Driver Trees",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver Tree Version",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Get all driver trees",
+      "queryParams": "",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertNotNull": {
+            "jsonPath": "driver_tree_key"
+          }
+        },
+        {
+          "assertNotNull": {
+            "jsonPath1": "driver_tree_name"
+          }
+        },
+        {
+          "assertNotNull": {
+            "jsonPath2": "driver_tree_description"
+          }
+        }
+      ],
+      "extractFirst": {
+        "driver_tree_key": "driver_tree_key"
+      }
+    },
+    {
+      "testStep": "Create A Driver Tree Version",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver Tree Version",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "createDriverTree",
+      "testName": "Create a driver trees",
+      "queryParams": "/{{driver_tree_key}}/versions",
+      "method": "POST",
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertNotNull": {
+            "jsonPath": "driver_tree_key"
+          }
+        },
+        {
+          "assertNotNull": {
+            "jsonPath": "driver_tree_version"
+          }
+        },
+        {
+          "assertNotNull": {
+            "jsonPath": "is_active"
+          }
+        }
+      ],
+      "extractFirst": {
+        "created_driver_tree_version": "driver_tree_version"
+      }
+    },
+    {
+      "testStep": "Get Driver Tree Versions",
+      "environment": "qa",
+      "labels": ["smoke", "Driver Tree Version", "Regression"],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Get a driver trees",
+      "queryParams": "{{driver_tree_key}}/versions",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Delete a Specific Driver Tree Version for a valid Driver Tree Key but invalid Version",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver Tree Version",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Delete a driver tree version with valid Driver Tree Key but invalid Driver Tree Version",
+      "queryParams": "{{driver_tree_key}}/versions/5000",
+      "method": "DELETE",
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath": "detail",
+            "value": "Invalid DRIVER_TREE_VERSION 5000 for DRIVER_TREE_KEY 2"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Delete a Specific Driver Tree Version for an invalid Driver Tree Key but valid Version",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver Tree Version",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Delete a driver tree version with invalid Driver Tree Key but valid Driver Tree Version",
+      "queryParams": "5000/versions/{{created_driver_tree_version}}",
+      "method": "DELETE",
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath": "detail",
+            "value": "Invalid DRIVER_TREE_KEY 5000"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Delete a Specific Driver Tree Version for a valid Driver Tree Key but valid Version",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver Tree Version",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Delete a driver tree version with valid Driver Tree Key but invalid Driver Tree Version",
+      "queryParams": "{{driver_tree_key}}/versions/{{created_driver_tree_version}}",
+      "method": "DELETE",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}
