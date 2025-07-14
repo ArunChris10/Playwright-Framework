@@ -50,8 +50,7 @@
             "environment": "qa",
             "labels": [
                 "smoke",
-                "kpiFilters",
-                "muskan"
+                "kpiFilters"
             ],
             "service": "coreService",
             "uri": "getKpiV2",
