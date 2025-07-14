@@ -9,7 +9,7 @@
   "ForceAllParallel": true,
   "ForceAllSerial": false,
  "testFiles": [
-      "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-constant-value.json",
+    "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-constant-value.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-percent-rolling.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-test.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-non-additve.json",
