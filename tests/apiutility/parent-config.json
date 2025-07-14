@@ -81,7 +81,8 @@
     "testCases/ssdm-be/nodes-tests.json",
     "testCases/ssdm-be/node-source-tests.json",
     "testCases/ssdm-be/node-attribute-tests.json",
-    "testCases/ssdm-be/node_variant-attribute-tests.json"
+    "testCases/ssdm-be/node_variant-attribute-tests.json",
+    "testCases/ssdm-be/driver-tree-version-tests.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -188,7 +189,5 @@
       "getAllNodes" :"/api/nodes",
       "nodeSource" : "/api/nodes",
       "getNodeVariants": "/api/driver-trees/2/versions/1/node-variants-metadata"
-
-
-    }
+}
 }
