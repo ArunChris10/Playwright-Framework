@@ -18,7 +18,7 @@
       "payload": {
         "unit": "Millions",
         "dim_id": 12,
-        "dim_val_id": 120003,
+        "dim_val_id": 120009,
         "classification_id": 12,
         "template_id": 1,
         "filters": [],
@@ -45,7 +45,7 @@
           "conditions": [
             {
               "path": "rowData.lineOfBusiness",
-              "equals": 110016
+              "equals": 110027
             },
             {
               "path": "rowData.forecastStatus.statusCode",
@@ -58,7 +58,7 @@
           "conditions": [
             {
               "path": "rowData.lineOfBusiness",
-              "equals": 110016
+              "equals": 110027
             },
             {
               "path": "rowData.forecastStatus.statusCode",
@@ -85,7 +85,7 @@
       "payload": {
         "display_nodes": [],
         "scenario_id": "{{scenario_id}}",
-        "dim_val_id": 110016,
+        "dim_val_id": 110027,
         "dim_id": 11,
         "preview": true,
         "edits": [
@@ -142,7 +142,7 @@
         "allocation_request": {
           "display_nodes": [],
           "scenario_id": "{{scenario_id}}",
-          "dim_val_id": 110016,
+          "dim_val_id": 110027,
           "dim_id": 11,
           "preview": false,
           "edits": [
@@ -164,7 +164,7 @@
           "filters": [],
           "period_view": "month"
         },
-        "dim_val_id": 110016
+        "dim_val_id": 110027
       },
       "assertions": [
         {
