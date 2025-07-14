@@ -21,10 +21,10 @@ export default async function globalSetup() {
   console.log('Global Setup (runs once before all tests)');
 
   const parentConfig = loadJSON<ParentConfig>(path.resolve(__dirname, 'parent-config.json'));
-  // await Utility.getNexusFakeToken(parentConfig.user + "", request);
+  await Utility.getNexusFakeToken(parentConfig.user + "", request);
   globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
   const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
-  await deleteAllForecastsForAutomationUser();
+  // await deleteAllForecastsForAutomationUser();
   globalStore.setValue('randomNumber', generateRandomNumber(4));
   globalStore.setValue('randomDateOffset', generateRandomNumber(2));
   const randomDateOffset = globalStore.getValue('randomDateOffset');

@@ -50,7 +50,8 @@
             "environment": "qa",
             "labels": [
                 "smoke",
-                "kpiFilters"
+                "kpiFilters",
+                "muskan"
             ],
             "service": "coreService",
             "uri": "getKpiV2",
@@ -140,27 +141,27 @@
                         },
                         {
                             "name": "Forecast",
-                            "editable": false
+                            "editable": true
                         },
                         {
                             "name": "Value",
-                            "editable": false
+                            "editable": true
                         }
                     ],
                     "month": [
-                        "202601",
-                        "202602",
-                        "202603",
-                        "202604",
-                        "202605",
-                        "202606",
-                        "202607",
-                        "202608",
-                        "202609",
-                        "202610",
-                        "202611",
-                        "202612"
-                    ]
+            "{{dynamicMonth-4}}",
+            "{{dynamicMonth-3}}",
+            "{{dynamicMonth-2}}",
+            "{{dynamicMonth-1}}",
+            "{{dynamicMonth}}",
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}",
+            "{{dynamicMonth+3}}",
+            "{{dynamicMonth+4}}",
+            "{{dynamicMonth+5}}",
+            "{{dynamicMonth+6}}",
+            "{{dynamicMonth+7}}"
+          ]
                 },
                 "isApplied": true
             },
@@ -180,8 +181,8 @@
             "testStep": "Call getMyKPI API with filters",
             "environment": "qa",
             "labels": [
-                "smoke",
-                "ss"
+                "smoke"
+               
             ],
             "service": "coreService",
             "uri": "getKpiV2",
@@ -276,11 +277,11 @@
                         },
                         {
                             "name": "Forecast",
-                            "editable": false
+                            "editable": true
                         },
                         {
                             "name": "Value",
-                            "editable": false
+                            "editable": true
                         }
                     ],
                     "month": [
@@ -328,7 +329,7 @@
                 "scenario_id": "{{getkpi_scenario_id}}",
                 "scenario_version": "{{getkpi_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110029,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
                 "filters": [

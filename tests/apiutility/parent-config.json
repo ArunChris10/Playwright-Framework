@@ -10,6 +10,7 @@
   "ForceAllSerial": false,
  "testFiles": [
      "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-constant-value.json",
+     "testCases/maintain-ratio-additive.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-percent-rolling.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-test.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-non-additve.json",
