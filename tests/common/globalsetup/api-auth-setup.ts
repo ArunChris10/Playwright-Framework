@@ -17,8 +17,8 @@ setup(
   { tag: "@UFM , @IBG " },
   async ({ request }) => {
     await Utility.logIt("Logging in with user -> " + process.env.ufmUser);
-    await Utility.getNexusFakeToken(process.env.ufmUser + "", request);
+    let token = await Utility.getNexusFakeToken(process.env.ufmUser + "", request);
     //await Utility.setmappings(request);
-    // await globalSetup()
+    await globalSetup(token)
   }
 );
