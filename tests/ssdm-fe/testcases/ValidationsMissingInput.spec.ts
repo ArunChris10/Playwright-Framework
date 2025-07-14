@@ -21,8 +21,6 @@ test.describe(
     // Before each test, sign in and initialize the page factory
     test.beforeEach(async ({ page, request }) => {
       test.setTimeout(TIMEOUT_SSDM_FE);
-      partitionData = await createNodeUtility.getUfdmPartitionData(request);
-      console.log(`NodeId: ${partitionData.nodeId}, partitionGrain: ${partitionData.partitionGrain}`);
       newCreatedNodeData = await createNodeUtility.createNewNode(request);
       console.log(`nodeName: ${newCreatedNodeData.nodeName}, nodeKey: ${newCreatedNodeData.nodeKey}`);
       await signinUtility.SignIn(page);
@@ -43,11 +41,11 @@ test.describe(
 
       await test.step('Click on Create New Node icon and select the Node Type as Input', async () => {
         await objpageFactory.ssdmPageFactory().createNewNodeModal().clickNewNodeButton();
-        await objpageFactory.ssdmPageFactory().createNewNodeModal().selectMandatoryDropdownValues(1, "Input");
+        await objpageFactory.ssdmPageFactory().createNewNodeModal().selectGrainByIndex(1, "Input");
         await objpageFactory.ssdmPageFactory().createNewNodeModal().page.waitForTimeout(2000);
         await objpageFactory.ssdmPageFactory().createNewNodeModal().selectCreatedNode(nodeCrudDialog.fields.metricName, newCreatedNodeData.nodeName);
         for (let i = 2; i <= 7; i++) {
-          await objpageFactory.ssdmPageFactory().createNewNodeModal().selectMandatoryDropdownValues(i);
+          await objpageFactory.ssdmPageFactory().createNewNodeModal().selectGrainByIndex(i);
         }
       });
 
@@ -63,24 +61,24 @@ test.describe(
         await objpageFactory.ssdmPageFactory().driverTreeSummary().clickdriverTreeSummary();
         await objpageFactory.ssdmPageFactory().driverTreeSummary().validateMissingInputError(newCreatedNodeData.nodeName)
       });
-    })
+    }) 
 
-
+ 
     // Test: Verify Input missing error for New Node Variant creation from landing page - type Calculated
     test('Verify Input missing error for New Node Variant creation - Calculated Type', async () => {
 
       await test.step('Click on Create New Node icon and select the Node Type as Calculated', async () => {
         await objpageFactory.ssdmPageFactory().createNewNodeModal().clickNewNodeButton();
-        await objpageFactory.ssdmPageFactory().createNewNodeModal().selectMandatoryDropdownValues(1, "Calculated");
+        await objpageFactory.ssdmPageFactory().createNewNodeModal().selectGrainByIndex(1, "Calculated");
         await objpageFactory.ssdmPageFactory().createNewNodeModal().page.waitForTimeout(2000);
         await objpageFactory.ssdmPageFactory().createNewNodeModal().selectCreatedNode(nodeCrudDialog.fields.metricName, newCreatedNodeData.nodeName);
-        for (let i = 2; i <= 6; i++) {
-          await objpageFactory.ssdmPageFactory().createNewNodeModal().selectMandatoryDropdownValues(i);
+        for (let i = 2; i <= 5; i++) {
+          await objpageFactory.ssdmPageFactory().createNewNodeModal().selectGrainByIndex(i);
         }
       });
 
       await test.step(`Validate Field level errors`, async () => {
         await objpageFactory.ssdmPageFactory().createNewNodeModal().validateNoMissingInputMessage();
       });
-    });
+    }); 
   })
