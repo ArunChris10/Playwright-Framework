@@ -155,7 +155,7 @@ export class Utility {
       fs.writeFileSync(this.nexusTokenFilePath, updatedDate);
     }
     let nexusTokens = JSON.stringify(parsedData[userId]);
-    // nexusTokens = nexusTokens.replace('"', "");
+    nexusTokens = nexusTokens.replace('"', "");
     nexusTokens = nexusTokens.replace('"', "");
     nexusTokens = `Bearer ` + nexusTokens;
     return nexusTokens;
