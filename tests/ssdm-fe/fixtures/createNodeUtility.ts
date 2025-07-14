@@ -19,8 +19,12 @@ export class createNodeUtility {
         const response = await request.get(endpointURL);
         let responseBody = await Utility.assertAndLog(response, isError);
         // Filter NODE_IDs where PARTITION_GRAIN is NOT exactly "CHANNEL,DEPARTMENT,ENTITY,MONTH,REPORTING"
+        // and PARTITION_GRAIN contains at least one comma
         const nodeIds = responseBody
-            .filter(item => item.PARTITION_GRAIN !== "CHANNEL,DEPARTMENT,ENTITY,MONTH,REPORTING")
+            .filter(item =>
+            item.PARTITION_GRAIN !== "CHANNEL,DEPARTMENT,ENTITY,MONTH,REPORTING" &&
+            item.PARTITION_GRAIN.includes(',')
+            )
             .map(item => item.NODE_ID)
             .sort((nodeIdA, nodeIdB) => (nodeIdA < nodeIdB ? 1 : nodeIdA > nodeIdB ? -1 : 0));
         console.log('Filtered nodeIds (desc):', nodeIds);
@@ -78,7 +82,14 @@ export class createNodeUtility {
         const response = await request.get(endpointURL);
         let responseBody = await Utility.assertAndLog(response, isError);
         // Find the partition grain for the given nodeId
-        const partitionGrain = responseBody.find(item => item.NODE_ID === ufdmNodeId)?.PARTITION_GRAIN;
+        const partitionGrainStr = responseBody.find(item => item.NODE_ID === ufdmNodeId)?.PARTITION_GRAIN;
+        let partitionGrain: string[] = [];
+        if (partitionGrainStr) {
+            partitionGrain = partitionGrainStr
+                .split(',')
+                .map(s => s.trim())
+                .map(s => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase());
+        }
         console.log('Partition grain for nodeId', ufdmNodeId, ':', partitionGrain);
         return partitionGrain;
     }

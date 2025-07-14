@@ -24,6 +24,8 @@ export class CreateNewNode {
   readonly getFilterButtonXPath: (label: string) => string;
   readonly getGridValueXPath: (dataFieldAttribute: string) => string;
   readonly getSortOptionXPath: (sortLabel: string) => string;
+  readonly getRequiredGrainDropdown: (value: string) => string;
+  readonly getRequiredGrainDropdownArrow: (value: string) => string;
 
   constructor(page: Page) {
     this.page = page;
@@ -37,12 +39,10 @@ export class CreateNewNode {
     this.driverTreeSummaryTab = page.locator('//button[text()="Driver Tree Summary"]');
 
     // Parameterized XPath generators
-    this.getFilterButtonXPath = (label: string) =>
-      `//div[span[contains(., "${label}")] and button[@aria-label="Filter"]]/button`;
-    this.getGridValueXPath = (dataFieldAttribute: string) =>
-      `[data-field="${dataFieldAttribute}"][role="gridcell"]`;
-    this.getSortOptionXPath = (sortLabel: string) =>
-      `//div[normalize-space(text())="${sortLabel}"]`;
+    this.getRequiredGrainDropdown = (value: string) =>
+      `//div[contains(text(),"${value}")]/following-sibling::div`;
+    this.getRequiredGrainDropdownArrow = (grainValue: string) =>
+      `${this.getRequiredGrainDropdown(grainValue)}//span[@class='multiselect-arrow ']`;
   }
 
   getCheckboxByLabel(label: string): Locator {
@@ -66,16 +66,40 @@ export class CreateNewNode {
     await this.fillAndValidateInputByFieldName(fieldName, nodeName);
   }
 
-  async selectMandatoryDropdownValues(index: number, checkboxLabel?: string) {
-    let checkbox;
+  async selectGrainByIndex(index: number, checkboxLabel?: string) {
     const dropdownArrow = this.dropdownArrow.nth(index - 1);
+    /* let checkbox;
     const dropdownArrowHandle = await dropdownArrow.elementHandle();
     if (dropdownArrowHandle) {
       await this.page.evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'auto' }), dropdownArrowHandle);
     }
-    //if (await this.dropdownArrowOpen.nth(index - 1).isHidden()) {
     await dropdownArrow.click();
-    //}
+    if (index == 1) {
+      checkbox = checkboxLabel ? this.getCheckboxByLabel(checkboxLabel) : this.getFirstOptionForGranularity();
+    } else {
+      checkbox = this.getFirstOptionForGranularity();
+    }
+    await checkbox.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    if (!(await checkbox.isChecked())) {
+      await checkbox.click();
+      await this.panelContainer.click();
+    }  */
+    await this.selectGrainValuefromDropdown(dropdownArrow, index, checkboxLabel);
+  }
+
+  async selectGrainByValue(grain: string) {
+    console.log(`Selecting grain: ${grain}`);
+    const dropdownArrow = this.page.locator(this.getRequiredGrainDropdownArrow(grain));
+    await this.selectGrainValuefromDropdown(dropdownArrow);
+  }
+
+  async selectGrainValuefromDropdown(dropdownArrow: Locator, index?: number, checkboxLabel?: string) {
+    let checkbox;
+    const dropdownArrowHandle = await dropdownArrow.elementHandle();
+    if (dropdownArrowHandle) {
+      await this.page.evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'auto' }), dropdownArrowHandle);
+    }
+    await dropdownArrow.click();
     if (index == 1) {
       checkbox = checkboxLabel ? this.getCheckboxByLabel(checkboxLabel) : this.getFirstOptionForGranularity();
     } else {
@@ -86,7 +110,6 @@ export class CreateNewNode {
       await checkbox.click();
       await this.panelContainer.click();
     }
-
   }
 
   async fillAndValidateInputByFieldName(fieldName: string, value: string) {
@@ -108,7 +131,7 @@ export class CreateNewNode {
 
 
   async validateNoMissingInputMessage() {
-      await expect(this.missingInputMessage).toHaveCount(0);
+    await expect(this.missingInputMessage).toHaveCount(0);
   }
 
   async clickdriverTreeSummary() {

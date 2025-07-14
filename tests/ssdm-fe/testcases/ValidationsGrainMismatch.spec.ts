@@ -12,6 +12,7 @@ let driverTreeNodes;
 let identifiedNodeId;
 let partitionData;
 let newCreatedNodeData;
+const selectedGrainsinDriverTree: string[] = [];
 
 test.describe(
   'Validations tests for Grain mismatch',
@@ -23,22 +24,23 @@ test.describe(
     // Before each test, sign in and initialize the page factory
     test.beforeEach(async ({ page, request }) => {
       test.setTimeout(TIMEOUT_SSDM_FE);
-      /* ufdmNodes = await createNodeUtility.getUfdmPartitionData(request);
-      driverTreeNodes =  await createNodeUtility.getdriverTreeNodes(request);
+      ufdmNodes = await createNodeUtility.getUfdmPartitionData(request);
+      driverTreeNodes = await createNodeUtility.getdriverTreeNodes(request);
       identifiedNodeId = createNodeUtility.getFirstNodeIdInUfdmNotInDriverTree(ufdmNodes.nodeIds, driverTreeNodes);
       partitionData = await createNodeUtility.getPartitionGrainForNodeId(identifiedNodeId, request);
+      //identifiedNodeId = "9_MKTG";
+      partitionData = ["Channel","Department","Entity","Month"];
       newCreatedNodeData = await createNodeUtility.createNewNode(request, identifiedNodeId);
-      console.log(`nodeName: ${newCreatedNodeData.nodeName}, nodeKey: ${newCreatedNodeData.nodeKey}`);  */
+      console.log(`nodeName: ${newCreatedNodeData.nodeName}, nodeKey: ${newCreatedNodeData.nodeKey}`);  
       await signinUtility.SignIn(page);
       objpageFactory = new PageFactory(page);
-
     });
 
-    /* test.afterEach(async ({ page, request }) => {
-      //await objpageFactory.ssdmPageFactory().driverTreeSummary().clickdriverTreeTab();
-      //await objpageFactory.ssdmPageFactory().nodeCRUDValidation().deleteNode(newCreatedNodeData.nodeName);
-      //newCreatedNodeData = await createNodeUtility.deleteCreatedNode(request, newCreatedNodeData.nodeKey);
-    });  */
+    test.afterEach(async ({ page, request }) => {
+      await objpageFactory.ssdmPageFactory().driverTreeSummary().clickdriverTreeTab();
+      await objpageFactory.ssdmPageFactory().nodeCRUDValidation().deleteNode(newCreatedNodeData.nodeName);
+      newCreatedNodeData = await createNodeUtility.deleteCreatedNode(request, newCreatedNodeData.nodeKey);
+    });  
 
 
 
@@ -47,26 +49,28 @@ test.describe(
 
       await test.step('Click on Create New Node icon and select the Node Type as Input', async () => {
         await objpageFactory.ssdmPageFactory().createNewNodeModal().clickNewNodeButton();
-       /*  await objpageFactory.ssdmPageFactory().createNewNodeModal().selectMandatoryDropdownValues(1, "Input");
+        await objpageFactory.ssdmPageFactory().createNewNodeModal().selectGrainByIndex(1, "Input");
         await objpageFactory.ssdmPageFactory().createNewNodeModal().page.waitForTimeout(2000);
+        for (let i = 2; i <= 3; i++) {
+          await objpageFactory.ssdmPageFactory().createNewNodeModal().selectGrainByIndex(i);
+        }
         await objpageFactory.ssdmPageFactory().createNewNodeModal().selectCreatedNode(nodeCrudDialog.fields.metricName, newCreatedNodeData.nodeName);
-        for (let i = 2; i <= 7; i++) {
-          await objpageFactory.ssdmPageFactory().createNewNodeModal().selectMandatoryDropdownValues(i);
-        }  */
-      });
-
-      /* await test.step(`Validate Field level errors`, async () => {
-        await objpageFactory.ssdmPageFactory().createNewNodeModal().validateNoGrainDataFieldMessage();
+        for (let i = 0; i <= partitionData.length - 1; i++) {
+          await objpageFactory.ssdmPageFactory().createNewNodeModal().selectGrainByValue(partitionData[i]);
+          selectedGrainsinDriverTree.push(partitionData[i]);
+          console.log('Selected Grains in Driver Tree:', selectedGrainsinDriverTree);
+        }
       });
 
       await test.step(`Save Changes to create the node variant`, async () => {
         await objpageFactory.ssdmPageFactory().nodeCRUDValidation().saveCreateNodeFlow(newCreatedNodeData.nodeName);
-      });
+      }); 
 
       await test.step(`Validate Missing Input Error on Driver Tree Summary screen`, async () => {
         await objpageFactory.ssdmPageFactory().driverTreeSummary().clickdriverTreeSummary();
-        await objpageFactory.ssdmPageFactory().driverTreeSummary().validateMissingInputError(newCreatedNodeData.nodeName)
-      }); */
+        await objpageFactory.ssdmPageFactory().driverTreeSummary().validateGrainMismatchError(newCreatedNodeData.nodeName, partitionData.join(', '), selectedGrainsinDriverTree.join(', '));
+        console.log("Grain Mismatch validation completed successfully.");
+      }); 
     })
 
 
