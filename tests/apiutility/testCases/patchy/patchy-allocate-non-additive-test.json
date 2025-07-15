@@ -1,0 +1,126 @@
+{
+  "Verify non-additive non-patchy and additive patchy allocate": [
+    {
+      "testStep": "Get a scenario to calculate",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "non_additive_patchy_allocation",
+        "patchy"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get a scenario to calculate at lower grain",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120009,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "% Rolling",
+              "format": "percent"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "scenario_id": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110027
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioId"
+        },
+        "scenarioVersion": {
+          "conditions": [
+            {
+              "path": "rowData.lineOfBusiness",
+              "equals": 110027
+            },
+            {
+              "path": "rowData.forecastStatus.statusCode",
+              "equals": 21
+            }
+          ],
+          "extractKey": "scenarioVersion"
+        }
+      }
+    },
+    {
+      "testStep": "Editing and Calculating the non additive nodes and additive node",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "non_additive_patchy_allocation"
+      ],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Calculating the non-additive nodes and patchy additive node",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{scenario_id}}",
+        "dim_val_id": 110027,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "unitsperorder_input",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 3
+            },
+            "allocation": {
+              "interval": 1,
+              "offset": 1,
+              "method": 32
+            }
+          },
+          {
+            "node_var_name": "merchandiseincomeplug_input",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 3
+            },
+            "allocation": {
+              "interval": 1,
+              "offset": 1,
+              "method": 32
+            }
+          }
+        ],
+        "filters": [],
+        "period_view": "month",
+        "adjustment_id": 1748943858452
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertNotNull": {
+            "jsonPath1": "node_var_name"
+          }
+        }
+      ]
+    }
+  ]
+}

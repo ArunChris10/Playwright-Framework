@@ -6,7 +6,8 @@
             "labels": [
                 "smoke",
                 "regression",
-                "cell-edit"
+                "cell-edit",
+                "patchy"
             ],
             "service": "coreService",
             "uri": "createUserScenario",
