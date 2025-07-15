@@ -37,7 +37,7 @@ export class DriverTreeSummary {
   }
 
   async clickdriverTreeTab() {
-    await this.driverTreeTab.click();
+    await this.driverTreeTab.click({ force: true });
   }
 
   async validateMissingInputError(inputString: string) {

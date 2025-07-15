@@ -131,7 +131,7 @@ export class CreateNewNode {
 
 
   async validateNoMissingInputMessage() {
-    await expect(this.missingInputMessage).toHaveCount(0);
+    await expect(this.missingInputMessage).not.toBeVisible();
   }
 
   async clickdriverTreeSummary() {

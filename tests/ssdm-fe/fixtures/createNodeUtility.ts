@@ -13,32 +13,39 @@ expect.extend(matchers);
  */
 export class createNodeUtility {
 
-    static async getUfdmPartitionData(request, isError = false) {
+    static async getUfdmPartitionData(request, option: string, isError = false) {
         //const endpointURL = `${process.env.uiAppBaseURL}api/validation/get-partition-data`;
         const endpointURL = `https://ibg-node-hub-service.qa.ibg.walmart.com/api/validation/get-partition-data`;
         const response = await request.get(endpointURL);
         let responseBody = await Utility.assertAndLog(response, isError);
-        // Filter NODE_IDs where PARTITION_GRAIN is NOT exactly "CHANNEL,DEPARTMENT,ENTITY,MONTH,REPORTING"
-        // and PARTITION_GRAIN contains at least one comma
-        const nodeIds = responseBody
-            .filter(item =>
-            item.PARTITION_GRAIN !== "CHANNEL,DEPARTMENT,ENTITY,MONTH,REPORTING" &&
-            item.PARTITION_GRAIN.includes(',')
-            )
+
+        let filteredItems;
+        if (option === "lessGrains") {
+            filteredItems = responseBody.filter(item =>
+                item.PARTITION_GRAIN === "CHANNEL,DEPARTMENT,ENTITY,MONTH"
+            );
+        } else if (option === "moreGrains") {
+            filteredItems = responseBody.filter(item =>
+                item.PARTITION_GRAIN === "MONTH"
+            );
+        } else {
+            filteredItems = responseBody;
+        }
+
+        const nodeIds = filteredItems
             .map(item => item.NODE_ID)
             .sort((nodeIdA, nodeIdB) => (nodeIdA < nodeIdB ? 1 : nodeIdA > nodeIdB ? -1 : 0));
         console.log('Filtered nodeIds (desc):', nodeIds);
+
         return {
             nodeIds,
-            partitionGrains: responseBody
-                .filter(item => item.PARTITION_GRAIN !== "CHANNEL,DEPARTMENT,ENTITY,MONTH,REPORTING")
-                .map(item => item.PARTITION_GRAIN)
+            partitionGrains: filteredItems.map(item => item.PARTITION_GRAIN)
         };
     }
 
     static async getUfdmPartitionData1(request, isError = false) {
-        //const endpointURL = `${process.env.uiAppBaseURL}api/validation/get-partition-data`;
-        const endpointURL = `https://ibg-node-hub-service.qa.ibg.walmart.com/api/validation/get-partition-data`;
+        const endpointURL = `${process.env.apiBaseURLSSDM}/api/validation/get-partition-data`;
+        //const endpointURL = `https://ibg-node-hub-service.qa.ibg.walmart.com/api/validation/get-partition-data`;
         const response = await request.get(endpointURL);
         let responseBody = await Utility.assertAndLog(response, isError);
         // Sort responseBody in descending order based on NODE_ID
@@ -57,15 +64,15 @@ export class createNodeUtility {
     }
 
     static async getdriverTreeNodes(request, isError = false) {
-        //const endpointURL = `${process.env.uiAppBaseURL}api/nodes`;
-        const endpointURL = `https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net/api/nodes`;
+        const endpointURL = `${process.env.apiBaseURLSSDM}/api/nodes`;
+        //const endpointURL = `https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net/api/nodes`;
         const response = await request.get(endpointURL);
         let responseBody = await Utility.assertAndLog(response, isError);
         // Return all node_id into an array and sort it in Descending order
         const nodeIds = responseBody
             .map(node => node.node_id)
             .sort((nodeIdA, nodeIdB) => (nodeIdA < nodeIdB ? 1 : nodeIdA > nodeIdB ? -1 : 0));
-            console.log('driverTree nodeIds:', nodeIds);
+        console.log('driverTree nodeIds:', nodeIds);
         return nodeIds;
     }
 
@@ -77,8 +84,8 @@ export class createNodeUtility {
     }
 
     static async getPartitionGrainForNodeId(ufdmNodeId, request, isError = false) {
-        //const endpointURL = `${process.env.uiAppBaseURL}api/validation/get-partition-data`;
-        const endpointURL = `https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net/api/validation/get-partition-data`;
+        const endpointURL = `${process.env.apiBaseURLSSDM}/api/validation/get-partition-data`;
+        //const endpointURL = `https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net/api/validation/get-partition-data`;
         const response = await request.get(endpointURL);
         let responseBody = await Utility.assertAndLog(response, isError);
         // Find the partition grain for the given nodeId
@@ -90,14 +97,24 @@ export class createNodeUtility {
                 .map(s => s.trim())
                 .map(s => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase());
         }
+        // If partitionGrain matches ['Channel', 'Department', 'Entity', 'Month'], update order
+        if (
+            partitionGrain.length === 4 &&
+            partitionGrain.includes('Channel') &&
+            partitionGrain.includes('Department') &&
+            partitionGrain.includes('Entity') &&
+            partitionGrain.includes('Month')
+        ) {
+            partitionGrain = ['Month', 'Channel', 'Department', 'Entity'];
+        }
         console.log('Partition grain for nodeId', ufdmNodeId, ':', partitionGrain);
         return partitionGrain;
     }
 
 
     static async createNewNode(request, nodeId?: string, isError = false) {
-        //const endpointURL = `${process.env.uiAppBaseURL}api/nodes`;
-        const endpointURL = `https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net/api/nodes`;
+        const endpointURL = `${process.env.apiBaseURLSSDM}/api/nodes`;
+        //const endpointURL = `https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net/api/nodes`;
         let randomNodeDetail = getNodeData.node_id + await Utility.randomInt(1, 5000);
         if (nodeId) {
             getNodeData.node_id = nodeId;
@@ -119,8 +136,8 @@ export class createNodeUtility {
     }
 
     static async deleteCreatedNode(request, nodeKey, isError = false) {
-        //const endpointURL = `${process.env.uiAppBaseURL}api/nodes/${nodeKey}`;
-        const endpointURL = `https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net/api/nodes/${nodeKey}`;
+        const endpointURL = `${process.env.apiBaseURLSSDM}/api/nodes/${nodeKey}`;
+        //const endpointURL = `https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net/api/nodes/${nodeKey}`;
         let nexusTokens = await Utility.getNexusFakeToken(`${process.env.ufmUser}`, request);
         const response = await request.delete(endpointURL, {
             headers: {
