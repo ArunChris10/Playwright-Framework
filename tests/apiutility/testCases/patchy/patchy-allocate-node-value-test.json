@@ -64,25 +64,6 @@
           "status": 200
         }
       ]
-    },
-    {
-      "testStep": "Deleting the created Scenario",
-      "environment": "qa",
-      "labels": ["smoke", "validate_allocate_calculate"],
-      "service": "coreService",
-      "uri": "Forecast",
-      "testName": "Validate deleting the forecast scenario",
-      "queryParams": "/{{sourceScenarioId}}/{{sourceScenarioVersionTimestamp}}",
-      "method": "DELETE",
-      "payload": {
-        "dim_id": 11,
-        "dim_val_id": 110013
-      },
-      "assertions": [
-        {
-          "status": 200
-        }
-      ]
     }
   ]
 }
