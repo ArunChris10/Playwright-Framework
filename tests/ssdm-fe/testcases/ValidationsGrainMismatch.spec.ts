@@ -39,7 +39,7 @@ test.describe(
     });
 
     /* test.afterEach(async ({ page, request }) => {
-      await objpageFactory.ssdmPageFactory().driverTreeSummary().clickdriverTreeTab();
+      await objpageFactory.ssdmPageFactory()driverTreeSummaryPageValidation.clickdriverTreeTab();
       await objpageFactory.ssdmPageFactory().nodeCRUDValidation().deleteNode(newCreatedNodeData.nodeName);
       newCreatedNodeData = await createNodeUtility.deleteCreatedNode(request, newCreatedNodeData.nodeKey);
     }); */
@@ -75,14 +75,14 @@ test.describe(
       });
 
       await test.step(`Validate grain mismatch Error on Driver Tree Summary screen for less grains than ufdm- input`, async () => {
-        await objpageFactory.ssdmPageFactory().driverTreeSummary().clickdriverTreeSummary();
-        await objpageFactory.ssdmPageFactory().driverTreeSummary().validateGrainMismatchError(newCreatedNodeData.nodeName, partitionData.join(', '), inputSelectedGrainsinDriverTree.join(', '));
+        await objpageFactory.ssdmPageFactory()driverTreeSummaryPageValidation.clickdriverTreeSummary();
+        await objpageFactory.ssdmPageFactory()driverTreeSummaryPageValidation.validateGrainMismatchError(newCreatedNodeData.nodeName, partitionData.join(', '), inputSelectedGrainsinDriverTree.join(', '));
         console.log("Grain Mismatch validation completed successfully.");
       }); */
 
       // Test: Verify Grain Mismatch error with node variant grains less than ufdm - type "Calculated"
       /* await test.step('Click on Create New Node icon and select the Node Type as Calculated for less grains', async () => {
-        await objpageFactory.ssdmPageFactory().driverTreeSummary().clickdriverTreeTab();
+        await objpageFactory.ssdmPageFactory()driverTreeSummaryPageValidation.clickdriverTreeTab();
         await objpageFactory.ssdmPageFactory().createNewNodeModal().clickNewNodeButton();
         await objpageFactory.ssdmPageFactory().createNewNodeModal().selectGrainByIndex(1, "Calculated");
         await objpageFactory.ssdmPageFactory().createNewNodeModal().page.waitForTimeout(2000);
@@ -101,8 +101,8 @@ test.describe(
       });
 
       await test.step(`Validate Grain Mismatch Error on Driver Tree Summary screen for less grains than ufdm- calculated`, async () => {
-        await objpageFactory.ssdmPageFactory().driverTreeSummary().clickdriverTreeSummary();
-        await objpageFactory.ssdmPageFactory().driverTreeSummary().validateGrainMismatchError(newCreatedNodeData.nodeName, partitionData.join(', '), calculatedSelectedGrainsinDriverTree.join(', '));
+        await objpageFactory.ssdmPageFactory()driverTreeSummaryPageValidation.clickdriverTreeSummary();
+        await objpageFactory.ssdmPageFactory()driverTreeSummaryPageValidation.validateGrainMismatchError(newCreatedNodeData.nodeName, partitionData.join(', '), calculatedSelectedGrainsinDriverTree.join(', '));
         console.log("Grain Mismatch validation completed successfully.");
       }); */ 
     })
@@ -133,14 +133,14 @@ test.describe(
       });
 
       await test.step(`Validate grain mismatch Error on Driver Tree Summary screen for more grains than ufdm- input`, async () => {
-        await objpageFactory.ssdmPageFactory().driverTreeSummary().clickdriverTreeSummary();
-        await objpageFactory.ssdmPageFactory().driverTreeSummary().validateGrainMismatchError(newCreatedNodeData.nodeName, partitionData.join(', '), inputSelectedGrainsinDriverTree.join(', '));
+        await objpageFactory.ssdmPageFactory()driverTreeSummaryPageValidation.clickdriverTreeSummary();
+        await objpageFactory.ssdmPageFactory()driverTreeSummaryPageValidation.validateGrainMismatchError(newCreatedNodeData.nodeName, partitionData.join(', '), inputSelectedGrainsinDriverTree.join(', '));
         console.log("Grain Mismatch validation completed successfully.");
       });
 
       // Test: Verify Grain Mismatch error with node variant grains more than ufdm - type "Calculated"
       await test.step('Click on Create New Node icon and select the Node Type as Calculated for more grains', async () => {
-        await objpageFactory.ssdmPageFactory().driverTreeSummary().clickdriverTreeTab();
+        await objpageFactory.ssdmPageFactory()driverTreeSummaryPageValidation.clickdriverTreeTab();
         await objpageFactory.ssdmPageFactory().createNewNodeModal().clickNewNodeButton();
         await objpageFactory.ssdmPageFactory().createNewNodeModal().selectGrainByIndex(1, "Calculated");
         await objpageFactory.ssdmPageFactory().createNewNodeModal().page.waitForTimeout(2000);
@@ -158,8 +158,8 @@ test.describe(
       });
   
       await test.step(`Validate Grain Mismatch Error on Driver Tree Summary screen for more grains than ufdm- calculated`, async () => {
-        await objpageFactory.ssdmPageFactory().driverTreeSummary().clickdriverTreeSummary();
-        await objpageFactory.ssdmPageFactory().driverTreeSummary().validateGrainMismatchError(newCreatedNodeData.nodeName, partitionData.join(', '), calculatedSelectedGrainsinDriverTree.join(', '));
+        await objpageFactory.ssdmPageFactory()driverTreeSummaryPageValidation.clickdriverTreeSummary();
+        await objpageFactory.ssdmPageFactory()driverTreeSummaryPageValidation.validateGrainMismatchError(newCreatedNodeData.nodeName, partitionData.join(', '), calculatedSelectedGrainsinDriverTree.join(', '));
         console.log("Grain Mismatch validation completed successfully.");
       }); 
     })*/

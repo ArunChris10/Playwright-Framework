@@ -29,7 +29,7 @@ test.describe(
     });
 
     test.afterEach(async ({ page, request }) => {
-      await objpageFactory.ssdmPageFactory().driverTreeSummary().clickdriverTreeTab();
+      await objpageFactory.ssdmPageFactory().driverTreeSummaryPageValidation().clickdriverTreeTab();
       await objpageFactory.ssdmPageFactory().nodeCRUDValidation().deleteNode(newCreatedNodeData.nodeName);
       newCreatedNodeData = await createNodeUtility.deleteCreatedNode(request, newCreatedNodeData.nodeKey);
     });
@@ -58,8 +58,8 @@ test.describe(
       });
 
       await test.step(`Validate Missing Input Error on Driver Tree Summary screen`, async () => {
-        await objpageFactory.ssdmPageFactory().driverTreeSummary().clickdriverTreeSummary();
-        await objpageFactory.ssdmPageFactory().driverTreeSummary().validateMissingInputError(newCreatedNodeData.nodeName)
+        await objpageFactory.ssdmPageFactory().driverTreeSummaryPageValidation().clickdriverTreeSummary();
+        await objpageFactory.ssdmPageFactory().driverTreeSummaryPageValidation().validateMissingInputError(newCreatedNodeData.nodeName)
       });
     })
 
