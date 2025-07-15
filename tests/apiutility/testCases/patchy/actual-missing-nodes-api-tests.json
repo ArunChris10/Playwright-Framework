@@ -4,9 +4,9 @@
             "testStep": "Call actual missing nodes api",
             "environment": "qa",
             "labels": [
-                "@Smoke",
+                "smoke",
                 "nodesApi",
-                "@Regression"
+                "Regression"
             ],
             "service": "dataForgeService",
             "uri": "actualMissingNode",

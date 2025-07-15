@@ -11,7 +11,7 @@
       "method": "POST",
       "payload": {
         "dim_id": 11,
-        "dim_val_id": 110013,
+        "dim_val_id": 110027,
         "classification_id": 12,
         "type": 3,
         "name": "Test-Filter-Source-{{randomNumber}}"
@@ -38,7 +38,7 @@
       "payload": {
         "display_nodes": [],
         "scenario_id": "{{sourceScenarioId}}",
-        "dim_val_id": 110013,
+        "dim_val_id": 110027,
         "dim_id": 11,
         "preview": true,
         "edits": [
