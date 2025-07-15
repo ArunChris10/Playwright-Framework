@@ -1,11 +1,12 @@
 {
-    "Verify allocation api shows error when editing parent node with a blank non additive dependent nodes": [
+    "Verify allocation api shows error when editing parent node with a blank non additive dependent nodes(multiple)": [
         {
             "testStep": "Get forecast for KPI filters",
             "environment": "qa",
             "labels": [
                 "smoke",
-                "patchy_multiple_non_additive"
+                "patchy_multiple_non_additive",
+                "patchy"
             ],
             "service": "coreService",
             "uri": "getForecast",
@@ -73,14 +74,12 @@
                         "month"
                     ],
                     "nodes": [
-                        
-                            "uompctofscannednet_input",
-                            "unitsnetuom",
-                            "scannedunitsibgdemand",
-                            "allocationpctmerchandiseincome_input",
-                            "merchandiseincomeallocatedtoentity",
-                            "merchandiseincomechanneldept_calculated"
-                        
+                        "uompctofscannednet_input",
+                        "unitsnetuom",
+                        "scannedunitsibgdemand",
+                        "allocationpctmerchandiseincome_input",
+                        "merchandiseincomeallocatedtoentity",
+                        "merchandiseincomechanneldept_calculated"
                     ],
                     "template_include_headers": [
                         {
@@ -234,13 +233,12 @@
                 {
                     "status": 404
                 },
-                
                 {
                     "assertEquals": {
-                    "messageMultiple": "message",
-                    "multipleValue":"UOM % of Scanned (Net) is using an aggregation formula with missing values. Please add data for the missing fields -  'Units (Net UOM)' and 'Scanned Units (IBG Demand)' before calculating.\n\nAllocation % (Merchandise Income) is using an aggregation formula with missing values. Please add data for the missing fields -  'Merchandise Income (allocated to entity)' and 'Merchandise Income (channel, dept)' before calculating."
+                        "messageMultiple": "message",
+                        "multipleValue": "UOM % of Scanned (Net) is using an aggregation formula with missing values. Please add data for the missing fields -  'Units (Net UOM)' and 'Scanned Units (IBG Demand)' before calculating.\n\nAllocation % (Merchandise Income) is using an aggregation formula with missing values. Please add data for the missing fields -  'Merchandise Income (allocated to entity)' and 'Merchandise Income (channel, dept)' before calculating."
+                    }
                 }
-            }
             ]
         }
     ]

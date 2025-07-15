@@ -5,7 +5,8 @@
             "environment": "qa",
             "labels": [
                 "smoke",
-                "additive_patchy_allocation"
+                "additive_patchy_allocation",
+                "patchy"
             ],
             "service": "coreService",
             "uri": "getForecast",
