@@ -11,10 +11,10 @@ import {
 } from './utils/commonUtil';
 
 
-export default async function globalTeardown() {
+export default async function globalTeardown(interpolatedHeader) {
   console.log('>> Global teardown started');
   clearGlobalStoreFile();
-  await deleteAllForecastsForAutomationUser();
+  await deleteAllForecastsForAutomationUser(interpolatedHeader);
   console.log('>> Global teardown completed');
 }
 
@@ -31,36 +31,19 @@ export async function createRequestContext(parentConfig: any, interpolatedHeader
   return requestContext;
 }
 
-async function deleteAllForecastsForAutomationUser() {
+async function deleteAllForecastsForAutomationUser(interpolatedHeader) {
   const parentConfig = loadJSON<ParentConfig>(path.resolve(__dirname, 'parent-config.json'));
-  const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
+  // const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
   let request = await createRequestContext(parentConfig, interpolatedHeader);
   // Use a static list of LOBs if commonData.lob_names does not exist
   const allLobs = [
-  "CONSOLIDATED DEMAND",
-  "INSTORE AND OTHER",
-  "SCHEDULED",
-  "UNSCHEDULED AND CORE",
-  "IB TRANSPORTATION",
-  "OB TRANSPORTATION",
-  "E2E DELIVERY",
-  "INNOVATION & AUTOMATION",
-  "CORE_SERVICES",
-  "LAST MILE DELIVERY",
-  "FULFILLMENT",
-  "SEGMENT",
-  "HOME OFFICE",
-  "OPERATIONS",
-  "REAL ESTATE",
-  "FUEL",
-  "RX",
-  "OPTICAL",
-  "ECOMMERCE",
-  "MARKETPLACE",
-  "CONNECT",
-  "MARKETING",
-  "DATA VENTURES"
-];// Add all relevant LOB names here
+    "CONSOLIDATED DEMAND",
+    "INSTORE AND OTHER",
+    "SCHEDULED",
+    "UNSCHEDULED AND CORE",
+    "MARKETPLACE",
+    "MERCHOPS"
+  ];// Add all relevant LOB names here
   for (let i = 0; i < allLobs.length; i++) {
     try {
       await ForecastUtility.deleteAllforecastofUser(

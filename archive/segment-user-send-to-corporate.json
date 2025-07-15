@@ -4,7 +4,11 @@
       "testStep": "Create Forecast Scenario for Customer & revenue Org",
       "testName": "Validate create forecast for Customer & revenue Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "createScenario",
@@ -84,16 +88,24 @@
       "testStep": "Send Forecast Scenario to BA Review for Customer & revenue Org",
       "testName": "Validate Send Forecast Scenario to BA Review Customer & revenue Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{Customer_revenue_Data_Venture_scenario_id}}",
-        "scenario_version":"{{Customer_revenue_Data_Venture_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110004}},
-     
+        "scenario": {
+          "scenario_id": "{{Customer_revenue_Data_Venture_scenario_id}}",
+          "scenario_version": "{{Customer_revenue_Data_Venture_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110004
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -154,7 +166,11 @@
       "testStep": "Create Forecast Scenario for Customer & revenue Org",
       "testName": "Validate create forecast for Customer & revenue Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "createScenario",
@@ -234,16 +250,24 @@
       "testStep": "Send Forecast Scenario to BA Review for Customer & revenue Org",
       "testName": "Validate Send Forecast Scenario to BA Review Customer & revenue Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{Customer_revenue_Connect_scenario_id}}",
-        "scenario_version":"{{Customer_revenue_Connect_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110002}},
-     
+        "scenario": {
+          "scenario_id": "{{Customer_revenue_Connect_scenario_id}}",
+          "scenario_version": "{{Customer_revenue_Connect_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110002
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -304,7 +328,11 @@
       "testStep": "Create Forecast Scenario for Customer & revenue Org",
       "testName": "Validate create forecast for Customer & revenue Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "createScenario",
@@ -384,16 +412,24 @@
       "testStep": "Send Forecast Scenario to BA Review for Customer & revenue Org",
       "testName": "Validate Send Forecast Scenario to BA Review Customer & revenue Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{Customer_revenue_Marketing_scenario_id}}",
-        "scenario_version":"{{Customer_revenue_Marketing_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110012}},
-     
+        "scenario": {
+          "scenario_id": "{{Customer_revenue_Marketing_scenario_id}}",
+          "scenario_version": "{{Customer_revenue_Marketing_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110012
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -454,12 +490,20 @@
       "testStep": "get forecast status for Customer & revenue Org",
       "testName": "get forecast status for Review Customer & revenue Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "getIndividualStatus",
       "queryParams": "",
       "method": "POST",
-      "payload": {"dim_id":12,"dim_val_id":120001,"classification_id":12},
+      "payload": {
+        "dim_id": 12,
+        "dim_val_id": 120001,
+        "classification_id": 12
+      },
       "extract": {
         "Customer_revenue_scenario_id": "scenarioId",
         "Customer_revenue_scenario_version": "scenarioVersion"
@@ -471,7 +515,7 @@
         {
           "assertEquals": {
             "jsonPath1": "forecastStatus",
-            "value1": 22            
+            "value1": 22
           }
         }
       ]
@@ -480,16 +524,24 @@
       "testStep": "Send Forecast Scenario to segment Review for Customer & revenue Org",
       "testName": "Validate Send Forecast Scenario to segment Review Customer & revenue Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{Customer_revenue_Marketing_scenario_id}}",
-        "scenario_version":"{{Customer_revenue_Marketing_scenario_version}}",
-        "scenario_status":23,"dim_id":11,"dim_val_id":110012}},
-     
+        "scenario": {
+          "scenario_id": "{{Customer_revenue_Marketing_scenario_id}}",
+          "scenario_version": "{{Customer_revenue_Marketing_scenario_version}}",
+          "scenario_status": 23,
+          "dim_id": 11,
+          "dim_val_id": 110012
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -545,12 +597,16 @@
       }
     }
   ],
- "verify create and send to BA review for Demand org Consolidated Demand forecast": [
+  "verify create and send to BA review for Demand org Consolidated Demand forecast": [
     {
       "testStep": "Create Forecast Scenario for Demand Org",
       "testName": "Validate create forecast for Demand Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -630,16 +686,24 @@
       "testStep": "Send Forecast Scenario to BA Review for Demand org Consolidated Demand forecast",
       "testName": "Validate Send Forecast Scenario to BA Review Demand org Consolidated Demand forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{Demand_Org_Consolidated_Demand_scenario_id}}",
-        "scenario_version":"{{Demand_Org_Consolidated_Demand_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110030}},
-     
+        "scenario": {
+          "scenario_id": "{{Demand_Org_Consolidated_Demand_scenario_id}}",
+          "scenario_version": "{{Demand_Org_Consolidated_Demand_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110030
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -700,12 +764,20 @@
       "testStep": "get forecast status for Demand Org",
       "testName": "get forecast status for Review Demand Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "getIndividualStatus",
       "queryParams": "",
       "method": "POST",
-      "payload": {"dim_id":12,"dim_val_id":120001,"classification_id":12},
+      "payload": {
+        "dim_id": 12,
+        "dim_val_id": 120001,
+        "classification_id": 12
+      },
       "extract": {
         "Demand_scenario_id": "scenarioId",
         "Demand_scenario_version": "scenarioVersion"
@@ -717,7 +789,7 @@
         {
           "assertEquals": {
             "jsonPath1": "forecastStatus",
-            "value1": 22            
+            "value1": 22
           }
         }
       ]
@@ -726,16 +798,24 @@
       "testStep": "Send Forecast Scenario to segment Review for Demand",
       "testName": "Validate Send Forecast Scenario to segment Review Demand Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{Demand_scenario_id}}",
-        "scenario_version":"{{Demand_scenario_version}}",
-        "scenario_status":23,"dim_id":11,"dim_val_id":120011}},
-     
+        "scenario": {
+          "scenario_id": "{{Demand_scenario_id}}",
+          "scenario_version": "{{Demand_scenario_version}}",
+          "scenario_status": 23,
+          "dim_id": 11,
+          "dim_val_id": 120011
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -791,13 +871,16 @@
       }
     }
   ],
-
   "verify create and send to BA review for UFM ECOMMERCE org ECOMMERCE forecast": [
     {
       "testStep": "Create Forecast Scenario for UFM ECOMMERCE Org",
       "testName": "Validate create forecast for UFM ECOMMERCE Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -877,16 +960,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM ECOMMERCE org ECOMMERCE forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM ECOMMERCEmand org  ECOMMERCE forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_ECOMMERCE_scenario_id}}",
-        "scenario_version":"{{UFM_ECOMMERCE_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110006}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_ECOMMERCE_scenario_id}}",
+          "scenario_version": "{{UFM_ECOMMERCE_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110006
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -947,7 +1038,11 @@
       "testStep": "Create Forecast Scenario for UFM ECOMMERCE Org MARKETPLACE forecast",
       "testName": "Validate create forecast for UFM ECOMMERCE Org MARKETPLACE forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -1027,16 +1122,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM ECOMMERCE org ECOMMERCE forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM ECOMMERCEmand org  ECOMMERCE forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_ECOMMERCE_MARKETPLACE_scenario_id}}",
-        "scenario_version":"{{UFM_ECOMMERCE_MARKETPLACE_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110013}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_ECOMMERCE_MARKETPLACE_scenario_id}}",
+          "scenario_version": "{{UFM_ECOMMERCE_MARKETPLACE_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110013
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -1097,12 +1200,20 @@
       "testStep": "get forecast status for UFM ECOMMERCE Org",
       "testName": "get forecast status for Review UFM ECOMMERCE Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "getIndividualStatus",
       "queryParams": "",
       "method": "POST",
-      "payload": {"dim_id":12,"dim_val_id":120002,"classification_id":12},
+      "payload": {
+        "dim_id": 12,
+        "dim_val_id": 120002,
+        "classification_id": 12
+      },
       "extract": {
         "UFM_ECOMMERCE_Org_scenario_id": "scenarioId",
         "UFM_ECOMMERCE_Org_scenario_version": "scenarioVersion"
@@ -1114,7 +1225,7 @@
         {
           "assertEquals": {
             "jsonPath1": "forecastStatus",
-            "value1": 22            
+            "value1": 22
           }
         }
       ]
@@ -1123,16 +1234,24 @@
       "testStep": "Send Forecast Scenario to segment Review for UFM_ECOMMERCE_Org",
       "testName": "Validate Send Forecast Scenario to segment Review UFM_ECOMMERCE_Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_ECOMMERCE_Org_scenario_id}}",
-        "scenario_version":"{{UFM_ECOMMERCE_Org_scenario_version}}",
-        "scenario_status":23,"dim_id":12,"dim_val_id":120002}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_ECOMMERCE_Org_scenario_id}}",
+          "scenario_version": "{{UFM_ECOMMERCE_Org_scenario_version}}",
+          "scenario_status": 23,
+          "dim_id": 12,
+          "dim_val_id": 120002
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -1188,13 +1307,16 @@
       }
     }
   ],
-
   "verify create and send to BA review for UFM OPERATIONS org OPERATIONS forecast": [
     {
       "testStep": "Create Forecast Scenario for UFM OPERATIONS Org",
       "testName": "Validate create forecast for UFM OPERATIONS Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -1274,16 +1396,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM OPERATIONS org OPERATIONS forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM OPERATIONS org  OPERATIONS forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_OPERATIONS_scenario_id}}",
-        "scenario_version":"{{UFM_OPERATIONS_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110015}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_OPERATIONS_scenario_id}}",
+          "scenario_version": "{{UFM_OPERATIONS_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110015
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -1344,7 +1474,11 @@
       "testStep": "Create Forecast Scenario for UFM OPERATIONS Org FUEL forecast",
       "testName": "Validate create forecast for UFM OPERATIONS Org FUEL forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -1424,16 +1558,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM OPERATIONS org OPERATIONS forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM OPERATIONSmand org  OPERATIONS forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_OPERATIONS_FUEL_scenario_id}}",
-        "scenario_version":"{{UFM_OPERATIONS_FUEL_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110007}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_OPERATIONS_FUEL_scenario_id}}",
+          "scenario_version": "{{UFM_OPERATIONS_FUEL_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110007
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -1494,7 +1636,11 @@
       "testStep": "Create Forecast Scenario for UFM OPERATIONS Org REAL_ESTATE forecast",
       "testName": "Validate create forecast for UFM OPERATIONS Org REAL_ESTATE forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -1574,16 +1720,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM OPERATIONS org OPERATIONS forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM OPERATIONSmand org  OPERATIONS forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_OPERATIONS_REAL_ESTATE_scenario_id}}",
-        "scenario_version":"{{UFM_OPERATIONS_REAL_ESTATE_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110018}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_OPERATIONS_REAL_ESTATE_scenario_id}}",
+          "scenario_version": "{{UFM_OPERATIONS_REAL_ESTATE_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110018
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -1644,12 +1798,20 @@
       "testStep": "get forecast status for UFM OPERATIONS Org",
       "testName": "get forecast status for Review UFM OPERATIONS Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "getIndividualStatus",
       "queryParams": "",
       "method": "POST",
-      "payload": {"dim_id":12,"dim_val_id":120005,"classification_id":12},
+      "payload": {
+        "dim_id": 12,
+        "dim_val_id": 120005,
+        "classification_id": 12
+      },
       "extract": {
         "UFM_OPERATIONS_Org_scenario_id": "scenarioId",
         "UFM_OPERATIONS_Org_scenario_version": "scenarioVersion"
@@ -1661,7 +1823,7 @@
         {
           "assertEquals": {
             "jsonPath1": "forecastStatus",
-            "value1": 22            
+            "value1": 22
           }
         }
       ]
@@ -1670,16 +1832,24 @@
       "testStep": "Send Forecast Scenario to segment Review for UFM_OPERATIONS_Org",
       "testName": "Validate Send Forecast Scenario to segment Review UFM_OPERATIONS_Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_OPERATIONS_Org_scenario_id}}",
-        "scenario_version":"{{UFM_OPERATIONS_Org_scenario_version}}",
-        "scenario_status":23,"dim_id":12,"dim_val_id":120005}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_OPERATIONS_Org_scenario_id}}",
+          "scenario_version": "{{UFM_OPERATIONS_Org_scenario_version}}",
+          "scenario_status": 23,
+          "dim_id": 12,
+          "dim_val_id": 120005
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -1740,7 +1910,11 @@
       "testStep": "Create Forecast Scenario for UFM SEGMENT Org",
       "testName": "Validate create forecast for UFM SEGMENT Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -1820,16 +1994,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM SEGMENT org SEGMENT forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM SEGMENT org  SEGMENT forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_SEGMENT_scenario_id}}",
-        "scenario_version":"{{UFM_SEGMENT_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110021}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_SEGMENT_scenario_id}}",
+          "scenario_version": "{{UFM_SEGMENT_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110021
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -1890,7 +2072,11 @@
       "testStep": "Create Forecast Scenario for UFM SEGMENT Org HOME_OFFICE forecast",
       "testName": "Validate create forecast for UFM SEGMENT Org HOME_OFFICE forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -1970,16 +2156,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM SEGMENT org SEGMENT forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM SEGMENTmand org  SEGMENT forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_SEGMENT_HOME_OFFICE_scenario_id}}",
-        "scenario_version":"{{UFM_SEGMENT_HOME_OFFICE_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110009}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_SEGMENT_HOME_OFFICE_scenario_id}}",
+          "scenario_version": "{{UFM_SEGMENT_HOME_OFFICE_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110009
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -2034,18 +2228,26 @@
         "timeoutMs": 600000
       }
     }
-  ],  
+  ],
   "verify send to segment review for UFM SEGMENT forecast": [
     {
       "testStep": "get forecast status for UFM SEGMENT Org",
       "testName": "get forecast status for Review UFM SEGMENT Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "getIndividualStatus",
       "queryParams": "",
       "method": "POST",
-      "payload": {"dim_id":12,"dim_val_id":120006,"classification_id":12},
+      "payload": {
+        "dim_id": 12,
+        "dim_val_id": 120006,
+        "classification_id": 12
+      },
       "extract": {
         "UFM_SEGMENT_Org_scenario_id": "scenarioId",
         "UFM_SEGMENT_Org_scenario_version": "scenarioVersion"
@@ -2057,7 +2259,7 @@
         {
           "assertEquals": {
             "jsonPath1": "forecastStatus",
-            "value1": 22            
+            "value1": 22
           }
         }
       ]
@@ -2066,16 +2268,24 @@
       "testStep": "Send Forecast Scenario to segment Review for UFM_SEGMENT_Org",
       "testName": "Validate Send Forecast Scenario to segment Review UFM_SEGMENT_Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_SEGMENT_Org_scenario_id}}",
-        "scenario_version":"{{UFM_SEGMENT_Org_scenario_version}}",
-        "scenario_status":23,"dim_id":12,"dim_val_id":120006}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_SEGMENT_Org_scenario_id}}",
+          "scenario_version": "{{UFM_SEGMENT_Org_scenario_version}}",
+          "scenario_status": 23,
+          "dim_id": 12,
+          "dim_val_id": 120006
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -2131,13 +2341,16 @@
       }
     }
   ],
-  
   "verify create and send to BA review for UFM Merchandising finance org SCHEDULED forecast": [
     {
       "testStep": "Create Forecast Scenario for UFM Merchandising finance Org",
       "testName": "Validate create forecast for UFM Merchandising finance Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -2217,16 +2430,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM Merchandising finance org MF_SCHEDULED forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM Merchandising finance org  MF_SCHEDULED forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_MF_SCHEDULED_scenario_id}}",
-        "scenario_version":"{{UFM_MF_SCHEDULED_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110027}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_MF_SCHEDULED_scenario_id}}",
+          "scenario_version": "{{UFM_MF_SCHEDULED_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110027
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -2287,7 +2508,11 @@
       "testStep": "Create Forecast Scenario for UFM Merchandising finance Org INSTORE_AND_OTHER forecast",
       "testName": "Validate create forecast for UFM Merchandising finance Org INSTORE_AND_OTHER forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -2367,16 +2592,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM Merchandising finance org SEGMENT forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM Merchandising financemand org  SEGMENT forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_MF_INSTORE_AND_OTHER_scenario_id}}",
-        "scenario_version":"{{UFM_MF_INSTORE_AND_OTHER_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110026}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_MF_INSTORE_AND_OTHER_scenario_id}}",
+          "scenario_version": "{{UFM_MF_INSTORE_AND_OTHER_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110026
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -2437,7 +2670,11 @@
       "testStep": "Create Forecast Scenario for UFM Merchandising finance Org UNSCHEDULED_AND_CORE forecast",
       "testName": "Validate create forecast for UFM Merchandising finance Org UNSCHEDULED_AND_CORE forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -2517,16 +2754,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM Merchandising finance org SEGMENT forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM Merchandising financemand org  SEGMENT forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_MF_UNSCHEDULED_AND_CORE_scenario_id}}",
-        "scenario_version":"{{UFM_MF_UNSCHEDULED_AND_CORE_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110028}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_MF_UNSCHEDULED_AND_CORE_scenario_id}}",
+          "scenario_version": "{{UFM_MF_UNSCHEDULED_AND_CORE_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110028
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -2587,12 +2832,20 @@
       "testStep": "get forecast status for UFM Merchandising finance Org",
       "testName": "get forecast status for Review UFM Merchandising finance Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "getIndividualStatus",
       "queryParams": "",
       "method": "POST",
-      "payload": {"dim_id":12,"dim_val_id":120009,"classification_id":12},
+      "payload": {
+        "dim_id": 12,
+        "dim_val_id": 120009,
+        "classification_id": 12
+      },
       "extract": {
         "UFM_MF_Org_scenario_id": "scenarioId",
         "UFM_MF_Org_scenario_version": "scenarioVersion"
@@ -2604,7 +2857,7 @@
         {
           "assertEquals": {
             "jsonPath1": "forecastStatus",
-            "value1": 22            
+            "value1": 22
           }
         }
       ]
@@ -2613,16 +2866,24 @@
       "testStep": "Send Forecast Scenario to segment Review for UFM_MF_Org",
       "testName": "Validate Send Forecast Scenario to segment Review UFM_MF_Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_MF_Org_scenario_id}}",
-        "scenario_version":"{{UFM_MF_Org_scenario_version}}",
-        "scenario_status":23,"dim_id":12,"dim_val_id":120009}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_MF_Org_scenario_id}}",
+          "scenario_version": "{{UFM_MF_Org_scenario_version}}",
+          "scenario_status": 23,
+          "dim_id": 12,
+          "dim_val_id": 120009
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -2678,13 +2939,16 @@
       }
     }
   ],
-
   "verify create and send to BA review for UFM Merchandising operations org MERCHOPS forecast": [
     {
       "testStep": "Create Forecast Scenario for UFM Merchandising operations Org",
       "testName": "Validate create forecast for UFM Merchandising operations Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -2764,16 +3028,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM Merchandising operations org MO_MERCHOPS forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM Merchandising operations org  MO_MERCHOPS forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_MO_MERCHOPS_scenario_id}}",
-        "scenario_version":"{{UFM_MO_MERCHOPS_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110029}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_MO_MERCHOPS_scenario_id}}",
+          "scenario_version": "{{UFM_MO_MERCHOPS_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110029
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -2834,12 +3106,20 @@
       "testStep": "get forecast status for UFM Merchandising operations Org",
       "testName": "get forecast status for Review UFM Merchandising operations Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "getIndividualStatus",
       "queryParams": "",
       "method": "POST",
-      "payload": {"dim_id":12,"dim_val_id":120010,"classification_id":12},
+      "payload": {
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "classification_id": 12
+      },
       "extract": {
         "UFM_MF_Org_scenario_id": "scenarioId",
         "UFM_MF_Org_scenario_version": "scenarioVersion"
@@ -2851,7 +3131,7 @@
         {
           "assertEquals": {
             "jsonPath1": "forecastStatus",
-            "value1": 22            
+            "value1": 22
           }
         }
       ]
@@ -2860,16 +3140,24 @@
       "testStep": "Send Forecast Scenario to segment Review for UFM_MF_Org",
       "testName": "Validate Send Forecast Scenario to segment Review UFM_MF_Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_MF_Org_scenario_id}}",
-        "scenario_version":"{{UFM_MF_Org_scenario_version}}",
-        "scenario_status":23,"dim_id":12,"dim_val_id":120010}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_MF_Org_scenario_id}}",
+          "scenario_version": "{{UFM_MF_Org_scenario_version}}",
+          "scenario_status": 23,
+          "dim_id": 12,
+          "dim_val_id": 120010
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -2925,13 +3213,16 @@
       }
     }
   ],
-
   "verify create and send to BA review for UFM Supply chain org IB TRANSPORTATION forecast": [
     {
       "testStep": "Create Forecast Scenario for UFM Supply chain Org",
       "testName": "Validate create forecast for UFM Supply chain Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -3011,16 +3302,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM Supply chain org SUPPLY_CHAIN_IB_TRANSPORTATION forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM Supply chain org  SUPPLY_CHAIN_IB_TRANSPORTATION forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_SUPPLY_CHAIN_IB_TRANSPORTATION_scenario_id}}",
-        "scenario_version":"{{UFM_SUPPLY_CHAIN_IB_TRANSPORTATION_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110033}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_SUPPLY_CHAIN_IB_TRANSPORTATION_scenario_id}}",
+          "scenario_version": "{{UFM_SUPPLY_CHAIN_IB_TRANSPORTATION_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110033
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -3081,7 +3380,11 @@
       "testStep": "Create Forecast Scenario for UFM Supply chain Org",
       "testName": "Validate create forecast for UFM Supply chain Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -3161,16 +3464,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM Supply chain org SUPPLY_CHAIN_CORE_SERVICES forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM Supply chain org  SUPPLY_CHAIN_CORE_SERVICES forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_SUPPLY_CHAIN_CORE_SERVICES_scenario_id}}",
-        "scenario_version":"{{UFM_SUPPLY_CHAIN_CORE_SERVICES_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110003}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_SUPPLY_CHAIN_CORE_SERVICES_scenario_id}}",
+          "scenario_version": "{{UFM_SUPPLY_CHAIN_CORE_SERVICES_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110003
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -3231,7 +3542,11 @@
       "testStep": "Create Forecast Scenario for UFM Supply chain Org",
       "testName": "Validate create forecast for UFM Supply chain Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -3311,16 +3626,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM Supply chain org SUPPLY_CHAIN_LAST_MILE_DELIVERY forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM Supply chain org  SUPPLY_CHAIN_LAST_MILE_DELIVERY forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_SUPPLY_CHAIN_LAST_MILE_DELIVERY_scenario_id}}",
-        "scenario_version":"{{UFM_SUPPLY_CHAIN_LAST_MILE_DELIVERY_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110011}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_SUPPLY_CHAIN_LAST_MILE_DELIVERY_scenario_id}}",
+          "scenario_version": "{{UFM_SUPPLY_CHAIN_LAST_MILE_DELIVERY_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110011
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -3381,7 +3704,11 @@
       "testStep": "Create Forecast Scenario for UFM Supply chain Org",
       "testName": "Validate create forecast for UFM Supply chain Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -3461,16 +3788,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM Supply chain org SUPPLY_CHAIN_INNOVATION_AUTOMATION forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM Supply chain org  SUPPLY_CHAIN_INNOVATION_AUTOMATION forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_SUPPLY_CHAIN_INNOVATION_AUTOMATION_scenario_id}}",
-        "scenario_version":"{{UFM_SUPPLY_CHAIN_INNOVATION_AUTOMATION_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110010}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_SUPPLY_CHAIN_INNOVATION_AUTOMATION_scenario_id}}",
+          "scenario_version": "{{UFM_SUPPLY_CHAIN_INNOVATION_AUTOMATION_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110010
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -3531,7 +3866,11 @@
       "testStep": "Create Forecast Scenario for UFM Supply chain Org",
       "testName": "Validate create forecast for UFM Supply chain Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -3611,16 +3950,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM Supply chain org SUPPLY_CHAIN_FULFILLMENT forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM Supply chain org  SUPPLY_CHAIN_FULFILLMENT forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_SUPPLY_CHAIN_FULFILLMENT_scenario_id}}",
-        "scenario_version":"{{UFM_SUPPLY_CHAIN_FULFILLMENT_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110008}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_SUPPLY_CHAIN_FULFILLMENT_scenario_id}}",
+          "scenario_version": "{{UFM_SUPPLY_CHAIN_FULFILLMENT_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110008
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -3681,7 +4028,11 @@
       "testStep": "Create Forecast Scenario for UFM Supply chain Org",
       "testName": "Validate create forecast for UFM Supply chain Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -3761,16 +4112,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM Supply chain org SUPPLY_CHAIN_E2E_DELIVERY forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM Supply chain org  SUPPLY_CHAIN_E2E_DELIVERY forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_SUPPLY_CHAIN_E2E_DELIVERY_scenario_id}}",
-        "scenario_version":"{{UFM_SUPPLY_CHAIN_E2E_DELIVERY_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110005}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_SUPPLY_CHAIN_E2E_DELIVERY_scenario_id}}",
+          "scenario_version": "{{UFM_SUPPLY_CHAIN_E2E_DELIVERY_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110005
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -3831,7 +4190,11 @@
       "testStep": "Create Forecast Scenario for UFM Supply chain Org",
       "testName": "Validate create forecast for UFM Supply chain Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "queryParams": "/create-user-scenario",
@@ -3911,16 +4274,24 @@
       "testStep": "Send Forecast Scenario to BA Review for UFM Supply chain org SUPPLY_CHAIN_OB_TRANSPORTATION forecast",
       "testName": "Validate Send Forecast Scenario to BA Review UFM Supply chain org  SUPPLY_CHAIN_OB_TRANSPORTATION forecast",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_SUPPLY_CHAIN_OB_TRANSPORTATION_scenario_id}}",
-        "scenario_version":"{{UFM_SUPPLY_CHAIN_OB_TRANSPORTATION_scenario_version}}",
-        "scenario_status":22,"dim_id":11,"dim_val_id":110034}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_SUPPLY_CHAIN_OB_TRANSPORTATION_scenario_id}}",
+          "scenario_version": "{{UFM_SUPPLY_CHAIN_OB_TRANSPORTATION_scenario_version}}",
+          "scenario_status": 22,
+          "dim_id": 11,
+          "dim_val_id": 110034
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -3981,12 +4352,20 @@
       "testStep": "get forecast status for UFM Supply chain Org",
       "testName": "get forecast status for Review UFM Supply chain Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "getIndividualStatus",
       "queryParams": "",
       "method": "POST",
-      "payload": {"dim_id":12,"dim_val_id":120007,"classification_id":12},
+      "payload": {
+        "dim_id": 12,
+        "dim_val_id": 120007,
+        "classification_id": 12
+      },
       "extract": {
         "UFM_MF_Org_scenario_id": "scenarioId",
         "UFM_MF_Org_scenario_version": "scenarioVersion"
@@ -3998,7 +4377,7 @@
         {
           "assertEquals": {
             "jsonPath1": "forecastStatus",
-            "value1": 22            
+            "value1": 22
           }
         }
       ]
@@ -4007,16 +4386,24 @@
       "testStep": "Send Forecast Scenario to segment Review for UFM_MF_Org",
       "testName": "Validate Send Forecast Scenario to segment Review UFM_MF_Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{UFM_MF_Org_scenario_id}}",
-        "scenario_version":"{{UFM_MF_Org_scenario_version}}",
-        "scenario_status":23,"dim_id":12,"dim_val_id":120007}},
-     
+        "scenario": {
+          "scenario_id": "{{UFM_MF_Org_scenario_id}}",
+          "scenario_version": "{{UFM_MF_Org_scenario_version}}",
+          "scenario_status": 23,
+          "dim_id": 12,
+          "dim_val_id": 120007
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -4072,18 +4459,25 @@
       }
     }
   ],
-
   "verify submit to corporate for all forecast": [
     {
       "testStep": "get forecast status for Customer & revenue Org",
       "testName": "get forecast status for Review Customer & revenue Org",
       "environment": "dev",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "getIndividualStatus",
       "queryParams": "",
       "method": "POST",
-      "payload": {"dim_id":13,"dim_val_id":130001,"classification_id":12},
+      "payload": {
+        "dim_id": 13,
+        "dim_val_id": 130001,
+        "classification_id": 12
+      },
       "extract": {
         "submit_scenario_id": "scenarioId",
         "submit_scenario_version": "scenarioVersion"
@@ -4098,16 +4492,24 @@
       "testStep": "Send Forecast Scenario to corporate ",
       "testName": "send to corporate",
       "environment": "qa",
-      "labels": ["smoke", "MS2","IBG-38448"],
+      "labels": [
+        "smoke",
+        "MS2",
+        "IBG-38448"
+      ],
       "service": "coreService",
       "uri": "sendToBAReview",
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario":{"scenario_id":"{{submit_scenario_id}}",
-        "scenario_version":"{{submit_scenario_version}}",
-      "scenario_status":24,"dim_id":13,"dim_val_id":130001}},
-     
+        "scenario": {
+          "scenario_id": "{{submit_scenario_id}}",
+          "scenario_version": "{{submit_scenario_version}}",
+          "scenario_status": 24,
+          "dim_id": 13,
+          "dim_val_id": 130001
+        }
+      },
       "assertions": [
         {
           "status": 200
@@ -4126,7 +4528,12 @@
       "testName": "Poll creation of Customer & revenue Marketing FORECAST",
       "queryParams": "",
       "method": "POST",
-      "payload": {"dim_id":13,"dim_val_id":130001,"template_id":4,"classification_id":12},
+      "payload": {
+        "dim_id": 13,
+        "dim_val_id": 130001,
+        "template_id": 4,
+        "classification_id": 12
+      },
       "assertions": [
         {
           "status": 200

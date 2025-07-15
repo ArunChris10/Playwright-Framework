@@ -15,7 +15,7 @@ import { AsyncPublishFunctionality } from "./publish-async-process.page";
 import { LandingPageValidation } from "./landing.page";
 import { NodeCRUDValidation } from "./node-crud-operations.page";
 import { CreateNewNode } from "./newnode.page";
-import { DriverTreeSummary } from "./driverTreeSummary.page";
+import { DriverTreeSummaryPageValidation } from "./driver-tree-summary.page";
 
 export class SSDMPageFactory {
   private readonly page: Page;
@@ -78,7 +78,7 @@ export class SSDMPageFactory {
 
   landingPage() {
     return new LandingPageValidation(this.page);
-  }
+    }
 
   nodeCRUDValidation() {
     return new NodeCRUDValidation(this.page, this.landingPage());
@@ -88,7 +88,9 @@ export class SSDMPageFactory {
     return new CreateNewNode(this.page);
   }
 
-  driverTreeSummary() {
-    return new DriverTreeSummary(this.page);
+  driverTreeSummaryPageValidation() {
+    return new DriverTreeSummaryPageValidation(this.page);
   }
+
+
 }

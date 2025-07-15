@@ -142,10 +142,16 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
 
             console.log(`Response Status: ${response.status()}`);
             if (response.status() !== 204) {
+              try{
               responseBody = await response.json();
+              } catch{
+                responseBody = await response.text();
+              }
               console.log("Response Body:");
               console.log(JSON.stringify(responseBody, null, 2));
-            }
+              
+            
+          }
 
             if (step.extract) {
               for (const globalVar in step.extract) {

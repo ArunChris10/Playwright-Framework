@@ -69,7 +69,7 @@
       "service": "coreService",
       "uri": "download",
       "testName": "validate response for valid document ID",
-      "queryParams": "?doc_id=11411750311110",
+      "queryParams": "?doc_id=10081751530373",
       "method": "GET",
       "assertions": [
         {

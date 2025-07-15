@@ -18,23 +18,22 @@ lobName.forEach((lob) => {
         test(`Find input nodes for user ${user} for ${lob} scenario`, async ({
           request,
         }) => {
-          let nexusTokens = await Utility.getNexusFakeToken(user, request);
           let inputnodes = await UfmUtility.getDriverList(
             lob,
             "Input",
-            request,
-            nexusTokens
+            request
+
           );
           for (const inputNode of inputnodes) {
             const { node_var_name, node_name, node_grain } = inputNode;
 
             Utility.logIt(
               "Node name - " +
-                node_name +
-                " Node var name - " +
-                node_var_name +
-                " Node grains - " +
-                node_grain
+              node_name +
+              " Node var name - " +
+              node_var_name +
+              " Node grains - " +
+              node_grain
             );
           }
         });

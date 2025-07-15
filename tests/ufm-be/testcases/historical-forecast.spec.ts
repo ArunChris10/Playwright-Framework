@@ -24,11 +24,8 @@ lobList.forEach((lobName) => {
         test(`For User ${user} Check the list of historical forecast for ${lobName}`, async ({
           request,
         }) => {
-          let nexusTokens = await Utility.getNexusFakeToken(user, request);
           responseData = await request.get(endpointURL, {
-            headers: {
-              Authorization: nexusTokens,
-            },
+
             params: {
               dim_id: commonData.ba_dim_id,
               classification_id: commonData.classification_id,
