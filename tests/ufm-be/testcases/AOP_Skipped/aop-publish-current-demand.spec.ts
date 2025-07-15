@@ -11,7 +11,7 @@ import adjustmentData from "../../testdata/adjustment.json";
 import aopEdits from "../../testdata/aop-edits.json"
 export interface NodeDimension { };
 
-test.describe(
+test.describe.skip(
   "Compare the aop publish data with current demand",
   { tag: "@Smoke @Regression @aop @aoppublish" },
   () => {

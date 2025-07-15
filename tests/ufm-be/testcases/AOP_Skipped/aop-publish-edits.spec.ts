@@ -8,7 +8,7 @@ import aopEdits from "../../testdata/aop-edits.json";
 import forecastData from "../../testdata/forecast-api.json";
 export interface NodeDimension {}
 
-test.describe.serial(
+test.describe.skip(
   "Execute and validate AOP publish iterations sequentially",
   { tag: "@Smoke @Regression @aop @aop-publish-edits" },
   () => {

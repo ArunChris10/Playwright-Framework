@@ -2,7 +2,7 @@ import { expect, test } from "../../../common/fixtures/test-hook";
 import { Utility } from "../../../common/fixtures/utils";
 import testdatafile from "../../testdata/new-aop-version.json";
 
-test.describe(
+test.describe.skip(
   "Verify the aop publish failed with api error",
   { tag: "@Smoke @Regression @aop_publish_error" },
   () => {

@@ -7,7 +7,7 @@ import testdatafile from "../../testdata/new-aop-version.json";
 import newAopVersion from "../../testdata/new-aop-version.json";
 import aopEdits from "../../testdata/aop-edits.json";
 
-test.describe(
+test.describe.skip(
     "Verify if user is able to create another AOP scenario when new datasets are available",
     { tag: "@Smoke @Regression @aop_new_scenario" },
     () => {

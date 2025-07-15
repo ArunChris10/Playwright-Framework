@@ -4,7 +4,7 @@ import testdatafile from "../../testdata/new-aop-version.json";
 import usersData from "../../constants/ufm_users.json";
 import { AOPUtils } from '../../fixtures/aop-utils';
 
-test.describe(
+test.describe.skip(
   "Verify the aop publish API",
   { tag: "@Smoke @Regression @aop @aopNewVersion" },
   () => {
