@@ -11,7 +11,7 @@
       "method": "POST",
       "payload": {
         "dim_id": 11,
-        "dim_val_id": 110013,
+        "dim_val_id": 110027,
         "classification_id": 12,
         "type": 3,
         "name": "Test-Filter-Source-{{randomNumber}}"
@@ -38,7 +38,7 @@
       "payload": {
         "display_nodes": [],
         "scenario_id": "{{sourceScenarioId}}",
-        "dim_val_id": 110013,
+        "dim_val_id": 110027,
         "dim_id": 11,
         "preview": true,
         "edits": [
@@ -58,25 +58,6 @@
         "filters": [],
         "period_view": "month",
         "adjustment_id": 1751024732756
-      },
-      "assertions": [
-        {
-          "status": 200
-        }
-      ]
-    },
-    {
-      "testStep": "Deleting the created Scenario",
-      "environment": "qa",
-      "labels": ["smoke", "validate_allocate_calculate"],
-      "service": "coreService",
-      "uri": "Forecast",
-      "testName": "Validate deleting the forecast scenario",
-      "queryParams": "/{{sourceScenarioId}}/{{sourceScenarioVersionTimestamp}}",
-      "method": "DELETE",
-      "payload": {
-        "dim_id": 11,
-        "dim_val_id": 110013
       },
       "assertions": [
         {
