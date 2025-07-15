@@ -14,7 +14,7 @@ import { ParentConfig } from '../apiutility/types/api.types';
 import { Utility } from "../common/fixtures/utils";
 import deleteAllForecastsForAutomationUser from '../apiutility/globalTeardown';
 
-export default async function globalSetup() {
+export default async function globalSetup(token) {
 
   process.env.apiBaseURLUFM = `https://ibg-ufm-core-service.${process.env.envName}.ibg.walmart.com`;
   
@@ -22,9 +22,10 @@ export default async function globalSetup() {
 
   const parentConfig = loadJSON<ParentConfig>(path.resolve(__dirname, 'parent-config.json'));
   // await Utility.getNexusFakeToken(parentConfig.user + "", request);
-  globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
+  // globalStore["token"] = `Bearer ${nexusTokens[parentConfig.user + ""]}`;
+  globalStore["token"] = token
   const interpolatedHeader = interpolateHeadersObject(parentConfig.headers);
-  await deleteAllForecastsForAutomationUser();
+  await deleteAllForecastsForAutomationUser(interpolatedHeader);
   globalStore.setValue('randomNumber', generateRandomNumber(4));
   globalStore.setValue('randomDateOffset', generateRandomNumber(2));
   const randomDateOffset = globalStore.getValue('randomDateOffset');

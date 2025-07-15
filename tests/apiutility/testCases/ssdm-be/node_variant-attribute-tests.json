@@ -1,0 +1,308 @@
+{
+  "Create_Get_Update_Delete_Node_Variant_Attribute": [
+    {
+      "testStep": "Get Node Variants",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Node Variant Attribute",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getNodeVariants",
+      "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
+      "queryParams": "",
+      "method": "GET",
+      "extractFirst": {
+        "node_variant_key": "node_key"
+      }
+    },
+    {
+      "testStep": "Get Attributes",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Node Variant Attribute",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllAttributes",
+      "testName": "Create_Get_Update_Delete_Node_Attribute",
+      "queryParams": "",
+      "method": "GET",
+      "extractFirst": {
+        "attribute_key": "attribute_key"
+      }
+    },
+    {
+      "testStep": "Create a Node Variant Attribute for a valid Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
+      "queryParams": "/{{node_variant_key}}/attribute_variant",
+      "method": "POST",
+      "payload": {
+        "attribute_val": "Test Attribute Value",
+        "attribute_key": "{{attribute_key}}"
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "attribute_val",
+            "value": "Test Attribute Value"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Create a Node Variant Attribute for an valid Node Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
+      "queryParams": "/20000/attribute_variant",
+      "method": "POST",
+      "payload": {
+        "attribute_val": "Test Attribute Value",
+        "attribute_key": "{{attribute_key}}"
+      },
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid NODE_VARIANT_KEY 20000"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Create a Node Variant Attribute for an valid Node Key but Invalid Attribute ID",
+      "environment": "qa",
+      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
+      "queryParams": "/{{node_variant_key}}/attribute_variant",
+      "method": "POST",
+      "payload": {
+        "attribute_val": "Test Attribute Value",
+        "attribute_key": "20000"
+      },
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid ATTRIBUTE_KEY 20000"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Get Node Variant Attributes",
+      "environment": "qa",
+      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Create a Attribute for a Node",
+      "queryParams": "/attribute_variant",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Update a Node Variant Attribute for a valid Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
+      "queryParams": "/{{node_variant_key}}/attribute_variant/{{attribute_key}}",
+      "method": "PATCH",
+      "payload": {
+        "attribute_val": "Test Attribute Value Updated"
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "attribute_val",
+            "value": "Test Attribute Value Updated"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Update a Node Variant Attribute for an invalid Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
+      "queryParams": "/20000/attribute_variant/{{attribute_key}}",
+      "method": "PATCH",
+      "payload": {
+        "attribute_val": "Test Attribute Value Updated"
+      },
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid NODE_VARIANT_KEY 20000"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Update a Node Variant Attribute for an invalid Attribute ID",
+      "environment": "qa",
+      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
+      "queryParams": "/{{node_variant_key}}/attribute_variant/20000",
+      "method": "PATCH",
+      "payload": {
+        "attribute_val": "Test Attribute Value Updated"
+      },
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid ATTRIBUTE_KEY 20000"
+          }
+        }
+      ],
+      "extractDelta": {
+        "incorrect_attribute_key": {
+          "editOne": "{{node_variant_key}}",
+          "editTwo": "{{attribute_key}}"
+        }
+      }
+    },
+    {
+      "testStep": "Update a Node Variant Attribute for an valid Node Key and Valid Attribute ID but combination does not exist",
+      "environment": "qa",
+      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
+      "queryParams": "/{{node_variant_key}}/attribute_variant/{{incorrect_attribute_key}}",
+      "method": "PATCH",
+      "payload": {
+        "attribute_val": "Test Attribute Value Updated"
+      },
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid ATTRIBUTE_KEY 1"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Delete Node Variant Attribute for an invalid Node Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Create a Attribute for a Node",
+      "queryParams": "/20000/attribute_variant/{{attribute_key}}",
+      "method": "Delete",
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid NODE_VARIANT_KEY 20000"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Delete Node Variant Attribute for an invalid Attribute Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Create a Attribute for a Node",
+      "queryParams": "/{{node_variant_key}}/attribute_variant/20000",
+      "method": "Delete",
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid ATTRIBUTE_KEY 20000"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Delete Node Variant Attribute for an valid Node Key and valid Attribute Key but invalid combination",
+      "environment": "qa",
+      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Create a Attribute for a Node",
+      "queryParams": "/{{node_variant_key}}/attribute_variant/{{incorrect_attribute_key}}",
+      "method": "Delete",
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid ATTRIBUTE_KEY 1"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Delete Node Variant Attribute for an valid Node Key and valid Attribute Key and valid combination",
+      "environment": "qa",
+      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Create a Attribute for a Node",
+      "queryParams": "/{{node_variant_key}}/attribute_variant/{{attribute_key}}",
+      "method": "Delete",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

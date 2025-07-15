@@ -1,0 +1,272 @@
+{
+    "Create_Get_Update_Delete_Node_Source": [
+    {
+      "testStep": "Get Nodes",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Node Source",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllNodes",
+      "testName": "Get all nodes",
+      "queryParams": "",
+      "method": "GET",
+       "extractFirst": {
+        "node_key": "node_key"
+      }
+    },
+    {
+      "testStep": "Create a Node Source for a valid Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node Source", "Regression"],
+      "service": "ssdmService",
+      "uri": "nodeSource",
+      "testName": "Create a Source for a Node",
+      "queryParams": "/{{node_key}}/sources",
+      "method": "POST",
+      "payload" : {
+  "sourcing_type": "Test Sourcing Type",
+  "sourcing_type_value": "Test Sourcing Type Value"
+},
+      "assertions": [
+        {
+          "status": 200
+        },
+    {
+      "assertEquals": {
+        "jsonPath2": "sourcing_type",
+        "value": "Test Sourcing Type"
+      }
+    },
+  {
+    "assertEquals": {
+        "jsonPath3": "sourcing_type_value",
+        "value": "Test Sourcing Type Value"
+      }
+    }
+
+  ],
+  "extractFirst": {
+        "created_source_id": "source_id"
+      }
+
+},
+{
+      "testStep": "Create a Node Source for an invalid Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node Source", "Regression"],
+      "service": "ssdmService",
+       "uri": "nodeSource",
+      "testName": "Create a Source for an  Invalid Node",
+      "queryParams": "/api/nodes/20000/sources",
+      "method": "POST",
+      "payload" : {
+  "sourcing_type": "Test Sourcing Type",
+  "sourcing_type_value": "Test Sourcing Type Value"
+},
+      "assertions": [
+        {
+          "status": 404
+        },
+        {
+        "assertEquals": {
+          "jsonPath": "detail",
+          "value": "Not Found"
+        }
+      }
+
+  ]
+},
+{
+      "testStep": "Get Node Sources for a Valid Node",
+      "environment": "qa",
+      "labels": ["smoke", "Node Source", "Regression"],
+      "service": "ssdmService",
+       "uri": "nodeSource",
+      "testName": "Get Sources for a Valid Node",
+      "queryParams": "/{{node_key}}/sources",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+    {
+      "assertEquals": {
+        "jsonPath2": "sourcing_type",
+        "value": "Test Sourcing Type"
+      }
+    },
+  {
+    "assertEquals": {
+        "jsonPath3": "sourcing_type_value",
+        "value": "Test Sourcing Type Value"
+      }
+    }
+  ]
+
+},
+{
+      "testStep": "Get Node Sources for an Invalid Node",
+      "environment": "qa",
+      "labels": ["smoke", "Node Source", "Regression"],
+      "service": "ssdmService",
+       "uri": "nodeSource",
+      "testName": "Get Sources for an Invalid Node",
+      "queryParams": "/2000/sources",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 409
+        },
+       {
+        "assertEquals": {
+          "jsonPath": "detail",
+          "value": "Invalid NODE_KEY 2000"
+        }
+       }
+
+  ]
+},
+{
+      "testStep": "Update a Node Source for a valid Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node Source", "Regression"],
+      "service": "ssdmService",
+      "uri": "nodeSource",
+      "testName": "Update a Source for a valid Node",
+      "queryParams": "/{{node_key}}/sources/{{created_source_id}}",
+      "method": "PATCH",
+      "payload" : {
+  "sourcing_type": "Test Sourcing Type Updated",
+  "sourcing_type_value": "Test Sourcing Type Value Updated"
+},
+      "assertions": [
+        {
+          "status": 200
+        },
+    {
+      "assertEquals": {
+        "jsonPath2": "sourcing_type",
+        "value": "Test Sourcing Type Updated"
+      }
+    },
+  {
+    "assertEquals": {
+        "jsonPath3": "sourcing_type_value",
+        "value": "Test Sourcing Type Value Updated"
+      }
+    }
+
+  ]
+},
+{
+      "testStep": "Update a Node Source for an invalid Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node Source", "Regression"],
+      "service": "ssdmService",
+      "uri": "nodeSource",
+      "testName": "Update a Source for an invalid Node",
+      "queryParams": "/20000/sources/{{created_source_id}}",
+      "method": "PATCH",
+      "payload" : {
+  "sourcing_type": "Test Sourcing Type Updated",
+  "sourcing_type_value": "Test Sourcing Type Value Updated"
+},
+      "assertions": [
+        {
+          "status": 409
+        },
+        {"assertEquals": {
+          "jsonPath": "detail",
+          "value": "Invalid NODE_KEY 20000"
+        }
+      }
+    ]
+  },
+  {
+      "testStep": "Delete Node Sources for an Invalid Node but valid SourceId",
+      "environment": "qa",
+      "labels": ["smoke", "Node Source", "Regression"],
+      "service": "ssdmService",
+       "uri": "nodeSource",
+      "testName": "Delete Sources for an Invalid Node",
+      "queryParams": "/2000/sources/{{created_source_id}}",
+      "method": "DELETE",
+      "assertions": [
+        {
+          "status": 409
+        },
+        {"assertContains": {
+          "jsonPath": "detail",
+          "value": "Invalid NODE_KEY 2000"
+        }
+      }
+  ]
+},
+{
+      "testStep": "Delete Node Sources for an valid Node but invalid SourceId",
+      "environment": "qa",
+      "labels": ["smoke", "Node Source", "Regression"],
+      "service": "ssdmService",
+       "uri": "nodeSource",
+      "testName": "Delete Sources for an valid Node but invalid SourceId",
+      "queryParams": "/{{node_key}}/sources/20000",
+      "method": "DELETE",
+      "assertions": [
+        {
+          "status": 409
+        },
+        {"assertEquals": {
+          "jsonPath": "detail",
+          "value": "Invalid SOURCE_ID 20000"
+        }
+      }
+
+  ]
+},
+{
+      "testStep": "Delete Node Sources for a Valid Node and SourceId",
+      "environment": "qa",
+      "labels": ["smoke", "Node Source", "Regression"],
+      "service": "ssdmService",
+       "uri": "nodeSource",
+      "testName": "Delete Sources for a Valid Node",
+      "queryParams": "/{{node_key}}/sources/{{created_source_id}}",
+      "method": "DELETE",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+  "extractDelta": {
+        "incorrect_source_id": {
+          "editOne": "{{node_key}}",
+          "editTwo": "{{created_source_id}}"
+        }
+      }
+},
+{
+      "testStep": "Delete Node Sources for a Valid Node and SourceId but combination is invalid",
+      "environment": "qa",
+      "labels": ["smoke", "Node Source", "Regression"],
+      "service": "ssdmService",
+       "uri": "nodeSource",
+      "testName": "Delete Sources for a Valid Node",
+      "queryParams": "/25/sources/{{incorrect_source_id}}",
+      "method": "DELETE",
+      "assertions": [
+        {
+          "status": 409
+        }
+   ],
+   "extract": {
+        "ErrorMessage": "detail"
+      },
+   "validateExtract": {
+              "ErrorMessage":  "Invalid SOURCE_ID {{incorrect_source_id}}"
+            }
+  }
+]
+}

@@ -20,15 +20,12 @@ test.describe(
           Utility.logIt(
             "Make a Get Request for dimension mapping Details for all dim group ids"
           );
-          let nexusTokens = await Utility.getNexusFakeToken(user, request);
           //API Request
           const responseData = await request.get(endpointURL, {
             params: {
               dimension_group_id: testdatafile.dimension_group_id,
             },
-            headers: {
-              Authorization: nexusTokens,
-            },
+
           });
           //Extracting the response body
           Utility.assertAndLog(responseData);

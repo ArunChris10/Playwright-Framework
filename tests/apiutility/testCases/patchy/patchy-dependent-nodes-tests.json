@@ -5,7 +5,8 @@
             "environment": "qa",
             "labels": [
                 "smoke",
-                "patchy_non_additive"
+                "patchy_non_additive",
+                "patchy"
             ],
             "service": "coreService",
             "uri": "getForecast",
@@ -217,10 +218,10 @@
                 },
                 {
                     "assertEquals": {
-                    "message": "message",
-                    "value": " Cost per Delivery (Spark - AP) is using an aggregation formula with missing values. Please add data for the missing fields -  'Spark - AP Delivery Expense' and 'Deliveries (Spark - AP)' before calculating."
+                        "message": "message",
+                        "value": " Cost per Delivery (Spark - AP) is using an aggregation formula with missing values. Please add data for the missing fields -  'Spark - AP Delivery Expense' and 'Deliveries (Spark - AP)' before calculating."
+                    }
                 }
-            }
             ]
         }
     ]

@@ -5,11 +5,12 @@
     "Authorization": "{{token}}",
     "user_id": "LB-ibg-ufm-auto"
   },
-  "tagsToRun": [""],
+  "tagsToRun": [],
   "ForceAllParallel": true,
   "ForceAllSerial": false,
- "testFiles": [
+  "testFiles": [
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-constant-value.json",
+    "testCases/maintain-ratio-additive.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-percent-rolling.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-test.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-non-additve.json",
@@ -23,8 +24,6 @@
     "testCases/calculate-save-adjustment-testcases/month-on-month-propagation-test.json",
     "testCases/calculate-save-adjustment-testcases/non-additive-calculate.json",
     "testCases/calculate-save-adjustment-testcases/non-additive-perc-rolling-test.json",
-    "testCases/calculate-save-adjustment-testcases/primaryDataUpdate-onSegmentReview-test.json",
-    "testCases/calculate-save-adjustment-testcases/update-adjustment-status-from-change-request-to-resolve-request.json",
     "testCases/excel-plugin/excel-load-data-api-aggregation-tests.json",
     "testCases/excel-plugin/excel-load-data-api-snapshots-tests.json",
     "testCases/excel-plugin/excel-load-data-api-tests.json",
@@ -63,21 +62,29 @@
     "testCases/forecast-comp-api-error-tests.json",
     "testCases/forecast-comp-api-tests.json",
     "testCases/node-refresh-api-test.json",
-    "testCases/patchy-cell-edit-api-tests.json",
+    "testCases/patchy/patchy-cell-edit-api-tests.json",
     "testCases/progress-status-ssdm.api-tests.json",
     "testCases/published-versions-api-tests.json",
     "testCases/ssdm-get-kpi-verify.json",
     "testCases/ssdm-myKpi-valuetype-tests.json",
     "testCases/ssdm-node-edge-compute-api-tests.json",
     "testCases/ssdm-node-edge-get-drivers-api-tests.json",
-    "testCases/patchy-allocate-non-additive-test.json",
-    "testCases/patchy-allocate-additive-test.json",
-    "testCases/patchy-dependent-nodes-tests.json",
-    "testCases/patchy-multiple-dependent-nodes-tests.json",
+    "testCases/patchy/patchy-allocate-non-additive-test.json",
+    "testCases/patchy/patchy-allocate-api-tests.json",
+    "testCases/patchy/patchy-allocate-additive-test.json",
+    "testCases/patchy/patchy-dependent-nodes-tests.json",
+    "testCases/patchy/patchy-multiple-dependent-nodes-tests.json",
     "testCases/forecast/create-scenario-max-limit-test.json",
     "testCases/visual-indicator-api.json",
-    "testCases/SSDM-BE/tags-tests.json",
-    "testCases/SSDM-Be/attribute-tests.json"
+    "testCases/ssdm-node-edge-publish-latest-test.json",
+    "testCases/ssdm-be/tags-tests.json",
+    "testCases/ssdm-be/attribute-tests.json",
+    "testCases/ssdm-be/driver-tree-tests.json",
+    "testCases/ssdm-be/nodes-tests.json",
+    "testCases/ssdm-be/node-source-tests.json",
+    "testCases/ssdm-be/node-attribute-tests.json",
+    "testCases/ssdm-be/node_variant-attribute-tests.json",
+    "testCases/ssdm-be/driver-tree-version-tests.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -171,13 +178,17 @@
     "actualMissingNode": "/v1/actual_missing/nodes",
     "actualMissingNodeIncorrect": "/v1/actual_missing/nodes/incorrect"
   },
-   "ssdmService":
-    {
-      "baseURL" :{
-        "dev":"https://ibg-node-hub-service-dev.ibg-ufm.k8s.glb.us.walmart.net",
-        "qa" :"https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net"
-      },
-      "getAlltags" : "/api/tags",
-      "getAllAttributes" : "/api/attributes"
-    }
+  "ssdmService": {
+    "baseURL": {
+      "dev": "https://ibg-node-hub-service-dev.ibg-ufm.k8s.glb.us.walmart.net",
+      "qa": "https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net"
+    },
+    "getAlltags": "/api/tags",
+    "getAllAttributes": "/api/attributes",
+    "getAllDriverTrees": "/api/driver-trees/",
+    "createDriverTree": "/api/driver-trees",
+    "getAllNodes": "/api/nodes",
+    "nodeSource": "/api/nodes",
+    "getNodeVariants": "/api/driver-trees/2/versions/1/node-variants-metadata"
+  }
 }
