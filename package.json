@@ -14,7 +14,7 @@
     "tests:platform-tests-fe": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=ssdm-fe",
     "tests:excel-tests-fe": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=excel-fe",
     "tests:apiutility": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=apiutility",
-    "tests:ssdm-fe": "env-cmd --environments qa env-cmd --environments custom_tag playwright test --project=ssdm-fe"
+    "tests:ssdm-fe": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=ssdm-fe"
   },
   "keywords": [],
   "author": "",
