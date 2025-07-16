@@ -20,7 +20,7 @@ const calculatedSelectedGrainsinDriverTree: string[] = [];
 
 test.describe(
   'Validations tests for Grain mismatch- type Input',
-  { tag: "@Smoke @Regression @mytest" },
+  { tag: "@Smoke @Regression @GrainMismatch" },
   async () => {
     let objpageFactory: PageFactory;
     test.describe.configure({ mode: 'parallel', timeout: 20000 });
@@ -126,7 +126,7 @@ test.describe(
 
 test.describe(
   'Validations tests for Grain mismatch- type Calculated',
-  { tag: "@Smoke @Regression @mytest" },
+  { tag: "@Smoke @Regression @GrainMismatch" },
   async () => {
     let objpageFactory: PageFactory;
     test.describe.configure({ mode: 'parallel', timeout: 20000 });
