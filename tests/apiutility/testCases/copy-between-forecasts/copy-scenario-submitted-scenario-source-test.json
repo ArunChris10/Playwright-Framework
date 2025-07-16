@@ -3,7 +3,9 @@
       {
         "testStep": "create source scenario",
         "environment": "qa",
-        "labels": ["smoke", "copy_scenario_multiple_targets"],
+        "labels": ["smoke", "copy_scenario_multiple_targets",
+        "Visualization",
+        "CopyScenario"],
         "service": "coreService",
         "uri": "createUserScenario",
         "testName": "Create a new Scenario",

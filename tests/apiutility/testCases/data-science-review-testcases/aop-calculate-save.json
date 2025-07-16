@@ -9,7 +9,10 @@
           "Pre-Req",
           "IBGROW-35040",
           "IBGROW-34988",
-          "MS1"
+          "MS1",
+          "Visualization",
+          "AOP",
+          "Admin-Isolated-Scenarios"
         ],
         "service": "coreService",
         "uri": "getDataScienceInfo",

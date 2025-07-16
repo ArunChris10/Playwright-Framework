@@ -6,7 +6,9 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "MS3"
+        "MS3",
+        "Visualization",
+        "AsyncNownNodeRefresh"
       ],
       "service": "coreService",
       "uri": "getForecast",

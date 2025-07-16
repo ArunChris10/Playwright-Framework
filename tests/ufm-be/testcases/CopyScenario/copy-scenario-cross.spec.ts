@@ -1,15 +1,15 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { ScenarioUtils } from "../fixtures/copy-scenairo-utils";
-import aopEdits from "../testdata/aop-edits.json";
-import adjustmentData from "../testdata/adjustment.json";
-import { Utility } from "../../common/fixtures/utils";
-import { UfmUtility } from "../fixtures/ufm-utils";
-import commonData from "../constants/common.json";
+import { expect, test } from "../../../common/fixtures/test-hook";
+import { ScenarioUtils } from "../../fixtures/copy-scenairo-utils";
+import aopEdits from "../../testdata/aop-edits.json";
+import adjustmentData from "../../testdata/adjustment.json";
+import { Utility } from "../../../common/fixtures/utils";
+import { UfmUtility } from "../../fixtures/ufm-utils";
+import commonData from "../../constants/common.json";
 
 test.describe("Copy scenarios from different BAs", () => {
   test(
     "Find scenarios with forecast status Draft and trigger copy",
-    { tag: "@copyScenario" },
+    { tag: "@Regression @Smoke @CopyScenario @Visualization" },
     async ({ request }) => {
       let sourceScenario, targetScenario;
       const adjustmentEndpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;
