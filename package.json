@@ -13,7 +13,8 @@
     "tests:cdf-tests-fe": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=cdf-fe",
     "tests:platform-tests-fe": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=ssdm-fe",
     "tests:excel-tests-fe": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=excel-fe",
-    "tests:apiutility": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=apiutility"
+    "tests:apiutility": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=apiutility",
+    "tests:ssdm-fe": "env-cmd --environments $ENV env-cmd --environments $TEST playwright test --project=ssdm-fe"
   },
   "keywords": [],
   "author": "",
