@@ -4,9 +4,9 @@
       "testStep": "Call download API with valid document ID",
       "environment": "qa",
       "labels": [
-        "@Smoke",
+        "smoke",
         "downloadApi",
-        "@Regression"
+        "Regression"
       ],
       "service": "coreService",
       "uri": "download",

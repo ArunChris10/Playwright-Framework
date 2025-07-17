@@ -17,7 +17,7 @@
             "payload": {
                 "unit": "Millions",
                 "dim_id": 12,
-                "dim_val_id": 120006,
+                "dim_val_id": 120009,
                 "classification_id": 12,
                 "template_id": 1,
                 "filters": [],
@@ -42,12 +42,12 @@
             "extractRelative": {
                 "getkpi2_scenario_id": {
                     "whereKey": "rowData.lineOfBusiness",
-                    "equals": 110009,
+                    "equals": 110027,
                     "extractKey": "rowData.scenarioId"
                 },
                 "getkpi2_scenario_version": {
                     "whereKey": "rowData.lineOfBusiness",
-                    "equals": 110009,
+                    "equals": 110027,
                     "extractKey": "rowData.scenarioVersion"
                 }
             }
@@ -69,18 +69,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -92,7 +84,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -225,18 +217,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -248,7 +232,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -399,18 +383,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -422,7 +398,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -552,18 +528,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -575,7 +543,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -705,18 +673,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -728,7 +688,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -858,18 +818,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -881,7 +833,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -1012,18 +964,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -1035,7 +979,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -1165,18 +1109,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -1188,7 +1124,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -1321,18 +1257,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -1344,7 +1272,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -1474,18 +1402,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -1497,7 +1417,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -1630,18 +1550,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -1653,7 +1565,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -1822,18 +1734,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -1845,7 +1749,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -1976,18 +1880,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -1999,7 +1895,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -2132,18 +2028,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -2155,7 +2043,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -2285,18 +2173,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -2308,7 +2188,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
@@ -2567,7 +2447,7 @@
                 "scenario_id": "{{scenario_id}}",
                 "scenario_version": "{{scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
                 "filters": [],
@@ -2699,7 +2579,7 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
                 "filters": [
@@ -2713,7 +2593,7 @@
                     "pivot_cols": ["month"],
                     "pivot_index": ["node_id"],
                     "period_view": ["month"],
-                    "nodes": ["membershipincome_input"],
+                    "nodes": ["provisionforshrink_input"],
                     "template_include_headers": [
                         { "name": "vs LY", "format": "absolute" },
                         { "name": "vs LY", "format": "percent" },
@@ -2766,7 +2646,7 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
                 "filters": [
@@ -2780,7 +2660,7 @@
                     "pivot_cols": ["month"],
                     "pivot_index": ["node_id"],
                     "period_view": ["month"],
-                    "nodes": ["membershipincome_input"],
+                    "nodes": ["provisionforshrink_input"],
                     "template_include_headers": [
                         { "name": "vs LY", "format": "absolute" },
                         { "name": "{{dynamicMonth}}", "columnsMenuParams": "middleColumns" }
@@ -2836,18 +2716,10 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
-                "filters": [
-                    {
-                        "dim_id": 24,
-                        "dim_val_ids": [
-                            240002
-                        ],
-                        "children": []
-                    }
-                ],
+                "filters": [],
                 "additional_filters": {
                     "pivot_cols": [
                         "month"
@@ -2859,7 +2731,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "provisionforshrink_input"
                     ],
                     "template_include_headers": [
                         {
