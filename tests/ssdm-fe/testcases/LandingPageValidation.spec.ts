@@ -85,7 +85,7 @@ test.describe(
     test('channel column filter validation', async () => {
       await objpageFactory.ssdmPageFactory().landingPage().runFilterValidation(
         filterOptions[0].data.channel.dropDown,
-        filterOptions[0].data.channel.option
+        filterOptions[0].data.channel.channelFilter
       );
     });
 
@@ -109,7 +109,7 @@ test.describe(
     test('owner column filter validation', async () => {
       await objpageFactory.ssdmPageFactory().landingPage().runFilterValidation(
         filterOptions[0].data.owner.dropDown,
-        filterOptions[0].data.owner.option
+        filterOptions[0].data.owner.options
       );
     });
 

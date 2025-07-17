@@ -113,7 +113,8 @@
                     "childDropDown": "DELIVERY",
                     "option": "OWNED_S2H",
                     "options": "DSV_S2H, DSV_S2S",
-                    "optionValue": "CORE_SERVICES"
+                    "optionValue": "CORE_SERVICES",
+                    "channelFilter": "BUSINESS_DELIVERY_SERVICES"
                 },
                 "department": {
                     "dropDown": "Department",
