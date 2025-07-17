@@ -315,25 +315,6 @@
                     ]
                 }
             ]
-        },
-        {
-            "testStep": "Delete Adjustment",
-            "environment": "qa",
-            "labels": [
-                "smoke",
-                "additive_patchy_allocation"
-            ],
-            "service": "coreService",
-            "uri": "saveAdjustment",
-            "testName": "Delete Adjustment",
-            "queryParams": "{{adjustmentId}}?scenario_id={{scenario_id}}&scenario_version_timestamp={{scenarioVersion}}",
-            "method": "DELETE",
-            "payload": {},
-            "assertions": [
-                {
-                    "status": 200
-                }
-            ]
         }
     ]
 }

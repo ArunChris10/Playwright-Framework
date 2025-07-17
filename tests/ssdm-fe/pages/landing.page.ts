@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { testData, sortingOptions, groupByOptions } from '../testdata/fileName.json';
+import { testData, filterOptions, sortingOptions, groupByOptions } from '../testdata/fileName.json';
 import { TIMEOUT_FE_WAIT } from '../constants/timeout.json';
 import { Logger } from "../../common/fixtures/logger-utils";
 
@@ -222,7 +222,43 @@ export class LandingPageValidation {
     const filterButton = this.page.locator(this.getFilterButtonXPath(filterType));
     await filterButton.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     await filterButton.click();
-    await this.textField.fill(filterValue);
+
+    const dropdownMenu = this.page.locator('div.MuiPopover-paper div[style*="overflow: auto"]');
+    //await dropdownMenu.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT * 2 });
+    await this.page.waitForTimeout(TIMEOUT_FE_WAIT);
+
+    let checkboxFound = false;
+    for (let attempt = 0; attempt < 30; attempt++) {
+      if (this.page.isClosed()) break;
+      const menuItems = this.page.getByRole('menuitem');
+      const count = await menuItems.count();
+      for (let i = 0; i < count; i++) {
+        if (this.page.isClosed()) break;
+        const item = menuItems.nth(i);
+        const text = (await item.textContent())?.trim();
+        if (text && text.toLowerCase() === filterValue.trim().toLowerCase()) {
+          const checkbox = item.locator('input[type="checkbox"]');
+          await checkbox.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT * 2 });
+          await checkbox.scrollIntoViewIfNeeded();
+          await checkbox.check();
+          checkboxFound = true;
+          break;
+        }
+      }
+      if (checkboxFound || this.page.isClosed()) break;
+      // Scroll the dropdown menu down a bit to load more items
+      const scrollResult = await dropdownMenu.evaluate((el: HTMLElement) => {
+        const prev = el.scrollTop;
+        el.scrollBy(0, 80);
+        return { prev, now: el.scrollTop, max: el.scrollHeight - el.clientHeight };
+      });
+      if (scrollResult && (scrollResult.now === scrollResult.prev || scrollResult.now >= scrollResult.max)) break;
+      await this.page.waitForTimeout(200);
+    }
+    if (!checkboxFound) {
+      throw new Error(`No checkbox found for filter value: ${filterValue}`);
+    }
+
     await this.page.waitForTimeout(TIMEOUT_FE_WAIT);
     await this.page.locator('body').click({ position: { x: 0, y: 0 }, force: true, timeout: TIMEOUT_FE_WAIT });
     await this.page.waitForSelector(this.dataGridTable, { state: 'visible', timeout: TIMEOUT_FE_WAIT });
@@ -400,5 +436,29 @@ export class LandingPageValidation {
     }
 
     expect(groupMap.size).toBeGreaterThan(0);
+  }
+
+  /**
+   * Applies filters for month, channel, and department, then searches for the node by metric name.
+   * @param metricName The metric name to search for.
+   * @param department The department value used during node creation.
+   * @returns {Promise<boolean>} True if a node matching all filters is found, else false.
+   */
+  async filterAndSearchNode(
+    metricName: string,
+    department: string
+  ): Promise<boolean> {
+    // Apply required filters
+    await this.selectAndApplyFilter(filterOptions[0].data.month.dropDown, filterOptions[0].data.month.actuals);
+    await this.selectAndApplyFilter(filterOptions[0].data.channel.dropDown, filterOptions[0].data.channel.option);
+    await this.selectAndApplyFilter(filterOptions[0].data.department.dropDown, department);
+
+    // Search verification
+    const found = await this._verifySearch(
+      metricName,
+      testData.dataFieldAttributeMetricName,
+      true
+    );
+    return found;
   }
 }
