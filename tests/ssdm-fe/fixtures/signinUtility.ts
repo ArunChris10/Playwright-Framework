@@ -44,12 +44,11 @@ export class signinUtility {
      * @param signinPage Playwright Page object
      */
     static async SignIn(signinPage: Page) {
-        // Try to navigate, refresh if page doesn't load
         let loaded = false;
         for (let attempt = 0; attempt < testData.signInRetryNumber; attempt++) {
             try {
                 await signinPage.goto(this.urlEndpoint, { timeout: TIMEOUT_SSDM_FE, waitUntil: 'domcontentloaded' });
-                // Wait for the user ID field to be visible
+                // Wait for the user ID field to be visible (on the actual login page)
                 await signinPage.getByPlaceholder("User ID (e.g. wm5p4rk)").waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
                 loaded = true;
                 break;
@@ -73,10 +72,13 @@ export class signinUtility {
         // Fill in the user ID and password fields
         await this.userId.fill(String(this.userName));
         await this.password.fill(await Utility.getLoginPassword(String(this.userName)));
-
+        
         // Wait for the sign-in button and click
         await this.signIn.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
         await this.signIn.click();
+
+        const landingSearchBox = signinPage.locator('input[type="search"]');
+        await landingSearchBox.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT * 2 });
     }
 }
 
