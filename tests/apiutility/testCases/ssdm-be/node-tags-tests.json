@@ -63,7 +63,7 @@
       "labels": ["smoke", "Node_Tags", "Regression"],
       "service": "ssdmService",
       "uri": "nodeTag",
-      "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
+      "testName": "Create_Get_Update_Delete_Node_Tags",
       "queryParams": "/5000",
       "method": "GET",
       "assertions": [
@@ -84,7 +84,7 @@
       "labels": ["smoke", "Node_Tags", "Regression"],
       "service": "ssdmService",
       "uri": "nodeTag",
-      "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
+      "testName": "Create_Get_Update_Delete_Node_Tags",
       "queryParams": "",
       "method": "PATCH",
       "payload":
@@ -110,7 +110,7 @@
       "labels": ["smoke", "Node Tags", "Regression"],
       "service": "ssdmService",
       "uri": "nodeTag",
-      "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
+      "testName": "Create_Get_Update_Delete_Node_Tags",
       "queryParams": "",
       "method": "PATCH",
       "payload":
@@ -136,7 +136,7 @@
       "labels": ["smoke", "Node Tags", "Regression"],
       "service": "ssdmService",
       "uri": "nodeTag",
-      "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
+      "testName": "Create_Get_Update_Delete_Node_Tags",
       "queryParams": "/5000",
       "method": "DELETE",
       "assertions": [
@@ -157,7 +157,7 @@
       "labels": ["smoke", "Node_Tags", "Regression"],
       "service": "ssdmService",
       "uri": "nodeTag",
-      "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
+      "testName": "Create_Get_Update_Delete_Node_Tags",
       "queryParams": "/{{tag_key}}",
       "method": "DELETE",
       "assertions": [
