@@ -3,7 +3,7 @@
     {
       "testStep": "Add drivers in ssdm myKpi and check the value type is recieved as $",
       "environment": "qa",
-      "labels": ["smoke","regression", "ssdmMyKpi"],
+      "labels": ["smoke","regression", "ssdmMyKpi", "ssdm"],
       "service": "coreService",
       "uri": "ssdmMyKpi",
       "testName": "Check the value type is recieved as $ in ssdm myKpi",
