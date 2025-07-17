@@ -16,7 +16,7 @@ test.describe(
     });
     test(
       "Check if user is able to see the driver in the driver tree using view in driver tree",
-      { tag: "@driverPopUpViewInTree" },
+      { tag: "@driverPopUpViewInTree @DriverSearch @Regression" },
       async ({ request }) => {
         test.setTimeout(300000);
 
