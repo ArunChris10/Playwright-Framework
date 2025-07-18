@@ -237,7 +237,7 @@
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Attribute",
-      "queryParams": "/{{node_key}}/attributes/{{incorrect_attribute_key}}",
+      "queryParams": "/{{node_key}}/attributes/4",
       "method": "PATCH",
       "payload" : {
   "attribute_val": "Test Attribute Value Updated"
@@ -249,7 +249,7 @@
     {
       "assertEquals": {
         "jsonPath1": "detail",
-        "value": "Invalid ATTRIBUTE_KEY 1"
+        "value": "ATTRIBUTE_KEY 4 is not assigned to NODE_KEY 1"
       }
     }
   ]
@@ -303,7 +303,7 @@
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create a Attribute for a Node",
-      "queryParams": "/{{node_key}}/attributes/{{incorrect_attribute_key}}",
+      "queryParams": "/{{node_key}}/attributes/4",
       "method": "Delete",
       "assertions": [
         {
@@ -312,7 +312,7 @@
     {
       "assertEquals": {
         "jsonPath1": "detail",
-        "value": "Invalid ATTRIBUTE_KEY 1"
+        "value": "ATTRIBUTE_KEY 4 is not assigned to NODE_KEY 1"
       }
     }
   ]
