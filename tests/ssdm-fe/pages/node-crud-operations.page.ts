@@ -3,6 +3,9 @@ import { testData, nodeCrudDialog, filterOptions } from '../testdata/fileName.js
 import { TIMEOUT_FE_WAIT, TIMEOUT_FE_VISIBLE } from '../constants/timeout.json';
 import { LandingPageValidation } from "./landing.page";
 
+/**
+ * Page object for Node CRUD operations and validations.
+ */
 export class NodeCRUDValidation {
   readonly page: Page;
   readonly landingPage: LandingPageValidation;
@@ -24,6 +27,7 @@ export class NodeCRUDValidation {
   readonly inputsButton: Locator;
   readonly calculationsButton: Locator;
   readonly checkboxLabelsLocator: Locator;
+  readonly checkedCheckboxesLocator: Locator;
   private selectedDropdownOption: string;
 
   constructor(page: Page, landingPage: LandingPageValidation) {
@@ -47,7 +51,12 @@ export class NodeCRUDValidation {
     this.inputsButton = page.getByRole('button', { name: /\d+\s+Inputs/i });
     this.calculationsButton = page.getByRole('button', { name: /\d+\s+Calculations/i });
     this.checkboxLabelsLocator = page.locator('//input[@type="checkbox"]/parent::label/span');
+    this.checkedCheckboxesLocator = page.locator(
+      `//div[contains(@class,"multiselect-menu")]//label//input[@type="checkbox" and @checked]`
+    );
   }
+
+  // --- Locator utilities ---
 
   /**
    * Returns a locator for a button with the given aria-label.
@@ -106,6 +115,19 @@ export class NodeCRUDValidation {
   }
 
   /**
+   * Returns a locator for the granularity error message for a given field type.
+   * This targets the error span after the specific field header.
+   * @param fieldType The key for the field in nodeCrudDialog.fields (e.g., "calculationText" or "aggregationText").
+   */
+  getGranularityErrorMsgLocator(fieldType: string): Locator {
+    return this.page.locator(
+      `//div[text()="${nodeCrudDialog.fields[fieldType]}"]/following-sibling::span[contains(@class,"color-danger") and contains(@class,"text-sm")]`
+    );
+  }
+
+  // --- Dialog header utility ---
+
+  /**
    * Validates the visibility of the dialog header with the given text.
    * @param headerText The text of the dialog header to verify.
    */
@@ -124,72 +146,137 @@ export class NodeCRUDValidation {
   }
 
   /**
-   * Selects a dropdown value and validates it by:
-   * 1. Clicking the nth dropdown arrow,
-   * 2. Clicking a checkbox with the given label,
-   * 3. Clicking the dialog header to close,
-   * 4. Checking the value in the associated textbox.
-   * @param dropdownIndex Zero-based index of the dropdown arrow to interact with.
-   * @param checkboxLabel Label of the checkbox to select.
+   * Clicks the first visible dialog header (Create Node, Input, Calculated).
+   */
+  private async clickFirstVisibleDialogHeader() {
+    const headerLocators = [
+      this.getByTextValue(nodeCrudDialog.dialogHeaders.createNode),
+      this.topBarHeaderDiv.getByText(nodeCrudDialog.dialogHeaders.input),
+      this.topBarHeaderDiv.getByText(nodeCrudDialog.dialogHeaders.calculated)
+    ];
+    for (const header of headerLocators) {
+      if (await header.isVisible().catch(() => false)) {
+        await header.click({ force: true, timeout: TIMEOUT_FE_WAIT });
+        return;
+      }
+    }
+    for (const header of headerLocators) {
+      try {
+        await header.scrollIntoViewIfNeeded();
+        if (await header.isVisible().catch(() => false)) {
+          await header.click({ force: true, timeout: TIMEOUT_FE_WAIT });
+          return;
+        }
+      } catch (e) {}
+    }
+    throw new Error('No dialog header (Create Node, Input, Calculated) is visible to click.');
+  }
+
+  // --- Field validation utilities ---
+
+  // Utility to validate a field is read-only
+  async validateFieldIsReadOnly(fieldLocator: Locator) {
+    await fieldLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    expect(await fieldLocator.isDisabled()).toBeTruthy();
+  }
+
+  /**
+   * Validates that a required field cannot be empty.
+   * @param textBoxName Name of the text box.
+   * @param nodeType Optional node type to determine error count in panel.
+   */
+  async validateFieldCannotBeEmptyByName(textBoxName: string, nodeType?: string, isCreate: boolean = true) {
+    let input: Locator;
+    let expectedErrorMsg: string;
+
+    if (textBoxName === nodeCrudDialog.fields.valueType) {
+      input = this.getInputByPlaceholder(textBoxName);
+      await input.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+      await this.validateFieldIsReadOnly(input);
+      return; 
+    } else if (textBoxName === nodeCrudDialog.fields.calculationText) {
+      input = this.getTextInputBox(textBoxName);
+      await input.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+      await this.fillAndValidateTextInputBox(nodeCrudDialog.fields.calculationText, "123");
+      await input.fill("");
+      expectedErrorMsg = nodeCrudDialog.messages.calculationTextRequired;
+    } else if (textBoxName === nodeCrudDialog.fields.ownerEditor) {
+      const ownerDropdownIndex = isCreate ? 1 : 0;
+      const dropdownArrow = this.dropdownArrow.nth(ownerDropdownIndex);
+      if (await this.dropdownArrowOpen.nth(ownerDropdownIndex).isHidden()) {
+        await dropdownArrow.click();
+      }
+      const checkedCount = await this.checkedCheckboxesLocator.count();
+      for (let i = 0; i < checkedCount; i++) {
+        await this.checkedCheckboxesLocator.nth(i).click();
+      }
+      await this.clickFirstVisibleDialogHeader();
+      input = this.multiSelectTextBox.nth(ownerDropdownIndex);
+      expectedErrorMsg = nodeCrudDialog.messages.ownerRequired;
+    } else {
+      throw new Error(`Unsupported text box name: ${textBoxName}`);
+    }
+
+    const errorMsgLocator = this.errorMsgLocator(input);
+    await errorMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    const errorMsg = await errorMsgLocator.textContent();
+    expect(errorMsg?.trim()).toBe(expectedErrorMsg);
+
+    await this.validatePanelErrorAndSaveDisabled();
+  }
+
+  // --- Dropdown utilities ---
+
+  /**
+   * Selects a dropdown value and validates it.
    */
   async selectAndValidateDropdownField(dropdownIndex: number, checkboxLabel: string, isSingleSelect: boolean = false) {
     const dropdownArrow = this.dropdownArrow.nth(dropdownIndex);
     if (await this.dropdownArrowOpen.nth(dropdownIndex).isHidden()) {
       await dropdownArrow.click();
     }
-
     const checkbox = this.getCheckboxByLabel(checkboxLabel);
     await checkbox.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     if (!(await checkbox.isChecked())) {
       await checkbox.click();
     }
-
     const textbox = this.multiSelectTextBox.nth(dropdownIndex);
     const textValueLocator = this.textValueLocator(textbox);
     const actualText = await textValueLocator.textContent();
-
     if (isSingleSelect) {
-      // For single-select, summary should be exactly the label
       expect(actualText).toBe(checkboxLabel);
     } else {
-      // For multi-select, validate the checkbox is checked
       expect(await checkbox.isChecked()).toBeTruthy();
     }
-
-    if(checkboxLabel == filterOptions[0].data.entity.option){
+    if (checkboxLabel === filterOptions[0].data.entity.option) {
       await checkbox.click();
     }
-
-    // Click whichever dialog header is visible: Create Node, Input, or Calculated
-    const headerLocators = [
-      this.getByTextValue(nodeCrudDialog.dialogHeaders.createNode),
-      this.topBarHeaderDiv.getByText(nodeCrudDialog.dialogHeaders.input),
-      this.topBarHeaderDiv.getByText(nodeCrudDialog.dialogHeaders.calculated)
-    ];
-    let headerClicked = false;
-    for (const header of headerLocators) {
-      if (await header.isVisible().catch(() => false)) {
-        await header.click({ force: true, timeout: TIMEOUT_FE_WAIT });
-        headerClicked = true;
-        break;
-      }
-    }
-    if (!headerClicked) {
-      for (const header of headerLocators) {
-        try {
-          await header.scrollIntoViewIfNeeded();
-          if (await header.isVisible().catch(() => false)) {
-            await header.click({ force: true, timeout: TIMEOUT_FE_WAIT });
-            headerClicked = true;
-            break;
-          }
-        } catch (e) {}
-      }
-    }
-    if (!headerClicked) {
-      throw new Error('No dialog header (Create Node, Input, Calculated) is visible to click.');
-    }
+    await this.clickFirstVisibleDialogHeader();
   }
+
+  /**
+   * Gets a unique dropdown option and stores it for reuse.
+   */
+  private async getUniqueOptionFromDropdown(dropdownIndex: number) {
+    const dropdownArrow = this.dropdownArrow.nth(dropdownIndex);
+    if (await this.dropdownArrowOpen.nth(dropdownIndex).isHidden()) {
+      await dropdownArrow.click();
+    }
+    const count = await this.checkboxLabelsLocator.count();
+    const labels: string[] = [];
+    for (let i = 0; i < count; i++) {
+      const label = await this.checkboxLabelsLocator.nth(i).textContent();
+      if (label && label.trim()) {
+        labels.push(label.trim());
+      }
+    }
+    await this.clickFirstVisibleDialogHeader();
+    if (labels.length === 0) throw new Error('No department options found in dropdown');
+    const idx = Math.floor(Math.random() * labels.length);
+    this.selectedDropdownOption = labels[idx];
+  }
+
+  // --- Input utilities ---
 
   /**
    * Fills the input with the given value and validates the value is set.
@@ -218,53 +305,6 @@ export class NodeCRUDValidation {
   }
 
   /**
-   * Validates that a field is read-only (disabled).
-   * @param fieldLocator Locator for the field to check.
-   */
-  async validateFieldIsReadOnly(fieldLocator: Locator) {
-    await fieldLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    const isDisabled = await fieldLocator.isDisabled();
-    expect(isDisabled).toBeTruthy();
-  }
-
-  /**
-   * Validates that a required field cannot be empty.
-   * @param textBoxName Name of the text box.
-   * @param nodeType Optional node type to determine error count in panel.
-   */
-  async validateFieldCannotBeEmptyByName(textBoxName: string, nodeType?: string) {
-    let input: Locator;
-    let expectedErrorMsg: string;
-
-    if (textBoxName === nodeCrudDialog.fields.valueType) {
-      input = this.getInputByPlaceholder(textBoxName);
-      await input.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-      await this.fillAndValidateInputByPlaceholder(nodeCrudDialog.fields.valueType, nodeCrudDialog.fields.valueTypeValue);
-      await input.fill("");
-      expectedErrorMsg = nodeCrudDialog.messages.valueTypeRequired;
-    } else if (textBoxName === nodeCrudDialog.fields.calculationText) {
-      input = this.getTextInputBox(textBoxName);
-      await input.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-      await this.fillAndValidateTextInputBox(nodeCrudDialog.fields.calculationText, "123");
-      await input.fill("");
-      expectedErrorMsg = nodeCrudDialog.messages.calculationTextRequired;
-    } else {
-      throw new Error(`Unsupported text box name: ${textBoxName}`);
-    }
-
-    const saveButton = this.getByTextValue(nodeCrudDialog.buttons.saveChanges);
-    const errorMsgLocator = this.errorMsgLocator(input);
-    await errorMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    const errorMsg = await errorMsgLocator.textContent();
-    expect(errorMsg?.trim()).toBe(expectedErrorMsg);
-    await this.panelErrorLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    const panelMsg = await this.panelErrorLocator.textContent();
-    expect(panelMsg?.trim()).toBe(nodeCrudDialog.messages.oneError);
-    await saveButton.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-    expect(await saveButton.isDisabled()).toBeTruthy();
-  }
-
-  /**
    * Fills a text input box by typing the base node variable name and selecting the first autosuggestion.
    * @param headerText The header text to locate the input box.
    */
@@ -273,41 +313,47 @@ export class NodeCRUDValidation {
     await input.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     await input.fill(""); 
 
-    //const inputText = "#" + this.baseNodeVariableName;
     const inputText = nodeCrudDialog.fields.inputChildNode;
     let suggestionAppeared = false;
     for (let retry = 0; retry < 5; retry++) {
       await input.fill(inputText);
+      const panelPortalContent = this.page.locator('div.PanelPortal-module_content__2C73t');
+      await panelPortalContent.evaluate((el: HTMLElement) => {
+        el.scrollTop = 0; 
+        el.scrollBy(0, 200); 
+      });
       const suggestion = this.suggestionBoxButtons.first();
-      if (await suggestion.isVisible({ timeout: TIMEOUT_FE_WAIT }).catch(() => false)) {
+      if (await suggestion.isVisible({ timeout: 1000 }).catch(() => false)) {
+        await suggestion.scrollIntoViewIfNeeded();
         await suggestion.click();
         suggestionAppeared = true;
         break;
       }
-      await this.page.waitForTimeout(TIMEOUT_FE_WAIT);
+      await this.page.waitForTimeout(500); 
     }
     if (!suggestionAppeared) {
       throw new Error(`Autosuggestion did not appear for node variable name: ${inputText}`);
     }
   }
 
+  // --- Node creation and validation flows ---
+
   /**
    * Fills all required fields in the create node dialog for calculated node type.
    */
-  async fillAllRequiredCalculatedNodeTypeFields(
-    isCreate: boolean = true
-  ) {
+  async fillAllRequiredCalculatedNodeTypeFields(isCreate: boolean = true) {
     const offset = isCreate ? 1 : 0;
-    await this.fillAndValidateInputByPlaceholder(nodeCrudDialog.fields.valueType, nodeCrudDialog.fields.valueTypeValue);
+    
+    const valueTypeInput = this.getInputByPlaceholder(nodeCrudDialog.fields.valueType);
+    await this.validateFieldIsReadOnly(valueTypeInput);
     await this.selectAndValidateDropdownField(offset + 0, filterOptions[0].data.month.actuals, true);
     await this.selectAndValidateDropdownField(offset + 1, filterOptions[0].data.channel.option);
-    // Dynamically get and select a unique department option
     await this.getUniqueOptionFromDropdown(offset + 2);
     await this.selectAndValidateDropdownField(offset + 2, this.selectedDropdownOption);
     await this.selectAndValidateDropdownField(offset + 3, filterOptions[0].data.entity.option);
     await this.selectAndValidateDropdownField(offset + 4, nodeCrudDialog.fields.causalFunctionValue, true);
     await this.fillAndValidateTextInputBox(nodeCrudDialog.fields.calculationText, "123");
-    await this.fillInputBoxWithAutosuggestions(nodeCrudDialog.fields.aggregationText);
+    await this.fillAndValidateTextInputBox(nodeCrudDialog.fields.aggregationText,"123");
   }
 
   /**
@@ -315,12 +361,13 @@ export class NodeCRUDValidation {
    */
   async fillAllRequiredInputNodeTypeFields(isCreate: boolean = true) {
     const offset = isCreate ? 1 : 0;
-    await this.fillAndValidateInputByPlaceholder(nodeCrudDialog.fields.valueType, nodeCrudDialog.fields.valueTypeValue);
+    
+    const valueTypeInput = this.getInputByPlaceholder(nodeCrudDialog.fields.valueType);
+    await this.validateFieldIsReadOnly(valueTypeInput);
     await this.selectAndValidateDropdownField(offset + 0, filterOptions[0].data.owner.option, true);
     await this.selectAndValidateDropdownField(offset + 1, nodeCrudDialog.fields.viewerValue);
     await this.selectAndValidateDropdownField(offset + 2, filterOptions[0].data.month.actuals, true);
     await this.selectAndValidateDropdownField(offset + 3, filterOptions[0].data.channel.option);
-    // Dynamically get and select a unique department option
     await this.getUniqueOptionFromDropdown(offset + 4);
     await this.selectAndValidateDropdownField(offset + 4, this.selectedDropdownOption);
     await this.selectAndValidateDropdownField(offset + 5, filterOptions[0].data.entity.option);
@@ -337,12 +384,6 @@ export class NodeCRUDValidation {
     await this.getButtonByAriaLabel(nodeCrudDialog.buttons.closePanel).click();
     const isDialogClosed = headerLocator ? !(await headerLocator.isVisible().catch(() => false)) : true;
     expect(isDialogClosed).toBeTruthy();
-    /*const found = await this.landingPage._verifySearch(
-      metricNameValue,
-      testData.dataFieldAttributeMetricName,
-      true
-    );
-    expect(found).toBeFalsy();*/
   }
 
   /**
@@ -418,19 +459,20 @@ export class NodeCRUDValidation {
 
     await this.validateFieldIsReadOnly(this.getInputByPlaceholder(nodeCrudDialog.fields.metricName));
     await this.validateFieldIsReadOnly(this.getFieldInputByLabel(nodeCrudDialog.fields.metricId));
+    await this.validateFieldIsReadOnly(this.getFieldInputByLabel(nodeCrudDialog.fields.nodeVariableName));
+    await this.validateFieldIsReadOnly(this.getInputByPlaceholder(nodeCrudDialog.fields.valueType));
     await this.validateFieldCannotBeEmptyByName(nodeCrudDialog.fields.valueType, nodeType);
-
+    await this.validateDialogHeaderVisible(nodeCrudDialog.dialogHeaders.metadata);
+    
     if (nodeType === nodeCrudDialog.dialogHeaders.calculated && nodeCrudDialog.fields.calculationText !== undefined) {
-      await this.validateDialogHeaderVisible(nodeCrudDialog.dialogHeaders.metadata);
-      await this.fillAndValidateInputByPlaceholder(nodeCrudDialog.fields.valueType, nodeCrudDialog.fields.valueTypeValue);
       await this.validateFieldCannotBeEmptyByName(nodeCrudDialog.fields.calculationText);
       await expect(this.getMultiSelectTitleByText(nodeCrudDialog.fields.ownerEditor).isHidden()).resolves.toBeTruthy();
       await expect(this.getMultiSelectTitleByText(nodeCrudDialog.fields.viewer).isHidden()).resolves.toBeTruthy();
       await this.fillAllRequiredCalculatedNodeTypeFields(isCreate);
     } else if (nodeType === nodeCrudDialog.dialogHeaders.input) {
-      await expect(this.getByTextValue(nodeCrudDialog.dialogHeaders.metadata).isHidden()).resolves.toBeTruthy();
       await expect(this.getMultiSelectTitleByText(nodeCrudDialog.fields.ownerEditor).isVisible()).resolves.toBeTruthy();
       await expect(this.getMultiSelectTitleByText(nodeCrudDialog.fields.viewer).isVisible()).resolves.toBeTruthy();
+      await this.validateFieldCannotBeEmptyByName(nodeCrudDialog.fields.ownerEditor);
       await this.fillAllRequiredInputNodeTypeFields(isCreate);
     }
   }
@@ -501,8 +543,6 @@ export class NodeCRUDValidation {
     const alertMsg = await this.alertLocator.textContent();
     expect(alertMsg?.trim()).toBe(metricNameValue + " " + nodeCrudDialog.messages.deleteAlertMessage);
     await this.getButtonByAriaLabel(nodeCrudDialog.buttons.closeAlert).click();
-    //const deleted = await this.landingPage.filterAndSearchNode(metricNameValue, this.selectedDropdownOption);
-    //expect(deleted).toBeFalsy();
   }
 
   /**
@@ -554,9 +594,13 @@ export class NodeCRUDValidation {
     
     await this.validateFieldIsReadOnly(this.getFieldInputByLabel(nodeCrudDialog.fields.nodeVariableName));
     await this.validateFieldIsReadOnly(this.getFieldInputByLabel(nodeCrudDialog.fields.metricName));
+    const valueTypeInput = this.getInputByPlaceholder(nodeCrudDialog.fields.valueType);
+    await this.validateFieldIsReadOnly(valueTypeInput);
     await this.validateNodeCreateOrEditFields(nodeType);
 
-    await this.fillAndValidateInputByPlaceholder(nodeCrudDialog.fields.valueType, "%");
+    const channelDropdownIndex = nodeType === nodeCrudDialog.dialogHeaders.input ? 3 : 1;
+    await this.selectAndValidateDropdownField(channelDropdownIndex, filterOptions[0].data.channel.optionValue);
+
     await this.discardCreateNodeFlow(
       this.getByTextValue(nodeCrudDialog.messages.editingAffectsNodes),
       nodeCrudDialog.fields.metricNameValue
@@ -568,7 +612,9 @@ export class NodeCRUDValidation {
     await this.getButtonByAriaLabel(nodeCrudDialog.buttons.more).first().click();
     await this.getButtonByAriaLabel(nodeCrudDialog.buttons.edit.toLowerCase()).click();
 
-    await this.fillAndValidateInputByPlaceholder(nodeCrudDialog.fields.valueType, "%");
+    await this.validateFieldIsReadOnly(valueTypeInput);
+    await this.selectAndValidateDropdownField(channelDropdownIndex, filterOptions[0].data.channel.optionValue);
+
     await this.saveCreateNodeFlow(nodeCrudDialog.fields.metricNameValue, false);
 
     await this.deleteNode(nodeCrudDialog.fields.metricNameValue);
@@ -585,40 +631,12 @@ export class NodeCRUDValidation {
   }
 
   /**
-   * Returns the Node Variable Name for the given node
-   * @returns {Promise<string>} The Node Variable Name of the node.
-   */
-  /*async getNodeVariableName(): Promise<string | undefined> {
-    const metricNameValue = nodeCrudDialog.fields.metricNameValue;
-    const found = await this.landingPage._verifySearch(
-      metricNameValue,
-      testData.dataFieldAttributeMetricName,
-      true
-    );
-
-    if (found) {
-      const nodeRow = this.page.getByText(metricNameValue).first();
-      await nodeRow.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.more).first().click();
-      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.edit.toLowerCase()).click();
-      const nodeVariableInput = this.getFieldInputByLabel(nodeCrudDialog.fields.nodeVariableName);
-      await nodeVariableInput.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
-      const nodeVariableName = await nodeVariableInput.inputValue();
-      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.closePanel).click();
-      await this.landingPage.searchBox.click();
-      await this.landingPage.searchBox.fill("");
-      return nodeVariableName?.substring(0, 3);
-    }
-
-    // If not found, return undefined
-    return undefined;
-  }*/
-
-  /**
-   * Validates aggregation formula for different scenarios when user creates or edits a node of input or calculated type
-   * @param nodeType Node type: "Input" or "Calculated"
-   * @param scenario Which scenario to validate
-   * @param isCreate Whether the node is being created or edited (Optional)
+   * Validates aggregation formula for different scenarios when user creates or edits a node of input or calculated type.
+   * For calculated type: aggregation formula is autosuggestion if causal function is not selected, free text if selected.
+   * For input type: aggregation formula is always autosuggestion.
+   * @param nodeType "Calculated" or "Input"
+   * @param scenario Scenario number for validation
+   * @param isCreate true for create flow, false for edit flow
    */
   async validateAggregationFormulaScenario(
     nodeType: string,
@@ -626,91 +644,84 @@ export class NodeCRUDValidation {
     isCreate: boolean = true
   ) {
     if (nodeType === nodeCrudDialog.dialogHeaders.calculated)
-      await this.inputsButton.click(); //Deselect inputs button
+      await this.inputsButton.click();
     else 
-      await this.calculationsButton.click(); //Deselect calculations button
-    
-    await this.getButtonByAriaLabel(nodeCrudDialog.buttons.more).first().click();
-    
-    if (isCreate) {
-      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.add.toLowerCase()).click();
-      await this.validateDialogHeaderVisible(nodeCrudDialog.dialogHeaders.createNode);
-      await this.selectAndValidateDropdownField(0, nodeType, true);
-    } else {
-      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.edit.toLowerCase()).click();
-      await this.validateDialogHeaderVisible(nodeType);
-    }
-    
-    let infoMsgLocator: Locator;
-    // Info message and input locator based on node type
-    if (nodeType === nodeCrudDialog.dialogHeaders.calculated)
-     infoMsgLocator = this.getByTextValue(nodeCrudDialog.messages.calculationAggregationMessage).nth(1);
-    else
-      infoMsgLocator = this.getByTextValue(nodeCrudDialog.messages.calculationAggregationMessage);
-    
+      await this.calculationsButton.click();
+
+    await this.openNodeDialogAndValidateHeaders(isCreate, nodeType);
+
+    const infoMsgLocator = this.getByTextValue(nodeCrudDialog.messages.calculationAggregationMessage).first();
     await infoMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     expect(await infoMsgLocator.isVisible()).toBeTruthy();
 
-    // Prepare aggregation input locator
     const aggregationInput = this.getTextInputBox(nodeCrudDialog.fields.aggregationText);
     await aggregationInput.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
 
     let suggestionCount: number;
 
+    if (nodeType === nodeCrudDialog.dialogHeaders.calculated) {
+      const causalFunctionDropdownIndex = isCreate ? 5 : 4;
+      const causalFunctionArrow = this.dropdownArrow.nth(causalFunctionDropdownIndex);
+      if (await this.dropdownArrowOpen.nth(causalFunctionDropdownIndex).isHidden()) {
+        await causalFunctionArrow.click();
+      }
+      const checkedCount = await this.checkedCheckboxesLocator.count();
+      if (checkedCount > 0) {
+        for (let i = 0; i < checkedCount; i++) {
+          await this.checkedCheckboxesLocator.nth(i).click();
+        }
+        await this.clickFirstVisibleDialogHeader();
+      }
+    }
+    
+    await aggregationInput.fill(nodeCrudDialog.fields.inputChildNode);
+    await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+    suggestionCount = await this.suggestionBoxButtons.count();
+    expect(suggestionCount).toBeGreaterThan(0);
+    if (suggestionCount > 0) {
+      await this.suggestionBoxButtons.first().click();
+    }
+
     switch (scenario) {
       case 1:
-        await aggregationInput.fill(nodeCrudDialog.fields.inputChildNode);
-        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
-        suggestionCount = await this.suggestionBoxButtons.count();
-        expect(suggestionCount).toBeGreaterThan(0); 
-        if (suggestionCount > 0) {
-          await this.suggestionBoxButtons.first().click();
-        }
         let currentValue = await aggregationInput.inputValue();
         await aggregationInput.fill(`${currentValue} + 123`);
+        expect(await aggregationInput.inputValue()).toBe(`${currentValue} + 123`);
         break;
-
       case 2:
-        await aggregationInput.fill(nodeCrudDialog.fields.inputChildNode);
-        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
-        suggestionCount = await this.suggestionBoxButtons.count();
-        expect(suggestionCount).toBeGreaterThan(0); 
-        if (suggestionCount > 0) {
-          await this.suggestionBoxButtons.first().click();
-        }
+        const actualValue = await aggregationInput.inputValue();
+        const expectedSubstring = nodeCrudDialog.fields.inputChildNode.substring(1);
+        expect(actualValue.toLowerCase()).toContain(expectedSubstring.toLowerCase());
         break;
-
-      case 3: 
+      case 3:
         await aggregationInput.fill('123 * 10');
         await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
         suggestionCount = await this.suggestionBoxButtons.count();
-        expect(suggestionCount).toBe(0); 
+        expect(suggestionCount).toBe(0);
         break;
-
-      case 4: 
+      case 4:
         await aggregationInput.fill('#T');
         await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
         suggestionCount = await this.suggestionBoxButtons.count();
-        expect(suggestionCount).toBe(0); 
+        expect(suggestionCount).toBe(0);
 
         await aggregationInput.fill('#To');
         await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
         suggestionCount = await this.suggestionBoxButtons.count();
-        expect(suggestionCount).toBe(0); 
+        expect(suggestionCount).toBe(0);
 
         const errorMsgLocator = this.errorMsgLocator(aggregationInput);
         await errorMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
         const errorMsg = await errorMsgLocator.textContent();
         expect(errorMsg?.trim()).toBe(nodeCrudDialog.messages.aggregationInvalidMessage);
+        await this.validatePanelErrorAndSaveDisabled();
         break;
-
-      case 5: 
+      case 5:
         await aggregationInput.fill("");
         await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
         suggestionCount = await this.suggestionBoxButtons.count();
-        expect(suggestionCount).toBe(0); 
+        expect(suggestionCount).toBe(0);
         break;
-
       default:
         throw new Error('Invalid scenario number for aggregation type validation');
     }
@@ -718,31 +729,21 @@ export class NodeCRUDValidation {
 
   /**
    * Validates calculation formula for different scenarios when user creates or edits a node of calculated type.
-   * @param scenario Which scenario to validate
-   * @param isCreate Whether the node is being created or edited (Optional)
+   * For calculated type: calculation formula is autosuggestion if causal function is not selected, free text if selected.
+   * @param scenario Scenario number for validation
+   * @param isCreate true for create flow, false for edit flow
    */
   async validateCalculationFormulaScenario(
     scenario: number,
     isCreate: boolean = true
   ) {
-    await this.inputsButton.click(); //Deselect inputs button
-    await this.getButtonByAriaLabel(nodeCrudDialog.buttons.more).first().click();
+    await this.inputsButton.click();
+    await this.openNodeDialogAndValidateHeaders(isCreate, nodeCrudDialog.dialogHeaders.calculated);
 
-    if (isCreate) {
-      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.add.toLowerCase()).click();
-      await this.validateDialogHeaderVisible(nodeCrudDialog.dialogHeaders.createNode);
-      await this.selectAndValidateDropdownField(0, nodeCrudDialog.dialogHeaders.calculated, true);
-    } else {
-      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.edit.toLowerCase()).click();
-      await this.validateDialogHeaderVisible(nodeCrudDialog.dialogHeaders.calculated);
-    }
-
-    // Info message and input locator for calculation formula
     const infoMsgLocator = this.getByTextValue(nodeCrudDialog.messages.calculationAggregationMessage).first();
     await infoMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     expect(await infoMsgLocator.isVisible()).toBeTruthy();
 
-    // Prepare calculation input locator
     const calculationInput = this.getTextInputBox(nodeCrudDialog.fields.calculationText);
     await calculationInput.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
 
@@ -750,36 +751,44 @@ export class NodeCRUDValidation {
     let errorMsgLocator: Locator;
     let errorMsg: string | null;
 
+    const causalFunctionDropdownIndex = isCreate ? 5 : 4;
+    const causalFunctionArrow = this.dropdownArrow.nth(causalFunctionDropdownIndex);
+    if (await this.dropdownArrowOpen.nth(causalFunctionDropdownIndex).isHidden()) {
+      await causalFunctionArrow.click();
+    }
+    const checkedCount = await this.checkedCheckboxesLocator.count();
+    if (checkedCount > 0) {
+      for (let i = 0; i < checkedCount; i++) {
+        await this.checkedCheckboxesLocator.nth(i).click();
+      }
+      await this.clickFirstVisibleDialogHeader();
+    }
+    
+    await calculationInput.fill(nodeCrudDialog.fields.inputChildNode);
+    await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+    suggestionCount = await this.suggestionBoxButtons.count();
+    expect(suggestionCount).toBeGreaterThan(0);
+    if (suggestionCount > 0) {
+      await this.suggestionBoxButtons.first().click();
+    }
+
     switch (scenario) {
       case 1:
-        await calculationInput.fill(nodeCrudDialog.fields.inputChildNode);
-        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
-        suggestionCount = await this.suggestionBoxButtons.count();
-        expect(suggestionCount).toBeGreaterThan(0);
-        if (suggestionCount > 0) {
-          await this.suggestionBoxButtons.first().click();
-        }
         let currentValue = await calculationInput.inputValue();
         await calculationInput.fill(`${currentValue} + 123`);
+        expect(await calculationInput.inputValue()).toBe(`${currentValue} + 123`);
         break;
-
       case 2:
-        await calculationInput.fill(nodeCrudDialog.fields.inputChildNode);
-        await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
-        suggestionCount = await this.suggestionBoxButtons.count();
-        expect(suggestionCount).toBeGreaterThan(0);
-        if (suggestionCount > 0) {
-          await this.suggestionBoxButtons.first().click();
-        }
+        const actualValue = await calculationInput.inputValue();
+        const expectedSubstring = nodeCrudDialog.fields.inputChildNode.substring(1);
+        expect(actualValue.toLowerCase()).toContain(expectedSubstring.toLowerCase());
         break;
-
       case 3:
         await calculationInput.fill('123 * 10');
         await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
         suggestionCount = await this.suggestionBoxButtons.count();
         expect(suggestionCount).toBe(0);
         break;
-
       case 4:
         await calculationInput.fill('#T');
         await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
@@ -795,8 +804,8 @@ export class NodeCRUDValidation {
         await errorMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
         errorMsg = await errorMsgLocator.textContent();
         expect(errorMsg?.trim()).toBe(nodeCrudDialog.messages.calculationInvalidMessage);
+        await this.validatePanelErrorAndSaveDisabled();
         break;
-
       case 5:
         await calculationInput.fill("");
         await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
@@ -804,64 +813,269 @@ export class NodeCRUDValidation {
         expect(suggestionCount).toBe(0);
 
         errorMsgLocator = this.errorMsgLocator(calculationInput);
-        errorMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+        await errorMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
         errorMsg = await errorMsgLocator.textContent();
         expect(errorMsg?.trim()).toBe(nodeCrudDialog.messages.calculationTextRequired);
+        await this.validatePanelErrorAndSaveDisabled();
         break;
-
       default:
         throw new Error('Invalid scenario number for calculation type validation');
     }
   }
 
-  // Utility to select a unique option each run by reading all dropdown values dynamically
-  private async getUniqueOptionFromDropdown(dropdownIndex: number) {
-    const dropdownArrow = this.dropdownArrow.nth(dropdownIndex);
-    if (await this.dropdownArrowOpen.nth(dropdownIndex).isHidden()) {
+  /**
+   * Validates that the child node added in calculation or aggregation formula field
+   * has the same granularity as the parent node.
+   * @param nodeType "Calculated" or "Input"
+   * @param fieldType "calculationText" or "aggregationText"
+   * @param isCreate true for create flow, false for edit flow
+   */
+  async validateParentChildGranularity(nodeType: string, fieldType: string, isCreate: boolean = true) {
+    let inputLocator: any;
+
+    if (nodeType === nodeCrudDialog.dialogHeaders.calculated)
+      await this.inputsButton.click();
+    else 
+      await this.calculationsButton.click();
+
+    await this.openNodeDialogAndValidateHeaders(isCreate, nodeType);
+
+    if (nodeType === nodeCrudDialog.dialogHeaders.calculated) {
+      const causalFunctionDropdownIndex = isCreate ? 5 : 4;
+      const causalFunctionArrow = this.dropdownArrow.nth(causalFunctionDropdownIndex);
+      if (await this.dropdownArrowOpen.nth(causalFunctionDropdownIndex).isHidden()) {
+        await causalFunctionArrow.click();
+      }
+      const checkedCount = await this.checkedCheckboxesLocator.count();
+      for (let i = 0; i < checkedCount; i++) {
+        await this.checkedCheckboxesLocator.nth(i).click();
+      }
+      await this.clickFirstVisibleDialogHeader();
+      inputLocator = this.getTextInputBox(nodeCrudDialog.fields.calculationText);
+      await inputLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+      inputLocator.fill("123");
+    }
+
+    await this.fillInputBoxWithAutosuggestions(nodeCrudDialog.fields[fieldType]);
+    inputLocator = this.getTextInputBox(nodeCrudDialog.fields[fieldType]);
+    await inputLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    const selectedNode = await inputLocator.inputValue();
+
+    const entityDropdownIndex = isCreate
+      ? (nodeType === nodeCrudDialog.dialogHeaders.calculated ? 4 : 6)
+      : (nodeType === nodeCrudDialog.dialogHeaders.calculated ? 3 : 5);
+    await this.getUniqueOptionFromDropdown(entityDropdownIndex);
+    await this.selectAndValidateDropdownField(entityDropdownIndex, this.selectedDropdownOption);
+
+    const expectedErrorMsg = nodeCrudDialog.messages.parentChildGranularity + selectedNode;
+    const granularityErrorMsgLocator = this.getGranularityErrorMsgLocator(fieldType);
+    await granularityErrorMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    const actualErrorMsg = await granularityErrorMsgLocator.textContent();
+    expect(actualErrorMsg?.trim()).toBe(expectedErrorMsg);
+
+    await this.validatePanelErrorAndSaveDisabled();
+  }
+
+  /**
+   * Validates that the calculation formula field is mandatory for calculated node type.
+   * @param isCreate true for create flow, false for edit flow
+   */
+  async validateCalculationFormulaMandatory(isCreate: boolean = true) {
+    await this.inputsButton.click();
+    await this.openNodeDialogAndValidateHeaders(isCreate, nodeCrudDialog.dialogHeaders.calculated);
+
+    const calculationInput = this.getTextInputBox(nodeCrudDialog.fields.calculationText);
+    await calculationInput.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await calculationInput.fill("");
+    const errorMsgLocator = this.errorMsgLocator(calculationInput);
+    await errorMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    const errorMsg = await errorMsgLocator.textContent();
+    expect(errorMsg?.trim()).toBe(nodeCrudDialog.messages.calculationTextRequired);
+
+    await this.validatePanelErrorAndSaveDisabled();
+  }
+
+  /**
+   * Validates that the owner field is mandatory for input node type.
+   * @param isCreate true for create flow, false for edit flow
+   */
+  async validateOwnerFieldMandatory(isCreate: boolean = true) {
+    await this.calculationsButton.click();
+    await this.openNodeDialogAndValidateHeaders(isCreate, nodeCrudDialog.dialogHeaders.input);
+
+    const ownerDropdownIndex = isCreate ? 1 : 0;
+    const dropdownArrow = this.dropdownArrow.nth(ownerDropdownIndex);
+    if (await this.dropdownArrowOpen.nth(ownerDropdownIndex).isHidden()) {
       await dropdownArrow.click();
     }
-    
-    const count = await this.checkboxLabelsLocator.count();
-    const labels: string[] = [];
-    for (let i = 0; i < count; i++) {
-      const label = await this.checkboxLabelsLocator.nth(i).textContent();
-      if (label && label.trim()) {
-        labels.push(label.trim());
+    const checkedCount = await this.checkedCheckboxesLocator.count();
+    for (let i = 0; i < checkedCount; i++) {
+      await this.checkedCheckboxesLocator.nth(i).click();
+    }
+    await this.clickFirstVisibleDialogHeader();
+
+    const input = this.multiSelectTextBox.nth(ownerDropdownIndex);
+    const errorMsgLocator = (input: Locator) => input.locator('xpath=following-sibling::span');
+    await errorMsgLocator(input).waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    const errorMsg = await errorMsgLocator(input).textContent();
+    expect(errorMsg?.trim()).toBe(nodeCrudDialog.messages.ownerRequired);
+
+    await this.validatePanelErrorAndSaveDisabled();
+  }
+
+  /**
+   * Validates node variant suggestions for calculation/aggregation formula field
+   * when causal function is NOT selected (autosuggestions should appear).
+   * @param fieldType "calculationText" or "aggregationText"
+   * @param isCreate true for create flow, false for edit flow
+   */
+  async validateCausalFunctionNodeVariants(
+    fieldType: string,
+    isCreate: boolean = true
+  ) {
+    await this.inputsButton.click();
+    await this.openNodeDialogAndValidateHeaders(isCreate, nodeCrudDialog.dialogHeaders.calculated);
+
+    const causalFunctionDropdownIndex = isCreate ? 5 : 4;
+    const causalFunctionArrow = this.dropdownArrow.nth(causalFunctionDropdownIndex);
+    if (await this.dropdownArrowOpen.nth(causalFunctionDropdownIndex).isHidden()) {
+      await causalFunctionArrow.click();
+    }
+    const checkedCount = await this.checkedCheckboxesLocator.count();
+    if (checkedCount > 0) {
+      for (let i = 0; i < checkedCount; i++) {
+        await this.checkedCheckboxesLocator.nth(i).click();
       }
+      await this.clickFirstVisibleDialogHeader();
     }
 
-    // Click whichever dialog header is visible: Create Node, Input, or Calculated
-    const headerLocators = [
-      this.getByTextValue(nodeCrudDialog.dialogHeaders.createNode),
-      this.topBarHeaderDiv.getByText(nodeCrudDialog.dialogHeaders.input),
-      this.topBarHeaderDiv.getByText(nodeCrudDialog.dialogHeaders.calculated)
-    ];
-    let headerClicked = false;
-    for (const header of headerLocators) {
-      if (await header.isVisible().catch(() => false)) {
-        await header.click({ force: true, timeout: TIMEOUT_FE_WAIT });
-        headerClicked = true;
-        break;
-      }
+    const input = this.getTextInputBox(nodeCrudDialog.fields[fieldType]);
+    await input.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await input.fill(""); 
+    await input.fill(nodeCrudDialog.fields.inputChildNode);
+    await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+    const suggestionCount = await this.suggestionBoxButtons.count();
+    expect(suggestionCount).toBeGreaterThan(0);
+  }
+
+  /**
+   * Validates that free text is allowed in calculation/aggregation formula field
+   * when causal function IS selected (no autosuggestions should appear).
+   * @param fieldType "calculationText" or "aggregationText"
+   * @param isCreate true for create flow, false for edit flow
+   */
+  async validateCausalFunctionFreeText(
+    fieldType: string,
+    isCreate: boolean = true
+  ) {
+    await this.inputsButton.click();
+    await this.openNodeDialogAndValidateHeaders(isCreate, nodeCrudDialog.dialogHeaders.calculated);
+
+    const causalFunctionDropdownIndex = isCreate ? 5 : 4;
+    const causalFunctionArrow = this.dropdownArrow.nth(causalFunctionDropdownIndex);
+    if (await this.dropdownArrowOpen.nth(causalFunctionDropdownIndex).isHidden()) {
+      await causalFunctionArrow.click();
     }
-    if (!headerClicked) {
-      for (const header of headerLocators) {
-        try {
-          await header.scrollIntoViewIfNeeded();
-          if (await header.isVisible().catch(() => false)) {
-            await header.click({ force: true, timeout: TIMEOUT_FE_WAIT });
-            headerClicked = true;
-            break;
-          }
-        } catch (e) {}
-      }
+    const checkedCount = await this.checkedCheckboxesLocator.count();
+    if (checkedCount === 0) {
+      const firstCheckbox = this.checkboxLabelsLocator.first();
+      await firstCheckbox.click();
+      await this.clickFirstVisibleDialogHeader();
     }
-    if (!headerClicked) {
-      throw new Error('No dialog header (Create Node, Input, Calculated) is visible to click.');
+    // Fill free text and validate no suggestions
+    const input = this.getTextInputBox(nodeCrudDialog.fields[fieldType]);
+    await input.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await input.fill("");
+    await input.fill('Some free text');
+    await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+    const suggestionCount = await this.suggestionBoxButtons.count();
+    expect(suggestionCount).toBe(0);
+  }
+
+  /**
+   * Validates error message for invalid node variant when causal function is NOT selected.
+   * @param fieldType "calculationText" or "aggregationText"
+   * @param isCreate true for create flow, false for edit flow
+   */
+  async validateCausalFunctionInvalidNodeVariant(
+    fieldType: string,
+    isCreate: boolean = true
+  ) {
+    await this.openNodeDialogAndValidateHeaders(isCreate, nodeCrudDialog.dialogHeaders.calculated);
+
+    // Deselect causal function
+    const causalFunctionDropdownIndex = isCreate ? 5 : 4;
+    const causalFunctionArrow = this.dropdownArrow.nth(causalFunctionDropdownIndex);
+    if (await this.dropdownArrowOpen.nth(causalFunctionDropdownIndex).isHidden()) {
+      await causalFunctionArrow.click();
+    }
+    const checkedCount = await this.checkedCheckboxesLocator.count();
+    for (let i = 0; i < checkedCount; i++) {
+      await this.checkedCheckboxesLocator.nth(i).click();
+    }
+    await this.clickFirstVisibleDialogHeader();
+
+    const input = this.getTextInputBox(nodeCrudDialog.fields[fieldType]);
+    await input.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    await input.fill("");
+
+    // Determine expected error messages based on fieldType
+    let incompleteErrorMsg: string;
+    let invalidNodeErrorMsg: string;
+    if (fieldType === "calculationText") {
+      incompleteErrorMsg = nodeCrudDialog.messages.calculationInvalidMessage;
+      invalidNodeErrorMsg = nodeCrudDialog.messages.calculationInvalidNodeMessage;
+    } else if (fieldType === "aggregationText") {
+      incompleteErrorMsg = nodeCrudDialog.messages.aggregationInvalidMessage;
+      invalidNodeErrorMsg = nodeCrudDialog.messages.aggregationInvalidNodeMessage;
+    } else {
+      throw new Error(`Unsupported fieldType: ${fieldType}`);
     }
 
-    if (labels.length === 0) throw new Error('No department options found in dropdown');
-    const idx = Math.floor(Math.random() * labels.length);
-    this.selectedDropdownOption = labels[idx]; 
+    await input.fill('#T');
+    await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+    let errorMsgLocator = this.errorMsgLocator(input);
+    await errorMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    let errorMsg = await errorMsgLocator.textContent();
+    expect(errorMsg?.trim()).toBe(incompleteErrorMsg);
+
+    await input.fill(nodeCrudDialog.fields.inputChildNode);
+    await this.page.waitForTimeout(TIMEOUT_FE_VISIBLE);
+    errorMsgLocator = this.errorMsgLocator(input);
+    await errorMsgLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    errorMsg = await errorMsgLocator.textContent();
+    expect(errorMsg?.trim()).toBe(invalidNodeErrorMsg);
+
+    await this.validatePanelErrorAndSaveDisabled();
+  }
+
+  /**
+   * Checks that the error panel is visible and the save button is disabled.
+   */
+  async validatePanelErrorAndSaveDisabled() {
+    await this.panelErrorLocator.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    const panelMsg = await this.panelErrorLocator.textContent();
+    expect(panelMsg?.trim()).toBe(nodeCrudDialog.messages.oneError);
+
+    const saveButton = this.getByTextValue(nodeCrudDialog.buttons.saveChanges);
+    await saveButton.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+    expect(await saveButton.isDisabled()).toBeTruthy();
+  }
+
+  /**
+   * Utility to open the node dialog (add or edit) and validate headers.
+   * @param isCreate true for create flow, false for edit flow
+   * @param nodeType "Input" or "Calculated"
+   */
+  async openNodeDialogAndValidateHeaders(isCreate: boolean, nodeType: string) {
+    await this.getButtonByAriaLabel(nodeCrudDialog.buttons.more).first().click();
+    if (isCreate) {
+      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.add.toLowerCase()).click();
+      await this.validateDialogHeaderVisible(nodeCrudDialog.dialogHeaders.createNode);
+      await this.selectAndValidateDropdownField(0, nodeType, true);
+    } else {
+      await this.getButtonByAriaLabel(nodeCrudDialog.buttons.edit.toLowerCase()).click();
+      await this.validateDialogHeaderVisible(nodeType);
+    }
   }
 }
