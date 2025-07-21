@@ -5,7 +5,7 @@
             "environment": "qa",
             "labels": [
                 "smoke",
-                "SSDMKPI"
+                "SSDMKPI","ssdm"
             ],
             "service": "coreService",
             "uri": "getSandboxScenarioId",

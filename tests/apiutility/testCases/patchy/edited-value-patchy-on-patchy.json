@@ -17,7 +17,7 @@
       "payload": {
         "unit": "Millions",
         "dim_id": 12,
-        "dim_val_id": 120005,
+        "dim_val_id": 120009,
         "classification_id": 12,
         "template_id": 1,
         "filters": [],
@@ -53,7 +53,7 @@
         "scenario_id": "{{getkpi2_scenario_id}}",
         "scenario_version": "{{getkpi2_scenario_version}}",
         "dim_id": 11,
-        "dim_val_id": 110015,
+        "dim_val_id": 110027,
         "classification_id": 12,
         "template_id": 3,
         "filters": [],
@@ -68,7 +68,7 @@
             "month"
           ],
           "nodes": [
-            "outsourcingundefined"
+            "instorereturns_input"
           ],
           "template_include_headers": [
             {
@@ -132,12 +132,12 @@
       "payload": {
         "display_nodes": [],
         "scenario_id": "{{getkpi2_scenario_id}}",
-        "dim_val_id": 110015,
+        "dim_val_id": 110027,
         "dim_id": 11,
         "preview": true,
         "edits": [
           {
-            "node_var_name": "outsourcingundefined",
+            "node_var_name": "instorereturns_input",
             "node_dimension": {},
             "data": {
               "202709": 100,
@@ -187,12 +187,12 @@
         "allocation_request": {
           "display_nodes": [],
           "scenario_id": "{{getkpi2_scenario_id}}",
-          "dim_val_id": 110015,
+          "dim_val_id": 110027,
           "dim_id": 11,
           "preview": false,
           "edits": [
             {
-              "node_var_name": "outsourcingundefined",
+              "node_var_name": "instorereturns_input",
               "node_dimension": {},
               "data": {
                 "202709": 100,
@@ -208,7 +208,7 @@
           "filters": [],
           "period_view": "month"
         },
-        "dim_val_id": 110015
+        "dim_val_id": 110027
       },
       "assertions": [
         {
@@ -234,7 +234,7 @@
         "scenario_id": "{{getkpi2_scenario_id}}",
         "scenario_version": "{{getkpi2_scenario_version}}",
         "dim_id": 11,
-        "dim_val_id": 110015,
+        "dim_val_id": 110027,
         "classification_id": 12,
         "template_id": 3,
         "filters": [],
@@ -249,7 +249,7 @@
             "month"
           ],
           "nodes": [
-            "outsourcingundefined"
+            "instorereturns_input"
           ],
           "template_include_headers": [
             {

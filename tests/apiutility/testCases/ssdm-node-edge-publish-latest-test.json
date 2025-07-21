@@ -6,7 +6,8 @@
       "labels": [
         "smoke",
         "publishSSDMLatestDataset",
-        "IBGROW-38097"
+        "IBGROW-38097",
+        "ssdm"
       ],
       "service": "coreService",
       "uri": "publishSSDMLatestDataset",
