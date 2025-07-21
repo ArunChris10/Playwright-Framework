@@ -5,7 +5,7 @@
             "environment": "qa",
             "labels": [
                 "smoke",
-                "forecast_comp_error"
+                "forecast_comp_error", "compare"
             ],
             "service": "coreService",
             "uri": "getForecast",

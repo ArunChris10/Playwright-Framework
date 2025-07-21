@@ -7,7 +7,7 @@
                 "smoke",
                 "forecast_comp",
                 "IBGROW-39033",
-                "empty_data"
+                "empty_data","compare"
             ],
             "service": "coreService",
             "uri": "getForecast",

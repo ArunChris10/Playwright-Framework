@@ -1,8 +1,8 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import cannedreportdata from "../testdata/canned-reports.json";
-import BAList from "../constants/PBA_SBA_List.json";
-import cannedreportmapping from "../constants/common.json";
+import { expect, test } from "../tests/common/fixtures/test-hook";
+import { Utility } from "../tests/common/fixtures/utils";
+import cannedreportdata from "../tests/ufm-be/testdata/canned-reports.json";
+import BAList from "../tests/ufm-be/constants/PBA_SBA_List.json";
+import cannedreportmapping from "../tests/ufm-be/constants/common.json";
 
 let BA_canned_url = cannedreportmapping.CannedReportMappingList;
 const BAName = BAList.PBAList;

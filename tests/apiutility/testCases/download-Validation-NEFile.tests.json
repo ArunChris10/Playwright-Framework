@@ -6,7 +6,7 @@
       "labels": [
         "smoke",
         "downloadApi",
-        "Regression"
+        "Regression","ssdm"
       ],
       "service": "coreService",
       "uri": "download",
