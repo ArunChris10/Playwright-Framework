@@ -189,6 +189,8 @@
     "createDriverTree": "/api/driver-trees",
     "getAllNodes": "/api/nodes",
     "nodeSource": "/api/nodes",
-    "getNodeVariants": "/api/driver-trees/2/versions/1/node-variants-metadata"
+    "getNodeVariants": "/api/driver-trees/2/versions/1/node-variants-metadata",
+    "getAllDimensions": "/api/driver-trees/all-dimensions",
+    "getPartitionData": "/api/validation/get-partition-data"
   }
 }

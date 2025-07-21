@@ -1,0 +1,206 @@
+{
+  "Validate get version for dataset type as Activated": [
+    {
+      "testStep": "Get All dimensions for the given dataset type as Activated",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "datasetType",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDimensions",
+      "testName": "Get all dimensions for the given dataset type as Activated",
+      "queryParams": "/",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ],
+  "Validate get version for dataset type as Latest": [
+    {
+      "testStep": "Get All dimensions for the given dataset type as Latest",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "datasetType",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDimensions",
+      "testName": "Get all dimensions for the given dataset type as Latest",
+      "queryParams": "/",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ],
+  "Validate get all dimensions repsonse for invalid dataset type": [
+    {
+      "testStep": "Get All dimensions for the given dataset type as Latest",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "datasetType",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDimensions",
+      "testName": "Get all dimensions for the given dataset type as Latest",
+      "queryParams": "/test",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 404
+        },
+        {
+          "assertEquals": {
+            "jsonPath": "message",
+            "value": "Invalid dataset type test"
+          }
+        }
+      ]
+    }
+  ],
+  "Validate get all dimensions repsonse for invalid dataset_datatype": [
+    {
+      "testStep": "Get All dimensions for the given dataset type as Latest",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "datasetType",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDimensions",
+      "testName": "Get all dimensions for the given dataset type as Latest",
+      "queryParams": "/4646",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 400
+        },
+        {
+          "assertEquals": {
+            "jsonPath": "message",
+            "value": "dataset type must be a string"
+          }
+        }
+      ]
+    }
+  ],
+  "Validate get partition data for dataset type as Activated": [
+    {
+      "testStep": "Get Partition data for the given dataset type as Activated"  ,
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "datasetType",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getPartitionData",
+      "testName": "Get partition data for the given dataset type as Activated",
+      "queryParams": "/",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertNotNull": {
+            "jsonPath1": "NODE_ID",
+            "jsonPath2": "PARTITION_GRAIN"
+          }
+        }
+      ]
+    }
+  ],
+  "Validate get partition data for dataset type as Latest": [
+    {
+      "testStep": "Get Partition data for the given dataset type as Latest"  ,
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "datasetType",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getPartitionData",
+      "testName": "Get partition data for the given dataset type as Latest",
+      "queryParams": "/",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertNotNull": {
+            "jsonPath1": "NODE_ID",
+            "jsonPath2": "PARTITION_GRAIN"
+          }
+        }
+      ]
+    }
+  ],
+  "Validate get partition data repsonse for invalid dataset type": [
+    {
+      "testStep": "Get Partition data for the given dataset type as Invalid",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "datasetType",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getPartitionData",
+      "testName": "Get Partition data for the given dataset type as Invalid",
+      "queryParams": "/test",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 404
+        },
+        {
+          "assertEquals": {
+            "jsonPath": "message",
+            "value": "Invalid dataset type test"
+          }
+        }
+      ]
+    }
+  ],
+  "Validate get partition data repsonse for invalid dataset datatype": [
+    {
+      "testStep": "Get Partition data for the given dataset type as Invalid",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "datasetType",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getPartitionData",
+      "testName": "Get Partition data for the given dataset type as Invalid",
+      "queryParams": "/5645",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 400
+        },
+        {
+          "assertEquals": {
+            "jsonPath": "message",
+            "value": "dataset type must be a string"
+          }
+        }
+      ]
+    }
+  ]
+}

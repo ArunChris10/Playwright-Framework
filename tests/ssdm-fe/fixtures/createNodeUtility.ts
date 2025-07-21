@@ -14,8 +14,8 @@ expect.extend(matchers);
 export class createNodeUtility {
 
     static async getUfdmPartitionData(request, option: string, isError = false) {
-        //const endpointURL = `${process.env.uiAppBaseURL}api/validation/get-partition-data`;
-        const endpointURL = `https://ibg-node-hub-service.qa.ibg.walmart.com/api/validation/get-partition-data`;
+        const endpointURL = `${process.env.uiAppBaseURL}api/validation/get-partition-data`;
+        //const endpointURL = `https://ibg-node-hub-service.qa.ibg.walmart.com/api/validation/get-partition-data`;
         const response = await request.get(endpointURL);
         let responseBody = await Utility.assertAndLog(response, isError);
 
