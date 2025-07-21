@@ -1,0 +1,170 @@
+{
+  "Create_Get_Update_Delete_Node_Tags": [
+    {
+      "testStep": "Create Node Tag",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Node_Tags",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "nodeTag",
+      "testName": "Create_Get_Update_Delete_Node_Tags",
+      "queryParams": "",
+      "method": "POST",
+      "payload":
+       {
+        "tag_value": "Node Tag Created"
+        },
+        "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "tag_value",
+            "value": "Node Tag Created"
+          }
+        }
+      ],
+      "extractFirst": {
+        "tag_key": "tag_key"
+      }
+    },
+    {
+      "testStep": "Get Node Tag with a valid Tag Key",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Node_Tags",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "nodeTag",
+      "testName": "Create_Get_Update_Delete_Node_Tags",
+      "queryParams": "/{{tag_key}}",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "tag_value",
+            "value": "Node Tag Created"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Get Node Tag with an invalid Tag Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node_Tags", "Regression"],
+      "service": "ssdmService",
+      "uri": "nodeTag",
+      "testName": "Create_Get_Update_Delete_Node_Tags",
+      "queryParams": "/5000",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 404
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Node tag not found for given tag key."
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Update Node Tag for a valid Tag Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node_Tags", "Regression"],
+      "service": "ssdmService",
+      "uri": "nodeTag",
+      "testName": "Create_Get_Update_Delete_Node_Tags",
+      "queryParams": "",
+      "method": "PATCH",
+      "payload":
+       {
+        "tag_value": "Node Tag Updated",
+        "tag_key": "{{tag_key}}"
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "tag_value",
+            "value": "Node Tag Updated"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Update Node Tag for an invalid Tag Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node Tags", "Regression"],
+      "service": "ssdmService",
+      "uri": "nodeTag",
+      "testName": "Create_Get_Update_Delete_Node_Tags",
+      "queryParams": "",
+      "method": "PATCH",
+      "payload":
+       {
+        "tag_value": "Node Tag Updated",
+        "tag_key": "5000"
+      },
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Tag key 5000 does not exist."
+          }
+        }
+      ]
+    },
+	{
+      "testStep": "Delete Node Tag for an invalid Tag Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node Tags", "Regression"],
+      "service": "ssdmService",
+      "uri": "nodeTag",
+      "testName": "Create_Get_Update_Delete_Node_Tags",
+      "queryParams": "/5000",
+      "method": "DELETE",
+      "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Tag key 5000 does not exist."
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Delete Node Tag for a valid Tag Key",
+      "environment": "qa",
+      "labels": ["smoke", "Node_Tags", "Regression"],
+      "service": "ssdmService",
+      "uri": "nodeTag",
+      "testName": "Create_Get_Update_Delete_Node_Tags",
+      "queryParams": "/{{tag_key}}",
+      "method": "DELETE",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

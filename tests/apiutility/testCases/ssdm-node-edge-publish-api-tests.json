@@ -5,7 +5,8 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "publishSSDMActivatedDataset"
+        "publishSSDMActivatedDataset",
+        "ssdm"
       ],
       "service": "coreService",
       "uri": "publishSSDMActivatedDataset",

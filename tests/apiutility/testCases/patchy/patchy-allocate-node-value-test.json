@@ -43,13 +43,13 @@
         "preview": true,
         "edits": [
           {
-            "node_var_name": "mpshippingexpense",
+            "node_var_name": "otherbuyingallowances_input",
             "node_dimension": { "department": 13, "channel": 60025 },
             "data": { "202611": 100 },
             "allocation": { "method": 30 }
           },
           {
-            "node_var_name": "mpshippingexpense",
+            "node_var_name": "otherbuyingallowances_input",
             "node_dimension": { "department": 8, "channel": 60025 },
             "data": { "202612": 100 },
             "allocation": { "method": 30 }
