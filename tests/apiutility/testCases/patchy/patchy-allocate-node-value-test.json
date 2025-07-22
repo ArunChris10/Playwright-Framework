@@ -3,7 +3,7 @@
     {
       "testStep": "create source scenario",
       "environment": "qa",
-      "labels": ["smoke", "validate_allocate_calculate"],
+      "labels": ["smoke", "validate_allocate_calculate","patchy"],
       "service": "coreService",
       "uri": "createUserScenario",
       "testName": "Create a new Scenario",

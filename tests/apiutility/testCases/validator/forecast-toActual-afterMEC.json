@@ -5,7 +5,7 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "Pre-Req"
+        "Pre-Req","muskan"
       ],
       "service": "coreService",
       "uri": "Forecast",
@@ -17,7 +17,7 @@
         "name": "apiUtilityAutomation_Actualisation {{randomNumber}}",
         "classification_id": 12,
         "dim_id": 11,
-        "dim_val_id": 110016
+        "dim_val_id": 110027
       },
       "extract": {
         "OpticalScenarioVersionToView": "scenario.scenario_version_timestamp",
@@ -44,7 +44,7 @@
       "payload": {
         "unit": "Millions",
         "dim_id": 12,
-        "dim_val_id": 120003,
+        "dim_val_id": 120009,
         "classification_id": 12,
         "template_id": 1,
         "filters": [],
@@ -124,7 +124,7 @@
         "scenario_id": "{{OpticalScenarioIdToView}}",
         "scenario_version": "{{OpticalScenarioVersionToView}}",
         "dim_id": 11,
-        "dim_val_id": 110016,
+        "dim_val_id": 110027,
         "classification_id": 12,
         "template_id": 3,
         "filters": [],
@@ -139,7 +139,7 @@
             "month"
           ],
           "nodes": [
-            "warehouseallowances_input"
+            "othercostsplug_input"
           ],
           "template_include_headers": [
             {
@@ -163,6 +163,10 @@
             }
           ],
           "month": [
+            "{{dynamicMonth-7}}",
+            "{{dynamicMonth-6}}",
+            "{{dynamicMonth-5}}",
+            "{{dynamicMonth-4}}",
             "{{dynamicMonth-3}}",
             "{{dynamicMonth-2}}",
             "{{dynamicMonth-1}}",
@@ -179,12 +183,12 @@
       "extractRelative": {
         "getSyncMonthHeader": {
           "whereKey": "driver",
-          "equals": "warehouseallowances_input",
+          "equals": "othercostsplug_input",
           "extractKey": "{{actualSyncTime}}.month_alias"
         },
         "getNextToSyncMonthHeader": {
           "whereKey": "driver",
-          "equals": "warehouseallowances_input",
+          "equals": "othercostsplug_input",
           "extractKey": "{{VisualIndicatorForecastSyncMonth}}.month_alias"
         }
       },

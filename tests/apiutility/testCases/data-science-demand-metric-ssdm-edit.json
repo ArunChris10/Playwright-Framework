@@ -6,7 +6,7 @@
             "labels": [
                 "smoke",
                 "regression",
-                "IBGROW-38085"
+                "IBGROW-38085","ssdm"
             ],
             "service": "coreService",
             "uri": "getDataScienceInfo",
