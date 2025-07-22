@@ -14,7 +14,7 @@
         "name": "test_creation {{randomNumber}}",
         "classification_id": 12,
         "dim_id": 11,
-        "dim_val_id": 110016
+        "dim_val_id": 110027
       },
       
       "assertions": [
