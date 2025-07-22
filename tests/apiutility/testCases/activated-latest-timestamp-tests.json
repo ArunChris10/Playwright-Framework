@@ -7,7 +7,7 @@
                 "smoke",
                 "timestampVisibility",
                 "IBGROW-38664",
-                "IBGROW-38665"
+                "IBGROW-38665","ssdm"
             ],
             "service": "coreService",
             "uri": "getTimestamp",

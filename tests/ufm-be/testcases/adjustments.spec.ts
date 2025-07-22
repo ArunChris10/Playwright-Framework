@@ -80,6 +80,7 @@ Object.entries(testData).forEach(([lob, testData]) => {
         getAllAdjustmentsCountAfter = await AdjustmentUtility.getAllAdjustments(scenario_details["scenarioId"], scenario_details["scenarioVersion"], testData.lobName, request)
         expect(getAllAdjustmentsCountBefore.length).toEqual(getAllAdjustmentsCountAfter.length - 1)
       });
+      
 
       test(`Verify user able to add adjustment to a scenario for - ${testData.lobName} with type Adjustment 74`, async ({
         request,
