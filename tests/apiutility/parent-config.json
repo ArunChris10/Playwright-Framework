@@ -86,7 +86,8 @@
     "testCases/ssdm-be/node_variant-attribute-tests.json",
     "testCases/ssdm-be/driver-tree-version-tests.json",
     "testCases/ssdm-be/node-tags-tests.json",
-    "testCases/ssdm-be/node-variant-tags-tests.json"
+    "testCases/ssdm-be/node-variant-tags-tests.json",
+    "testCases/ssdm-be/node-misc-tests.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -193,6 +194,8 @@
     "nodeSource": "/api/nodes",
     "getNodeVariants": "/api/driver-trees/2/versions/1/node-variants-metadata",
     "nodeTag" :"/api/node-tags",
-    "nodeVariantTag": "/api/driver-trees/2/versions/1"
+    "nodeVariantTag": "/api/driver-trees/2/versions/1",
+    "nodeRelationships" : "/api/driver-trees/46/versions/1/node-variant-relationships",
+    "cyclic_node_variants": "/api/validation/get-cyclic-node-variants?driver_tree_key=46&driver_tree_version=1"
   }
 }
