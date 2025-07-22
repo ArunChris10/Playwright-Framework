@@ -3,8 +3,8 @@
     {
       "testStep": "Get published node edge document versions",
       "environment": "qa",
-      "labels": ["smoke", "regression", "IBGROW-38084"],
-      "tags": ["smoke", "regression", "IBGROW-38084"],
+      "labels": ["smoke", "regression", "IBGROW-38084","ssdm"],
+      "tags": ["smoke", "regression", "IBGROW-38084", "ssdm"],
       "service": "coreService",
       "uri": "getPublishedVersionsProgressStatus",
       "testName": "Get the last published node documents",

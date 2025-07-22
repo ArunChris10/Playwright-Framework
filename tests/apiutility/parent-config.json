@@ -11,6 +11,7 @@
   "testFiles": [
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-constant-value.json",
     "testCases/maintain-ratio-additive.json",
+    "testCases/calculate-save-adjustment-testcases/calculate-save-additive-maintainratio-test.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-percent-rolling.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-test.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-non-additve.json",
@@ -74,7 +75,6 @@
     "testCases/patchy/patchy-allocate-additive-test.json",
     "testCases/patchy/patchy-dependent-nodes-tests.json",
     "testCases/patchy/patchy-multiple-dependent-nodes-tests.json",
-    "testCases/forecast/create-scenario-max-limit-test.json",
     "testCases/visual-indicator-api.json",
     "testCases/ssdm-node-edge-publish-latest-test.json",
     "testCases/ssdm-be/tags-tests.json",
