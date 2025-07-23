@@ -16,6 +16,7 @@ import { LandingPageValidation } from "./landing.page";
 import { NodeCRUDValidation } from "./node-crud-operations.page";
 import { CreateNewNode } from "./newnode.page";
 import { DriverTreeSummaryPageValidation } from "./driver-tree-summary.page";
+import { TreeViewPage } from "./tree-view.page";
 
 export class SSDMPageFactory {
   private readonly page: Page;
@@ -78,13 +79,13 @@ export class SSDMPageFactory {
 
   landingPage() {
     return new LandingPageValidation(this.page);
-    }
+  }
 
   nodeCRUDValidation() {
     return new NodeCRUDValidation(this.page, this.landingPage());
   }
 
-  createNewNodeModal(){
+  createNewNodeModal() {
     return new CreateNewNode(this.page);
   }
 
@@ -92,5 +93,8 @@ export class SSDMPageFactory {
     return new DriverTreeSummaryPageValidation(this.page);
   }
 
+  treeViewPage() {
+    return new TreeViewPage(this.page, this.landingPage());
+  }
 
 }
