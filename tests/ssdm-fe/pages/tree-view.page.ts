@@ -53,7 +53,6 @@ export class TreeViewPage {
     this.noRowsCount = page.locator("//p[contains(@class,'MuiTablePagination-displayedRows')]")
     this.tableViewDropdown = page.locator('[data-testid="TableChartIcon"]');
     this.treeViewDropdown = page.locator('[data-testid="AccountTreeIcon"]');
-
     // Parameterized XPath generators
     this.getGridValueXPath = (dataFieldAttribute: string) =>
       `[data-field="${dataFieldAttribute}"][role="gridcell"]`;
@@ -91,7 +90,6 @@ export class TreeViewPage {
     return orphanNodeNames;
   }
 
-
   async getChildrenOfParentNode(parentNode: string) {
     // Find the parent node whose text matches paretNode
     const count = await this.parentOrphanNodesInDriverTree.count();
@@ -107,7 +105,6 @@ export class TreeViewPage {
     if (parentIndex === -1) {
       throw new Error(`Parent node "${parentNode}" not found`);
     }
-
     // Click the parent node to expand its children
     const parentNodeLocator = this.parentOrphanNodesInDriverTree.nth(parentIndex);
     await parentNodeLocator.click({ force: true });
@@ -133,7 +130,6 @@ export class TreeViewPage {
   }
 
   async validateChildrenNodes(uiNodes, apiNodes) {
-
     expect(uiNodes.length).toBe(apiNodes.length);
     console.log(`Success: ${uiNodes.length} children nodes matched.`);
     const sortedUiNodes = [...uiNodes].sort();
@@ -141,7 +137,6 @@ export class TreeViewPage {
     console.log('Sorted UI nodes:', sortedUiNodes);
     console.log('Sorted API nodes:', sortedApiNodes);
     expect(sortedUiNodes).toEqual(sortedApiNodes);
-
   }
 
   async clearTextFromSearchBox() {
@@ -209,11 +204,10 @@ export class TreeViewPage {
         finalValue = randomValue.split(',')[0].trim();
       }
       console.log(`Randomly selected value for column "${columnName}":`, finalValue);
-      if (collectedValues[randomIndex] ) {
+      if (collectedValues[randomIndex]) {
         await this.landingPage.selectAndApplyFilter(columnName, finalValue);
       }
       // Find the cell with the searchedValue and assert its row is highlighted
-
       const cellLocator = this.page.locator(this.getGridValueXPath(columnName.toLowerCase())).filter({ hasText: finalValue });
       await cellLocator.first().waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
       // Assume highlighted row has a specific class, e.g., 'Mui-selected' or similar
@@ -250,8 +244,6 @@ export class TreeViewPage {
     }
     console.log(`Reset filter works for "${columnName}"`);
   }
-
-
 
   async validateFullMatchSearchForTreeView(parentNode, searchText) {
     await this.enterTextIntoSearchBox(searchText);
@@ -323,7 +315,7 @@ export class TreeViewPage {
         expect(text).toBe(metricType);
       }
     }
-    else{
+    else {
       for (const element of metricTypeElements) {
         const text = (await element.textContent())?.trim();
         expect(["Input", "Calculated"]).toContain(text);
@@ -338,7 +330,6 @@ export class TreeViewPage {
     await this.page.waitForTimeout(TIMEOUT_FE_WAIT);
     const expandedNodes = await this.expandedView.count();
     expect(expandedNodes).toBeGreaterThan(1);
-
     const firstChildTexts: string[] = [];
     for (let i = 2; i <= expandedNodes; i++) {
       const firstChildLocator = this.page.locator(this.currentFirstChild(i));
@@ -351,7 +342,6 @@ export class TreeViewPage {
           firstChildTexts.push(text);
         }
       }
-
       if (i < 4) {
         const levelTwoChildLocator = this.page.locator(this.currentLevelTwoChild(i));
         // Check aria-expanded property is false
@@ -404,5 +394,4 @@ export class TreeViewPage {
       console.log(`Descending sort for column "${columnName}" passed.`);
     }
   }
-
 }

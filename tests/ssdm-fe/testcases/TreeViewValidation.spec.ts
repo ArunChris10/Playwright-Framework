@@ -6,7 +6,6 @@ import { TIMEOUT_SSDM_FE } from '../constants/timeout.json';
 import { request } from "http";
 import { treeView } from '../testdata/fileName.json';
 
-
 let defaultViewParentNodes;
 test.describe(
   'Validate functionality of tree view on landing page',
@@ -49,7 +48,6 @@ test.describe(
       await objpageFactory.ssdmPageFactory().treeViewPage().validateClearingSearchRevertsToDefault(treeView.defaultViewParentNodes);
     });
 
-
     test('Verify Search works for partial match and selected record is displayed in Right pane', async () => {
       const randomIndex = Math.floor(Math.random() * defaultViewParentNodes.length);
       const firstChildForSearch = await parentChildNodeUtility.getChildNodeForSelectedParent(parentChildRelationresponse, defaultViewParentNodes[randomIndex]);
@@ -64,7 +62,7 @@ test.describe(
         const childrenFromAPI = await parentChildNodeUtility.getChildNodeForSelectedParent(parentChildRelationresponse, parentNode);
         allChildrenFromAPI.push(...childrenFromAPI);
       }
-      let expandedlevelOneChildNodes = await objpageFactory.ssdmPageFactory().treeViewPage().validateAndGetLevelOneChildNodesOnExpandAll(defaultViewParentNodes,allChildrenFromAPI);
+      let expandedlevelOneChildNodes = await objpageFactory.ssdmPageFactory().treeViewPage().validateAndGetLevelOneChildNodesOnExpandAll(defaultViewParentNodes, allChildrenFromAPI);
       await objpageFactory.ssdmPageFactory().treeViewPage().validateCollapseAll(treeView.defaultViewParentNodes);
     });
 
@@ -73,6 +71,4 @@ test.describe(
       await objpageFactory.ssdmPageFactory().treeViewPage().validateColumnLevelSort(treeView.treeviewAllColumns);
       await objpageFactory.ssdmPageFactory().treeViewPage().validateFilteredRecords(treeView.filterColumns);
     });
-
-  }
-);
+  });

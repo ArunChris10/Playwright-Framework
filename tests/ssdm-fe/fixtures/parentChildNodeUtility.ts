@@ -1,10 +1,5 @@
-import { expect, Page, Locator } from '@playwright/test';
-import { matchers } from 'playwright-expect';
 import { Utility } from "../../common/fixtures/utils";
 
-/**
- * Utility class to handle sign-in operations for the application.
- */
 export class parentChildNodeUtility {
 
     static async getNodeVariantResponse(request, isError = false) {
@@ -12,7 +7,6 @@ export class parentChildNodeUtility {
         let driverTreeResponse = await request.get(driverTreeEndpointURL);
         let responseBody = await Utility.assertAndLog(driverTreeResponse, isError);
         let driverTreeKey = responseBody[0].driver_tree_key;
-
         const driverTreeVersionEndpointURL = `${process.env.apiBaseURLSSDM}/api/driver-trees/${driverTreeKey}/versions`;
         let driverTreeVersionResponse = await request.get(driverTreeVersionEndpointURL);
         let versionResponseBody = await Utility.assertAndLog(driverTreeVersionResponse, isError);
@@ -20,13 +14,11 @@ export class parentChildNodeUtility {
             (item: any) => item.is_active === true && item.is_published === true
         ).map((item: any) => item.driver_tree_version);
         console.log('Active & Published driver_tree_versions:', activePublishedVersions);
-
         // once Publish is done, we can use the first active published version instead of versions/1
-        let nodeVariantEndpointURL =  `${process.env.apiBaseURLSSDM}/api/driver-trees/${driverTreeKey}/versions/1/node-variant-relationships`;
+        let nodeVariantEndpointURL = `${process.env.apiBaseURLSSDM}/api/driver-trees/${driverTreeKey}/versions/1/node-variant-relationships`;
         let nodeVariantResponse = await request.get(nodeVariantEndpointURL);
         let nodeVariantResponseBody = await Utility.assertAndLog(nodeVariantResponse, isError);
         return nodeVariantResponseBody
-
     }
 
     static async getChildNodeForSelectedParent(nodeVariantResponse, parent: string, isError = false) {
@@ -46,8 +38,6 @@ export class parentChildNodeUtility {
             throw new Error(`No child nodes found for parent: ${parent}`);
         }
     }
-
-    
 }
 
 
