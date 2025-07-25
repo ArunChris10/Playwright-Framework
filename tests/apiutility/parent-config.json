@@ -84,7 +84,8 @@
     "testCases/ssdm-be/driver-tree-version-tests.json",
     "testCases/ssdm-be/node-tags-tests.json",
     "testCases/ssdm-be/node-variant-tags-tests.json",
-    "testCases/ssdm-be/node-misc-tests.json"
+    "testCases/ssdm-be/node-misc-tests.json",
+    "testCases/ssdm-be/driver-tree-tags-tests.json"
   ],
   "currentDemandService": {
     "baseURL": {
