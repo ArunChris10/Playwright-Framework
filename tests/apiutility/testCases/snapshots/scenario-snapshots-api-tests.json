@@ -16,7 +16,7 @@
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario_org_id": "120010",
+        "scenario_org_id": "120009",
         "snapshot_desc": "",
         "snapshot_type_id": 77
       },
@@ -50,7 +50,7 @@
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario_org_id": "120010",
+        "scenario_org_id": "120009",
         "snapshot_desc": "",
         "snapshot_type_id": 78
       },
@@ -84,7 +84,7 @@
       "queryParams": "",
       "method": "POST",
       "payload": {
-        "scenario_org_id": "120010",
+        "scenario_org_id": "120009",
         "snapshot_desc": "",
         "snapshot_type_id": 79
       },
@@ -131,7 +131,7 @@
         },
         "classification_id": 12,
         "dim_id": 12,
-        "dim_val_id": 120006,
+        "dim_val_id": 120009,
         "filters": [],
         "template_id": 1,
         "unit": "Millions"

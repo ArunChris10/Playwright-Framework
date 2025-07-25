@@ -3,7 +3,7 @@
     {
       "testStep": "Get forecast for KPI filters",
       "environment": "qa",
-      "labels": ["smoke", "forecast_comp", "IBGROW-39511", "muskan"],
+      "labels": ["smoke", "forecast_comp", "IBGROW-39511","patchy"],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get forecast for KPI filters for forecast comparison",

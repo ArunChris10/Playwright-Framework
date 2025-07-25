@@ -15,7 +15,7 @@
       "payload": {
         "unit": "Millions",
         "dim_id": 12,
-        "dim_val_id": 120006,
+        "dim_val_id": 120009,
         "classification_id": 12,
         "template_id": 1,
         "filters": [],
@@ -56,15 +56,14 @@
       "payload": {
         "display_nodes": [],
         "scenario_id": "{{NodeRefreshRecall_02_scenario_id}}",
-        "dim_val_id": 110009,
+        "dim_val_id": 110027,
         "dim_id": 11,
         "preview": true,
         "edits": [
           {
-            "node_var_name": "membershipincome_input",
+            "node_var_name": "provisionforshrink_input",
             "node_dimension": {},
             "data": {
-              "202602": 99999,
               "202603": 99999,
               "202604": 99999,
               "202605": 99999,
@@ -118,16 +117,15 @@
         },
         "allocation_request": {
           "display_nodes": [],
-          "scenario_id": "{{NodeRefreshRecall_02_scenario_id",
-          "dim_val_id": 110009,
+          "scenario_id": "{{NodeRefreshRecall_02_scenario_id}}",
+          "dim_val_id": 110027,
           "dim_id": 11,
           "preview": false,
           "edits": [
             {
-              "node_var_name": "membershipincome_input",
+              "node_var_name": "provisionforshrink_input",
               "node_dimension": {},
               "data": {
-                "202602": 99999,
                 "202603": 99999,
                 "202604": 99999,
                 "202605": 99999,
@@ -146,12 +144,13 @@
           "filters": [],
           "period_view": "month"
         },
-        "dim_val_id": 110009
+        "dim_val_id": 110027
       },
       "assertions": [
         {
           "status": 200
         }
+        
       ]
     }
   ]

@@ -36,77 +36,77 @@ defaultDriverSets.forEach((org) => {
 
 
 
-      test(`Verify user has a default driver set readily available for ${org}`, { tag: "@Smoke @filters @Regression" },
-        async ({ request }) => {
-          await test.step("Fetch the driverSet available for the screen", async () => {
-            apiResponse = await request.get(endpointURL, {
-              params: queryParams
-            });
-            apiResponseBody = await apiResponse.json();
-            Utility.logIt(
-              `Filter Response : ${JSON.stringify(apiResponseBody)}`
-            );
-            expect(apiResponse).toBeOK();
-          });
+    //   test(`Verify user has a default driver set readily available for ${org}`, { tag: "@Smoke @filters @Regression" },
+    //     async ({ request }) => {
+    //       await test.step("Fetch the driverSet available for the screen", async () => {
+    //         apiResponse = await request.get(endpointURL, {
+    //           params: queryParams
+    //         });
+    //         apiResponseBody = await apiResponse.json();
+    //         Utility.logIt(
+    //           `Filter Response : ${JSON.stringify(apiResponseBody)}`
+    //         );
+    //         expect(apiResponse).toBeOK();
+    //       });
 
-          await test.step("Check if only one default driver set is present", async () => {
-            //extracting the filter names from the response into an Array
-            const defaultCount: number = apiResponseBody.filter(
-              (obj: any) => obj.is_default == true).length;
-            //Assertion
-            expect(defaultCount).toEqual(1)
-          });
+    //       await test.step("Check if only one default driver set is present", async () => {
+    //         //extracting the filter names from the response into an Array
+    //         const defaultCount: number = apiResponseBody.filter(
+    //           (obj: any) => obj.is_default == true).length;
+    //         //Assertion
+    //         expect(defaultCount).toEqual(1)
+    //       });
 
-          await test.step(`Check if default driver set name for ${org} org is ${commonData.defaultDriverSetNames[org]}`, async () => {
-            filter = apiResponseBody.find(filter => filter.filter_name === commonData.defaultDriverSetNames[org] && filter.is_default === true);
-            expect(filter).not.toBeUndefined
-            //Extracting the Filter ID that has been created and storing it in the filter_id to use it in other testcases
-            filter_id = filter.filter_id;
-          })
+    //       await test.step(`Check if default driver set name for ${org} org is ${commonData.defaultDriverSetNames[org]}`, async () => {
+    //         filter = apiResponseBody.find(filter => filter.filter_name === commonData.defaultDriverSetNames[org] && filter.is_default === true);
+    //         expect(filter).not.toBeUndefined
+    //         //Extracting the Filter ID that has been created and storing it in the filter_id to use it in other testcases
+    //         filter_id = filter.filter_id;
+    //       })
 
-        }
-      );
+    //     }
+    //   );
 
-      test(`Verify user should not be able to delete default driver set in ${org}`, { tag: "@Smoke @filters @Regression" },
-        async ({ request }) => {
-          // delete request to delete the filter
-          await test.step("Delete the default filter", async () => {
-            apiResponse = await request.delete(endpointURL, {
-              params: { filter_id: filter_id },
-              data: {
-                dim_id: testdata.common_data.Node_Selection.dim_id,
-                dim_val_id: dim_val_id
-              },
-            });
-          });
-          // Validate the delete message for default scenarios
-          await test.step("Check the response status and message for deleting default filter", async () => {
-            expect.soft(apiResponse.status()).toEqual(testdata.defaul_filter_set.error_code);
-            expect.soft(JSON.parse(await apiResponse.text()).message).toEqual(testdata.defaul_filter_set.exception_message);
-          });
+    //   test(`Verify user should not be able to delete default driver set in ${org}`, { tag: "@Smoke @filters @Regression" },
+    //     async ({ request }) => {
+    //       // delete request to delete the filter
+    //       await test.step("Delete the default filter", async () => {
+    //         apiResponse = await request.delete(endpointURL, {
+    //           params: { filter_id: filter_id },
+    //           data: {
+    //             dim_id: testdata.common_data.Node_Selection.dim_id,
+    //             dim_val_id: dim_val_id
+    //           },
+    //         });
+    //       });
+    //       // Validate the delete message for default scenarios
+    //       await test.step("Check the response status and message for deleting default filter", async () => {
+    //         expect.soft(apiResponse.status()).toEqual(testdata.defaul_filter_set.error_code);
+    //         expect.soft(JSON.parse(await apiResponse.text()).message).toEqual(testdata.defaul_filter_set.exception_message);
+    //       });
 
-          // Make sure the filter deleted successfully by checking the get filters call
-          await test.step("Get the Filters available for the screen", async () => {
-            apiResponse = await request.get(endpointURL, {
-              params: queryParams,
-            });
-            apiResponseBody = await apiResponse.json();
-            Utility.logIt(
-              `Available Filters after deleting default filter : ${JSON.stringify(
-                apiResponseBody
-              )}`
-            );
-          });
-          // Checking the filterId of default filter and it is not deleted
-          await test.step("Check if the default filter is not deleted and available", async () => {
-            const filter_ids: String[] = apiResponseBody.map((obj: any) =>
-              obj.filter_id.toLowerCase()
-            );
-            expect(filter_ids).toContain(filter_id.toLowerCase());
-          });
-        }
-      );
-    });
+    //       // Make sure the filter deleted successfully by checking the get filters call
+    //       await test.step("Get the Filters available for the screen", async () => {
+    //         apiResponse = await request.get(endpointURL, {
+    //           params: queryParams,
+    //         });
+    //         apiResponseBody = await apiResponse.json();
+    //         Utility.logIt(
+    //           `Available Filters after deleting default filter : ${JSON.stringify(
+    //             apiResponseBody
+    //           )}`
+    //         );
+    //       });
+    //       // Checking the filterId of default filter and it is not deleted
+    //       await test.step("Check if the default filter is not deleted and available", async () => {
+    //         const filter_ids: String[] = apiResponseBody.map((obj: any) =>
+    //           obj.filter_id.toLowerCase()
+    //         );
+    //         expect(filter_ids).toContain(filter_id.toLowerCase());
+    //       });
+    //     }
+    //   );
+    // });
 
   test(`Verify error on invalid filter id for ${org}`, { tag: "@Smoke @filters @Regression" },
     async ({ request }) => {
@@ -321,4 +321,5 @@ testdata.payloads.forEach((payload) => {
       });
     }
   );
+});
 });

@@ -5,7 +5,7 @@
             "environment": "qa",
             "labels": [
                 "smoke",
-                "forecast_comp_error"
+                "forecast_comp_error", "compare"
             ],
             "service": "coreService",
             "uri": "getForecast",
@@ -15,7 +15,7 @@
             "payload": {
                 "unit": "Millions",
                 "dim_id": 12,
-                "dim_val_id": 120006,
+                "dim_val_id": 120009,
                 "classification_id": 12,
                 "template_id": 1,
                 "filters": [],
@@ -40,12 +40,12 @@
             "extractRelative": {
                 "getkpi2_scenario_id": {
                     "whereKey": "rowData.lineOfBusiness",
-                    "equals": 110009,
+                    "equals": 110027,
                     "extractKey": "rowData.scenarioId"
                 },
                 "getkpi2_scenario_version": {
                     "whereKey": "rowData.lineOfBusiness",
-                    "equals": 110009,
+                    "equals": 110027,
                     "extractKey": "rowData.scenarioVersion"
                 }
             }
@@ -67,7 +67,7 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
                 "filters": [
@@ -90,7 +90,7 @@
                         "month"
                     ],
                     "nodes": [
-                        "membershipincome_input"
+                        "serviceincomeinput_input"
                     ],
                     "template_include_headers": [
                         {
@@ -202,7 +202,7 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
                 "filters": [
@@ -337,7 +337,7 @@
                 "scenario_id": "{{getkpi2_scenario_id}}",
                 "scenario_version": "{{getkpi2_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110009,
+                "dim_val_id": 110027,
                 "classification_id": 12,
                 "template_id": 3,
                 "filters": [

@@ -1,5 +1,5 @@
 {
-  "verify calculate and save for additive nodes in a SBA": [
+  "verify calculate and save for the additive nodes in a SBA": [
     {
       "testStep": "Get a forecast to calculate for additive nodes",
       "environment": "qa",
@@ -18,7 +18,7 @@
       "payload": {
         "unit": "Millions",
         "dim_id": 12,
-        "dim_val_id": 120003,
+        "dim_val_id": 120009,
         "classification_id": 12,
         "template_id": 1,
         "filters": [],
@@ -45,7 +45,7 @@
           "conditions": [
             {
               "path": "rowData.lineOfBusiness",
-              "equals": 110016
+              "equals": 110027
             },
             {
               "path": "rowData.forecastStatus.statusCode",
@@ -58,7 +58,7 @@
           "conditions": [
             {
               "path": "rowData.lineOfBusiness",
-              "equals": 110016
+              "equals": 110027
             },
             {
               "path": "rowData.forecastStatus.statusCode",
@@ -85,15 +85,15 @@
       "payload": {
         "display_nodes": [],
         "scenario_id": "{{scenario_id}}",
-        "dim_val_id": 110016,
+        "dim_val_id": 110027,
         "dim_id": 11,
         "preview": true,
         "edits": [
           {
-            "node_var_name": "promotionalallowances_input",
+            "node_var_name": "othercostsplug_input",
             "node_dimension": {},
             "data": {
-              "{{dynamicMonth+1}}": 21
+              "202607": 21
             },
             "allocation": {
               "interval": null,
@@ -102,46 +102,10 @@
             }
           },
           {
-            "node_var_name": "othercostofgoodssold_input",
+            "node_var_name": "merchandiseincomeplug_input",
             "node_dimension": {},
             "data": {
-              "{{dynamicMonth+1}}": 21
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 31
-            }
-          },
-          {
-            "node_var_name": "nondriverinputsdiscountstosales_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 31
-            }
-          },
-          {
-            "node_var_name": "warehouseallowances_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 31
-            }
-          },
-          {
-            "node_var_name": "transportationcostsinput_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
+              "202607": 21
             },
             "allocation": {
               "interval": null,
@@ -153,7 +117,79 @@
             "node_var_name": "otherbuyingallowances_input",
             "node_dimension": {},
             "data": {
-              "{{dynamicMonth+1}}": 21
+              "202607": 21
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 31
+            }
+          },
+          {
+            "node_var_name": "othercostofgoodssold_input",
+            "node_dimension": {},
+            "data": {
+              "202607": 21
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 31
+            }
+          },
+          {
+            "node_var_name": "netshippedgmvibgdemand_input",
+            "node_dimension": {},
+            "data": {
+              "202607": 21
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          },
+          {
+            "node_var_name": "cogsplug_input",
+            "node_dimension": {},
+            "data": {
+              "202607": 21
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 31
+            }
+          },
+          {
+            "node_var_name": "scannedunitsibgdemand_input",
+            "node_dimension": {},
+            "data": {
+              "202607": 21
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 29
+            }
+          },
+          {
+            "node_var_name": "serviceincomeplug_input",
+            "node_dimension": {},
+            "data": {
+              "202607": 21
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 31
+            }
+          },
+          {
+            "node_var_name": "shippingexpenseplug_input",
+            "node_dimension": {},
+            "data": {
+              "202607": 21
             },
             "allocation": {
               "interval": null,
@@ -165,115 +201,7 @@
             "node_var_name": "provisionforshrink_input",
             "node_dimension": {},
             "data": {
-              "{{dynamicMonth+1}}": 21
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 31
-            }
-          },
-          {
-            "node_var_name": "royaltyandlicenseexpense_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 31
-            }
-          },
-          {
-            "node_var_name": "otherincome_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 31
-            }
-          },
-          {
-            "node_var_name": "nondriverinputscogs_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 31
-            }
-          },
-          {
-            "node_var_name": "membershipincome_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 31
-            }
-          },
-          {
-            "node_var_name": "shippingexpensecalculatednondriverinput_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 31
-            }
-          },
-          {
-            "node_var_name": "shippingrevenue_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 31
-            }
-          },
-          {
-            "node_var_name": "creditcardchargebacks_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 31
-            }
-          },
-          {
-            "node_var_name": "nondriverinputsrefunds_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 31
-            }
-          },
-          {
-            "node_var_name": "inventoryvariancesinput_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
+              "202607": 21
             },
             "allocation": {
               "interval": null,
@@ -324,15 +252,15 @@
         "allocation_request": {
           "display_nodes": [],
           "scenario_id": "{{scenario_id}}",
-          "dim_val_id": 110016,
+          "dim_val_id": 110027,
           "dim_id": 11,
           "preview": false,
           "edits": [
             {
-              "node_var_name": "promotionalallowances_input",
+              "node_var_name": "othercostsplug_input",
               "node_dimension": {},
               "data": {
-                "{{dynamicMonth+1}}": 21
+                "202607": 21
               },
               "allocation": {
                 "interval": null,
@@ -341,190 +269,118 @@
               }
             },
             {
-              "node_var_name": "othercostofgoodssold_input",
+              "node_var_name": "merchandiseincomeplug_input",
               "node_dimension": {},
               "data": {
-                "{{dynamicMonth+1}}": 21
+                "202607": 21
               },
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 31
-              }
-            },
-            {
-              "node_var_name": "nondriverinputsdiscountstosales_input",
-              "node_dimension": {},
-              "data": {
-                "{{dynamicMonth+1}}": 21
-              },
-              "allocation": {
-                "interval": null,
-                "offset": null,
-                "method": 31
-              }
-            },
-            {
-              "node_var_name": "warehouseallowances_input",
-              "node_dimension": {},
-              "data": {
-                "{{dynamicMonth+1}}": 21
-              },
-              "allocation": {
-                "interval": null,
-                "offset": null,
-                "method": 31
-              }
-            },
-            {
-              "node_var_name": "transportationcostsinput_input",
-              "node_dimension": {},
-              "data": {
-                "{{dynamicMonth+1}}": 21
-              },
-              "allocation": {
-                "interval": null,
-                "offset": null,
-                "method": 31
+                "method": 29
               }
             },
             {
               "node_var_name": "otherbuyingallowances_input",
               "node_dimension": {},
               "data": {
-                "{{dynamicMonth+1}}": 21
+                "202607": 21
               },
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 31
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "othercostofgoodssold_input",
+              "node_dimension": {},
+              "data": {
+                "202607": 21
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "netshippedgmvibgdemand_input",
+              "node_dimension": {},
+              "data": {
+                "202607": 21
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "cogsplug_input",
+              "node_dimension": {},
+              "data": {
+                "202607": 21
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "scannedunitsibgdemand_input",
+              "node_dimension": {},
+              "data": {
+                "202607": 21
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "serviceincomeplug_input",
+              "node_dimension": {},
+              "data": {
+                "202607": 21
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "shippingexpenseplug_input",
+              "node_dimension": {},
+              "data": {
+                "202607": 21
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
               }
             },
             {
               "node_var_name": "provisionforshrink_input",
               "node_dimension": {},
               "data": {
-                "{{dynamicMonth+1}}": 21
+                "202607": 21
               },
               "allocation": {
                 "interval": null,
                 "offset": null,
-                "method": 31
-              }
-            },
-            {
-              "node_var_name": "royaltyandlicenseexpense_input",
-              "node_dimension": {},
-              "data": {
-                "{{dynamicMonth+1}}": 21
-              },
-              "allocation": {
-                "interval": null,
-                "offset": null,
-                "method": 31
-              }
-            },
-            {
-              "node_var_name": "otherincome_input",
-              "node_dimension": {},
-              "data": {
-                "{{dynamicMonth+1}}": 21
-              },
-              "allocation": {
-                "interval": null,
-                "offset": null,
-                "method": 31
-              }
-            },
-            {
-              "node_var_name": "nondriverinputscogs_input",
-              "node_dimension": {},
-              "data": {
-                "{{dynamicMonth+1}}": 21
-              },
-              "allocation": {
-                "interval": null,
-                "offset": null,
-                "method": 31
-              }
-            },
-            {
-              "node_var_name": "membershipincome_input",
-              "node_dimension": {},
-              "data": {
-                "{{dynamicMonth+1}}": 21
-              },
-              "allocation": {
-                "interval": null,
-                "offset": null,
-                "method": 31
-              }
-            },
-            {
-              "node_var_name": "shippingexpensecalculatednondriverinput_input",
-              "node_dimension": {},
-              "data": {
-                "{{dynamicMonth+1}}": 21
-              },
-              "allocation": {
-                "interval": null,
-                "offset": null,
-                "method": 31
-              }
-            },
-            {
-              "node_var_name": "shippingrevenue_input",
-              "node_dimension": {},
-              "data": {
-                "{{dynamicMonth+1}}": 21
-              },
-              "allocation": {
-                "interval": null,
-                "offset": null,
-                "method": 31
-              }
-            },
-            {
-              "node_var_name": "creditcardchargebacks_input",
-              "node_dimension": {},
-              "data": {
-                "{{dynamicMonth+1}}": 21
-              },
-              "allocation": {
-                "interval": null,
-                "offset": null,
-                "method": 31
-              }
-            },
-            {
-              "node_var_name": "nondriverinputsrefunds_input",
-              "node_dimension": {},
-              "data": {
-                "{{dynamicMonth+1}}": 21
-              },
-              "allocation": {
-                "interval": null,
-                "offset": null,
-                "method": 31
-              }
-            },
-            {
-              "node_var_name": "inventoryvariancesinput_input",
-              "node_dimension": {},
-              "data": {
-                "{{dynamicMonth+1}}": 21
-              },
-              "allocation": {
-                "interval": null,
-                "offset": null,
-                "method": 31
+                "method": 29
               }
             }
           ],
           "filters": [],
           "period_view": "month"
         },
-        "dim_val_id": 110016
+        "dim_val_id": 110027
       },
       "assertions": [
         {

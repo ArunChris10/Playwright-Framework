@@ -16,7 +16,7 @@
             "payload": {
                 "unit": "Millions",
                 "dim_id": 12,
-                "dim_val_id": 120007,
+                "dim_val_id": 120009,
                 "classification_id": 12,
                 "template_id": 1,
                 "filters": [],
@@ -39,190 +39,212 @@
                 }
             ],
             "extractFirst": {
-                "merchops_scenario_id": "rowData.scenarioId",
-                "merchops_scenario_version": "rowData.scenarioVersion"
+                "scheduled_scenario_id": "rowData.scenarioId",
+                "scheduled_scenario_version": "rowData.scenarioVersion"
             }
         },
         {
-            "testStep": "Call getMyKPI API for patchy forecast month",
+            "testStep": "Get drivers",
             "environment": "qa",
             "labels": [
                 "smoke",
-                "patchy_non_additive"
+                "patchy_non_additive",
+                "patchy"
+                
             ],
             "service": "coreService",
-            "uri": "getKpiV2",
-            "testName": "validate getMyKPI API before filter",
+            "uri": "getDrivers",
+            "testName": "Get drivers",
             "queryParams": "",
             "method": "POST",
             "payload": {
-                "scenario_id": "{{merchops_scenario_id}}",
-                "scenario_version": "{{merchops_scenario_version}}",
                 "dim_id": 11,
-                "dim_val_id": 110011,
+                "dim_val_id": 110027,
                 "classification_id": 12,
-                "template_id": 3,
+                "driver_type": 48,
                 "filters": [],
-                "additional_filters": {
-                    "pivot_cols": [
-                        "month"
-                    ],
-                    "pivot_index": [
-                        "node_id"
-                    ],
-                    "period_view": [
-                        "month"
-                    ],
-                    "nodes": [
-                        "costperdeliverysparkap",
-                        "sparkapdeliveryexpense",
-                        "deliveriessparkap"
-                    ],
-                    "template_include_headers": [
-                        {
-                            "name": "Driver"
-                        },
-                        {
-                            "name": "{{dynamicMonth-4}}",
-                            "columnsMenuParams": "middleColumns"
-                        },
-                        {
-                            "name": "{{dynamicMonth-3}}",
-                            "columnsMenuParams": "middleColumns"
-                        },
-                        {
-                            "name": "{{dynamicMonth-2}}",
-                            "columnsMenuParams": "middleColumns"
-                        },
-                        {
-                            "name": "{{dynamicMonth-1}}",
-                            "columnsMenuParams": "middleColumns"
-                        },
-                        {
-                            "name": "{{dynamicMonth}}",
-                            "columnsMenuParams": "middleColumns"
-                        },
-                        {
-                            "name": "{{dynamicMonth+1}}",
-                            "columnsMenuParams": "middleColumns"
-                        },
-                        {
-                            "name": "{{dynamicMonth+2}}",
-                            "columnsMenuParams": "middleColumns"
-                        },
-                        {
-                            "name": "{{dynamicMonth+3}}",
-                            "columnsMenuParams": "middleColumns"
-                        },
-                        {
-                            "name": "{{dynamicMonth+4}}",
-                            "columnsMenuParams": "middleColumns"
-                        },
-                        {
-                            "name": "{{dynamicMonth+5}}",
-                            "columnsMenuParams": "middleColumns"
-                        },
-                        {
-                            "name": "{{dynamicMonth+6}}",
-                            "columnsMenuParams": "middleColumns"
-                        },
-                        {
-                            "name": "{{dynamicMonth+7}}",
-                            "columnsMenuParams": "middleColumns"
-                        },
-                        {
-                            "name": "",
-                            "columnsMenuParams": "fixedColumns"
-                        },
-                        {
-                            "name": "Allocation Method",
-                            "columnsMenuParams": "action"
-                        },
-                        {
-                            "name": "Forecast",
-                            "editable": false
-                        },
-                        {
-                            "name": "Value",
-                            "editable": false
-                        }
-                    ],
-                    "month": [
-                        "{{dynamicMonth-4}}",
-                        "{{dynamicMonth-3}}",
-                        "{{dynamicMonth-2}}",
-                        "{{dynamicMonth-1}}",
-                        "{{dynamicMonth}}",
-                        "{{dynamicMonth+1}}",
-                        "{{dynamicMonth+2}}",
-                        "{{dynamicMonth+3}}",
-                        "{{dynamicMonth+4}}",
-                        "{{dynamicMonth+5}}",
-                        "{{dynamicMonth+6}}",
-                        "{{dynamicMonth+7}}"
-                    ]
-                },
-                "isApplied": true
-            },
-            "assertions": [
-                {
-                    "status": 200
-                },
-                {
-                    "body.rowData": []
-                }
-            ]
+                "utilisedBy": "",
+                "utilityObj": {}
+            }
         },
-        {
-            "testStep": "Editing and Calculating the edited patchy dependent node",
-            "environment": "qa",
-            "labels": [
-                "smoke",
-                "patchy_non_additive"
-            ],
-            "service": "coreService",
-            "uri": "allocateData",
-            "testName": "Editing and Calculating the edited patchy month",
-            "queryParams": "",
-            "method": "POST",
-            "payload": {
-                "display_nodes": [
-                    "sparkapdeliveryexpense",
-                    "deliveriessparkap"
+            {
+                "testStep": "Call getMyKPI API for patchy forecast month",
+                "environment": "qa",
+                "labels": [
+                    "smoke",
+                    "patchy_non_additive"
                 ],
-                "dim_val_id": 110011,
-                "dim_id": 11,
-                "preview": true,
-                "edits": [
-                    {
-                        "node_var_name": "costperdeliverysparkap",
-                        "node_dimension": {},
-                        "data": {
-                            "{{dynamicMonth}}": 100
-                        },
-                        "allocation": {
-                            "interval": null,
-                            "offset": null,
-                            "method": 29
-                        }
-                    }
-                ],
-                "filters": [],
-                "period_view": "month",
-                "scenario_id": "{{merchops_scenario_id}}",
-                "adjustment_id": "1750781623574"
-            },
-            "assertions": [
-                {
-                    "status": 404
+                "service": "coreService",
+                "uri": "getKpiV2",
+                "testName": "validate getMyKPI API before filter",
+                "queryParams": "",
+                "method": "POST",
+                "payload": {
+                    "scenario_id": "{{scheduled_scenario_id}}",
+                    "scenario_version": "{{scheduled_scenario_version}}",
+                    "dim_id": 11,
+                    "dim_val_id": 110027,
+                    "classification_id": 12,
+                    "template_id": 3,
+                    "filters": [],
+                    "additional_filters": {
+                        "pivot_cols": [
+                            "month"
+                        ],
+                        "pivot_index": [
+                            "node_id"
+                        ],
+                        "period_view": [
+                            "month"
+                        ],
+                        "nodes": [
+                            "merchandiseincomeallocatedtoentity",
+                            "merchandiseincomechanneldept",
+                            "allocationpctmerchandiseincome_input",
+                            "instorereturns_input",
+                            "netshippedgmvibgdemand_input"
+                        ],
+                        "template_include_headers": [
+                            {
+                                "name": "Driver"
+                            },
+                            {
+                                "name": "{{dynamicMonth-4}}",
+                                "columnsMenuParams": "middleColumns"
+                            },
+                            {
+                                "name": "{{dynamicMonth-3}}",
+                                "columnsMenuParams": "middleColumns"
+                            },
+                            {
+                                "name": "{{dynamicMonth-2}}",
+                                "columnsMenuParams": "middleColumns"
+                            },
+                            {
+                                "name": "{{dynamicMonth-1}}",
+                                "columnsMenuParams": "middleColumns"
+                            },
+                            {
+                                "name": "{{dynamicMonth}}",
+                                "columnsMenuParams": "middleColumns"
+                            },
+                            {
+                                "name": "{{dynamicMonth+1}}",
+                                "columnsMenuParams": "middleColumns"
+                            },
+                            {
+                                "name": "{{dynamicMonth+2}}",
+                                "columnsMenuParams": "middleColumns"
+                            },
+                            {
+                                "name": "{{dynamicMonth+3}}",
+                                "columnsMenuParams": "middleColumns"
+                            },
+                            {
+                                "name": "{{dynamicMonth+4}}",
+                                "columnsMenuParams": "middleColumns"
+                            },
+                            {
+                                "name": "{{dynamicMonth+5}}",
+                                "columnsMenuParams": "middleColumns"
+                            },
+                            {
+                                "name": "{{dynamicMonth+6}}",
+                                "columnsMenuParams": "middleColumns"
+                            },
+                            {
+                                "name": "{{dynamicMonth+7}}",
+                                "columnsMenuParams": "middleColumns"
+                            },
+                            {
+                                "name": "",
+                                "columnsMenuParams": "fixedColumns"
+                            },
+                            {
+                                "name": "Allocation Method",
+                                "columnsMenuParams": "action"
+                            },
+                            {
+                                "name": "Forecast",
+                                "editable": false
+                            },
+                            {
+                                "name": "Value",
+                                "editable": false
+                            }
+                        ],
+                        "month": [
+                            "{{dynamicMonth-4}}",
+                            "{{dynamicMonth-3}}",
+                            "{{dynamicMonth-2}}",
+                            "{{dynamicMonth-1}}",
+                            "{{dynamicMonth}}",
+                            "{{dynamicMonth+1}}",
+                            "{{dynamicMonth+2}}",
+                            "{{dynamicMonth+3}}",
+                            "{{dynamicMonth+4}}",
+                            "{{dynamicMonth+5}}",
+                            "{{dynamicMonth+6}}",
+                            "{{dynamicMonth+7}}"
+                        ]
+                    },
+                    "isApplied": true
                 },
-                {
-                    "assertEquals": {
-                        "message": "message",
-                        "value": " Cost per Delivery (Spark - AP) is using an aggregation formula with missing values. Please add data for the missing fields -  'Spark - AP Delivery Expense' and 'Deliveries (Spark - AP)' before calculating."
+                "assertions": [
+                    {
+                        "status": 200
                     }
-                }
-            ]
-        }
-    ]
-}
+                ]
+            },
+            {
+                "testStep": "Editing and Calculating the edited patchy dependent node",
+                "environment": "qa",
+                "labels": [
+                    "smoke",
+                    "patchy_non_additive"
+                ],
+                "service": "coreService",
+                "uri": "allocateData",
+                "testName": "Editing and Calculating the edited patchy month",
+                "queryParams": "",
+                "method": "POST",
+                "payload": {
+                    "display_nodes": [
+                        "merchandiseincomeallocatedtoentity",
+                        "merchandiseincomechanneldept"
+                    ],
+                    "dim_val_id": 110027,
+                    "dim_id": 11,
+                    "preview": true,
+                    "edits": [
+                        {
+                            "node_var_name": "allocationpctmerchandiseincome_input",
+                            "node_dimension": {},
+                            "data": {
+                                "{{dynamicMonth+5}}": 200
+                            },
+                            "allocation": {
+                                "interval": null,
+                                "offset": null,
+                                "method": 29
+                            }
+                        }
+                    ],
+                    "filters": [],
+                    "period_view": "month",
+                    "scenario_id": "{{scheduled_scenario_id}}",
+                    "adjustment_id": "1752732402515"
+                },
+                "assertions": [
+                    {
+                        "status": 404
+                    },
+                    {
+                        "assertEquals": {
+                            "message": "extensions.details.user_message",
+                            "value": "~Allocation % (Merchandise Income)~ is using an aggregation formula with missing values. Please add data for the missing fields - ~Instore Returns~, ~Net Shipped GMV (IBG Demand)~, ~Merchandise Income Historical SOT (base grain)~ and ~Merchandise Sales (MO)~ before calculating"}
+                    }
+                ]
+            }
+        ]
+    }

@@ -83,7 +83,8 @@
             "aggregationInvalidMessage": "Invalid aggregation (Incomplete aggregation)",
             "calculationInvalidMessage": "Invalid calculation (Incomplete calculation)",
             "parentChildGranularity": "Nodes used in Calculation must be in same granularity level of parent ",
-            "invalidChildMessage": "Invalid calculation text - cogs invalid"
+            "aggregationInvalidNodeMessage": "Invalid aggregation text - cog invalid",
+            "calculationInvalidNodeMessage": "Invalid calculation text - cog invalid"
         },
         "deleteConfirmation": {
             "message": "Are you sure?",
@@ -163,5 +164,25 @@
                 }
             }
         }
-    ]
+    ],
+    "treeView": {
+        "defaultViewParentNodes": [
+            "Alternate Hierarchies",
+            "Driver Tree",
+            "Memo metrics"
+        ],
+        "SearchForColumnSortAndFilter": [
+           "Allocation % (Merchandise Income)"
+        ],
+        "filterColumns": ["Month", "Owner","Channel", "Department", "Entity"],
+        "treeviewAllColumns": [
+            "Metric Name",
+            "Metric Type",
+            "Month",
+            "Owner/Editor",
+            "Channel",
+            "Department",
+            "Entity"
+        ]
+    }
 }

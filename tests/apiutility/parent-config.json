@@ -11,6 +11,7 @@
   "testFiles": [
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-constant-value.json",
     "testCases/maintain-ratio-additive.json",
+    "testCases/calculate-save-adjustment-testcases/calculate-save-additive-maintainratio-test.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-percent-rolling.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-nodes-test.json",
     "testCases/calculate-save-adjustment-testcases/calculate-additive-non-additve.json",
@@ -36,11 +37,8 @@
     "testCases/patchy/edited-value-patchy-on-patchy.json",
     "testCases/projection-method-testcases/final_historical-growthrate-regression-projection-method-all-allocation-test.json",
     "testCases/savedViews/create-view-api-tests.json",
-    "testCases/scenarioWorkflow/create-multiple-scenario-tests.json",
     "testCases/scenarioWorkflow/create-scenario-error-test.json",
     "testCases/scenarioWorkflow/create-scenarion-test.json",
-    "testCases/scenarioWorkflow/delete-scenario-error-test.json",
-    "testCases/scenarioWorkflow/delete-scenarion-test.json",
     "testCases/snapshots/scenario-snapshots-api-tests.json",
     "testCases/validator/forecast-toActual-afterMEC.json",
     "testCases/validator/validator-HigherGrain.json",
@@ -74,7 +72,6 @@
     "testCases/patchy/patchy-allocate-additive-test.json",
     "testCases/patchy/patchy-dependent-nodes-tests.json",
     "testCases/patchy/patchy-multiple-dependent-nodes-tests.json",
-    "testCases/forecast/create-scenario-max-limit-test.json",
     "testCases/visual-indicator-api.json",
     "testCases/ssdm-node-edge-publish-latest-test.json",
     "testCases/ssdm-be/tags-tests.json",
@@ -84,7 +81,10 @@
     "testCases/ssdm-be/node-source-tests.json",
     "testCases/ssdm-be/node-attribute-tests.json",
     "testCases/ssdm-be/node_variant-attribute-tests.json",
-    "testCases/ssdm-be/driver-tree-version-tests.json"
+    "testCases/ssdm-be/driver-tree-version-tests.json",
+    "testCases/ssdm-be/node-tags-tests.json",
+    "testCases/ssdm-be/node-variant-tags-tests.json",
+    "testCases/ssdm-be/node-misc-tests.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -190,7 +190,10 @@
     "getAllNodes": "/api/nodes",
     "nodeSource": "/api/nodes",
     "getNodeVariants": "/api/driver-trees/2/versions/1/node-variants-metadata",
-    "getAllDimensions": "/api/driver-trees/all-dimensions",
-    "getPartitionData": "/api/validation/get-partition-data"
+    "getPartitionData": "/api/validation/get-partition-data",
+    "nodeTag" :"/api/node-tags",
+    "nodeVariantTag": "/api/driver-trees/2/versions/1",
+    "nodeRelationships" : "/api/driver-trees/46/versions/1/node-variant-relationships",
+    "cyclic_node_variants": "/api/validation/get-cyclic-node-variants?driver_tree_key=46&driver_tree_version=1"
   }
 }

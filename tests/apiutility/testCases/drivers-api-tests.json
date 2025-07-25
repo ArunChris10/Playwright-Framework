@@ -4,8 +4,8 @@
             "testStep": "Call drivers API for all drivers",
             "environment": "qa",
             "labels": [
-                "@Smoke",
-                "driversApi", "@Regression"
+                "smoke",
+                "driversApi", "Regression"
             ],
             "service": "coreService",
             "uri": "getDrivers",
