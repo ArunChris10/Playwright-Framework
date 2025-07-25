@@ -1,5 +1,4 @@
 import { test } from "../../common/fixtures/test-hook";
-import { expect } from "@playwright/test";
 import { PageFactory } from '../../common/pages/page-factory';
 import { signinUtility } from "../fixtures/signinUtility";
 import { TIMEOUT_SSDM_FE } from '../constants/timeout.json';
@@ -17,6 +16,13 @@ test.describe(
       test.setTimeout(TIMEOUT_SSDM_FE);
       await signinUtility.SignIn(page);
       objpageFactory = new PageFactory(page);
+    });
+
+    // After each test, close only the page to ensure clean up
+    test.afterEach(async ({ page }) => {
+      try {
+        await page.close();
+      } catch (e) {}
     });
 
     // Test: Verify landing page UI elements and controls
@@ -79,7 +85,7 @@ test.describe(
     test('channel column filter validation', async () => {
       await objpageFactory.ssdmPageFactory().landingPage().runFilterValidation(
         filterOptions[0].data.channel.dropDown,
-        filterOptions[0].data.channel.option
+        filterOptions[0].data.channel.channelFilter
       );
     });
 
@@ -87,7 +93,7 @@ test.describe(
     test('department column filter validation', async () => {
       await objpageFactory.ssdmPageFactory().landingPage().runFilterValidation(
         filterOptions[0].data.department.dropDown,
-        filterOptions[0].data.department.option
+        filterOptions[0].data.department.optionValue
       );
     });
 
@@ -103,7 +109,7 @@ test.describe(
     test('owner column filter validation', async () => {
       await objpageFactory.ssdmPageFactory().landingPage().runFilterValidation(
         filterOptions[0].data.owner.dropDown,
-        filterOptions[0].data.owner.option
+        filterOptions[0].data.owner.options
       );
     });
 

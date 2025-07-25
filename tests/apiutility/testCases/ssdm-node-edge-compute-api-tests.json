@@ -26,7 +26,8 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "computeSsdm"
+        "computeSsdm",
+        "ssdm"
       ],
       "service": "coreService",
       "uri": "computeSsdm",

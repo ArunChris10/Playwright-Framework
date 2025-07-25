@@ -30,7 +30,9 @@
         "month": "Month",
         "segment": "SEGMENT",
         "dataFieldAttributeMetricName": "metricName",
-        "signInRetryNumber": 2
+        "signInRetryNumber": 2,
+        "missingInputFieldmessage": "Missing Input: Data for this input is unavailable.",
+        "grainMismatchFieldMessage": "Data for this grain unavailable in UFDM."
     },
     "nodeCrudDialog": {
         "fields": {
@@ -72,13 +74,17 @@
             "valueTypeRequired": "Value type is required",
             "oneError": "1 Errors",
             "calculationTextRequired": "Calculation text is required",
+            "ownerRequired": "Owner is required",
             "editingAffectsNodes": "Editing this node will affect other nodes.",
             "createAlertMessage":"Created",
             "editAlertMessage": "Edited",
             "deleteAlertMessage":"Deleted",
             "calculationAggregationMessage": " Only Num/functions/formula or select node by typing #_ | example : #[node1] + #[Node2]",
             "aggregationInvalidMessage": "Invalid aggregation (Incomplete aggregation)",
-            "calculationInvalidMessage": "Invalid calculation (Incomplete calculation)"
+            "calculationInvalidMessage": "Invalid calculation (Incomplete calculation)",
+            "parentChildGranularity": "Nodes used in Calculation must be in same granularity level of parent ",
+            "aggregationInvalidNodeMessage": "Invalid aggregation text - cog invalid",
+            "calculationInvalidNodeMessage": "Invalid calculation text - cog invalid"
         },
         "deleteConfirmation": {
             "message": "Are you sure?",
@@ -110,13 +116,15 @@
                     "childDropDown": "DELIVERY",
                     "option": "OWNED_S2H",
                     "options": "DSV_S2H, DSV_S2S",
-                    "optionValue": "*, CORE_SERVICES"
+                    "optionValue": "CORE_SERVICES",
+                    "channelFilter": "BUSINESS_DELIVERY_SERVICES"
                 },
                 "department": {
                     "dropDown": "Department",
                     "childDropDown": "FOOD",
                     "option": "1_CANDY",
-                    "options": "*, 38_PHARMACY RX"
+                    "options": "*, 38_PHARMACY RX",
+                    "optionValue": "10_AUTOMOTIVE"
                 },
                 "owner": {
                     "dropDown": "Owner",
@@ -156,5 +164,25 @@
                 }
             }
         }
-    ]
+    ],
+    "treeView": {
+        "defaultViewParentNodes": [
+            "Alternate Hierarchies",
+            "Driver Tree",
+            "Memo metrics"
+        ],
+        "SearchForColumnSortAndFilter": [
+           "Allocation % (Merchandise Income)"
+        ],
+        "filterColumns": ["Month", "Owner","Channel", "Department", "Entity"],
+        "treeviewAllColumns": [
+            "Metric Name",
+            "Metric Type",
+            "Month",
+            "Owner/Editor",
+            "Channel",
+            "Department",
+            "Entity"
+        ]
+    }
 }

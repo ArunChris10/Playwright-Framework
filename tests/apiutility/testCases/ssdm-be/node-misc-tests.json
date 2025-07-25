@@ -1,0 +1,44 @@
+{
+  "Get Node Relationships": [
+    {
+      "testStep": "Get Node Relationships",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Node_Misc",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "nodeRelationships",
+      "testName": "Get Node Relationships",
+      "queryParams": "",
+      "method": "GET",
+        "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ],
+   "Get Node Cyclic Variants": [
+    {
+      "testStep": "Get Node Cyclic Variants",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Node_Misc",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "cyclic_node_variants",
+      "testName": "Get Node Cyclic Variants",
+      "queryParams": "",
+      "method": "GET",
+        "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

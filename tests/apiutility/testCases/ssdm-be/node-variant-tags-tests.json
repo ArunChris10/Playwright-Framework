@@ -1,0 +1,150 @@
+{
+  "Create_Get_Update_Delete_Node_Variant_Tags": [
+    {
+      "testStep": "Get Node Variants for a Driver tree and Driver Tree Version",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Node_Variant_Tags",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getNodeVariants",
+      "testName": "Create_Get_Update_Delete_Node_Variant_Tags",
+      "queryParams": "",
+      "method": "GET",
+      
+        "assertions": [
+        {
+          "status": 200
+        }
+       
+      ],
+      "extractFirst": {
+        "node_variant_key": "node_variant_key",
+        "node_key": "node_key"
+      }
+    },
+    {
+      "testStep": "Create Node Variant Tag",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Node_Variant_Tags",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "nodeVariantTag",
+      "testName": "Create_Get_Update_Delete_Node_Variant_Tags",
+      "queryParams": "/nodes/{{node_key}}/variants/{{node_variant_key}}/node-variant-tags",
+      "method": "POST",
+      "payload": [8],
+       "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertContains": {
+            "jsonPath1": "tag_value",
+            "value": "8"
+          }
+        }
+      ]
+    },
+     {
+      "testStep": "Create Node Variant Tag with invalid Tag Id",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Node_Variant_Tags",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "nodeVariantTag",
+      "testName": "Create_Get_Update_Delete_Node_Variant_Tags",
+      "queryParams": "/nodes/{{node_key}}/variants/{{node_variant_key}}/node-variant-tags",
+      "method": "POST",
+      "payload": [1],
+       "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "One or More tag keys are invalid"
+          }
+        }
+      ]
+    },
+     {
+      "testStep": "Get Node Variant Tag ",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Node_Variant_Tags",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "nodeVariantTag",
+      "testName": "Create_Get_Update_Delete_Node_Variant_Tags",
+      "queryParams": "/nodes/{{node_key}}/variants/{{node_variant_key}}/node-variant-tags",
+      "method": "GET",
+       "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertContains": {
+            "jsonPath1": "tag_value",
+            "value": "8"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Delete Node Variant Tag with invalid Tag ID",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Node_Variant_Tags",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "nodeVariantTag",
+      "testName": "Create_Get_Update_Delete_Node_Variant_Tags",
+      "queryParams": "/nodes/{{node_key}}/variants/{{node_variant_key}}/node-variant-tags/1",
+      "method": "DELETE",
+       "assertions": [
+        {
+          "status": 409
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Node tag key 1 does not exist for node variant key 1"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Delete Node Variant Tag with valid Tag ID",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Node_Variant_Tags",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "nodeVariantTag",
+      "testName": "Create_Get_Update_Delete_Node_Variant_Tags",
+      "queryParams": "/nodes/{{node_key}}/variants/{{node_variant_key}}/node-variant-tags/8",
+      "method": "DELETE",
+       "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

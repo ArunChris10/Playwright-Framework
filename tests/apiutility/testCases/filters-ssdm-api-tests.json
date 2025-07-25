@@ -3,7 +3,7 @@
     {
       "testStep": "Get Scenario id and scenario version of sandbox scenario",
       "environment": "qa",
-      "labels": ["smoke", "regression", "IBGROW-38090"],
+      "labels": ["smoke", "regression", "IBGROW-38090", "ssdm"],
       "tags": ["smoke", "regression", "IBGROW-38090"],
       "service": "coreService",
       "uri": "getSandboxScenarioId",
@@ -60,10 +60,10 @@
         "dim_val_id": 130001,
         "classification_id": 12,
         "template_id": 3,
-        "filters": [{ "dim_id": 24, "dim_val_ids": [240002], "children": [] }],
+        "filters": [{ "dim_id": 7, "dim_val_ids": [70002], "children": [] }],
         "additional_filters": {
           "pivot_cols": ["month"],
-          "pivot_index": ["node_id", "department"],
+          "pivot_index": ["node_id", "channel"],
           "period_view": ["month"],
           "nodes": ["moecommreturnscogs"],
           "template_include_headers": [

@@ -6,7 +6,7 @@
             "labels": [
                 "smoke",
                 "nodesApi",
-                "Regression"
+                "Regression","patchy"
             ],
             "service": "dataForgeService",
             "uri": "actualMissingNode",
