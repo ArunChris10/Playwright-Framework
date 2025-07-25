@@ -164,5 +164,25 @@
                 }
             }
         }
-    ]
+    ],
+    "treeView": {
+        "defaultViewParentNodes": [
+            "Alternate Hierarchies",
+            "Driver Tree",
+            "Memo metrics"
+        ],
+        "SearchForColumnSortAndFilter": [
+           "Allocation % (Merchandise Income)"
+        ],
+        "filterColumns": ["Month", "Owner","Channel", "Department", "Entity"],
+        "treeviewAllColumns": [
+            "Metric Name",
+            "Metric Type",
+            "Month",
+            "Owner/Editor",
+            "Channel",
+            "Department",
+            "Entity"
+        ]
+    }
 }
