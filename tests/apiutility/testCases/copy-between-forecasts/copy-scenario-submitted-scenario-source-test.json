@@ -408,6 +408,7 @@
           "allocation_request": {
             "display_nodes": [],
             "scenario_id": "{{sourceScenarioId}}",
+            "scenario_version_timestamp": "{{sourceScenarioVersion}}",
             "dim_val_id": 110030,
             "dim_id": 11,
             "preview": false,
@@ -491,6 +492,102 @@
         ]
       },
       {
+      "testStep": "Poll the copy scenario process until its completed",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "copy_scenario_draft_source_select_drivers"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll the copy scenario process until its completed",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "Test-TG-02-{{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+    {
+      "testStep": "Poll the copy scenario process until its completed",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "copy_scenario_draft_source_select_drivers"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Poll the copy scenario process until its completed",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "unit": "Millions",
+        "dim_id": 12,
+        "dim_val_id": 120011,
+        "classification_id": 12,
+        "template_id": 1,
+        "filters": [],
+        "additional_filters": {
+          "template_include_headers": [
+            {
+              "name": "vs LY",
+              "format": "percent"
+            },
+            {
+              "name": "vs Plan",
+              "format": "absolute"
+            }
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "polling": {
+        "extractRelative": {
+          "WhereKey": "rowData.name",
+          "Equals": "Test-TG-01-{{randomNumber}}",
+          "Findkey": "rowData.forecastStatus.statusCode"
+        },
+        "expectedValue": 21,
+        "intervalMs": 5000,
+        "timeoutMs": 600000
+      }
+    },
+      {
         "testStep": "Poll Until Adjustment For Target 1 Applied For Validation",
         "environment": "qa",
         "labels": ["smoke", "copy_scenario_multiple_targets"],
@@ -552,21 +649,23 @@
             },
             "isApplied": true
         },
-        "assertions": [
-          {
-            "status": 200
-          }
-        ],
-        "polling": {
-          "extractRelative": {
-              "WhereKey": "rowData.driver",
-              "Equals": "tempplugforuom",
-              "Findkey": "rowData.{{dynamicMonth+1}}.forecast-roundoff"
-          },
-          "expectedValue": 100000,
-          "intervalMs": 5000,
-          "timeoutMs": 600000
+    "extractRelative": {
+        "driver_value": {
+          "whereKey": "rowData.driver",
+          "equals": "tempplugforuom",
+          "extractKey": "rowData.{{dynamicMonth+1}}.forecast"
         }
+       },
+        "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertValuesAreEqual": [
+            "{{driver_value}}",
+            100000
+          ]
+        }]
       },
       {
         "testStep": "Poll Until Adjustment For Target 2 Applied For Validation",
@@ -630,21 +729,23 @@
             },
             "isApplied": true
         },
-        "assertions": [
-          {
-            "status": 200
-          }
-        ],
-        "polling": {
-          "extractRelative": {
-              "WhereKey": "rowData.driver",
-              "Equals": "tempplugforuom",
-              "Findkey": "rowData.{{dynamicMonth+1}}.forecast-roundoff"
-          },
-          "expectedValue": 100000,
-          "intervalMs": 5000,
-          "timeoutMs": 600000
+         "extractRelative": {
+        "driver_value": {
+          "whereKey": "rowData.driver",
+          "equals": "tempplugforuom",
+          "extractKey": "rowData.{{dynamicMonth+1}}.forecast"
         }
+       },
+        "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertValuesAreEqual": [
+            "{{driver_value}}",
+            100000
+          ]
+        }]
       },
       {
         "testStep": "Recall Source Senario",
