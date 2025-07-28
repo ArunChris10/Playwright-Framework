@@ -9,14 +9,14 @@ import commonData from "../../constants/common.json";
 test.describe("Copy scenarios from different BAs", () => {
   test(
     "Find scenarios with forecast status Draft and trigger copy",
-    { tag: "@Regression @Smoke @CopyScenario @Visualization" },
+    { tag: "@Regression @Smoke @CopyScenario @Visualization @testNow" },
     async ({ request }) => {
       let sourceScenario, targetScenario;
       const adjustmentEndpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;
       const kpiEndpointURL = `${process.env.apiBaseURLUFM}${aopEdits.getKpiForecast.endpoint}`;
       let adjustment_payload = aopEdits.input_driver_allocation_payload;
       const lobDimId = await UfmUtility.getMappingValue(
-        { parent_name: "SUPPLY CHAIN" },
+        { parent_name: "MERCHANDISING FINANCE" },
         "child_dim_id"
       );
 
@@ -29,7 +29,7 @@ test.describe("Copy scenarios from different BAs", () => {
       const nonEditedMonth = `${currentTime.getFullYear()}${String(
         currentTime.getMonth() + 2
       ).padStart(2, "0")}`;
-      const inputNodeList = commonData.crossInputNodes;
+      const inputNodeList = commonData.merchOpsInputNodes;
       const editableStatus = [commonData.Draft, commonData.Change_Requested];
       let preEditData;
 
@@ -42,19 +42,19 @@ test.describe("Copy scenarios from different BAs", () => {
         );
         sourceScenario = merchScenario[0];
 
-        const supplyScenario = await ScenarioUtils.getScenariosWithStatus(
+        const merchFinanceScenario = await ScenarioUtils.getScenariosWithStatus(
           request,
           editableStatus,
-          "SUPPLY CHAIN"
+          "MERCHANDISING FINANCE"
         );
-        targetScenario = supplyScenario[0];
+        targetScenario = merchFinanceScenario[0];
 
         console.log("sourceScenario as MerchOps:", sourceScenario);
-        console.log("targetScenario as Supply Chain:", targetScenario);
+        console.log("targetScenario as MERCHANDISING FINANCE:", targetScenario);
       });
 
 
-      await test.step("Fetch and store non edited data for target scenario (SUPPLY CHAIN)", async () => {
+      await test.step("Fetch and store non edited data for target scenario (MERCHANDISING FINANCE)", async () => {
         let kpiPayload = aopEdits.getKpiForecast.payload;
         kpiPayload.scenario_id = targetScenario.scenarioId;
         kpiPayload.scenario_version = targetScenario.scenarioVersion;
@@ -76,7 +76,7 @@ test.describe("Copy scenarios from different BAs", () => {
         console.log("after fetching ", preEditData)
       });
 
-      await test.step("Trigger copy scenario API to copy data from MERCHANDISING OPERATIONS scenario to SUPPLY CHAIN scenario", async () => {
+      await test.step("Trigger copy scenario API to copy data from MERCHANDISING OPERATIONS scenario to MERCHANDISING FINANCE scenario", async () => {
         const copyPayload = {
           dim_val_id: sourceScenario.lineOfBusiness,
           dim_id: lobDimId,
@@ -115,20 +115,20 @@ test.describe("Copy scenarios from different BAs", () => {
         );
       });
 
-      await test.step("Poll target scenario (SUPPLY CHAIN) status until copy completes or max attempts reached", async () => {
+      await test.step("Poll target scenario (MERCHANDISING FINANCE) status until copy completes or max attempts reached", async () => {
         let isProcessComplete = await ScenarioUtils.pollScenariosStatus(
           request,
           10, 
           5000, 
           targetScenario,
           editableStatus,
-          "SUPPLY CHAIN" 
+          "MERCHANDISING FINANCE" 
         );
         expect(isProcessComplete).toBeTruthy();
       });
 
 
-      await test.step("Validate Edited data in target Scenario (SUPPLY CHAIN)", async () => {
+      await test.step("Validate Edited data in target Scenario (MERCHANDISING FINANCE)", async () => {
         let kpiPayload = aopEdits.getKpiForecast.payload;
         kpiPayload.scenario_id = targetScenario.scenarioId;
         kpiPayload.scenario_version = targetScenario.scenarioVersion;
