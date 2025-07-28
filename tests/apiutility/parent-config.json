@@ -47,6 +47,7 @@
     "testCases/patchy/actual-missing-nodes-api-tests.json",
     "testCases/patchy/patchy-allocate-node-value-test.json",
     "testCases/patchy/patchy-allocation-excludes-missing-months.json",
+    "testCases/patchy/patchy-allocate-non-additive-group-by-test.json",
     "testCases/copy-scenario-draft-source-select-drivers.json",
     "testCases/copy-scenario-filters-test.json",
     "testCases/copy-scenario-historical-scenario-source-test.json",
