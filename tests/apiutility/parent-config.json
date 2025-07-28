@@ -85,6 +85,7 @@
     "testCases/ssdm-be/node-tags-tests.json",
     "testCases/ssdm-be/node-variant-tags-tests.json",
     "testCases/ssdm-be/node-misc-tests.json",
+    "testCases/ssdm-be/driver-set-tests.json",
     "testCases/ssdm-be/driver-tree-tags-tests.json"
   ],
   "currentDemandService": {
@@ -144,7 +145,8 @@
     "publishSSDMLatestDataset": "/sandbox/v1/publish-node-edge-document",
     "createScenario": "/create-user-scenario",
     "sendToBAReview": "/adjustment/status/v2",
-    "getIndividualStatus": "/get-individual-status"
+    "getIndividualStatus": "/get-individual-status",
+    "getDimensionVersion": "/sandbox/v1/dimension-version"
   },
   "notificationService": {
     "baseURL": {
@@ -191,9 +193,10 @@
     "getAllNodes": "/api/nodes",
     "nodeSource": "/api/nodes",
     "getNodeVariants": "/api/driver-trees/2/versions/1/node-variants-metadata",
-    "nodeTag" :"/api/node-tags",
+    "getPartitionData": "/api/validation/get-partition-data",
+    "nodeTag": "/api/node-tags",
     "nodeVariantTag": "/api/driver-trees/2/versions/1",
-    "nodeRelationships" : "/api/driver-trees/46/versions/1/node-variant-relationships",
+    "nodeRelationships": "/api/driver-trees/46/versions/1/node-variant-relationships",
     "cyclic_node_variants": "/api/validation/get-cyclic-node-variants?driver_tree_key=46&driver_tree_version=1"
   }
 }
