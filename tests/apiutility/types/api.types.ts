@@ -74,6 +74,7 @@ export type AssertionEntry =
   runFunctions?: RunFunction[];
   extractObject?: { [key: string]: string };
   runInParallel?: boolean;
+  getResponseBody?: any;
 }
 
 export interface FunctionArgs {

@@ -144,7 +144,8 @@
     "publishSSDMLatestDataset": "/sandbox/v1/publish-node-edge-document",
     "createScenario": "/create-user-scenario",
     "sendToBAReview": "/adjustment/status/v2",
-    "getIndividualStatus": "/get-individual-status"
+    "getIndividualStatus": "/get-individual-status",
+    "getDimensionVersion": "/sandbox/v1/dimension-version"
   },
   "notificationService": {
     "baseURL": {

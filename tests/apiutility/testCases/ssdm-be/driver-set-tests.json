@@ -1,6 +1,28 @@
 {
   "Validate get partition data for dataset type as Activated": [
     {
+      "testStep": "Get dimension version for Activated dataset type",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "datasetType",
+        "Regression"
+      ],
+      "service": "coreService",
+      "uri": "getDimensionVersion",
+      "testName": "Get dimension version for Activated dataset type",
+      "queryParams": "?ds_type=Activated",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "getResponseBody": {
+        "dimensionVersion_Activated": ""
+      }
+    },
+    {
       "testStep": "Get Partition data for the given dataset type as Activated"  ,
       "environment": "qa",
       "labels": [
@@ -11,7 +33,7 @@
       "service": "ssdmService",
       "uri": "getPartitionData",
       "testName": "Get partition data for the given dataset type as Activated",
-      "queryParams": "/1747202424",
+      "queryParams": "/{{dimensionVersion_Activated}}",
       "method": "GET",
       "assertions": [
         {
@@ -21,6 +43,28 @@
     }
   ],
   "Validate get partition data for dataset type as Latest": [
+    {
+      "testStep": "Get dimension version for Latest dataset type",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "datasetType",
+        "Regression"
+      ],
+      "service": "coreService",
+      "uri": "getDimensionVersion",
+      "testName": "Get dimension version for Latest dataset type",
+      "queryParams": "?ds_type=Latest",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "getResponseBody": {
+        "dimensionVersion_Latest": ""
+      }
+    },
     {
       "testStep": "Get Partition data for the given dataset type as Latest"  ,
       "environment": "qa",
@@ -32,7 +76,7 @@
       "service": "ssdmService",
       "uri": "getPartitionData",
       "testName": "Get partition data for the given dataset type as Latest",
-      "queryParams": "/1747202424",
+      "queryParams": "/{{dimensionVersion_Latest}}",
       "method": "GET",
       "assertions": [
         {

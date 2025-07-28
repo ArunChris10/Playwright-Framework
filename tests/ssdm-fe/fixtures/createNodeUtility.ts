@@ -8,14 +8,10 @@ import { env } from 'process';
 // Extend Playwright's expect with custom matchers
 expect.extend(matchers);
 
-/**
- * Utility class to handle sign-in operations for the application.
- */
 export class createNodeUtility {
 
     static async getUfdmPartitionData(request, option: string, isError = false) {
         const endpointURL = `${process.env.uiAppBaseURL}api/validation/get-partition-data`;
-        //const endpointURL = `https://ibg-node-hub-service.qa.ibg.walmart.com/api/validation/get-partition-data`;
         const response = await request.get(endpointURL);
         let responseBody = await Utility.assertAndLog(response, isError);
 
@@ -45,7 +41,6 @@ export class createNodeUtility {
 
     static async getUfdmPartitionData1(request, isError = false) {
         const endpointURL = `${process.env.apiBaseURLSSDM}/api/validation/get-partition-data`;
-        //const endpointURL = `https://ibg-node-hub-service.qa.ibg.walmart.com/api/validation/get-partition-data`;
         const response = await request.get(endpointURL);
         let responseBody = await Utility.assertAndLog(response, isError);
         // Sort responseBody in descending order based on NODE_ID
@@ -65,7 +60,6 @@ export class createNodeUtility {
 
     static async getdriverTreeNodes(request, isError = false) {
         const endpointURL = `${process.env.apiBaseURLSSDM}/api/nodes`;
-        //const endpointURL = `https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net/api/nodes`;
         const response = await request.get(endpointURL);
         let responseBody = await Utility.assertAndLog(response, isError);
         // Return all node_id into an array and sort it in Descending order
@@ -85,7 +79,6 @@ export class createNodeUtility {
 
     static async getPartitionGrainForNodeId(ufdmNodeId, request, isError = false) {
         const endpointURL = `${process.env.apiBaseURLSSDM}/api/validation/get-partition-data`;
-        //const endpointURL = `https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net/api/validation/get-partition-data`;
         const response = await request.get(endpointURL);
         let responseBody = await Utility.assertAndLog(response, isError);
         // Find the partition grain for the given nodeId
@@ -114,7 +107,6 @@ export class createNodeUtility {
 
     static async createNewNode(request, nodeId?: string, isError = false) {
         const endpointURL = `${process.env.apiBaseURLSSDM}/api/nodes`;
-        //const endpointURL = `https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net/api/nodes`;
         let randomNodeDetail = getNodeData.node_id + await Utility.randomInt(1, 5000);
         if (nodeId) {
             getNodeData.node_id = nodeId;
@@ -137,7 +129,6 @@ export class createNodeUtility {
 
     static async deleteCreatedNode(request, nodeKey, isError = false) {
         const endpointURL = `${process.env.apiBaseURLSSDM}/api/nodes/${nodeKey}`;
-        //const endpointURL = `https://ibg-node-hub-service-qa.ibg-ufm.k8s.glb.us.walmart.net/api/nodes/${nodeKey}`;
         let nexusTokens = await Utility.getNexusFakeToken(`${process.env.ufmUser}`, request);
         const response = await request.delete(endpointURL, {
             headers: {
