@@ -5,11 +5,12 @@
         "environment": "qa",
         "labels": ["smoke", "copy_scenario_multiple_targets",
         "Visualization",
-        "CopyScenario"],
+        "CopyScenario",
+      "ibg-ufm-core-service" , "ibg-ufm-domino-service" , "ibg-ufm-allocation-engine" ,"ibg-ufm-reporting-proxy"],
         "service": "coreService",
         "uri": "Forecast",
         "testName": "Create a new Scenario",
-        "queryParams": "/list-historicals?dim_val_id=110019&dim_id=12&data_level=11&classification_id=12",
+        "queryParams": "/list-historicals?dim_val_id=110030&dim_id=12&data_level=11&classification_id=12",
         "method": "GET",
         "payload": {
         },
@@ -37,7 +38,7 @@
         "method": "POST",
         "payload": {
           "dim_id": 11,
-          "dim_val_id": 110019,
+          "dim_val_id": 110030,
           "classification_id": 12,
           "type":3,
           "name": "Test-TG-01-{{randomNumber}}"
@@ -64,7 +65,7 @@
         "method": "POST",
         "payload": {
           "dim_id": 11,
-          "dim_val_id": 110019,
+          "dim_val_id": 110030,
           "classification_id": 12,
           "type":3,
           "name": "Test-TG-02-{{randomNumber}}"
@@ -92,7 +93,7 @@
         "payload": {
           "unit": "Millions",
           "dim_id": 12,
-          "dim_val_id": 120003,
+          "dim_val_id": 120011,
           "classification_id": 12,
           "template_id": 1,
           "filters": [],
@@ -150,7 +151,7 @@
         "payload": {
           "unit": "Millions",
           "dim_id": 12,
-          "dim_val_id": 120003,
+          "dim_val_id": 120011,
           "classification_id": 12,
           "template_id": 1,
           "filters": [],
@@ -205,7 +206,7 @@
         "queryParams": "",
         "method": "POST",
         "payload": {
-            "dim_val_id": 110019,
+            "dim_val_id": 110030,
             "dim_id": 11,
             "source_scenario": {
                 "scenario_id-tostring": "{{sourceScenarioId}}",
@@ -235,10 +236,10 @@
                     "month"
                 ],
                 "nodes": [
-                    "warehouseallowances_input"
+                    "tempplugforuom"
                 ],
                 "month": [
-                    "202607"
+                    "{{dynamicMonth+1}}"
                 ]
             },
             "filters": []
@@ -262,7 +263,7 @@
             "scenario_id": "{{sourceScenarioId}}",
             "scenario_version": "{{sourceScenarioVersion}}",
             "dim_id": 11,
-            "dim_val_id": 110019,
+            "dim_val_id": 110030,
             "classification_id": 12,
             "template_id": 3,
             "filters": [],
@@ -277,14 +278,14 @@
                     "month"
                 ],
                 "nodes": [
-                    "warehouseallowances_input"
+                    "tempplugforuom"
                 ],
                 "template_include_headers": [
                     {
                         "name": "Driver"
                     },
                     {
-                        "name": "202607",
+                        "name": "{{dynamicMonth+1}}",
                         "columnsMenuParams": "middleColumns"
                     },
                     {
@@ -305,7 +306,7 @@
                     }
                 ],
                 "month": [
-                    "202607"
+                    "{{dynamicMonth+1}}"
                 ]
             },
             "isApplied": true
@@ -316,7 +317,7 @@
           }
         ],
         "extractFirst" : {
-          "sourceData": "rowData[0].202607.forecast"
+          "sourceData": "rowData[0].{{dynamicMonth+1}}.forecast"
         }
       },
       {
@@ -333,7 +334,7 @@
             "scenario_id": "{{target1ScenarioId}}",
             "scenario_version": "{{target1ScenarioVersion}}",
             "dim_id": 11,
-            "dim_val_id": 110019,
+            "dim_val_id": 110030,
             "classification_id": 12,
             "template_id": 3,
             "filters": [],
@@ -348,14 +349,14 @@
                     "month"
                 ],
                 "nodes": [
-                    "warehouseallowances_input"
+                    "tempplugforuom"
                 ],
                 "template_include_headers": [
                     {
                         "name": "Driver"
                     },
                     {
-                        "name": "202607",
+                        "name": "{{dynamicMonth+1}}",
                         "columnsMenuParams": "middleColumns"
                     },
                     {
@@ -376,7 +377,7 @@
                     }
                 ],
                 "month": [
-                    "202607"
+                    "{{dynamicMonth+1}}"
                 ]
             },
             "isApplied": true
@@ -389,8 +390,8 @@
         "polling": {
           "extractRelative": {
               "WhereKey": "rowData.driver",
-              "Equals": "warehouseallowances_input",
-              "Findkey": "rowData.202607.forecast-roundoff"
+              "Equals": "tempplugforuom",
+              "Findkey": "rowData.{{dynamicMonth+1}}.forecast-roundoff"
           },
           "expectedValue": "{{sourceData-roundoff}}",
           "intervalMs": 5000,
@@ -411,7 +412,7 @@
             "scenario_id": "{{target2ScenarioId}}",
             "scenario_version": "{{target2ScenarioVersion}}",
             "dim_id": 11,
-            "dim_val_id": 110019,
+            "dim_val_id": 110030,
             "classification_id": 12,
             "template_id": 3,
             "filters": [],
@@ -426,14 +427,14 @@
                     "month"
                 ],
                 "nodes": [
-                    "warehouseallowances_input"
+                    "tempplugforuom"
                 ],
                 "template_include_headers": [
                     {
                         "name": "Driver"
                     },
                     {
-                        "name": "202607",
+                        "name": "{{dynamicMonth+1}}",
                         "columnsMenuParams": "middleColumns"
                     },
                     {
@@ -454,7 +455,7 @@
                     }
                 ],
                 "month": [
-                    "202607"
+                    "{{dynamicMonth+1}}"
                 ]
             },
             "isApplied": true
@@ -467,8 +468,8 @@
         "polling": {
           "extractRelative": {
               "WhereKey": "rowData.driver",
-              "Equals": "warehouseallowances_input",
-              "Findkey": "rowData.202607.forecast-roundoff"
+              "Equals": "tempplugforuom",
+              "Findkey": "rowData.{{dynamicMonth+1}}.forecast-roundoff"
           },
           "expectedValue": "{{sourceData-roundoff}}",
           "intervalMs": 5000,
@@ -486,7 +487,7 @@
         "method": "DELETE",
         "payload": {
           "dim_id": 11,
-          "dim_val_id": 110019
+          "dim_val_id": 110030
         },
         "assertions": [
           {
@@ -505,7 +506,7 @@
         "method": "DELETE",
         "payload": {
           "dim_id": 11,
-          "dim_val_id": 110019
+          "dim_val_id": 110030
         },
         "assertions": [
           {
