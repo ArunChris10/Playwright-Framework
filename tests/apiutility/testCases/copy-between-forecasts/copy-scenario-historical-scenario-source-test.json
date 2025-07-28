@@ -1,0 +1,519 @@
+{
+    "verify copy scenario action for historical source": [
+      {
+        "testStep": "fetch historical forecast as source scenario",
+        "environment": "qa",
+        "labels": ["smoke", "copy_scenario_multiple_targets",
+        "Visualization",
+        "CopyScenario"],
+        "service": "coreService",
+        "uri": "Forecast",
+        "testName": "Create a new Scenario",
+        "queryParams": "/list-historicals?dim_val_id=110019&dim_id=12&data_level=11&classification_id=12",
+        "method": "GET",
+        "payload": {
+        },
+        "assertions": [
+          {
+            "status": 200
+          }
+        ],
+        "extractFirst": {
+            "sourceScenarioId": "row_data[0].scenario_id",
+            "sourceScenarioVersion": "row_data[0].scenario_version_timestamp",
+            "sourceATS": "row_data[0].actual_template_id",
+            "sourceFTS": "row_data[0].forecast_template_id"
+        }
+
+      },
+      {
+        "testStep": "create target scenario 1",
+        "environment": "qa",
+        "labels": ["smoke", "copy_scenario_multiple_targets"],
+        "service": "coreService",
+        "uri": "createUserScenario",
+        "testName": "Create a new Scenario",
+        "queryParams": "",
+        "method": "POST",
+        "payload": {
+          "dim_id": 11,
+          "dim_val_id": 110019,
+          "classification_id": 12,
+          "type":3,
+          "name": "Test-TG-01-{{randomNumber}}"
+        },
+        "assertions": [
+          {
+            "status": 200
+          }
+        ],
+        "extractFirst": {
+            "target1ScenarioId": "scenario.scenario_id",
+            "target1ScenarioVersion": "scenario.scenario_version_timestamp"
+        }
+
+      },
+      {
+        "testStep": "create target scenario 2",
+        "environment": "qa",
+        "labels": ["smoke", "copy_scenario_multiple_targets"],
+        "service": "coreService",
+        "uri": "createUserScenario",
+        "testName": "Create a new Scenario",
+        "queryParams": "",
+        "method": "POST",
+        "payload": {
+          "dim_id": 11,
+          "dim_val_id": 110019,
+          "classification_id": 12,
+          "type":3,
+          "name": "Test-TG-02-{{randomNumber}}"
+        },
+        "assertions": [
+          {
+            "status": 200
+          }
+        ],
+        "extractFirst": {
+            "target2ScenarioId": "scenario.scenario_id",
+            "target2ScenarioVersion": "scenario.scenario_version_timestamp"
+        }
+
+      },
+      {
+        "testStep": "Poll creation of Target 1 FORECAST",
+        "environment": "qa",
+        "labels": ["smoke", "copy_scenario_multiple_targets"],
+        "service": "coreService",
+        "uri": "getForecast",
+        "testName": "Poll creation of Source FORECAST",
+        "queryParams": "",
+        "method": "POST",
+        "payload": {
+          "unit": "Millions",
+          "dim_id": 12,
+          "dim_val_id": 120003,
+          "classification_id": 12,
+          "template_id": 1,
+          "filters": [],
+          "additional_filters": {
+            "template_include_headers": [
+              {
+                "name": "vs LY",
+                "format": "percent"
+              },
+              {
+                "name": "vs Plan",
+                "format": "absolute"
+              }
+            ]
+          }
+        },
+        "assertions": [
+          {
+            "status": 200
+          }
+        ],
+        "extractRelative": {
+          "target1ATS": {
+            "whereKey": "rowData.name",
+            "equals": "Test-TG-01-{{randomNumber}}",
+            "extractKey": "rowData.ATS"
+          },
+          "target1FTS": {
+            "whereKey": "rowData.name",
+            "equals": "Test-TG-01-{{randomNumber}}",
+            "extractKey": "rowData.FTS"
+        }
+        },
+
+        "polling": {
+          "extractRelative": {
+            "WhereKey": "rowData.name",
+            "Equals": "Test-TG-01-{{randomNumber}}",
+            "Findkey": "rowData.forecastStatus.statusCode"
+          },
+          "expectedValue": 21,
+          "intervalMs": 5000,
+          "timeoutMs": 600000
+        }
+      },
+      {
+        "testStep": "Poll creation of Target 2 FORECAST",
+        "environment": "qa",
+        "labels": ["smoke", "copy_scenario_multiple_targets"],
+        "service": "coreService",
+        "uri": "getForecast",
+        "testName": "Poll creation of Source FORECAST",
+        "queryParams": "",
+        "method": "POST",
+        "payload": {
+          "unit": "Millions",
+          "dim_id": 12,
+          "dim_val_id": 120003,
+          "classification_id": 12,
+          "template_id": 1,
+          "filters": [],
+          "additional_filters": {
+            "template_include_headers": [
+              {
+                "name": "vs LY",
+                "format": "percent"
+              },
+              {
+                "name": "vs Plan",
+                "format": "absolute"
+              }
+            ]
+          }
+        },
+        "assertions": [
+          {
+            "status": 200
+          }
+        ],
+        "extractRelative": {
+          "target2ATS": {
+            "whereKey": "rowData.name",
+            "equals": "Test-TG-02-{{randomNumber}}",
+            "extractKey": "rowData.ATS"
+          },
+          "target2FTS": {
+            "whereKey": "rowData.name",
+            "equals": "Test-TG-02-{{randomNumber}}",
+            "extractKey": "rowData.FTS"
+        }
+        },
+        "polling": {
+          "extractRelative": {
+            "WhereKey": "rowData.name",
+            "Equals": "Test-TG-02-{{randomNumber}}",
+            "Findkey": "rowData.forecastStatus.statusCode"
+          },
+          "expectedValue": 21,
+          "intervalMs": 5000,
+          "timeoutMs": 600000
+        }
+      },
+      {
+        "testStep": "Initianlize Copy Scenario",
+        "environment": "qa",
+        "labels": ["smoke", "copy_scenario_multiple_targets"],
+        "service": "utilityService",
+        "uri": "copyScenario",
+        "testName": "copy source scenario data to targets",
+        "queryParams": "",
+        "method": "POST",
+        "payload": {
+            "dim_val_id": 110019,
+            "dim_id": 11,
+            "source_scenario": {
+                "scenario_id-tostring": "{{sourceScenarioId}}",
+                "scenario_version-tostring": "{{sourceScenarioVersion}}",
+                "type": "scenarios",
+                "actual_scenario_id-tostring": "{{sourceATS}}",
+                "forecast_scenario_id-tostring": "{{sourceFTS}}"
+            },
+            "target_scenario": [
+                {
+                    "scenario_id": "{{target1ScenarioId}}",
+                    "scenario_version": "{{target1ScenarioVersion}}",
+                    "type": "scenarios",
+                    "actual_scenario_id":"{{target1ATS}}",
+                    "forecast_scenario_id": "{{target1FTS}}"
+                },
+                {
+                    "scenario_id": "{{target2ScenarioId}}",
+                    "scenario_version": "{{target2ScenarioVersion}}",
+                    "type": "scenarios",
+                    "actual_scenario_id":"{{target2ATS}}",
+                    "forecast_scenario_id": "{{target2FTS}}"
+                }
+            ],
+            "additional_filters": {
+                "period_view": [
+                    "month"
+                ],
+                "nodes": [
+                    "warehouseallowances_input"
+                ],
+                "month": [
+                    "202607"
+                ]
+            },
+            "filters": []
+        },
+        "assertions": [
+          {
+            "status": 200
+          }
+        ]
+      },
+      {
+        "testStep": "Get Source Data For Validation",
+        "environment": "qa",
+        "labels": ["smoke", "copy_scenario_multiple_targets"],
+        "service": "coreService",
+        "uri": "getKpiV2",
+        "testName": "Get Source data",
+        "queryParams": "",
+        "method": "POST",
+        "payload": {
+            "scenario_id": "{{sourceScenarioId}}",
+            "scenario_version": "{{sourceScenarioVersion}}",
+            "dim_id": 11,
+            "dim_val_id": 110019,
+            "classification_id": 12,
+            "template_id": 3,
+            "filters": [],
+            "additional_filters": {
+                "pivot_cols": [
+                    "month"
+                ],
+                "pivot_index": [
+                    "node_id"
+                ],
+                "period_view": [
+                    "month"
+                ],
+                "nodes": [
+                    "warehouseallowances_input"
+                ],
+                "template_include_headers": [
+                    {
+                        "name": "Driver"
+                    },
+                    {
+                        "name": "202607",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "",
+                        "columnsMenuParams": "fixedColumns"
+                    },
+                    {
+                        "name": "Allocation Method",
+                        "columnsMenuParams": "action"
+                    },
+                    {
+                        "name": "Forecast",
+                        "editable": false
+                    },
+                    {
+                        "name": "Value",
+                        "editable": false
+                    }
+                ],
+                "month": [
+                    "202607"
+                ]
+            },
+            "isApplied": true
+        },
+        "assertions": [
+          {
+            "status": 200
+          }
+        ],
+        "extractFirst" : {
+          "sourceData": "rowData[0].202607.forecast"
+        }
+      },
+      {
+        "testStep": "Poll Until Adjustment For Target 1 Applied For Validation",
+        "environment": "qa",
+        "labels": ["smoke", "copy_scenario_multiple_targets"],
+        "service": "coreService",
+        "uri": "getKpiV2",
+        "testName": "Get Target 1 data",
+        "queryParams": "",
+        "method": "POST",
+        "payload": {
+            "baseURL": "",
+            "scenario_id": "{{target1ScenarioId}}",
+            "scenario_version": "{{target1ScenarioVersion}}",
+            "dim_id": 11,
+            "dim_val_id": 110019,
+            "classification_id": 12,
+            "template_id": 3,
+            "filters": [],
+            "additional_filters": {
+                "pivot_cols": [
+                    "month"
+                ],
+                "pivot_index": [
+                    "node_id"
+                ],
+                "period_view": [
+                    "month"
+                ],
+                "nodes": [
+                    "warehouseallowances_input"
+                ],
+                "template_include_headers": [
+                    {
+                        "name": "Driver"
+                    },
+                    {
+                        "name": "202607",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "",
+                        "columnsMenuParams": "fixedColumns"
+                    },
+                    {
+                        "name": "Allocation Method",
+                        "columnsMenuParams": "action"
+                    },
+                    {
+                        "name": "Forecast",
+                        "editable": true
+                    },
+                    {
+                        "name": "Value",
+                        "editable": true
+                    }
+                ],
+                "month": [
+                    "202607"
+                ]
+            },
+            "isApplied": true
+        },
+        "assertions": [
+          {
+            "status": 200
+          }
+        ],
+        "polling": {
+          "extractRelative": {
+              "WhereKey": "rowData.driver",
+              "Equals": "warehouseallowances_input",
+              "Findkey": "rowData.202607.forecast-roundoff"
+          },
+          "expectedValue": "{{sourceData-roundoff}}",
+          "intervalMs": 5000,
+          "timeoutMs": 600000
+        }
+      },
+      {
+        "testStep": "Poll Until Adjustment For Target 2 Applied For Validation",
+        "environment": "qa",
+        "labels": ["smoke", "copy_scenario_multiple_targets"],
+        "service": "coreService",
+        "uri": "getKpiV2",
+        "testName": "Get Target 2 data",
+        "queryParams": "",
+        "method": "POST",
+        "payload": {
+            "baseURL": "",
+            "scenario_id": "{{target2ScenarioId}}",
+            "scenario_version": "{{target2ScenarioVersion}}",
+            "dim_id": 11,
+            "dim_val_id": 110019,
+            "classification_id": 12,
+            "template_id": 3,
+            "filters": [],
+            "additional_filters": {
+                "pivot_cols": [
+                    "month"
+                ],
+                "pivot_index": [
+                    "node_id"
+                ],
+                "period_view": [
+                    "month"
+                ],
+                "nodes": [
+                    "warehouseallowances_input"
+                ],
+                "template_include_headers": [
+                    {
+                        "name": "Driver"
+                    },
+                    {
+                        "name": "202607",
+                        "columnsMenuParams": "middleColumns"
+                    },
+                    {
+                        "name": "",
+                        "columnsMenuParams": "fixedColumns"
+                    },
+                    {
+                        "name": "Allocation Method",
+                        "columnsMenuParams": "action"
+                    },
+                    {
+                        "name": "Forecast",
+                        "editable": true
+                    },
+                    {
+                        "name": "Value",
+                        "editable": true
+                    }
+                ],
+                "month": [
+                    "202607"
+                ]
+            },
+            "isApplied": true
+        },
+        "assertions": [
+          {
+            "status": 200
+          }
+        ],
+        "polling": {
+          "extractRelative": {
+              "WhereKey": "rowData.driver",
+              "Equals": "warehouseallowances_input",
+              "Findkey": "rowData.202607.forecast-roundoff"
+          },
+          "expectedValue": "{{sourceData-roundoff}}",
+          "intervalMs": 5000,
+          "timeoutMs": 600000
+        }
+      },
+      {
+        "testStep": "delete target scenario 1",
+        "environment": "qa",
+        "labels": ["smoke", "copy_scenario_multiple_targets"],
+        "service": "coreService",
+        "uri": "Forecast",
+        "testName": "delete the Scenario",
+        "queryParams": "/{{target1ScenarioId}}/{{target1ScenarioVersion}}",
+        "method": "DELETE",
+        "payload": {
+          "dim_id": 11,
+          "dim_val_id": 110019
+        },
+        "assertions": [
+          {
+            "status": 200
+          }
+        ]
+      },
+      {
+        "testStep": "delete target scenario 2",
+        "environment": "qa",
+        "labels": ["smoke", "copy_scenario_multiple_targets"],
+        "service": "coreService",
+        "uri": "Forecast",
+        "testName": "delete the Scenario",
+        "queryParams": "/{{target2ScenarioId}}/{{target2ScenarioVersion}}",
+        "method": "DELETE",
+        "payload": {
+          "dim_id": 11,
+          "dim_val_id": 110019
+        },
+        "assertions": [
+          {
+            "status": 200
+          }
+        ]
+      }
+    ]
+  }
+
+  

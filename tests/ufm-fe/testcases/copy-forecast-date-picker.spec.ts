@@ -3,7 +3,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 import { organization } from "../testdata/copyForecast.json";
 test.describe(
   "Verify if user is able to select the date range in the copy popup",
-  { tag: "@Smoke @CopyForecastDatePicker" },
+  { tag: "@Smoke @CopyForecastDatePicker @Regression @CopyScenario" },
   () => {
     let objpageFactory: PageFactory;
     test.beforeAll(async ({ pageFactory }) => {

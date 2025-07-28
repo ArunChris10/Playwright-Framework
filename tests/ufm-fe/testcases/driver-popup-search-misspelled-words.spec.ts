@@ -16,7 +16,7 @@ test.describe(
     });
     test(
       "Check if the search result inlcudes mis spelled words",
-      { tag: "@driverPopUpMisspelledWords" },
+      { tag: "@driverPopUpMisspelledWords @DriverSearch @Regression" },
       async ({ request }) => {
         test.setTimeout(300000);
 

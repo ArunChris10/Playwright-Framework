@@ -6,7 +6,10 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "Pre-Req","MS2","IBGROW-35119"
+      "Pre-Req","MS2","IBGROW-35119",
+      "Visualization",
+      "AOP",
+      "Admin-Isolated-Scenarios"
     ],
     "service": "coreService",
     "uri": "getDataScienceInfo",

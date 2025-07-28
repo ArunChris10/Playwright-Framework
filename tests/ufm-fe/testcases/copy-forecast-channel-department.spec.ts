@@ -3,7 +3,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 import { organization } from "../testdata/copyForecast.json";
 test.describe(
   "Verify if user is able to select the required dimensions in channel",
-  { tag: "@Smoke @CopyForecastFilter" },
+  { tag: "@Smoke @CopyForecastFilter @CopyScenario @Regression" },
   () => {
     let objpageFactory: PageFactory;
     test.beforeAll(async ({ pageFactory }) => {

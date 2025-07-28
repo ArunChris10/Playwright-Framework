@@ -6,7 +6,7 @@ import { merchOpsDefaultDriver } from "../testdata/drivers.json";
 import { ForecastUtility } from "../../ufm-be/fixtures/forecast-utils";
 import { demandOrganization } from "../testdata/organizations.json";
 
-test.describe('Verify user is able to select drivers and switch orders', { tag: "@Smoke @driverPopUpSelectedDriver" }, () => {
+test.describe('Verify user is able to select drivers and switch orders', { tag: "@Smoke @driverPopUpSelectedDriver @DriverSearch @Regression" }, () => {
     let objpageFactory: PageFactory, scenario_details, currentForecast, firstDriverNameAfterSwitch, lastDriverName, scenarioId, firstForecast;
 
     const driverNames = merchOpsDefaultDriver.names;

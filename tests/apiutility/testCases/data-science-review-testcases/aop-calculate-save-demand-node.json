@@ -4,7 +4,7 @@
             "runInParallel": false,
       "testStep": "Fetch Scenario Details from DataScience Info",
       "environment": "qa",
-      "labels": ["smoke", "Pre-Req", "IBGROW-35039", "IBGROW-34989", "MS2"],
+      "labels": ["smoke", "Pre-Req", "IBGROW-35039", "IBGROW-34989", "MS2","Visualization", "AOP", "Admin-Isolated-Scenarios"],
       "service": "coreService",
       "uri": "getDataScienceInfo",
       "testName": "Get Scenario details from data science info (classification_id: 11)",
