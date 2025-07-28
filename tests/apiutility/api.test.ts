@@ -153,6 +153,20 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
             
           }
 
+            if (step.getResponseBody) {
+            for (const globalVar in step.getResponseBody) {
+              let bodyToStore = responseBody;
+              if (typeof bodyToStore === 'string') {
+              try {
+                bodyToStore = JSON.parse(bodyToStore);
+              } catch (e) {
+                console.error('Failed to parse response body as JSON:', e);
+              }
+              }
+              globalStore.setValue(globalVar, bodyToStore);
+              console.log(`Stored full response body in globalStore under key: ${globalVar}`);
+            }
+            }
             if (step.extract) {
               for (const globalVar in step.extract) {
                 const value = findAllValuesByKey(responseBody, interpolate(step.extract[globalVar].replace(/^body\./, '')));
