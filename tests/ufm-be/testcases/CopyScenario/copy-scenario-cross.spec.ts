@@ -5,6 +5,7 @@ import adjustmentData from "../../testdata/adjustment.json";
 import { Utility } from "../../../common/fixtures/utils";
 import { UfmUtility } from "../../fixtures/ufm-utils";
 import commonData from "../../constants/common.json";
+import copyTestData from "./copy-scenario-testdata.json";
 
 test.describe("Copy scenarios from different BAs", () => {
   test(
@@ -12,11 +13,12 @@ test.describe("Copy scenarios from different BAs", () => {
     { tag: "@Regression @Smoke @CopyScenario @Visualization" },
     async ({ request }) => {
       let sourceScenario, targetScenario;
+      const copyData = copyTestData["copy-scenario-cross"];
       const adjustmentEndpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;
       const kpiEndpointURL = `${process.env.apiBaseURLUFM}${aopEdits.getKpiForecast.endpoint}`;
       let adjustment_payload = aopEdits.input_driver_allocation_payload;
       const lobDimId = await UfmUtility.getMappingValue(
-        { parent_name: "MERCHANDISING FINANCE" },
+        { parent_name: copyData.crossLOBName },
         "child_dim_id"
       );
 
@@ -29,7 +31,7 @@ test.describe("Copy scenarios from different BAs", () => {
       const nonEditedMonth = `${currentTime.getFullYear()}${String(
         currentTime.getMonth() + 2
       ).padStart(2, "0")}`;
-      const inputNodeList = commonData.merchOpsInputNodes;
+      const inputNodeList = copyData.inputNodes;
       const editableStatus = [commonData.Draft, commonData.Change_Requested];
       let preEditData;
 
@@ -38,14 +40,14 @@ test.describe("Copy scenarios from different BAs", () => {
         const merchScenario = await ScenarioUtils.getScenariosWithStatus(
           request,
           editableStatus,
-          "MERCHANDISING OPERATIONS"
+          copyData.lobName
         );
         sourceScenario = merchScenario[0];
 
         const merchFinanceScenario = await ScenarioUtils.getScenariosWithStatus(
           request,
           editableStatus,
-          "MERCHANDISING FINANCE"
+          copyData.crossLOBName
         );
         targetScenario = merchFinanceScenario[0];
 
@@ -122,7 +124,7 @@ test.describe("Copy scenarios from different BAs", () => {
           5000, 
           targetScenario,
           editableStatus,
-          "MERCHANDISING FINANCE" 
+          copyData.crossLOBName
         );
         expect(isProcessComplete).toBeTruthy();
       });

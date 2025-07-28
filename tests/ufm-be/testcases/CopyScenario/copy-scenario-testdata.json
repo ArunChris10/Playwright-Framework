@@ -1,0 +1,24 @@
+{
+    "copy-scenario-sequential": {
+        "lobName": "MERCHANDISING OPERATIONS",
+        "defaultInputValue": 1000,
+        "inputNodes": [
+            "moinventoryshrinkadjustmentcost",
+            "momonthendaccrual"
+        ]
+    },
+    "copy-scenario": {
+        "lobName": "MERCHANDISING OPERATIONS",
+        "defaultInputValue": 500,
+        "inputNodes": [
+            "endinginventoryatcostsot",
+            "moinventoryshrinkadjustmentretail"
+        ]
+    },
+    "copy-scenario-cross": {
+        "lobName": "MERCHANDISING OPERATIONS",
+        "defaultInputValue": 2000,
+        "inputNodes":["momerchandisesales","mogmvshipped"],
+        "crossLOBName":"MERCHANDISING FINANCE"
+    }
+}

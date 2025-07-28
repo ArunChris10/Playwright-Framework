@@ -5,6 +5,7 @@ import adjustmentData from "../../testdata/adjustment.json";
 import { Utility } from "../../../common/fixtures/utils";
 import { UfmUtility } from "../../fixtures/ufm-utils";
 import commonData from "../../constants/common.json";
+import copyTestData from "./copy-scenario-testdata.json"
 
 test.describe("Copy Scenario API E2E", () => {
   test(
@@ -15,8 +16,12 @@ test.describe("Copy Scenario API E2E", () => {
       const adjustmentEndpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;
       const kpiEndpointURL = `${process.env.apiBaseURLUFM}${aopEdits.getKpiForecast.endpoint}`;
       let adjustment_payload = aopEdits.input_driver_allocation_payload;
+      const copyData = copyTestData["copy-scenario"]
+
+      const lobName = copyData.lobName;
+      const BAName = lobName;
       const lobDimId = await UfmUtility.getMappingValue(
-        { parent_name: "MERCHANDISING OPERATIONS" },
+        { parent_name: BAName },
         "child_dim_id"
       );
 
@@ -29,14 +34,14 @@ test.describe("Copy Scenario API E2E", () => {
       const nonEditedMonth = `${currentTime.getFullYear()}${String(
         currentTime.getMonth() + 2
       ).padStart(2, "0")}`;
-      const inputNodeList = commonData.merchOpsInputNodes;
+      const inputNodeList = copyData.inputNodes;
       const editableStatus = [commonData.Draft, commonData.Change_Requested];
       let preEditData;
       await test.step("Fetch scenarios with forecast status Draft or Change Requested", async () => {
         const scenarios = await ScenarioUtils.getScenariosWithStatus(
           request,
           editableStatus,
-          "MERCHANDISING OPERATIONS"
+          lobName
         );
         expect(scenarios.length).toBeGreaterThan(1);
         sourceScenario = scenarios[0];
@@ -82,7 +87,7 @@ test.describe("Copy Scenario API E2E", () => {
             edit.node_var_name = inputNodeList[idx];
           }
           if (edit.data && editedMonth) {
-            edit.data = { [editedMonth]: commonData.defaultInputValue };
+            edit.data = { [editedMonth]: copyData.defaultInputValue };
           }
         });
 
@@ -138,7 +143,7 @@ test.describe("Copy Scenario API E2E", () => {
           5000, // interval in milliseconds;
           targetScenario,
           editableStatus,
-          "MERCHANDISING OPERATIONS"
+          lobName
         );
         expect(isProcessComplete).toBeTruthy();
       });
@@ -148,7 +153,7 @@ test.describe("Copy Scenario API E2E", () => {
         const adjResp = await request.get(adjustmentEndpoint);
         expect(adjResp.ok()).toBeTruthy();
         const adjData = await adjResp.json();
-        const expectedName = `Copy from source scenario: ${sourceScenario.scenarioId}`;
+        const expectedName = `Copy from source scenario: ${sourceScenario.name} (${sourceScenario.scenarioId})`;
         const found = adjData.some(
           (adj: any) => adj.adjustment_name === expectedName
         );
@@ -182,7 +187,7 @@ test.describe("Copy Scenario API E2E", () => {
           // Assertion for editedMonth
           expect(row[monthKey]).toBeTruthy();
           expect(Math.round(row[monthKey].forecast)).toBe(
-            commonData.defaultInputValue
+            copyData.defaultInputValue
           );
 
           // Assertion for nonEditedMonth: should match preEditData
