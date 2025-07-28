@@ -9,7 +9,7 @@ import commonData from "../../constants/common.json";
 test.describe("Copy scenarios from different BAs", () => {
   test(
     "Find scenarios with forecast status Draft and trigger copy",
-    { tag: "@Regression @Smoke @CopyScenario @Visualization @testNow" },
+    { tag: "@Regression @Smoke @CopyScenario @Visualization" },
     async ({ request }) => {
       let sourceScenario, targetScenario;
       const adjustmentEndpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;
