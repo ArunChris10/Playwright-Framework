@@ -8,7 +8,8 @@
         "smoke",
         "MS3",
         "Visualization",
-        "AsyncNownNodeRefresh"
+        "AsyncNownNodeRefresh",
+        "ibg-ufm-core-service" , "ibg-ufm-domino-service" , "ibg-ufm-allocation-engine"
       ],
       "service": "coreService",
       "uri": "getForecast",

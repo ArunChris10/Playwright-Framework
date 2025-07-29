@@ -7,7 +7,8 @@
                 "smoke",
                 "copy_scenario_historical_source_select_drivers",
         "Visualization",
-        "CopyScenario"
+        "CopyScenario",
+        "ibg-ufm-core-service" , "ibg-ufm-domino-service" , "ibg-ufm-allocation-engine" ,"ibg-ufm-reporting-proxy"
             ],
             "service": "coreService",
             "uri": "listHistoricals",

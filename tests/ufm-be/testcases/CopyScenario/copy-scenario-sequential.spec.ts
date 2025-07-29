@@ -10,7 +10,7 @@ import copyTestData from "./copy-scenario-testdata.json";
 test.describe("Copy scenarios in sequence", () => {
   test(
     "Find scenarios with forecast status Draft and trigger copy",
-    { tag: "@Regression @Smoke @CopyScenario @Visualization" },
+    { tag: "@Regression @Smoke @CopyScenario @Visualization ibg-ufm-core-service ibg-ufm-domino-service ibg-ufm-allocation-engine ibg-ufm-reporting-proxy" },
     async ({ request }) => {
       let sourceScenario, targetScenario, nextTargetScenario, nextToNextTargetScenario;
       const adjustmentEndpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;
