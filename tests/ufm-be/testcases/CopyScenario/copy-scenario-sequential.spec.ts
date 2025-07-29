@@ -1,22 +1,26 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { ScenarioUtils } from "../fixtures/copy-scenairo-utils";
-import aopEdits from "../testdata/aop-edits.json";
-import adjustmentData from "../testdata/adjustment.json";
-import { Utility } from "../../common/fixtures/utils";
-import { UfmUtility } from "../fixtures/ufm-utils";
-import commonData from "../constants/common.json";
+import { expect, test } from "../../../common/fixtures/test-hook";
+import { ScenarioUtils } from "../../fixtures/copy-scenairo-utils";
+import aopEdits from "../../testdata/aop-edits.json";
+import adjustmentData from "../../testdata/adjustment.json";
+import { Utility } from "../../../common/fixtures/utils";
+import { UfmUtility } from "../../fixtures/ufm-utils";
+import commonData from "../../constants/common.json";
+import copyTestData from "./copy-scenario-testdata.json";
 
 test.describe("Copy scenarios in sequence", () => {
   test(
     "Find scenarios with forecast status Draft and trigger copy",
-    { tag: "@copyScenario" },
+    { tag: "@Regression @Smoke @CopyScenario @Visualization" },
     async ({ request }) => {
       let sourceScenario, targetScenario, nextTargetScenario, nextToNextTargetScenario;
       const adjustmentEndpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;
       const kpiEndpointURL = `${process.env.apiBaseURLUFM}${aopEdits.getKpiForecast.endpoint}`;
       let adjustment_payload = aopEdits.input_driver_allocation_payload;
+      const copyData = copyTestData["copy-scenario-sequential"]
+      const lobName = copyData.lobName;
+      const BAName = lobName;
       const lobDimId = await UfmUtility.getMappingValue(
-        { parent_name: "ECOMMERCE" },
+        { parent_name: BAName },
         "child_dim_id"
       );
 
@@ -29,14 +33,14 @@ test.describe("Copy scenarios in sequence", () => {
       const nonEditedMonth = `${currentTime.getFullYear()}${String(
         currentTime.getMonth() + 2
       ).padStart(2, "0")}`;
-      const inputNodeList = commonData.ecommerceInputNodes;
+      const inputNodeList = copyData.inputNodes;
       const editableStatus = [commonData.Draft, commonData.Change_Requested];
       let preEditData;
       await test.step("Fetch scenarios with forecast status Draft or Change Requested", async () => {
         const scenarios = await ScenarioUtils.getScenariosWithStatus(
           request,
           editableStatus,
-          "ECOMMERCE"
+          lobName
         );
 
         sourceScenario = scenarios[0];
@@ -92,7 +96,7 @@ test.describe("Copy scenarios in sequence", () => {
             edit.node_var_name = inputNodeList[idx];
           }
           if (edit.data && editedMonth) {
-            edit.data = { [editedMonth]: commonData.defaultInputValue };
+            edit.data = { [editedMonth]: copyData.defaultInputValue };
           }
         });
 
@@ -150,7 +154,7 @@ test.describe("Copy scenarios in sequence", () => {
           5000, // interval in milliseconds;
           targetScenario,
           editableStatus,
-          "ECOMMERCE"
+          lobName
         );
         expect(isProcessComplete).toBeTruthy();
       });
@@ -161,7 +165,8 @@ test.describe("Copy scenarios in sequence", () => {
 
         expect(adjResp.ok()).toBeTruthy();
         const adjData = await adjResp.json();
-        const expectedName = `Copy from source scenario: ${sourceScenario.scenarioId}`;
+        const expectedName = `Copy from source scenario: ${sourceScenario.name} (${sourceScenario.scenarioId})`;
+        console.log(expectedName)
         const found = adjData.some(
           (adj: any) => adj.adjustment_name === expectedName
         );
@@ -195,7 +200,7 @@ test.describe("Copy scenarios in sequence", () => {
           expect(row[monthKey]).toBeTruthy();
 
           expect(Math.round(row[monthKey].forecast)).toBe(
-            Math.round(commonData.defaultInputValue)
+            Math.round(copyData.defaultInputValue)
           );
 
           // Assertion for nonEditedMonth: should match preEditData
@@ -280,7 +285,7 @@ test.describe("Copy scenarios in sequence", () => {
           5000, // interval in milliseconds;
           nextTargetScenario,
           editableStatus,
-          "ECOMMERCE" 
+          lobName
         );
         expect(isProcessComplete).toBeTruthy();
       });
@@ -289,7 +294,7 @@ test.describe("Copy scenarios in sequence", () => {
         const adjustmentEndpoint = `${process.env.apiBaseURLUFM}/adjustment/?scenario_id=${nextTargetScenario.scenarioId}&scenario_version_timestamp=${nextTargetScenario.scenarioVersion}`;
         const adjResp = await request.get(adjustmentEndpoint);
         const adjData = await adjResp.json();
-        const expectedName = `Copy from source scenario: ${targetScenario.scenarioId}`;
+        const expectedName = `Copy from source scenario: ${targetScenario.name} (${targetScenario.scenarioId})`;
         const found = adjData.some(
           (adj: any) => adj.adjustment_name === expectedName
         );
@@ -323,7 +328,7 @@ test.describe("Copy scenarios in sequence", () => {
           expect(row[monthKey]).toBeTruthy();
           
           expect(Math.round(row[monthKey].forecast)).toBe(
-            Math.round(commonData.defaultInputValue)
+            Math.round(copyData.defaultInputValue)
           );
 
           // Assertion for nonEditedMonth: should match preEditData
@@ -406,7 +411,7 @@ test.describe("Copy scenarios in sequence", () => {
           5000, // interval in milliseconds;
           nextToNextTargetScenario,
           editableStatus,
-          "ECOMMERCE"
+          lobName
         );
         expect(isProcessComplete).toBeTruthy();
       });
@@ -415,7 +420,7 @@ test.describe("Copy scenarios in sequence", () => {
         const adjustmentEndpoint = `${process.env.apiBaseURLUFM}/adjustment/?scenario_id=${nextToNextTargetScenario.scenarioId}&scenario_version_timestamp=${nextToNextTargetScenario.scenarioVersion}`;
         const adjResp = await request.get(adjustmentEndpoint);
         const adjData = await adjResp.json();
-        const expectedName = `Copy from source scenario: ${targetScenario.scenarioId}`;
+        const expectedName = `Copy from source scenario: ${nextTargetScenario.name} (${nextTargetScenario.scenarioId})`;
         const found = adjData.some(
           (adj: any) => adj.adjustment_name === expectedName
         );
@@ -449,7 +454,7 @@ test.describe("Copy scenarios in sequence", () => {
           // Assertion for editedMonth
           expect(row[monthKey]).toBeTruthy();
           expect(Math.round(row[monthKey].forecast)).toBe(
-            commonData.defaultInputValue
+            copyData.defaultInputValue
           );
 
           // Assertion for nonEditedMonth: should match preEditData

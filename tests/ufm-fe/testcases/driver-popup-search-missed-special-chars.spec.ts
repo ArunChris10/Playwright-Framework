@@ -16,7 +16,7 @@ test.describe(
     });
     test(
       "Check if the search result inlcudes missed special chars",
-      { tag: "@driverPopUpMisspelledChars" },
+      { tag: "@driverPopUpMisspelledChars @DriverSearch @Regression" },
       async ({ request }) => {
         test.setTimeout(300000);
 

@@ -35,6 +35,7 @@
     "testCases/forecastCycle/forecast-cycle-api-tests.json",
     "testCases/NodesCases/nodeshRefresh-api-tests.json",
     "testCases/patchy/edited-value-patchy-on-patchy.json",
+    "testCases/patchy/patchy-allocate-non-additive-group-by-test.json",
     "testCases/projection-method-testcases/final_historical-growthrate-regression-projection-method-all-allocation-test.json",
     "testCases/savedViews/create-view-api-tests.json",
     "testCases/scenarioWorkflow/create-scenario-error-test.json",
@@ -47,13 +48,12 @@
     "testCases/patchy/actual-missing-nodes-api-tests.json",
     "testCases/patchy/patchy-allocate-node-value-test.json",
     "testCases/patchy/patchy-allocation-excludes-missing-months.json",
-    "testCases/patchy/patchy-allocate-non-additive-group-by-test.json",
-    "testCases/copy-scenario-draft-source-select-drivers.json",
-    "testCases/copy-scenario-filters-test.json",
-    "testCases/copy-scenario-historical-scenario-source-test.json",
-    "testCases/copy-scenario-historical-source-select-drivers.json",
-    "testCases/copy-scenario-multiple-targets-test.json",
-    "testCases/copy-scenario-submitted-scenario-source-test.json",
+    "testCases/copy-between-forecasts/copy-scenario-draft-source-select-drivers.json",
+    "testCases/copy-between-forecasts/copy-scenario-filters-test.json",
+    "testCases/copy-between-forecasts/copy-scenario-historical-scenario-source-test.json",
+    "testCases/copy-between-forecasts/copy-scenario-historical-source-select-drivers.json",
+    "testCases/copy-between-forecasts/copy-scenario-multiple-targets-test.json",
+    "testCases/copy-between-forecasts/copy-scenario-submitted-scenario-source-test.json",
     "testCases/data-science-demand-metric-ssdm-edit.json",
     "testCases/download-Validation-NEFile.tests.json",
     "testCases/drivers-api-tests.json",
@@ -83,9 +83,19 @@
     "testCases/ssdm-be/node-attribute-tests.json",
     "testCases/ssdm-be/node_variant-attribute-tests.json",
     "testCases/ssdm-be/driver-tree-version-tests.json",
+    "testCases/data-science-review-testcases/aop-calculate-save-demand-input-and-calculated.json",
+    "testCases/data-science-review-testcases/aop-calculate-save-demand-node.json",
+    "testCases/data-science-review-testcases/aop-calculate-save.json",
+    "testCases/data-science-review-testcases/data-science-calculate-save-demand-input-and-calculated.json",
+    "testCases/data-science-review-testcases/data-science-calculate-save-demand-node.json",
+    "testCases/data-science-review-testcases/data-science-calculate-save.json",
+    "testCases/data-science-review-testcases/publish_aop_to_current_demand_slot.json",
+    "testCases/data-science-review-testcases/publish_data_science_to_current_demand_slot.json",
     "testCases/ssdm-be/node-tags-tests.json",
     "testCases/ssdm-be/node-variant-tags-tests.json",
-    "testCases/ssdm-be/node-misc-tests.json"
+    "testCases/ssdm-be/node-misc-tests.json",
+    "testCases/ssdm-be/driver-set-tests.json",
+    "testCases/ssdm-be/driver-tree-tags-tests.json"
   ],
   "currentDemandService": {
     "baseURL": {
@@ -144,7 +154,8 @@
     "publishSSDMLatestDataset": "/sandbox/v1/publish-node-edge-document",
     "createScenario": "/create-user-scenario",
     "sendToBAReview": "/adjustment/status/v2",
-    "getIndividualStatus": "/get-individual-status"
+    "getIndividualStatus": "/get-individual-status",
+    "getDimensionVersion": "/sandbox/v1/dimension-version"
   },
   "notificationService": {
     "baseURL": {
@@ -191,9 +202,10 @@
     "getAllNodes": "/api/nodes",
     "nodeSource": "/api/nodes",
     "getNodeVariants": "/api/driver-trees/2/versions/1/node-variants-metadata",
-    "nodeTag" :"/api/node-tags",
+    "getPartitionData": "/api/validation/get-partition-data",
+    "nodeTag": "/api/node-tags",
     "nodeVariantTag": "/api/driver-trees/2/versions/1",
-    "nodeRelationships" : "/api/driver-trees/46/versions/1/node-variant-relationships",
+    "nodeRelationships": "/api/driver-trees/46/versions/1/node-variant-relationships",
     "cyclic_node_variants": "/api/validation/get-cyclic-node-variants?driver_tree_key=46&driver_tree_version=1"
   }
 }

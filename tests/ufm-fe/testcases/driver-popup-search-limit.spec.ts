@@ -16,7 +16,7 @@ test.describe(
     });
     test(
       "Check if there are max 10 drivers available in the search list with a scroll bar in place",
-      { tag: "@driverPopUpSearchLimit" },
+      { tag: "@driverPopUpSearchLimit @DriverSearch @Regression" },
       async ({ request }) => {
         test.setTimeout(300000);
 

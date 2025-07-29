@@ -16,7 +16,7 @@ test.describe(
     });
     test(
       "Check if the search list has the option view in driver tree",
-      { tag: "@driverPopUpViewInDriverTree" },
+      { tag: "@driverPopUpViewInDriverTree @DriverSearch @Regression" },
       async ({ request }) => {
         test.setTimeout(300000);
 

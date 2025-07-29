@@ -3,7 +3,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 import { organizations } from '../testdata/organizations.json';
 
 organizations.forEach(org => {
-    test.describe('Copy forecast data option availability', { tag: "@Smoke @CopyForecastData" }, async () => {
+    test.describe('Copy forecast data option availability', { tag: "@Smoke @CopyForecastData @CopyScenario @Regression" }, async () => {
         let objpageFactory: PageFactory;
 
         test.beforeAll(async ({ pageFactory }) => {

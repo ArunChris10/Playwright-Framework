@@ -6,8 +6,11 @@
     "testStep": "Get AOP Scenario Details from DataScience Info",
     "environment": "qa",
     "labels": [
-      "smoke",
-      "Pre-Req","MS2", "IBGROW-38120"
+          "smoke",
+          "Pre-Req","MS2", "IBGROW-38120",
+          "Visualization",
+          "DataScience",
+          "Admin-Isolated-Scenarios"
     ],
     "service": "coreService",
     "uri": "getDataScienceInfo",

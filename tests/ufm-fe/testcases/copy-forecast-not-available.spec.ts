@@ -2,7 +2,7 @@ import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
 import { SBAorganization, BAorganization } from '../testdata/organizations.json';
 
-test.describe('Test when Copy Forecast Data option is not available', { tag: "@Smoke @NoCopyForecastData" }, () => {
+test.describe('Test when Copy Forecast Data option is not available', { tag: "@Smoke @Regression @NoCopyForecastData @CopyScenario" }, () => {
     let objpageFactory: PageFactory;
 
     test.beforeAll(async ({ pageFactory }) => {

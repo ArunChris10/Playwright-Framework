@@ -42,7 +42,7 @@ test.describe.configure({ mode: 'serial' });
 
 test.describe(
   "Copy forecast data validation - Verify same SBA restriction in Source and Target dropdowns",
-  { tag: "@Smoke @CopyForecastCrossSBA @Negative" },
+  { tag: "@Smoke @CopyForecastCrossSBA @Negative @Regression @CopyScenario" },
   () => {
     let objpageFactory: PageFactory;
     let testPage: any; // Store page reference

@@ -5,7 +5,9 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "copy_scenario_draft_source_select_drivers"
+        "copy_scenario_draft_source_select_drivers",
+        "Visualization",
+        "CopyScenario"
       ],
       "service": "coreService",
       "uri": "createUserScenario",

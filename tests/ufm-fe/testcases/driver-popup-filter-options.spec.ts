@@ -16,7 +16,7 @@ test.describe(
     });
     test(
       "Check if clicking on the filter button displays all the filter options similar to MyKPI Filter",
-      { tag: "@driverPopUpFilterOption" },
+      { tag: "@driverPopUpFilterOption @DriverSearch @Regression" },
       async ({ request }) => {
         test.setTimeout(300000);
 
