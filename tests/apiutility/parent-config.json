@@ -35,6 +35,7 @@
     "testCases/forecastCycle/forecast-cycle-api-tests.json",
     "testCases/NodesCases/nodeshRefresh-api-tests.json",
     "testCases/patchy/edited-value-patchy-on-patchy.json",
+    "testCases/patchy/patchy-allocate-non-additive-group-by-test.json",
     "testCases/projection-method-testcases/final_historical-growthrate-regression-projection-method-all-allocation-test.json",
     "testCases/savedViews/create-view-api-tests.json",
     "testCases/scenarioWorkflow/create-scenario-error-test.json",
