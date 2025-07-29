@@ -15,7 +15,7 @@ import demandData from "../../testdata/demand-node-validation.json"
 
 test.describe(
   "Verify the Slot 2 Sales handoff Flow",
-  { tag: "@currentDemandSalesHandoff @Visualization @Slot2 @ConsolidatedDemand @GrossGMVItr3 @Regression @Smoke" },
+  { tag: "@currentDemandSalesHandoff @Visualization @Slot2 @ConsolidatedDemand @GrossGMVItr3 @Regression @Smoke ibg-ufm-core-service ibg-ufm-domino-service ibg-ufm-allocation-engine ibg-service-scenario-financials" },
   async () => {
     test.describe.configure({ timeout: 3000_000, mode: "serial" });
 

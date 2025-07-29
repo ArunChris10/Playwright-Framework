@@ -16,7 +16,7 @@ import { CdfUtility } from "../../../cdf-be/fixtures/cdf-utils";
 
 test.describe(
   "AOP E2E Tests",
-  { tag: "@Smoke @Regression @aop_e2e @aop @Visualization @AOP @Admin-Isolated-Scenarios" },
+  { tag: "@Smoke @Regression @aop_e2e @aop @Visualization @AOP @Admin-Isolated-Scenarios ibg-ufm-core-service ibg-ufm-domino-service ibg-ufm-allocation-engine ibg-service-scenario-financials" },
   () => {
     test.describe.configure({
       timeout: 1000_000,
