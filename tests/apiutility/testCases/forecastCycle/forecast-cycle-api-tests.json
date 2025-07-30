@@ -1,317 +1,362 @@
 {
-    "validate_forecast_calendar_cycle_and_deadline": [
-      {
-        "runInParallel": false,
-        "testStep": "Get forecast Calendar API",
-        "environment": "qa",
-        "labels": ["smoke", "IBGROW-36277", "IBGROW-36151", "MS1","MS2"],
-        "service": "coreService",
-        "uri": "getForecastCalendar",
-        "testName": "get forecast Calendar API",
-        
-        "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
-        "method": "GET",
-        "assertions": [
-          {
-            "status": 200
-          },
-          {
-            "assertNotNull": {
-              "jsonPath1": "calendar_id"
-            }
+  "validate_forecast_calendar_cycle_and_deadline": [
+    {
+      "runInParallel": false,
+      "testStep": "Get forecast Calendar API",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-36277",
+        "IBGROW-36151",
+        "MS1",
+        "MS2",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
+      ],
+      "service": "coreService",
+      "uri": "getForecastCalendar",
+      "testName": "get forecast Calendar API",
+      "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertNotNull": {
+            "jsonPath1": "calendar_id"
           }
-        ],
-        "extractFirst": {
-          "this_calendar_id": "calendar_id"
+        }
+      ],
+      "extractFirst": {
+        "this_calendar_id": "calendar_id"
+      }
+    },
+    {
+      "testStep": "Verify create forecast cycle API",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "BG-36274",
+        "IBGROW-36272",
+        "MS2"
+      ],
+      "service": "coreService",
+      "uri": "getForecastCalendar",
+      "testName": "Verify create forecast cycle API",
+      "queryParams": "{{this_calendar_id}}/cycles",
+      "method": "POST",
+      "payload": {
+        "deadlines": [
+          {
+            "dim_id": 13,
+            "dim_val_id": "130001",
+            "event_id": 28,
+            "deadline": "{{deadlineDate}}",
+            "timezone": "CST"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "status": 201
+        },
+        {
+          "assertNotNull": {
+            "jsonPath": "cycle_id"
+          }
+        }
+      ],
+      "extract": {
+        "new_cycle_id": "cycle_id"
+      }
+    },
+    {
+      "testStep": "Publish Forecast Calendar",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-3627",
+        "IBGROW-36152",
+        "MS1",
+        "MS2"
+      ],
+      "service": "coreService",
+      "uri": "getForecastCalendar",
+      "testName": "Publish Forecast Calendar",
+      "queryParams": "{{this_calendar_id}}",
+      "method": "PATCH",
+      "payload": {
+        "published_flag": true
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Verify get the upcoming deadline API",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-36271",
+        "MS2"
+      ],
+      "service": "coreService",
+      "uri": "getForecastCalendar",
+      "testName": "Verify get the upcoming deadline API",
+      "queryParams": "deadlines?dim_id=13&dim_val_id=130001&classification_id=12&children=true&published=true",
+      "method": "GET",
+      "extractRelative": {
+        "saved_cycle_id": {
+          "whereKey": "dim_val_id",
+          "equals": 130001,
+          "extractKey": "cycle_id"
+        },
+        "saved_deadline_date": {
+          "whereKey": "cycle_id",
+          "equals": "{{saved_cycle_id}}",
+          "extractKey": "deadline_date"
         }
       },
-      {
-        "testStep": "Verify create forecast cycle API",
-        "environment": "qa",
-        "labels": ["smoke", "BG-36274", "IBGROW-36272", "MS2"],
-        "service": "coreService",
-        "uri": "getForecastCalendar",
-        "testName": "Verify create forecast cycle API",
-        "queryParams": "{{this_calendar_id}}/cycles",
-        "method": "POST",
-        "payload": {
-          "deadlines": [
-            {
-              "dim_id": 13,
-              "dim_val_id": "130001",
-              "event_id": 28,
-              "deadline": "{{deadlineDate}}",
-              "timezone": "CST"
-            }
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertValuesAreEqual": [
+            "{{deadlineDateISO}}",
+            "{{saved_deadline_date}}"
           ]
         },
-        "assertions": [
-          {
-            "status": 201
+        {
+          "assertEquals": {
+            "jsonPath1": "dim_id",
+            "value1": 13,
+            "jsonPath2": "dim_val_id",
+            "value2": 130001
           },
-          {
-            "assertNotNull": {
-              "jsonPath": "cycle_id"
-            }
+          "assertNotNull": {
+            "jsonPath1": "forecast_cal_id",
+            "jsonPath2": "cycle_id",
+            "jsonPath3": "event_id",
+            "jsonPath4": "deadline_date"
           }
-        ],
-        "extract": {
-          "new_cycle_id": "cycle_id"
         }
-      },
-      {
-        "testStep": "Publish Forecast Calendar",
-        "environment": "qa",
-        "labels": ["smoke", "IBGROW-3627", "IBGROW-36152", "MS1","MS2"],
-        "service": "coreService",
-        "uri": "getForecastCalendar",
-        "testName": "Publish Forecast Calendar",
-        "queryParams": "{{this_calendar_id}}",
-        "method": "PATCH",
-        "payload": {
-          "published_flag": true
-        },
-        "assertions": [
+      ]
+    }
+  ],
+  "validate_update_forecast_cycle_and_verification": [
+    {
+      "runInParallel": false,
+      "testStep": "Verify update forecast cycle API",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "BG-36270",
+        "MS2"
+      ],
+      "service": "coreService",
+      "uri": "getForecastCalendar",
+      "testName": "Verify update forecast cycle API",
+      "queryParams": "{{this_calendar_id}}/cycles/{{new_cycle_id}}",
+      "method": "PATCH",
+      "payload": {
+        "deadlines": [
           {
-            "status": 200
+            "dim_id": 13,
+            "dim_val_id": "130001",
+            "event_id": 28,
+            "deadline": "{{updatedDeadlineDate}}",
+            "timezone": "CST"
           }
         ]
       },
-      {
-        "testStep": "Verify get the upcoming deadline API",
-        "environment": "qa",
-        "labels": ["smoke", "IBGROW-36271", "MS2"],
-        "service": "coreService",
-        "uri": "getForecastCalendar",
-        "testName": "Verify get the upcoming deadline API",
-        "queryParams": "deadlines?dim_id=13&dim_val_id=130001&classification_id=12&children=true&published=true",
-        "method": "GET",
-        "extractRelative": {
-          "saved_cycle_id": {
-            "whereKey": "dim_val_id",
-            "equals": 130001,
-            "extractKey": "cycle_id"
-          },
-          "saved_deadline_date": {
-            "whereKey": "cycle_id",
-            "equals": "{{saved_cycle_id}}",
-            "extractKey": "deadline_date"
-          }
+      "assertions": [
+        {
+          "status": 200
         },
-        "assertions": [
-          {
-            "status": 200
-          },
-          {
-            "assertValuesAreEqual": [
-              "{{deadlineDateISO}}",
-              "{{saved_deadline_date}}"
-            ]
-          },
-          {
-            "assertEquals": {
-              "jsonPath1": "dim_id",
-              "value1": 13,
-              "jsonPath2": "dim_val_id",
-              "value2": 130001
-            },
-            "assertNotNull": {
-              "jsonPath1": "forecast_cal_id",
-              "jsonPath2": "cycle_id",
-              "jsonPath3": "event_id",
-              "jsonPath4": "deadline_date"
-            }
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "Cycle updated successfully."
           }
-        ]
-      }
-    ],
-    "validate_update_forecast_cycle_and_verification": [
-      {
-        "runInParallel": false,
-        "testStep": "Verify update forecast cycle API",
-        "environment": "qa",
-        "labels": ["smoke", "BG-36270", "MS2"],
-        "service": "coreService",
-        "uri": "getForecastCalendar",
-        "testName": "Verify update forecast cycle API",
-        "queryParams": "{{this_calendar_id}}/cycles/{{new_cycle_id}}",
-        "method": "PATCH",
-        "payload": {
-          "deadlines": [
-            {
-              "dim_id": 13,
-              "dim_val_id": "130001",
-              "event_id": 28,
-              "deadline": "{{updatedDeadlineDate}}",
-              "timezone": "CST"
-            }
-          ]
-        },
-        "assertions": [
-          {
-            "status": 200
-          },
-          {
-            "assertEquals": {
-              "jsonPath1": "message",
-              "value1": "Cycle updated successfully."
-            }
-          }
-        ]
-      },
-      {
-        "testStep": "Validate updated cycle details in forecast calendar",
-        "environment": "qa",
-        "labels": ["smoke", "IBGROW-36270", "MS2"],
-        "service": "coreService",
-        "uri": "getForecastCalendar",
-        "testName": "Validate updated cycle details in get forecast Calendar API",
-        "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
-        "method": "GET",
-       
-        "assertions": [
-          {
-            "status": 200
-          },
-          {
-            "extractRelativeMultipleCondition": {
-              "updated_deadline_date": {
-                "conditions": [
-                  { "path": "submission_cycles.submission_cycle_details.cycle_id", "equals": 1 },
-                  { "path": "submission_cycles.submission_cycle_details.cycle_id", "equals": "{{dynamicForecastYear-3}}" }
-                ],
-                "extractKey": "submission_cycles.submission_cycle_details.deadline_date"
-              }
-              
-            },
-            "validateExtract": {
-              "updated_deadline_date":  "{{updatedDeadlineDateISO}}"
-            }
-          }
-       
-        ]
-      }
-    ],
-    
-  
-    "validate_delete_forecast_cycle_and_404_check": [
-      {
-        "runInParallel": false,
-        "testStep": "Delete Forecast Calendar cycle",
-        "environment": "qa",
-        "labels": ["smoke", "IBGROW-36275", "IBGROW-36153", "MS1","MS2"],
-        "service": "coreService",
-        "uri": "getForecastCalendar",
-        "testName": "Delete Forecast Calendar cycle",
-        "queryParams": "{{this_calendar_id}}/cycles/{{new_cycle_id}}",
-        "method": "DELETE",
-        "payload": {
-          "cycle_id": "{{new_cycle_id}}",
-          "calendar_id": "{{this_calendar_id}}"
         }
-      },
-      {
-        "testStep": "Delete already deleted Forecast cycle - expect 404",
-        "environment": "qa",
-        "labels": ["smoke", "IBGROW-36275", "IBGROW-36153", "MS2"],
-        "service": "coreService",
-        "uri": "getForecastCalendar",
-        "testName": "Delete already deleted Forecast cycle",
-        "queryParams": "{{this_calendar_id}}/cycles/{{new_cycle_id}}",
-        "method": "DELETE",
-        "payload": {
-          "cycle_id": "{{new_cycle_id}}",
-          "calendar_id": "{{this_calendar_id}}"
+      ]
+    },
+    {
+      "testStep": "Validate updated cycle details in forecast calendar",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-36270",
+        "MS2"
+      ],
+      "service": "coreService",
+      "uri": "getForecastCalendar",
+      "testName": "Validate updated cycle details in get forecast Calendar API",
+      "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
         },
-        "assertions": [
+        {
+          "extractRelativeMultipleCondition": {
+            "updated_deadline_date": {
+              "conditions": [
+                {
+                  "path": "submission_cycles.submission_cycle_details.cycle_id",
+                  "equals": 1
+                },
+                {
+                  "path": "submission_cycles.submission_cycle_details.cycle_id",
+                  "equals": "{{dynamicForecastYear-3}}"
+                }
+              ],
+              "extractKey": "submission_cycles.submission_cycle_details.deadline_date"
+            }
+          },
+          "validateExtract": {
+            "updated_deadline_date": "{{updatedDeadlineDateISO}}"
+          }
+        }
+      ]
+    }
+  ],
+  "validate_delete_forecast_cycle_and_404_check": [
+    {
+      "runInParallel": false,
+      "testStep": "Delete Forecast Calendar cycle",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-36275",
+        "IBGROW-36153",
+        "MS1",
+        "MS2"
+      ],
+      "service": "coreService",
+      "uri": "getForecastCalendar",
+      "testName": "Delete Forecast Calendar cycle",
+      "queryParams": "{{this_calendar_id}}/cycles/{{new_cycle_id}}",
+      "method": "DELETE",
+      "payload": {
+        "cycle_id": "{{new_cycle_id}}",
+        "calendar_id": "{{this_calendar_id}}"
+      }
+    },
+    {
+      "testStep": "Delete already deleted Forecast cycle - expect 404",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-36275",
+        "IBGROW-36153",
+        "MS2"
+      ],
+      "service": "coreService",
+      "uri": "getForecastCalendar",
+      "testName": "Delete already deleted Forecast cycle",
+      "queryParams": "{{this_calendar_id}}/cycles/{{new_cycle_id}}",
+      "method": "DELETE",
+      "payload": {
+        "cycle_id": "{{new_cycle_id}}",
+        "calendar_id": "{{this_calendar_id}}"
+      },
+      "assertions": [
+        {
+          "status": 404
+        }
+      ]
+    }
+  ],
+  "validate_forecast_cycle_recreation_and_cleanup": [
+    {
+      "runInParallel": false,
+      "testStep": "Create Forecast Cycle for generating new cycle data",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "BG-36274",
+        "IBGROW-36272",
+        "MS2"
+      ],
+      "service": "coreService",
+      "uri": "getForecastCalendar",
+      "testName": "Create Forecast for generating cycle data",
+      "queryParams": "{{this_calendar_id}}/cycles",
+      "method": "POST",
+      "payload": {
+        "deadlines": [
           {
-            "status": 404
+            "dim_id": 13,
+            "dim_val_id": "130001",
+            "event_id": 28,
+            "deadline": "{{deadlineDate}}",
+            "timezone": "CST"
           }
         ]
-      }
-    ],
-    
-  
-    "validate_forecast_cycle_recreation_and_cleanup": [
-      {
-              "runInParallel": false,
-        "testStep": "Create Forecast Cycle for generating new cycle data",
-        "environment": "qa",
-        "labels": ["smoke", "BG-36274", "IBGROW-36272", "MS2"],
-        "service": "coreService",
-        "uri": "getForecastCalendar",
-        "testName": "Create Forecast for generating cycle data",
-        "queryParams": "{{this_calendar_id}}/cycles",
-        "method": "POST",
-        "payload": {
-          "deadlines": [
-            {
-              "dim_id": 13,
-              "dim_val_id": "130001",
-              "event_id": 28,
-              "deadline": "{{deadlineDate}}",
-              "timezone": "CST"
-            }
-          ]
+      },
+      "assertions": [
+        {
+          "status": 201
         },
-        "assertions": [
-          {
-            "status": 201
-          },
-          {
-            "assertNotNull": {
-              "jsonPath": "cycle_id"
-            }
+        {
+          "assertNotNull": {
+            "jsonPath": "cycle_id"
           }
-        ],
-        "extract": {
-          "second_cycle_id": "cycle_id"
         }
-      },
-      {
-        "testStep": "Validate getForecastCalendar API after deleting first cycle",
-        "environment": "qa",
-        "labels": ["smoke", "IBGROW-36277", "IBGROW-36151", "MS1"],
-        "service": "coreService",
-        "uri": "getForecastCalendar",
-        "testName": "Validate getForecastCalender API after delete",
-        "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
-        "method": "GET",
-        "assertions": [
-          {
-            "status": 200
-          },
-          {
-            "assertNotEquals": {
-              "jsonPath": "cycle_id",
-              "value": "{{new_cycle_id}}"
-            }
-          }
-        ]
-      },
-      {
-        "testStep": "Delete second forecast cycle - cleanup",
-        "environment": "qa",
-        "labels": ["smoke", "IBGROW-36275", "IBGROW-36153", "MS1"],
-        "service": "coreService",
-        "uri": "getForecastCalendar",
-        "testName": "Delete Forecast Calendar cycle - cleanup",
-        "queryParams": "{{this_calendar_id}}/cycles/{{second_cycle_id}}",
-        "method": "DELETE",
-        "payload": {
-          "cycle_id": "{{second_cycle_id}}",
-          "calendar_id": "{{this_calendar_id}}"
-        }
+      ],
+      "extract": {
+        "second_cycle_id": "cycle_id"
       }
-    ]
-  
-
+    },
+    {
+      "testStep": "Validate getForecastCalendar API after deleting first cycle",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-36277",
+        "IBGROW-36151",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getForecastCalendar",
+      "testName": "Validate getForecastCalender API after delete",
+      "queryParams": "?dim_id=13&dim_val_id=130001&classification_id=12&fiscal_year=2026",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertNotEquals": {
+            "jsonPath": "cycle_id",
+            "value": "{{new_cycle_id}}"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Delete second forecast cycle - cleanup",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-36275",
+        "IBGROW-36153",
+        "MS1"
+      ],
+      "service": "coreService",
+      "uri": "getForecastCalendar",
+      "testName": "Delete Forecast Calendar cycle - cleanup",
+      "queryParams": "{{this_calendar_id}}/cycles/{{second_cycle_id}}",
+      "method": "DELETE",
+      "payload": {
+        "cycle_id": "{{second_cycle_id}}",
+        "calendar_id": "{{this_calendar_id}}"
+      }
+    }
+  ]
 }
-
-
-  
-
-
-
-
-

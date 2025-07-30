@@ -5,7 +5,7 @@ import usersData from "../constants/ufm_users.json";
 
 test.describe(
   "Verify the visualindicator API",
-  { tag: "@Smoke @Regression @visualindicator @perf" },
+  { tag: "@Smoke @Regression @visualindicator @perf ibg-ufm-metadata-service ibg-ufm-core-service" },
   () => {
     const endpointURL = `${process.env.apiBaseURLUFM}${testdatafile.endpoint}`;
     Utility.logIt(endpointURL);

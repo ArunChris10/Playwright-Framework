@@ -3,7 +3,14 @@
     {
       "testStep": "Get a forecast to calculate for additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_maintainratio_calculate"],
+      "labels": [
+        "smoke",
+        "additive_maintainratio_calculate",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service",
+        "ibg-ufm-allocation-engine"
+      ],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get a forecast to calculate for additive",
@@ -66,7 +73,10 @@
     {
       "testStep": "Editing and Calculating the additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_maintainratio_calculate"],
+      "labels": [
+        "smoke",
+        "additive_maintainratio_calculate"
+      ],
       "service": "coreService",
       "uri": "allocateData",
       "testName": "Calculating the additive nodes",

@@ -6,7 +6,11 @@
       "labels": [
         "smoke",
         "downloadApi",
-        "Regression","ssdm"
+        "Regression",
+        "ssdm",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
       ],
       "service": "coreService",
       "uri": "download",

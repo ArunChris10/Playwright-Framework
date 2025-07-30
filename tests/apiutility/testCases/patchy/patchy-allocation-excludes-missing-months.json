@@ -3,7 +3,16 @@
     {
       "testStep": "Get forecast for KPI filters",
       "environment": "qa",
-      "labels": ["smoke", "forecast_comp", "IBGROW-39511","patchy"],
+      "labels": [
+        "smoke",
+        "forecast_comp",
+        "IBGROW-39511",
+        "patchy",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service",
+        "ibg-ufm-allocation-engine"
+      ],
       "service": "coreService",
       "uri": "getForecast",
       "testName": "Get forecast for KPI filters for forecast comparison",
@@ -42,7 +51,12 @@
     {
       "testStep": "Month View -- Get a forecast to calculate for allocate nodes",
       "environment": "qa",
-      "labels": ["smoke", "Pre-Req", "calculate", "IBGROW-39511"],
+      "labels": [
+        "smoke",
+        "Pre-Req",
+        "calculate",
+        "IBGROW-39511"
+      ],
       "service": "coreService",
       "uri": "getKpiV2",
       "testName": "Get a forecast to calculate month values",
@@ -57,10 +71,18 @@
         "template_id": 3,
         "filters": [],
         "additional_filters": {
-          "pivot_cols": ["month"],
-          "pivot_index": ["node_id"],
-          "period_view": ["month"],
-          "nodes": ["buyingallowancesplug_input"],
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "buyingallowancesplug_input"
+          ],
           "template_include_headers": [
             {
               "name": "Driver"
@@ -90,7 +112,10 @@
               "editable": true
             }
           ],
-          "month": ["202709", "202710"]
+          "month": [
+            "202709",
+            "202710"
+          ]
         },
         "isApplied": true
       },
@@ -107,7 +132,12 @@
     {
       "testStep": "Year View -- Get a forecast to calculate for allocate nodes",
       "environment": "qa",
-      "labels": ["smoke", "Pre-Req", "calculate", "IBGROW-39511"],
+      "labels": [
+        "smoke",
+        "Pre-Req",
+        "calculate",
+        "IBGROW-39511"
+      ],
       "service": "coreService",
       "uri": "getKpiV2",
       "testName": "Get a forecast to calculate month values",
@@ -122,10 +152,18 @@
         "template_id": 3,
         "filters": [],
         "additional_filters": {
-          "pivot_cols": ["month"],
-          "pivot_index": ["node_id"],
-          "period_view": ["year"],
-          "nodes": ["buyingallowancesplug_input"],
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "year"
+          ],
+          "nodes": [
+            "buyingallowancesplug_input"
+          ],
           "template_include_headers": [
             {
               "name": "Driver"
@@ -151,7 +189,9 @@
               "editable": true
             }
           ],
-          "year": ["2027"]
+          "year": [
+            "2027"
+          ]
         },
         "isApplied": true
       },
@@ -167,7 +207,11 @@
     {
       "testStep": "AllocateData -- Editing and Calculating the additive nodes",
       "environment": "qa",
-      "labels": ["smoke", "additive_calculate", "IBGROW-39511"],
+      "labels": [
+        "smoke",
+        "additive_calculate",
+        "IBGROW-39511"
+      ],
       "service": "coreService",
       "uri": "allocateData",
       "testName": "Calculating the non-additive nodes",
@@ -183,8 +227,14 @@
           {
             "node_var_name": "buyingallowancesplug_input",
             "node_dimension": {},
-            "data": { "2027": 596928 },
-            "allocation": { "interval": null, "offset": null, "method": 30 }
+            "data": {
+              "2027": 596928
+            },
+            "allocation": {
+              "interval": null,
+              "offset": null,
+              "method": 30
+            }
           }
         ],
         "filters": [],
@@ -200,7 +250,10 @@
     {
       "testStep": "SaveAdjustment -- Send request for save-adjustment",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-39511"],
+      "labels": [
+        "smoke",
+        "IBGROW-39511"
+      ],
       "service": "coreService",
       "uri": "saveAdjustment",
       "testName": "Send request for save-adjustment",
@@ -243,7 +296,7 @@
         },
         "dim_val_id": 110027
       },
-       "extract": {
+      "extract": {
         "adjustment_id": "adjustment_metadata.adjustment_id"
       },
       "assertions": [
@@ -255,7 +308,12 @@
     {
       "testStep": "Updated Month View -- Get a forecast to calculate for allocate nodes",
       "environment": "qa",
-      "labels": ["smoke", "Pre-Req", "calculate", "IBGROW-39511"],
+      "labels": [
+        "smoke",
+        "Pre-Req",
+        "calculate",
+        "IBGROW-39511"
+      ],
       "service": "coreService",
       "uri": "getKpiV2",
       "testName": "Get a forecast to calculate month values",
@@ -270,10 +328,18 @@
         "template_id": 3,
         "filters": [],
         "additional_filters": {
-          "pivot_cols": ["month"],
-          "pivot_index": ["node_id"],
-          "period_view": ["month"],
-          "nodes": ["buyingallowancesplug_input"],
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "buyingallowancesplug_input"
+          ],
           "template_include_headers": [
             {
               "name": "Driver"
@@ -303,7 +369,10 @@
               "editable": true
             }
           ],
-          "month": ["202709", "202710"]
+          "month": [
+            "202709",
+            "202710"
+          ]
         },
         "isApplied": true
       },

@@ -6,7 +6,14 @@
             "labels": [
                 "smoke",
                 "snapshots",
-                "excelplugin"
+                "excelplugin",
+                "ibg-ufm-domino-service",
+                "ibg-ufm-metadata-service",
+                "ibg-ufm-adjustment-proxy",
+                "ibg-ufm-adjustment-orchestrator",
+                "ibg-ufm-reporting-proxy",
+                "ibg-ufm-adjustments",
+                "ibg-ufm-reporting"
             ],
             "service": "coreService",
             "uri": "snapshots",

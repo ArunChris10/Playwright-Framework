@@ -1,6 +1,6 @@
-import { test, expect } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import testdata from "../testdata/scenarioIds.json";
+import { test, expect } from "../../../common/fixtures/test-hook";
+import { Utility } from "../../../common/fixtures/utils";
+import testdata from "../../testdata/scenarioIds.json";
 import debug from "debug";
 
 let orgName = [
@@ -32,7 +32,7 @@ let orgName = [
 ];
 
 orgName.forEach((orgName) => {
-  test.describe("Run recompute for all scenarios", { tag: "@compute" }, () => {
+  test.describe("Run recompute for all scenarios", { tag: "@compute ibg-ufm-domino-service ibg-ufm-metadata-service ibg-ufm-core-service ibg-ufm-allocation-engine" }, () => {
     test.describe.configure({ timeout: 600_000, mode: "parallel" });
 
     const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;
@@ -52,18 +52,18 @@ orgName.forEach((orgName) => {
       await expect.soft(responseBody).toEqual(testdata.successMessage);
       Utility.logIt(
         responseBody +
-          " for " +
-          orgName +
-          " with " +
-          JSON.stringify(testdata.payloads[orgName])
+        " for " +
+        orgName +
+        " with " +
+        JSON.stringify(testdata.payloads[orgName])
       );
       debug.log(
         JSON.stringify(
           responseBody +
-            " for " +
-            orgName +
-            "with " +
-            JSON.stringify(testdata.payloads[orgName])
+          " for " +
+          orgName +
+          "with " +
+          JSON.stringify(testdata.payloads[orgName])
         )
       );
       // }).toPass({ timeout: 600_000 });

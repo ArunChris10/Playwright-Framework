@@ -6,19 +6,20 @@
       "labels": [
         "smoke",
         "Node_Variant_Tags",
-        "Regression"
+        "Regression",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
       ],
       "service": "ssdmService",
       "uri": "getNodeVariants",
       "testName": "Create_Get_Update_Delete_Node_Variant_Tags",
       "queryParams": "",
       "method": "GET",
-      
-        "assertions": [
+      "assertions": [
         {
           "status": 200
         }
-       
       ],
       "extractFirst": {
         "node_variant_key": "node_variant_key",
@@ -38,8 +39,10 @@
       "testName": "Create_Get_Update_Delete_Node_Variant_Tags",
       "queryParams": "/nodes/{{node_key}}/variants/{{node_variant_key}}/node-variant-tags",
       "method": "POST",
-      "payload": [8],
-       "assertions": [
+      "payload": [
+        8
+      ],
+      "assertions": [
         {
           "status": 200
         },
@@ -51,7 +54,7 @@
         }
       ]
     },
-     {
+    {
       "testStep": "Create Node Variant Tag with invalid Tag Id",
       "environment": "qa",
       "labels": [
@@ -64,8 +67,10 @@
       "testName": "Create_Get_Update_Delete_Node_Variant_Tags",
       "queryParams": "/nodes/{{node_key}}/variants/{{node_variant_key}}/node-variant-tags",
       "method": "POST",
-      "payload": [1],
-       "assertions": [
+      "payload": [
+        1
+      ],
+      "assertions": [
         {
           "status": 409
         },
@@ -77,7 +82,7 @@
         }
       ]
     },
-     {
+    {
       "testStep": "Get Node Variant Tag ",
       "environment": "qa",
       "labels": [
@@ -90,7 +95,7 @@
       "testName": "Create_Get_Update_Delete_Node_Variant_Tags",
       "queryParams": "/nodes/{{node_key}}/variants/{{node_variant_key}}/node-variant-tags",
       "method": "GET",
-       "assertions": [
+      "assertions": [
         {
           "status": 200
         },
@@ -115,7 +120,7 @@
       "testName": "Create_Get_Update_Delete_Node_Variant_Tags",
       "queryParams": "/nodes/{{node_key}}/variants/{{node_variant_key}}/node-variant-tags/1",
       "method": "DELETE",
-       "assertions": [
+      "assertions": [
         {
           "status": 409
         },
@@ -140,7 +145,7 @@
       "testName": "Create_Get_Update_Delete_Node_Variant_Tags",
       "queryParams": "/nodes/{{node_key}}/variants/{{node_variant_key}}/node-variant-tags/8",
       "method": "DELETE",
-       "assertions": [
+      "assertions": [
         {
           "status": 200
         }

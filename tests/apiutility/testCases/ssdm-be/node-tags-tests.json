@@ -6,18 +6,20 @@
       "labels": [
         "smoke",
         "Node_Tags",
-        "Regression"
+        "Regression",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
       ],
       "service": "ssdmService",
       "uri": "nodeTag",
       "testName": "Create_Get_Update_Delete_Node_Tags",
       "queryParams": "",
       "method": "POST",
-      "payload":
-       {
+      "payload": {
         "tag_value": "Node Tag Created"
-        },
-        "assertions": [
+      },
+      "assertions": [
         {
           "status": 200
         },
@@ -60,7 +62,11 @@
     {
       "testStep": "Get Node Tag with an invalid Tag Key",
       "environment": "qa",
-      "labels": ["smoke", "Node_Tags", "Regression"],
+      "labels": [
+        "smoke",
+        "Node_Tags",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "nodeTag",
       "testName": "Create_Get_Update_Delete_Node_Tags",
@@ -81,14 +87,17 @@
     {
       "testStep": "Update Node Tag for a valid Tag Key",
       "environment": "qa",
-      "labels": ["smoke", "Node_Tags", "Regression"],
+      "labels": [
+        "smoke",
+        "Node_Tags",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "nodeTag",
       "testName": "Create_Get_Update_Delete_Node_Tags",
       "queryParams": "",
       "method": "PATCH",
-      "payload":
-       {
+      "payload": {
         "tag_value": "Node Tag Updated",
         "tag_key": "{{tag_key}}"
       },
@@ -107,14 +116,17 @@
     {
       "testStep": "Update Node Tag for an invalid Tag Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Tags", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Tags",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "nodeTag",
       "testName": "Create_Get_Update_Delete_Node_Tags",
       "queryParams": "",
       "method": "PATCH",
-      "payload":
-       {
+      "payload": {
         "tag_value": "Node Tag Updated",
         "tag_key": "5000"
       },
@@ -130,10 +142,14 @@
         }
       ]
     },
-	{
+    {
       "testStep": "Delete Node Tag for an invalid Tag Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Tags", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Tags",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "nodeTag",
       "testName": "Create_Get_Update_Delete_Node_Tags",
@@ -154,7 +170,11 @@
     {
       "testStep": "Delete Node Tag for a valid Tag Key",
       "environment": "qa",
-      "labels": ["smoke", "Node_Tags", "Regression"],
+      "labels": [
+        "smoke",
+        "Node_Tags",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "nodeTag",
       "testName": "Create_Get_Update_Delete_Node_Tags",

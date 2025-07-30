@@ -1,12 +1,15 @@
 {
   "Validate calculate and save for growthRate projection_with Constant Value": [
-    
     {
       "testStep": "Projection_growthRate_Constant_Create Forecast Scenario for Demand SBA",
       "environment": "qa",
       "labels": [
         "smoke",
-        "Pre-Req"
+        "Pre-Req",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service",
+        "ibg-ufm-allocation-engine"
       ],
       "service": "coreService",
       "uri": "Forecast",
@@ -405,7 +408,6 @@
     }
   ],
   "Validate calculate and save for growth rate projection_with EqualDistb": [
-    
     {
       "testStep": "Projection_Hist_EqualDistb_Create Forecast Scenario for Demand SBA",
       "environment": "qa",
@@ -811,7 +813,6 @@
     }
   ],
   "Validate calculate and save for growthRate projection_with Maintain Ration": [
-    
     {
       "testStep": "Projection_growthRate_Maintain Ration_Create Forecast Scenario for Demand SBA",
       "environment": "qa",
@@ -1216,7 +1217,6 @@
     }
   ],
   "Validate calculate and save for growth rate projection_with TimeRolling": [
-    
     {
       "testStep": "Projection_Hist_TimeRolling_Create Forecast Scenario for Demand SBA",
       "environment": "qa",
@@ -1621,7 +1621,6 @@
     }
   ],
   "Validate calculate and save for historic rate projection_with Constant Value": [
-    
     {
       "testStep": "Projection_Hist_Constant_Create Forecast Scenario for Demand SBA",
       "environment": "qa",
@@ -2026,7 +2025,6 @@
     }
   ],
   "Validate calculate and save for historic rate projection_with EqualDistb": [
-    
     {
       "testStep": "Projection_Hist_EqualDistb_Create Forecast Scenario for Demand SBA",
       "environment": "qa",
@@ -2431,7 +2429,6 @@
     }
   ],
   "Validate calculate and save for historic rate projection_with Maintain Ratio": [
-    
     {
       "testStep": "Projection_Hist_Maintain Ratio_Create Forecast Scenario for Demand SBA",
       "environment": "qa",
@@ -2836,7 +2833,6 @@
     }
   ],
   "Validate calculate and save for historic rate projection_with TimeRolling": [
-    
     {
       "testStep": "Projection_Hist_TimeRolling_Create Forecast Scenario for Demand SBA",
       "environment": "qa",
@@ -3241,7 +3237,6 @@
     }
   ],
   "Validate calculate and save for Regression projection_with Constant Value": [
-    
     {
       "testStep": "Projection_Regression_Constant_Create Forecast Scenario for Demand SBA",
       "environment": "qa",
@@ -3646,7 +3641,6 @@
     }
   ],
   "Validate calculate and save for regression projection_with EqualDistb": [
-    
     {
       "testStep": "Projection_regression_EqualDistb_Create Forecast Scenario for Demand SBA",
       "environment": "qa",
@@ -4053,7 +4047,6 @@
     }
   ],
   "Validate calculate and save for regression projection_with Maintain Ration": [
-    
     {
       "testStep": "Projection_regression_Maintain Ration_Create Forecast Scenario for Demand SBA",
       "environment": "qa",
@@ -4468,7 +4461,6 @@
     }
   ],
   "Validate calculate and save for regression projection_with TimeRolling": [
-   
     {
       "testStep": "Projection_regression_TimeRolling_Create Forecast Scenario for Demand SBA",
       "environment": "qa",

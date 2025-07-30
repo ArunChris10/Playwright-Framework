@@ -8,7 +8,11 @@
         "lower_grain_calculate",
         "lower_grain_calculate_save",
         "calculations",
-        "adjustments"
+        "adjustments",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service",
+        "ibg-ufm-allocation-engine"
       ],
       "service": "coreService",
       "uri": "getForecast",

@@ -3,7 +3,13 @@
     {
       "testStep": "Create forecast calendar",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38455","MS3"],
+      "labels": [
+        "smoke",
+        "IBGROW-38455",
+        "MS3",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
+      ],
       "service": "coreService",
       "uri": "getForecastCalendar",
       "testName": "create forecast calender",

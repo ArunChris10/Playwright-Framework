@@ -6,7 +6,10 @@
       "labels": [
         "smoke",
         "getDriversListSSDM",
-        "ssdm"
+        "ssdm",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
       ],
       "service": "coreService",
       "uri": "getDriversListSSDM",
