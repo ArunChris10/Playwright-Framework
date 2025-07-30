@@ -26,7 +26,7 @@ organizations.forEach(org => {
                 await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnActionButton();
             })
             await test.step(`Verify copy forecast button is available in ${org.lob}`, async () => {
-                await expect(objpageFactory.ufmPageFactory().openCurrentForecast().copyForecast).toBeVisible();
+                await expect(objpageFactory.ufmPageFactory().copyForecastPage().copyForecast).toBeVisible();
             })
         })
     })

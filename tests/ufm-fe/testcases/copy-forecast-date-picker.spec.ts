@@ -31,13 +31,13 @@ test.describe(
       });
       await test.step(`Verify copy forecast button is available`, async () => {
         await expect(
-          objpageFactory.ufmPageFactory().openCurrentForecast().copyForecast
+          objpageFactory.ufmPageFactory().copyForecastPage().copyForecast
         ).toBeVisible();
       });
       await test.step(`Click on Copy Forecast data button`, async () => {
         await objpageFactory
           .ufmPageFactory()
-          .openCurrentForecast()
+          .copyForecastPage()
           .clickOnOpenCopyForecastDataButton();
       });
       await test.step(`Verify date range component is visible`, async () => {

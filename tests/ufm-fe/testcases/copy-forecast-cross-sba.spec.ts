@@ -172,14 +172,14 @@ test.describe(
 
         await test.step("Verify Copy forecast data button is available", async () => {
           await expect(
-            objpageFactory.ufmPageFactory().openCurrentForecast().copyForecast
+            objpageFactory.ufmPageFactory().copyForecastPage().copyForecast
           ).toBeVisible();
         });
 
         await test.step("Click on Copy forecast data button to open the modal", async () => {
           await objpageFactory
             .ufmPageFactory()
-            .openCurrentForecast()
+            .copyForecastPage()
             .clickOnOpenCopyForecastDataButton();
         });
 
@@ -187,7 +187,7 @@ test.describe(
           // Verify that current SBA scenario IS present in source dropdown
           const currentScenarioPresent = await objpageFactory
             .ufmPageFactory()
-            .openCurrentForecast()
+            .copyForecastPage()
             .isScenarioInSourceDropdown(currentScenario.scenarioDetails.scenarioId);
           
           expect(currentScenarioPresent).toBe(true);
@@ -195,14 +195,14 @@ test.describe(
           // Close the dropdown after checking current scenario
           await objpageFactory
             .ufmPageFactory()
-            .openCurrentForecast()
+            .copyForecastPage()
             .closeDropdown();
 
           // Verify that scenarios from other SBAs are NOT present in source dropdown
           for (const otherScenario of otherScenarios) {
             const scenarioNotPresent = await objpageFactory
               .ufmPageFactory()
-              .openCurrentForecast()
+              .copyForecastPage()
               .isScenarioNotInSourceDropdown(otherScenario.scenarioDetails.scenarioId);
               
             expect(scenarioNotPresent).toBe(true);
@@ -210,7 +210,7 @@ test.describe(
             // Close the dropdown after each scenario check
             await objpageFactory
               .ufmPageFactory()
-              .openCurrentForecast()
+              .copyForecastPage()
               .closeDropdown();
           }
         });
@@ -219,7 +219,7 @@ test.describe(
           // Verify that current SBA scenario IS present in destination dropdown
           const currentScenarioPresent = await objpageFactory
             .ufmPageFactory()
-            .openCurrentForecast()
+            .copyForecastPage()
             .isScenarioInDestinationDropdown(currentScenario.scenarioDetails.scenarioId);
           
           expect(currentScenarioPresent).toBe(true);
@@ -227,14 +227,14 @@ test.describe(
           // Close the dropdown after checking current scenario
           await objpageFactory
             .ufmPageFactory()
-            .openCurrentForecast()
+            .copyForecastPage()
             .closeDropdown();
 
           // Verify that scenarios from other SBAs are NOT present in destination dropdown
           for (const otherScenario of otherScenarios) {
             const scenarioNotPresent = await objpageFactory
               .ufmPageFactory()
-              .openCurrentForecast()
+              .copyForecastPage()
               .isScenarioNotInDestinationDropdown(otherScenario.scenarioDetails.scenarioId);
               
             expect(scenarioNotPresent).toBe(true);
@@ -242,7 +242,7 @@ test.describe(
             // Close the dropdown after each scenario check
             await objpageFactory
               .ufmPageFactory()
-              .openCurrentForecast()
+              .copyForecastPage()
               .closeDropdown();
           }
         });
@@ -256,13 +256,13 @@ test.describe(
             // If no cancel button, use page object method to close dropdown
             await objpageFactory
               .ufmPageFactory()
-              .openCurrentForecast()
+              .copyForecastPage()
               .closeDropdown();
           }
 
           // Verify modal is closed
           await expect(
-            objpageFactory.ufmPageFactory().openCurrentForecast().copyScenarioSourceForecastDropdown
+            objpageFactory.ufmPageFactory().copyForecastPage().copyScenarioSourceForecastDropdown
           ).not.toBeVisible();
         });
         });

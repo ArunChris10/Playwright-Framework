@@ -86,7 +86,7 @@ test.describe(
                 })
 
                 await test.step("Wait for KPI table to load", async () => {
-                    await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad()
+                    await objpageFactory.ufmPageFactory().myKpiTablePage().waitForKPITableToLoad()
                 })
 
                 await test.step('Input number in all valid cell/non-empty cell', async () => {
@@ -139,15 +139,15 @@ test.describe(
                 })
 
                 await test.step("Wait for KPI table to load", async () => {
-                    await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad()
+                    await objpageFactory.ufmPageFactory().myKpiTablePage().waitForKPITableToLoad()
                 })
 
                 await test.step("Copy forecast data from source to target scenario", async () => {
                     await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnActionButton()
-                    await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCopyForecastDataButton()
-                    await objpageFactory.ufmPageFactory().openCurrentForecast().selectSourceForecastDropdown(sourceScenarioDetails["name"]);
-                    await objpageFactory.ufmPageFactory().openCurrentForecast().selectDestinationForecastDropdown(targetScenarioDetails["name"]);
-                    await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCopyDataButton();
+                    await objpageFactory.ufmPageFactory().copyForecastPage().clickOnCopyForecastDataButton()
+                    await objpageFactory.ufmPageFactory().copyForecastPage().selectSourceForecastDropdown(sourceScenarioDetails["name"]);
+                    await objpageFactory.ufmPageFactory().copyForecastPage().selectDestinationForecastDropdown(targetScenarioDetails["name"]);
+                    await objpageFactory.ufmPageFactory().copyForecastPage().clickOnCopyDataButton();
                     await objpageFactory.ufmPageFactory().openCurrentForecast().waitForMessage(`Data load from ${sourceScenarioDetails["name"]} has started. This process may take up to 10 minutes. You’ll be notified once it’s complete.`)
                 })
 

@@ -70,7 +70,7 @@ test.describe('Verify historical rate projection', { tag: "@Smoke @CalculateAndS
         });
 
         await test.step("Wait for KPI table to load", async () => {
-          await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad();
+          await objpageFactory.ufmPageFactory().myKpiTablePage().waitForKPITableToLoad();
         });
 
         await test.step(`Select allocation method: ${method}`, async () => {
@@ -110,7 +110,7 @@ test.describe('Verify historical rate projection', { tag: "@Smoke @CalculateAndS
         });
 
         await test.step("Wait for KPI table to load", async () => {
-          await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad();
+          await objpageFactory.ufmPageFactory().myKpiTablePage().waitForKPITableToLoad();
         });
 
         await test.step('Validate save is changed', async () => {

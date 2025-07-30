@@ -83,7 +83,7 @@ Object.entries(lobList).forEach(([org, lob]) => {
           await test.step("Wait for KPI table to load", async () => {
             await objpageFactory
               .ufmPageFactory()
-              .openCurrentForecast()
+              .myKpiTablePage()
               .waitForKPITableToLoad();
           });
 
@@ -182,7 +182,7 @@ Object.entries(lobList).forEach(([org, lob]) => {
           await test.step("Wait for KPI table to load after clicking on apply changes for comparison forecast", async () => {
             await objpageFactory
               .ufmPageFactory()
-              .openCurrentForecast()
+              .myKpiTablePage()
               .waitForKPITableToLoad();
           });
         });
