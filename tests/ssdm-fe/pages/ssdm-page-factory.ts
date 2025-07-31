@@ -17,6 +17,7 @@ import { NodeCRUDValidation } from "./node-crud-operations.page";
 import { CreateNewNode } from "./newnode.page";
 import { DriverTreeSummaryPageValidation } from "./driver-tree-summary.page";
 import { TreeViewPage } from "./tree-view.page";
+import { DriverTreeSettingsDialog } from "./driver-tree-settings-dialog.page";
 
 export class SSDMPageFactory {
   private readonly page: Page;
@@ -95,6 +96,10 @@ export class SSDMPageFactory {
 
   treeViewPage() {
     return new TreeViewPage(this.page, this.landingPage());
+  }
+
+  settingsDialogPage(){
+    return new DriverTreeSettingsDialog(this.page);
   }
 
 }

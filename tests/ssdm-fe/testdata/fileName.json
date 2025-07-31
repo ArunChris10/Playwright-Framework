@@ -20,7 +20,7 @@
         "activatedDatasetInfo": "activated dataset",
         "activatedDatasetMessage": "Activated datasets are the most recently validated information from our sources. Please be aware that these datasets may not reflect the most recent transformation.",
         "newlyPublishedNodeEdgeStatus": "IN PROGRESS",
-        "dateTimePattern": "(January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4}, \\d{1,2}:\\d{2} (AM|PM)",  
+        "dateTimePattern": "(January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4}, \\d{1,2}:\\d{2} (AM|PM)",
         "publishInProgressMessagePattern": "Publish in progress \\d+%",
         "publishInProgressToolTipText": "^Currently, there is a publish in progress\\. Once the current publish is complete, you will be able to publish another version of your file\\.\\s*Last published: (January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4} at \\d{1,2}:\\d{2} (AM|PM) by .+$",
         "completeSearch": "Cost per Delivery",
@@ -76,9 +76,9 @@
             "calculationTextRequired": "Calculation text is required",
             "ownerRequired": "Owner is required",
             "editingAffectsNodes": "Editing this node will affect other nodes.",
-            "createAlertMessage":"Created",
+            "createAlertMessage": "Created",
             "editAlertMessage": "Edited",
-            "deleteAlertMessage":"Deleted",
+            "deleteAlertMessage": "Deleted",
             "calculationAggregationMessage": " Only Num/functions/formula or select node by typing #_ | example : #[node1] + #[Node2]",
             "aggregationInvalidMessage": "Invalid aggregation (Incomplete aggregation)",
             "calculationInvalidMessage": "Invalid calculation (Incomplete calculation)",
@@ -172,17 +172,34 @@
             "Memo metrics"
         ],
         "SearchForColumnSortAndFilter": [
-           "Allocation % (Merchandise Income)"
+            "Allocation % (Merchandise Income)"
         ],
-        "filterColumns": ["Month", "Owner","Channel", "Department", "Entity"],
+        "filterColumns": [
+            "Month",
+            "Owner",
+            "Channel",
+            "Department",
+            "Entity"
+        ],
         "treeviewAllColumns": [
             "Metric Name",
             "Metric Type",
             "Month",
-            "Owner/Editor",
+            "Owner",
             "Channel",
             "Department",
             "Entity"
         ]
+    },
+    "roles": {
+            "viewer": {
+                "userName": "LB-ibg-ssdm-viewer"
+            },
+            "editor": {
+                "userName": "LB-ibg-ssdm-editor"
+            },
+            "publisher": {
+                "userName": "LB-ibg_ssdm_publish"
+            }
+        }
     }
-}
