@@ -7,7 +7,12 @@
                 "smoke",
                 "forecast_comp",
                 "IBGROW-39033",
-                "empty_data","compare"
+                "empty_data",
+                "compare",
+                "ibg-ufm-domino-service",
+                "ibg-ufm-metadata-service",
+                "ibg-ufm-core-service",
+                "ibg-ufm-allocation-engine"
             ],
             "service": "coreService",
             "uri": "getForecast",
@@ -2585,29 +2590,58 @@
                 "filters": [
                     {
                         "dim_id": 24,
-                        "dim_val_ids": [240002],
+                        "dim_val_ids": [
+                            240002
+                        ],
                         "children": []
                     }
                 ],
                 "additional_filters": {
-                    "pivot_cols": ["month"],
-                    "pivot_index": ["node_id"],
-                    "period_view": ["month"],
-                    "nodes": ["provisionforshrink_input"],
-                    "template_include_headers": [
-                        { "name": "vs LY", "format": "absolute" },
-                        { "name": "vs LY", "format": "percent" },
-                        { "name": "vs Prior", "format": "absolute" },
-                        { "name": "vs Prior", "format": "percent" },
-                        { "name": "{{dynamicMonth}}", "columnsMenuParams": "middleColumns" }
+                    "pivot_cols": [
+                        "month"
                     ],
-                    "month": ["{{dynamicMonth}}"]
+                    "pivot_index": [
+                        "node_id"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "provisionforshrink_input"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "vs LY",
+                            "format": "absolute"
+                        },
+                        {
+                            "name": "vs LY",
+                            "format": "percent"
+                        },
+                        {
+                            "name": "vs Prior",
+                            "format": "absolute"
+                        },
+                        {
+                            "name": "vs Prior",
+                            "format": "percent"
+                        },
+                        {
+                            "name": "{{dynamicMonth}}",
+                            "columnsMenuParams": "middleColumns"
+                        }
+                    ],
+                    "month": [
+                        "{{dynamicMonth}}"
+                    ]
                 },
                 "isApplied": true,
                 "benchmark": "vs LY"
             },
             "assertions": [
-                { "status": 200 },
+                {
+                    "status": 200
+                },
                 {
                     "assertNotNull": {
                         "jsonPath1": "rowData.{{dynamicMonth}}.vsLyAbsolute",
@@ -2652,26 +2686,46 @@
                 "filters": [
                     {
                         "dim_id": 24,
-                        "dim_val_ids": [240002],
+                        "dim_val_ids": [
+                            240002
+                        ],
                         "children": []
                     }
                 ],
                 "additional_filters": {
-                    "pivot_cols": ["month"],
-                    "pivot_index": ["node_id"],
-                    "period_view": ["month"],
-                    "nodes": ["provisionforshrink_input"],
-                    "template_include_headers": [
-                        { "name": "vs LY", "format": "absolute" },
-                        { "name": "{{dynamicMonth}}", "columnsMenuParams": "middleColumns" }
+                    "pivot_cols": [
+                        "month"
                     ],
-                    "month": ["{{dynamicMonth}}"]
+                    "pivot_index": [
+                        "node_id"
+                    ],
+                    "period_view": [
+                        "month"
+                    ],
+                    "nodes": [
+                        "provisionforshrink_input"
+                    ],
+                    "template_include_headers": [
+                        {
+                            "name": "vs LY",
+                            "format": "absolute"
+                        },
+                        {
+                            "name": "{{dynamicMonth}}",
+                            "columnsMenuParams": "middleColumns"
+                        }
+                    ],
+                    "month": [
+                        "{{dynamicMonth}}"
+                    ]
                 },
                 "isApplied": true,
                 "benchmark": "vs LY"
             },
             "assertions": [
-                { "status": 200 },
+                {
+                    "status": 200
+                },
                 {
                     "assertNotNull": {
                         "jsonPath1": "rowData.{{dynamicMonth}}.vsLyAbsolute"
@@ -2840,7 +2894,7 @@
                         "sign": "%",
                         "expected": "{{lastToLastYearPercentValue}}",
                         "acceptedDifference": 0.1000
-                     }
+                    }
                 }
             ]
         }

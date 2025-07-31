@@ -1,19 +1,22 @@
 {
-    "Create_Get_Update_Delete_Node_Attribute": [
+  "Create_Get_Update_Delete_Node_Attribute": [
     {
       "testStep": "Get Nodes",
       "environment": "qa",
       "labels": [
         "smoke",
         "Node Attribute",
-        "Regression"
+        "Regression",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
       ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Attribute",
       "queryParams": "",
       "method": "GET",
-       "extractFirst": {
+      "extractFirst": {
         "node_key": "node_key"
       }
     },
@@ -30,90 +33,105 @@
       "testName": "Create_Get_Update_Delete_Node_Attribute",
       "queryParams": "",
       "method": "GET",
-       "extractFirst": {
+      "extractFirst": {
         "attribute_key": "attribute_key"
       }
     },
     {
       "testStep": "Create a Node Attribute for a valid Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Attribute",
       "queryParams": "/{{node_key}}/attributes",
       "method": "POST",
-      "payload" : {
-  "attribute_val": "Test Attribute Value",
-  "attribute_key": "{{attribute_key}}"
-},
-     "assertions": [
+      "payload": {
+        "attribute_val": "Test Attribute Value",
+        "attribute_key": "{{attribute_key}}"
+      },
+      "assertions": [
         {
           "status": 200
         },
+        {
+          "assertEquals": {
+            "jsonPath1": "attribute_val",
+            "value": "Test Attribute Value"
+          }
+        }
+      ]
+    },
     {
-      "assertEquals": {
-        "jsonPath1": "attribute_val",
-        "value": "Test Attribute Value"
-      }
-    }
-  ]
-
-},
-{
       "testStep": "Create a Node Attribute for an valid Node Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Attribute",
       "queryParams": "/20000/attributes",
       "method": "POST",
-      "payload" : {
-  "attribute_val": "Test Attribute Value",
-  "attribute_key": "{{attribute_key}}"
-},
-     "assertions": [
+      "payload": {
+        "attribute_val": "Test Attribute Value",
+        "attribute_key": "{{attribute_key}}"
+      },
+      "assertions": [
         {
           "status": 409
         },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid NODE_KEY 20000"
+          }
+        }
+      ]
+    },
     {
-      "assertEquals": {
-        "jsonPath1": "detail",
-        "value": "Invalid NODE_KEY 20000"
-      }
-    }
-  ]
-},
-{
       "testStep": "Create a Node Attribute for an valid Node Key but Invalid Attribute ID",
       "environment": "qa",
-      "labels": ["smoke", "Node Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Attribute",
       "queryParams": "/{{node_key}}/attributes",
       "method": "POST",
-      "payload" : {
-  "attribute_val": "Test Attribute Value",
-  "attribute_key": "20000"
-},
-     "assertions": [
+      "payload": {
+        "attribute_val": "Test Attribute Value",
+        "attribute_key": "20000"
+      },
+      "assertions": [
         {
           "status": 409
         },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid ATTRIBUTE_KEY 20000"
+          }
+        }
+      ]
+    },
     {
-      "assertEquals": {
-        "jsonPath1": "detail",
-        "value": "Invalid ATTRIBUTE_KEY 20000"
-      }
-    }
-  ]
-},
-{
       "testStep": "Get Node Attribute for an valid Node Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create a Attribute for a Node",
@@ -123,18 +141,22 @@
         {
           "status": 200
         },
+        {
+          "assertEquals": {
+            "jsonPath1": "attribute_val",
+            "value": "Test Attribute Value"
+          }
+        }
+      ]
+    },
     {
-      "assertEquals": {
-        "jsonPath1": "attribute_val",
-        "value": "Test Attribute Value"
-      }
-    }
-  ]
-},
-{
       "testStep": "Get Node Attribute for an invalid Node Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create a Attribute for a Node",
@@ -144,120 +166,140 @@
         {
           "status": 409
         },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid NODE_KEY 20000"
+          }
+        }
+      ]
+    },
     {
-      "assertEquals": {
-        "jsonPath1": "detail",
-        "value": "Invalid NODE_KEY 20000"
-      }
-    }
-  ]
-},
-{
       "testStep": "Update a Node Attribute for a valid Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Attribute",
       "queryParams": "/{{node_key}}/attributes/{{attribute_key}}",
       "method": "PATCH",
-      "payload" : {
-  "attribute_val": "Test Attribute Value Updated"
-},
-     "assertions": [
+      "payload": {
+        "attribute_val": "Test Attribute Value Updated"
+      },
+      "assertions": [
         {
           "status": 200
         },
+        {
+          "assertEquals": {
+            "jsonPath1": "attribute_val",
+            "value": "Test Attribute Value Updated"
+          }
+        }
+      ]
+    },
     {
-      "assertEquals": {
-        "jsonPath1": "attribute_val",
-        "value": "Test Attribute Value Updated"
-      }
-    }
-  ]
-},
-{
       "testStep": "Update a Node Attribute for an invalid Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Attribute",
       "queryParams": "/20000/attributes/{{attribute_key}}",
       "method": "PATCH",
-      "payload" : {
-  "attribute_val": "Test Attribute Value Updated"
-},
-     "assertions": [
+      "payload": {
+        "attribute_val": "Test Attribute Value Updated"
+      },
+      "assertions": [
         {
           "status": 409
         },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid NODE_KEY 20000"
+          }
+        }
+      ]
+    },
     {
-      "assertEquals": {
-        "jsonPath1": "detail",
-        "value": "Invalid NODE_KEY 20000"
-      }
-    }
-  ]
-},
-{
       "testStep": "Update a Node Attribute for an invalid Attribute ID",
       "environment": "qa",
-      "labels": ["smoke", "Node Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Attribute",
       "queryParams": "/{{node_key}}/attributes/20000",
       "method": "PATCH",
-      "payload" : {
-  "attribute_val": "Test Attribute Value Updated"
-},
-     "assertions": [
+      "payload": {
+        "attribute_val": "Test Attribute Value Updated"
+      },
+      "assertions": [
         {
           "status": 409
         },
-    {
-      "assertEquals": {
-        "jsonPath1": "detail",
-        "value": "Invalid ATTRIBUTE_KEY 20000"
-      }
-    }
-  ],
-    "extractDelta": {
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid ATTRIBUTE_KEY 20000"
+          }
+        }
+      ],
+      "extractDelta": {
         "incorrect_attribute_key": {
           "editOne": "{{node_key}}",
           "editTwo": "{{attribute_key}}"
         }
-    }
-},
-{
+      }
+    },
+    {
       "testStep": "Update a Node Attribute for an valid Node Key and Valid Attribute ID but combination does not exist",
       "environment": "qa",
-      "labels": ["smoke", "Node Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Attribute",
       "queryParams": "/{{node_key}}/attributes/4",
       "method": "PATCH",
-      "payload" : {
-  "attribute_val": "Test Attribute Value Updated"
-},
-     "assertions": [
+      "payload": {
+        "attribute_val": "Test Attribute Value Updated"
+      },
+      "assertions": [
         {
           "status": 409
         },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "ATTRIBUTE_KEY 4 is not assigned to NODE_KEY 1"
+          }
+        }
+      ]
+    },
     {
-      "assertEquals": {
-        "jsonPath1": "detail",
-        "value": "ATTRIBUTE_KEY 4 is not assigned to NODE_KEY 1"
-      }
-    }
-  ]
-},
-{
       "testStep": "Delete Node Attribute for an invalid Node Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create a Attribute for a Node",
@@ -267,18 +309,22 @@
         {
           "status": 409
         },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid NODE_KEY 20000"
+          }
+        }
+      ]
+    },
     {
-      "assertEquals": {
-        "jsonPath1": "detail",
-        "value": "Invalid NODE_KEY 20000"
-      }
-    }
-  ]
-},
-{
       "testStep": "Delete Node Attribute for an invalid Attribute Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create a Attribute for a Node",
@@ -288,18 +334,22 @@
         {
           "status": 409
         },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "Invalid ATTRIBUTE_KEY 20000"
+          }
+        }
+      ]
+    },
     {
-      "assertEquals": {
-        "jsonPath1": "detail",
-        "value": "Invalid ATTRIBUTE_KEY 20000"
-      }
-    }
-  ]
-},
-{
       "testStep": "Delete Node Attribute for an valid Node Key and valid Attribute Key but invalid combination",
       "environment": "qa",
-      "labels": ["smoke", "Node Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create a Attribute for a Node",
@@ -309,18 +359,22 @@
         {
           "status": 409
         },
+        {
+          "assertEquals": {
+            "jsonPath1": "detail",
+            "value": "ATTRIBUTE_KEY 4 is not assigned to NODE_KEY 1"
+          }
+        }
+      ]
+    },
     {
-      "assertEquals": {
-        "jsonPath1": "detail",
-        "value": "ATTRIBUTE_KEY 4 is not assigned to NODE_KEY 1"
-      }
-    }
-  ]
-},
-{
       "testStep": "Delete Node Attribute for an valid Node Key and valid Attribute Key and valid combination",
       "environment": "qa",
-      "labels": ["smoke", "Node Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create a Attribute for a Node",
@@ -330,7 +384,7 @@
         {
           "status": 200
         }
+      ]
+    }
   ]
-}
-]
 }

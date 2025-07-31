@@ -6,7 +6,10 @@
       "labels": [
         "smoke",
         "Nodes",
-        "Regression"
+        "Regression",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
       ],
       "service": "ssdmService",
       "uri": "getAllNodes",
@@ -50,19 +53,18 @@
       "queryParams": "",
       "method": "POST",
       "payload": {
-  "node_id" :"test Node Id MSFT QA {{randomNumber}}",
-  "metric_type": "Test Node Metric Type",
-  "level_type": "Test Level Type",
-  "level_type_value": "Test Level Type Value",
-  "node_name": "9 Serv 9_SERV_Trinanjan",
-  "node_variable_name": "Test Node Variable Name",
-  "value_type": "$"
-},
+        "node_id": "test Node Id MSFT QA {{randomNumber}}",
+        "metric_type": "Test Node Metric Type",
+        "level_type": "Test Level Type",
+        "level_type_value": "Test Level Type Value",
+        "node_name": "9 Serv 9_SERV_Trinanjan",
+        "node_variable_name": "Test Node Variable Name",
+        "value_type": "$"
+      },
       "assertions": [
         {
           "status": 200
         },
-         
         {
           "assertEquals": {
             "jsonPath2": "node_variable_name",
@@ -97,9 +99,8 @@
       "extractFirst": {
         "created_node_key": "node_key"
       }
-      
     },
-     {
+    {
       "testStep": "Update Node for a valid Node Key",
       "environment": "qa",
       "labels": [
@@ -112,14 +113,14 @@
       "queryParams": "/{{created_node_key}}",
       "method": "PATCH",
       "payload": {
-  "node_id" :"test Node Id MSFT QA {{randomNumber}}",
-  "metric_type": "Test Node Metric Type updated",
-  "level_type": "Test Level Type updated",
-  "level_type_value": "Test Level Type Value updated",
-  "node_name": "9 Serv 9_SERV_Trinanjan updated",
-  "node_variable_name": "Test Node Variable Name updated",
-  "value_type": "$$"
-},
+        "node_id": "test Node Id MSFT QA {{randomNumber}}",
+        "metric_type": "Test Node Metric Type updated",
+        "level_type": "Test Level Type updated",
+        "level_type_value": "Test Level Type Value updated",
+        "node_name": "9 Serv 9_SERV_Trinanjan updated",
+        "node_variable_name": "Test Node Variable Name updated",
+        "value_type": "$$"
+      },
       "assertions": [
         {
           "status": 200
@@ -169,13 +170,13 @@
       "queryParams": "/20000",
       "method": "PATCH",
       "payload": {
-  "node_id" :"test Node Id MSFT QA 123",
-  "metric_type": "Test Node Metric Type updated",
-  "level_type": "Test Level Type updated",
-  "level_type_value": "Test Level Type Value updated",
-  "node_name": "9 Serv 9_SERV_Trinanjan updated",
-  "node_variable_name": "Test Node Variable Name updated",
-  "value_type": "$$"
+        "node_id": "test Node Id MSFT QA 123",
+        "metric_type": "Test Node Metric Type updated",
+        "level_type": "Test Level Type updated",
+        "level_type_value": "Test Level Type Value updated",
+        "node_name": "9 Serv 9_SERV_Trinanjan updated",
+        "node_variable_name": "Test Node Variable Name updated",
+        "value_type": "$$"
       },
       "assertions": [
         {
@@ -232,5 +233,4 @@
       ]
     }
   ]
-}  
-
+}

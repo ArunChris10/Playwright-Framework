@@ -11,7 +11,7 @@ let lobList = PBASBAList.SBAList;
 lobList.forEach((lobName) => {
   test.describe(
     "Validation of Historical Forecast",
-    { tag: "@Regression @Smoke @Historical_Forecast @perf" },
+    { tag: "@Regression @Smoke @Historical_Forecast @perf ibg-ufm-metadata-service ibg-ufm-core-service" },
     () => {
       let responseData;
       // API endpoint URL

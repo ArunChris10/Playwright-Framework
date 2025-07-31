@@ -8,7 +8,11 @@
         "additive_calculate",
         "additive_calculate_save",
         "calculations",
-        "adjustments"
+        "adjustments",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service",
+        "ibg-ufm-allocation-engine"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -231,104 +235,104 @@
           "dim_val_id": 110027,
           "dim_id": 11,
           "preview": false,
-           "edits": [
-          {
-            "node_var_name": "othercostsplug_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
+          "edits": [
+            {
+              "node_var_name": "othercostsplug_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 21
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
             },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 29
-            }
-          },
-          {
-            "node_var_name": "merchandiseincomeplug_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
+            {
+              "node_var_name": "merchandiseincomeplug_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 21
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
             },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 29
-            }
-          },
-          {
-            "node_var_name": "otherbuyingallowances_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
+            {
+              "node_var_name": "otherbuyingallowances_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 21
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
             },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 29
-            }
-          },
-          {
-            "node_var_name": "othercostofgoodssold_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
+            {
+              "node_var_name": "othercostofgoodssold_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 21
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
             },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 29
-            }
-          },
-          {
-            "node_var_name": "cogsplug_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
+            {
+              "node_var_name": "cogsplug_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 21
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
             },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 29
-            }
-          },
-          {
-            "node_var_name": "serviceincomeplug_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
+            {
+              "node_var_name": "serviceincomeplug_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 21
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
             },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 29
-            }
-          },
-          {
-            "node_var_name": "shippingexpenseplug_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
+            {
+              "node_var_name": "shippingexpenseplug_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 21
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
             },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 29
+            {
+              "node_var_name": "provisionforshrink_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 21
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
             }
-          },
-          {
-            "node_var_name": "provisionforshrink_input",
-            "node_dimension": {},
-            "data": {
-              "{{dynamicMonth+1}}": 21
-            },
-            "allocation": {
-              "interval": null,
-              "offset": null,
-              "method": 29
-            }
-          }
-        ],
+          ],
           "filters": [],
           "period_view": "month"
         },

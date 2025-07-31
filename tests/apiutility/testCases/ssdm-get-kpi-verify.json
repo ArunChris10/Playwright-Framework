@@ -5,7 +5,11 @@
             "environment": "qa",
             "labels": [
                 "smoke",
-                "SSDMKPI","ssdm"
+                "SSDMKPI",
+                "ssdm",
+                "ibg-ufm-domino-service",
+                "ibg-ufm-metadata-service",
+                "ibg-ufm-core-service"
             ],
             "service": "coreService",
             "uri": "getSandboxScenarioId",

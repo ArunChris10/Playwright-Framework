@@ -3,7 +3,12 @@
     {
       "testStep": "Create a Forecast Scenario",
       "environment": "qa",
-      "labels": ["smoke", "create_scenario_error"],
+      "labels": [
+        "smoke",
+        "create_scenario_error",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "testName": "Validate create forecast",
@@ -16,7 +21,6 @@
         "dim_id": 11,
         "dim_val_id": 110027
       },
-      
       "assertions": [
         {
           "status": 200
@@ -32,7 +36,10 @@
     {
       "testStep": "Deleting the Forecast Scenario",
       "environment": "qa",
-      "labels": ["smoke", "create_scenario_error"],
+      "labels": [
+        "smoke",
+        "create_scenario_error"
+      ],
       "service": "coreService",
       "uri": "Forecast",
       "testName": "Validate deleting the forecast scenario",

@@ -8,7 +8,11 @@
                 "kpiFilters",
                 "Regression",
                 "adjustments",
-                "excelplugin"
+                "excelplugin",
+                "ibg-ufm-domino-service",
+                "ibg-ufm-metadata-service",
+                "ibg-ufm-core-service",
+                "ibg-ufm-allocation-engine"
             ],
             "service": "coreService",
             "uri": "getForecast",
@@ -148,19 +152,19 @@
                         }
                     ],
                     "month": [
-            "{{dynamicMonth-4}}",
-            "{{dynamicMonth-3}}",
-            "{{dynamicMonth-2}}",
-            "{{dynamicMonth-1}}",
-            "{{dynamicMonth}}",
-            "{{dynamicMonth+1}}",
-            "{{dynamicMonth+2}}",
-            "{{dynamicMonth+3}}",
-            "{{dynamicMonth+4}}",
-            "{{dynamicMonth+5}}",
-            "{{dynamicMonth+6}}",
-            "{{dynamicMonth+7}}"
-          ]
+                        "{{dynamicMonth-4}}",
+                        "{{dynamicMonth-3}}",
+                        "{{dynamicMonth-2}}",
+                        "{{dynamicMonth-1}}",
+                        "{{dynamicMonth}}",
+                        "{{dynamicMonth+1}}",
+                        "{{dynamicMonth+2}}",
+                        "{{dynamicMonth+3}}",
+                        "{{dynamicMonth+4}}",
+                        "{{dynamicMonth+5}}",
+                        "{{dynamicMonth+6}}",
+                        "{{dynamicMonth+7}}"
+                    ]
                 },
                 "isApplied": true
             },
@@ -181,7 +185,6 @@
             "environment": "qa",
             "labels": [
                 "smoke"
-               
             ],
             "service": "coreService",
             "uri": "getKpiV2",

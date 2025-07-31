@@ -1,15 +1,15 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import commonData from "../constants/common.json";
-import { AdjustmentUtility } from "../fixtures/adjustment-utils";
-import getKpiData from "../testdata/getKpi.json";
-import getDriverData from "../testdata/extrapolation-lob.json";
-import { testData } from "../testdata/extrapolation-lob.json";
-import { ForecastUtility } from "../fixtures/forecast-utils";
-import { UfmUtility } from "../fixtures/ufm-utils";
-import { Utility } from "../../common/fixtures/utils";
-import testdatafile from "../testdata/visual-indicator-api.json";
-import { getPreviousAndNextData,comparePreviousAndNext } from "../fixtures/extrapolation-utils";
-import { RowData } from '../type/types';
+import { expect, test } from "../../../common/fixtures/test-hook";
+import commonData from "../../constants/common.json";
+import { AdjustmentUtility } from "../../fixtures/adjustment-utils";
+import getKpiData from "../../testdata/getKpi.json";
+import getDriverData from "../../testdata/extrapolation-lob.json";
+import { testData } from "../../testdata/extrapolation-lob.json";
+import { ForecastUtility } from "../../fixtures/forecast-utils";
+import { UfmUtility } from "../../fixtures/ufm-utils";
+import { Utility } from "../../../common/fixtures/utils";
+import testdatafile from "../../testdata/visual-indicator-api.json";
+import { getPreviousAndNextData, comparePreviousAndNext } from "../../fixtures/extrapolation-utils";
+import { RowData } from '../../type/types';
 
 Object.entries(testData).forEach(([lob, testData]) => {
 
@@ -21,11 +21,11 @@ Object.entries(testData).forEach(([lob, testData]) => {
   let getAllAdjustmentsCountAfter;
   let responseBody;
   let actualSyncTime;
-  let GetDefaultDriverResponse,GetKPIAapiResponse, apiResponseBody;
+  let GetDefaultDriverResponse, GetKPIAapiResponse, apiResponseBody;
 
   test.describe(
     "Verify Extrapolation logic",
-    { tag: "@Smoke @Regression @extrapolation" },
+    { tag: "@Smoke @Regression @extrapolation ibg-ufm-domino-service ibg-ufm-metadata-service ibg-ufm-core-service ibg-ufm-allocation-engine" },
     async () => {
       test.describe.configure({ timeout: 500_000, mode: "serial" });
       test(`Getting or creating forecast for LOB - ${testData.lobName}`, async ({
@@ -71,24 +71,24 @@ Object.entries(testData).forEach(([lob, testData]) => {
 
         expect(getAllAdjustments).toEqual([])
 
-      });      
-      
+      });
+
       test(`Get default driver for LOB - ${testData.lobName}`, async ({ request }) => {
-         GetDefaultDriverResponse = await UfmUtility.getDefaultDriverList(
-          testData.lobName,        
+        GetDefaultDriverResponse = await UfmUtility.getDefaultDriverList(
+          testData.lobName,
           request
         );
         console.log("GetDefaultDriverResponse:", GetDefaultDriverResponse);
       });
-      
-      test(`Verify if the API is returning Actuals, forecast, and extrapolated forecast dates`, async ({request,}) => {
+
+      test(`Verify if the API is returning Actuals, forecast, and extrapolated forecast dates`, async ({ request, }) => {
         const endpointURL = `${process.env.apiBaseURLUFM}${testdatafile.endpoint}`;
         Utility.logIt(endpointURL);
         const responseBody = await test.step(
           "Make a GET request for getting actual dates",
           async () => {
             Utility.logIt("Make a GET request for getting updated dates");
-            const response = await request.get(endpointURL, {              
+            const response = await request.get(endpointURL, {
               params: { classification_id: testdatafile.classification_id },
             });
             await Utility.assertAndLog(response);
@@ -96,14 +96,14 @@ Object.entries(testData).forEach(([lob, testData]) => {
           }
         );
         // Find the entry with dataset_type "Actuals updated"
-      const actuals = Array.isArray(responseBody) ? responseBody.find(item => item.dataset_type === "Actuals updated") : undefined;
+        const actuals = Array.isArray(responseBody) ? responseBody.find(item => item.dataset_type === "Actuals updated") : undefined;
 
-      // Extract actual_sync_time
-       actualSyncTime = actuals?.actual_sync_time;
+        // Extract actual_sync_time
+        actualSyncTime = actuals?.actual_sync_time;
 
-      console.log("Actuals value:", actualSyncTime); // Outputs: 202602
+        console.log("Actuals value:", actualSyncTime); // Outputs: 202602
       });
-      
+
       test(`Get Kpi for given driver and validate the extrapolation`, async ({ request }) => {
         let monthYear = await Utility.generateMonthArray(actualSyncTime); // get 12 months before and 12 months after values for given actual sync time
         const endpointURL = `${process.env.apiBaseURLUFM}${getKpiData.endpoint}`;
@@ -111,11 +111,11 @@ Object.entries(testData).forEach(([lob, testData]) => {
         for (const driver of GetDefaultDriverResponse) {
           console.log(`Processing driver: ${driver}`);
           let kpiPayload = await UfmUtility.kpiPayloadForSingleNode(
-        testData.lobName,
-        scenario_details,
-        [],
-        monthYear,
-        [driver]
+            testData.lobName,
+            scenario_details,
+            [],
+            monthYear,
+            [driver]
           );
 
           GetKPIAapiResponse = await request.post(endpointURL, { data: kpiPayload });
@@ -124,13 +124,13 @@ Object.entries(testData).forEach(([lob, testData]) => {
           const kpiResponseBody: { rowData: RowData[] } = await GetKPIAapiResponse.json();
 
           if (!kpiResponseBody.rowData?.length) {
-        console.error(`No rowData found in response for driver ${driver}.`);
-        continue;
+            console.error(`No rowData found in response for driver ${driver}.`);
+            continue;
           }
 
           const row = kpiResponseBody.rowData[0];
-            const { previousMap, nextMap } = getPreviousAndNextData(row, actualSyncTime);
-          const mismatches = comparePreviousAndNext(previousMap, nextMap,driver);
+          const { previousMap, nextMap } = getPreviousAndNextData(row, actualSyncTime);
+          const mismatches = comparePreviousAndNext(previousMap, nextMap, driver);
 
           console.log(`Non-matching value pairs for driver ${driver}:`);
           console.table(mismatches);
@@ -150,7 +150,7 @@ Object.entries(testData).forEach(([lob, testData]) => {
         );
       });
     });
- 
-  })
+
+})
 
 

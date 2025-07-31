@@ -5,8 +5,12 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "Driver_Tree_tag","Regression",
-        "Regression"
+        "Driver_Tree_tag",
+        "Regression",
+        "Regression",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
       ],
       "service": "ssdmService",
       "uri": "getAllDriverTrees",
@@ -18,16 +22,17 @@
           "status": 200
         }
       ],
-       "extractFirst": {
+      "extractFirst": {
         "driver_tree_key": "driver_tree_key"
       }
-},
-{
+    },
+    {
       "testStep": "Get Tags",
       "environment": "qa",
       "labels": [
         "smoke",
-        "Driver_Tree_tag","Regression",
+        "Driver_Tree_tag",
+        "Regression",
         "Regression"
       ],
       "service": "ssdmService",
@@ -40,16 +45,17 @@
           "status": 200
         }
       ],
-       "extractFirst": {
+      "extractFirst": {
         "tag_key": "tag_key"
       }
-},
-{
+    },
+    {
       "testStep": "Create Driver Tree Tag",
       "environment": "qa",
       "labels": [
         "smoke",
-        "Driver_Tree_tag","Regression",
+        "Driver_Tree_tag",
+        "Regression",
         "Regression"
       ],
       "service": "ssdmService",
@@ -58,9 +64,9 @@
       "queryParams": "{{driver_tree_key}}/tags",
       "method": "POST",
       "payload": {
-            "tag_key": "{{tag_key}}",
-            "tag_value": "Test Driver Tree Tag Value"
-    },
+        "tag_key": "{{tag_key}}",
+        "tag_value": "Test Driver Tree Tag Value"
+      },
       "assertions": [
         {
           "status": 200
@@ -77,7 +83,9 @@
       "testStep": "Get Driver Tree Tag by Driver Tree Key",
       "environment": "qa",
       "labels": [
-        "smoke","Driver_Tree_tag","Regression"
+        "smoke",
+        "Driver_Tree_tag",
+        "Regression"
       ],
       "service": "ssdmService",
       "uri": "getAllDriverTrees",
@@ -85,9 +93,9 @@
       "queryParams": "{{driver_tree_key}}/tags",
       "method": "GET",
       "payload": {
-            "tag_key": "{{tag_key}}",
-            "tag_value": "Test Driver Tree Tag Value"
-    },
+        "tag_key": "{{tag_key}}",
+        "tag_value": "Test Driver Tree Tag Value"
+      },
       "assertions": [
         {
           "status": 200
@@ -104,7 +112,9 @@
       "testStep": "Get Driver Tree Tag by Driver Tree Key and Tag Key",
       "environment": "qa",
       "labels": [
-        "smoke","Driver_Tree_tag","Regression"
+        "smoke",
+        "Driver_Tree_tag",
+        "Regression"
       ],
       "service": "ssdmService",
       "uri": "getAllDriverTrees",
@@ -127,7 +137,9 @@
       "testStep": "Delete Driver Tree Tag by Driver Tree Key and Tag Key",
       "environment": "qa",
       "labels": [
-        "smoke","Driver_Tree_tag","Regression"
+        "smoke",
+        "Driver_Tree_tag",
+        "Regression"
       ],
       "service": "ssdmService",
       "uri": "getAllDriverTrees",
@@ -140,6 +152,5 @@
         }
       ]
     }
-
   ]
 }

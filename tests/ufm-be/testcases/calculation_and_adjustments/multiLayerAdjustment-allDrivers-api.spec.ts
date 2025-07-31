@@ -1,13 +1,13 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import commonData from "../constants/common.json";
-import { testData } from "../testdata/multiLayerAdjustmentdata.json";
-import adjustmentData from "../testdata/adjustment.json";
-import { AdjustmentUtility } from "../fixtures/adjustment-utils";
-import { EditForecastUtility } from "../fixtures/editForecast-utils";
-import { Utility } from "../../common/fixtures/utils";
-import { ForecastUtility } from "../fixtures/forecast-utils";
-import { UfmUtility } from "../fixtures/ufm-utils";
-import { Root } from "../fixtures/allocate-utils";
+import { expect, test } from "../../../common/fixtures/test-hook";
+import commonData from "../../constants/common.json";
+import { testData } from "../../testdata/multiLayerAdjustmentdata.json";
+import adjustmentData from "../../testdata/adjustment.json";
+import { AdjustmentUtility } from "../../fixtures/adjustment-utils";
+import { EditForecastUtility } from "../../fixtures/editForecast-utils";
+import { Utility } from "../../../common/fixtures/utils";
+import { ForecastUtility } from "../../fixtures/forecast-utils";
+import { UfmUtility } from "../../fixtures/ufm-utils";
+import { Root } from "../../fixtures/allocate-utils";
 export interface NodeDimension { };
 export interface filters extends Array<any> { };
 

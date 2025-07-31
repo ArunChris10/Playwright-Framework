@@ -6,21 +6,24 @@
       "labels": [
         "smoke",
         "Node_Misc",
-        "Regression"
+        "Regression",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
       ],
       "service": "ssdmService",
       "uri": "nodeRelationships",
       "testName": "Get Node Relationships",
       "queryParams": "",
       "method": "GET",
-        "assertions": [
+      "assertions": [
         {
           "status": 200
         }
       ]
     }
   ],
-   "Get Node Cyclic Variants": [
+  "Get Node Cyclic Variants": [
     {
       "testStep": "Get Node Cyclic Variants",
       "environment": "qa",
@@ -34,7 +37,7 @@
       "testName": "Get Node Cyclic Variants",
       "queryParams": "",
       "method": "GET",
-        "assertions": [
+      "assertions": [
         {
           "status": 200
         }

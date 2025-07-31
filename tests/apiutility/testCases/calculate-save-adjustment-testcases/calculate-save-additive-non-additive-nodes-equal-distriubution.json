@@ -7,7 +7,11 @@
         "smoke",
         "additive_non_additive_calculate_equal_distribution",
         "calculations",
-        "adjustments"
+        "adjustments",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service",
+        "ibg-ufm-allocation-engine"
       ],
       "service": "coreService",
       "uri": "getForecast",

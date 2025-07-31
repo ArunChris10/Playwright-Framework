@@ -1,12 +1,16 @@
 {
   "Validate-calculate-save-non-additive-node-workflow": [
     {
-            "runInParallel": false,
+      "runInParallel": false,
       "testStep": "Get a forecast to delete before proceding for IO SBA",
       "environment": "qa",
       "labels": [
         "smoke",
-        "MS2"
+        "MS2",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service",
+        "ibg-ufm-allocation-engine"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -79,7 +83,8 @@
       "testStep": "Delete IO SBA forecast before proceding",
       "environment": "qa",
       "labels": [
-        "smoke","MS2"
+        "smoke",
+        "MS2"
       ],
       "service": "coreService",
       "uri": "Forecast",
@@ -96,7 +101,8 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "Pre-Req","MS2"
+        "Pre-Req",
+        "MS2"
       ],
       "service": "coreService",
       "uri": "Forecast",
@@ -125,7 +131,8 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "Pre-Req","MS2"
+        "Pre-Req",
+        "MS2"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -167,12 +174,15 @@
         "intervalMs": 5000,
         "timeoutMs": 600000
       }
-    }
-  ,
+    },
     {
       "testStep": "Apply Allocation on Non-Additive Node with Filters",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38428", "MS2"],
+      "labels": [
+        "smoke",
+        "IBGROW-38428",
+        "MS2"
+      ],
       "service": "coreService",
       "uri": "allocateData",
       "testName": "Verify allocation with filters on non-additive node maintaining ratio",
@@ -202,7 +212,9 @@
         "filters": [
           {
             "dim_id": 1,
-            "dim_val_ids": [1],
+            "dim_val_ids": [
+              1
+            ],
             "children": []
           }
         ],
@@ -243,7 +255,11 @@
     {
       "testStep": "Save Adjustment with Filters on Non-Additive Node",
       "environment": "qa",
-      "labels": ["smoke", "IBGROW-38429", "MS2"],
+      "labels": [
+        "smoke",
+        "IBGROW-38429",
+        "MS2"
+      ],
       "service": "coreService",
       "uri": "saveAdjustment",
       "testName": "Verify save works with filters on non-additive node maintaining ratio",
@@ -286,7 +302,9 @@
           "filters": [
             {
               "dim_id": 1,
-              "dim_val_ids": [1],
+              "dim_val_ids": [
+                1
+              ],
               "children": []
             }
           ],

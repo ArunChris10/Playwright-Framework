@@ -6,7 +6,10 @@
       "labels": [
         "smoke",
         "datasetType",
-        "Regression"
+        "Regression",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
       ],
       "service": "coreService",
       "uri": "getDimensionVersion",
@@ -23,7 +26,7 @@
       }
     },
     {
-      "testStep": "Get Partition data for the given dataset type as Activated"  ,
+      "testStep": "Get Partition data for the given dataset type as Activated",
       "environment": "qa",
       "labels": [
         "smoke",
@@ -66,7 +69,7 @@
       }
     },
     {
-      "testStep": "Get Partition data for the given dataset type as Latest"  ,
+      "testStep": "Get Partition data for the given dataset type as Latest",
       "environment": "qa",
       "labels": [
         "smoke",

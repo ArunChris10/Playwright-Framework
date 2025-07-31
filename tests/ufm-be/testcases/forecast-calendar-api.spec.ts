@@ -6,14 +6,14 @@ import forecastCalendarData from "../testdata/forecast-calendar-api.json";
 
 test.describe(
   "Verify forecast calendar APIs",
-  { tag: "@Regression @forecastCalendar" },
+  { tag: "@Regression @forecastCalendar ibg-ufm-metadata-service ibg-ufm-core-service" },
   () => {
     test.describe.configure({ timeout: 120_000, mode: "serial" });
-     let fcst_id="3461B40C-F149-4734-8E4C-95722B1F01EA";
-  
+    let fcst_id = "3461B40C-F149-4734-8E4C-95722B1F01EA";
+
     let cycle_id: string;
 
-    test("Delete all existing cycles",   { tag: "@Regression @test11" },async ({ request }) => {
+    test("Delete all existing cycles", { tag: "@Regression @test11" }, async ({ request }) => {
       await ForecastCalendarUtil.deleteAllForecastCycles(request);
     });
 
@@ -44,7 +44,7 @@ test.describe(
     });
 
 
-    test("Verify if the user is able to @getForecastCalendar",   { tag: "@Regression @test1" },async ({
+    test("Verify if the user is able to @getForecastCalendar", { tag: "@Regression @test1" }, async ({
       request,
     }) => {
       let getForecastCalendar = await ForecastCalendarUtil.getForecastCalendar(
@@ -64,16 +64,16 @@ test.describe(
       Utility.logIt(`Forecast is invalid : ${getInvalidForecastCalendar}`);
     });
 
-    
-    test("Verify if the user is able to @publishForecastCalendar",{tag:"@test11"}, async ({
+
+    test("Verify if the user is able to @publishForecastCalendar", { tag: "@test11" }, async ({
       request,
     }) => {
       let publishForecastCalendar =
         await ForecastCalendarUtil.publishForecastCalendar(fcst_id, request);
       Utility.logIt(`Forecast is published :  ${publishForecastCalendar}`);
     });
-    
-    test("Verify if the user is able to @publishDuplicateForecastCalendar",{tag:"@duplct"}, async ({
+
+    test("Verify if the user is able to @publishDuplicateForecastCalendar", { tag: "@duplct" }, async ({
       request,
     }) => {
       let publishDuplicateForecastCalendar =
@@ -86,7 +86,7 @@ test.describe(
       );
     });
 
-    test("Verify if the user is able to @getForecastDeadlines",{tag:"@test11"}, async ({
+    test("Verify if the user is able to @getForecastDeadlines", { tag: "@test11" }, async ({
       request,
     }) => {
       let getForecastDeadlines =
@@ -98,7 +98,7 @@ test.describe(
         cycle_id: cycle_id,
         event_id: 28,
       };
-    
+
       // Normalize keys and values for case-insensitive comparison
       const normalizedOutput = getForecastDeadlines.map((obj) => ({
         ...obj,
@@ -106,23 +106,23 @@ test.describe(
         dim_id: obj.dim_id.toString(),
         dim_val_id: obj.dim_val_id.toString(),
       }));
-      
-  const normalizedExpected = {
-    ...expectedObject,
-    cycle_id: expectedObject.cycle_id.toLowerCase(),
-    dim_id: expectedObject.dim_id.toString(),
-    dim_val_id: expectedObject.dim_val_id.toString(),
-  };
 
-  // Check if the normalized output contains the normalized expected object
-  const containsObject = normalizedOutput.some((obj) =>
-    Object.entries(normalizedExpected).every(
-      ([key, value]) => obj[key] === value
-    )
-  );
+      const normalizedExpected = {
+        ...expectedObject,
+        cycle_id: expectedObject.cycle_id.toLowerCase(),
+        dim_id: expectedObject.dim_id.toString(),
+        dim_val_id: expectedObject.dim_val_id.toString(),
+      };
 
-  expect(containsObject).toBeTruthy();
-    
+      // Check if the normalized output contains the normalized expected object
+      const containsObject = normalizedOutput.some((obj) =>
+        Object.entries(normalizedExpected).every(
+          ([key, value]) => obj[key] === value
+        )
+      );
+
+      expect(containsObject).toBeTruthy();
+
     });
 
 
@@ -137,7 +137,7 @@ test.describe(
         );
       Utility.logIt(
         "Forecast calendar cycle already exists : " +
-          JSON.stringify(createDuplicateForecastCalendarCycles, null, 2)
+        JSON.stringify(createDuplicateForecastCalendarCycles, null, 2)
       );
     });
 
@@ -148,7 +148,7 @@ test.describe(
         await ForecastCalendarUtil.createForecastCalendarDuplicate(request);
       Utility.logIt(
         "Forecast calendar cycle already exists : " +
-          JSON.stringify(createForecastCalendarDuplicate, null, 2)
+        JSON.stringify(createForecastCalendarDuplicate, null, 2)
       );
     });
 
@@ -159,7 +159,7 @@ test.describe(
         await ForecastCalendarUtil.createForecastCalendarInvalidDimId(request);
       Utility.logIt(
         "Forecast calendar cycle invalid dim id : " +
-          JSON.stringify(createForecastCalendarInvalidDimId, null, 2)
+        JSON.stringify(createForecastCalendarInvalidDimId, null, 2)
       );
     });
 
@@ -170,7 +170,7 @@ test.describe(
         await ForecastCalendarUtil.createForecastCalendarInvalidDimVal(request);
       Utility.logIt(
         "Forecast calendar cycle invalid dim id : " +
-          JSON.stringify(createForecastCalendarInvalidDimVal, null, 2)
+        JSON.stringify(createForecastCalendarInvalidDimVal, null, 2)
       );
     });
 
@@ -181,7 +181,7 @@ test.describe(
         await ForecastCalendarUtil.createForecastCalendarInvalidYear(request);
       Utility.logIt(
         "Forecast calendar cycle invalid year : " +
-          JSON.stringify(createForecastCalendarInvalidYear, null, 2)
+        JSON.stringify(createForecastCalendarInvalidYear, null, 2)
       );
     });
 
@@ -196,7 +196,7 @@ test.describe(
         );
       Utility.logIt(
         "Forecast calendar cycle is not edited : " +
-          JSON.stringify(editForecastCalendarCycleNoChange, null, 2)
+        JSON.stringify(editForecastCalendarCycleNoChange, null, 2)
       );
     });
 
@@ -211,7 +211,7 @@ test.describe(
         );
       Utility.logIt(
         "Forecast calendar cycle is edited : " +
-          JSON.stringify(editForecastCalendarCycle, null, 2)
+        JSON.stringify(editForecastCalendarCycle, null, 2)
       );
     });
 
@@ -223,10 +223,10 @@ test.describe(
     //   Utility.logIt(`Forecast is published :  ${publishForecastCalendar}`);
     // });
 
-   
 
-   
-    
+
+
+
 
     test("Verify if the user is able to @deleteForecastCalendarCycle", async ({
       request,

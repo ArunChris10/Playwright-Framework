@@ -3,7 +3,15 @@
     {
       "testStep": "Add drivers in ssdm myKpi and check the value type is recieved as $",
       "environment": "qa",
-      "labels": ["smoke","regression", "ssdmMyKpi", "ssdm"],
+      "labels": [
+        "smoke",
+        "regression",
+        "ssdmMyKpi",
+        "ssdm",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
+      ],
       "service": "coreService",
       "uri": "ssdmMyKpi",
       "testName": "Check the value type is recieved as $ in ssdm myKpi",
@@ -16,12 +24,22 @@
         "template_id": 3,
         "filters": [],
         "additional_filters": {
-          "pivot_cols": ["month"],
-          "pivot_index": ["node_id"],
-          "period_view": ["month"],
-          "nodes": ["sot07mandr"],
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "sot07mandr"
+          ],
           "template_include_headers": [
-            { "name": "Driver" },
+            {
+              "name": "Driver"
+            },
             {
               "name": "{{dynamicMonth-4}}",
               "columnsMenuParams": "middleColumns"
@@ -70,9 +88,18 @@
               "name": "{{dynamicMonth+7}}",
               "columnsMenuParams": "middleColumns"
             },
-            { "name": "", "columnsMenuParams": "fixedColumns" },
-            { "name": "Allocation Method", "columnsMenuParams": "action" },
-            { "name": "Forecast", "editable": false }
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": false
+            }
           ],
           "month": [
             "{{dynamicMonth-4}}",

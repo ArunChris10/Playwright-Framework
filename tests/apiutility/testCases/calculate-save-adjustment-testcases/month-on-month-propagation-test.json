@@ -1,12 +1,15 @@
 {
   "validate_Validate Month-to-Month Propagation": [
-    
     {
       "testStep": "Create Forecast Scenario for MerchOps SBA_monthtomonthProp",
       "environment": "qa",
       "labels": [
         "smoke",
-        "Pre-Req"
+        "Pre-Req",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service",
+        "ibg-ufm-allocation-engine"
       ],
       "service": "coreService",
       "uri": "Forecast",

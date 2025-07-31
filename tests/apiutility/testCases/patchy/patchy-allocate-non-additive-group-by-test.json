@@ -6,7 +6,11 @@
             "labels": [
                 "smoke",
                 "non_additive_patchy_allocation_groupby",
-                "patchy"
+                "patchy",
+                "ibg-ufm-domino-service",
+                "ibg-ufm-metadata-service",
+                "ibg-ufm-core-service",
+                "ibg-ufm-allocation-engine"
             ],
             "service": "coreService",
             "uri": "getForecast",
@@ -119,9 +123,9 @@
                 },
                 {
                     "assertApproxEquals": {
-                    "jsonPath": "{{allocationValue}}",
-                    "expected": 0.5,
-                    "acceptedDifference": 0.1000
+                        "jsonPath": "{{allocationValue}}",
+                        "expected": 0.5,
+                        "acceptedDifference": 0.1000
                     }
                 }
             ]

@@ -3,7 +3,15 @@
     {
       "testStep": "create source scenario",
       "environment": "qa",
-      "labels": ["smoke", "validate_allocate_calculate","patchy"],
+      "labels": [
+        "smoke",
+        "validate_allocate_calculate",
+        "patchy",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service",
+        "ibg-ufm-allocation-engine"
+      ],
       "service": "coreService",
       "uri": "createUserScenario",
       "testName": "Create a new Scenario",
@@ -29,7 +37,10 @@
     {
       "testStep": "Call allocate to calculate",
       "environment": "qa",
-      "labels": ["@Smoke", "validate_allocate_calculate"],
+      "labels": [
+        "@Smoke",
+        "validate_allocate_calculate"
+      ],
       "service": "coreService",
       "uri": "allocateData",
       "testName": "validate allocate calculate",
@@ -44,15 +55,29 @@
         "edits": [
           {
             "node_var_name": "otherbuyingallowances_input",
-            "node_dimension": { "department": 13, "channel": 60025 },
-            "data": { "202611": 100 },
-            "allocation": { "method": 30 }
+            "node_dimension": {
+              "department": 13,
+              "channel": 60025
+            },
+            "data": {
+              "202611": 100
+            },
+            "allocation": {
+              "method": 30
+            }
           },
           {
             "node_var_name": "otherbuyingallowances_input",
-            "node_dimension": { "department": 8, "channel": 60025 },
-            "data": { "202612": 100 },
-            "allocation": { "method": 30 }
+            "node_dimension": {
+              "department": 8,
+              "channel": 60025
+            },
+            "data": {
+              "202612": 100
+            },
+            "allocation": {
+              "method": 30
+            }
           }
         ],
         "filters": [],

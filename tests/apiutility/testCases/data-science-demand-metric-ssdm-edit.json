@@ -6,7 +6,11 @@
             "labels": [
                 "smoke",
                 "regression",
-                "IBGROW-38085","ssdm"
+                "IBGROW-38085",
+                "ssdm",
+                "ibg-ufm-domino-service",
+                "ibg-ufm-metadata-service",
+                "ibg-ufm-core-service"
             ],
             "service": "coreService",
             "uri": "getDataScienceInfo",
@@ -318,9 +322,9 @@
                 },
                 {
                     "assertApproxEquals": {
-                    "jsonPath": "{{grossgmvvalueKPI}}",
-                    "expected": "{{grossgmvvalue}}",
-                    "acceptedDifference": 0.1000
+                        "jsonPath": "{{grossgmvvalueKPI}}",
+                        "expected": "{{grossgmvvalue}}",
+                        "acceptedDifference": 0.1000
                     }
                 }
             ]
