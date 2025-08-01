@@ -188,21 +188,26 @@ export class DriverTreeSettingsDialog {
     expect(await this.publishedDriverTreeDropdown).toBeVisible({ timeout: TIMEOUT_FE_WAIT });
   }
 
+  async validatePublishSettingsNotPresent() {
+    await expect(this.publishedDriverTreeDropdown).toBeHidden({ timeout: TIMEOUT_FE_WAIT });
+  }
+
   async republishDriverTree() {
     await this.publishedDriverTreeDropdown.click();
     const optionsCount = await this.dataSetOptions.count();
-      await this.dataSetOptions.nth(0).click();
+      await this.dataSetOptions.nth(optionsCount-1).click();
       const selectedVersion = await this.publishedDriverTreeDropdown.locator('span').textContent();
+      console.log(`Selected version for republish: ${selectedVersion}`);
       await this.republishButton.click({ force: true });
       await this.republishConfirmationMessage.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
       expect(await this.republishConfirmationMessage.textContent()).toContain(selectedVersion);
       expect(await this.popupCancelButton).toBeVisible({ timeout: TIMEOUT_FE_WAIT });
       expect(await this.popupPublishButton).toBeVisible({ timeout: TIMEOUT_FE_WAIT });
-      /* await this.popupPublishButton.click({force: true});
+      await this.popupPublishButton.click({force: true});
       await this.gridLoader.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT * 10 });
       await this.bannerMessage.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
       expect(await this.bannerMessage.textContent()).toContain('Driver tree version re-published successfully'); 
-      console.log("Driver tree republished successfully.");*/
+      console.log("Driver tree republished successfully.");
       return selectedVersion;
   }
 }

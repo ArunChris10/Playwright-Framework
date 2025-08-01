@@ -41,6 +41,7 @@ test.describe(
       //await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDetailedChangeLog();
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDataSet(defaultdataSetForDraft);
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDataSetDropdownisDisabled();
+      await objpageFactory.ssdmPageFactory().settingsDialogPage().validatePublishSettingsNotPresent();
       //await objpageFactory.ssdmPageFactory().settingsDialogPage().validateChangeLog(createdDateForDraft);
     });
 
@@ -50,6 +51,7 @@ test.describe(
       expect(publishedVersionOnUI).toBe(latestPublishedDriverTreeVersionFromAPI);
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDataSet(dataSetSelected);
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDataSetDropdownisDisabled();
+      await objpageFactory.ssdmPageFactory().settingsDialogPage().validatePublishSettingsNotPresent();
       await objpageFactory.ssdmPageFactory().settingsDialogPage().closeDriverTreeSettingsDialog();
     });
 
@@ -59,6 +61,7 @@ test.describe(
       expect(publishedVersionOnUI).toBe(latestPublishedDriverTreeVersionFromAPI);
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDataSet(dataSetSelected);
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDataSetDropdownisDisabled();
+      await objpageFactory.ssdmPageFactory().settingsDialogPage().validatePublishSettingsNotPresent();
       await objpageFactory.ssdmPageFactory().settingsDialogPage().closeDriverTreeSettingsDialog();
     });
 
@@ -69,6 +72,7 @@ test.describe(
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateChangeLog(createdDateForDraft);
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDataSetSelection();
       await objpageFactory.ssdmPageFactory().settingsDialogPage().revertToDefaultDataSet(defaultdataSetForDraft);
+      await objpageFactory.ssdmPageFactory().settingsDialogPage().validatePublishSettingsNotPresent();
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDetailedChangeLog();
     });
 
@@ -82,7 +86,7 @@ test.describe(
       await objpageFactory.ssdmPageFactory().settingsDialogPage().closeDriverTreeSettingsDialog();
     });
 
-     test('Validate driver tree settings with Draft Version selected - Publisher role', async ({ page }) => {
+    test('Validate driver tree settings with Draft Version selected - Publisher role', async ({ page }) => {
       await signinUtility.SignIn(page, "publisher");
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateLatestDraftDriverTreeVersion(createdDateForDraft);
       //await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDetailedChangeLog();
@@ -92,7 +96,7 @@ test.describe(
       //await objpageFactory.ssdmPageFactory().settingsDialogPage().validatChangeLog(createdDateForDraft);
     });
 
-   test('Validate Publisher is able to Republish', async ({ page }) => {
+    test('Validate Publisher is able to Republish', async ({ page }) => {
       await signinUtility.SignIn(page, "publisher");
       let publishedVersionOnUI = await objpageFactory.ssdmPageFactory().settingsDialogPage().getLatestPublishedDriverTreeVersion();
       expect(publishedVersionOnUI).toBe(latestPublishedDriverTreeVersionFromAPI);
@@ -101,6 +105,5 @@ test.describe(
       let republishedDriverTreeVersion = await objpageFactory.ssdmPageFactory().settingsDialogPage().republishDriverTree();
       let publishedVersionOnUIPostRepublish = await objpageFactory.ssdmPageFactory().settingsDialogPage().getLatestPublishedDriverTreeVersion();
       expect(publishedVersionOnUIPostRepublish).toContain(republishedDriverTreeVersion);
-      await objpageFactory.ssdmPageFactory().settingsDialogPage().closeDriverTreeSettingsDialog();
-    }); 
+    });
   })
