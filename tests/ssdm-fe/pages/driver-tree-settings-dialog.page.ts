@@ -26,6 +26,11 @@ export class DriverTreeSettingsDialog {
   readonly detailedChangeLogDialogHeader: Locator;
   readonly detailedChangeLogDialogCloseBtn: Locator;
   readonly publishedDriverTreeDropdown: Locator;
+  readonly republishButton: Locator;
+  readonly republishConfirmationMessage: Locator;
+  readonly popupCancelButton: Locator;
+  readonly popupPublishButton: Locator;
+  readonly bannerMessage: Locator;
 
   // Parameterized XPath generators
   readonly getFilterButtonXPath: (label: string) => string;
@@ -51,6 +56,11 @@ export class DriverTreeSettingsDialog {
     this.detailedChangeLogDialogHeader = page.locator(`//h2[text()='Change Log']`);
     this.detailedChangeLogDialogCloseBtn = page.locator(`//button[@aria-label='Change Log']`);
     this.publishedDriverTreeDropdown = page.locator(`//h3[text()="Publish Settings"]/parent::div//div[@id='published-driver-tree']`);
+    this.republishButton = page.locator(`//button[text()='Re-Publish']`);
+    this.republishConfirmationMessage = page.locator(`(//div[@role="dialog"])[2]//span`);
+    this.popupCancelButton = page.locator(`//button[text()='Cancel']`);
+    this.popupPublishButton = page.locator(`//button[text()='Publish']`);
+    this.bannerMessage= page.locator(`(//div[contains(@class,"Alert-module_alert")]//div)[1]`);
   }
 
   async getLatestPublishedDriverTreeVersion() {
@@ -105,7 +115,7 @@ export class DriverTreeSettingsDialog {
     }
 
     expect(selectedOptionText?.trim()).toBe(await this.defaultDatasetDropdownOption.textContent());
-    await this.updateDataSetButton.click({force: true});
+    await this.updateDataSetButton.click({ force: true });
     await this.driverTreeSettingsDialog.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT });
     await this.gridLoader.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT * 10 });
     await this.page.waitForTimeout(300);
@@ -158,7 +168,7 @@ export class DriverTreeSettingsDialog {
     await expect(this.ViewChangeLogButton.nth(1)).toBeVisible({ timeout: TIMEOUT_FE_WAIT });
   }
 
-  async validateDetailedChangeLog(){
+  async validateDetailedChangeLog() {
     await expect(this.ViewChangeLogButton).toBeVisible({ timeout: TIMEOUT_FE_WAIT });
     await this.ViewChangeLogButton.click();
     await this.detailedChangeLogDialogHeader.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
@@ -176,5 +186,23 @@ export class DriverTreeSettingsDialog {
 
   async validatePublishSettings() {
     expect(await this.publishedDriverTreeDropdown).toBeVisible({ timeout: TIMEOUT_FE_WAIT });
+  }
+
+  async republishDriverTree() {
+    await this.publishedDriverTreeDropdown.click();
+    const optionsCount = await this.dataSetOptions.count();
+      await this.dataSetOptions.nth(0).click();
+      const selectedVersion = await this.publishedDriverTreeDropdown.locator('span').textContent();
+      await this.republishButton.click({ force: true });
+      await this.republishConfirmationMessage.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+      expect(await this.republishConfirmationMessage.textContent()).toContain(selectedVersion);
+      expect(await this.popupCancelButton).toBeVisible({ timeout: TIMEOUT_FE_WAIT });
+      expect(await this.popupPublishButton).toBeVisible({ timeout: TIMEOUT_FE_WAIT });
+      /* await this.popupPublishButton.click({force: true});
+      await this.gridLoader.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT * 10 });
+      await this.bannerMessage.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
+      expect(await this.bannerMessage.textContent()).toContain('Driver tree version re-published successfully'); 
+      console.log("Driver tree republished successfully.");*/
+      return selectedVersion;
   }
 }

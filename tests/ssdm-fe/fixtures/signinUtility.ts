@@ -68,7 +68,6 @@ export class signinUtility {
 
         let userName: string;
         let password: string;
-
         if (role && roles && roles[role]) {
             userName = roles[role].userName;
             password = roles[role].password 
@@ -76,13 +75,10 @@ export class signinUtility {
             userName = String(this.userName);
             password = await Utility.getLoginPassword(userName);
         }
-        
         await this.userId.fill(userName);
         await this.password.fill(password);
-
         await this.signIn.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
         await this.signIn.click();
-
         const landingSearchBox = signinPage.locator('input[type="search"]');
         await landingSearchBox.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT * 2 });
     }
