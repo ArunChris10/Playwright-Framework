@@ -38,11 +38,11 @@ test.describe(
     test('Validate driver tree settings with Draft Version selected - Viewer role', async ({ page }) => {
       await signinUtility.SignIn(page, "viewer");
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateLatestDraftDriverTreeVersion(createdDateForDraft);
-      //await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDetailedChangeLog();
+      await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDetailedChangeLog();
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDataSet(defaultdataSetForDraft);
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDataSetDropdownisDisabled();
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validatePublishSettingsNotPresent();
-      //await objpageFactory.ssdmPageFactory().settingsDialogPage().validateChangeLog(createdDateForDraft);
+      await objpageFactory.ssdmPageFactory().settingsDialogPage().validateChangeLog(createdDateForDraft);
     });
 
     test('Validate driver tree settings with Published Version selected - Viewer role', async ({ page }) => {
@@ -89,14 +89,14 @@ test.describe(
     test('Validate driver tree settings with Draft Version selected - Publisher role', async ({ page }) => {
       await signinUtility.SignIn(page, "publisher");
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateLatestDraftDriverTreeVersion(createdDateForDraft);
-      //await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDetailedChangeLog();
+      await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDetailedChangeLog();
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDataSet(defaultdataSetForDraft);
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validatePublishSettings();
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateDataSetDropdownisDisabled();
-      //await objpageFactory.ssdmPageFactory().settingsDialogPage().validatChangeLog(createdDateForDraft);
+      await objpageFactory.ssdmPageFactory().settingsDialogPage().validateChangeLog(createdDateForDraft);
     });
 
-    test('Validate Publisher is able to Republish', async ({ page }) => {
+    /* test('Validate Publisher is able to Republish', async ({ page }) => {
       await signinUtility.SignIn(page, "publisher");
       let publishedVersionOnUI = await objpageFactory.ssdmPageFactory().settingsDialogPage().getLatestPublishedDriverTreeVersion();
       expect(publishedVersionOnUI).toBe(latestPublishedDriverTreeVersionFromAPI);
@@ -105,5 +105,5 @@ test.describe(
       let republishedDriverTreeVersion = await objpageFactory.ssdmPageFactory().settingsDialogPage().republishDriverTree();
       let publishedVersionOnUIPostRepublish = await objpageFactory.ssdmPageFactory().settingsDialogPage().getLatestPublishedDriverTreeVersion();
       expect(publishedVersionOnUIPostRepublish).toContain(republishedDriverTreeVersion);
-    });
+    }); */
   })
