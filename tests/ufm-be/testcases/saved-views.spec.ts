@@ -6,7 +6,7 @@ test.describe.configure({ mode: "serial" });
 
 test.describe(
   "Validating the saved views functionality",
-  { tag: "@Smoke @Regression @savedview" },
+  { tag: "@Smoke @Regression @savedview ibg-ufm-metadata-service ibg-ufm-core-service" },
   async () => {
     test("Checking the response of getViews API", async ({ request }) => {
       const testdata = testdatafile.configEndpoint;
@@ -68,7 +68,7 @@ test.describe(
 
       Utility.logIt(
         "Validating if newly added view is present in the getAllViews list" +
-          getViewsList
+        getViewsList
       );
 
       expect(getViewsList).toContain(newlyCreatedPrefConfigId);
@@ -145,7 +145,7 @@ test.describe(
 
       Utility.logIt(
         "Validating if newly added view is present in the getAllViews list" +
-          getViewsList
+        getViewsList
       );
 
       await getResponseData.json().then((data) => {

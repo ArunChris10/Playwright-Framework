@@ -4,7 +4,7 @@ import testdatafile from "../testdata/getConfig.json";
 
 test.describe(
   "Verify the getConfig API",
-  { tag: "@Smoke @Regression @getConfig" },
+  { tag: "@Smoke @Regression @getConfig ibg-ufm-metadata-service ibg-ufm-core-service" },
   () => {
     let responseBody;
     const endpointURL = `${process.env.apiBaseURLUFM}${testdatafile.endpoint}`;
@@ -12,19 +12,19 @@ test.describe(
     testdatafile.config.forEach((config_payload) => {
       test(
         "Verify if the api is returning " +
-          config_payload.type +
-          " configurations",
+        config_payload.type +
+        " configurations",
         async ({ request }) => {
           //post request for the get config
           await test.step(
             "Make a Post Request for getting " +
-              config_payload.type +
-              "  configs",
+            config_payload.type +
+            "  configs",
             async () => {
               Utility.logIt(
                 "Make a Post Request for getting  " +
-                  config_payload.type +
-                  " configs"
+                config_payload.type +
+                " configs"
               );
               responseBody = await request.post(endpointURL, {
                 data: config_payload.query,

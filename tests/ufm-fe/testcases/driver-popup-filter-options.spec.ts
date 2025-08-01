@@ -16,7 +16,7 @@ test.describe(
     });
     test(
       "Check if clicking on the filter button displays all the filter options similar to MyKPI Filter",
-      { tag: "@driverPopUpFilterOption" },
+      { tag: "@driverPopUpFilterOption @DriverSearch @Regression" },
       async ({ request }) => {
         test.setTimeout(300000);
 
@@ -73,7 +73,7 @@ test.describe(
 
           filtersBeforeDrivers = await objpageFactory
             .ufmPageFactory()
-            .openCurrentForecast()
+            .filtersPage()
             .getAvailableFilterOptions();
 
           console.log("Filters before applying drivers:", filtersBeforeDrivers);
@@ -81,7 +81,7 @@ test.describe(
           // Close the filter panel
           await objpageFactory
             .ufmPageFactory()
-            .addDriverPage()
+            .filtersPage()
             .applyDefaultFilters();
         });
 
@@ -96,12 +96,12 @@ test.describe(
         await test.step(`Click on Filters button and verify filter options`, async () => {
           await objpageFactory
             .ufmPageFactory()
-            .openCurrentForecast()
+            .filtersPage()
             .clickFiltersButton();
 
           filtersAfterDrivers = await objpageFactory
             .ufmPageFactory()
-            .openCurrentForecast()
+            .filtersPage()
             .getAvailableFilterOptions();
 
           console.log("Filters after applying drivers:", filtersAfterDrivers);
@@ -110,7 +110,7 @@ test.describe(
         await test.step(`Verify filter options are identical before and after applying drivers`, async () => {
           const areFiltersIdentical = await objpageFactory
             .ufmPageFactory()
-            .openCurrentForecast()
+            .filtersPage()
             .compareFilterOptions(filtersBeforeDrivers, filtersAfterDrivers);
 
           expect(areFiltersIdentical).toBe(true);
@@ -125,7 +125,7 @@ test.describe(
           ];
           const allFiltersVisible = await objpageFactory
             .ufmPageFactory()
-            .openCurrentForecast()
+            .filtersPage()
             .verifyFilterOptionsVisible(expectedFilters);
 
           expect(allFiltersVisible).toBe(true);

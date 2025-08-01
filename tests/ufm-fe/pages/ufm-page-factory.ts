@@ -2,6 +2,9 @@ import { Page } from "@playwright/test";
 import { CreateForecastPopup } from './create-forecast.-popup.page';
 import { CurrentForecast } from './current-forecast.page';
 import { OpenCurrentForecast } from './open-forecast.page';
+import { MyKPITablePage } from './my-kpi-table.page';
+import { FiltersPage } from './filters.page';
+import { CopyPopupPage } from './copy-popup.page';
 import { OrganisationSelection } from './organisation-selection.page';
 import { AddDriverPage } from "./add-driver-page";
 import { RollingForecastCalendar } from "./rolling-forecast-Calendar.page";
@@ -56,4 +59,15 @@ export class UFMPageFactory {
     return new ExcelUtility(this.page);
   }
 
+  myKpiTablePage() {
+    return new MyKPITablePage(this.page);
+  }
+  
+  filtersPage() {
+    return new FiltersPage(this.page);
+  }
+
+  copyForecastPage() {
+    return new CopyPopupPage(this.page);
+  }
 }

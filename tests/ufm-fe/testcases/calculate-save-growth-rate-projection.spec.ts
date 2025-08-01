@@ -75,7 +75,7 @@ data.driver.allocationMethod.forEach((method: string) => {
       });
 
       await test.step("Wait for KPI table to load", async () => {
-        await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad();
+        await objpageFactory.ufmPageFactory().myKpiTablePage().waitForKPITableToLoad();
       });
 
       await test.step(`Select allocation method: ${method}`, async () => {
@@ -115,7 +115,7 @@ data.driver.allocationMethod.forEach((method: string) => {
       });
 
       await test.step("Wait for KPI table to load", async () => {
-        await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad();
+        await objpageFactory.ufmPageFactory().myKpiTablePage().waitForKPITableToLoad();
       });
 
       await test.step('Validate save is changed', async () => {

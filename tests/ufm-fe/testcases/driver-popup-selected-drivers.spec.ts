@@ -6,7 +6,7 @@ import { merchOpsDefaultDriver } from "../testdata/drivers.json";
 import { ForecastUtility } from "../../ufm-be/fixtures/forecast-utils";
 import { demandOrganization } from "../testdata/organizations.json";
 
-test.describe('Verify user is able to select drivers and switch orders', { tag: "@Smoke @driverPopUpSelectedDriver" }, () => {
+test.describe('Verify user is able to select drivers and switch orders', { tag: "@Smoke @driverPopUpSelectedDriver @DriverSearch @Regression" }, () => {
     let objpageFactory: PageFactory, scenario_details, currentForecast, firstDriverNameAfterSwitch, lastDriverName, scenarioId, firstForecast;
 
     const driverNames = merchOpsDefaultDriver.names;
@@ -87,19 +87,19 @@ test.describe('Verify user is able to select drivers and switch orders', { tag: 
             await objpageFactory.ufmPageFactory().addDriverPage().clickOnApplyDrivers();
         });
         await test.step('Validate added driver is visible on KPI table', async () => {
-            await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad();        
+            await objpageFactory.ufmPageFactory().myKpiTablePage().waitForKPITableToLoad();        
         });
         await test.step(`Verify if the updated order is reflecting in the MyKPI table upon clicking apply`, async () => {
-            firstDriverNameAfterSwitch = await objpageFactory.ufmPageFactory().openCurrentForecast().getKPILandingFirstDriverName();
+            firstDriverNameAfterSwitch = await objpageFactory.ufmPageFactory().myKpiTablePage().getKPILandingFirstDriverName();
             expect(firstDriverNameAfterSwitch).toBe(lastDriverName);
         });
         await test.step(`Verify if user can change the order in MyKPI table after Apply`, async () => {
-            await objpageFactory.ufmPageFactory().openCurrentForecast().switchKPILandingSelectedDriverOrder();
+            await objpageFactory.ufmPageFactory().myKpiTablePage().switchKPILandingSelectedDriverOrder();
             expect(firstDriverNameAfterSwitch).toBe(lastDriverName);
         });
         await test.step(`Verify first driver is now first driver`, async () => {
             const firstDriverName = driverNames[0];
-            firstDriverNameAfterSwitch = await objpageFactory.ufmPageFactory().openCurrentForecast().getKPILandingFirstDriverName();
+            firstDriverNameAfterSwitch = await objpageFactory.ufmPageFactory().myKpiTablePage().getKPILandingFirstDriverName();
             expect(firstDriverNameAfterSwitch).toBe(firstDriverName);
         });
     });

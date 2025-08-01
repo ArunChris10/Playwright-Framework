@@ -6,7 +6,10 @@
       "labels": [
         "smoke",
         "Driver Tree Version",
-        "Regression"
+        "Regression",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
       ],
       "service": "ssdmService",
       "uri": "getAllDriverTrees",
@@ -77,7 +80,11 @@
     {
       "testStep": "Get Driver Tree Versions",
       "environment": "qa",
-      "labels": ["smoke", "Driver Tree Version", "Regression"],
+      "labels": [
+        "smoke",
+        "Driver Tree Version",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllDriverTrees",
       "testName": "Get a driver trees",

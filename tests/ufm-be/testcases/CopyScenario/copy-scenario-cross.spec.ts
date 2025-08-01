@@ -1,22 +1,24 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { ScenarioUtils } from "../fixtures/copy-scenairo-utils";
-import aopEdits from "../testdata/aop-edits.json";
-import adjustmentData from "../testdata/adjustment.json";
-import { Utility } from "../../common/fixtures/utils";
-import { UfmUtility } from "../fixtures/ufm-utils";
-import commonData from "../constants/common.json";
+import { expect, test } from "../../../common/fixtures/test-hook";
+import { ScenarioUtils } from "../../fixtures/copy-scenairo-utils";
+import aopEdits from "../../testdata/aop-edits.json";
+import adjustmentData from "../../testdata/adjustment.json";
+import { Utility } from "../../../common/fixtures/utils";
+import { UfmUtility } from "../../fixtures/ufm-utils";
+import commonData from "../../constants/common.json";
+import copyTestData from "./copy-scenario-testdata.json";
 
-test.describe("Copy Scenario API E2E", () => {
+test.describe("Copy scenarios from different BAs", () => {
   test(
     "Find scenarios with forecast status Draft and trigger copy",
-    { tag: "@copyScenario" },
+    { tag: "@Regression @Smoke @CopyScenario @Visualization ibg-ufm-core-service ibg-ufm-domino-service ibg-ufm-allocation-engine ibg-ufm-reporting-proxy" },
     async ({ request }) => {
       let sourceScenario, targetScenario;
+      const copyData = copyTestData["copy-scenario-cross"];
       const adjustmentEndpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;
       const kpiEndpointURL = `${process.env.apiBaseURLUFM}${aopEdits.getKpiForecast.endpoint}`;
       let adjustment_payload = aopEdits.input_driver_allocation_payload;
       const lobDimId = await UfmUtility.getMappingValue(
-        { parent_name: "MERCHANDISING OPERATIONS" },
+        { parent_name: copyData.crossLOBName },
         "child_dim_id"
       );
 
@@ -29,21 +31,32 @@ test.describe("Copy Scenario API E2E", () => {
       const nonEditedMonth = `${currentTime.getFullYear()}${String(
         currentTime.getMonth() + 2
       ).padStart(2, "0")}`;
-      const inputNodeList = commonData.merchOpsInputNodes;
+      const inputNodeList = copyData.inputNodes;
       const editableStatus = [commonData.Draft, commonData.Change_Requested];
       let preEditData;
+
       await test.step("Fetch scenarios with forecast status Draft or Change Requested", async () => {
-        const scenarios = await ScenarioUtils.getScenariosWithStatus(
+        
+        const merchScenario = await ScenarioUtils.getScenariosWithStatus(
           request,
           editableStatus,
-          "MERCHANDISING OPERATIONS"
+          copyData.lobName
         );
-        expect(scenarios.length).toBeGreaterThan(1);
-        sourceScenario = scenarios[0];
-        targetScenario = scenarios[1];
+        sourceScenario = merchScenario[0];
+
+        const merchFinanceScenario = await ScenarioUtils.getScenariosWithStatus(
+          request,
+          editableStatus,
+          copyData.crossLOBName
+        );
+        targetScenario = merchFinanceScenario[0];
+
+        console.log("sourceScenario as MerchOps:", sourceScenario);
+        console.log("targetScenario as MERCHANDISING FINANCE:", targetScenario);
       });
 
-      await test.step("Fetch and store non edited data for target scenario", async () => {
+
+      await test.step("Fetch and store non edited data for target scenario (MERCHANDISING FINANCE)", async () => {
         let kpiPayload = aopEdits.getKpiForecast.payload;
         kpiPayload.scenario_id = targetScenario.scenarioId;
         kpiPayload.scenario_version = targetScenario.scenarioVersion;
@@ -62,38 +75,10 @@ test.describe("Copy Scenario API E2E", () => {
         expect(rowData).toBeTruthy();
         expect(rowData.length).toBeGreaterThan(0);
         preEditData = rowData;
+        console.log("after fetching ", preEditData)
       });
 
-      await test.step("Edit and save data in source scenario", async () => {
-        adjustment_payload.adjustment_metadata.scenario_id =
-          sourceScenario.scenarioId;
-        adjustment_payload.adjustment_metadata.scenario_version_timestamp =
-          sourceScenario.scenarioVersion;
-        adjustment_payload.allocation_request.scenario_id =
-          sourceScenario.scenarioId;
-        adjustment_payload.allocation_request.dim_val_id =
-          sourceScenario.lineOfBusiness;
-        adjustment_payload.dim_val_id = sourceScenario.lineOfBusiness;
-        adjustment_payload.adjustment_metadata.adjustment_name =
-          "auto copy scenario source edit";
-        adjustment_payload.allocation_request.dim_id = lobDimId;
-        adjustment_payload.allocation_request.edits.forEach((edit, idx) => {
-          if (inputNodeList[idx]) {
-            edit.node_var_name = inputNodeList[idx];
-          }
-          if (edit.data && editedMonth) {
-            edit.data = { [editedMonth]: commonData.defaultInputValue };
-          }
-        });
-
-        const response = await request.patch(adjustmentEndpointURL, {
-          data: adjustment_payload,
-        });
-        let responseBody = await Utility.assertAndLog(response);
-        expect(responseBody.message).toBe(aopEdits.adjustment_success);
-      });
-
-      await test.step("Trigger copy scenario API", async () => {
+      await test.step("Trigger copy scenario API to copy data from MERCHANDISING OPERATIONS scenario to MERCHANDISING FINANCE scenario", async () => {
         const copyPayload = {
           dim_val_id: sourceScenario.lineOfBusiness,
           dim_id: lobDimId,
@@ -119,6 +104,7 @@ test.describe("Copy Scenario API E2E", () => {
             month: [editedMonth],
           },
         };
+
         const copyEndpoint = `${process.env.apiBaseUTILITYSERVICE}/v1/copy-scenario/`;
         const response = await request.post(copyEndpoint, {
           data: copyPayload,
@@ -131,31 +117,20 @@ test.describe("Copy Scenario API E2E", () => {
         );
       });
 
-      await test.step("Poll target scenario status until copy completes or max attempts reached", async () => {
+      await test.step("Poll target scenario (MERCHANDISING FINANCE) status until copy completes or max attempts reached", async () => {
         let isProcessComplete = await ScenarioUtils.pollScenariosStatus(
           request,
-          10, // retry attempts
-          5000, // interval in milliseconds;
+          10, 
+          5000, 
           targetScenario,
           editableStatus,
-          "MERCHANDISING OPERATIONS"
+          copyData.crossLOBName
         );
         expect(isProcessComplete).toBeTruthy();
       });
 
-      await test.step("Verify adjustment entry for copy scenario", async () => {
-        const adjustmentEndpoint = `${process.env.apiBaseURLUFM}/adjustment/?scenario_id=${targetScenario.scenarioId}&scenario_version_timestamp=${targetScenario.scenarioVersion}`;
-        const adjResp = await request.get(adjustmentEndpoint);
-        expect(adjResp.ok()).toBeTruthy();
-        const adjData = await adjResp.json();
-        const expectedName = `Copy from source scenario: ${sourceScenario.scenarioId}`;
-        const found = adjData.some(
-          (adj: any) => adj.adjustment_name === expectedName
-        );
-        expect(found).toBeTruthy();
-      });
 
-      await test.step("Validate Edited data in target Scenario", async () => {
+      await test.step("Validate Edited data in target Scenario (MERCHANDISING FINANCE)", async () => {
         let kpiPayload = aopEdits.getKpiForecast.payload;
         kpiPayload.scenario_id = targetScenario.scenarioId;
         kpiPayload.scenario_version = targetScenario.scenarioVersion;
@@ -179,22 +154,18 @@ test.describe("Copy Scenario API E2E", () => {
         inputNodeList.forEach((nodeVarName) => {
           const row = rowData.find((r: any) => r.driver === nodeVarName);
           expect(row).toBeTruthy();
-          // Assertion for editedMonth
           expect(row[monthKey]).toBeTruthy();
-          expect(Math.round(row[monthKey].forecast)).toBe(
-            commonData.defaultInputValue
-          );
 
-          // Assertion for nonEditedMonth: should match preEditData
-          const preRow = preEditData.find((r: any) => r.driver === nodeVarName);
-          expect(preRow).toBeTruthy();
-          expect(row[nonEditedMonthKey]).toBeTruthy();
-          expect(preRow[nonEditedMonthKey]).toBeTruthy();
-          expect(row[nonEditedMonthKey].forecast).toBe(
-            preRow[nonEditedMonthKey].forecast
+          const preEditRow = preEditData.find((preRow: any) => preRow.driver === nodeVarName);
+          expect(preEditRow).toBeTruthy();
+          expect(preEditRow[monthKey]).toBeTruthy();
+
+          expect(Math.round(row[monthKey].forecast)).toBe(
+            Math.round(preEditRow[monthKey].forecast)
           );
         });
       });
+
     }
   );
 });

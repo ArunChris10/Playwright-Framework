@@ -6,7 +6,10 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "MS3"
+        "MS3",
+        "Visualization",
+        "AsyncNownNodeRefresh",
+        "ibg-ufm-core-service" , "ibg-ufm-domino-service" , "ibg-ufm-allocation-engine"
       ],
       "service": "coreService",
       "uri": "getForecast",

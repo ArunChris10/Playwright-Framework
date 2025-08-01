@@ -82,7 +82,7 @@ test.describe('Verify user is able to do calculate and save post uploading file 
     });
 
     await test.step("Wait for KPI table to load", async () => {
-      await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad();
+      await objpageFactory.ufmPageFactory().myKpiTablePage().waitForKPITableToLoad();
     });
 
     await test.step("Select group by to select grains of nodes selected to see its lowest dimension", async () => {
@@ -117,7 +117,7 @@ test.describe('Verify user is able to do calculate and save post uploading file 
 
     await test.step("Apply filters and wait for KPI table to load", async () => {
       await objpageFactory.ssdmPageFactory().applyFilter().clickOnApplyChanges();
-      await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad();
+      await objpageFactory.ufmPageFactory().myKpiTablePage().waitForKPITableToLoad();
     });
 
     await test.step(`Download KPI table Excel`, async () => {
@@ -207,7 +207,7 @@ test.describe('Verify user is able to do calculate and save post uploading file 
     });
 
     await test.step("Wait for KPI table to load", async () => {
-      await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad();
+      await objpageFactory.ufmPageFactory().myKpiTablePage().waitForKPITableToLoad();
     });
 
     await test.step('Validate save is changed', async () => {

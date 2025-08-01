@@ -8,7 +8,9 @@
         "IBGROW-38035",
         "IBGROW-38022",
         "MS1",
-        "snapshots"
+        "snapshots",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
       ],
       "service": "coreService",
       "uri": "snapshots",

@@ -6,7 +6,10 @@
       "labels": [
         "smoke",
         "Node Variant Attribute",
-        "Regression"
+        "Regression",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
       ],
       "service": "ssdmService",
       "uri": "getNodeVariants",
@@ -37,7 +40,11 @@
     {
       "testStep": "Create a Node Variant Attribute for a valid Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Variant Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
@@ -62,7 +69,11 @@
     {
       "testStep": "Create a Node Variant Attribute for an valid Node Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Variant Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
@@ -87,7 +98,11 @@
     {
       "testStep": "Create a Node Variant Attribute for an valid Node Key but Invalid Attribute ID",
       "environment": "qa",
-      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Variant Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
@@ -112,7 +127,11 @@
     {
       "testStep": "Get Node Variant Attributes",
       "environment": "qa",
-      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Variant Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create a Attribute for a Node",
@@ -127,7 +146,11 @@
     {
       "testStep": "Update a Node Variant Attribute for a valid Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Variant Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
@@ -151,7 +174,11 @@
     {
       "testStep": "Update a Node Variant Attribute for an invalid Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Variant Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
@@ -175,7 +202,11 @@
     {
       "testStep": "Update a Node Variant Attribute for an invalid Attribute ID",
       "environment": "qa",
-      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Variant Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
@@ -205,7 +236,11 @@
     {
       "testStep": "Update a Node Variant Attribute for an valid Node Key and Valid Attribute ID but combination does not exist",
       "environment": "qa",
-      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Variant Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create_Get_Update_Delete_Node_Variant_Attribute",
@@ -229,7 +264,11 @@
     {
       "testStep": "Delete Node Variant Attribute for an invalid Node Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Variant Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create a Attribute for a Node",
@@ -250,7 +289,11 @@
     {
       "testStep": "Delete Node Variant Attribute for an invalid Attribute Key",
       "environment": "qa",
-      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Variant Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create a Attribute for a Node",
@@ -271,7 +314,11 @@
     {
       "testStep": "Delete Node Variant Attribute for an valid Node Key and valid Attribute Key but invalid combination",
       "environment": "qa",
-      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Variant Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create a Attribute for a Node",
@@ -292,7 +339,11 @@
     {
       "testStep": "Delete Node Variant Attribute for an valid Node Key and valid Attribute Key and valid combination",
       "environment": "qa",
-      "labels": ["smoke", "Node Variant Attribute", "Regression"],
+      "labels": [
+        "smoke",
+        "Node Variant Attribute",
+        "Regression"
+      ],
       "service": "ssdmService",
       "uri": "getAllNodes",
       "testName": "Create a Attribute for a Node",

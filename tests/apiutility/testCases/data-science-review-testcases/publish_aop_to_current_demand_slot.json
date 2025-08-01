@@ -6,7 +6,11 @@
     "environment": "qa",
     "labels": [
       "smoke",
-      "Pre-Req","MS2","IBGROW-35119"
+      "Pre-Req","MS2","IBGROW-35119",
+      "Visualization",
+      "AOP",
+      "Admin-Isolated-Scenarios",
+        "ibg-ufm-core-service" , "ibg-ufm-domino-service" , "ibg-ufm-allocation-engine","ibg-service-scenario-financials"
     ],
     "service": "coreService",
     "uri": "getDataScienceInfo",

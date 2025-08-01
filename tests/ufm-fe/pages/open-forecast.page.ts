@@ -32,7 +32,6 @@ export class OpenCurrentForecast {
   readonly DriversButton: Locator
   readonly addDriversButton: Locator
   readonly driverCheckBoxes: Locator
-  readonly KPITable: Locator;
   readonly createNewViewButton: Locator;
   readonly driversModalHeader: Locator
   readonly savedViewsDropDownHeader: Locator
@@ -68,21 +67,13 @@ export class OpenCurrentForecast {
   readonly detailsAfterExpandingChevronIcon: Locator
   readonly customGrowthRateInput: Locator
   readonly growthRatePercentInput: Locator
-  readonly copyData: Locator
-  readonly forecastDropdown: Locator
-  readonly copyForecast: Locator
-  readonly copyScenarioSourceForecastDropdown: Locator;
-  readonly copyScenarioDestinationForecastDropdown: Locator;
-  readonly copyDataButton: Locator;
   readonly dateRangeComponent: Locator;
   readonly dateRangeDropdown: Locator;
   readonly monthSelector: Locator;
   readonly modalBackdrop: Locator;
   readonly ReviewOpen: Locator;
   readonly driverExplorationTab: Locator;
-  readonly dropdownGenericLoader: Locator;
   readonly AlternateDriverButton: Locator;
-  readonly filtersButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -91,7 +82,6 @@ export class OpenCurrentForecast {
     this.inputName = page.getByTestId('name-input')
     this.btnOpenCurrentForecast = page.locator("//button[text()='Open']");
     this.txtCurrentForecast = page.getByText("Current Forecast");
-    this.KPITable = page.getByTestId('forecast-table')
     this.saveChangesLoader = page.locator('//div[contains(@class,"Adjustment")]//span[@role="status"]')
     this.customCheckbox = '//div[contains(@class,"editable-cell-border")]//span'
     this.actionButton = page.getByText('Actions');
@@ -163,89 +153,23 @@ export class OpenCurrentForecast {
     this.viewDriver = this.page.locator('//div[contains(@class,"chip-alignment")]//child::button[contains(@class,"drivers")]');
     this.customGrowthRateInput = this.page.locator("//*[@value='CUSTOM']")
     this.growthRatePercentInput = this.page.locator("//input[@data-testid='projectionmethod-growthrate-percentage-id']")
-    this.forecastDropdown = page.getByText("Select forecast");
-    this.copyData = page.getByText("Copy data");
-    this.copyForecast = page.getByText("Copy forecast data");
-    this.copyScenarioSourceForecastDropdown = page.getByRole('button', { name: 'Source forecast' }).first();
-    this.copyScenarioDestinationForecastDropdown = page.getByRole('button', { name: 'Source forecast' }).nth(1);
-    this.copyDataButton = page.getByText('Copy data');
     this.dateRangeComponent = page.getByLabel('Load data to another').getByTestId('date-range-component');
     this.dateRangeDropdown = page.locator('.MuiCardContent-root > button:nth-child(3)');
     this.monthSelector = page.locator('button').filter({ hasText: 'May' });
     this.modalBackdrop = page.locator('div:nth-child(2) > .MuiBackdrop-root');
     this.ReviewOpen = page.locator('//div[contains(@class, "reviewer-business-progress-container")]//button[text()="Open"]');
     this.driverExplorationTab= page.getByText('Driver Exploration');
-    
-    this.dropdownGenericLoader = page.locator('//div[@data-testid="skeleton"]');
-    this.filtersButton = page.locator('//button[text()="Filters" and contains(@class, "KPIPageHeader_filters")]');
   }
 
   async clickOnOpenButton() {
     await this.btnOpenCurrentForecast.first().click();
   }
-  /**
-   * Clicks on the Filters button (after drivers are applied)
-   */
-  async clickFiltersButton(): Promise<void> {
-    await this.filtersButton.waitFor({ state: 'visible', timeout: 5000 });
-    await this.filtersButton.click();
-  }
   
-  async clickOnOpenCopyForecastDataButton() {
-    await this.copyForecast.click();
-  }
-
-  async clickSourceForecastDropdown(sourceName: string, isCurrentSource: boolean) {
-    await this.forecastDropdown.first().click();
-    await this.page.waitForTimeout(5000);
-    
-    const dropdownOptions = this.page.locator('li[role="option"]');
-    const optionCount = await dropdownOptions.count();
-
-    for (let i = 2; i < optionCount; i++) {
-      const optionText = await dropdownOptions.nth(i).textContent();
-      if ((isCurrentSource && optionText?.trim() === sourceName) || (!isCurrentSource && optionText?.trim() !== sourceName)) 
-      {
-          await dropdownOptions.nth(i).click();
-          await this.page.waitForTimeout(3000);
-          return optionText?.trim();
-      }
-    }
-  }
   /**
    * Clicks on the alternate driver button when save changes dialog appears
    */
   async clickOnAlternateDriverButton(): Promise<void> {
     await this.AlternateDriverButton.click();
-  }
-
-  
-  async clickTargetForecastDropdown(targetSelection: string, isCurrentTarget: boolean) {
-    const secondDropdown = this.page.locator(
-      '//span[text()="Destination forecast"]/following::div[@role="button"][1]'
-    );
-    await secondDropdown.click();
-    await this.page.waitForTimeout(5000);
-    
-    const dropdownOptions = this.page.locator('li[role="option"]');
-    
-    const optionCount = await dropdownOptions.count();
-    
-    for (let i = 0; i < optionCount; i++) {
-      const optionText = await dropdownOptions.nth(i).textContent();
-
-      const trimmedOptionText = optionText?.trim();
-
-      if (!trimmedOptionText || trimmedOptionText === "Select forecast") {
-          continue;
-      }
-      if ((isCurrentTarget && trimmedOptionText === targetSelection) || (!isCurrentTarget && trimmedOptionText !== targetSelection)) 
-      {
-          await dropdownOptions.nth(i).click();
-          await this.page.waitForTimeout(3000);
-          return trimmedOptionText;
-      }
-    }
   }
 
   async getAlertMessage(expectedMessage: string, errorMessage:string, timeout = 60000): Promise<string> {
@@ -271,11 +195,6 @@ export class OpenCurrentForecast {
     throw new Error(`Alert message did not change to the expected value within ${timeout}ms.`);
   }
 
-  async clickOnCopyForecastButton() {
-    await this.page.mouse.click(0, 0);
-    await this.copyData.click();
-    await this.page.waitForTimeout(5000);
-  }
   async clickOnDateRangeComponent() {
     await this.dateRangeComponent.locator('div').first().click();
   }
@@ -362,9 +281,6 @@ async clickIbgTotalChip() {
 async clickConsumablesChip() {
   await this.page.locator('div').filter({ hasText: /^CONSUMABLES$/ }).nth(2).click();
 }
-  async waitForKPITableToLoad(state: "attached" | "detached" | "visible" | "hidden" | undefined = "visible") {
-    await this.KPITable.waitFor({ state: state })
-  }
 
   async getAllChanges() {
     const elements = await this.adjustmentNamesTitle.all();
@@ -551,74 +467,6 @@ async clickConsumablesChip() {
 
     return { updated_col_ids: updated_col_ids, old_col_ids: old_col_ids };
   }
-  /**
-   * Gets all available filter options and returns them as an array
-   * @returns Promise<string[]> - Array of filter option names
-   */
-  async getAvailableFilterOptions(): Promise<string[]> {
-    const filterOptions: string[] = [];
-    
-    // Define the filter button names to check
-    const filterNames = ['Filter sets', 'Department', 'Location', 'Reporting', 'Business Area'];
-    
-    for (const filterName of filterNames) {
-      const filterButton = this.page.getByRole('button', { name: filterName });
-      if (await filterButton.isVisible()) {
-        filterOptions.push(filterName);
-      }
-    }
-    
-    return filterOptions;
-  }
-  /**
-   * Verifies that all expected filter options are visible
-   * @param expectedFilters - Array of expected filter names
-   * @returns Promise<boolean> - True if all filters are visible
-   */
-  async verifyFilterOptionsVisible(expectedFilters: string[]): Promise<boolean> {
-    let allFiltersVisible = true;
-    
-    for (const filterName of expectedFilters) {
-      const filterButton = this.page.getByRole('button', { name: filterName });
-      const isVisible = await filterButton.isVisible();
-      
-      if (!isVisible) {
-        console.log(`Filter "${filterName}" is not visible`);
-        allFiltersVisible = false;
-      } else {
-        console.log(`Filter "${filterName}" is visible`);
-      }
-    }
-    
-    return allFiltersVisible;
-  }
-  /**
-   * Compares two arrays of filter options to check if they are identical
-   * @param filtersBeforeDrivers - Filter options before applying drivers
-   * @param filtersAfterDrivers - Filter options after applying drivers
-   * @returns boolean - True if both arrays contain the same filters
-   */
-  async compareFilterOptions(filtersBeforeDrivers: string[], filtersAfterDrivers: string[]): Promise<boolean> {
-    if (filtersBeforeDrivers.length !== filtersAfterDrivers.length) {
-      console.log(`Filter count mismatch: Before (${filtersBeforeDrivers.length}) vs After (${filtersAfterDrivers.length})`);
-      return false;
-    }
-
-    // Sort both arrays to ensure order doesn't matter
-    const sortedBefore = [...filtersBeforeDrivers].sort();
-    const sortedAfter = [...filtersAfterDrivers].sort();
-
-    for (let i = 0; i < sortedBefore.length; i++) {
-      if (sortedBefore[i] !== sortedAfter[i]) {
-        console.log(`Filter mismatch at index ${i}: "${sortedBefore[i]}" vs "${sortedAfter[i]}"`);
-        return false;
-      }
-    }
-
-    console.log('All filter options match before and after applying drivers');
-    return true;
-  }
-
   async fillForecastInputCellForGivenDriverWithlowestGrain(noOfCells, inputValue, DriverName, FilteredLowestGrain) {
 
     let DriverRow = await this.page.locator(`//*[text()='${DriverName}']//following::div[@col-id='department'][1]//*[text()='${FilteredLowestGrain}']/ancestor::*[@role='row']`);
@@ -932,26 +780,6 @@ async clickConsumablesChip() {
     await this.deleteButton.click()
   }
 
-  async clickOnCopyForecastDataButton() {
-    await this.copyForecast.click()
-  }
-
-  async selectSourceForecastDropdown(sourceForecastName: string) {
-    await this.copyScenarioSourceForecastDropdown.click();
-    await this.page.getByRole('option', { name: sourceForecastName, exact: true }).click();
-    await this.page.keyboard.press("Escape");
-  }
-
-  async selectDestinationForecastDropdown(destinationForecastName: string) {
-    await this.copyScenarioDestinationForecastDropdown.click();
-    await this.page.getByRole('option', { name: destinationForecastName, exact: true }).click();
-    await this.page.keyboard.press("Escape");
-  }
-
-  async clickOnCopyDataButton() {
-    await this.copyDataButton.click();
-  }
-
   async waitForMessage(message: string) {
     await expect(this.page.getByText(message)).toBeVisible();
   }
@@ -1023,31 +851,6 @@ async clickConsumablesChip() {
     return true;
   }
 
-  async switchKPILandingSelectedDriverOrder() {
-    const selectedDriversContainer = this.page.locator('//div[@class="kpiForecastTable"]');
-    const firstDriverDragHandle = selectedDriversContainer.locator(
-        '//div[contains(@class, "ag-drag-handle ag-row-drag")]'
-    ).first();
-    
-    const secondDriverDragHandle = selectedDriversContainer.locator(
-        '//div[contains(@class, "ag-drag-handle ag-row-drag")]'
-    ).last();
-    await firstDriverDragHandle.isVisible();
-    await secondDriverDragHandle.isVisible();
-    await firstDriverDragHandle.dragTo(secondDriverDragHandle);
-    console.log(`Switched order of drivers successfully.`);
-  }
-
-  async getKPILandingFirstDriverName() {
-    const selectedDriversContainer = this.page.locator('//div[@class="kpiForecastTable"]');
-    const firstDriverDragHandle = selectedDriversContainer.locator(
-        '//div[contains(@class, "DimensionCellRenderer_cellContainer__RQDdD")]'
-    ).first();
-    await firstDriverDragHandle.isVisible();
-    const firstDriverName = await firstDriverDragHandle.textContent();
-    return firstDriverName?.trim() || '';
-  }
-
   async verifyChevronIsReset() {
     await this.firstChevronIcon.waitFor({ state: 'visible' });
     await expect(this.detailsAfterExpandingChevronIcon).toBeHidden();
@@ -1074,138 +877,4 @@ async clickConsumablesChip() {
     const duplicateMessage = await this.page.locator('text=This name is already in use. Please choose a different one.');
     return await duplicateMessage.isVisible();
   }
-
-  /**
-   * Gets dropdown options for the source forecast dropdown
-   * @returns Array of option elements
-   */
-  private async getSourceDropdownOptions() {
-    debug.log('Opening source dropdown...');
-    await this.copyScenarioSourceForecastDropdown.click();
-
-    await this.waitForDropdownLoaderToDisappear();
-    
-    const options = this.page.locator('li[role="option"]');
-    
-    return options;
-  }
-
-  /**
-   * Gets dropdown options for the destination forecast dropdown
-   * @returns Array of option elements
-   */
-  private async getDestinationDropdownOptions() {
-    debug.log('Opening destination dropdown...');
-    await this.copyScenarioDestinationForecastDropdown.click();
-  
-    await this.waitForDropdownLoaderToDisappear();
-    // Get all dropdown options
-    const options = this.page.locator('li[role="option"]');
-    
-    return options;
-  }
-
-  /**
-   * Core method that checks if a scenario is present in dropdown
-   * @param scenarioId - The scenario ID to check
-   * @param dropdownType - Type of dropdown
-   * @returns boolean indicating if the scenario is present in the dropdown
-   */
-  async isScenarioInDropdown(
-    scenarioId: string, 
-    dropdownType: 'source' | 'destination'
-  ): Promise<boolean> {
-    const options = dropdownType === 'source' 
-      ? await this.getSourceDropdownOptions() 
-      : await this.getDestinationDropdownOptions();
-    
-    const optionCount = await options.count();
-    
-    // Ensure we have options loaded
-    if (optionCount === 0) {
-      debug.log(`No dropdown options found for ${dropdownType} dropdown`);
-      return false;
-    }
-    
-    for (let i = 0; i < optionCount; i++) {
-      const dataValue = await options.nth(i).getAttribute('data-value');
-      if (dataValue?.toString() == scenarioId) {
-        return true; // Scenario found
-      }
-    }
-    
-    return false; // Scenario not found
-  }
-
-  /**
-   * Checks if a scenario is present in the SOURCE dropdown
-   * @param scenarioId - The scenario ID to check
-   * @returns boolean indicating if the scenario is present
-   */
-  async isScenarioInSourceDropdown(scenarioId: string): Promise<boolean> {
-    return this.isScenarioInDropdown(scenarioId, 'source');
-  }
-
-  /**
-   * Checks if a scenario is present in the DESTINATION dropdown
-   * @param scenarioId - The scenario ID to check
-   * @returns boolean indicating if the scenario is present
-   */
-  async isScenarioInDestinationDropdown(scenarioId: string): Promise<boolean> {
-    return this.isScenarioInDropdown(scenarioId, 'destination');
-  }
-
-  /**
-   * Checks if a scenario is NOT present in the SOURCE dropdown
-   * @param scenarioId - The scenario ID to check
-   * @returns boolean indicating if the scenario is absent
-   */
-  async isScenarioNotInSourceDropdown(scenarioId: string): Promise<boolean> {
-    return !(await this.isScenarioInDropdown(scenarioId, 'source'));
-  }
-
-  /**
-   * Checks if a scenario is NOT present in the DESTINATION dropdown
-   * @param scenarioId - The scenario ID to check
-   * @returns boolean indicating if the scenario is absent
-   */
-  async isScenarioNotInDestinationDropdown(scenarioId: string): Promise<boolean> {
-    return !(await this.isScenarioInDropdown(scenarioId, 'destination'));
-  }
-
-  /**
-   * Closes an open dropdown by clicking elsewhere on the page
-   */
-  async closeDropdown(): Promise<void> {
-    // Click somewhere neutral to close the dropdown
-    await this.page.mouse.click(0, 0);
-    await this.page.waitForTimeout(500); // Brief wait for dropdown to close
-  }
-
-
-
-
-async waitForDropdownLoaderToDisappear(): Promise<void> {
-  try {
-    
-    // Wait up to 3 seconds for at least one skeleton loader to appear
-    await this.dropdownGenericLoader.first().waitFor({ state: 'visible', timeout: 3000 });
-    
-    
-    // Wait for ALL skeleton loaders to be hidden using a function
-    await this.page.waitForFunction(
-      () => {
-        const skeletons = document.querySelectorAll('div[data-testid="skeleton"]');
-        return Array.from(skeletons).every(skeleton => 
-          window.getComputedStyle(skeleton).display === 'none' || 
-          !(skeleton as HTMLElement).offsetParent
-        );
-      },
-      { timeout: 10000 }
-    );
-    
-  } catch (error) {
-    //Dont do anything if the loader is not present
-  }
-}
 }

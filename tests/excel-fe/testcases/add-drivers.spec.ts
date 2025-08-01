@@ -5,7 +5,7 @@ import { ExcelPage } from "../pages/excel.page";
 
 test.describe(
   "Excel AddIn Drivers Selection Tests",
-  { tag: "@Regression @Smoke @ExcelPlugin @AddDrivers" },
+  { tag: "@Regression @Smoke @ExcelPlugin @AddDrivers ibg-ufm-metadata-service ibg-ufm-core-service" },
   async () => {
     test.describe.configure({ mode: "serial" });
     let excelPage: ExcelPage;
@@ -34,11 +34,11 @@ test.describe(
       await excelPage.selectScenario();
       await excelPage.loadData();
       let color = await excelPage.getCellColor("B3");
-      Utility.logIt("B3 cell color:"+ color);
+      Utility.logIt("B3 cell color:" + color);
       expect(color).toBe("#D6D6D6");
-      
+
       color = await excelPage.getCellColor("B4");
-      Utility.logIt("B4 cell color:"+ color);
+      Utility.logIt("B4 cell color:" + color);
       expect(color).toBe("#FFFFDF");
     });
   }

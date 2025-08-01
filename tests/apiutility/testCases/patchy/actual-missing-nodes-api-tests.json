@@ -6,40 +6,44 @@
             "labels": [
                 "smoke",
                 "nodesApi",
-                "Regression","patchy"
+                "Regression",
+                "patchy",
+                "ibg-ufm-domino-service",
+                "ibg-ufm-metadata-service",
+                "ibg-ufm-core-service",
+                "ibg-ufm-allocation-engine"
             ],
             "service": "dataForgeService",
             "uri": "actualMissingNode",
             "testName": "validate nodes api",
             "queryParams": "",
             "method": "GET",
- 
             "assertions": [
-                    {
-                        "status": 200
-                    },
-                    {
-                        "body.message": "Unique node names retrieved successfully"
-                    },
-                    {
-                        "body.data": [
-                            {
-                                "ufm_node_id": "111_TEST",
-                                "ufm_node_nm": "fakeInputNode"
-                            },
-                            {
-                                "ufm_node_id": "222_TEST",
-                                "ufm_node_nm": "fakeInputNodeTwo"
-                            },
-                            {
-                                "ufm_node_id": "333_TEST",
-                                "ufm_node_nm": "fakeInputNodeThird"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
+                {
+                    "status": 200
+                },
+                {
+                    "body.message": "Unique node names retrieved successfully"
+                },
+                {
+                    "body.data": [
+                        {
+                            "ufm_node_id": "111_TEST",
+                            "ufm_node_nm": "fakeInputNode"
+                        },
+                        {
+                            "ufm_node_id": "222_TEST",
+                            "ufm_node_nm": "fakeInputNodeTwo"
+                        },
+                        {
+                            "ufm_node_id": "333_TEST",
+                            "ufm_node_nm": "fakeInputNodeThird"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
     "validate_incorrect_nodes_api": [
         {
             "testStep": "Call actual missing nodes api with incorrect node name",
@@ -54,15 +58,14 @@
             "testName": "validate incorrect nodes api",
             "queryParams": "",
             "method": "GET",
-
             "assertions": [
-                    {
-                        "status": 400
-                    },
-                    {
-                        "body.message": "Invalid node name provided"
-                    }
-                ]
+                {
+                    "status": 400
+                },
+                {
+                    "body.message": "Invalid node name provided"
+                }
+            ]
         }
     ]
-    }
+}

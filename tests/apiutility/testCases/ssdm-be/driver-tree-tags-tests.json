@@ -1,0 +1,156 @@
+{
+  "Create_Get_Delete_Driver_Tree_Tag": [
+    {
+      "testStep": "Get Driver Trees",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_tag",
+        "Regression",
+        "Regression",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Create_Get_Delete_Driver_Tree_Tag",
+      "queryParams": "",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractFirst": {
+        "driver_tree_key": "driver_tree_key"
+      }
+    },
+    {
+      "testStep": "Get Tags",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_tag",
+        "Regression",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAlltags",
+      "testName": "Create_Get_Delete_Driver_Tree_Tag",
+      "queryParams": "",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractFirst": {
+        "tag_key": "tag_key"
+      }
+    },
+    {
+      "testStep": "Create Driver Tree Tag",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_tag",
+        "Regression",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Create_Get_Delete_Driver_Tree_Tag",
+      "queryParams": "{{driver_tree_key}}/tags",
+      "method": "POST",
+      "payload": {
+        "tag_key": "{{tag_key}}",
+        "tag_value": "Test Driver Tree Tag Value"
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "tag_value",
+            "value": "Test Driver Tree Tag Value"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Get Driver Tree Tag by Driver Tree Key",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_tag",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Get driver tree tag by Driver Tree Key",
+      "queryParams": "{{driver_tree_key}}/tags",
+      "method": "GET",
+      "payload": {
+        "tag_key": "{{tag_key}}",
+        "tag_value": "Test Driver Tree Tag Value"
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "tag_value",
+            "value": "Test Driver Tree Tag Value"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Get Driver Tree Tag by Driver Tree Key and Tag Key",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_tag",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Get driver tree tag by Driver Tree Key",
+      "queryParams": "{{driver_tree_key}}/tags/{{tag_key}}",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "tag_value",
+            "value": "Test Driver Tree Tag Value"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Delete Driver Tree Tag by Driver Tree Key and Tag Key",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_tag",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Get driver tree tag by Driver Tree Key",
+      "queryParams": "{{driver_tree_key}}/tags/{{tag_key}}",
+      "method": "DELETE",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

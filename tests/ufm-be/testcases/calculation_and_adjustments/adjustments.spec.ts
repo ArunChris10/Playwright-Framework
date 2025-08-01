@@ -1,9 +1,9 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import commonData from "../constants/common.json";
-import { payloads, testData } from "../testdata/adjustment.json"
-import { AdjustmentUtility } from "../fixtures/adjustment-utils";
-import { ForecastUtility } from "../fixtures/forecast-utils";
-import { UfmUtility } from "../fixtures/ufm-utils";
+import { expect, test } from "../../../common/fixtures/test-hook";
+import commonData from "../../constants/common.json";
+import { payloads, testData } from "../../testdata/adjustment.json"
+import { AdjustmentUtility } from "../../fixtures/adjustment-utils";
+import { ForecastUtility } from "../../fixtures/forecast-utils";
+import { UfmUtility } from "../../fixtures/ufm-utils";
 
 Object.entries(testData).forEach(([lob, testData]) => {
 
@@ -17,7 +17,7 @@ Object.entries(testData).forEach(([lob, testData]) => {
 
   test.describe(
     "Verify adjustments API",
-    { tag: "@Smoke @Regression @adjustments" },
+    { tag: "@Smoke @Regression @adjustments ibg-ufm-domino-service ibg-ufm-metadata-service ibg-ufm-core-service ibg-ufm-allocation-engine" },
     async () => {
       test.describe.configure({ timeout: 500_000, mode: "serial" });
 
@@ -80,7 +80,7 @@ Object.entries(testData).forEach(([lob, testData]) => {
         getAllAdjustmentsCountAfter = await AdjustmentUtility.getAllAdjustments(scenario_details["scenarioId"], scenario_details["scenarioVersion"], testData.lobName, request)
         expect(getAllAdjustmentsCountBefore.length).toEqual(getAllAdjustmentsCountAfter.length - 1)
       });
-      
+
 
       test(`Verify user able to add adjustment to a scenario for - ${testData.lobName} with type Adjustment 74`, async ({
         request,

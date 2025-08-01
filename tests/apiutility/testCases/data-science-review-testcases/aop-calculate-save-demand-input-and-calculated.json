@@ -9,7 +9,11 @@
         "Pre-Req",
         "IBGROW-35039",
         "IBGROW-34989",
-        "MS2"
+        "MS2",
+        "Visualization",
+        "AOP",
+        "Admin-Isolated-Scenarios",
+        "ibg-ufm-core-service" , "ibg-ufm-domino-service" , "ibg-ufm-allocation-engine","ibg-service-scenario-financials"
       ],
       "service": "coreService",
       "uri": "getDataScienceInfo",

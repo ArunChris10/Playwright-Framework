@@ -5,7 +5,10 @@
       "environment": "qa",
       "labels": [
         "smoke",
-        "computeSsdm"
+        "computeSsdm",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
       ],
       "service": "coreService",
       "uri": "getSandboxScenarioId",
@@ -47,7 +50,7 @@
       ]
     }
   ],
-   "check_for_compute_success": [
+  "check_for_compute_success": [
     {
       "testStep": "get scenario id for SSDM ",
       "environment": "qa",

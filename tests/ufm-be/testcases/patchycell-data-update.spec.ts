@@ -28,9 +28,9 @@ Object.entries(testData).forEach(([lobName, testData]) => {
   let editedValue: number = 100;
 
 
-  test.describe("Verify Calculate & Save API for multiple adjustments", { tag: "@Smoke @Regression @patchycellupdate" }, () => {
+  test.describe("Verify Calculate & Save API for multiple adjustments", { tag: "@Smoke @Regression @patchycellupdate ibg-ufm-domino-service ibg-ufm-metadata-service ibg-ufm-core-service ibg-ufm-allocation-engine" }, () => {
 
-   test.beforeAll(async ({ request }) => {
+    test.beforeAll(async ({ request }) => {
       if (
         (await ForecastUtility.countOfScenario(
           testData.lobName,
@@ -60,7 +60,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       );
       scenarioId = scenario_details["scenarioId"];
       scenarioVersion = scenario_details["scenarioVersion"];
-    }); 
+    });
 
     test.describe.configure({ timeout: 500_000, mode: "serial" });
 
@@ -77,7 +77,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
         node_filters,
         request
       );
-      let patchyDataMonth: string[] = await EditForecastUtility.getFirstMonthWithEmptyForecast(baseline_KpiResponse,testData.patchyDataNode);
+      let patchyDataMonth: string[] = await EditForecastUtility.getFirstMonthWithEmptyForecast(baseline_KpiResponse, testData.patchyDataNode);
       console.log("patchyDataMonth:", patchyDataMonth);
       // edit & calculate the patchy cell
       const { obj, months } = await EditForecastUtility.createAllocationPayloadForPatchyCell(lobName, scenarioId, allocationMethod, node_dimension, patchyDataMonth, node_filters, editedValue);
@@ -101,8 +101,8 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       const isAdjustmentIdPresent = getAllAdjustmentsCountAfter.some(
         (adjustment: any) => adjustment.adjustment_id === adjustmentId_onsave
       );
-      expect(isAdjustmentIdPresent).toBeTruthy(); 
-      
+      expect(isAdjustmentIdPresent).toBeTruthy();
+
       // group By to get lower grain nodes
       node_dimension = testData.node_dimension;
       let lowerGrain_KpiResponse = await EditForecastUtility.getKpiResponsesForNodes(
@@ -125,7 +125,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
       let totalOfLowerGrains = await EditForecastUtility.sumLowerGrainForecast(lowerGrain_actualForecastValue)
       expect(totalOfLowerGrains).toBeGreaterThanOrEqual(editedValue - 0.1);
       expect(totalOfLowerGrains).toBeLessThanOrEqual(editedValue + 0.1);
-      console.log("totalOfLowerGrains", +totalOfLowerGrains); 
+      console.log("totalOfLowerGrains", +totalOfLowerGrains);
     });
   });
 });

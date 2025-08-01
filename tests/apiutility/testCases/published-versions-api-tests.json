@@ -1,65 +1,78 @@
 {
-    "published_node_document_versions": [
+  "published_node_document_versions": [
+    {
+      "testStep": "Get published node edge document versions",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-38098",
+        "published-versions",
+        "ssdm",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
+      ],
+      "service": "coreService",
+      "uri": "getPublishedVersions",
+      "testName": "Get the last published node documents",
+      "queryParams": "",
+      "method": "GET",
+      "assertions": [
         {
-            "testStep": "Get published node edge document versions",
-            "environment": "qa",
-            "labels": ["smoke", "IBGROW-38098", "published-versions", "ssdm"],
-            "service": "coreService",
-            "uri": "getPublishedVersions",
-            "testName": "Get the last published node documents",
-            "queryParams": "",
-            "method": "GET",
-            "assertions": [
-                {
-                    "status": 200
-                },
-                {
-                    "assertKeyTypes": {
-                        "last_published": {
-                            "publish_ts": "string",
-                            "publish_user": "string"
-                        },
-                        "published_doc_list": [
-                            {
-                                "document_id": 123,
-                                "document_name": "string",
-                                "published_at": "string",
-                                "published_by": "string",
-                                "status": "string",
-                                "progress": 100,
-                                "total_net_new_input_nodes": 0,
-                                "net_new_input_nodes": [0, null]
-                            }
-                        ]
-                    }
-                }
-            ]
+          "status": 200
         },
         {
-          "testStep": "Verify test account user name is not visible if publish is initiated by test account",
-          "environment": "qa",
-          "labels": [
-            "smoke",
-            "IBGROW-38056",
-            "published-versions",
-            "test-account"
-          ],
-          "service": "coreService",
-          "uri": "getPublishedVersions",
-          "testName": "Verify in get published version api response test account user name is visible if publish is initiated by test account",
-          "queryParams": "",
-          "method": "GET",
-          "assertions": [
-            {
-              "status": 200
+          "assertKeyTypes": {
+            "last_published": {
+              "publish_ts": "string",
+              "publish_user": "string"
             },
-            {
-              "assertContains": {
-                "jsonPath": "$.published_doc_list[*].published_by",
-                "expected": ["LB-ibg-ufm-auto"]
+            "published_doc_list": [
+              {
+                "document_id": 123,
+                "document_name": "string",
+                "published_at": "string",
+                "published_by": "string",
+                "status": "string",
+                "progress": 100,
+                "total_net_new_input_nodes": 0,
+                "net_new_input_nodes": [
+                  0,
+                  null
+                ]
               }
-            }
-          ]
+            ]
+          }
         }
-    ]
+      ]
+    },
+    {
+      "testStep": "Verify test account user name is not visible if publish is initiated by test account",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "IBGROW-38056",
+        "published-versions",
+        "test-account"
+      ],
+      "service": "coreService",
+      "uri": "getPublishedVersions",
+      "testName": "Verify in get published version api response test account user name is visible if publish is initiated by test account",
+      "queryParams": "",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertContains": {
+            "jsonPath": "$.published_doc_list[*].published_by",
+            "expected": [
+              "LB-ibg-ufm-auto"
+            ]
+          }
+        }
+      ]
+    }
+  ]
 }

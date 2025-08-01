@@ -7,7 +7,7 @@ import { demandOrganization } from "../testdata/organizations.json";
 
 test.describe(
   "Verify if user is able to see the search list drop down with a single select checkbox for each item in the search result list upon clicking the search textbox",
-  { tag: "@Smoke @driverPopUpSearchCheckBox" },
+  { tag: "@Smoke @driverPopUpSearchCheckBox @DriverSearch @Regression" },
   () => {
     let objpageFactory: PageFactory, scenario_details, currentForecast, scenarioId, firstForecast;
 

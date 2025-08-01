@@ -5,7 +5,10 @@
             "environment": "qa",
             "labels": [
                 "smoke",
-                "driversApi", "Regression"
+                "driversApi",
+                "Regression",
+                "ibg-ufm-metadata-service",
+                "ibg-ufm-core-service"
             ],
             "service": "coreService",
             "uri": "getDrivers",

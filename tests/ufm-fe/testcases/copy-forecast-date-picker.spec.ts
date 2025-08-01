@@ -3,7 +3,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 import { organization } from "../testdata/copyForecast.json";
 test.describe(
   "Verify if user is able to select the date range in the copy popup",
-  { tag: "@Smoke @CopyForecastDatePicker" },
+  { tag: "@Smoke @CopyForecastDatePicker @Regression @CopyScenario" },
   () => {
     let objpageFactory: PageFactory;
     test.beforeAll(async ({ pageFactory }) => {
@@ -31,13 +31,13 @@ test.describe(
       });
       await test.step(`Verify copy forecast button is available`, async () => {
         await expect(
-          objpageFactory.ufmPageFactory().openCurrentForecast().copyForecast
+          objpageFactory.ufmPageFactory().copyForecastPage().copyForecast
         ).toBeVisible();
       });
       await test.step(`Click on Copy Forecast data button`, async () => {
         await objpageFactory
           .ufmPageFactory()
-          .openCurrentForecast()
+          .copyForecastPage()
           .clickOnOpenCopyForecastDataButton();
       });
       await test.step(`Verify date range component is visible`, async () => {

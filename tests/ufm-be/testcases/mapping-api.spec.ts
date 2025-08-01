@@ -5,7 +5,7 @@ import usersData from "../constants/ufm_users.json";
 
 test.describe(
   "Validating the dimension mapping details",
-  { tag: "@Smoke @Regression @mapping @perf" },
+  { tag: "@Smoke @Regression @mapping @perf ibg-ufm-metadata-service ibg-ufm-core-service" },
   () => {
     // API endpoint URL
     const endpointURL = `${process.env.apiBaseURLUFM}${testdatafile.endpoint}`;

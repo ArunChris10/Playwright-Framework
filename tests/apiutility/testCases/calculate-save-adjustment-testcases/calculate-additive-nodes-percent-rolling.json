@@ -8,7 +8,11 @@
         "additive_calculate_percent_rolling",
         "additive_calculate_save_percent_rolling",
         "calculations",
-        "adjustments"
+        "adjustments",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service",
+        "ibg-ufm-allocation-engine"
       ],
       "service": "coreService",
       "uri": "getForecast",

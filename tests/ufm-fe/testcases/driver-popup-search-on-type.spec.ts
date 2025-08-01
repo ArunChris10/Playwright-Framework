@@ -16,7 +16,7 @@ test.describe(
     });
     test(
       "Check if the search starts immediately after user enters any character",
-      { tag: "@driverPopUpSearchOnType" },
+      { tag: "@driverPopUpSearchOnType @DriverSearch @Regression" },
       async ({ request }) => {
         test.setTimeout(300000);
 

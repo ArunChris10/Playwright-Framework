@@ -7,7 +7,9 @@
         "smoke",
         "regression",
         "IBGROW-38453",
-        "edit-forecast-name"
+        "edit-forecast-name",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
       ],
       "service": "coreService",
       "uri": "getForecast",
@@ -97,7 +99,7 @@
       "method": "PUT",
       "payload": {
         "scenario_ver_ts": "{{scenario_version}}",
-        "scenario_id":"{{scenario_id}}",
+        "scenario_id": "{{scenario_id}}",
         "forecast_name": "{{scenario_name}}-edited-{{randomNumber}}",
         "dim_id": 12,
         "dim_val_id": 120001

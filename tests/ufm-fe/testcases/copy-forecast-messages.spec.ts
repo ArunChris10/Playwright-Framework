@@ -3,7 +3,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 import { UfmUtility } from "../../ufm-be/fixtures/ufm-utils";
 import { organization } from "../testdata/copyForecast.json";
 
-test.describe('Verify user is able to test Copy Forecast Messages', { tag: "@Smoke @CopyForecastMessages" }, () => {
+test.describe('Verify user is able to test Copy Forecast Messages', { tag: "@Smoke @Regression @CopyForecastMessages @CopyScenario" }, () => {
     let objpageFactory: PageFactory;
     let scenario_details;
     let currentForecast;
@@ -50,19 +50,19 @@ test.describe('Verify user is able to test Copy Forecast Messages', { tag: "@Smo
             await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnActionButton();
         });
         await test.step(`Verify copy forecast button is available`, async () => {
-            await expect(objpageFactory.ufmPageFactory().openCurrentForecast().copyForecast).toBeVisible();
+            await expect(objpageFactory.ufmPageFactory().copyForecastPage().copyForecast).toBeVisible();
         });
         await test.step(`Click on Copy Forecast data button`, async () => {
-            await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnOpenCopyForecastDataButton();
+            await objpageFactory.ufmPageFactory().copyForecastPage().clickOnOpenCopyForecastDataButton();
         });
         await test.step(`Click on Source Forecast Dropdown button`, async () => {
-            selectedSourceOptionName = await objpageFactory.ufmPageFactory().openCurrentForecast().clickSourceForecastDropdown(scenario_details.name, false);
+            selectedSourceOptionName = await objpageFactory.ufmPageFactory().copyForecastPage().clickSourceForecastDropdown(scenario_details.name, false);
         });
         await test.step(`Click on Target Forecast Dropdown button`, async () => {
-            await objpageFactory.ufmPageFactory().openCurrentForecast().clickTargetForecastDropdown(scenario_details.name, true);
+            await objpageFactory.ufmPageFactory().copyForecastPage().clickTargetForecastDropdown(scenario_details.name, true);
         });
         await test.step(`Click on Copy Forecast button`, async () => {
-            await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCopyForecastButton();
+            await objpageFactory.ufmPageFactory().copyForecastPage().clickOnCopyForecastButton();
         });
         await test.step(`Check if Data Load Started message after Copy Forecast button is correct`, async () => {
             const expectedMessage = `Data load from ${selectedSourceOptionName} has started. This process may take up to 10 minutes. You’ll be notified once it’s complete.`;
@@ -112,16 +112,16 @@ test.describe('Verify user is able to test Copy Forecast Messages', { tag: "@Smo
             await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnActionButton();
         });
         await test.step(`Click on Copy Forecast data button`, async () => {
-            await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnOpenCopyForecastDataButton();
+            await objpageFactory.ufmPageFactory().copyForecastPage().clickOnOpenCopyForecastDataButton();
         });
         await test.step(`Click on Source Forecast Dropdown button`, async () => {
-            await objpageFactory.ufmPageFactory().openCurrentForecast().clickSourceForecastDropdown(scenario_details.name, true);
+            await objpageFactory.ufmPageFactory().copyForecastPage().clickSourceForecastDropdown(scenario_details.name, true);
         });
         await test.step(`Click on Target Forecast Dropdown button`, async () => {
-            selectedTargetOptionName = await objpageFactory.ufmPageFactory().openCurrentForecast().clickTargetForecastDropdown(scenario_details.name, false);
+            selectedTargetOptionName = await objpageFactory.ufmPageFactory().copyForecastPage().clickTargetForecastDropdown(scenario_details.name, false);
         });
         await test.step(`Click on Copy Forecast button`, async () => {
-            await objpageFactory.ufmPageFactory().openCurrentForecast().clickOnCopyForecastButton();
+            await objpageFactory.ufmPageFactory().copyForecastPage().clickOnCopyForecastButton();
         });
         await test.step(`Check if Data Load Started message after Copy Forecast button is correct`, async () => {
             const expectedMessage = `Data load to ${selectedTargetOptionName} has started. This process may take up to 10 minutes. You’ll be notified once it’s complete.`;

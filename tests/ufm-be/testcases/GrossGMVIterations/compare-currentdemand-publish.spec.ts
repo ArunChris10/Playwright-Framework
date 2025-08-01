@@ -1,21 +1,21 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { compareFilteredForecastMonthsForCurrentDemandAndKPI, compareUFMDataToCurrentDemand ,extractDriverForecastFromKpi} from "../fixtures/ufm-currentdemand-utils";
+import { expect, test } from "../../../common/fixtures/test-hook";
+import { compareFilteredForecastMonthsForCurrentDemandAndKPI, compareUFMDataToCurrentDemand ,extractDriverForecastFromKpi} from "../../fixtures/ufm-currentdemand-utils";
 // import ufmGetKPIResponse from "../testdata/AOP-getkpiResponse.json";
 // import currentDemandGetResponse from "../testdata/AOP-CurrendemandResponse.json";
-import { EditForecastUtility } from "../fixtures/editForecast-utils";
-import metricsMapping from "../testdata/ufm-currentdemand-metrics-mapping.json";
-import { CurrentDemandUtility } from "../../cdf-be/fixtures/current-demand-utils";
-import { WorkflowUtility } from "../fixtures/workflow-utils";
-import { ForecastUtility } from "../fixtures/forecast-utils";
-import { nodeFormulas } from "../testdata/node-formulas";
-import {UfmUtility} from "../fixtures/ufm-utils"
+import { EditForecastUtility } from "../../fixtures/editForecast-utils";
+import metricsMapping from "../../testdata/ufm-currentdemand-metrics-mapping.json";
+import { CurrentDemandUtility } from "../../../cdf-be/fixtures/current-demand-utils";
+import { WorkflowUtility } from "../../fixtures/workflow-utils";
+import { ForecastUtility } from "../../fixtures/forecast-utils";
+import { nodeFormulas } from "../../testdata/node-formulas";
+import {UfmUtility} from "../../fixtures/ufm-utils"
 
-import { CalculatenodeValidationUtils } from "../fixtures/calculatenode-validation-utils";
-import demandData from "../testdata/demand-node-validation.json"
+import { CalculatenodeValidationUtils } from "../../fixtures/calculatenode-validation-utils";
+import demandData from "../../testdata/demand-node-validation.json"
 
 test.describe(
   "Verify the Slot 2 Sales handoff Flow",
-  { tag: "@currentDemandSalesHandoff" },
+  { tag: "@currentDemandSalesHandoff @Visualization @Slot2 @ConsolidatedDemand @GrossGMVItr3 @Regression @Smoke ibg-ufm-core-service ibg-ufm-domino-service ibg-ufm-allocation-engine ibg-service-scenario-financials" },
   async () => {
     test.describe.configure({ timeout: 3000_000, mode: "serial" });
 

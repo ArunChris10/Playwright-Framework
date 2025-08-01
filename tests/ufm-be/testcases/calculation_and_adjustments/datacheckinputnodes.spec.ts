@@ -1,11 +1,11 @@
 import { fail } from "assert";
-import { test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import commonData from "../constants/common.json";
-import orgList from "../constants/PBA_SBA_List.json";
-import { ForecastUtility } from "../fixtures/forecast-utils";
-import { UfmUtility } from "../fixtures/ufm-utils";
-import getKpiData from "../testdata/getKpi.json";
+import { test } from "../../../common/fixtures/test-hook";
+import { Utility } from "../../../common/fixtures/utils";
+import commonData from "../../constants/common.json";
+import orgList from "../../constants/PBA_SBA_List.json";
+import { ForecastUtility } from "../../fixtures/forecast-utils";
+import { UfmUtility } from "../../fixtures/ufm-utils";
+import getKpiData from "../../testdata/getKpi.json";
 
 // const lobList = orgList.SBAList;
 const lobList = [
@@ -20,7 +20,7 @@ lobList.forEach((lobName) => {
 
   test.describe(
     `Verify if data is present for all input nodes for ${lobName} lobName`,
-    { tag: "@Smoke @Regression @dataCheck" },
+    { tag: "@Smoke @Regression @dataCheck ibg-ufm-domino-service ibg-ufm-metadata-service ibg-ufm-core-service ibg-ufm-allocation-engine" },
     () => {
       test.describe.configure({ timeout: 600_000, mode: "parallel" });
 

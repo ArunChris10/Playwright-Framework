@@ -16,7 +16,7 @@ test.describe(
     });
     test(
       "Check upon clicking the search box user can see the recently searched drivers",
-      { tag: "@driverPopUpRecentSearchSpec" },
+      { tag: "@driverPopUpRecentSearchSpec @DriverSearch @Regression" },
       async ({ request }) => {
         test.setTimeout(300000);
 

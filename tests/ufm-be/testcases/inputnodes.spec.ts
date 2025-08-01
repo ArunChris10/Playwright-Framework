@@ -9,7 +9,7 @@ const lobName = dataList.SBAList;
 lobName.forEach((lob) => {
   test.describe(
     `Find input nodes for ${lob}`,
-    { tag: "@Smoke @Regression @inputNodes @perf" },
+    { tag: "@Smoke @Regression @inputNodes @perf ibg-ufm-domino-service ibg-ufm-metadata-service ibg-ufm-core-service ibg-ufm-allocation-engine" },
     () => {
       test.describe.configure({ timeout: 600_000, mode: "parallel" });
       let userList = usersData.users;

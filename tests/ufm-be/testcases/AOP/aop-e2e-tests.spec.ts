@@ -1,22 +1,22 @@
-import { expect, test } from "../../common/fixtures/test-hook";
-import { Utility } from "../../common/fixtures/utils";
-import testData from "../testdata/new-aop-version.json";
-import testDataScenario from "../testdata/forecast-api.json";
-import aopEdits from "../testdata/aop-edits.json";
-import { AOPUtils } from "../fixtures/aop-utils";
-import { DataScienceUtility } from "../fixtures/datascience-utils";
+import { expect, test } from "../../../common/fixtures/test-hook";
+import { Utility } from "../../../common/fixtures/utils";
+import testData from "../../testdata/new-aop-version.json";
+import testDataScenario from "../../testdata/forecast-api.json";
+import aopEdits from "../../testdata/aop-edits.json";
+import { AOPUtils } from "../../fixtures/aop-utils";
+import { DataScienceUtility } from "../../fixtures/datascience-utils";
 import { time } from "console";
-import adjustmentData from "../testdata/adjustment.json";
-import testdatafile from "../testdata/new-aop-version.json";
-import forecastData from "../testdata/forecast-api.json";
+import adjustmentData from "../../testdata/adjustment.json";
+import testdatafile from "../../testdata/new-aop-version.json";
+import forecastData from "../../testdata/forecast-api.json";
 
-import testdatafileScenario from "../testdata/forecast-api.json";
+import testdatafileScenario from "../../testdata/forecast-api.json";
 
-import { CdfUtility } from "../../cdf-be/fixtures/cdf-utils";
+import { CdfUtility } from "../../../cdf-be/fixtures/cdf-utils";
 
 test.describe(
   "AOP E2E Tests",
-  { tag: "@Smoke @Regression @aop_e2e @aop" },
+  { tag: "@Smoke @Regression @aop_e2e @aop @Visualization @AOP @Admin-Isolated-Scenarios ibg-ufm-core-service ibg-ufm-domino-service ibg-ufm-allocation-engine ibg-service-scenario-financials" },
   () => {
     test.describe.configure({
       timeout: 1000_000,

@@ -1,0 +1,134 @@
+{
+    "Verify non-additive patchy allocate upon group by": [
+        {
+            "testStep": "Get a scenario to calculate",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "non_additive_patchy_allocation_groupby",
+                "patchy",
+                "ibg-ufm-domino-service",
+                "ibg-ufm-metadata-service",
+                "ibg-ufm-core-service",
+                "ibg-ufm-allocation-engine"
+            ],
+            "service": "coreService",
+            "uri": "getForecast",
+            "testName": "Get a scenario to calculate at lower grain",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "unit": "Millions",
+                "dim_id": 12,
+                "dim_val_id": 120002,
+                "classification_id": 12,
+                "template_id": 1,
+                "filters": [],
+                "additional_filters": {
+                    "template_include_headers": [
+                        {
+                            "name": "vs LY",
+                            "format": "percent"
+                        },
+                        {
+                            "name": "vs Plan",
+                            "format": "absolute"
+                        }
+                    ]
+                }
+            },
+            "assertions": [
+                {
+                    "status": 200
+                }
+            ],
+            "extractRelativeMultipleCondition": {
+                "scenario_id": {
+                    "conditions": [
+                        {
+                            "path": "rowData.lineOfBusiness",
+                            "equals": 110013
+                        },
+                        {
+                            "path": "rowData.forecastStatus.statusCode",
+                            "equals": 21
+                        }
+                    ],
+                    "extractKey": "scenarioId"
+                },
+                "scenarioVersion": {
+                    "conditions": [
+                        {
+                            "path": "rowData.lineOfBusiness",
+                            "equals": 110013
+                        },
+                        {
+                            "path": "rowData.forecastStatus.statusCode",
+                            "equals": 21
+                        }
+                    ],
+                    "extractKey": "scenarioVersion"
+                }
+            }
+        },
+        {
+            "testStep": "Editing and Calculating the non-additive patchy node by group by",
+            "environment": "qa",
+            "labels": [
+                "smoke",
+                "non_additive_patchy_allocation_groupby"
+            ],
+            "service": "coreService",
+            "uri": "allocateData",
+            "testName": "Calculating the non-additive patchy node by group by",
+            "queryParams": "",
+            "method": "POST",
+            "payload": {
+                "display_nodes": [],
+                "scenario_id": "{{scenario_id}}",
+                "dim_val_id": 110013,
+                "dim_id": 11,
+                "preview": true,
+                "edits": [
+                    {
+                        "node_var_name": "returnedunitsopspctofopsunits_input",
+                        "node_dimension": {},
+                        "data": {
+                            "202612": 0.5
+                        },
+                        "allocation": {
+                            "interval": null,
+                            "offset": null,
+                            "method": 29
+                        }
+                    }
+                ],
+                "filters": [],
+                "forecast_months_selected": [
+                    "202612"
+                ],
+                "period_view": "month",
+                "adjustment_id": 13101753687146
+            },
+            "extractRelative": {
+                "allocationValue": {
+                    "whereKey": "node_var_name",
+                    "equals": "returnedunitsopspctofopsunits_input",
+                    "extractKey": "edits.202612.forecast"
+                }
+            },
+            "assertions": [
+                {
+                    "status": 200
+                },
+                {
+                    "assertApproxEquals": {
+                        "jsonPath": "{{allocationValue}}",
+                        "expected": 0.5,
+                        "acceptedDifference": 0.1000
+                    }
+                }
+            ]
+        }
+    ]
+}

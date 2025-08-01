@@ -9,7 +9,7 @@ const lobName = ["MARKETPLACE"];
 for (let i = 0; i < lobName.length; i++) {
   test.describe(
     "Verify create, edit and delete forecast API",
-    { tag: "@Smoke @Regression @create_forecast" },
+    { tag: "@Smoke @Regression @create_forecast ibg-ufm-metadata-service ibg-ufm-core-service" },
     async () => {
       test.describe.configure({ timeout: 500_000, mode: "serial" });
 

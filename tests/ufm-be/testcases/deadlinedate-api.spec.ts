@@ -5,7 +5,7 @@ import testdata from "../testdata/deadlinedate-api.json";
 
 test.describe(
   "Verify the deadline date API",
-  { tag: "@Smoke @Regression @deadlinedate" },
+  { tag: "@Smoke @Regression @deadlinedate ibg-ufm-metadata-service ibg-ufm-core-service" },
   () => {
     // variable used to store the filter id and use it across the tests under this describe
     let apiResponse, apiResponseBody;

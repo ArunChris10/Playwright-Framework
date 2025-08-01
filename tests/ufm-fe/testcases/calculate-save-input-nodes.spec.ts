@@ -81,7 +81,7 @@ Object.entries(lobList).forEach(([org, lob]) => {
                 })
 
                 await test.step("Wait for KPI table to load", async () => {
-                    await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad()
+                    await objpageFactory.ufmPageFactory().myKpiTablePage().waitForKPITableToLoad()
                 })
 
                 await test.step('Input number in all valid cell/non-empty cell', async () => {
@@ -114,7 +114,7 @@ Object.entries(lobList).forEach(([org, lob]) => {
                 })
 
                 await test.step("Wait for KPI table to load", async () => {
-                    await objpageFactory.ufmPageFactory().openCurrentForecast().waitForKPITableToLoad()
+                    await objpageFactory.ufmPageFactory().myKpiTablePage().waitForKPITableToLoad()
                 })
 
                 await test.step('Validate save is changed', async () => {

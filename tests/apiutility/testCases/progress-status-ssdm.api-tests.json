@@ -3,8 +3,21 @@
     {
       "testStep": "Get published node edge document versions",
       "environment": "qa",
-      "labels": ["smoke", "regression", "IBGROW-38084","ssdm"],
-      "tags": ["smoke", "regression", "IBGROW-38084", "ssdm"],
+      "labels": [
+        "smoke",
+        "regression",
+        "IBGROW-38084",
+        "ssdm",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service"
+      ],
+      "tags": [
+        "smoke",
+        "regression",
+        "IBGROW-38084",
+        "ssdm"
+      ],
       "service": "coreService",
       "uri": "getPublishedVersionsProgressStatus",
       "testName": "Get the last published node documents",
@@ -29,7 +42,10 @@
                 "status": "string",
                 "progress": 100,
                 "total_net_new_input_nodes": 0,
-                "net_new_input_nodes": [0, null]
+                "net_new_input_nodes": [
+                  0,
+                  null
+                ]
               }
             ]
           }
