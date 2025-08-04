@@ -1,0 +1,229 @@
+{
+  "get_workingBudget_and_save_equalDistribution_adjustment": [
+    {
+      "testStep": "Get working budget scenario, calculate and save adjustment using equal distribution , test vsPlan % and vsLy value",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "regression",
+        "working-budget",
+        "ibg-ufm-domino-service",
+        "ibg-ufm-metadata-service",
+        "ibg-ufm-core-service",
+        "ibg-ufm-allocation-engine"
+      ],
+      "service": "coreService",
+      "uri": "getForecast",
+      "testName": "Get scenario for working budget",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "classification_id": 12,
+        "dim_id": 12,
+        "dim_val_id": 120010,
+        "template_id": 1
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "workingBudget_scenario_version_timestamp": {
+          "whereKey": "rowData.typeId",
+          "equals": 88,
+          "extractKey": "rowData.scenarioVersion"
+        },
+        "workingBudget_scenario_id": {
+          "whereKey": "rowData.typeId",
+          "equals": 88,
+          "extractKey": "rowData.scenarioId"
+        }
+      }
+    },
+    {
+      "testStep": "Calculate working budget calculation and save for equal distribution",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "working-budget"
+      ],
+      "service": "coreService",
+      "uri": "allocateData",
+      "testName": "Verify working budget calculation for equal distribution",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "display_nodes": [],
+        "scenario_id": "{{workingBudget_scenario_id}}",
+        "dim_val_id": 110029,
+        "dim_id": 11,
+        "preview": true,
+        "edits": [
+          {
+            "node_var_name": "molevelofcalc_input",
+            "node_dimension": {},
+            "data": {
+              "{{dynamicMonth+1}}": 111
+            },
+            "allocation": {
+              "method": 31
+            }
+          }
+        ],
+        "filters": [
+          {
+            "dim_id": 1,
+            "dim_val_ids": [
+              2,
+              4,
+              8,
+              13,
+              1,
+              80,
+              83,
+              93,
+              14,
+              17,
+              19,
+              20,
+              3,
+              9,
+              10,
+              11,
+              12,
+              16,
+              5,
+              6,
+              7,
+              18
+            ],
+            "children": []
+          }
+        ],
+        "period_view": "month",
+        "forecast_months_selected": [
+          "202601",
+          "202602",
+          "202603",
+          "202604",
+          "202605",
+          "202606",
+          "202607",
+          "202608",
+          "202609",
+          "202610",
+          "202611",
+          "202612"
+        ],
+        "adjustment_id": 1754081191221
+      },
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelative": {
+        "forecastDriverOne": {
+          "whereKey": "node_var_name",
+          "equals": "molevelofcalc_input",
+          "extractKey": "edits.{{dynamicMonth+1}}.forecast"
+        }
+      },
+      "validateExtractToBeNotNull": [
+        "forecastDriverOne"
+      ]
+    },
+    {
+      "testStep": "Save Adjustment for working budget",
+      "environment": "qa",
+      "labels": [
+        "smoke"
+      ],
+      "service": "coreService",
+      "uri": "saveAdjustment",
+      "testName": "Verify Save works correctly for all node types (#, %, $)",
+      "queryParams": "",
+      "method": "PATCH",
+      "payload": {
+        "adjustment_metadata": {
+          "adjustment_name": "test Adjustment",
+          "adjustment_reason": "",
+          "adjustment_type": 73,
+          "is_duplicated": false,
+          "is_update": false,
+          "is_create": true,
+          "adjustment_edits": 3,
+          "scenario_id": "{{workingBudget_scenario_id}}",
+          "scenario_version_timestamp": "{{workingBudget_scenario_version_timestamp}}"
+        },
+        "allocation_request": {
+          "display_nodes": [],
+          "scenario_id": "{{workingBudget_scenario_id}}",
+          "dim_val_id": 110029,
+          "dim_id": 11,
+          "preview": false,
+          "edits": [
+            {
+              "node_var_name": "molevelofcalc_input",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 532
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 31
+              }
+            },
+            {
+              "node_var_name": "moothernonstorereceipts",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 500
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            },
+            {
+              "node_var_name": "mobuyingallowances",
+              "node_dimension": {},
+              "data": {
+                "{{dynamicMonth+1}}": 1.5
+              },
+              "allocation": {
+                "interval": null,
+                "offset": null,
+                "method": 29
+              }
+            }
+          ],
+          "filters": [],
+          "period_view": "month"
+        },
+        "dim_val_id": 110029
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertEquals": {
+            "jsonPath1": "message",
+            "value1": "New adjustment created successfully!!",
+            "jsonPath2": "adjustment_metadata.adjustment_name",
+            "value2": "test Adjustment"
+          },
+          "assertNotNull": {
+            "jsonPath1": "adjustment_metadata.adjustment_id",
+            "jsonPath2": "adjustment_metadata.created_by",
+            "jsonPath3": "adjustment_metadata.created_at"
+          }
+        }
+      ]
+    }
+  ]
+}
