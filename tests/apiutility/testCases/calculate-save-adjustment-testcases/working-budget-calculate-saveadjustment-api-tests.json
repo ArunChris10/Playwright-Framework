@@ -103,18 +103,18 @@
         ],
         "period_view": "month",
         "forecast_months_selected": [
-          "202601",
-          "202602",
-          "202603",
-          "202604",
-          "202605",
-          "202606",
-          "202607",
-          "202608",
-          "202609",
-          "202610",
-          "202611",
-          "202612"
+          "{{dynamicMonth}}",
+          "{{dynamicMonth+1}}",
+          "{{dynamicMonth+2}}",
+          "{{dynamicMonth+3}}",
+          "{{dynamicMonth+4}}",
+          "{{dynamicMonth+5}}",
+          "{{dynamicMonth+6}}",
+          "{{dynamicMonth+7}}",
+          "{{dynamicMonth+8}}",
+          "{{dynamicMonth+9}}",
+          "{{dynamicMonth+10}}",
+          "{{dynamicMonth+11}}"
         ],
         "adjustment_id": 1754081191221
       },
@@ -221,6 +221,193 @@
             "jsonPath1": "adjustment_metadata.adjustment_id",
             "jsonPath2": "adjustment_metadata.created_by",
             "jsonPath3": "adjustment_metadata.created_at"
+          }
+        }
+      ]
+    },
+    {
+      "testStep": "Get working budget forecast with vsPlan percentage and vsLY value validation",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "working-budget"
+      ],
+      "service": "coreService",
+      "uri": "getKpi",
+      "testName": "Verify working budget calculation for equal distribution",
+      "queryParams": "",
+      "method": "POST",
+      "payload": {
+        "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/reports/get-mykpi/v2",
+        "scenario_id": "{{workingBudget_scenario_id}}",
+        "scenario_version": "{{workingBudget_scenario_version_timestamp}}",
+        "dim_id": 11,
+        "dim_val_id": 110029,
+        "classification_id": 12,
+        "template_id": 3,
+        "filters": [
+          {
+            "dim_id": 1,
+            "dim_val_ids": [
+              2,
+              4,
+              8,
+              13,
+              1,
+              80,
+              83,
+              93,
+              14,
+              17,
+              19,
+              20,
+              3,
+              9,
+              10,
+              11,
+              12,
+              16,
+              5,
+              6,
+              7,
+              18
+            ],
+            "children": []
+          }
+        ],
+        "additional_filters": {
+          "pivot_cols": [
+            "month"
+          ],
+          "pivot_index": [
+            "node_id"
+          ],
+          "period_view": [
+            "month"
+          ],
+          "nodes": [
+            "molevelofcalc_input"
+          ],
+          "template_include_headers": [
+            {
+              "name": "vs Plan",
+              "format": "percent"
+            },
+            {
+              "name": "vs LY",
+              "format": "absolute"
+            },
+            {
+              "name": "{{dynamicMonth}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+1}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+2}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+3}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+4}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+5}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+6}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+7}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+8}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+9}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+10}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "{{dynamicMonth+11}}",
+              "columnsMenuParams": "middleColumns"
+            },
+            {
+              "name": "",
+              "columnsMenuParams": "fixedColumns"
+            },
+            {
+              "name": "Allocation Method",
+              "columnsMenuParams": "action"
+            },
+            {
+              "name": "Forecast",
+              "editable": true
+            },
+            {
+              "name": "Value",
+              "editable": true
+            }
+          ],
+          "month": [
+            "{{dynamicMonth}}",
+            "{{dynamicMonth+1}}",
+            "{{dynamicMonth+2}}",
+            "{{dynamicMonth+3}}",
+            "{{dynamicMonth+4}}",
+            "{{dynamicMonth+5}}",
+            "{{dynamicMonth+6}}",
+            "{{dynamicMonth+7}}",
+            "{{dynamicMonth+8}}",
+            "{{dynamicMonth+9}}",
+            "{{dynamicMonth+10}}",
+            "{{dynamicMonth+11}}"
+          ]
+        },
+        "isApplied": true
+      },
+      "extractRelative": {
+        "vsLyAbsolute": {
+          "whereKey": "driver",
+          "equals": "molevelofcalc_input",
+          "extractKey": "{{dynamicMonth}}.vsLyAbsolute"
+        },
+        "vsPlanPercentage": {
+          "whereKey": "driver",
+          "equals": "molevelofcalc_input",
+          "extractKey": "{{dynamicMonth}}.vsPlanPercent"
+        }
+      },
+      "validateExtractToBeNotNull": [
+        "vsLyAbsolute",
+        "vsPlanPercentage"
+      ],
+      "validateExtractToBeApprox": {
+        "vsLyAbsolute": {
+          "expected": 0,
+          "tolerance": 0
+        }
+      },
+      "assertions": [
+        {
+          "status": 200
+        },
+        {
+          "assertNotNull": {
+            "jsonPath1": "vsPlanPercentage"
           }
         }
       ]
