@@ -1,0 +1,301 @@
+{
+  "Publish_Republish_Driver_Tree_Versions": [
+    {
+      "testStep": "Get Driver Trees",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_Publish_Republish",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Publish_Republish_Driver_Tree_Versions",
+      "queryParams": "",
+      "method": "GET",
+      "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractFirst": {
+        "driver_tree_key": "driver_tree_key"
+      }
+    },
+    {
+      "testStep": "Get Driver Tree Versions",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_Publish_Republish",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Publish_Republish_Driver_Tree_Versions",
+      "queryParams": "/{{driver_tree_key}}/versions",
+      "method": "GET",
+       "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "driver_tree_version_draft": {
+          "conditions": [
+            {
+              "path": "is_published",
+              "equals": false
+            },
+            {
+              "path": "is_active",
+              "equals": true
+            }
+          ],
+          "extractKey": "driver_tree_version"
+        }
+      },
+   "extractFromGlobalStoreSubKey": {
+    "fetched_driver_tree_version_draft": {
+      "sourceGlobalKey": "driver_tree_version_draft",
+      "subKey": "driver_tree_version"
+    }
+  }
+
+    },
+    {
+      "testStep": "Get Driver Tree Versions",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_Publish_Republish",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Publish_Republish_Driver_Tree_Versions",
+      "queryParams": "/{{driver_tree_key}}/versions",
+      "method": "GET",
+       "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "driver_tree_version_draft": {
+          "conditions": [
+            {
+              "path": "is_published",
+              "equals": false
+            },
+            {
+              "path": "is_active",
+              "equals": true
+            }
+          ],
+          "extractKey": "driver_tree_version"
+        }
+      },
+   "extractFromGlobalStoreSubKey": {
+    "fetched_driver_tree_version_draft": {
+      "sourceGlobalKey": "driver_tree_version_draft",
+      "subKey": "driver_tree_version"
+    }
+  }
+    },
+  {
+      "testStep": "Publish Driver Tree Versions",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_Publish_Republish",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Publish_Republish_Driver_Tree_Versions",
+      "queryParams": "/{{driver_tree_key}}/version/{{fetched_driver_tree_version_draft}}/publish",
+      "method": "POST",
+       "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+   {
+      "testStep": "Get Driver Tree Versions After Publish",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_Publish_Republish",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Publish_Republish_Driver_Tree_Versions",
+      "queryParams": "/{{driver_tree_key}}/versions",
+      "method": "GET",
+      "extractRelativeMultipleCondition": {
+        "driver_tree_version_published": {
+          "conditions": [
+            {
+              "path": "is_published",
+              "equals": true
+            },
+            {
+              "path": "is_active",
+              "equals": true
+            }
+          ],
+          "extractKey": "driver_tree_version"
+        }
+      },
+   "extractFromGlobalStoreSubKey": {
+    "fetched_driver_tree_version_published": {
+      "sourceGlobalKey": "driver_tree_version_published",
+      "subKey": "driver_tree_version"
+    }
+  },
+   "validateExtract": {
+        "fetched_driver_tree_version_draft": "{{fetched_driver_tree_version_published}}"
+      }
+  
+    },
+    {
+      "testStep": "Get Driver Tree Versions",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_Publish_Republish",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Publish_Republish_Driver_Tree_Versions",
+      "queryParams": "/{{driver_tree_key}}/versions",
+      "method": "GET",
+       "assertions": [
+        {
+          "status": 200
+        }
+      ],
+      "extractRelativeMultipleCondition": {
+        "driver_tree_version_old": {
+          "conditions": [
+            {
+              "path": "is_published",
+              "equals": true
+            },
+            {
+              "path": "is_active",
+              "equals": false
+            }
+          ],
+          "extractKey": "driver_tree_version"
+        }
+      },
+   "extractFromGlobalStoreSubKey": {
+    "fetched_driver_tree_version_for_republish": {
+      "sourceGlobalKey": "driver_tree_version_old",
+      "subKey": "driver_tree_version"
+    }
+  }
+    },
+      {
+      "testStep": "Republish Already published Driver Tree Versions",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_Publish_Republish",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Publish_Republish_Driver_Tree_Versions",
+      "queryParams": "/{{driver_tree_key}}/version/{{fetched_driver_tree_version_for_republish}}/re-publish",
+      "method": "POST",
+       "assertions": [
+        {
+          "status": 200
+        }
+      ]
+    },
+    {
+      "testStep": "Get Driver Tree Versions After Republish",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_Publish_Republish",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Publish_Republish_Driver_Tree_Versions",
+      "queryParams": "/{{driver_tree_key}}/versions",
+      "method": "GET",
+      "extractRelativeMultipleCondition": {
+        "driver_tree_version_republished": {
+          "conditions": [
+            {
+              "path": "is_published",
+              "equals": true
+            },
+            {
+              "path": "is_active",
+              "equals": true
+            }
+          ],
+          "extractKey": "driver_tree_version"
+        }
+      },
+   "extractFromGlobalStoreSubKey": {
+    "fetched_driver_tree_version_republished": {
+      "sourceGlobalKey": "driver_tree_version_republished",
+      "subKey": "driver_tree_version"
+    }
+  },
+   "validateExtract": {
+        "fetched_driver_tree_version_for_republish": "{{fetched_driver_tree_version_republished}}"
+      }
+  
+    },
+     {
+      "testStep": "Publish Already published Driver Tree Versions",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_Publish_Republish",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Publish_Republish_Driver_Tree_Versions",
+      "queryParams": "/{{driver_tree_key}}/version/{{fetched_driver_tree_version_for_republish}}/publish",
+      "method": "POST",
+       "assertions": [
+        {
+          "status": 409
+        }
+      ]
+    },
+    {
+      "testStep": "Republish currently published Driver Tree Versions",
+      "environment": "qa",
+      "labels": [
+        "smoke",
+        "Driver_Tree_Publish_Republish",
+        "Regression"
+      ],
+      "service": "ssdmService",
+      "uri": "getAllDriverTrees",
+      "testName": "Publish_Republish_Driver_Tree_Versions",
+      "queryParams": "/{{driver_tree_key}}/version/{{fetched_driver_tree_version_for_republish}}/re-publish",
+      "method": "POST",
+       "assertions": [
+        {
+          "status": 409
+        }
+      ]
+    }
+  ]
+}
