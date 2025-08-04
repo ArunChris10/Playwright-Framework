@@ -79,7 +79,7 @@ parameters:
   - app:
       {
         type: string,
-        label: "Provide the app name which the test belong to - EX - (UFM, CDF)",
+        label: "If application is 'UFM' , Provide tag name e.g ( smoke , ibg-ufm-core-service , etc ) , if application is CDF provide 'CDF'",
       }
   - envr:
       {
