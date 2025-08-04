@@ -204,6 +204,7 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
                 console.log(`Extracted ${globalVar}: ${JSON.stringify(value)}`);
               }
               }
+            
             if (step.extractRelative) {
               for (const globalVar in step.extractRelative) {
                 const { whereKey, equals, extractKey } = step.extractRelative[globalVar];
@@ -261,6 +262,24 @@ export async function coreExecutionFlow(testName: string, steps: ApiTestCase[], 
                 } else {
                   console.warn(`No valid extractRelative config found for globalVar: ${globalVar}`);
                 }
+              }
+            }
+            if (step.extractFromGlobalStoreSubKey) {
+              for (const globalKey in step.extractFromGlobalStoreSubKey) {
+              const { sourceGlobalKey, subKey } = step.extractFromGlobalStoreSubKey[globalKey];
+              const sourceObj = globalStore.getValue(sourceGlobalKey);
+              // Handle extraction from the provided JSON structure
+              if (typeof sourceObj === 'object' && sourceObj !== null) {
+                if (subKey in sourceObj) {
+                const extractedValue = String(sourceObj[subKey]);
+                globalStore.setValue(globalKey, extractedValue);
+                console.log(`Extracted ${globalKey} from ${sourceGlobalKey}.${subKey}: ${JSON.stringify(extractedValue)}`);
+                } else {
+                throw new Error(`Subkey "${subKey}" not found in globalStore["${sourceGlobalKey}"]`);
+                }
+              } else {
+                throw new Error(`globalStore["${sourceGlobalKey}"] is not an object or is null`);
+              }
               }
             }
             if (step.extractObject) {
