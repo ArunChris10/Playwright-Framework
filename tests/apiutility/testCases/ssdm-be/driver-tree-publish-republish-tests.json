@@ -1,7 +1,7 @@
 {
   "Publish_Republish_Driver_Tree_Versions": [
     {
-      "testStep": "Get Driver Trees",
+      "testStep": "Get Driver",
       "environment": "qa",
       "labels": [
         "smoke",
@@ -23,7 +23,7 @@
       }
     },
     {
-      "testStep": "Get Driver Tree Versions",
+      "testStep": "Get Driver Tree Versions to get the current version in Draft",
       "environment": "qa",
       "labels": [
         "smoke",
@@ -62,46 +62,6 @@
     }
   }
 
-    },
-    {
-      "testStep": "Get Driver Tree Versions",
-      "environment": "qa",
-      "labels": [
-        "smoke",
-        "Driver_Tree_Publish_Republish",
-        "Regression"
-      ],
-      "service": "ssdmService",
-      "uri": "getAllDriverTrees",
-      "testName": "Publish_Republish_Driver_Tree_Versions",
-      "queryParams": "/{{driver_tree_key}}/versions",
-      "method": "GET",
-       "assertions": [
-        {
-          "status": 200
-        }
-      ],
-      "extractRelativeMultipleCondition": {
-        "driver_tree_version_draft": {
-          "conditions": [
-            {
-              "path": "is_published",
-              "equals": false
-            },
-            {
-              "path": "is_active",
-              "equals": true
-            }
-          ],
-          "extractKey": "driver_tree_version"
-        }
-      },
-   "extractFromGlobalStoreSubKey": {
-    "fetched_driver_tree_version_draft": {
-      "sourceGlobalKey": "driver_tree_version_draft",
-      "subKey": "driver_tree_version"
-    }
-  }
     },
   {
       "testStep": "Publish Driver Tree Versions",
@@ -162,7 +122,7 @@
   
     },
     {
-      "testStep": "Get Driver Tree Versions",
+      "testStep": "Get Driver Tree Versions to get the old version in Published",
       "environment": "qa",
       "labels": [
         "smoke",
