@@ -95,7 +95,11 @@
     "testCases/ssdm-be/node-variant-tags-tests.json",
     "testCases/ssdm-be/node-misc-tests.json",
     "testCases/ssdm-be/driver-set-tests.json",
-    "testCases/ssdm-be/driver-tree-tags-tests.json"
+    "testCases/ssdm-be/driver-tree-tags-tests.json",
+    "testCases/calculate-save-adjustment-testcases/working-budget-calculate-saveadjustment-api-tests.json",
+    "testCases/calculate-save-adjustment-testcases/working-budget-calculate-vsplanpercent-update-api-tests.json",
+    "testCases/working-budget-vsplan-vsly-api-test.json",
+    "testCases/working-budget-fetch-editable-drivers.json"
   ],
   "currentDemandService": {
     "baseURL": {
