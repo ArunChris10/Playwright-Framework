@@ -14,7 +14,7 @@ let lobList = ["SCHEDULED"];
 lobList.forEach((lobName) => {
   test.describe(
     "Verify the GetKPIForecast API",
-    { tag: "@Regression @Smoke @GetKPIForecast @perf ibg-ufm-domino-service ibg-ufm-metadata-service ibg-ufm-core-service ibg-ufm-allocation-engine" },
+    { tag: "@Regression @Smoke @GetKPIForecast @perf @ibg-ufm-domino-service @ibg-ufm-metadata-service @ibg-ufm-core-service @ibg-ufm-allocation-engine" },
     () => {
       let apiResponse, apiResponseBody, monthYear;
       // API endpoint URL

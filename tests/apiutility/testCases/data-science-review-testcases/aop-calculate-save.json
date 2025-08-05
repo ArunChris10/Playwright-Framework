@@ -13,7 +13,7 @@
           "Visualization",
           "AOP",
           "Admin-Isolated-Scenarios",
-          "ibg-ufm-core-service" , "ibg-ufm-domino-service" , "ibg-ufm-allocation-engine","ibg-service-scenario-financials"
+          "@ibg-ufm-core-service" , "@ibg-ufm-domino-service" , "@ibg-ufm-allocation-engine","ibg-service-scenario-financials"
         ],
         "service": "coreService",
         "uri": "getDataScienceInfo",

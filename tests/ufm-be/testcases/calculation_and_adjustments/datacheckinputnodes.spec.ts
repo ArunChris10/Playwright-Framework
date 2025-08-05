@@ -20,7 +20,7 @@ lobList.forEach((lobName) => {
 
   test.describe(
     `Verify if data is present for all input nodes for ${lobName} lobName`,
-    { tag: "@Smoke @Regression @dataCheck ibg-ufm-domino-service ibg-ufm-metadata-service ibg-ufm-core-service ibg-ufm-allocation-engine" },
+    { tag: "@Smoke @Regression @dataCheck @ibg-ufm-domino-service @ibg-ufm-metadata-service @ibg-ufm-core-service @ibg-ufm-allocation-engine" },
     () => {
       test.describe.configure({ timeout: 600_000, mode: "parallel" });
 

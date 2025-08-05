@@ -10,8 +10,8 @@
         "IBGROW-36151",
         "MS1",
         "MS2",
-        "ibg-ufm-metadata-service",
-        "ibg-ufm-core-service"
+        "@ibg-ufm-metadata-service",
+        "@ibg-ufm-core-service"
       ],
       "service": "coreService",
       "uri": "getForecastCalendar",

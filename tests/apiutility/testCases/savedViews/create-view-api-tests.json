@@ -8,8 +8,8 @@
         "BG-36815",
         "Palalvi",
         "savedviews",
-        "ibg-ufm-metadata-service",
-        "ibg-ufm-core-service"
+        "@ibg-ufm-metadata-service",
+        "@ibg-ufm-core-service"
       ],
       "service": "nexusService",
       "uri": "create-nexus-preference",

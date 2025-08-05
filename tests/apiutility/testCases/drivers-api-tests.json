@@ -7,8 +7,8 @@
                 "smoke",
                 "driversApi",
                 "Regression",
-                "ibg-ufm-metadata-service",
-                "ibg-ufm-core-service"
+                "@ibg-ufm-metadata-service",
+                "@ibg-ufm-core-service"
             ],
             "service": "coreService",
             "uri": "getDrivers",

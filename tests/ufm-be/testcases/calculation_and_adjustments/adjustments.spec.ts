@@ -17,7 +17,7 @@ Object.entries(testData).forEach(([lob, testData]) => {
 
   test.describe(
     "Verify adjustments API",
-    { tag: "@Smoke @Regression @adjustments ibg-ufm-domino-service ibg-ufm-metadata-service ibg-ufm-core-service ibg-ufm-allocation-engine" },
+    { tag: "@Smoke @Regression @adjustments @ibg-ufm-domino-service @ibg-ufm-metadata-service @ibg-ufm-core-service @ibg-ufm-allocation-engine" },
     async () => {
       test.describe.configure({ timeout: 500_000, mode: "serial" });
 

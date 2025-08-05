@@ -4,7 +4,7 @@ import testdatafile from "../testdata/screen-details-api.json";
 
 test.describe(
   "Validating the screenDetails API ",
-  { tag: "@Smoke @Regression @screenDetails ibg-ufm-metadata-service ibg-ufm-core-service" },
+  { tag: "@Smoke @Regression @screenDetails @ibg-ufm-metadata-service @ibg-ufm-core-service" },
   () => {
     let responseBody;
     const testdata = testdatafile.configEndpoint;

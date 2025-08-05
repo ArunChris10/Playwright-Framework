@@ -12,7 +12,7 @@ defaultDriverSets.forEach((org) => {
   test.describe.configure({ mode: "serial" });
   test.describe(
     "Verify the default driver set behaviour for organization: " + org,
-    { tag: "@Smoke @defaultDriverSet @Regression ibg-ufm-metadata-service ibg-ufm-core-service" },
+    { tag: "@Smoke @defaultDriverSet @Regression @ibg-ufm-metadata-service @ibg-ufm-core-service" },
     async () => {
       // variable used to store the filter id and use it across the tests under this describe
       let filter_id: string;
