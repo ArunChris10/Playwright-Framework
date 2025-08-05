@@ -167,6 +167,7 @@ flows:
   runAllTests:
     try:
       - echo "Running all the tests in the repo"
+      - var(APP_NAME = 'UFM')
       - call: setup
       - APP_NAME=$app RUNID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests
       - var(TEST_RESULT =true)
@@ -176,6 +177,7 @@ flows:
   runUFMBeTests:
     try:
       - echo "Running UFM API Regression testcases "
+      - var(APP_NAME = 'UFM')
       - call: setup
       - RUNID=$testrunid ENV=$envr TEST=$app npm run tests:ufm-tests-be
       - var(TEST_RESULT =true)
@@ -186,6 +188,7 @@ flows:
     try:
       - echo "Running UFM API Regression testcases using new framework"
       - call: setup
+      - var(APP_NAME = 'UFM')
       - RUNID=$testrunid ENV=$envr TEST=$app npm run tests:apiutility
       - var(TEST_RESULT =true)
     finally:
@@ -203,6 +206,7 @@ flows:
   runUFMUITests:
     try:
       - echo "Running UFM UI Regression testcases "
+      - var(APP_NAME = 'UFM')
       - call: setup
       - RUNID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-fe
       - var(TEST_RESULT =true)
@@ -212,6 +216,7 @@ flows:
   runUFMUISmokeTest:
     try:
       - echo "Running UFM UI Smoke testcases "
+      - var(APP_NAME = 'UFM')
       - call: setup
       - RUNID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests-fe
       - var(TEST_RESULT =true)
@@ -221,6 +226,7 @@ flows:
   runUFMSMokeTest:
     try:
       - echo "Running UFM Smoke testcases "
+      - var(APP_NAME = 'UFM')
       - call: setup
       - RUNID=$testrunid ENV=$envr TEST=smoke npm run tests:ufm-tests
       - var(TEST_RESULT =true)
