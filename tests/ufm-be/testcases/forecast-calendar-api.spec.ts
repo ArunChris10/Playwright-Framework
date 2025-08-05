@@ -6,7 +6,7 @@ import forecastCalendarData from "../testdata/forecast-calendar-api.json";
 
 test.describe(
   "Verify forecast calendar APIs",
-  { tag: "@Regression @forecastCalendar ibg-ufm-metadata-service ibg-ufm-core-service" },
+  { tag: "@Regression @forecastCalendar @ibg-ufm-metadata-service @ibg-ufm-core-service" },
   () => {
     test.describe.configure({ timeout: 120_000, mode: "serial" });
     let fcst_id = "3461B40C-F149-4734-8E4C-95722B1F01EA";

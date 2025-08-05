@@ -4,7 +4,7 @@ import { UfmUtility } from "../fixtures/ufm-utils";
 
 test.describe(
   "Verify getting last locked scenario",
-  { tag: "@Smoke @Regression @lockedScenario ibg-ufm-metadata-service ibg-ufm-core-service" },
+  { tag: "@Smoke @Regression @lockedScenario @ibg-ufm-metadata-service @ibg-ufm-core-service" },
   () => {
     test.describe.configure({ timeout: 120_000, mode: "serial" });
 

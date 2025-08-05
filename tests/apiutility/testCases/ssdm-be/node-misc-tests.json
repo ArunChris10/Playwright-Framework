@@ -7,9 +7,9 @@
         "smoke",
         "Node_Misc",
         "Regression",
-        "ibg-ufm-domino-service",
-        "ibg-ufm-metadata-service",
-        "ibg-ufm-core-service"
+        "@ibg-ufm-domino-service",
+        "@ibg-ufm-metadata-service",
+        "@ibg-ufm-core-service"
       ],
       "service": "ssdmService",
       "uri": "nodeRelationships",

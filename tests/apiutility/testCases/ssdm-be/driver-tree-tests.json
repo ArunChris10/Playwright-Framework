@@ -8,9 +8,9 @@
         "Driver_Trees",
         "Regression",
         "Regression",
-        "ibg-ufm-domino-service",
-        "ibg-ufm-metadata-service",
-        "ibg-ufm-core-service"
+        "@ibg-ufm-domino-service",
+        "@ibg-ufm-metadata-service",
+        "@ibg-ufm-core-service"
       ],
       "service": "ssdmService",
       "uri": "getAllDriverTrees",

@@ -32,7 +32,7 @@ let orgName = [
 ];
 
 orgName.forEach((orgName) => {
-  test.describe("Run recompute for all scenarios", { tag: "@compute ibg-ufm-domino-service ibg-ufm-metadata-service ibg-ufm-core-service ibg-ufm-allocation-engine" }, () => {
+  test.describe("Run recompute for all scenarios", { tag: "@compute @ibg-ufm-domino-service @ibg-ufm-metadata-service @ibg-ufm-core-service @ibg-ufm-allocation-engine" }, () => {
     test.describe.configure({ timeout: 600_000, mode: "parallel" });
 
     const endpointURL = `${process.env.apiBaseURLUFM}${testdata.endpoint}`;

@@ -24,6 +24,11 @@ envs:
         - ibg-ufm-canned-reports-backend
         - ibg-shared-ui
         - ibg-shared-pages
+        - ibg-ufm-adjustment-proxy
+        - ibg-ufm-adjustment-orchestrator
+        - ibg-ufm-reporting-proxy
+        - ibg-ufm-adjustments
+        - ibg-ufm-reporting
       CDF_REPOS:
         - ibg-service-visualizer
         - ibg-centrifuge-ui
