@@ -7,10 +7,10 @@
                 "smoke",
                 "additive_patchy_allocation",
                 "patchy",
-                "ibg-ufm-domino-service",
-                "ibg-ufm-metadata-service",
-                "ibg-ufm-core-service",
-                "ibg-ufm-allocation-engine"
+                "@ibg-ufm-domino-service",
+                "@ibg-ufm-metadata-service",
+                "@ibg-ufm-core-service",
+                "@ibg-ufm-allocation-engine"
             ],
             "service": "coreService",
             "uri": "getForecast",

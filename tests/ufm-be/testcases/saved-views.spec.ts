@@ -6,7 +6,7 @@ test.describe.configure({ mode: "serial" });
 
 test.describe(
   "Validating the saved views functionality",
-  { tag: "@Smoke @Regression @savedview ibg-ufm-metadata-service ibg-ufm-core-service" },
+  { tag: "@Smoke @Regression @savedview @ibg-ufm-metadata-service @ibg-ufm-core-service" },
   async () => {
     test("Checking the response of getViews API", async ({ request }) => {
       const testdata = testdatafile.configEndpoint;

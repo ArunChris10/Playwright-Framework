@@ -204,7 +204,7 @@
             "period_view": "month"
         },
         "dim_val_id": 130001,
-        "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/adjustment/"
+        "baseURL": "https://@ibg-ufm-core-service.qa.ibg.walmart.com/adjustment/"
     },
     "visualIndicatorActualsUpdated" : "Actuals updated",
     "kpiTemplateIncludeHeaderArr" : [
@@ -231,7 +231,7 @@
     "getInputDriverKpiForecast":{
         "endpoint": "/reports/get-mykpi",
         "payload":{
-            "baseURL": "https://ibg-ufm-core-service.qa.ibg.walmart.com/reports/get-mykpi",
+            "baseURL": "https://@ibg-ufm-core-service.qa.ibg.walmart.com/reports/get-mykpi",
             "scenario_id": 11371745523402,
             "scenario_version": 1745526588,
             "dim_id": 13,

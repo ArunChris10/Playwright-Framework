@@ -4,7 +4,7 @@ import testdatafile from "../testdata/metadata-service.json";
 
 test.describe(
   "Validating the metadata service",
-  { tag: "@Smoke @Regression @metadata ibg-ufm-metadata-service ibg-ufm-core-service" },
+  { tag: "@Smoke @Regression @metadata @ibg-ufm-metadata-service @ibg-ufm-core-service" },
   () => {
     test("Checking the getdimensionconfig response", async ({ request }) => {
       const testdata = testdatafile.configEndpoint;

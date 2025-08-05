@@ -6,8 +6,8 @@
       "labels": [
         "smoke",
         "create_scenario_error",
-        "ibg-ufm-metadata-service",
-        "ibg-ufm-core-service"
+        "@ibg-ufm-metadata-service",
+        "@ibg-ufm-core-service"
       ],
       "service": "coreService",
       "uri": "Forecast",
