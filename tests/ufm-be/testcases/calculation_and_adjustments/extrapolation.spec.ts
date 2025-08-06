@@ -25,7 +25,7 @@ Object.entries(testData).forEach(([lob, testData]) => {
 
   test.describe(
     "Verify Extrapolation logic",
-    { tag: "@Smoke @Regression @extrapolation ibg-ufm-domino-service ibg-ufm-metadata-service ibg-ufm-core-service ibg-ufm-allocation-engine" },
+    { tag: "@Smoke @Regression @extrapolation @ibg-ufm-domino-service @ibg-ufm-metadata-service @ibg-ufm-core-service @ibg-ufm-allocation-engine" },
     async () => {
       test.describe.configure({ timeout: 500_000, mode: "serial" });
       test(`Getting or creating forecast for LOB - ${testData.lobName}`, async ({

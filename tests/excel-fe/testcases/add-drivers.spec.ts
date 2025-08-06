@@ -5,7 +5,7 @@ import { ExcelPage } from "../pages/excel.page";
 
 test.describe(
   "Excel AddIn Drivers Selection Tests",
-  { tag: "@Regression @Smoke @ExcelPlugin @AddDrivers ibg-ufm-metadata-service ibg-ufm-core-service" },
+  { tag: "@Regression @Smoke @ExcelPlugin @AddDrivers @ibg-ufm-metadata-service @ibg-ufm-core-service" },
   async () => {
     test.describe.configure({ mode: "serial" });
     let excelPage: ExcelPage;

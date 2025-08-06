@@ -18,7 +18,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
   let node_dimension: NodeDimension = {};
   let node_filters: filters = [];
 
-  test.describe("Verify Calculate & Save API", { tag: "@Smoke @Regression @CalSaveAdjustment ibg-ufm-metadata-service ibg-ufm-core-service" }, () => {
+  test.describe("Verify Calculate & Save API", { tag: "@Smoke @Regression @CalSaveAdjustment @ibg-ufm-metadata-service @ibg-ufm-core-service" }, () => {
 
     test.beforeAll(async ({ request }) => {
       if (

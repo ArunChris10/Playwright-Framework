@@ -10,7 +10,7 @@ import copyTestData from "./copy-scenario-testdata.json"
 test.describe("Copy Scenario API E2E", () => {
   test(
     "Find scenarios with forecast status Draft and trigger copy",
-    { tag: "@Regression @Smoke @CopyScenario @Visualization ibg-ufm-core-service ibg-ufm-domino-service ibg-ufm-allocation-engine ibg-ufm-reporting-proxy" },
+    { tag: "@Regression @Smoke @CopyScenario @Visualization @ibg-ufm-core-service @ibg-ufm-domino-service @ibg-ufm-allocation-engine @@ibg-ufm-reporting-proxy" },
     async ({ request }) => {
       let sourceScenario, targetScenario;
       const adjustmentEndpointURL = `${process.env.apiBaseURLUFM}${adjustmentData.endpoint}`;

@@ -26,6 +26,7 @@ export type AssertionEntry =
   validateExtractContains?: { [key: string]: string };
   validateExtract?: { [key: string]: string };
   validateExtractToBeNotNull?: { [key: string]: string };
+  extractFromGlobalStoreSubKey?: { [key: string]: { sourceGlobalKey: string; subKey: string } };
   validateExtractToBeApprox?: {
     [globalKey: string]: {
       expected: string | number;
