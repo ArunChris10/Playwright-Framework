@@ -96,7 +96,7 @@ test.describe(
       await objpageFactory.ssdmPageFactory().settingsDialogPage().validateChangeLog(createdDateForDraft);
     });
 
-    /* test('Validate Publisher is able to Republish', async ({ page }) => {
+    test('Validate Publisher is able to Republish', async ({ page }) => {
       await signinUtility.SignIn(page, "publisher");
       let publishedVersionOnUI = await objpageFactory.ssdmPageFactory().settingsDialogPage().getLatestPublishedDriverTreeVersion();
       expect(publishedVersionOnUI).toBe(latestPublishedDriverTreeVersionFromAPI);
@@ -105,5 +105,5 @@ test.describe(
       let republishedDriverTreeVersion = await objpageFactory.ssdmPageFactory().settingsDialogPage().republishDriverTree();
       let publishedVersionOnUIPostRepublish = await objpageFactory.ssdmPageFactory().settingsDialogPage().getLatestPublishedDriverTreeVersion();
       expect(publishedVersionOnUIPostRepublish).toContain(republishedDriverTreeVersion);
-    }); */
+    });
   })

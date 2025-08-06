@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { TIMEOUT_FE_WAIT } from '../constants/timeout.json';
+import { TIMEOUT_FE_WAIT,LOADER_WAIT } from '../constants/timeout.json';
 
 /**
  * Page Object Model for Landing Page Validation.
@@ -41,7 +41,7 @@ export class DriverTreeSettingsDialog {
     this.page = page;
     this.publishedDriverTree = page.locator(`//header//div[@role="combobox"]`);
     this.gridLoader = page.locator('.MuiCircularProgress-svg');
-    this.driverTreeSettingsIcon = page.locator(`//div[@class='ml-1 mr-1']`);
+    this.driverTreeSettingsIcon = page.locator(`(//div[@class='username-wrapper']/following-sibling::div)[1]`);
     this.driverTreeSettingsDialog = page.locator('[role="dialog"]');
     this.defaultDatasetDropdownOption = page.locator('//div[text()="Dataset for current View"]/following-sibling::div//span');
     this.datasetDropdown = page.locator(`//h3[text()="Draft Settings" or text()="My View"]/parent::div//div[@id='published-driver-tree']`);
@@ -64,7 +64,7 @@ export class DriverTreeSettingsDialog {
   }
 
   async getLatestPublishedDriverTreeVersion() {
-    await this.gridLoader.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT * 3 });
+    await this.gridLoader.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT * LOADER_WAIT });
     await this.publishedDriverTree.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     const publishedDriverTreeText = await this.publishedDriverTree.textContent();
     return publishedDriverTreeText?.trim() || '';
@@ -117,7 +117,7 @@ export class DriverTreeSettingsDialog {
     expect(selectedOptionText?.trim()).toBe(await this.defaultDatasetDropdownOption.textContent());
     await this.updateDataSetButton.click({ force: true });
     await this.driverTreeSettingsDialog.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT });
-    await this.gridLoader.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT * 10 });
+    await this.gridLoader.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT * LOADER_WAIT });
     await this.page.waitForTimeout(300);
     return selectedOptionText;
   }
@@ -146,7 +146,7 @@ export class DriverTreeSettingsDialog {
     await this.publishedDriverTree.click();
     await this.draftVersion.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     await this.draftVersion.click({ force: true });
-    await this.gridLoader.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT * 8 });
+    await this.gridLoader.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT * LOADER_WAIT });
     const draftVersion = await this.publishedDriverTree.textContent();
     expect(draftVersion?.trim()).toBe(`Draft - ${expectedDraftCreatedOn}`);
   }
@@ -204,7 +204,7 @@ export class DriverTreeSettingsDialog {
       expect(await this.popupCancelButton).toBeVisible({ timeout: TIMEOUT_FE_WAIT });
       expect(await this.popupPublishButton).toBeVisible({ timeout: TIMEOUT_FE_WAIT });
       await this.popupPublishButton.click({force: true});
-      await this.gridLoader.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT * 10 });
+      await this.gridLoader.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT * LOADER_WAIT });
       await this.bannerMessage.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
       expect(await this.bannerMessage.textContent()).toContain('Driver tree version re-published successfully'); 
       console.log("Driver tree republished successfully.");
