@@ -44,10 +44,7 @@ export class parentChildNodeUtility {
         if (!draftVersion) {
             throw new Error("No draft version found (is_active=true, is_published=false)");
         }
-        const activeDraft = versionResponseBody.find(
-            (item: any) => item.is_active === true && item.is_published === false
-        );
-        const defaultdataSetForDraft = activeDraft?.data_set_selection;
+        const defaultdataSetForDraft = draftVersion?.data_set_selection;
         const createdDateRaw = draftVersion.created_date;
         // Convert "2025-07-30T09:21:03.710000" to "07/30/25"
         const dateObj = new Date(createdDateRaw);
