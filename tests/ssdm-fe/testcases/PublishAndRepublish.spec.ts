@@ -18,7 +18,6 @@ test.describe(
   async () => {
     let objpageFactory: PageFactory;
     test.describe.configure({ mode: 'parallel', timeout: 20000 });
-
     test.beforeEach(async ({ page, request }) => {
       test.setTimeout(TIMEOUT_SSDM_FE);
       objpageFactory = new PageFactory(page);
@@ -33,7 +32,6 @@ test.describe(
         await page.close();
       } catch (e) { }
     });
-
 
     test('Validate driver tree settings with Draft Version selected - Viewer role', async ({ page }) => {
       await signinUtility.SignIn(page, "viewer");

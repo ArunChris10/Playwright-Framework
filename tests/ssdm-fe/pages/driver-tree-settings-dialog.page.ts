@@ -32,11 +32,6 @@ export class DriverTreeSettingsDialog {
   readonly popupPublishButton: Locator;
   readonly bannerMessage: Locator;
 
-  // Parameterized XPath generators
-  readonly getFilterButtonXPath: (label: string) => string;
-  readonly getGridValueXPath: (dataFieldAttribute: string) => string;
-  readonly getSortOptionXPath: (sortLabel: string) => string;
-
   constructor(page: Page) {
     this.page = page;
     this.publishedDriverTree = page.locator(`//header//div[@role="combobox"]`);
@@ -93,7 +88,6 @@ export class DriverTreeSettingsDialog {
     await this.dataSetOptions.nth(0).waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
     const optionsCount = await this.dataSetOptions.count();
     let selectedOptionText = '';
-
     if (dataSetOption) {
       for (let i = 0; i < optionsCount; i++) {
         const optionText = await this.dataSetOptions.nth(i).textContent();
@@ -113,7 +107,6 @@ export class DriverTreeSettingsDialog {
         }
       }
     }
-
     expect(selectedOptionText?.trim()).toBe(await this.defaultDatasetDropdownOption.textContent());
     await this.updateDataSetButton.click({ force: true });
     await this.driverTreeSettingsDialog.waitFor({ state: 'hidden', timeout: TIMEOUT_FE_WAIT });

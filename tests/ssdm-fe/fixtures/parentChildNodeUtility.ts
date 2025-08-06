@@ -32,7 +32,6 @@ export class parentChildNodeUtility {
         };
     }
 
-
     static async getCurrentDraftCreatedDate(request, isError = false) {
         const { driverTreeKey, driverTreeName } = await this.getDriverTreeKey(request, isError);
         const driverTreeVersionEndpointURL = `${process.env.apiBaseURLSSDM}/api/driver-trees/${driverTreeKey}/versions`;
