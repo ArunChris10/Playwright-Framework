@@ -8,9 +8,9 @@
         "regression",
         "IBGROW-38084",
         "ssdm",
-        "ibg-ufm-domino-service",
-        "ibg-ufm-metadata-service",
-        "ibg-ufm-core-service"
+        "@ibg-ufm-domino-service",
+        "@ibg-ufm-metadata-service",
+        "@ibg-ufm-core-service"
       ],
       "tags": [
         "smoke",

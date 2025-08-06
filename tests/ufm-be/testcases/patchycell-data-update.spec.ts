@@ -28,7 +28,7 @@ Object.entries(testData).forEach(([lobName, testData]) => {
   let editedValue: number = 100;
 
 
-  test.describe("Verify Calculate & Save API for multiple adjustments", { tag: "@Smoke @Regression @patchycellupdate ibg-ufm-domino-service ibg-ufm-metadata-service ibg-ufm-core-service ibg-ufm-allocation-engine" }, () => {
+  test.describe("Verify Calculate & Save API for multiple adjustments", { tag: "@Smoke @Regression @patchycellupdate @ibg-ufm-domino-service @ibg-ufm-metadata-service @ibg-ufm-core-service @ibg-ufm-allocation-engine" }, () => {
 
     test.beforeAll(async ({ request }) => {
       if (

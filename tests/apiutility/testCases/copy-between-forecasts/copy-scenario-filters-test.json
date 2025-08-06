@@ -6,7 +6,7 @@
         "labels": ["smoke", "copy_scenario_filters",
         "Visualization",
         "CopyScenario",
-      "ibg-ufm-core-service" , "ibg-ufm-domino-service" , "ibg-ufm-allocation-engine" ,"ibg-ufm-reporting-proxy"],
+      "@ibg-ufm-core-service" , "@ibg-ufm-domino-service" , "@ibg-ufm-allocation-engine" ,"@@ibg-ufm-reporting-proxy"],
         "service": "coreService",
         "uri": "createUserScenario",
         "testName": "Create a new Scenario",

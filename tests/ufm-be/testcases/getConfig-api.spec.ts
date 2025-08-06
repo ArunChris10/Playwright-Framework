@@ -4,7 +4,7 @@ import testdatafile from "../testdata/getConfig.json";
 
 test.describe(
   "Verify the getConfig API",
-  { tag: "@Smoke @Regression @getConfig ibg-ufm-metadata-service ibg-ufm-core-service" },
+  { tag: "@Smoke @Regression @getConfig @ibg-ufm-metadata-service @ibg-ufm-core-service" },
   () => {
     let responseBody;
     const endpointURL = `${process.env.apiBaseURLUFM}${testdatafile.endpoint}`;
