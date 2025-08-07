@@ -1,8 +1,8 @@
 import { expect, Page, Locator } from '@playwright/test';
 import { matchers } from 'playwright-expect';
-import { TIMEOUT_SSDM_FE,TIMEOUT_FE_WAIT } from '../constants/timeout.json';
+import { TIMEOUT_SSDM_FE, TIMEOUT_FE_WAIT } from '../constants/timeout.json';
 import { Utility } from "../../common/fixtures/utils";
-import { testData} from '../testdata/fileName.json';
+import { testData, roles } from '../testdata/fileName.json';
 
 // Extend Playwright's expect with custom matchers
 expect.extend(matchers);
@@ -43,12 +43,11 @@ export class signinUtility {
      * Retries once if the page does not load.
      * @param signinPage Playwright Page object
      */
-    static async SignIn(signinPage: Page) {
+    static async SignIn(signinPage: Page, role?: string) {
         let loaded = false;
         for (let attempt = 0; attempt < testData.signInRetryNumber; attempt++) {
             try {
                 await signinPage.goto(this.urlEndpoint, { timeout: TIMEOUT_SSDM_FE, waitUntil: 'domcontentloaded' });
-                // Wait for the user ID field to be visible (on the actual login page)
                 await signinPage.getByPlaceholder("User ID (e.g. wm5p4rk)").waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
                 loaded = true;
                 break;
@@ -62,21 +61,24 @@ export class signinUtility {
         }
         if (!loaded) throw new Error('Sign-in page did not load.');
 
-        // Initialize locators for the page
         await this.initialize(signinPage);
 
-        // Wait for both fields to be visible before filling
         await this.userId.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
         await this.password.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
 
-        // Fill in the user ID and password fields
-        await this.userId.fill(String(this.userName));
-        await this.password.fill(await Utility.getLoginPassword(String(this.userName)));
-        
-        // Wait for the sign-in button and click
+        let userName: string;
+        let password: string;
+        if (role && roles && roles[role]) {
+            userName = roles[role].userName;
+            password = roles[role].password 
+        } else {
+            userName = String(this.userName);
+            password = await Utility.getLoginPassword(userName);
+        }
+        await this.userId.fill(userName);
+        await this.password.fill(password);
         await this.signIn.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT });
         await this.signIn.click();
-
         const landingSearchBox = signinPage.locator('input[type="search"]');
         await landingSearchBox.waitFor({ state: 'visible', timeout: TIMEOUT_FE_WAIT * 2 });
     }
