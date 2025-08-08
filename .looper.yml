@@ -19,16 +19,20 @@ envs:
         - ibg-ufm-core-service
         - ibg-ufm-domino-service
         - ibg-ufm-allocation-engine
-        - ibg-ufm2-ui
         - ibg-ufm-canned-reports
         - ibg-ufm-canned-reports-backend
-        - ibg-shared-ui
-        - ibg-shared-pages
         - ibg-ufm-adjustment-proxy
         - ibg-ufm-adjustment-orchestrator
         - ibg-ufm-reporting-proxy
         - ibg-ufm-adjustments
         - ibg-ufm-reporting
+      UFM_UI_REPOS: 
+        - ibg-shared-ui
+        - ibg-shared-pages
+        - ibg-ufm2-ui
+        - ibg-platform2-ui
+      EXCEL_UI_REPOS:
+        - ibg-excel-addin
       CDF_REPOS:
         - ibg-service-visualizer
         - ibg-centrifuge-ui
@@ -52,6 +56,9 @@ triggers:
       name: Run UFM UI Regression
       call: runUFMUITests
   - manual:
+      name: Run EXCEL UI Regression
+      call: runEXCELUITests
+  - manual:
       name: Run UFM UI Smoke
       call: runUFMUISmokeTest
   - manual:
@@ -67,7 +74,7 @@ triggers:
         - playwrightProject:
             {
               type: string,
-              label: "Provide the project name that matches with the one in the playwright config file- EX-(ufm-be,ufm-fe,cdf-be,cdf-fe)",
+              label: "Provide the project name that matches with the one in the playwright config file- EX-(ufm-be,ufm-fe,cdf-be,cdf-fe,excel-fe)",
             }
         - testTag:
             {
@@ -134,6 +141,16 @@ flows:
       then:
         - var(APP_NAME = 'UFM')
         - call: runUFMBeTests
+    - if: | #search ufm app name here     
+        %{app =~ UFM_UI_REPOS}
+      then:
+        - var(APP_NAME = 'UFM')
+        - call: runUFMUITests
+    - if: | #search ufm app name here     
+        %{app =~ EXCEL_UI_REPOS}
+      then:
+        - var(APP_NAME = 'UFM')
+        - call: runEXCELUITests
     - if: | #search ufm app name here
         %{app =~ CDF_REPOS}
       then:
@@ -208,7 +225,17 @@ flows:
       - echo "Running UFM UI Regression testcases "
       - var(APP_NAME = 'UFM')
       - call: setup
-      - RUNID=$testrunid ENV=$envr TEST=regression npm run tests:ufm-tests-fe
+      - RUNID=$testrunid ENV=$envr TEST=$app npm run tests:ufm-tests-fe
+      - var(TEST_RESULT =true)
+    finally:
+      - call: reporter
+      - call: send_slack_msg
+  runEXCELUITests:
+    try:
+      - echo "Running EXCEL UI Regression testcases "
+      - var(APP_NAME = 'UFM')
+      - call: setup
+      - RUNID=$testrunid ENV=$envr TEST=$app npm run tests:excel-tests-fe
       - var(TEST_RESULT =true)
     finally:
       - call: reporter
