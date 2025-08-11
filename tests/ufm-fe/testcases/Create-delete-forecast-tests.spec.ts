@@ -27,7 +27,7 @@ test.describe(
 
     test(
       "Check if the user is able to createForecast",
-      { tag: "@createForecast" },
+      { tag: "@createForecast @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
       async () => {
         test.setTimeout(480000);
 
@@ -88,13 +88,13 @@ test.describe(
 
         await test.step(`Click on Open ${lob.LobName} Forecast`, async () => {
           await objpageFactory.ufmPageFactory().currentForecast().clickOnOpenParticularForecast(lob.LobName);
-      });
+        });
 
-      await test.step(`Edit forecast with duplicate name`, async () => {
-        await objpageFactory.ufmPageFactory().openCurrentForecast().editForecastWithDuplicateName();
-      });
+        await test.step(`Edit forecast with duplicate name`, async () => {
+          await objpageFactory.ufmPageFactory().openCurrentForecast().editForecastWithDuplicateName();
+        });
 
-      await test.step(`Edit forecast name`, async () => {
+        await test.step(`Edit forecast name`, async () => {
           await objpageFactory.ufmPageFactory().openCurrentForecast().editForecast(lob.LobName);
         });
 
@@ -106,4 +106,4 @@ test.describe(
 
         })
       });
-});
+  });

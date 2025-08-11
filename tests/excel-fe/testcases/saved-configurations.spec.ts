@@ -4,7 +4,7 @@ import { Utility } from "../../common/fixtures/utils";
 
 test.describe(
   "Create Saved View Configuration",
-  { tag: "@Regression @Smoke @ExcelPlugin @ExcelSavedConfigurations" },
+  { tag: "@Regression @Smoke @ExcelPlugin @ExcelSavedConfigurations @ibg-excel-addin" },
   async () => {
     let excelPage: ExcelPage;
 

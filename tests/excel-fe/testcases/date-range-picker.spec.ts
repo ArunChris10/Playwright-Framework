@@ -3,7 +3,7 @@ import { ExcelPage } from "../pages/excel.page";
 
 test.describe(
   "Date Range Picker Test",
-  { tag: "@Regression @Smoke @ExcelPlugin @ExcelDateRangePicker" },
+  { tag: "@Regression @Smoke @ExcelPlugin @ExcelDateRangePicker @ibg-excel-addin" },
   async () => {
     let excelPage: ExcelPage;
 

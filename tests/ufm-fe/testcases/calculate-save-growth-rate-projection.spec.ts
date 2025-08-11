@@ -14,7 +14,7 @@ let data = HistoricalRatesTestData[0];
 let growthRatePercentInput = data.driver.growthRatePercentYear;
 data.driver.allocationMethod.forEach((method: string) => {
 
-  test.describe('Verify growth rate projection', { tag: "@Smoke @CalculateAndSaveGrowthRateProjection" }, async () => {
+  test.describe('Verify growth rate projection', { tag: "@Smoke @CalculateAndSaveGrowthRateProjection @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async () => {
 
     let objpageFactory: PageFactory;
     let inputCellLocator;
@@ -47,7 +47,7 @@ data.driver.allocationMethod.forEach((method: string) => {
         await UfmUtility.getMapping(data.LOB, "dim_val_id"),
         request
       );
-    }) 
+    })
 
 
     test(`Verify growth rate projection is working correctly on calculate with allocation method: ${method}`, { tag: "@calculateInputNode" }, async () => {

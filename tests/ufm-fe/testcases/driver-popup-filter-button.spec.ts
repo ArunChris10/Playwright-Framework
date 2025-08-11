@@ -12,7 +12,7 @@ test.describe('Verify if filter panel is replaced by Filter button', { tag: "@Sm
     test.beforeAll(async ({ pageFactory }) => {
         objpageFactory = pageFactory;
     });
-    test('Check if filter panel is replaced by Filter button ', { tag: "@driverPopUpFilterButton @DriverSearch @Regression" }, async ({ request }) => {
+    test('Check if filter panel is replaced by Filter button ', { tag: "@driverPopUpFilterButton @DriverSearch @Regression @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async ({ request }) => {
         test.setTimeout(300000);
 
         await test.step('Go To UFM Page', async () => {

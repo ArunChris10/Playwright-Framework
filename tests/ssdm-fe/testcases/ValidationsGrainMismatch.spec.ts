@@ -20,7 +20,7 @@ const calculatedSelectedGrainsinDriverTree: string[] = [];
 
 test.describe(
   'Validations tests for Grain mismatch- type Input',
-  { tag: "@Smoke @Regression @GrainMismatch" },
+  { tag: "@Smoke @Regression @GrainMismatch  @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" },
   async () => {
     let objpageFactory: PageFactory;
     test.describe.configure({ mode: 'parallel', timeout: 20000 });

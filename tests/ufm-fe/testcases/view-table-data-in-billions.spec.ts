@@ -4,7 +4,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 
 
 testData.forEach(filter => {
-    test.describe('View table data in billions', { tag: "@Smoke @dataBillions" }, async () => {
+    test.describe('View table data in billions', { tag: "@Smoke @dataBillions @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async () => {
         let payload = filter
         let objpageFactory: PageFactory;
 

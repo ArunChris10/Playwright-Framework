@@ -3,7 +3,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 import { UfmUtility } from "../../ufm-be/fixtures/ufm-utils";
 import { organization } from "../testdata/copyForecast.json";
 
-test.describe('Verify user is able to test Copy Forecast Messages', { tag: "@Smoke @Regression @CopyForecastMessages @CopyScenario" }, () => {
+test.describe('Verify user is able to test Copy Forecast Messages', { tag: "@Smoke @Regression @CopyForecastMessages @CopyScenario @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, () => {
     let objpageFactory: PageFactory;
     let scenario_details;
     let currentForecast;

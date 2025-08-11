@@ -42,7 +42,7 @@ test.describe.configure({ mode: 'serial' });
 
 test.describe(
   "Copy forecast data validation - Verify same SBA restriction in Source and Target dropdowns",
-  { tag: "@Smoke @CopyForecastCrossSBA @Negative @Regression @CopyScenario" },
+  { tag: "@Smoke @CopyForecastCrossSBA @Negative @Regression @CopyScenario @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
   () => {
     let objpageFactory: PageFactory;
     let testPage: any; // Store page reference
@@ -58,7 +58,7 @@ test.describe(
         lob: "FULFILLMENT"
       },
       {
-        ba: "Supply chain", 
+        ba: "Supply chain",
         lob: "CORE_SERVICES"
       }
       // Add more SBAs here to scale the test:
@@ -78,7 +78,7 @@ test.describe(
       // Create a single page instance for the entire test suite
       testPage = await browser.newPage();
       objpageFactory = new PageFactory(testPage);
-      
+
       // Create scenarios for each SBA in the list
       for (let i = 0; i < sbaTestList.length; i++) {
         const sbaData = sbaTestList[i];
@@ -88,12 +88,12 @@ test.describe(
             sbaData.lob,
             request
           );
-          
+
           createdScenarios.push({
             sbaData: sbaData,
             scenarioDetails: scenarioDetails
           });
-          
+
           console.log(`Scenario created/retrieved for ${sbaData.lob}: ${scenarioDetails.scenarioId}`);
         });
       }
@@ -158,113 +158,113 @@ test.describe(
 
           await test.step(`Open ${currentScenario.scenarioDetails.name} scenario (${currentScenario.sbaData.lob}) in the current SBA`, async () => {
             await objpageFactory
-            .ufmPageFactory()
-            .currentForecast()
-            .clickOpenForecastByName(currentScenario.scenarioDetails.name);
-        });
+              .ufmPageFactory()
+              .currentForecast()
+              .clickOpenForecastByName(currentScenario.scenarioDetails.name);
+          });
 
-        await test.step("Click on Actions button to access copy forecast functionality", async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .openCurrentForecast()
-            .clickOnActionButton();
-        });
+          await test.step("Click on Actions button to access copy forecast functionality", async () => {
+            await objpageFactory
+              .ufmPageFactory()
+              .openCurrentForecast()
+              .clickOnActionButton();
+          });
 
-        await test.step("Verify Copy forecast data button is available", async () => {
-          await expect(
-            objpageFactory.ufmPageFactory().copyForecastPage().copyForecast
-          ).toBeVisible();
-        });
+          await test.step("Verify Copy forecast data button is available", async () => {
+            await expect(
+              objpageFactory.ufmPageFactory().copyForecastPage().copyForecast
+            ).toBeVisible();
+          });
 
-        await test.step("Click on Copy forecast data button to open the modal", async () => {
-          await objpageFactory
-            .ufmPageFactory()
-            .copyForecastPage()
-            .clickOnOpenCopyForecastDataButton();
-        });
-
-        await test.step("Click on Source forecast dropdown and verify only same SBA scenarios are available", async () => {
-          // Verify that current SBA scenario IS present in source dropdown
-          const currentScenarioPresent = await objpageFactory
-            .ufmPageFactory()
-            .copyForecastPage()
-            .isScenarioInSourceDropdown(currentScenario.scenarioDetails.scenarioId);
-          
-          expect(currentScenarioPresent).toBe(true);
-          
-          // Close the dropdown after checking current scenario
-          await objpageFactory
-            .ufmPageFactory()
-            .copyForecastPage()
-            .closeDropdown();
-
-          // Verify that scenarios from other SBAs are NOT present in source dropdown
-          for (const otherScenario of otherScenarios) {
-            const scenarioNotPresent = await objpageFactory
+          await test.step("Click on Copy forecast data button to open the modal", async () => {
+            await objpageFactory
               .ufmPageFactory()
               .copyForecastPage()
-              .isScenarioNotInSourceDropdown(otherScenario.scenarioDetails.scenarioId);
-              
-            expect(scenarioNotPresent).toBe(true);
-            
-            // Close the dropdown after each scenario check
+              .clickOnOpenCopyForecastDataButton();
+          });
+
+          await test.step("Click on Source forecast dropdown and verify only same SBA scenarios are available", async () => {
+            // Verify that current SBA scenario IS present in source dropdown
+            const currentScenarioPresent = await objpageFactory
+              .ufmPageFactory()
+              .copyForecastPage()
+              .isScenarioInSourceDropdown(currentScenario.scenarioDetails.scenarioId);
+
+            expect(currentScenarioPresent).toBe(true);
+
+            // Close the dropdown after checking current scenario
             await objpageFactory
               .ufmPageFactory()
               .copyForecastPage()
               .closeDropdown();
-          }
-        });
 
-        await test.step("Click on Target/Destination forecast dropdown and verify only same SBA scenarios are available", async () => {
-          // Verify that current SBA scenario IS present in destination dropdown
-          const currentScenarioPresent = await objpageFactory
-            .ufmPageFactory()
-            .copyForecastPage()
-            .isScenarioInDestinationDropdown(currentScenario.scenarioDetails.scenarioId);
-          
-          expect(currentScenarioPresent).toBe(true);
-          
-          // Close the dropdown after checking current scenario
-          await objpageFactory
-            .ufmPageFactory()
-            .copyForecastPage()
-            .closeDropdown();
+            // Verify that scenarios from other SBAs are NOT present in source dropdown
+            for (const otherScenario of otherScenarios) {
+              const scenarioNotPresent = await objpageFactory
+                .ufmPageFactory()
+                .copyForecastPage()
+                .isScenarioNotInSourceDropdown(otherScenario.scenarioDetails.scenarioId);
 
-          // Verify that scenarios from other SBAs are NOT present in destination dropdown
-          for (const otherScenario of otherScenarios) {
-            const scenarioNotPresent = await objpageFactory
+              expect(scenarioNotPresent).toBe(true);
+
+              // Close the dropdown after each scenario check
+              await objpageFactory
+                .ufmPageFactory()
+                .copyForecastPage()
+                .closeDropdown();
+            }
+          });
+
+          await test.step("Click on Target/Destination forecast dropdown and verify only same SBA scenarios are available", async () => {
+            // Verify that current SBA scenario IS present in destination dropdown
+            const currentScenarioPresent = await objpageFactory
               .ufmPageFactory()
               .copyForecastPage()
-              .isScenarioNotInDestinationDropdown(otherScenario.scenarioDetails.scenarioId);
-              
-            expect(scenarioNotPresent).toBe(true);
-            
-            // Close the dropdown after each scenario check
+              .isScenarioInDestinationDropdown(currentScenario.scenarioDetails.scenarioId);
+
+            expect(currentScenarioPresent).toBe(true);
+
+            // Close the dropdown after checking current scenario
             await objpageFactory
               .ufmPageFactory()
               .copyForecastPage()
               .closeDropdown();
-          }
-        });
 
-        await test.step("Close the copy forecast modal", async () => {
-          // Try to find and click cancel button to close the modal
-          const cancelButton = testPage.locator("//button[contains(text(), 'Cancel') or contains(text(), 'Close')]");
-          if (await cancelButton.isVisible()) {
-            await cancelButton.click();
-          } else {
-            // If no cancel button, use page object method to close dropdown
-            await objpageFactory
-              .ufmPageFactory()
-              .copyForecastPage()
-              .closeDropdown();
-          }
+            // Verify that scenarios from other SBAs are NOT present in destination dropdown
+            for (const otherScenario of otherScenarios) {
+              const scenarioNotPresent = await objpageFactory
+                .ufmPageFactory()
+                .copyForecastPage()
+                .isScenarioNotInDestinationDropdown(otherScenario.scenarioDetails.scenarioId);
 
-          // Verify modal is closed
-          await expect(
-            objpageFactory.ufmPageFactory().copyForecastPage().copyScenarioSourceForecastDropdown
-          ).not.toBeVisible();
-        });
+              expect(scenarioNotPresent).toBe(true);
+
+              // Close the dropdown after each scenario check
+              await objpageFactory
+                .ufmPageFactory()
+                .copyForecastPage()
+                .closeDropdown();
+            }
+          });
+
+          await test.step("Close the copy forecast modal", async () => {
+            // Try to find and click cancel button to close the modal
+            const cancelButton = testPage.locator("//button[contains(text(), 'Cancel') or contains(text(), 'Close')]");
+            if (await cancelButton.isVisible()) {
+              await cancelButton.click();
+            } else {
+              // If no cancel button, use page object method to close dropdown
+              await objpageFactory
+                .ufmPageFactory()
+                .copyForecastPage()
+                .closeDropdown();
+            }
+
+            // Verify modal is closed
+            await expect(
+              objpageFactory.ufmPageFactory().copyForecastPage().copyScenarioSourceForecastDropdown
+            ).not.toBeVisible();
+          });
         });
       }
     });

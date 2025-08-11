@@ -6,7 +6,7 @@ import { TIMEOUT } from '../constants/timeout.json';
 
 filterOptions.forEach(filterOption => {
 
-    test.describe('Filter Functionality Test', { tag: "@Smoke @Regression @applyFilterFunctionality" }, async () => {
+    test.describe('Filter Functionality Test', { tag: "@Smoke @Regression @applyFilterFunctionality @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" }, async () => {
         let objpageFactory: PageFactory;
 
         test.beforeAll(async ({ pageFactory }) => {

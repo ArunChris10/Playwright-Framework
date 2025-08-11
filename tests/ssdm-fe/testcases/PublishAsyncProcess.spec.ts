@@ -5,7 +5,7 @@ import { TIMEOUT } from '../constants/timeout.json';
 import { testData } from '../testdata/fileName.json';
 
 
-test.describe('Verify Visibility Of Publish Button, Publish Progress tracker, Publish in progress message and Continuous Publish Status', { tag: "@Smoke @Regression @asyncPublishProcess" }, async () => {
+test.describe('Verify Visibility Of Publish Button, Publish Progress tracker, Publish in progress message and Continuous Publish Status', { tag: "@Smoke @Regression @asyncPublishProcess @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" }, async () => {
     let objpageFactory: PageFactory;
     const expectedFilePath = path.join(__dirname, testData.computeSuccessFile);
 
@@ -60,15 +60,15 @@ test.describe('Verify Visibility Of Publish Button, Publish Progress tracker, Pu
 
         await test.step('Publish button is enabled again on publish success or failure case in on Kpi page', async () => {
             await objpageFactory.ssdmPageFactory().asyncPublishProcess().isPublishButtonVisible();
-            
+
         });
 
         await test.step('Publish progress bar and tool tip is hidden on publish success or failure case in NE grid', async () => {
             await objpageFactory.ssdmPageFactory().asyncPublishProcess().navigatesBackToHomePage();
             await objpageFactory.ssdmPageFactory().newPublishedNE().refresheNEGrid();
             await objpageFactory.ssdmPageFactory().asyncPublishProcess().isToolTipAndProgressBarHiddenInNEGrid();
-           
-            
+
+
         });
     });
 });

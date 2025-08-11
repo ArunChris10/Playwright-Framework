@@ -10,7 +10,7 @@ import commonData from "../../ufm-be/constants/common.json";
 
 test.describe.configure({ mode: 'parallel', timeout: 300_000 });
 
-test.describe('Verify user is able to do calculate and save post uploading file from UI', { tag: "@Smoke @KpiTableExcelActions" }, async () => {
+test.describe('Verify user is able to do calculate and save post uploading file from UI', { tag: "@Smoke @KpiTableExcelActions @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async () => {
 
   let objpageFactory: PageFactory;
   let inputCellLocator;
@@ -55,7 +55,7 @@ test.describe('Verify user is able to do calculate and save post uploading file 
       await UfmUtility.getMapping(testData[0].LOB, "dim_val_id"),
       request
     );
-  })  
+  })
 
 
   test(`Verify excel edits reflect on KPI table on UI on upload`, async () => {
@@ -91,7 +91,7 @@ test.describe('Verify user is able to do calculate and save post uploading file 
     });
 
     await test.step('Update the excel for some forecast values', async () => {
-      editedValues = await objpageFactory.ufmPageFactory().excelUtility().editExcel(downloadPath, drivers,5);
+      editedValues = await objpageFactory.ufmPageFactory().excelUtility().editExcel(downloadPath, drivers, 5);
       console.log("Edited value - ", editedValues);
     });
 

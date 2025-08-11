@@ -4,7 +4,7 @@ import { ExcelPage } from "../pages/excel.page";
 test.describe(
   "Date Range Picker Invalid Date Test",
   {
-    tag: "@Regression @Smoke @ExcelPlugin @ExcelDateRangePicker @ExcelDateRangePickerInvalidRange",
+    tag: "@Regression @Smoke @ExcelPlugin @ExcelDateRangePicker @ExcelDateRangePickerInvalidRange @ibg-excel-addin",
   },
   async () => {
     let excelPage: ExcelPage;

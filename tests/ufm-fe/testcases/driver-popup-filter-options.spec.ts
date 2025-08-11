@@ -16,7 +16,7 @@ test.describe(
     });
     test(
       "Check if clicking on the filter button displays all the filter options similar to MyKPI Filter",
-      { tag: "@driverPopUpFilterOption @DriverSearch @Regression" },
+      { tag: "@driverPopUpFilterOption @DriverSearch @Regression @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
       async ({ request }) => {
         test.setTimeout(300000);
 

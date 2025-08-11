@@ -5,7 +5,7 @@ import { organization } from "../testdata/driversPopUp.json";
 
 test.describe(
   "Verify if there are max 10 drivers available in the search list with a scroll bar in place",
-  { tag: "@Smoke @driverPopUpSearchLimit" },
+  { tag: "@Smoke @driverPopUpSearchLimit @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
   () => {
     let objpageFactory: PageFactory;
     let scenario_details;

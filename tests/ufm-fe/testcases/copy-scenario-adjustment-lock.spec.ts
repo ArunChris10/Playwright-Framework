@@ -7,7 +7,7 @@ import { testData } from '../testdata/inputNodeValues.json';
 
 test.describe(
     "Verify user is not be able to edit the nodes while copy scenario is in progress",
-    { tag: "@Smoke @Regression @CopyScenarioAdjustmentLock @CopyScenario" },
+    { tag: "@Smoke @Regression @CopyScenarioAdjustmentLock @CopyScenario @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
     () => {
         let objpageFactory: PageFactory, data = testData[0], sourceScenarioId, sourceScenarioDetails, targetScenarioId, targetScenarioDetails;
 

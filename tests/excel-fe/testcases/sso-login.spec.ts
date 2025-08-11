@@ -3,7 +3,7 @@ import { LoginExcelPage } from "../../common/pages/login-excel.page";
 
 test.describe(
   "SSO Login test",
-  { tag: "@Regression @Smoke @ExcelPlugin @ExcelSSOLogin" },
+  { tag: "@Regression @Smoke @ExcelPlugin @ExcelSSOLogin @ibg-excel-addin" },
   async () => {
     let loginExcelPage: LoginExcelPage;
 
@@ -12,11 +12,11 @@ test.describe(
     });
 
     test("Verify SSO is triggered on first use", async () => {
-        await loginExcelPage.verifySSOIsTriggered();
+      await loginExcelPage.verifySSOIsTriggered();
     });
 
     test("Verify cannot open IBG if SSO fails", async () => {
-        await loginExcelPage.verifySSOFailed();
+      await loginExcelPage.verifySSOFailed();
     });
   }
 );

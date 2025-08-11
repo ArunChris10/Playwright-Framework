@@ -3,7 +3,7 @@ import { ExcelPage } from "../pages/excel.page";
 
 test.describe(
   "Excel AddIn Upload functionality",
-  { tag: "@Regression @Smoke @ExcelPlugin @ExcelUpload" },
+  { tag: "@Regression @Smoke @ExcelPlugin @ExcelUpload @ibg-excel-addin" },
   async () => {
     let excelPage: ExcelPage;
 

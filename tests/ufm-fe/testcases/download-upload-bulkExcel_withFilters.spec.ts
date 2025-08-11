@@ -10,7 +10,7 @@ import commonData from "../../ufm-be/constants/common.json";
 
 test.describe.configure({ mode: 'parallel', timeout: 450_000 });
 
-test.describe('Verify user is able to do calculate and save post uploading file from UI_filters applied', { tag: "@Smoke @GroupByExcelUpdate" }, async () => {
+test.describe('Verify user is able to do calculate and save post uploading file from UI_filters applied', { tag: "@Smoke @GroupByExcelUpdate @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async () => {
 
   let objpageFactory: PageFactory;
   let inputCellLocator;
@@ -55,7 +55,7 @@ test.describe('Verify user is able to do calculate and save post uploading file 
       await UfmUtility.getMapping(testData[0].LOB, "dim_val_id"),
       request
     );
-  })  
+  })
 
 
   test(`Verify excel edits reflect on KPI table on UI on upload`, async () => {
@@ -102,7 +102,7 @@ test.describe('Verify user is able to do calculate and save post uploading file 
         const typedFilterSelection = filterSelection as {
           childDropDown: string;
           dropDown: string;
-       };
+        };
 
         await test.step(
           `Select ${typedFilterSelection.childDropDown} ${typedFilterSelection.dropDown}} filter options`,

@@ -8,7 +8,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 testData.forEach(forecastNodeDetail => {
     test.describe(
         'Calculate and Save when any filter combination is applied on additive and non-additive node',
-        { tag: "@Smoke @calculateAndSaveFilteredInputNode" },
+        { tag: "@Smoke @calculateAndSaveFilteredInputNode @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
         async () => {
             let data = forecastNodeDetail;
             let objpageFactory: PageFactory;

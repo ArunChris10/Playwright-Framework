@@ -4,7 +4,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 
 testAdditiveDataQuarter.forEach(forecastNodeDetail => {
 
-    test.describe('Calculate and Save input node quarterly view', { tag: "@Smoke @calculateAdditiveQuarterlyView" }, async () => {
+    test.describe('Calculate and Save input node quarterly view', { tag: "@Smoke @calculateAdditiveQuarterlyView @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async () => {
         let data = forecastNodeDetail
         let objpageFactory: PageFactory;
         let inputNodeValues;

@@ -16,7 +16,7 @@ Object.entries(lobList).forEach(([org, lob]) => {
   for (let i = 0; i < lob.length; i++) {
     test.describe(
       "Verify forecast comparison functionality",
-      { tag: "@Smoke @forecastcomparison" },
+      { tag: "@Smoke @forecastcomparison @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
       async () => {
         test.describe.configure({ timeout: 800_000, mode: "serial" });
         let objpageFactory: PageFactory;

@@ -14,7 +14,7 @@ let defaultdataSetForDraft;
 
 test.describe(
   'Validations tests for Publish Flow',
-  { tag: "@Smoke @Regression @PublishDriverTree" },
+  { tag: "@Smoke @Regression @PublishDriverTree @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" },
   async () => {
     let objpageFactory: PageFactory;
     test.describe.configure({ mode: 'parallel', timeout: 20000 });

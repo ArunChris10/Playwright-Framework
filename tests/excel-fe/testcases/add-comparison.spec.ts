@@ -3,7 +3,7 @@ import { ExcelPage } from "../pages/excel.page";
 
 test.describe(
   "Excel AddIn Generic Tests",
-  { tag: "@Regression @Smoke @ExcelPlugin @ScenarioComparison" },
+  { tag: "@Regression @Smoke @ExcelPlugin @ScenarioComparison @ibg-excel-addin" },
   async () => {
     let excelPage: ExcelPage;
 

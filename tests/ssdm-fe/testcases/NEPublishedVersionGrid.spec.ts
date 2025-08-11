@@ -5,7 +5,7 @@ import { testData } from '../testdata/fileName.json';
 import { TIMEOUT } from '../constants/timeout.json';
 
 
-test.describe('Node Edge Grid Test', { tag: "@Smoke @nodeEdgeGridFunctionality" }, async () => {
+test.describe('Node Edge Grid Test', { tag: "@Smoke @nodeEdgeGridFunctionality @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" }, async () => {
     let objpageFactory: PageFactory;
 
     test.beforeAll(async ({ pageFactory }) => {

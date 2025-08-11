@@ -5,7 +5,7 @@ import { TIMEOUT } from '../constants/timeout.json';
 import { testData } from '../testdata/fileName.json';
 
 
-test.describe('Verify Long Error Message is visible for Recompute Failure', { tag: "@Smoke @computeLongErrorMessage" }, async () => {
+test.describe('Verify Long Error Message is visible for Recompute Failure', { tag: "@Smoke @computeLongErrorMessage @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" }, async () => {
     let objpageFactory: PageFactory;
     const expectedFilePath = path.join(__dirname, testData.computeFailingFile);
 

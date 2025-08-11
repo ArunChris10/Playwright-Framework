@@ -2,7 +2,7 @@ import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
 import { SBAorganization, BAorganization } from '../testdata/organizations.json';
 
-test.describe('Test when Copy Forecast Data option is not available', { tag: "@Smoke @Regression @NoCopyForecastData @CopyScenario" }, () => {
+test.describe('Test when Copy Forecast Data option is not available', { tag: "@Smoke @Regression @NoCopyForecastData @CopyScenario @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, () => {
     let objpageFactory: PageFactory;
 
     test.beforeAll(async ({ pageFactory }) => {
@@ -26,7 +26,7 @@ test.describe('Test when Copy Forecast Data option is not available', { tag: "@S
         await test.step('Navigate to Data Science', async () => {
             await objpageFactory.ufmPageFactory().organisationSelection().navigate();
         });
-        
+
         await test.step('Navigate to AOP', async () => {
             await objpageFactory.ufmPageFactory().dataScienceReviewPage().navigateToAOP();
         });

@@ -3,7 +3,7 @@ import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
 
 Organization.forEach(data => {
-    test.describe('Create forecast Cycle', { tag: "@Smoke @organizationForecastCycle" }, async () => {
+    test.describe('Create forecast Cycle', { tag: "@Smoke @organizationForecastCycle @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async () => {
         let payload = data
         test.describe.configure({ timeout: 300_000, mode: "serial" })
         let objpageFactory: PageFactory;

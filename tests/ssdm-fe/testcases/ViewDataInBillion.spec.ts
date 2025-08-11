@@ -5,7 +5,7 @@ import { testData } from '../testdata/fileName.json';
 import { TIMEOUT } from '../constants/timeout.json';
 
 
-test.describe('View Table Data In Billions And Millions Feature Test', { tag: "@Smoke @BillionAndMillionsDataFunctionality" }, async () => {
+test.describe('View Table Data In Billions And Millions Feature Test', { tag: "@Smoke @BillionAndMillionsDataFunctionality @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" }, async () => {
     let objpageFactory: PageFactory;
 
     test.beforeAll(async ({ pageFactory }) => {
@@ -20,7 +20,7 @@ test.describe('View Table Data In Billions And Millions Feature Test', { tag: "@
         let actualAndForecastDataInAbsolute: string | undefined;
         let actualAndForecastDataInBillion: string | undefined;
         let actualAndForecastDataInMillion: string | undefined;
-        
+
 
         await test.step('User is able to see driver and driver data in my kpi table', async () => {
             await objpageFactory.ssdmPageFactory().drivers().navigateToMyKpiPage(expectedFilePath);
@@ -43,7 +43,7 @@ test.describe('View Table Data In Billions And Millions Feature Test', { tag: "@
             await objpageFactory.ufmPageFactory().currentForecast().clickOnViewIn("Millions");
             actualAndForecastDataInMillion = await objpageFactory.ssdmPageFactory().drivers().isActualsAndForecastDataVisible();
             expect(actualAndForecastDataInMillion?.includes('M')).toBe(true);
-            
+
         });
 
         await test.step('Validate absolute and billion value matches post conversion', async () => {

@@ -6,7 +6,7 @@ import { filterOptions } from '../testdata/fileName.json';
 
 test.describe(
   'Landing page validate Feature Test',
-  { tag: "@Smoke @Regression @LandingPageValidation" },
+  { tag: "@Smoke @Regression @LandingPageValidation @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" },
   async () => {
     let objpageFactory: PageFactory;
     test.describe.configure({ mode: 'parallel', timeout: 20000 });
@@ -22,7 +22,7 @@ test.describe(
     test.afterEach(async ({ page }) => {
       try {
         await page.close();
-      } catch (e) {}
+      } catch (e) { }
     });
 
     // Test: Verify landing page UI elements and controls

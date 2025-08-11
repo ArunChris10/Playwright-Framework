@@ -12,7 +12,7 @@ let lobList = {
 Object.entries(lobList).forEach(([org, lob]) => {
 
     for (let i = 0; i < lob.length; i++) {
-        test.describe('Calculate and Save input node', { tag: "@Smoke @calculateAndSaveInputNode" }, async () => {
+        test.describe('Calculate and Save input node', { tag: "@Smoke @calculateAndSaveInputNode @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async () => {
             test.describe.configure({ timeout: 800_000, mode: "serial" });
             let objpageFactory: PageFactory;
             let adjustmentName

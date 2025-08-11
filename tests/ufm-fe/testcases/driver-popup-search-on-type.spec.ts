@@ -5,7 +5,7 @@ import { organization } from "../testdata/driversPopUp.json";
 
 test.describe(
   "Verify if the search starts immediately after user enters any character",
-  { tag: "@Smoke @driverPopUpSearchOnType" },
+  { tag: "@Smoke @driverPopUpSearchOnType @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
   () => {
     let objpageFactory: PageFactory;
     let scenario_details;

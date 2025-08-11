@@ -4,7 +4,7 @@ import { expect } from "@playwright/test";
 
 test.describe(
   "Excel AddIn Generic Tests",
-  { tag: "@Regression @Smoke @ExcelPlugin @ExceAddIn" },
+  { tag: "@Regression @Smoke @ExcelPlugin @ExceAddIn @ibg-excel-addin" },
   async () => {
     let excelPage: ExcelPage;
 

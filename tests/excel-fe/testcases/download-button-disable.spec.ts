@@ -3,7 +3,7 @@ import { ExcelPage } from "../pages/excel.page";
 
 test.describe(
     "Download Button Disable",
-    { tag: "@Regression @ExcelPlugin @DownloadButtonDisable" },
+    { tag: "@Regression @ExcelPlugin @DownloadButtonDisable @ibg-excel-addin" },
     async () => {
         let excelPage: ExcelPage;
 

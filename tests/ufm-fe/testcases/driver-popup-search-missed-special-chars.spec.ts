@@ -5,7 +5,7 @@ import { organization } from "../testdata/driversPopUp.json";
 
 test.describe(
   "Verify if the search result inlcudes missed special chars",
-  { tag: "@Smoke @driverPopUpMisspelledChars" },
+  { tag: "@Smoke @driverPopUpMisspelledChars @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
   () => {
     let objpageFactory: PageFactory;
     let scenario_details;

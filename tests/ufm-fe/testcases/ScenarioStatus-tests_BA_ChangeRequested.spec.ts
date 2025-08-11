@@ -7,7 +7,7 @@ import commonData from "../../ufm-be/constants/common.json"
 
 
 
-test.describe('Verify user is able to update forecast status', { tag: "@Smoke @ForecastStatus @changeRequested" }, () => {
+test.describe('Verify user is able to update forecast status', { tag: "@Smoke @ForecastStatus @changeRequested @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, () => {
 
     let objpageFactory: PageFactory;
     let forecastName

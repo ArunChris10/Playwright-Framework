@@ -5,7 +5,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 
 
 testData.forEach(filter => {
-    test.describe('Select saved filter', { tag: "@Smoke @savedFilter" }, async () => {
+    test.describe('Select saved filter', { tag: "@Smoke @savedFilter @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async () => {
 
         let payload = filter
         let objpageFactory: PageFactory;

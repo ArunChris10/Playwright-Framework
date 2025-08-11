@@ -3,7 +3,7 @@ import forecast from '../testdata/forecast.json';
 import { CurrentForecast } from "../pages/current-forecast.page";
 import { OrganisationSelection } from "../pages/organisation-selection.page";
 
-test.describe('Visibility Of Deadline Date', { tag: "@Smoke @seeDeadlineDate" }, () => {
+test.describe('Visibility Of Deadline Date', { tag: "@Smoke @seeDeadlineDate @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, () => {
 
     test('Check if the user is able to see Deadline Date', { tag: "@Smoke @seeDeadlineDate" }, async ({ page }) => {
         test.setTimeout(300000);

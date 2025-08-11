@@ -16,7 +16,7 @@ test.describe(
     });
     test(
       "Check upon clicking the search box user can see the recently searched drivers",
-      { tag: "@driverPopUpRecentSearchSpec @DriverSearch @Regression" },
+      { tag: "@driverPopUpRecentSearchSpec @DriverSearch @Regression @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
       async ({ request }) => {
         test.setTimeout(300000);
 
@@ -82,8 +82,8 @@ test.describe(
             .ufmPageFactory()
             .addDriverPage()
             .searchDrivers(""); // Click without typing to see recent searches
-            const driverNames = ["Buying Allowances"];
-            await objpageFactory.ufmPageFactory().addDriverPage().verifyRecentSearchDriver(driverNames);
+          const driverNames = ["Buying Allowances"];
+          await objpageFactory.ufmPageFactory().addDriverPage().verifyRecentSearchDriver(driverNames);
         });
 
       }

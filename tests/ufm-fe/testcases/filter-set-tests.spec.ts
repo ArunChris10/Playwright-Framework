@@ -2,7 +2,7 @@ import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
 
 
-test.describe('Validate FilterSet', { tag: "@Smoke" }, async () => {
+test.describe('Validate FilterSet', { tag: "@Smoke @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async () => {
 
     let objpageFactory: PageFactory;
     let filters = ["Channel", "Department"];
@@ -15,7 +15,7 @@ test.describe('Validate FilterSet', { tag: "@Smoke" }, async () => {
 
     test.beforeAll(async ({ pageFactory }) => {
         objpageFactory = pageFactory;
-    }) 
+    })
 
 
     test(`Verify Save and Get filter set`, { tag: "@filterSetTests" }, async () => {

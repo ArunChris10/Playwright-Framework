@@ -4,7 +4,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 
 
 filterOptions.forEach(filterOption => {
-    test.describe('Save and Delete Filter', { tag: "@Smoke @SaveAndDeleteFilter" }, async () => {
+    test.describe('Save and Delete Filter', { tag: "@Smoke @SaveAndDeleteFilter @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async () => {
         test.describe.configure({ timeout: 300_000, mode: "serial" });
         let objpageFactory: PageFactory;
 

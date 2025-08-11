@@ -5,7 +5,7 @@ import { TIMEOUT } from '../constants/timeout.json';
 import path from "path";
 
 
-test.describe('Visibility Of Newly Published NE feature Test', { tag: "@Smoke @Regression @newlyPublishedNEVisibilityFunctionality" }, async () => {
+test.describe('Visibility Of Newly Published NE feature Test', { tag: "@Smoke @Regression @newlyPublishedNEVisibilityFunctionality @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" }, async () => {
     let objpageFactory: PageFactory;
 
     test.beforeAll(async ({ pageFactory }) => {

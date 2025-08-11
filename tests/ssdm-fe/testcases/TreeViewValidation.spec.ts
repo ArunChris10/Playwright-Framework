@@ -9,7 +9,7 @@ import { treeView } from '../testdata/fileName.json';
 let defaultViewParentNodes;
 test.describe(
   'Validate functionality of tree view on landing page',
-  { tag: "@Smoke @Regression @TreeViewValidation" },
+  { tag: "@Smoke @Regression @TreeViewValidation @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" },
   async () => {
     let objpageFactory: PageFactory;
     let parentChildRelationresponse: any;

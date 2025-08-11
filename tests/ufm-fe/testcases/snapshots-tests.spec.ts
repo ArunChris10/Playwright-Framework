@@ -4,8 +4,8 @@ import { expect } from "@playwright/test";
 import { PageFactory } from '../../common/pages/page-factory';
 import { signinUtility } from "../../ssdm-fe/fixtures/signinUtility";
 
-test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @snapshotsfe" }, async () => {
-    let expectedSnapshotName: string   
+test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @snapshotsfe @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async () => {
+    let expectedSnapshotName: string
     let objpageFactory: PageFactory;
     let totalNumberOfSnapshots: number = 0;
 
@@ -61,15 +61,15 @@ test.describe('Validate Snapshot current version', { tag: "@Smoke @Regression @s
             await objpageFactory.ufmPageFactory().snapshotsPage().selectSingleSnapshot();
             await objpageFactory.ufmPageFactory().snapshotsPage().clickDownloadSnapshotButton();
             await objpageFactory.ufmPageFactory().snapshotsPage().downloadSnapshotAndValidateModalText();
-         });
+        });
 
-         await test.step('Download Single Snapshot with filters applied', async () => {
+        await test.step('Download Single Snapshot with filters applied', async () => {
             await objpageFactory.ufmPageFactory().snapshotsPage().selectSingleSnapshot();
             await objpageFactory.ufmPageFactory().snapshotsPage().clickDownloadSnapshotButton();
             await objpageFactory.ufmPageFactory().snapshotsPage().selectDepartmentFromFilter();
             await objpageFactory.ufmPageFactory().snapshotsPage().selectChannelFromFilter();
             await objpageFactory.ufmPageFactory().snapshotsPage().downloadSnapshotAndValidateModalText();
-         });
+        });
 
         await test.step('Download multiple Snapshot', async () => {
             await objpageFactory.ufmPageFactory().snapshotsPage().selectAllSnapshots();

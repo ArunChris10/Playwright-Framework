@@ -5,7 +5,7 @@ import { testData } from '../testdata/fileName.json';
 import { TIMEOUT } from '../constants/timeout.json';
 
 
-test.describe('Pick Dataset Feature Test', { tag: "@Smoke @Regression @pickDatasetFunctionality" }, async () => {
+test.describe('Pick Dataset Feature Test', { tag: "@Smoke @Regression @pickDatasetFunctionality @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" }, async () => {
     let objpageFactory: PageFactory;
 
     test.beforeAll(async ({ pageFactory }) => {

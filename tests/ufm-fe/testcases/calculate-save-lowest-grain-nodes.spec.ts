@@ -5,7 +5,7 @@ import { test, expect } from "../../common/fixtures/test-hook";
 
 testData.forEach(forecastNodeDetail => {
 
-    test.describe('Calculate and Save when node is at at lowest grain', { tag: "@Smoke @calculateAndSaveLowestGrainInputNode" }, async () => {
+    test.describe('Calculate and Save when node is at at lowest grain', { tag: "@Smoke @calculateAndSaveLowestGrainInputNode @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async () => {
         let data = forecastNodeDetail
         let objpageFactory: PageFactory;
         let adjustmentName;

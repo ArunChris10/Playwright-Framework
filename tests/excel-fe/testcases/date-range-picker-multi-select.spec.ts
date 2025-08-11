@@ -4,7 +4,7 @@ import { ExcelPage } from "../pages/excel.page";
 test.describe(
   "Date Range Picker Multi Time Granularity Test",
   {
-    tag: "@Regression @Smoke @ExcelPlugin @ExcelDateRangePicker @ExcelDateRangePickerMultiGrains",
+    tag: "@Regression @Smoke @ExcelPlugin @ExcelDateRangePicker @ExcelDateRangePickerMultiGrains @ibg-excel-addin",
   },
   async () => {
     let excelPage: ExcelPage;

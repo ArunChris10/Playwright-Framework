@@ -13,7 +13,7 @@ let newCreatedNodeData;
 
 test.describe(
   'Validations tests for Missing Input',
-  { tag: "@Smoke @Regression @MissingInputValidations" },
+  { tag: "@Smoke @Regression @MissingInputValidations @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" },
   async () => {
     let objpageFactory: PageFactory;
     test.describe.configure({ mode: 'parallel', timeout: 20000 });

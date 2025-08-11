@@ -6,7 +6,7 @@ import { nodeCrudDialog } from '../testdata/fileName.json';
 
 test.describe(
   'Node CRUD Operations Validation Feature Test',
-  { tag: "@Smoke @Regression @NodeCRUDValidation" },
+  { tag: "@Smoke @Regression @NodeCRUDValidation @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" },
   () => {
     let objpageFactory: PageFactory;
     test.describe.configure({ mode: 'parallel', timeout: TIMEOUT_SSDM_FE });

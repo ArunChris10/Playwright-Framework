@@ -4,7 +4,7 @@ import { PageFactory } from '../../common/pages/page-factory';
 import { testData } from '../testdata/fileName.json';
 import { TIMEOUT } from '../constants/timeout.json';
 
-test.describe('Validate Feature Test', { tag: "@Smoke @Regression @validateFunctionality" }, async () => {
+test.describe('Validate Feature Test', { tag: "@Smoke @Regression @validateFunctionality @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" }, async () => {
     let objpageFactory: PageFactory;
 
     test.beforeAll(async ({ pageFactory }) => {

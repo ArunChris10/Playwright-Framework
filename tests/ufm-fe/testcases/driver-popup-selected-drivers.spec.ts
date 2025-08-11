@@ -6,7 +6,7 @@ import { merchOpsDefaultDriver } from "../testdata/drivers.json";
 import { ForecastUtility } from "../../ufm-be/fixtures/forecast-utils";
 import { demandOrganization } from "../testdata/organizations.json";
 
-test.describe('Verify user is able to select drivers and switch orders', { tag: "@Smoke @driverPopUpSelectedDriver @DriverSearch @Regression" }, () => {
+test.describe('Verify user is able to select drivers and switch orders', { tag: "@Smoke @driverPopUpSelectedDriver @DriverSearch @Regression @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, () => {
     let objpageFactory: PageFactory, scenario_details, currentForecast, firstDriverNameAfterSwitch, lastDriverName, scenarioId, firstForecast;
 
     const driverNames = merchOpsDefaultDriver.names;
@@ -87,7 +87,7 @@ test.describe('Verify user is able to select drivers and switch orders', { tag: 
             await objpageFactory.ufmPageFactory().addDriverPage().clickOnApplyDrivers();
         });
         await test.step('Validate added driver is visible on KPI table', async () => {
-            await objpageFactory.ufmPageFactory().myKpiTablePage().waitForKPITableToLoad();        
+            await objpageFactory.ufmPageFactory().myKpiTablePage().waitForKPITableToLoad();
         });
         await test.step(`Verify if the updated order is reflecting in the MyKPI table upon clicking apply`, async () => {
             firstDriverNameAfterSwitch = await objpageFactory.ufmPageFactory().myKpiTablePage().getKPILandingFirstDriverName();

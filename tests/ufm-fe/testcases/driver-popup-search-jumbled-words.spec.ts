@@ -7,7 +7,7 @@ import { organization } from "../testdata/driversPopUp.json";
 
 test.describe(
   "Verify if the search result are consistent regardless of jumbled words",
-  { tag: "@Smoke @driverPopUpJumbledWords" },
+  { tag: "@Smoke @driverPopUpJumbledWords @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
   () => {
     let objpageFactory: PageFactory, scenarioId, scenarioDetails;
 

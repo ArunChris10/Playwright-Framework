@@ -5,9 +5,9 @@ import { testData } from '../testdata/fileName.json';
 import { TIMEOUT } from '../constants/timeout.json';
 
 
-test.describe('Download Feature Test', { tag: "@Smoke @Regression @downloadFunctionality" }, async () => {
+test.describe('Download Feature Test', { tag: "@Smoke @Regression @downloadFunctionality @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" }, async () => {
     let objpageFactory: PageFactory;
- 
+
     test.beforeAll(async ({ pageFactory }) => {
         objpageFactory = pageFactory;
         await objpageFactory.ufmPageFactory().organisationSelection().navigate();
@@ -20,7 +20,7 @@ test.describe('Download Feature Test', { tag: "@Smoke @Regression @downloadFunct
         const expectedFilePath = path.join(__dirname, testData.filePath);
 
         await test.step('Verify file gets downloaded automatically, if validation of file is successful', async () => {
-            await objpageFactory.ssdmPageFactory().validateFile().verifyValidation(expectedFilePath,undefined,true);
+            await objpageFactory.ssdmPageFactory().validateFile().verifyValidation(expectedFilePath, undefined, true);
             let isFileDownloaded = await objpageFactory.ssdmPageFactory().validateFile().verifyFileDownloaded();
             expect(isFileDownloaded).toBe(true);
 
@@ -39,7 +39,7 @@ test.describe('Download Feature Test', { tag: "@Smoke @Regression @downloadFunct
             expect(isFileNotDownloaded).toBe(true);
 
         });
-    
+
     });
-    
+
 })

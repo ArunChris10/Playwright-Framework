@@ -3,7 +3,7 @@ import { ExcelPage } from "../pages/excel.page";
 
 test.describe(
     "Refresh All",
-    { tag: "@Regression @ExcelPlugin @Refresh" },
+    { tag: "@Regression @ExcelPlugin @Refresh @ibg-excel-addin" },
     async () => {
         const sheetNames = ["Sheet1", "Sheet2"]
         let excelPage: ExcelPage;

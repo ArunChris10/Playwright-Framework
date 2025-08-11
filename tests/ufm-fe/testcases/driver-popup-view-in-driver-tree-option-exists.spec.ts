@@ -5,7 +5,7 @@ import { organization } from "../testdata/driversPopUp.json";
 
 test.describe(
   "Verify if the search list has the option view in driver tree",
-  { tag: "@Smoke @driverPopUpViewInDriverTree" },
+  { tag: "@Smoke @driverPopUpViewInDriverTree @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
   () => {
     let objpageFactory: PageFactory;
     let scenario_details;

@@ -5,7 +5,7 @@ import { organization } from "../testdata/driversPopUp.json";
 
 test.describe(
   "Verify if user is able to see the driver in the driver tree using view in driver tree",
-  { tag: "@Smoke @driverPopUpViewInTree" },
+  { tag: "@Smoke @driverPopUpViewInTree @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
   () => {
     let objpageFactory: PageFactory;
     let scenario_details;

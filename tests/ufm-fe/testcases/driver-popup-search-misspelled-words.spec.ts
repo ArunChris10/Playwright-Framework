@@ -5,7 +5,7 @@ import { organization } from "../testdata/driversPopUp.json";
 
 test.describe(
   "Verify if the search result inlcudes mis spelled words",
-  { tag: "@Smoke @driverPopUpMisspelledWords" },
+  { tag: "@Smoke @driverPopUpMisspelledWords @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
   () => {
     let objpageFactory: PageFactory;
     let scenario_details;
@@ -70,10 +70,10 @@ test.describe(
           const firstDriverName = await objpageFactory
             .ufmPageFactory()
             .addDriverPage().searchAndViewFirstDriverInTree(misspelledDriverName);
-          
+
           expect(firstDriverName).toBe(correctDriverName);
         });
-        
+
       }
     );
   }

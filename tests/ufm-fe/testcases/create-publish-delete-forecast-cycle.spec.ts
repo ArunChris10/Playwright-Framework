@@ -3,7 +3,7 @@ import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
 
 Corporate.forEach(filter => {
-    test.describe('Create forecast Cycle', { tag: "@Smoke @createForecastCycle" }, async () => {
+    test.describe('Create forecast Cycle', { tag: "@Smoke @createForecastCycle @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async () => {
         let payload = filter
         test.describe.configure({ timeout: 300_000, mode: "serial" })
         let objpageFactory: PageFactory;
@@ -71,7 +71,7 @@ Corporate.forEach(filter => {
                 await test.step("Click on Add cycle", async () => {
                     await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().clickOnAddCycle()
                 })
-                
+
                 await test.step("Verify the time zone in CST", async () => {
                     await objpageFactory.ufmPageFactory().rollingForecastCalendarPage().validateTimeZoneInCST()
                 })

@@ -7,7 +7,7 @@ import { organization } from "../testdata/driversPopUp.json";
 
 test.describe(
   "Verify if the search result are consistent regardless of case",
-  { tag: "@Smoke @driverPopUpCaseInSensitive" },
+  { tag: "@Smoke @driverPopUpCaseInSensitive @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" },
   () => {
     let objpageFactory: PageFactory, scenarioId, scenarioDetails;
 

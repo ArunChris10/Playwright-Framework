@@ -4,7 +4,7 @@ import { ExcelPage } from "../pages/excel.page";
 
 test.describe(
   "Load Data Button Disable",
-  { tag: "@Regression @ExcelPlugin @LoadDataButtonDisable" },
+  { tag: "@Regression @ExcelPlugin @LoadDataButtonDisable @ibg-excel-addin" },
   async () => {
     let excelPage: ExcelPage;
     let objpageFactory: PageFactory;

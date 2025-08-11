@@ -5,7 +5,7 @@ import { testData } from '../testdata/fileName.json';
 import { TIMEOUT } from '../constants/timeout.json';
 
 
-test.describe('Review Feature Test', { tag: "@Smoke @Regression @reviewFunctionality" }, async () => {
+test.describe('Review Feature Test', { tag: "@Smoke @Regression @reviewFunctionality @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui @ibg-platform2-ui" }, async () => {
     let objpageFactory: PageFactory;
 
     test.beforeAll(async ({ pageFactory }) => {
@@ -24,7 +24,7 @@ test.describe('Review Feature Test', { tag: "@Smoke @Regression @reviewFunctiona
             await objpageFactory.ssdmPageFactory().validateFile().verifyValidation(expectedFilePath);
             await objpageFactory.ssdmPageFactory().computeFile().verifyComputeButtonIsEnabled();
             await objpageFactory.ssdmPageFactory().computeFile().clickOnComputeButton();
- 
+
         });
 
         await test.step('Verify review button is enabled and clickable, once compute is successful', async () => {

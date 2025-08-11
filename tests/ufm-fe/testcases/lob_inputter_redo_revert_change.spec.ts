@@ -3,7 +3,7 @@ import { PageFactory } from '../../common/pages/page-factory';
 import { test, expect } from "../../common/fixtures/test-hook";
 
 testData.forEach(forecastNodeDetail => {
-    test.describe('LOB inputter reverts change', { tag: "@Smoke @revertLOBInput" }, async () => {
+    test.describe('LOB inputter reverts change', { tag: "@Smoke @revertLOBInput @ibg-shared-ui @ibg-shared-pages @ibg-ufm2-ui" }, async () => {
         let data = forecastNodeDetail
         let objpageFactory: PageFactory;
         let inputNodeValues;

@@ -3,7 +3,7 @@ import { ExcelPage } from "../pages/excel.page";
 
 test.describe(
   "Select Dimension in save view",
-  { tag: "@Regression @Smoke @ExcelPlugin @ExcelPivotDimension" },
+  { tag: "@Regression @Smoke @ExcelPlugin @ExcelPivotDimension @ibg-excel-addin" },
   async () => {
     let excelPage: ExcelPage;
 
